@@ -1,5 +1,6 @@
 package com.yuseix.dragonminec.network.C2S;
 
+import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.network.ModMessages;
 import com.yuseix.dragonminec.network.S2C.StatsS2C;
 import com.yuseix.dragonminec.network.S2C.curStatsS2C;
@@ -53,7 +54,7 @@ public class StatsC2S {
                         case 2:
                             playerstats.addCon(packet.cantidad);
                             playerstats.addStam(packet.cantidad);
-                            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(playerstats.getConstitution());
+                            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() - 2)* DMCAttrConfig.MULTIPLIER_CON.get());
                             break;
                         case 3:
                             playerstats.addKipwr(packet.cantidad);

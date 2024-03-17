@@ -29,13 +29,13 @@ public class StatsEvents {
             event.player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
 
                 int maxcon = (playerstats.getConstitution() - 2) * DMCAttrConfig.MULTIPLIER_CON.get();
-                int maxstamina = (playerstats.getStamina() + 3) / 3;
+                int maxstamina = (playerstats.getStamina() + 3) / 2;
 
 
                 if(playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina
-                        && event.player.getRandom().nextFloat() < 0.003f){ // 0.005 = 10s   && 0.0025 = 5s
+                        && event.player.getRandom().nextFloat() < 0.001f){ // 0.005 = 10s   && 0.0025 = 5s
 
-                    int regenStamina = ((maxstamina) / 6);
+                    int regenStamina = ((maxstamina) / 4);
 
                     playerstats.addCurStam(regenStamina);
 
@@ -45,9 +45,12 @@ public class StatsEvents {
             });
         }
 
+        event.player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
 
-        //Sincronizar la vida
-        event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(ClientPlayerStats.getMaxCON());
+            event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(
+                    (playerstats.getConstitution() - 2)*DMCAttrConfig.MULTIPLIER_CON.get());
+
+        });
 
     }
 
@@ -62,7 +65,7 @@ public class StatsEvents {
 
                     int maxstr = (playerstats.getStrength()-2)*DMCAttrConfig.MULTIPLIER_STR.get();
 
-                    int staminacost = (maxstr / 5);
+                    int staminacost = (maxstr / 6);
 
                     int curstamina = playerstats.getCurStam();
 
@@ -105,7 +108,7 @@ public class StatsEvents {
                     int maxstr = (playerstats.getStrength()-2)*DMCAttrConfig.MULTIPLIER_STR.get();
                     int maxdef = (playerstats.getDefense()-2)*DMCAttrConfig.MULTIPLIER_DEF.get();
 
-                    int staminacost = (maxstr / 5);
+                    int staminacost = (maxstr / 6);
                     int curstamina = playerstats.getCurStam();
 
                     if(curstamina >= staminacost){

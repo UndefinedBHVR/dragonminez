@@ -161,7 +161,7 @@ public class ClientPlayerStats {
 
     public static int getMaxSTAMINA() {
 
-        MaxSTAMINA = ((getStamina() + 3) / 3);
+        MaxSTAMINA = ((getStamina() + 3) / 2);
 
         return MaxSTAMINA;
     }

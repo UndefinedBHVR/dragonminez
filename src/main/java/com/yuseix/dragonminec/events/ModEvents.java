@@ -66,15 +66,15 @@ public class ModEvents {
         if(event.getEntity() instanceof ServerPlayer player){
             event.getEntity().getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
 
-                playerstats.setCurrentEnergy(playerstats.getEnergy() - 2 * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                playerstats.setCurrentEnergy( (playerstats.getEnergy() - 2) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
 
-                playerstats.setCurStam((playerstats.getStamina() + 3) / 3);
+                playerstats.setCurStam((playerstats.getStamina() + 3) / 2);
 
                 ModMessages.sendToPlayer(new curStatsS2C(playerstats.getCurrentEnergy(),
                         playerstats.getCurBody(),
                         playerstats.getCurStam(), playerstats.getStamina()), player);
 
-                player.setHealth(ClientPlayerStats.getMaxCON());
+                player.setHealth(  (playerstats.getConstitution() - 2)*DMCAttrConfig.MULTIPLIER_CON.get());
 
             });
 
