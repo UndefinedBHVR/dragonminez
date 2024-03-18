@@ -3,7 +3,7 @@ package com.yuseix.dragonminec.client.hud;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminec.DragonMineC;
-import com.yuseix.dragonminec.client.ClientPlayerStats;
+import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -29,75 +29,81 @@ public class PlayerHudOverlay {
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
         int vidarestante = (int) Minecraft.getInstance().player.getHealth();
 
-        int vidawa = (int) ((163 * vidarestante) / VidaMaxima);
-        int vida = (int) Math.min(vidawa,163);
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-        int StaminaMax = ClientPlayerStats.getMaxSTAMINA();
-        int curStamina = ClientPlayerStats.getCurStam();
+            int vidawa = (int) ((163 * vidarestante) / VidaMaxima);
+            int vida = (int) Math.min(vidawa,163);
 
-        int staminatotal = (int) Math.min( ((83 * curStamina) / StaminaMax), 83);
+            int StaminaMax = playerstats.getStamina() + 3;
+            int curStamina = playerstats.getCurStam();
+
+            int staminatotal = (int) Math.min( ( (83 * curStamina) / StaminaMax), 83);
+
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+            RenderSystem.setShaderTexture(0, hud);
+
+            guiGraphics.pose().pushPose();
+            guiGraphics.pose().scale(1.2f,1.2f,1.0f);
+            //VIDA VACIO
+            guiGraphics.blit(hud, 35,
+                    10,
+                    0,
+                    0,
+                    191,
+                    10);
+            //Ki vacio
+            guiGraphics.blit(hud, 45,
+                    21,
+                    6,
+                    11,
+                    133,
+                    6);
+            //Stamina vacio
+            guiGraphics.blit(hud, 45,
+                    28,
+                    0,
+                    18,
+                    100,
+                    7);
+
+            //Vida llena
+            guiGraphics.blit(hud,
+                    52,
+                    14,
+                    0,
+                    74,
+                    vida,
+                    4);
+            //Ki Lleno
+            guiGraphics.blit(hud,
+                    57,
+                    22,
+                    0,
+                    53,
+                    119,
+                    4);
+            //Stamina llena
+            guiGraphics.blit(hud,
+                    60,
+                    29,
+                    0,
+                    61,
+                    staminatotal,
+                    5);
+
+
+            guiGraphics.pose().popPose();
+
+            guiGraphics.drawString(Minecraft.getInstance().font,String.valueOf(Minecraft.getInstance().player.getHealth()), 150,20,0xBB1C2A);
+
+        });
+
 
 
 
         double scaleFactor = Minecraft.getInstance().getWindow().getGuiScale();
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
-        RenderSystem.setShaderTexture(0, hud);
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(1.2f,1.2f,1.0f);
-        //VIDA VACIO
-        guiGraphics.blit(hud, 35,
-                10,
-                0,
-                0,
-                191,
-                10);
-        //Ki vacio
-        guiGraphics.blit(hud, 45,
-                21,
-                6,
-                11,
-                133,
-                6);
-        //Stamina vacio
-        guiGraphics.blit(hud, 45,
-                28,
-                0,
-                18,
-                100,
-                7);
-
-        //Vida llena
-        guiGraphics.blit(hud,
-                52,
-                14,
-                0,
-                74,
-                vida,
-                4);
-        //Ki Lleno
-        guiGraphics.blit(hud,
-                57,
-                22,
-                0,
-                53,
-                119,
-                4);
-        //Stamina llena
-        guiGraphics.blit(hud,
-                60,
-                29,
-                0,
-                61,
-                staminatotal,
-                5);
-
-
-        guiGraphics.pose().popPose();
-
-        guiGraphics.drawString(Minecraft.getInstance().font,String.valueOf(Minecraft.getInstance().player.getHealth()), 150,20,0xBB1C2A);
 
         RenderSystem.enableScissor((int) ((5)*scaleFactor),
                 (int) (Minecraft.getInstance().getWindow().getHeight() - (20* 2)*scaleFactor),

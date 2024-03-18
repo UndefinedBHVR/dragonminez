@@ -3,11 +3,11 @@ package com.yuseix.dragonminec.network;
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.network.C2S.StatsC2S;
 import com.yuseix.dragonminec.network.C2S.ZPointsC2S;
-import com.yuseix.dragonminec.network.S2C.StatsS2C;
+import com.yuseix.dragonminec.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminec.network.S2C.ZPointsS2C;
-import com.yuseix.dragonminec.network.S2C.curStatsS2C;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -15,7 +15,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 public class ModMessages {
 
-    private static SimpleChannel INSTANCE;
+    public static SimpleChannel INSTANCE;
     private static int packetID = 0;
     private static int id(){
         return packetID++;
@@ -44,20 +44,15 @@ public class ModMessages {
                 .consumerMainThread(ZPointsC2S::handle)
                 .add();
         //ENVIAR DATOS AL CLIENTE
-        net.messageBuilder(StatsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(StatsS2C::new)
-                .encoder(StatsS2C::toBytes)
-                .consumerMainThread(StatsS2C::handle)
-                .add();
         net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ZPointsS2C::new)
                 .encoder(ZPointsS2C::toBytes)
                 .consumerMainThread(ZPointsS2C::handle)
                 .add();
-        net.messageBuilder(curStatsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(curStatsS2C::new)
-                .encoder(curStatsS2C::toBytes)
-                .consumerMainThread(curStatsS2C::handle)
+        net.messageBuilder(StatsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(StatsSyncS2C::new)
+                .encoder(StatsSyncS2C::toBytes)
+                .consumerMainThread(StatsSyncS2C::handle)
                 .add();
     }
 
@@ -71,5 +66,8 @@ public class ModMessages {
 
     public static <MSG> void sendToClients(MSG message) {
         INSTANCE.send(PacketDistributor.ALL.noArg(), message);
+    }
+    public static <MSG> void sendToAll(Player player, MSG message) {
+        INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), message);
     }
 }

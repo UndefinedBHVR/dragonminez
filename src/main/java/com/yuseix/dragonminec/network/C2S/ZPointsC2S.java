@@ -1,7 +1,7 @@
 package com.yuseix.dragonminec.network.C2S;
 
+import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.network.ModMessages;
-import com.yuseix.dragonminec.network.S2C.StatsS2C;
 import com.yuseix.dragonminec.network.S2C.ZPointsS2C;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.network.FriendlyByteBuf;
@@ -39,7 +39,7 @@ public class ZPointsC2S {
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
-                player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.id){
                         case 0:
@@ -55,8 +55,6 @@ public class ZPointsC2S {
                             System.out.println("Algo salio mal !");
                             break;
                     }
-
-                    ModMessages.sendToPlayer(new ZPointsS2C(playerstats.getZpoints()), player);
 
                 });
             }

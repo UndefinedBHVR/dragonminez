@@ -1,6 +1,5 @@
 package com.yuseix.dragonminec.network.S2C;
 
-import com.yuseix.dragonminec.client.ClientPlayerStats;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -27,7 +26,6 @@ public class ZPointsS2C {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
 
-                ClientPlayerStats.setZpoints(zpoints);
 
         });
         return true;

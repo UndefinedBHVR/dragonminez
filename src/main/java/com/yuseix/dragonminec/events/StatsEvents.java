@@ -1,12 +1,11 @@
 package com.yuseix.dragonminec.events;
 
 import com.yuseix.dragonminec.DragonMineC;
-import com.yuseix.dragonminec.client.ClientPlayerStats;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.init.MainSounds;
 import com.yuseix.dragonminec.network.ModMessages;
-import com.yuseix.dragonminec.network.S2C.curStatsS2C;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -21,36 +20,38 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = DragonMineC.MODID)
 public class StatsEvents {
 
+    private static int tickcounter = 0;
+
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event){
 
+
         //Regenerar stamina
         if(event.side == LogicalSide.SERVER){
-            event.player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
 
-                int maxcon = (playerstats.getConstitution() - 2) * DMCAttrConfig.MULTIPLIER_CON.get();
-                int maxstamina = (playerstats.getStamina() + 3) / 2;
+            tickcounter++;
+
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.player).ifPresent(playerstats -> {
+
+                int maxcon = (int) (playerstats.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
+                int maxstamina = (playerstats.getStamina() + 3);
 
 
-                if(playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina
-                        && event.player.getRandom().nextFloat() < 0.001f){ // 0.005 = 10s   && 0.0025 = 5s
+                if(playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina ){
 
-                    int regenStamina = ((maxstamina) / 4);
+                    if(tickcounter >= 60 * 3){
 
-                    playerstats.addCurStam(regenStamina);
+                        int regenStamina = ((maxstamina) / 4);
 
-                    ModMessages.sendToPlayer(new curStatsS2C(playerstats.getCurrentEnergy(),playerstats.getCurBody(),playerstats.getCurStam(), playerstats.getStamina()), (ServerPlayer) event.player);
+                        playerstats.addCurStam(regenStamina);
+
+                        tickcounter = 0;
+                    }
 
                 }
             });
         }
 
-        event.player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
-
-            event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(
-                    (playerstats.getConstitution() - 2)*DMCAttrConfig.MULTIPLIER_CON.get());
-
-        });
 
     }
 
@@ -61,22 +62,18 @@ public class StatsEvents {
 
                 Player jugadorpemrd = (Player) event.getSource().getEntity();
 
-                event.getSource().getEntity().getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
 
-                    int maxstr = (playerstats.getStrength()-2)*DMCAttrConfig.MULTIPLIER_STR.get();
+                    int maxstr = (int) (playerstats.getStrength()*0.5)*DMCAttrConfig.MULTIPLIER_STR.get();
 
-                    int staminacost = (maxstr / 6);
+                    int staminacost = (maxstr / 4);
 
                     int curstamina = playerstats.getCurStam();
 
                     if(curstamina >= staminacost){
                         event.setAmount(maxstr);
                         playerstats.removeCurStam(staminacost);
-
-                        ModMessages.sendToPlayer(new curStatsS2C(playerstats.getCurrentEnergy(),
-                                playerstats.getCurBody(),
-                                playerstats.getCurStam(), playerstats.getStamina()), (ServerPlayer) event.getSource().getEntity());
-                    }
+                       }
                     if(staminacost >= curstamina){
                         event.setAmount(1);
                     }
@@ -91,9 +88,9 @@ public class StatsEvents {
 
             if(!(event.getSource().getEntity() instanceof Player)){ //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                event.getEntity().getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats ->{
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
-                    event.setAmount(event.getAmount() - (int) (((playerstats.getDefense()-2)*DMCAttrConfig.MULTIPLIER_DEF.get())/2));
+                    event.setAmount(event.getAmount() - (int) (((playerstats.getDefense() * 0.5)*DMCAttrConfig.MULTIPLIER_DEF.get())/2));
 
                 });
 
@@ -102,24 +99,19 @@ public class StatsEvents {
             if((event.getSource().getEntity() instanceof Player)){ //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
                 Player jugadorpemrd = (Player) event.getSource().getEntity();
-                
-                event.getEntity().getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats ->{
 
-                    int maxstr = (playerstats.getStrength()-2)*DMCAttrConfig.MULTIPLIER_STR.get();
-                    int maxdef = (playerstats.getDefense()-2)*DMCAttrConfig.MULTIPLIER_DEF.get();
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
-                    int staminacost = (maxstr / 6);
+                    int maxstr = (int) (playerstats.getStrength()*0.5)*DMCAttrConfig.MULTIPLIER_STR.get();
+                    int maxdef = (int) (playerstats.getDefense()*0.5)*DMCAttrConfig.MULTIPLIER_DEF.get();
+
+                    int staminacost = (maxstr / 4);
                     int curstamina = playerstats.getCurStam();
 
                     if(curstamina >= staminacost){
 
                         event.setAmount(event.getAmount() - (int) (maxdef/3));
                         playerstats.removeCurStam(staminacost);
-
-                        ModMessages.sendToPlayer(new curStatsS2C(playerstats.getCurrentEnergy(),
-                                playerstats.getCurBody(),
-                                playerstats.getCurStam(),
-                                playerstats.getStamina()), (ServerPlayer) event.getSource().getEntity());
 
                     }
                     if(staminacost >= curstamina){
@@ -133,6 +125,8 @@ public class StatsEvents {
                 }
             }
         }
+
+
 
 
     public static void sonidosGolpes(Player player, int id) {

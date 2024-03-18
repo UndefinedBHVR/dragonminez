@@ -6,9 +6,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.network.ModMessages;
 import com.yuseix.dragonminec.network.S2C.ZPointsS2C;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -52,11 +54,9 @@ public class ZPointsCommand {
             // Envía un mensaje al jugador
             player.sendSystemMessage(Component.literal("Has dado " + puntos+ " puntos a " + player.getName().getString()));
 
-            player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerStatsAttributes -> {
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
 
-                playerStatsAttributes.addZpoints(puntos);
-
-                ModMessages.sendToPlayer(new ZPointsS2C(playerStatsAttributes.getZpoints()), player);
+                playerstats.addZpoints(puntos);
 
             });
 

@@ -3,12 +3,14 @@ package com.yuseix.dragonminec.client.gui;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminec.DragonMineC;
-import com.yuseix.dragonminec.client.ClientPlayerStats;
 import com.yuseix.dragonminec.client.gui.buttons.CustomButtons;
+import com.yuseix.dragonminec.config.DMCAttrConfig;
+import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.network.C2S.StatsC2S;
 import com.yuseix.dragonminec.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminec.network.ModMessages;
 import com.yuseix.dragonminec.network.S2C.ZPointsS2C;
+import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -57,37 +59,48 @@ public class AttributesMenu extends Screen {
         int posX = (this.width- 152)/2;
         int posY = (this.height- 256)/2;
 
-        if(ClientPlayerStats.getZpoints() >= ClientPlayerStats.getZcost()){
-            //Fuerza
-            botones.add(new CustomButtons(posX-125,posY+45,Component.empty(),button -> {
-                ModMessages.sendToServer(new StatsC2S(0,1));
-                ModMessages.sendToServer(new ZPointsC2S(1,ClientPlayerStats.getZcost()));
-            }));
-            //Defensa
-            botones.add(new CustomButtons(posX-125,posY+60,Component.empty(),button -> {
-                ModMessages.sendToServer(new StatsC2S(1,1));
-                ModMessages.sendToServer(new ZPointsC2S(1,ClientPlayerStats.getZcost()));
-            }));
-            //Vida
-            botones.add(new CustomButtons(posX-125,posY+75,Component.empty(),button -> {
-                ModMessages.sendToServer(new StatsC2S(2,1));
-                ModMessages.sendToServer(new ZPointsC2S(1,ClientPlayerStats.getZcost()));
-            }));
-            //Kipower
-            botones.add(new CustomButtons(posX-125,posY+90,Component.empty(),button -> {
-                ModMessages.sendToServer(new StatsC2S(3,1));
-                ModMessages.sendToServer(new ZPointsC2S(1,ClientPlayerStats.getZcost()));
-            }));
-            //Energy
-            botones.add(new CustomButtons(posX-125,posY+105,Component.empty(),button -> {
-                ModMessages.sendToServer(new StatsC2S(4,1));
-                ModMessages.sendToServer(new ZPointsC2S(1,ClientPlayerStats.getZcost()));
-            }));
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(playerstats -> {
 
+            int zpoints = playerstats.getZpoints();
+
+            int zCost = (playerstats.getStrength()+
+                    playerstats.getDefense()+
+                    playerstats.getConstitution()+
+                    playerstats.getKiPower()+
+                    playerstats.getEnergy() + 6 ) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
+
+
+            if (zpoints >= zCost) {
+                //Fuerza
+                botones.add(new CustomButtons(posX - 125, posY + 45, Component.empty(), button -> {
+                    ModMessages.sendToServer(new StatsC2S(0, 1));
+                    ModMessages.sendToServer(new ZPointsC2S(1, zCost));
+                }));
+                //Defensa
+                botones.add(new CustomButtons(posX - 125, posY + 60, Component.empty(), button -> {
+                    ModMessages.sendToServer(new StatsC2S(1, 1));
+                    ModMessages.sendToServer(new ZPointsC2S(1, zCost));
+                }));
+                //Vida
+                botones.add(new CustomButtons(posX - 125, posY + 75, Component.empty(), button -> {
+                    ModMessages.sendToServer(new StatsC2S(2, 1));
+                    ModMessages.sendToServer(new ZPointsC2S(1, zCost));
+                }));
+                //Kipower
+                botones.add(new CustomButtons(posX - 125, posY + 90, Component.empty(), button -> {
+                    ModMessages.sendToServer(new StatsC2S(3, 1));
+                    ModMessages.sendToServer(new ZPointsC2S(1, zCost));
+                }));
+                //Energy
+                botones.add(new CustomButtons(posX - 125, posY + 105, Component.empty(), button -> {
+                    ModMessages.sendToServer(new StatsC2S(4, 1));
+                    ModMessages.sendToServer(new ZPointsC2S(1, zCost));
+                }));
+            }
+
+
+        });
         }
-
-
-    }
 
     @Override
     public boolean isPauseScreen() {
@@ -97,30 +110,31 @@ public class AttributesMenu extends Screen {
     @Override
     public void tick() {
         super.tick();
-        if(ClientPlayerStats.getZpoints() >= ClientPlayerStats.getZcost()){
-            botones.forEach(this::addRenderableWidget);
-        } else if (ClientPlayerStats.getZpoints() < ClientPlayerStats.getZcost()){
-            this.clearWidgets();
-        }
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(playerstats -> {
+
+            int zpoints = playerstats.getZpoints();
+
+            int zCost = (playerstats.getStrength()+
+                    playerstats.getDefense()+
+                    playerstats.getConstitution()+
+                    playerstats.getKiPower()+
+                    playerstats.getEnergy() + 6 ) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
+
+            if(zpoints >= zCost){
+                botones.forEach(this::addRenderableWidget);
+            } else if (zpoints < zCost){
+                this.clearWidgets();
+            }
+
+        });
+
+
     }
 
     @Override
     public void render(GuiGraphics graphics, int p_281550_, int p_282878_, float p_282465_) {
         this.renderBackground(graphics);
 
-        String strAttribute = String.valueOf(ClientPlayerStats.getStrenght());
-        String defAttribute = String.valueOf(ClientPlayerStats.getDefense());
-        String conAttribute = String.valueOf(ClientPlayerStats.getConstitution());
-        String kipwrAttribute = String.valueOf(ClientPlayerStats.getKipower());
-        String energyAttribute = String.valueOf(ClientPlayerStats.getEnergy());
-
-        String zpoints = String.valueOf(ClientPlayerStats.getZpoints());
-
-        String strMaxAttr = String.valueOf(ClientPlayerStats.getMaxSTR());
-        String defMaxAttr = String.valueOf(ClientPlayerStats.getMaxDEF());
-        String conMaxAttr = String.valueOf(ClientPlayerStats.getMaxCON());
-        String kipwrMaxAttr = String.valueOf(ClientPlayerStats.getMaxKIPWR());
-        String energyMaxAttr = String.valueOf(ClientPlayerStats.getMaxENERGY());
 
 
         int posX = (this.width- 152)/2;
@@ -129,64 +143,97 @@ public class AttributesMenu extends Screen {
         RenderSystem.setShaderColor(1.0f, 1.0f,1.0f,1.0f);
         RenderSystem.setShaderTexture(0,menu);
 
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-        //SUBIR STATS
-        graphics.blit(menu,posX-250,posY,0,0,152,256);
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"STATS",posX-190,posY+15,0xFCC3C3, true);
+            //PuntosZ
+            int zpoints = playerstats.getZpoints();
 
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"ZPoints: ",posX-230,posY+30,0xFFFFFF, true);
-        graphics.drawString(Minecraft.getInstance().font, zpoints,posX-155,posY + 30,0xFFE800, false);
+            int level = (playerstats.getStrength()+
+                    playerstats.getDefense()+
+                    playerstats.getConstitution()+
+                    playerstats.getKiPower()+
+                    playerstats.getEnergy())/5;
 
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"STR: ",posX-230,posY+45,0x320C0C, true);
-        graphics.drawString(Minecraft.getInstance().font, strAttribute ,posX-170,posY + 45,0xBB1C2A, false);
+            int zCost = (playerstats.getStrength()+
+                    playerstats.getDefense()+
+                    playerstats.getConstitution()+
+                    playerstats.getKiPower()+
+                    playerstats.getEnergy() + 6 ) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
+
+            //Attributos
+            int str = playerstats.getStrength();
+            int def = playerstats.getDefense();
+            int con = playerstats.getConstitution();
+            int kipower = playerstats.getKiPower();
+            int energy = playerstats.getEnergy();
+            int stamina = playerstats.getStamina();
+
+            //AtributosMaximos
+            int MaxStr = (int) (str * 0.5)*DMCAttrConfig.MULTIPLIER_STR.get();
+            int MaxDef = (int) (def * 0.5)*DMCAttrConfig.MULTIPLIER_DEF.get();
+            int MaxCon = (int) (con * 0.5)*DMCAttrConfig.MULTIPLIER_CON.get();
+            int MaxKiPower = (int) (kipower * 0.5)*DMCAttrConfig.MULTIPLIER_KIPOWER.get();
+            int MaxEnergy = (int) (energy * 0.5)*DMCAttrConfig.MULTIPLIER_ENERGY.get();
+            int MaxStamina = (int) (stamina + 3);
+
+//SUBIR STATS
+            graphics.blit(menu,posX-250,posY,0,0,152,256);
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"STATS",posX-190,posY+15,0xFCC3C3, true);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"ZPoints: ",posX-230,posY+30,0xFFFFFF, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(zpoints) ,posX-155,posY + 30,0xFFE800, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"STR: ",posX-230,posY+45,0x320C0C, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(str) ,posX-170,posY + 45,0xBB1C2A, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"DEF: ",posX-230,posY+60,0x320C0C, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(def),posX-170,posY + 60,0xBB1C2A, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"CON: ",posX-230,posY+75,0x320C0C, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(con) ,posX-170,posY + 75,0xBB1C2A, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"POW: ",posX-230,posY+90,0x320C0C, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(kipower) ,posX-170,posY + 90,0xBB1C2A, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"ENE: ",posX-230,posY+105,0x320C0C, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(energy) ,posX-170,posY + 105,0xBB1C2A, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"ZPCost: ",posX-230,posY+120,0xF0B61E, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(zCost),posX-155,posY+120,0xFFE800, false);
+
+            //STATS
+            graphics.blit(menu,posX+250,posY,0,0,152,256);
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"INFORMATION",posX+290,posY+15,0xF0B61E, true);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Damage: ",posX+270,posY+30,0x830318, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(MaxStr),posX+355,posY+30,0x9B1D32, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Defense: ",posX+270,posY+45,0x830318, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(MaxDef),posX+355,posY+45,0x9B1D32, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Body: ",posX+270,posY+60,0x830318, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(MaxCon),posX+355,posY+60,0x9B1D32, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Stamina: ",posX+275,posY+75,0x830318, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(MaxStamina),posX+360,posY+75,0x9B1D32, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"KiPower: ",posX+270,posY+90,0x830318, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(MaxKiPower),posX+355,posY+90,0x9B1D32, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Max Ki: ",posX+270,posY+105,0x830318, true);
+            graphics.drawString(Minecraft.getInstance().font, String.valueOf(MaxEnergy),posX+355,posY+105,0x9B1D32, false);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + ""+ this.minecraft.player.getName().getString() ,posX+63,posY+10,0xFFFFFF, true);
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + "Lvl: ",posX+50,posY+25,0xFFE800, true);
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + "" + String.valueOf(level),posX+80,posY+25,0x67EDFC, true);
+
+            renderEntityInInventoryFollowsAngle(graphics, posX+73, posY+200, 80, 0, 0, this.minecraft.player);
+
+            graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + "Humano :v" ,posX+45,posY+220,0x45E9FC, true);
 
 
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"DEF: ",posX-230,posY+60,0x320C0C, true);
-        graphics.drawString(Minecraft.getInstance().font, defAttribute,posX-170,posY + 60,0xBB1C2A, false);
 
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"CON: ",posX-230,posY+75,0x320C0C, true);
-        graphics.drawString(Minecraft.getInstance().font, conAttribute ,posX-170,posY + 75,0xBB1C2A, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"POW: ",posX-230,posY+90,0x320C0C, true);
-        graphics.drawString(Minecraft.getInstance().font, kipwrAttribute ,posX-170,posY + 90,0xBB1C2A, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"ENE: ",posX-230,posY+105,0x320C0C, true);
-        graphics.drawString(Minecraft.getInstance().font, energyAttribute ,posX-170,posY + 105,0xBB1C2A, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"ZPCost: ",posX-230,posY+120,0xF0B61E, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getZcost()),posX-155,posY+120,0xFFE800, false);
-
-        //STATS
-        graphics.blit(menu,posX+250,posY,0,0,152,256);
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"INFORMATION",posX+290,posY+15,0xF0B61E, true);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Damage: ",posX+270,posY+30,0x830318, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getMaxSTR()),posX+355,posY+30,0x9B1D32, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Defense: ",posX+270,posY+45,0x830318, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getMaxDEF()),posX+355,posY+45,0x9B1D32, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Body: ",posX+270,posY+60,0x830318, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getMaxCON()),posX+355,posY+60,0x9B1D32, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Stamina: ",posX+275,posY+75,0x830318, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getMaxSTAMINA()),posX+360,posY+75,0x9B1D32, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"KiPower: ",posX+270,posY+90,0x830318, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getMaxKIPWR()),posX+355,posY+90,0x9B1D32, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD +"Max Ki: ",posX+270,posY+105,0x830318, true);
-        graphics.drawString(Minecraft.getInstance().font, String.valueOf(ClientPlayerStats.getMaxENERGY()),posX+355,posY+105,0x9B1D32, false);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + ""+ this.minecraft.player.getName().getString() ,posX+63,posY+10,0xFFFFFF, true);
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + "Lvl: ",posX+50,posY+25,0xFFE800, true);
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + "" + String.valueOf(ClientPlayerStats.getLevel()),posX+80,posY+25,0x67EDFC, true);
-
-        renderEntityInInventoryFollowsAngle(graphics, posX+73, posY+200, 80, 0, 0, this.minecraft.player);
-
-        graphics.drawString(Minecraft.getInstance().font, ChatFormatting.BOLD + "Humano :v" ,posX+45,posY+220,0x45E9FC, true);
-
-
+        });
 
         super.render(graphics, p_281550_, p_282878_, p_282465_);
 

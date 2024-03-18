@@ -1,9 +1,8 @@
 package com.yuseix.dragonminec.network.C2S;
 
 import com.yuseix.dragonminec.config.DMCAttrConfig;
+import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.network.ModMessages;
-import com.yuseix.dragonminec.network.S2C.StatsS2C;
-import com.yuseix.dragonminec.network.S2C.curStatsS2C;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,7 +41,7 @@ public class StatsC2S {
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
-                player.getCapability(PlayerStatsAttrProvider.PLAYER_STATS).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.id){
                         case 0:
@@ -54,7 +53,7 @@ public class StatsC2S {
                         case 2:
                             playerstats.addCon(packet.cantidad);
                             playerstats.addStam(packet.cantidad);
-                            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() - 2)* DMCAttrConfig.MULTIPLIER_CON.get());
+                            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
                             break;
                         case 3:
                             playerstats.addKipwr(packet.cantidad);
@@ -66,14 +65,9 @@ public class StatsC2S {
                             System.out.println("Algo salio mal !");
                             break;
                     }
+                    System.out.println("Datos Actualizados !");
 
-                    ModMessages.sendToPlayer(new StatsS2C(playerstats.getStrength(),
-                            playerstats.getDefense(),
-                            playerstats.getConstitution(),
-                            playerstats.getKiPower(),
-                            playerstats.getEnergy()), player);
-                    ModMessages.sendToPlayer(new curStatsS2C(playerstats.getCurrentEnergy(), playerstats.getCurBody(), playerstats.getCurStam(), playerstats.getStamina()), player);
-                });
+                   });
             }
 
         });
