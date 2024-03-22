@@ -17,7 +17,7 @@ public class Maintabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, DragonMineC.MODID);
 
     public static final RegistryObject<CreativeModeTab> PRUEBA_TAB = CREATIVE_MODE_TABS.register("dragonminec_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(Mainitems.ESFERA_DRAGON_1.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(Mainitems.POTHALA_RIGHT.get()))
 
                     .title(Component.translatable("creativetab.dragonminectab"))
 
@@ -26,15 +26,41 @@ public class Maintabs {
                         anadir.accept(Mainblocks.NAMEK_BLOCK.get());
                         anadir.accept(Mainblocks.NAMEK_GRASS_BLOCK.get());
                         anadir.accept(Mainblocks.NAMEK_DIRT.get());
-                        //ITEMS
-                        anadir.accept(Mainitems.ESFERA_DRAGON_1.get());
 
+                        //ITEMS
+                        anadir.accept(Mainitems.POTHALA_RIGHT.get());
+                        anadir.accept(Mainitems.POTHALA_LEFT.get());
+                        anadir.accept(Mainitems.GREEN_POTHALA_RIGHT.get());
+                        anadir.accept(Mainitems.GREEN_POTHALA_LEFT.get());
+                        anadir.accept(Mainitems.CAPSULA_ROJA.get());
+                        anadir.accept(Mainitems.CAPSULA_VERDE.get());
+                        anadir.accept(Mainitems.CAPSULA_ANARANJADA.get());
+                        anadir.accept(Mainitems.CAPSULA_AZUL.get());
+                        anadir.accept(Mainitems.CAPSULA_MORADA.get());
 
 
                     })
 
                     .build());
+    public static final RegistryObject<CreativeModeTab> ESFERAS_TAB = CREATIVE_MODE_TABS.register("esferas_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(Mainitems.DBALL1_BLOCK_ITEM.get()))
 
+                    .title(Component.translatable("creativetab.esferastab"))
+
+                    .displayItems((wa, anadir) -> {
+                        //BLOQUES
+                        anadir.accept(Mainitems.DBALL1_BLOCK_ITEM.get());
+                        anadir.accept(Mainitems.DBALL2_BLOCK_ITEM.get());
+                        anadir.accept(Mainitems.DBALL3_BLOCK_ITEM.get());
+                        anadir.accept(Mainitems.DBALL4_BLOCK_ITEM.get());
+                        anadir.accept(Mainitems.DBALL5_BLOCK_ITEM.get());
+                        anadir.accept(Mainitems.DBALL6_BLOCK_ITEM.get());
+                        anadir.accept(Mainitems.DBALL7_BLOCK_ITEM.get());
+
+
+                    })
+
+                    .build());
     public static void register(IEventBus bus){
         CREATIVE_MODE_TABS.register(bus);
     }

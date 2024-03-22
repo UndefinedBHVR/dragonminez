@@ -1,11 +1,41 @@
 {
-    "item.dragonminec.esfera1estrella":"Dragon Ball (1 Star)",
+    "item.dragonminec.pothala_right":"Pothala (Right)",
+    "item.dragonminec.pothala_left":"Pothala (Left)",
+    "item.dragonminec.green_pothala_right":"Green Pothala (Right)",
+    "item.dragonminec.green_pothala_left":"Green Pothala (Left)",
+    "item.dragonminec.capsula_roja":"Capsule (STR)",
+    "item.dragonminec.capsula_verde":"Capsule (CON)",
+    "item.dragonminec.capsula_anaranjada":"Capsule (POW)",
+    "item.dragonminec.capsula_azul":"Capsule (ENE)",
+    "item.dragonminec.capsula_morada":"Capsule (DEF)",
+
+    "block.dragonminec.dball1":"Dragon Ball Earth (1 Star)",
+    "block.dragonminec.dball2":"Dragon Ball Earth (2 Star)",
+    "block.dragonminec.dball3":"Dragon Ball Earth (3 Star)",
+    "block.dragonminec.dball4":"Dragon Ball Earth (4 Star)",
+    "block.dragonminec.dball5":"Dragon Ball Earth (5 Star)",
+    "block.dragonminec.dball6":"Dragon Ball Earth (6 Star)",
+    "block.dragonminec.dball7":"Dragon Ball Earth (7 Star)",
 
     "block.dragonminec.namek_block": "Block of Namek",
     "block.dragonminec.namek_grass_block": "Namek Grass",
     "block.dragonminec.namek_dirt": "Namek Dirt",
 
-    "creativetab.dragonminectab": "DMC Items and Blocks",
+    "capsule_red.str": "+5 Strenght",
+    "capsule_verde.con": "+5 Constitution",
+    "capsule_naranja.pow": "+5 Ki Power",
+    "capsule_azul.ene": "+5 Max Ki",
+    "capsule_morada.def": "+5 Defense",
+
+    "tooltip.capsule_red": "\u00A77Gives you \u00A7a+5 STR \u00A77stat points.",
+    "tooltip.capsule_verde": "\u00A77Gives you \u00A7a+5 CON \u00A77stat points.",
+    "tooltip.capsule_naranja": "\u00A77Gives you \u00A7a+5 POW \u00A77stat points.",
+    "tooltip.capsule_azul": "\u00A77Gives you \u00A7a+5 ENE \u00A77stat points.",
+    "tooltip.capsule_morada": "\u00A77Gives you \u00A7a+5 DEF \u00A77stat points.",
+
+
+    "creativetab.dragonminectab": "DMZ Items and Blocks",
+    "creativetab.esferastab": "DMZ Dragon Balls",
 
     "key.category.dragonminec.category": "DragonMine C",
     "key.dragonminec.menu_stats":"Menu"

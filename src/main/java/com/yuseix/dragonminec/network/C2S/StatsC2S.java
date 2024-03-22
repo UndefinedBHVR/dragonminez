@@ -65,7 +65,6 @@ public class StatsC2S {
                             System.out.println("Algo salio mal !");
                             break;
                     }
-                    System.out.println("Datos Actualizados !");
 
                    });
             }

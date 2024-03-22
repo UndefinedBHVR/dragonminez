@@ -89,7 +89,7 @@ public class ModEvents {
             return;
         }
         if(event.getTarget() instanceof ServerPlayer trackedplayer){
-            PlayerStatsAttrProvider.getCap(INSTANCE, player).ifPresent(cap -> ModMessages.sendToPlayer(
+            PlayerStatsAttrProvider.getCap(INSTANCE, event.getTarget()).ifPresent(cap -> ModMessages.sendToPlayer(
                     new StatsSyncS2C(trackedplayer), player
             ));
         }
@@ -108,7 +108,7 @@ public class ModEvents {
             if(event.getObject().getCapability(INSTANCE).isPresent()){
                 return;
             }
-            System.out.println("Añadiendo capability");
+            //System.out.println("Añadiendo capability");
             final PlayerStatsAttrProvider provider = new PlayerStatsAttrProvider(player);
 
             event.addCapability(PlayerStatsAttrProvider.ID, provider);

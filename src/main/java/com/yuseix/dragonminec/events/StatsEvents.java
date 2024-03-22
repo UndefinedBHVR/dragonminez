@@ -49,7 +49,11 @@ public class StatsEvents {
                     }
 
                 }
+
+                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
+
             });
+
         }
 
 
