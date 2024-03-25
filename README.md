@@ -2,9 +2,16 @@
 
 DragonMine Z es un mod para Minecraft realizado en la versión 1.20.1 por fanáticos del juego.
 
-## Instalación
+## Instalación en Windows
 
-Descarga el proyecto usando GitHub para probar el mod y testear el mod.
+Para empezar a trabajar en el proyecto/ayudar/etc. sigue los siguientes pasos básicos:
+1. Usa Minecraft Forge 1.20.1 (Cualquier sub-versión está bien)
+2. Usa el IDE IntelliJ IDEA
+3. Descarga el [OpenJDK de Adoptium](https://adoptium.net/temurin/releases/?version=17&os=windows) (Oracle nos puede meter demanda)
+4. Usando el git de IntelliJ, clona el repo del link: ``https://github.com/yuseix300/dragonminez.git``
+5. Abre el repositorio en IntelliJ, añade plugins a gusto y empieza a configurar.
+
+* Recursos y guía sacado de [este](https://www.youtube.com/watch?v=55qUIf3GMss) video que está más a profundidad. (Realmente me dio flojera explicar todo bien)
 
 ## Contribuciones
 
