@@ -10,10 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -26,18 +23,19 @@ public class PlayerHudOverlay {
             "textures/gui/hud/hud.png");
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
+        assert Minecraft.getInstance().player != null;
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
         int vidarestante = (int) Minecraft.getInstance().player.getHealth();
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            int vidawa = (int) ((163 * vidarestante) / VidaMaxima);
-            int vida = (int) Math.min(vidawa,163);
+            int vidawa = ((163 * vidarestante) / VidaMaxima);
+            int vida = Math.min(vidawa,163);
 
             int StaminaMax = playerstats.getStamina() + 3;
             int curStamina = playerstats.getCurStam();
 
-            int staminatotal = (int) Math.min( ( (83 * curStamina) / StaminaMax), 83);
+            int staminatotal = Math.min( ( (83 * curStamina) / StaminaMax), 83);
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
@@ -166,7 +164,7 @@ public class PlayerHudOverlay {
     }
     public static void renderEntityInInventory(GuiGraphics pGuiGraphics, int pX, int pY, int pScale, Quaternionf pPose, @Nullable Quaternionf pCameraOrientation, LivingEntity pEntity) {
         pGuiGraphics.pose().pushPose();
-        pGuiGraphics.pose().translate((double)pX, (double)pY, 50.0);
+        pGuiGraphics.pose().translate(pX, pY, 50.0);
         pGuiGraphics.pose().mulPoseMatrix((new Matrix4f()).scaling((float)pScale, (float)pScale, (float)(-pScale)));
         pGuiGraphics.pose().mulPose(pPose);
         Lighting.setupForEntityInInventory();
@@ -177,9 +175,7 @@ public class PlayerHudOverlay {
         }
 
         entityrenderdispatcher.setRenderShadow(false);
-        RenderSystem.runAsFancy(() -> {
-            entityrenderdispatcher.render(pEntity, 0.0, 0.0, 0.0, 0.0F, 1.0F, pGuiGraphics.pose(), pGuiGraphics.bufferSource(), 15728880);
-        });
+        entityrenderdispatcher.render(pEntity, 0.0, 0.0, 0.0, 0.0F, 1.0F, pGuiGraphics.pose(), pGuiGraphics.bufferSource(), 15728880);
         pGuiGraphics.flush();
         entityrenderdispatcher.setRenderShadow(true);
         pGuiGraphics.pose().popPose();
