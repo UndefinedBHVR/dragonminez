@@ -1,5 +1,6 @@
 package com.yuseix.dragonminec.stats;
 
+import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.events.ModEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -35,42 +36,55 @@ public class PlayerStatsAttributes {
 
     public int addStrength(int points){
 
-        strength += points;
+        if(strength <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            strength += points;
+        }
         ModEvents.sync(player);
 
         return strength;
     }
     public int addDefense(int points){
 
-        defense += points;
+        if(defense <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            defense += points;
+        }
         ModEvents.sync(player);
 
         return defense;
     }
     public int addCon(int points){
 
-        constitution += points;
+        if(constitution <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            constitution += points;
+        }
         ModEvents.sync(player);
 
         return constitution;
     }
     public int addStam(int points){
 
-        stamina += points;
+        if(stamina <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            stamina += points;
+        }
         ModEvents.sync(player);
 
         return stamina;
     }
     public int addKipwr(int points){
 
-        KiPower += points;
+        if(KiPower <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            KiPower += points;
+        }
         ModEvents.sync(player);
 
         return KiPower;
     }
     public int addEnergy(int points){
 
-        energy += points;
+        if(energy <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            energy += points;
+        }
+
         ModEvents.sync(player);
 
         return energy;
@@ -90,14 +104,72 @@ public class PlayerStatsAttributes {
 
         return zpoints;
     }
-    public int removeEnergy(int points){
-        currentEnergy -= points;
-        if(currentEnergy < 0){
-            currentEnergy = 0;
+
+    public int removeStrenght(int points){
+
+        if(this.strength > 3){
+            this.strength -= points;
+        } else {
+            this.strength = 3;
+        }
+
+        ModEvents.sync(player);
+        return strength;
+    }
+    public int removeDefense(int points){
+
+        if(this.defense > 3){
+            this.defense -= points;
+        }else{
+            this.defense = 3;
+        }
+        ModEvents.sync(player);
+        return defense;
+    }
+    public int removeConstitution(int points){
+
+        if(this.constitution > 5){
+            this.constitution -= points;
+        } else {
+            this.constitution = 5;
+        }
+
+        ModEvents.sync(player);
+        return constitution;
+    }
+
+    public int removeKiPower(int points){
+
+        if(this.KiPower > 5){
+            this.KiPower -= points;
+        }else {
+            this.KiPower = 5;
         }
         ModEvents.sync(player);
 
-        return currentEnergy;
+        return KiPower;
+    }
+    public int removeEnergy(int points){
+
+        if(this.energy > 10){
+            this.energy -= points;
+        }else {
+            this.energy = 10;
+        }
+        ModEvents.sync(player);
+
+        return energy;
+    }
+    public int removeStamina(int points){
+
+        if(this.stamina > 10){
+            this.stamina -= points;
+        }else {
+            this.stamina = 10;
+        }
+        ModEvents.sync(player);
+
+        return stamina;
     }
 
     public int getRace() {
@@ -147,7 +219,12 @@ public class PlayerStatsAttributes {
     }
 
     public void setStrength(int strength) {
-        this.strength = strength;
+        if(this.strength >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            this.strength = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            this.strength = strength;
+        }
+
         ModEvents.sync(player);
 
     }
@@ -158,7 +235,11 @@ public class PlayerStatsAttributes {
     }
 
     public void setDefense(int defense) {
-        this.defense = defense;
+        if(this.defense >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            this.defense = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            this.defense = defense;
+        }
         ModEvents.sync(player);
     }
 
@@ -167,7 +248,11 @@ public class PlayerStatsAttributes {
     }
 
     public void setConstitution(int constitution) {
-        this.constitution = constitution;
+        if(this.constitution >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            this.constitution = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            this.constitution = constitution;
+        }
         ModEvents.sync(player);
 
     }
@@ -177,7 +262,11 @@ public class PlayerStatsAttributes {
     }
 
     public void setKiPower(int kiPower) {
-        KiPower = kiPower;
+        if(this.KiPower >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            KiPower = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            this.KiPower = kiPower;
+        }
         ModEvents.sync(player);
 
     }
@@ -187,16 +276,15 @@ public class PlayerStatsAttributes {
     }
 
     public void setEnergy(int energy) {
-        this.energy = energy;
+        if(this.energy >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            this.energy = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            this.energy = energy;
+        }
         ModEvents.sync(player);
 
     }
 
-    public int getCurrentEnergy() {
-
-
-        return currentEnergy;
-    }
 
     public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
@@ -250,9 +338,16 @@ public class PlayerStatsAttributes {
     }
 
     public void setStamina(int stamina) {
-        this.stamina = stamina;
+        if(this.stamina >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
+            this.stamina = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            this.stamina = stamina;
+        }
         ModEvents.sync(player);
     }
+
+
+
     public CompoundTag saveNBTData(){
 
         CompoundTag nbt = new CompoundTag();

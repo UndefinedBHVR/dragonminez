@@ -1,8 +1,11 @@
 package com.yuseix.dragonminec.events;
 
 import com.yuseix.dragonminec.DragonMineC;
+import com.yuseix.dragonminec.commands.StatsCommand;
 import com.yuseix.dragonminec.commands.ZPointsCommand;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
+import com.yuseix.dragonminec.init.MainEntity;
+import com.yuseix.dragonminec.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminec.network.ModMessages;
 import com.yuseix.dragonminec.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminec.network.S2C.ZPointsS2C;
@@ -119,7 +122,7 @@ public class ModEvents {
     @SubscribeEvent
     public static void onCommandsRegister(RegisterCommandsEvent event){
         new ZPointsCommand(event.getDispatcher());
-
+        new StatsCommand(event.getDispatcher());
         ConfigCommand.register(event.getDispatcher());
     }
 
@@ -127,7 +130,7 @@ public class ModEvents {
     public static class ModEventBusEvents {
         @SubscribeEvent
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
-            //event.put(ModEntities.GOKU.get(), GokuEntity.setAttributes());
+            event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
         }
     }
 }

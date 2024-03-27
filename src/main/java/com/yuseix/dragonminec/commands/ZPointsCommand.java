@@ -47,11 +47,7 @@ public class ZPointsCommand {
     }
     private static int darPuntos(CommandContext<CommandSourceStack> pSource, Collection<ServerPlayer> pPlayers, int puntos) {
         for (ServerPlayer player : pPlayers) {
-            // Incrementa los puntos del jugador
-            //int currentPoints = player.getPersistentData().getInt("zpoints");
-            //player.getPersistentData().putInt("zpoints", currentPoints + puntos);
 
-            // Envía un mensaje al jugador
             player.sendSystemMessage(Component.literal("Has dado " + puntos+ " puntos a " + player.getName().getString()));
 
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
@@ -60,34 +56,10 @@ public class ZPointsCommand {
 
             });
 
-            // Sincroniza los puntos con el cliente
 
-            System.out.println("wa");
         }
         return pPlayers.size();
     }
-    /*
-    private static int darPuntos(CommandContext<CommandSourceStack> pSource, Collection<ServerPlayer> pPlayer, int puntos) {
 
-        int var3 = 0;
-        Iterator var4 = pPlayer.iterator();
-
-        while(var4.hasNext()) {
-            ServerPlayer wa = (ServerPlayer) var4.next();
-
-            //wa.getPersistentData().putInt("zpoints", wa.getPersistentData().getInt("zpoints") + puntos);
-
-            wa.sendSystemMessage(Component.literal("Has dado " + puntos+ " puntos a " + wa.getName().getString()));
-
-            ModMessages.sendToPlayer(new ZPointsS2C(1,puntos), wa);
-            var3++;
-        }
-
-
-
-        return var3;
-    }
-
-    */
 
 }

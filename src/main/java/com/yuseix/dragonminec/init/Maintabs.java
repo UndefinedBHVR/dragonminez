@@ -26,6 +26,7 @@ public class Maintabs {
                         anadir.accept(Mainblocks.NAMEK_BLOCK.get());
                         anadir.accept(Mainblocks.NAMEK_GRASS_BLOCK.get());
                         anadir.accept(Mainblocks.NAMEK_DIRT.get());
+                        anadir.accept(Mainblocks.NAMEK_GRASS.get());
 
                         //ITEMS
                         anadir.accept(Mainitems.POTHALA_RIGHT.get());

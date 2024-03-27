@@ -2,10 +2,12 @@ package com.yuseix.dragonminec.init;
 
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.init.blocks.custom.*;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,6 +30,19 @@ public class Mainblocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
     public static final RegistryObject<Block> NAMEK_DIRT = registerBlock("namek_dirt",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
+
+
+
+    //plantas
+    public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5,BlockBehaviour.Properties.copy(Blocks.ALLIUM)
+                    .noOcclusion()
+                    .noCollission()
+            ));
+
+
+
+
 
     public static final RegistryObject<Block> DBALL1_BLOCK = BLOCKS.register("dball1",
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
