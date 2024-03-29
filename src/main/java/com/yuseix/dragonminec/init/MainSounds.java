@@ -4,7 +4,6 @@ import com.yuseix.dragonminec.DragonMineC;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -27,7 +26,8 @@ public class MainSounds {
         ResourceLocation id = new ResourceLocation(DragonMineC.MODID, name);
         return SONIDOS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
     }
-    public static void register(IEventBus busEvent){
+
+    public static void register(IEventBus busEvent) {
         SONIDOS.register(busEvent);
     }
 }

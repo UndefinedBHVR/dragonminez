@@ -2,7 +2,6 @@ package com.yuseix.dragonminec.init;
 
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.init.items.custom.*;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -78,7 +77,7 @@ public class Mainitems {
             ));
 
 
-    public static void register(IEventBus bus){
+    public static void register(IEventBus bus) {
         ITEMS.register(bus);
     }
 

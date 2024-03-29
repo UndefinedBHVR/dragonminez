@@ -8,10 +8,8 @@ import com.yuseix.dragonminec.init.MainEntity;
 import com.yuseix.dragonminec.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminec.network.ModMessages;
 import com.yuseix.dragonminec.network.S2C.StatsSyncS2C;
-import com.yuseix.dragonminec.network.S2C.ZPointsS2C;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminec.stats.PlayerStatsAttributes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -23,7 +21,6 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,32 +34,28 @@ public class ModEvents {
     });
 
     @SubscribeEvent
-    public static void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event){
+    public static void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         sync(event.getEntity());
 
-        PlayerStatsAttrProvider.getCap(INSTANCE,event.getEntity()).ifPresent(cap ->{
-
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
-
-        });
+        PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get()));
     }
+
     @SubscribeEvent
-    public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event)
-    {
+    public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         sync(event.getEntity());
     }
 
     @SubscribeEvent
-    public static void playerRespawn(PlayerEvent.PlayerRespawnEvent event)
-    {
+    public static void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         sync(event.getEntity());
 
-        PlayerStatsAttrProvider.getCap(INSTANCE,event.getEntity()).ifPresent(cap ->{
+        PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
-            event.getEntity().heal( (float) (cap.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
+            event.getEntity().heal((float) (cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
 
-            int maxEnergia = (int) (cap.getEnergy() * 0.5)*DMCAttrConfig.MULTIPLIER_ENERGY.get();
+            int maxEnergia = (int) (cap.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
             int maxStamina = cap.getStamina() + 3;
 
             cap.setCurrentEnergy(maxEnergia);
@@ -73,14 +66,12 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event)
-    {
+    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(PlayerStatsAttributes.class);
     }
 
     @SubscribeEvent
-    public static void onPlayerCloned(PlayerEvent.Clone event)
-    {
+    public static void onPlayerCloned(PlayerEvent.Clone event) {
 
         event.getOriginal().reviveCaps();
 
@@ -89,16 +80,17 @@ public class ModEvents {
                         cap.loadNBTData(originalcap.saveNBTData())));
 
 
-            event.getOriginal().invalidateCaps();
+        event.getOriginal().invalidateCaps();
 
     }
+
     @SubscribeEvent
-    public static void onTrack(PlayerEvent.StartTracking event){
+    public static void onTrack(PlayerEvent.StartTracking event) {
         var trackingplayer = event.getEntity();
-        if(!(trackingplayer instanceof ServerPlayer player)){
+        if (!(trackingplayer instanceof ServerPlayer player)) {
             return;
         }
-        if(event.getTarget() instanceof ServerPlayer trackedplayer){
+        if (event.getTarget() instanceof ServerPlayer trackedplayer) {
             PlayerStatsAttrProvider.getCap(INSTANCE, event.getTarget()).ifPresent(cap -> ModMessages.sendToPlayer(
                     new StatsSyncS2C(trackedplayer), player
             ));
@@ -106,16 +98,14 @@ public class ModEvents {
     }
 
 
-    public static void sync(Player player){
+    public static void sync(Player player) {
         ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));
     }
 
     @SubscribeEvent
-    public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event)
-    {
-        if(event.getObject() instanceof Player player)
-        {
-            if(event.getObject().getCapability(INSTANCE).isPresent()){
+    public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player player) {
+            if (event.getObject().getCapability(INSTANCE).isPresent()) {
                 return;
             }
             //System.out.println("Añadiendo capability");
@@ -127,7 +117,7 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public static void onCommandsRegister(RegisterCommandsEvent event){
+    public static void onCommandsRegister(RegisterCommandsEvent event) {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
         ConfigCommand.register(event.getDispatcher());

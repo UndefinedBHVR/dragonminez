@@ -10,8 +10,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import javax.swing.text.html.parser.Entity;
-
 public class MainEntity {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, DragonMineC.MODID);
@@ -20,14 +18,12 @@ public class MainEntity {
     public static final RegistryObject<EntityType<DinoEntity>> DINO1 =
             ENTITY_TYPES.register("dino",
                     () -> EntityType.Builder.of(DinoEntity::new, MobCategory.AMBIENT)
-                            .sized(2.3f,3.5f)
-                            .build(new ResourceLocation(DragonMineC.MODID,"dino").toString())
+                            .sized(2.3f, 3.5f)
+                            .build(new ResourceLocation(DragonMineC.MODID, "dino").toString())
             );
 
 
-
-
-    public static void register(IEventBus bus){
+    public static void register(IEventBus bus) {
         ENTITY_TYPES.register(bus);
     }
 }
