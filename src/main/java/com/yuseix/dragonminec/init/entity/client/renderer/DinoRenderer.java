@@ -1,5 +1,6 @@
 package com.yuseix.dragonminec.init.entity.client.renderer;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.init.entity.client.model.DinoModel;
@@ -22,6 +23,13 @@ public class DinoRenderer extends GeoEntityRenderer<DinoEntity> {
 
     @Override
     public void render(DinoEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+
+        poseStack.pushPose();
+
+        poseStack.scale(1.5f,1.5f,1.5f);
+
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+
+        poseStack.popPose();
     }
 }

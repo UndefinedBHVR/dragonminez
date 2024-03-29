@@ -3,6 +3,7 @@ package com.yuseix.dragonminec.client.hud;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminec.DragonMineC;
+import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
@@ -35,7 +36,11 @@ public class PlayerHudOverlay {
             int StaminaMax = playerstats.getStamina() + 3;
             int curStamina = playerstats.getCurStam();
 
+            int energiaMax = (int) (playerstats.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get();
+            int curEnergia = playerstats.getCurrentEnergy();
+
             int staminatotal = Math.min( ( (83 * curStamina) / StaminaMax), 83);
+            int energiatotal = Math.min( ( ( 119 * curEnergia) / energiaMax), 119);
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
@@ -79,7 +84,7 @@ public class PlayerHudOverlay {
                     22,
                     0,
                     53,
-                    119,
+                    energiatotal,
                     4);
             //Stamina llena
             guiGraphics.blit(hud,
@@ -115,27 +120,6 @@ public class PlayerHudOverlay {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
         RenderSystem.setShaderTexture(0, hud);
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(1.2f,1.2f,2.0f);
-        //Z vacia
-        guiGraphics.blit(hud,
-                5,
-                27,
-                0,
-                31,
-                21,
-                17);
-
-        //Z LLENA
-        guiGraphics.blit(hud,
-                7,
-                29,
-                21,
-                33,
-                16,
-                14);
-        guiGraphics.pose().popPose();
 
     };
 

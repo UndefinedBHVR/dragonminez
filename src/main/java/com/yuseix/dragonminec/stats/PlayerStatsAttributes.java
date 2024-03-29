@@ -285,11 +285,34 @@ public class PlayerStatsAttributes {
 
     }
 
-
+    public int getCurrentEnergy() {
+        return currentEnergy;
+    }
     public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
         ModEvents.sync(player);
 
+    }
+    public void removeCurEnergy(int currentEnergy) {
+        this.currentEnergy -= currentEnergy;
+
+        if(this.currentEnergy < 0){
+            this.currentEnergy = 0;
+        }
+
+        ModEvents.sync(player);
+
+    }
+    public int addCurEnergy(int currentEnergy) {
+
+        if(this.currentEnergy < ((int) (energy * 0.5)*DMCAttrConfig.MULTIPLIER_ENERGY.get())){
+            this.currentEnergy += currentEnergy;
+        } else {
+            this.currentEnergy += 0;
+        }
+
+        ModEvents.sync(player);
+        return this.currentEnergy;
     }
 
     public int getCurBody() {

@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 public class StatsEvents {
 
     private static int tickcounter = 0;
+    private static int energiacounter = 0;
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event){
@@ -29,12 +31,14 @@ public class StatsEvents {
         //Regenerar stamina
         if(event.side == LogicalSide.SERVER){
 
+            energiacounter++;
             tickcounter++;
 
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.player).ifPresent(playerstats -> {
 
                 int maxcon = (int) (playerstats.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
                 int maxstamina = (playerstats.getStamina() + 3);
+                int maxenergia = (int) (playerstats.getEnergy() * 0.5)*DMCAttrConfig.MULTIPLIER_ENERGY.get();
 
 
                 if(playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina ){
@@ -46,11 +50,23 @@ public class StatsEvents {
                         playerstats.addCurStam(regenStamina);
 
                         tickcounter = 0;
+
                     }
 
                 }
+                if(playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia){
+                    if(energiacounter >= 60 * 5){
 
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
+                        int regenki = ((maxenergia) / 10);
+
+                        playerstats.addCurEnergy(regenki);
+
+                        energiacounter = 0;
+                    }
+                }
+
+
+                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
 
             });
 
@@ -130,10 +146,24 @@ public class StatsEvents {
             }
         }
 
+    @SubscribeEvent
+    public static void FallEvent(LivingFallEvent event){
+
+        if(event.getEntity() instanceof ServerPlayer player){
+                if(event.getDistance() > 4.5f){
+                    PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(stats -> {
+
+                        if(stats.getCurrentEnergy() > 5){
+                            stats.removeCurEnergy(5);
+                            event.setCanceled(true);
+                        }
+                    });
+            }
+        }
+    }
 
 
-
-    public static void sonidosGolpes(Player player, int id) {
+    private static void sonidosGolpes(Player player, int id) {
         switch (id) {
             case 1:
                 player.level().playSound(null, player.getOnPos(), MainSounds.GOLPE1.get(), SoundSource.PLAYERS, 2.2F, 0.9F);

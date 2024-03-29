@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.ChatFormatting;
@@ -117,6 +118,9 @@ public class StatsCommand {
                     case "constitution":
                         playerStatsAttributes.removeConstitution(cantidad);
                         playerStatsAttributes.removeStamina(cantidad);
+
+                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
@@ -127,6 +131,7 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.removeEnergy(cantidad);
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -136,6 +141,10 @@ public class StatsCommand {
                         playerStatsAttributes.removeStamina(cantidad);
                         playerStatsAttributes.removeKiPower(cantidad);
                         playerStatsAttributes.removeEnergy(cantidad);
+
+                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -166,6 +175,9 @@ public class StatsCommand {
                     case "constitution":
                         playerStatsAttributes.addCon(cantidad);
                         playerStatsAttributes.addStam(cantidad);
+
+                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
@@ -176,6 +188,7 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.addEnergy(cantidad);
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -185,6 +198,10 @@ public class StatsCommand {
                         playerStatsAttributes.addStam(cantidad);
                         playerStatsAttributes.addKipwr(cantidad);
                         playerStatsAttributes.addEnergy(cantidad);
+
+                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -214,6 +231,8 @@ public class StatsCommand {
                     case "constitution":
                         playerStatsAttributes.setConstitution(cantidad);
                         playerStatsAttributes.setStamina(cantidad);
+
+                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
@@ -224,6 +243,9 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.setEnergy(cantidad);
+
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -233,6 +255,11 @@ public class StatsCommand {
                         playerStatsAttributes.setStamina(cantidad);
                         playerStatsAttributes.setKiPower(cantidad);
                         playerStatsAttributes.setEnergy(cantidad);
+
+                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
