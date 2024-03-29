@@ -21,6 +21,7 @@ public class CapsulaVerdeItem extends Item {
     public CapsulaVerdeItem(Item.Properties properties) {
         super(properties);
     }
+
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
@@ -32,15 +33,15 @@ public class CapsulaVerdeItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack capsula = pPlayer.getItemInHand(pUsedHand);
-        pLevel.playSound((Player)null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
+        pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
-        if(!pLevel.isClientSide){
+        if (!pLevel.isClientSide) {
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> {
                 stats.addCon(5);
                 stats.addStam(5);
             });
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_verde.con").withStyle(ChatFormatting.GREEN),true);
+            pPlayer.displayClientMessage(Component.translatable("capsule_verde.con").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);

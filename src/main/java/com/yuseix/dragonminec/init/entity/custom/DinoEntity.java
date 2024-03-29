@@ -32,12 +32,12 @@ public class DinoEntity extends Animal implements GeoEntity {
         super(pEntityType, pLevel);
     }
 
-    public static AttributeSupplier setAttributes(){
+    public static AttributeSupplier setAttributes() {
         return Animal.createMobAttributes()
-                .add(Attributes.MAX_HEALTH,50.0D)
-                .add(Attributes.ATTACK_DAMAGE,10.5f)
-                .add(Attributes.ATTACK_SPEED,1.0f)
-                .add(Attributes.MOVEMENT_SPEED,0.22F).build();
+                .add(Attributes.MAX_HEALTH, 50.0D)
+                .add(Attributes.ATTACK_DAMAGE, 10.5f)
+                .add(Attributes.ATTACK_SPEED, 1.0f)
+                .add(Attributes.MOVEMENT_SPEED, 0.22F).build();
     }
 
     @Override
@@ -70,22 +70,22 @@ public class DinoEntity extends Animal implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackpredicate));
     }
 
-    private PlayState attackpredicate(AnimationState event) {
-        if(this.swinging) {
+    private <T extends GeoAnimatable> PlayState attackpredicate(AnimationState<T> event) {
+        if (this.swinging) {
             event.getController().setAnimation(RawAnimation.begin().then("animation.dino1.attack", Animation.LoopType.HOLD_ON_LAST_FRAME));
             this.swinging = false;
         }
         return PlayState.STOP;
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState tAnimationState) {
-        if(tAnimationState.isMoving()) {
+    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
+        if (tAnimationState.isMoving()) {
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.dino1.walk", Animation.LoopType.LOOP));
-            return PlayState.CONTINUE;
+        } else {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.dino1.idle", Animation.LoopType.LOOP));
         }
-
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.dino1.idle", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
+
     }
 
     @Override
