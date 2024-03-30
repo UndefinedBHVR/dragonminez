@@ -173,20 +173,20 @@ public class StatsEvents {
     }
 
     private static double getEnergyToRemove(int level) {
-        double energyRemovalPercentage;
+        double energyRemovalValue;
 
-        double baseReduction = 0.0003;
+        double baseReduction = DMCAttrConfig.MULTIPLIER_FALLDMG.get();
 
         if (level >= 100) {
-            // Porcentaje calculado normalmente mayor al 3% base del nivel 100
-            energyRemovalPercentage = level * baseReduction;
+            // Porcentaje calculado con un 3% base del nivel 100
+            energyRemovalValue = level * baseReduction;
 
         } else {
-            energyRemovalPercentage = 0; // Niveles menores a 100 no reciben daño de ki
+            energyRemovalValue = 0; // Niveles menores a 100 no reciben daño de ki
         }
 
         // Devuelve el valor actual de energía sacada
-        return level * energyRemovalPercentage;
+        return energyRemovalValue;
     }
 
 
