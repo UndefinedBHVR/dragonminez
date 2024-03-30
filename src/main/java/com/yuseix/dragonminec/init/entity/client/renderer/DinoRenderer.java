@@ -1,6 +1,5 @@
 package com.yuseix.dragonminec.init.entity.client.renderer;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.init.entity.client.model.DinoModel;
@@ -8,7 +7,6 @@ import com.yuseix.dragonminec.init.entity.custom.DinoEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class DinoRenderer extends GeoEntityRenderer<DinoEntity> {
@@ -26,7 +24,7 @@ public class DinoRenderer extends GeoEntityRenderer<DinoEntity> {
 
         poseStack.pushPose();
 
-        poseStack.scale(1.5f,1.5f,1.5f);
+        poseStack.scale(1.5f, 1.5f, 1.5f);
 
         super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
 

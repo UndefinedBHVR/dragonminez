@@ -1,20 +1,16 @@
 package com.yuseix.dragonminec;
 
 import com.mojang.logging.LogUtils;
-import com.yuseix.dragonminec.client.gui.AttributesMenu;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.init.*;
 import com.yuseix.dragonminec.init.blocks.entity.ModBlockEntities;
 import com.yuseix.dragonminec.init.blocks.entity.client.*;
 import com.yuseix.dragonminec.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminec.network.ModMessages;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -38,8 +34,7 @@ public class DragonMineC {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public DragonMineC()
-    {
+    public DragonMineC() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
@@ -60,7 +55,7 @@ public class DragonMineC {
 
         GeckoLib.initialize();
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC,"dragonminec-common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminec-common.toml");
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -78,23 +73,20 @@ public class DragonMineC {
         });
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
+    private void addCreative(BuildCreativeModeTabContentsEvent event) {
 
     }
+
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
+    public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event) {
             //ENTIDADES
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
 
@@ -108,7 +100,6 @@ public class DragonMineC {
             BlockEntityRenderers.register(ModBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
 
         }
-
 
 
     }

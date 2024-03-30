@@ -22,9 +22,7 @@ public class StatsCommand {
     public StatsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
         dispatcher.register(Commands.literal("dmzstats")
-                .requires(commandSourceStack -> {
-                    return commandSourceStack.hasPermission(2);
-                })
+                .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
 
 
                 .then(Commands.literal("set")
@@ -39,13 +37,9 @@ public class StatsCommand {
                                     return suggestionsBuilder.buildFuture();
                                 })
                                 .then(Commands.argument("cantidad", IntegerArgumentType.integer())
-                                        .executes(commandContext -> {
-                                            return setStat(commandContext, StringArgumentType.getString(commandContext,"stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException()));
-                                        })
+                                        .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> {
-                                                    return setStat(commandContext, StringArgumentType.getString(commandContext,"stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player"));
-                                                })
+                                                .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -63,13 +57,9 @@ public class StatsCommand {
                                     return suggestionsBuilder.buildFuture();
                                 })
                                 .then(Commands.argument("cantidad", IntegerArgumentType.integer())
-                                        .executes(commandContext -> {
-                                            return addStat(commandContext, StringArgumentType.getString(commandContext,"stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException()));
-                                        })
+                                        .executes(commandContext -> addStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> {
-                                                    return addStat(commandContext, StringArgumentType.getString(commandContext,"stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player"));
-                                                })
+                                                .executes(commandContext -> addStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -86,13 +76,9 @@ public class StatsCommand {
                                     return suggestionsBuilder.buildFuture();
                                 })
                                 .then(Commands.argument("cantidad", IntegerArgumentType.integer())
-                                        .executes(commandContext -> {
-                                            return removeStat(commandContext, StringArgumentType.getString(commandContext,"stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException()));
-                                        })
+                                        .executes(commandContext -> removeStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> {
-                                                    return removeStat(commandContext, StringArgumentType.getString(commandContext,"stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player"));
-                                                })
+                                                .executes(commandContext -> removeStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -100,15 +86,16 @@ public class StatsCommand {
         );
 
     }
+
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
-                switch (stat){
+                switch (stat) {
                     case "strenght":
                         playerStatsAttributes.removeStrenght(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() +  " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
                         playerStatsAttributes.removeDefense(cantidad);
@@ -131,7 +118,7 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.removeEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -144,7 +131,7 @@ public class StatsCommand {
 
                         playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -162,10 +149,10 @@ public class StatsCommand {
 
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
-                switch (stat){
+                switch (stat) {
                     case "strenght":
                         playerStatsAttributes.addStrength(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() +  " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
                         playerStatsAttributes.addDefense(cantidad);
@@ -188,7 +175,7 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.addEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -201,7 +188,7 @@ public class StatsCommand {
 
                         playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -213,15 +200,16 @@ public class StatsCommand {
         }
         return players.size();
     }
+
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
-                switch (stat){
+                switch (stat) {
                     case "strenght":
                         playerStatsAttributes.setStrength(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() +  " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
                         playerStatsAttributes.setDefense(cantidad);
@@ -244,7 +232,7 @@ public class StatsCommand {
                     case "energy":
                         playerStatsAttributes.setEnergy(cantidad);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
@@ -258,7 +246,7 @@ public class StatsCommand {
 
                         playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5)* DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 

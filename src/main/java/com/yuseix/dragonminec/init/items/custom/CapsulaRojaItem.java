@@ -3,7 +3,6 @@ package com.yuseix.dragonminec.init.items.custom;
 import com.yuseix.dragonminec.events.ModEvents;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.List;
 
 public class CapsulaRojaItem extends Item {
@@ -35,14 +33,12 @@ public class CapsulaRojaItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack capsula = pPlayer.getItemInHand(pUsedHand);
-        pLevel.playSound((Player)null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
+        pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
-        if(!pLevel.isClientSide){
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> {
-                stats.addStrength(5);
-            });
+        if (!pLevel.isClientSide) {
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addStrength(5));
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_red.str").withStyle(ChatFormatting.GREEN),true);
+            pPlayer.displayClientMessage(Component.translatable("capsule_red.str").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);
