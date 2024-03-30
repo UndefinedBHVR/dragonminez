@@ -147,7 +147,7 @@ public class StatsEvents {
 
         if (event.getEntity() instanceof ServerPlayer player) {
             if (realDistance > 4.5f) {
-                System.out.println(realDistance);
+
                 PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(stats -> {
                     int level = (stats.getStrength() +
                             stats.getDefense() +
@@ -156,11 +156,7 @@ public class StatsEvents {
                             stats.getEnergy()) / 5;
 
                     double energyToRemove = getEnergyToRemove(level);
-
-                    System.out.println(level);
-                    System.out.println(energyToRemove);
-                    System.out.println(getEnergyRemovalThreshold(level));
-
+                    
                     // Checar si la distancia de caída es menor al soporte que puedes tener por x nivel
                     if ((int) realDistance <= getEnergyRemovalThreshold(level) /* && stats.getCurrentEnergy() >= energyToRemove */) {
                         stats.removeCurEnergy((int) Math.round(energyToRemove));
@@ -178,7 +174,7 @@ public class StatsEvents {
         double baseReduction = DMCAttrConfig.MULTIPLIER_FALLDMG.get();
 
         if (level >= 100) {
-            // Porcentaje calculado con un 3% base del nivel 100
+            // Porcentaje calculado en base a la config (Default 0.03)
             energyRemovalValue = level * baseReduction;
 
         } else {
