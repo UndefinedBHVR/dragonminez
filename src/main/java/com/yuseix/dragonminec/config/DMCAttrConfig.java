@@ -13,8 +13,7 @@ public class DMCAttrConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> MULTIPLIER_CON;
     public static final ForgeConfigSpec.ConfigValue<Integer> MULTIPLIER_KIPOWER;
     public static final ForgeConfigSpec.ConfigValue<Integer> MULTIPLIER_ENERGY;
-
-
+    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_FALLDMG;
     public static final ForgeConfigSpec.ConfigValue<Integer> MULTIPLIER_ZPOINTS_COST;
 
 
@@ -25,7 +24,7 @@ public class DMCAttrConfig {
                 .defineInRange("Attributes: ", 500, 10, 1000);
 
 
-        MULTIPLIER_STR = BUILDER.comment("Multiplier for Strenght Attribute! (Min: 3 / Max: 200")
+        MULTIPLIER_STR = BUILDER.comment("Multiplier for Strength Attribute! (Min: 3 / Max: 200")
                 .defineInRange("Strength: ", 5, 3, 200);
 
         MULTIPLIER_DEF = BUILDER.comment("Multiplier for Defense Attribute! (Min: 3 / Max: 200")
@@ -42,6 +41,9 @@ public class DMCAttrConfig {
 
         MULTIPLIER_ZPOINTS_COST = BUILDER.comment("Multiplier for ZPoints Cost (Min: 3 / Max: 200")
                 .defineInRange("ZPoints: ", 5, 3, 200);
+
+        MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00)")
+                .defineInRange("FallDmg: ", 0.03, 0.01, 1.00);
 
         BUILDER.pop();
         SPEC = BUILDER.build();
