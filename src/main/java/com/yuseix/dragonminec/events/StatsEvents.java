@@ -150,7 +150,7 @@ public class StatsEvents {
 
         if (event.getEntity() instanceof ServerPlayer player) {
             if (realDistance > 4.5f) {
-                System.out.println(realDistance);
+
                 PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(stats -> {
                     int level = (stats.getStrength() +
                             stats.getDefense() +
@@ -159,11 +159,7 @@ public class StatsEvents {
                             stats.getEnergy()) / 5;
 
                     double energyToRemove = getEnergyToRemove(level);
-
-                    System.out.println(level);
-                    System.out.println(energyToRemove);
-                    System.out.println(getEnergyRemovalThreshold(level));
-
+                    
                     // Checar si la distancia de caída es menor al soporte que puedes tener por x nivel
                     if ((int) realDistance <= getEnergyRemovalThreshold(level) /* && stats.getCurrentEnergy() >= energyToRemove */) {
                         stats.removeCurEnergy((int) Math.round(energyToRemove));
@@ -276,20 +272,20 @@ public class StatsEvents {
     }
 
     private static double getEnergyToRemove(int level) {
-        double energyRemovalPercentage;
+        double energyRemovalValue;
 
-        double baseReduction = 0.0003;
+        double baseReduction = DMCAttrConfig.MULTIPLIER_FALLDMG.get();
 
         if (level >= 100) {
-            // Porcentaje calculado normalmente mayor al 3% base del nivel 100
-            energyRemovalPercentage = level * baseReduction;
+            // Porcentaje calculado en base a la config (Default 0.03)
+            energyRemovalValue = level * baseReduction;
 
         } else {
-            energyRemovalPercentage = 0; // Niveles menores a 100 no reciben daño de ki
+            energyRemovalValue = 0; // Niveles menores a 100 no reciben daño de ki
         }
 
         // Devuelve el valor actual de energía sacada
-        return level * energyRemovalPercentage;
+        return energyRemovalValue;
     }
 
 
