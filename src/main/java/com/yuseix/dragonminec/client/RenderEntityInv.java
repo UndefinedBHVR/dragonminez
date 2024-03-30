@@ -26,7 +26,7 @@ public interface RenderEntityInv {
         p_275689_.setXRot(-angleYComponent * 20.0F);
         p_275689_.yHeadRot = p_275689_.getYRot();
         p_275689_.yHeadRotO = p_275689_.getYRot();
-        renderEntityInInventory(p_282802_, p_275688_, p_275245_, p_275535_, quaternionf, quaternionf1, p_275689_);
+        renderEntityInInv(p_282802_, p_275688_, p_275245_, p_275535_, quaternionf, quaternionf1, p_275689_);
         p_275689_.yBodyRot = f2;
         p_275689_.setYRot(f3);
         p_275689_.setXRot(f4);
@@ -34,9 +34,6 @@ public interface RenderEntityInv {
         p_275689_.yHeadRot = f6;
     }
 
-    static void renderEntityInInventory(GuiGraphics pGuiGraphics, int pX, int pY, int pScale, Quaternionf pPose, @Nullable Quaternionf pCameraOrientation, LivingEntity pEntity) {
-        renderEntityInInv(pGuiGraphics, pX, pY, pScale, pPose, pCameraOrientation, pEntity);
-    }
 
     static void renderEntityInInv(GuiGraphics pGuiGraphics, int pX, int pY, int pScale, Quaternionf pPose, @Nullable Quaternionf pCameraOrientation, LivingEntity pEntity) {
         pGuiGraphics.pose().pushPose();
