@@ -180,28 +180,92 @@ public class StatsEvents {
     @SubscribeEvent
     public static void cambiarTamano(EntityEvent.Size event){
 
-        EntityDimensions newSize = new EntityDimensions(2.0f, 2.0f, event.getNewSize().fixed);
+        System.out.println("Evento funcionando del tamano");
+
+        float atributosMaximos =  DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get(); //1% de los atributos maximos
+
         //event.setNewSize(newSize);
         //event.setNewEyeHeight(3.5f);
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
+
+            int vidaJugador = cap.getConstitution();
+
+            int porcentaje = (int) (vidaJugador / atributosMaximos) * 100; //porcentaje del jugador respecto a la vida
+
+            int razas = cap.getRace();
+
+            //float estaturaCon = 0.01f * porcentaje;
+
+
+            if(razas == 0){
+
+                //tamaño default de la hitbox
+                float xhitbox  = 0.52f;
+                float yhitbox = 1.65f;
+
+                //Estatura camara y hitbox
+                float estaturaCon = Math.min(((1.0f * vidaJugador) / atributosMaximos), 1.0f);
+
+                event.setNewEyeHeight(1.65f + estaturaCon);
+
+                EntityDimensions hitbox = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox+ estaturaCon) - 0.02f, event.getNewSize().fixed);
+                event.setNewSize(hitbox);
+
+                    System.out.println("Cambios en la camara hechos.");
+
+                  if(event.getEntity().isShiftKeyDown()){
+                      event.setNewEyeHeight(1.3f + estaturaCon);
+                  }
+
+            }
+
+
+
+
+
+        });
+
 
     }
     @SubscribeEvent
     public static void changeSizePRE(RenderPlayerEvent.Pre event){
+        System.out.println("evento cargado de cambiar escalado");
+
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
 
             //Tamaño del jugador (ALPHA)
             int atributosMAX = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
 
+                int vidaJugador = cap.getConstitution();
 
-            event.getPoseStack().pushPose();
+                int porcentaje = (int) (vidaJugador / atributosMAX) * 100; //porcentaje del jugador respecto a la vida
 
-            event.getPoseStack().scale(2.0f,2.0f,2.0f);
+                int razas = cap.getRace();
+
+                event.getPoseStack().pushPose();
+
+                if(razas == 0){
+
+                    float xyz = 1.0f;
+
+                    //float estaturaCon = 0.01f * porcentaje;
+
+
+                    float estaturaCon = Math.min(((0.5f * vidaJugador) / atributosMAX), 0.5f);
+
+                    float estaturaBase = xyz + estaturaCon;
 
 
 
-        });
+                    event.getPoseStack().scale(estaturaBase, estaturaBase, estaturaBase);
 
+                    System.out.println("Cambios en tercera persona hechos.");
+
+            }
+
+            });
 
 
     }
