@@ -20,7 +20,7 @@ public class MainEntity {
     public static final RegistryObject<EntityType<DinoEntity>> DINO1 =
             ENTITY_TYPES.register("dino",
                     () -> EntityType.Builder.of(DinoEntity::new, MobCategory.AMBIENT)
-                            .sized(3.5f,4.5f)
+                            .sized(4.5f,4.8f)
                             .build(new ResourceLocation(DragonMineC.MODID,"dino").toString())
             );
 

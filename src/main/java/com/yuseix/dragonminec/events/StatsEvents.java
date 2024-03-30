@@ -7,9 +7,12 @@ import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -172,6 +175,42 @@ public class StatsEvents {
 
     }
 
+
+    @SuppressWarnings({"deprecation", "removal"})
+    @SubscribeEvent
+    public static void cambiarTamano(EntityEvent.Size event){
+
+        EntityDimensions newSize = new EntityDimensions(2.0f, 2.0f, event.getNewSize().fixed);
+        //event.setNewSize(newSize);
+        //event.setNewEyeHeight(3.5f);
+
+    }
+    @SubscribeEvent
+    public static void changeSizePRE(RenderPlayerEvent.Pre event){
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
+
+            //Tamaño del jugador (ALPHA)
+            int atributosMAX = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+
+
+            event.getPoseStack().pushPose();
+
+            event.getPoseStack().scale(2.0f,2.0f,2.0f);
+
+
+
+        });
+
+
+
+    }
+    @SubscribeEvent
+    public static void changeSizePOST(RenderPlayerEvent.Post event){
+
+        event.getPoseStack().popPose();
+    }
+
     private static double getEnergyToRemove(int level) {
         double energyRemovalPercentage;
 
@@ -188,6 +227,8 @@ public class StatsEvents {
         // Devuelve el valor actual de energía sacada
         return level * energyRemovalPercentage;
     }
+
+
 
 
     private static void sonidosGolpes(Player player) {
