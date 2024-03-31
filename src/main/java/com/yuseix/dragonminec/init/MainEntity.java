@@ -2,7 +2,6 @@ package com.yuseix.dragonminec.init;
 
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminec.init.entity.custom.FakePlayerEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
