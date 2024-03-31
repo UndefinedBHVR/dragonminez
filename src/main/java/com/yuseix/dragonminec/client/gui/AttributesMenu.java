@@ -6,6 +6,7 @@ import com.yuseix.dragonminec.client.RenderEntityInv;
 import com.yuseix.dragonminec.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.events.ModEvents;
+import com.yuseix.dragonminec.init.MainEntity;
 import com.yuseix.dragonminec.network.C2S.StatsC2S;
 import com.yuseix.dragonminec.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminec.network.ModMessages;
@@ -226,10 +227,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             graphics.drawString(font, ChatFormatting.BOLD + "Max Ki: ", RSUBTITULO, posY + 105, 0x830318, true);
             graphics.drawString(font, String.valueOf(MaxEnergy), RDESC, posY + 105, 0x9B1D32, false);
-
-            //Asegurandose de que el jugador se encuentra en linea (no sirve realmente lol)
-            assert this.minecraft != null;
-            assert this.minecraft.player != null;
 
             graphics.drawString(font, ChatFormatting.BOLD + this.minecraft.player.getName().getString(), posX + 63, posY + 10, 0xFFFFFF, true);
             graphics.drawString(font, ChatFormatting.BOLD + "Lvl: ", posX + 50, posY + 25, 0xFFE800, true);

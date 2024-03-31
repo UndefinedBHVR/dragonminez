@@ -4,6 +4,7 @@ import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.init.MainSounds;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminec.stats.PlayerStatsAttributes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -89,19 +90,113 @@ public class StatsEvents {
 
                 PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
 
-                    int maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
+                    int raza = playerstats.getRace();
 
-                    int staminacost = (maxstr / 4);
+                    int staminacost, curstamina;
 
-                    int curstamina = playerstats.getCurStam();
+                    switch (raza){
+                        case 0: //TODO: HUMANO
+                            int maxstrHUMANO = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
 
-                    if (curstamina >= staminacost) {
-                        event.setAmount(maxstr);
-                        playerstats.removeCurStam(staminacost);
+                            staminacost = (maxstrHUMANO / 4);
+
+                            curstamina = playerstats.getCurStam();
+
+                            if (curstamina >= staminacost) {
+                                event.setAmount(maxstrHUMANO);
+                                playerstats.removeCurStam(staminacost);
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 1: //TODO: SAIYAN
+                            int maxstrSaiyan = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get();
+
+                            staminacost = (maxstrSaiyan / 4);
+
+                            curstamina = playerstats.getCurStam();
+
+                            if (curstamina >= staminacost) {
+                                event.setAmount(maxstrSaiyan);
+                                playerstats.removeCurStam(staminacost);
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 2: //TODO: NAMEKIANO
+                            int maxstrNamek = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get(); //CAMBIAR ESTO POR NAMEKIANO
+
+                            staminacost = (maxstrNamek / 4);
+
+                            curstamina = playerstats.getCurStam();
+
+                            if (curstamina >= staminacost) {
+                                event.setAmount(maxstrNamek);
+                                playerstats.removeCurStam(staminacost);
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 3: //TODO: BIOANDROIDE
+                            int maxstrBioAndroide = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get(); //CAMBIAR ESTO POR BIOANDROIDE CONFIG
+
+                            staminacost = (maxstrBioAndroide / 4);
+
+                            curstamina = playerstats.getCurStam();
+
+                            if (curstamina >= staminacost) {
+                                event.setAmount(maxstrBioAndroide);
+                                playerstats.removeCurStam(staminacost);
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 4: //TODO: COLDDEMON
+                            int maxstrColdDemon = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get(); //CAMBIAR ESTO POR COLDDEMON CONFIG
+
+                            staminacost = (maxstrColdDemon / 4);
+
+                            curstamina = playerstats.getCurStam();
+
+                            if (curstamina >= staminacost) {
+                                event.setAmount(maxstrColdDemon);
+                                playerstats.removeCurStam(staminacost);
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 5: //TODO: MAJIN
+                            int maxstrMajin = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get(); //CAMBIAR ESTO POR MAJIN CONFIG
+
+                            staminacost = (maxstrMajin / 4);
+
+                            curstamina = playerstats.getCurStam();
+
+                            if (curstamina >= staminacost) {
+                                event.setAmount(maxstrMajin);
+                                playerstats.removeCurStam(staminacost);
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+                            break;
+
+                        default: //TODO: FUTURAS RAZAS
+
+                                break;
+
                     }
-                    if (staminacost >= curstamina) {
-                        event.setAmount(1);
-                    }
+
                 });
 
                 sonidosGolpes(jugadorpemrd);
@@ -112,30 +207,182 @@ public class StatsEvents {
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats ->
-                        event.setAmount(event.getAmount() - (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get()) / 2)));
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                    int raza = playerstats.getRace();
 
+                        switch (raza){
+                            case 0: //RAZA HUMANO
+
+                                int defensaHumano = (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get()) / 2);
+                                event.setAmount(event.getAmount() - defensaHumano);
+
+                                break;
+                            case 1: //RAZA SAIYAN
+
+                                int defensaSaiyan = (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) / 2);
+                                event.setAmount(event.getAmount() - defensaSaiyan);
+
+                                break;
+                            case 2: //RAZA NAMEK
+
+                                int defensaNamek = (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) / 2);
+                                event.setAmount(event.getAmount() - defensaNamek);
+
+                                break;
+                            case 3: //RAZA BIOANDROIDE
+
+                                int defensaBioAndroide = (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) / 2);
+                                event.setAmount(event.getAmount() - defensaBioAndroide);
+
+                                break;
+                            case 4: //RAZA COLD DEMON
+
+                                int defensaColdDemon = (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) / 2);
+                                event.setAmount(event.getAmount() - defensaColdDemon);
+
+                                break;
+                            case 5: //RAZA MAJIN
+
+                                int defensaMajin = (int) (((playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) / 2);
+                                event.setAmount(event.getAmount() - defensaMajin);
+
+                                break;
+                            default:
+
+                                break;
+                        }
+
+
+
+
+                });
             }
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
                 PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
-                    int maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
-                    int maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get();
+                    int razas = playerstats.getRace();
 
-                    int staminacost = (maxstr / 4);
+                    int maxstr, maxdef;
+                    int staminacost;
                     int curstamina = playerstats.getCurStam();
+                    switch (razas){
+                        case 0: //RAZA HUMANO
 
-                    if (curstamina >= staminacost) {
+                            maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
+                            maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get();
 
-                        event.setAmount(event.getAmount() - ((float) maxdef / 3));
-                        playerstats.removeCurStam(staminacost);
+                            staminacost = (maxstr / 4);
 
+                            if (curstamina >= staminacost) {
+
+                                event.setAmount(event.getAmount() - ((float) maxdef / 3));
+                                playerstats.removeCurStam(staminacost);
+
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 1: //RAZA SAIYAN
+
+                            maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get();
+                            maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get();
+
+                            staminacost = (maxstr / 4);
+
+                            if (curstamina >= staminacost) {
+
+                                event.setAmount(event.getAmount() - ((float) maxdef / 3));
+                                playerstats.removeCurStam(staminacost);
+
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 2: //RAZA NAMEK
+
+                            maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get();
+                            maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get();
+
+                            staminacost = (maxstr / 4);
+
+                            if (curstamina >= staminacost) {
+
+                                event.setAmount(event.getAmount() - ((float) maxdef / 3));
+                                playerstats.removeCurStam(staminacost);
+
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 3: //RAZA BIOANDROIDE
+
+                            maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get();
+                            maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get();
+
+                            staminacost = (maxstr / 4);
+
+                            if (curstamina >= staminacost) {
+
+                                event.setAmount(event.getAmount() - ((float) maxdef / 3));
+                                playerstats.removeCurStam(staminacost);
+
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 4: //RAZA COLD DEMON
+
+                            maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get();
+                            maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get();
+
+                            staminacost = (maxstr / 4);
+
+                            if (curstamina >= staminacost) {
+
+                                event.setAmount(event.getAmount() - ((float) maxdef / 3));
+                                playerstats.removeCurStam(staminacost);
+
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+                        case 5: //RAZA MAJIN
+
+                            maxstr = (int) (playerstats.getStrength() * 0.5) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get();
+                            maxdef = (int) (playerstats.getDefense() * 0.5) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get();
+
+                            staminacost = (maxstr / 4);
+
+                            if (curstamina >= staminacost) {
+
+                                event.setAmount(event.getAmount() - ((float) maxdef / 3));
+                                playerstats.removeCurStam(staminacost);
+
+                            }
+                            if (staminacost >= curstamina) {
+                                event.setAmount(1);
+                            }
+
+                            break;
+
+                        default: //futuras razas
+
+                            break;
                     }
-                    if (staminacost >= curstamina) {
-                        event.setAmount(1);
-                    }
+
+
 
                 });
 
@@ -176,47 +423,54 @@ public class StatsEvents {
     @SubscribeEvent
     public static void cambiarTamano(EntityEvent.Size event){
 
-        System.out.println("Evento funcionando del tamano");
-
-        float atributosMaximos =  DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get(); //1% de los atributos maximos
-
-        //event.setNewSize(newSize);
-        //event.setNewEyeHeight(3.5f);
+        //Obtenemos el tamaño de los atributos maximos
+        float atributosMaximos =  DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
 
+            //Obtenemos los puntos de constitucion del jugador
             int vidaJugador = cap.getConstitution();
 
-            int porcentaje = (int) (vidaJugador / atributosMaximos) * 100; //porcentaje del jugador respecto a la vida
-
+            //Obtenemos las razas
             int razas = cap.getRace();
 
-            //float estaturaCon = 0.01f * porcentaje;
 
-
-            if(razas == 0){
-
+            if(razas == 0){ //TODO: HUMANO
                 //tamaño default de la hitbox
                 float xhitbox  = 0.52f;
                 float yhitbox = 1.65f;
 
-                //Estatura camara y hitbox
-                float estaturaCon = Math.min(((1.0f * vidaJugador) / atributosMaximos), 1.0f);
+                //Calculo de la estatura camara y hitbox
+                float estaturaCon = Math.min(((0.21f * vidaJugador) / atributosMaximos), 0.21f);
 
-                event.setNewEyeHeight(1.65f + estaturaCon);
+                //Colocamos la nueva hitbox (ESTO ES IMPORTANTE PARA EL RENDERIZADO DE MODELOS A FUTURO! )
+                EntityDimensions hitboxBase = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox+ estaturaCon) + 0.02f, event.getNewSize().fixed);
 
-                EntityDimensions hitbox = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox+ estaturaCon) - 0.02f, event.getNewSize().fixed);
-                event.setNewSize(hitbox);
+                event.setNewSize(hitboxBase);
 
-                    System.out.println("Cambios en la camara hechos.");
+                //Ponemos que la camara se coloque.
+                event.setNewEyeHeight(yhitbox + estaturaCon);
 
+                //Obtenemos el evento si el jugador esta en shift
                   if(event.getEntity().isShiftKeyDown()){
-                      event.setNewEyeHeight(1.3f + estaturaCon);
+                      EntityDimensions hitboxShift = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox+ estaturaCon) - 0.07f, event.getNewSize().fixed);
+                      event.setNewSize(hitboxShift);
+                      event.setNewEyeHeight( (yhitbox - 0.35f) + estaturaCon);
+                  }
+
+                  if(event.getEntity().isSwimming()){
+                      EntityDimensions hitboxSwimming = new EntityDimensions((xhitbox + estaturaCon) + 0.02f, (yhitbox+ estaturaCon) - 1.01f, event.getNewSize().fixed);
+                      event.setNewSize(hitboxSwimming);
+                      event.setNewEyeHeight( (yhitbox - 1.35f) + estaturaCon);
+                  }
+
+                  if(event.getEntity().isVisuallyCrawling()){
+                      EntityDimensions hitboxCrawling = new EntityDimensions((xhitbox + estaturaCon) + 0.02f, (yhitbox+ estaturaCon) - 1.01f, event.getNewSize().fixed);
+                      event.setNewSize(hitboxCrawling);
+                      event.setNewEyeHeight( (yhitbox - 1.35f) + estaturaCon);
                   }
 
             }
-
-
 
 
 
@@ -226,17 +480,16 @@ public class StatsEvents {
     }
     @SubscribeEvent
     public static void changeSizePRE(RenderPlayerEvent.Pre event){
-        System.out.println("evento cargado de cambiar escalado");
-
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
 
-            //Tamaño del jugador (ALPHA)
+            //Tamaño del jugador dependiento lo atributos maximo de la config(ALPHA)
             int atributosMAX = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
 
+            //Obtener los puntos de constitucion del jugador
                 int vidaJugador = cap.getConstitution();
 
-                int porcentaje = (int) (vidaJugador / atributosMAX) * 100; //porcentaje del jugador respecto a la vida
+                //int porcentaje = (int) (vidaJugador / atributosMAX) * 100; //porcentaje del jugador respecto a la vida
 
                 int razas = cap.getRace();
 
@@ -244,20 +497,17 @@ public class StatsEvents {
 
                 if(razas == 0){
 
+                    //Escala default
                     float xyz = 1.0f;
 
-                    //float estaturaCon = 0.01f * porcentaje;
+                    //Calculamos la estatura para que aumente pero no pase de 0.5f
+                    float estaturaCon = Math.min(((0.18f * vidaJugador) / atributosMAX), 0.18f);
 
-
-                    float estaturaCon = Math.min(((0.5f * vidaJugador) / atributosMAX), 0.5f);
-
+                    //Sumamos la escala default + el calculo del aumento
                     float estaturaBase = xyz + estaturaCon;
-
-
 
                     event.getPoseStack().scale(estaturaBase, estaturaBase, estaturaBase);
 
-                    System.out.println("Cambios en tercera persona hechos.");
 
             }
 

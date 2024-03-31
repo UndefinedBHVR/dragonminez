@@ -54,6 +54,7 @@ public class StatsC2S {
                             playerstats.addCon(packet.cantidad);
                             playerstats.addStam(packet.cantidad);
                             player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() *0.5)* DMCAttrConfig.MULTIPLIER_CON.get());
+                            player.refreshDimensions();
                             break;
                         case 3:
                             playerstats.addKipwr(packet.cantidad);

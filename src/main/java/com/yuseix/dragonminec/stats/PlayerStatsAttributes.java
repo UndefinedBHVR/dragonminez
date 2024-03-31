@@ -219,6 +219,9 @@ public class PlayerStatsAttributes {
     }
 
     public void setStrength(int strength) {
+
+        this.strength = strength;
+
         if(this.strength >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
             this.strength = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
@@ -235,11 +238,15 @@ public class PlayerStatsAttributes {
     }
 
     public void setDefense(int defense) {
+
+        this.defense = defense;
+
         if(this.defense >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
             this.defense = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.defense = defense;
         }
+
         ModEvents.sync(player);
     }
 
@@ -248,11 +255,15 @@ public class PlayerStatsAttributes {
     }
 
     public void setConstitution(int constitution) {
+
+        this.constitution = constitution;
+
         if(this.constitution >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
             this.constitution = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.constitution = constitution;
         }
+
         ModEvents.sync(player);
 
     }
@@ -262,11 +273,15 @@ public class PlayerStatsAttributes {
     }
 
     public void setKiPower(int kiPower) {
+
+        this.KiPower = kiPower;
+
         if(this.KiPower >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
             KiPower = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.KiPower = kiPower;
         }
+
         ModEvents.sync(player);
 
     }
@@ -276,11 +291,15 @@ public class PlayerStatsAttributes {
     }
 
     public void setEnergy(int energy) {
+
+        this.energy = energy;
+
         if(this.energy >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()){
             this.energy = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.energy = energy;
         }
+
         ModEvents.sync(player);
 
     }

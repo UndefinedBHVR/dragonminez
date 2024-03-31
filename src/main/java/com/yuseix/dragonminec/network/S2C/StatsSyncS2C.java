@@ -49,6 +49,7 @@ public class StatsSyncS2C {
     public static void handleClient(Supplier<NetworkEvent.Context> ctx,CompoundTag nbt){
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player) .ifPresent(cap -> cap.loadNBTData(nbt));
+        Minecraft.getInstance().player.refreshDimensions();
 
     }
 
