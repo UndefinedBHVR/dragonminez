@@ -1,10 +1,18 @@
 package com.yuseix.dragonminec.events;
 
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.yuseix.dragonminec.DragonMineC;
+import com.yuseix.dragonminec.character.LayerDMZBase;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.init.MainSounds;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminec.stats.PlayerStatsAttributes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -20,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Map;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = DragonMineC.MODID)
@@ -515,6 +524,15 @@ public class StatsEvents {
 
 
     }
+
+
+    @SubscribeEvent
+    public static void nose(RenderPlayerEvent.Pre event){
+
+
+    }
+
+
     @SubscribeEvent
     public static void changeSizePOST(RenderPlayerEvent.Post event){
 

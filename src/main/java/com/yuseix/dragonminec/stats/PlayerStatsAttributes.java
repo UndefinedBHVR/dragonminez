@@ -16,8 +16,10 @@ public class PlayerStatsAttributes {
     private int zpoints;
     private int KiPower = 5;
 
-
     private int energy = 5,currentEnergy;
+
+
+    private int bodyColor;
 
     private final Player player;
 
@@ -32,6 +34,14 @@ public class PlayerStatsAttributes {
     public void setZpoints(int zpoints) {
         this.zpoints = zpoints;
         ModEvents.sync(player);
+    }
+
+    public int getBodyColor() {
+        return bodyColor;
+    }
+
+    public void setBodyColor(int bodyColor) {
+        this.bodyColor = bodyColor;
     }
 
     public int addStrength(int points){
@@ -411,6 +421,8 @@ public class PlayerStatsAttributes {
         nbt.putInt("currentBody", curBody);
         nbt.putInt("currentStamina", curStam);
 
+        nbt.putInt("bodyColor", bodyColor);
+
         nbt.putInt("zpoints",zpoints);
 
         return nbt;
@@ -435,6 +447,8 @@ public class PlayerStatsAttributes {
         currentEnergy = nbt.getInt("currentEnergy");
         curBody = nbt.getInt("currentBody");
         curStam = nbt.getInt("currentStamina");
+
+        bodyColor = nbt.getInt("bodyColor");
 
     }
 

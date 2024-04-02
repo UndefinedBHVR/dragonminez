@@ -25,15 +25,12 @@ import java.util.List;
 
 public class AttributesMenu extends Screen implements RenderEntityInv {
 
-
     private int zpoints;
 
     {
         assert Minecraft.getInstance().player != null;
         zpoints = Minecraft.getInstance().player.getPersistentData().getInt("zpoints");
     }
-
-    private String wa = String.valueOf(zpoints);
 
     private final List<AbstractWidget> botones = new ArrayList<>();
 
