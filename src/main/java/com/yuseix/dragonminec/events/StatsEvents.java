@@ -528,7 +528,7 @@ public class StatsEvents {
 
     @SubscribeEvent
     public static void nose(RenderPlayerEvent.Pre event){
-
+        event.getRenderer().addLayer(new LayerDMZBase(event.getRenderer()));
 
     }
 

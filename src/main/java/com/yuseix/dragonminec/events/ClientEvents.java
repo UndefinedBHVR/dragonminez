@@ -1,16 +1,20 @@
 package com.yuseix.dragonminec.events;
 
 import com.yuseix.dragonminec.DragonMineC;
+import com.yuseix.dragonminec.character.LayerDMZBase;
 import com.yuseix.dragonminec.client.gui.AttributesMenu;
 import com.yuseix.dragonminec.client.hud.PlayerHudOverlay;
 import com.yuseix.dragonminec.utils.KeyBinding;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -52,6 +56,10 @@ public class ClientEvents {
             e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
         }
 
+        @SubscribeEvent
+        public static void registerModelLayers(EntityRenderersEvent.AddLayers e) {
+
+        }
 
     }
 }
