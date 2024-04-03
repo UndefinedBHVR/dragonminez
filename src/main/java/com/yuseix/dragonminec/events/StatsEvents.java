@@ -3,6 +3,7 @@ package com.yuseix.dragonminec.events;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.yuseix.dragonminec.DragonMineC;
 import com.yuseix.dragonminec.character.LayerDMZBase;
+import com.yuseix.dragonminec.character.LayerDMZPost;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.init.MainSounds;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
@@ -537,6 +538,7 @@ public class StatsEvents {
     public static void changeSizePOST(RenderPlayerEvent.Post event){
 
         event.getPoseStack().popPose();
+        event.getRenderer().addLayer(new LayerDMZPost(event.getRenderer()));
     }
 
     private static double getEnergyToRemove(int level) {

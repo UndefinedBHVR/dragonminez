@@ -1,6 +1,8 @@
 package com.yuseix.dragonminec;
 
 import com.mojang.logging.LogUtils;
+import com.yuseix.dragonminec.character.FaceModel;
+import com.yuseix.dragonminec.character.LayerDMZPost;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
 import com.yuseix.dragonminec.init.*;
 import com.yuseix.dragonminec.init.blocks.entity.ModBlockEntities;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -98,6 +101,12 @@ public class DragonMineC {
             BlockEntityRenderers.register(ModBlockEntities.DBALL5_BLOCK_ENTITY.get(), Dball5BlockRenderer::new);
             BlockEntityRenderers.register(ModBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
             BlockEntityRenderers.register(ModBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
+
+        }
+
+        @SubscribeEvent
+        public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
+            e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
         }
 

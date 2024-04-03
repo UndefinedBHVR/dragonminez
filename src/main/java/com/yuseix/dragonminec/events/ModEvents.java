@@ -1,6 +1,7 @@
 package com.yuseix.dragonminec.events;
 
 import com.yuseix.dragonminec.DragonMineC;
+import com.yuseix.dragonminec.character.LayerDMZPost;
 import com.yuseix.dragonminec.commands.StatsCommand;
 import com.yuseix.dragonminec.commands.ZPointsCommand;
 import com.yuseix.dragonminec.config.DMCAttrConfig;
@@ -10,10 +11,15 @@ import com.yuseix.dragonminec.network.ModMessages;
 import com.yuseix.dragonminec.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminec.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminec.stats.PlayerStatsAttributes;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -130,5 +136,7 @@ public class ModEvents {
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
             event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
         }
+
+
     }
 }

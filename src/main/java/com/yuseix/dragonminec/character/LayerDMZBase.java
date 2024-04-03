@@ -1,5 +1,6 @@
 package com.yuseix.dragonminec.character;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminec.DragonMineC;
@@ -34,12 +35,23 @@ public class LayerDMZBase extends RenderLayer<AbstractClientPlayer, PlayerModel<
 
         VertexConsumer vertexBuilder = multiBufferSource.getBuffer(RenderType.entityTranslucent(OJOS));
 
-            this.getParentModel().head.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY);
-            this.getParentModel().body.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 1.0f, 5.0f, 8.0f, 0.5f);
-            this.getParentModel().leftArm.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY);
-            this.getParentModel().leftLeg.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY);
-            this.getParentModel().rightArm.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY);
-            this.getParentModel().rightLeg.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY);
 
+        this.getParentModel().hat.visible = false;
+        this.getParentModel().rightSleeve.visible = false;
+        this.getParentModel().leftSleeve.visible = false;
+        this.getParentModel().rightPants.visible = false;
+        this.getParentModel().leftPants.visible = false;
+
+
+        poseStack.pushPose();
+
+            this.getParentModel().head.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 0.920f, 0.745f, 0.745f, 1.0f);
+            this.getParentModel().body.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 0.810f, 0.624f, 0.624f, 1.0f);
+            this.getParentModel().leftArm.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 0.920f, 0.745f, 0.745f, 1.0f);
+            this.getParentModel().leftLeg.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 0.920f, 0.745f, 0.745f, 1.0f);
+            this.getParentModel().rightArm.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 0.920f, 0.745f, 0.745f, 1.0f);
+            this.getParentModel().rightLeg.render(poseStack, vertexBuilder, i, OverlayTexture.NO_OVERLAY, 0.920f, 0.745f, 0.745f, 1.0f);
+
+        poseStack.popPose();
     }
 }
