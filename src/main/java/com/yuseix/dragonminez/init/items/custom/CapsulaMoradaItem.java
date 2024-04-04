@@ -24,6 +24,11 @@ public class CapsulaMoradaItem extends Item {
     }
 
     @Override
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
+        return Component.translatable("item.dragonminez.purple_capsule");
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
 
         pTooltipComponents.add(Component.translatable("item.dragonminez.purple_capsule.tooltip").withStyle(ChatFormatting.GRAY));

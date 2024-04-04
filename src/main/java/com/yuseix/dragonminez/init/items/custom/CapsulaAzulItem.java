@@ -20,7 +20,12 @@ import java.util.List;
 
 public class CapsulaAzulItem extends Item {
     public CapsulaAzulItem() {
-        super(new Item.Properties());
+        super(new Properties());
+    }
+
+    @Override
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
+        return Component.translatable("item.dragonminez.blue_capsule");
     }
 
     @Override
