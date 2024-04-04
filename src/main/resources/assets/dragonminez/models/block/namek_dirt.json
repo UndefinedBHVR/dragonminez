@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "dragonminez:block/namek/namek_grass_down",
+    "up": "dragonminez:block/namek/namek_grass_down",
+    "north": "dragonminez:block/namek/namek_dirt",
+    "east": "dragonminez:block/namek/namek_dirt",
+    "south": "dragonminez:block/namek/namek_dirt",
+    "west": "dragonminez:block/namek/namek_dirt",
+    "particle": "dragonminez:block/namek/namek_dirt"
+  }
+}

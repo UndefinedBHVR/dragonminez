@@ -5,7 +5,7 @@
     "minecraft:stony_peaks"
   ],
   "spawners": {
-    "type": "dragonminec:dino",
+    "type": "dragonminez:dino",
     "weight": 150,
     "minCount": 1,
     "maxCount": 5

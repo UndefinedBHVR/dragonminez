@@ -13,10 +13,10 @@ import software.bernie.geckolib.util.RenderUtils;
 
 public class Dball4BlockEntity extends BlockEntity implements GeoBlockEntity {
 
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
     public Dball4BlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.DBALL4_BLOCK_ENTITY.get(), pPos, pBlockState);
+        super(MainBlockEntities.DBALL4_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
 
     @Override

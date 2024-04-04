@@ -3,14 +3,13 @@ package com.yuseix.dragonminez.init;
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public interface MainSounds {
 
-    DeferredRegister<SoundEvent> SONIDOS =
+    DeferredRegister<SoundEvent> SOUND_EVENTS_REGISTER =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, DragonMineZ.MOD_ID);
 
     RegistryObject<SoundEvent> GOLPE1 = registerSoundEvent("punch1");
@@ -24,10 +23,6 @@ public interface MainSounds {
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
-        return SONIDOS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
-    }
-
-    static void register(IEventBus busEvent) {
-        SONIDOS.register(busEvent);
+        return SOUND_EVENTS_REGISTER.register(name, () -> SoundEvent.createVariableRangeEvent(id));
     }
 }

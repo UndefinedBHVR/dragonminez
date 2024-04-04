@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "dragonminec:dball3"
+          "name": "dragonminez:dball3"
         }
       ],
       "conditions": [
@@ -17,5 +17,5 @@
       ]
     }
   ],
-  "random_sequence": "dragonminec:blocks/dball3"
+  "random_sequence": "dragonminez:blocks/dball3"
 }

@@ -24,9 +24,14 @@ public class CapsulaMoradaItem extends Item {
     }
 
     @Override
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
+        return Component.translatable("item.dragonminez.purple_capsule");
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
 
-        pTooltipComponents.add(Component.translatable("tooltip.capsule_morada").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.purple_capsule.tooltip").withStyle(ChatFormatting.GRAY));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
@@ -39,7 +44,7 @@ public class CapsulaMoradaItem extends Item {
         if (!pLevel.isClientSide) {
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addDefense(5));
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_morada.def").withStyle(ChatFormatting.GREEN), true);
+            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.purple_capsule.def.use").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);

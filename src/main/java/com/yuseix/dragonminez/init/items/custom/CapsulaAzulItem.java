@@ -20,12 +20,17 @@ import java.util.List;
 
 public class CapsulaAzulItem extends Item {
     public CapsulaAzulItem() {
-        super(new Item.Properties());
+        super(new Properties());
+    }
+
+    @Override
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
+        return Component.translatable("item.dragonminez.blue_capsule");
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.capsule_azul").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.blue_capsule.tooltip").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -36,7 +41,7 @@ public class CapsulaAzulItem extends Item {
         if (!pLevel.isClientSide) {
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addEnergy(5));
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_azul.ene").withStyle(ChatFormatting.GREEN), true);
+            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.blue_capsule.ene.use").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);

@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "dragonminec:namek_dirt"
+          "name": "dragonminez:namek_dirt"
         }
       ],
       "conditions": [
@@ -17,5 +17,5 @@
       ]
     }
   ],
-  "random_sequence": "dragonminec:blocks/namek_dirt"
+  "random_sequence": "dragonminez:blocks/namek_dirt"
 }

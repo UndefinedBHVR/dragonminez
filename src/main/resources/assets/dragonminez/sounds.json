@@ -1,0 +1,50 @@
+{
+  "punch1": {
+    "subtitle": "sounds.dragonminez.punch1",
+    "sounds": [
+      "dragonminez:golpe1"
+    ]
+  },
+  "punch2": {
+    "subtitle": "sounds.dragonminez.punch2",
+    "sounds": [
+      "dragonminez:golpe2"
+    ]
+  },
+  "punch3": {
+    "subtitle": "sounds.dragonminez.punch3",
+    "sounds": [
+      "dragonminez:golpe3"
+    ]
+  },
+  "punch4": {
+    "subtitle": "sounds.dragonminez.punch4",
+    "sounds": [
+      "dragonminez:golpe4"
+    ]
+  },
+  "punch5": {
+    "subtitle": "sounds.dragonminez.punch5",
+    "sounds": [
+      "dragonminez:golpe5"
+    ]
+  },
+  "punch6": {
+    "subtitle": "sounds.dragonminez.punch6",
+    "sounds": [
+      "dragonminez:golpe6"
+    ]
+  },
+  "critic_punch1": {
+    "subtitle": "sounds.dragonminez.critic_punch1",
+    "sounds": [
+      "dragonminez:critico1"
+    ]
+  },
+  "critic_punch2": {
+    "subtitle": "sounds.dragonminez.critic_punch2",
+    "sounds": [
+      "dragonminez:critico2"
+    ]
+  }
+}

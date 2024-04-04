@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -23,8 +24,13 @@ public class CapsulaRojaItem extends Item {
     }
 
     @Override
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
+        return Component.translatable("item.dragonminez.red_capsule");
+    }
+
+    @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.capsule_red").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.red_capsule.tooltip").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -35,7 +41,7 @@ public class CapsulaRojaItem extends Item {
         if (!pLevel.isClientSide) {
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addStrength(5));
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_red.str").withStyle(ChatFormatting.GREEN), true);
+            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.red_capsule.str.use").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);
