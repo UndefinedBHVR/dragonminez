@@ -59,7 +59,7 @@ public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, Main
 
         GeckoLib.initialize();
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminec-common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminez-common.toml");
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

@@ -10,7 +10,7 @@
           "children": [
             {
               "type": "minecraft:item",
-              "name": "dragonminec:namek_grass_block",
+              "name": "dragonminez:namek_grass_block",
               "conditions": [
                 {
                   "condition": "minecraft:match_tool",
@@ -29,7 +29,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "dragonminec:namek_dirt",
+              "name": "dragonminez:namek_dirt",
               "conditions": [
                 {
                   "condition": "minecraft:survives_explosion"
@@ -41,5 +41,5 @@
       ]
     }
   ],
-  "random_sequence": "dragonminec:blocks/namek_grass_block"
+  "random_sequence": "dragonminez:blocks/namek_grass_block"
 }

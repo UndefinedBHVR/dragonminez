@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0":"dragonminec:item/capsula_azul"
+    "layer0":"dragonminez:item/capsula_azul"
   }
 }

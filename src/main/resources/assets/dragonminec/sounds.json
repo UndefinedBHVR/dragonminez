@@ -1,50 +1,50 @@
 {
   "punch1": {
-    "subtitle": "sounds.dragonminec.punch1",
+    "subtitle": "sounds.dragonminez.punch1",
     "sounds": [
-      "dragonminec:golpe1"
+      "dragonminez:golpe1"
     ]
   },
   "punch2": {
-    "subtitle": "sounds.dragonminec.punch2",
+    "subtitle": "sounds.dragonminez.punch2",
     "sounds": [
-      "dragonminec:golpe2"
+      "dragonminez:golpe2"
     ]
   },
   "punch3": {
-    "subtitle": "sounds.dragonminec.punch3",
+    "subtitle": "sounds.dragonminez.punch3",
     "sounds": [
-      "dragonminec:golpe3"
+      "dragonminez:golpe3"
     ]
   },
   "punch4": {
-    "subtitle": "sounds.dragonminec.punch4",
+    "subtitle": "sounds.dragonminez.punch4",
     "sounds": [
-      "dragonminec:golpe4"
+      "dragonminez:golpe4"
     ]
   },
   "punch5": {
-    "subtitle": "sounds.dragonminec.punch5",
+    "subtitle": "sounds.dragonminez.punch5",
     "sounds": [
-      "dragonminec:golpe5"
+      "dragonminez:golpe5"
     ]
   },
   "punch6": {
-    "subtitle": "sounds.dragonminec.punch6",
+    "subtitle": "sounds.dragonminez.punch6",
     "sounds": [
-      "dragonminec:golpe6"
+      "dragonminez:golpe6"
     ]
   },
   "critic_punch1": {
-    "subtitle": "sounds.dragonminec.critic_punch1",
+    "subtitle": "sounds.dragonminez.critic_punch1",
     "sounds": [
-      "dragonminec:critico1"
+      "dragonminez:critico1"
     ]
   },
   "critic_punch2": {
-    "subtitle": "sounds.dragonminec.critic_punch2",
+    "subtitle": "sounds.dragonminez.critic_punch2",
     "sounds": [
-      "dragonminec:critico2"
+      "dragonminez:critico2"
     ]
   }
 }

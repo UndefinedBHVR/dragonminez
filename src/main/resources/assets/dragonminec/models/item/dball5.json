@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0":"dragonminec:item/esfera5estrellas"
+    "layer0":"dragonminez:item/esfera5estrellas"
   }
 }

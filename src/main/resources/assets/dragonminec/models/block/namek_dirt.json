@@ -1,12 +1,12 @@
 {
   "parent": "block/cube",
   "textures": {
-    "down": "dragonminec:block/namek/namek_grass_down",
-    "up": "dragonminec:block/namek/namek_grass_down",
-    "north": "dragonminec:block/namek/namek_dirt",
-    "east": "dragonminec:block/namek/namek_dirt",
-    "south": "dragonminec:block/namek/namek_dirt",
-    "west": "dragonminec:block/namek/namek_dirt",
-    "particle": "dragonminec:block/namek/namek_dirt"
+    "down": "dragonminez:block/namek/namek_grass_down",
+    "up": "dragonminez:block/namek/namek_grass_down",
+    "north": "dragonminez:block/namek/namek_dirt",
+    "east": "dragonminez:block/namek/namek_dirt",
+    "south": "dragonminez:block/namek/namek_dirt",
+    "west": "dragonminez:block/namek/namek_dirt",
+    "particle": "dragonminez:block/namek/namek_dirt"
   }
 }
