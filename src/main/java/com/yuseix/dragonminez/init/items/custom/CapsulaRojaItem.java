@@ -24,7 +24,7 @@ public class CapsulaRojaItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.capsule_red").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.red_capsule.tooltip").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CapsulaRojaItem extends Item {
         if (!pLevel.isClientSide) {
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addStrength(5));
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_red.str").withStyle(ChatFormatting.GREEN), true);
+            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.red_capsule.str.use").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);

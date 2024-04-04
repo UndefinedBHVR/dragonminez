@@ -25,7 +25,7 @@ public class CapsulaVerdeItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
-        pTooltipComponents.add(Component.translatable("tooltip.capsule_verde").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.green_capsule.tooltip").withStyle(ChatFormatting.GRAY));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
@@ -41,7 +41,7 @@ public class CapsulaVerdeItem extends Item {
                 stats.addStam(5);
             });
 
-            pPlayer.displayClientMessage(Component.translatable("capsule_verde.con").withStyle(ChatFormatting.GREEN), true);
+            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.green_capsule.con.use").withStyle(ChatFormatting.GREEN), true);
         }
 
         capsula.shrink(1);

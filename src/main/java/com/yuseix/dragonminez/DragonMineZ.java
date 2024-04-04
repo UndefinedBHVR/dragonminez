@@ -16,7 +16,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,11 +47,11 @@ public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, Main
         MainBlocks.BLOCK_REGISTER.register(modEventBus);
         //Registramos la nueva TAB del Creativo
         MainTabs.CREATIVE_TABS_REGISTER.register(modEventBus);
-
+        //Registramos las entidades de los bloques
         MainBlockEntities.BLOCK_ENTITY_TYPES_REGISTER.register(modEventBus);
-
+        //Registramos los sonidos
         MainSounds.SOUND_EVENTS_REGISTER.register(modEventBus);
-
+        //Registramos las entidades
         MainEntity.ENTITY_TYPES_REGISTER.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -60,10 +59,6 @@ public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, Main
         GeckoLib.initialize();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminez-common.toml");
-
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -75,10 +70,6 @@ public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, Main
 
             ModMessages.register();
         });
-    }
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-
     }
 
     @SubscribeEvent

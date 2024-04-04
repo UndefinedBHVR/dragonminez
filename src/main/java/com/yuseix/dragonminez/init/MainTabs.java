@@ -11,13 +11,14 @@ import net.minecraftforge.registries.RegistryObject;
 @SuppressWarnings("unused")
 public interface MainTabs {
 
+    //Creative Mode Tabs
     DeferredRegister<CreativeModeTab> CREATIVE_TABS_REGISTER =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, DragonMineZ.MOD_ID);
 
     RegistryObject<CreativeModeTab> BLOQUES_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_BLOCK.get()))
 
-                    .title(Component.translatable("creativetab.dragonmineztab"))
+                    .title(Component.translatable("itemGroup.dragonminez.blocks"))
 
                     .displayItems((parameters, output) -> {
                         //Dragon Balls
@@ -40,7 +41,7 @@ public interface MainTabs {
     RegistryObject<CreativeModeTab> ITEMS_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.POTHALA_RIGHT.get()))
 
-                    .title(Component.translatable("creativetab.dragonminezitemstab"))
+                    .title(Component.translatable("itemGroup.dragonminez.items"))
 
                     .displayItems((parameters, output) -> {
                         output.accept(MainItems.POTHALA_RIGHT.get());
