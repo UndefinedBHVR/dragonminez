@@ -49,11 +49,11 @@ public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, Main
         //Registramos la nueva TAB del Creativo
         MainTabs.CREATIVE_TABS_REGISTER.register(modEventBus);
 
-        MainBlockEntities.register(modEventBus);
+        MainBlockEntities.BLOCK_ENTITY_TYPES_REGISTER.register(modEventBus);
 
-        MainSounds.register(modEventBus);
+        MainSounds.SOUND_EVENTS_REGISTER.register(modEventBus);
 
-        MainEntity.register(modEventBus);
+        MainEntity.ENTITY_TYPES_REGISTER.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 

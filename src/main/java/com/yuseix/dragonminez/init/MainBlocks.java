@@ -38,7 +38,6 @@ public interface MainBlocks {
             ));
 
     //DRAGON BALLS
-    //TODO: Custom Particles para las Dragon Balls
     RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
@@ -82,10 +81,10 @@ public interface MainBlocks {
                     .noParticlesOnBreak()
             ));
 
-    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
-        RegistryObject<Block> registeredObject = BLOCK_REGISTER.register(name, block);
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> supplier) {
+        RegistryObject<Block> registeredObject = BLOCK_REGISTER.register(name, supplier);
         //Registramos bloques como items también
-        MainItems.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        MainItems.ITEM_REGISTER.register(name, () -> new BlockItem(registeredObject.get(), new Item.Properties()));
         return registeredObject;
     }
 }
