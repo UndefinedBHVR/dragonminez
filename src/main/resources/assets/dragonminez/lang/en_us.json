@@ -28,7 +28,7 @@
   "item.dragonminez.red_capsule.str.use": "+5 Strength",
   "item.dragonminez.green_capsule.con.use": "+5 Constitution",
   "item.dragonminez.orange_capsule.pow.use": "+5 Ki Power",
-  "item.dragonminez.blue_capsule.ene.use": "+5 Max Ki",
+  "item.dragonminez.blue_capsule.ene.use": "+5 Energy",
   "item.dragonminez.purple_capsule.def.use": "+5 Defense",
   "item.dragonminez.red_capsule.tooltip": "\u00A77Gives you \u00A7a+5 STR \u00A77stat points to your attributes.",
   "item.dragonminez.green_capsule.tooltip": "\u00A77Gives you \u00A7a+5 CON \u00A77stat points.",
