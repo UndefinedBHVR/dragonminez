@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
-import com.yuseix.dragonminez.init.blocks.entity.ModBlockEntities;
+import com.yuseix.dragonminez.init.blocks.entity.MainBlockEntities;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
 
 @Mod(DragonMineZ.MOD_ID)
-public class DragonMineZ implements ModBlockEntities, MainItems, MainTabs, MainBlocks, MainSounds, MainEntity {
+public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, MainBlocks, MainSounds, MainEntity {
 
     public static final String MOD_ID = "dragonminez";
 
@@ -42,12 +42,14 @@ public class DragonMineZ implements ModBlockEntities, MainItems, MainTabs, MainB
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        MainItems.register(modEventBus);
+        //Registramos Items
+        MainItems.ITEM_REGISTER.register(modEventBus);
+        //Registramos Bloques
+        MainBlocks.BLOCK_REGISTER.register(modEventBus);
+        //Registramos la nueva TAB del Creativo
+        MainTabs.CREATIVE_TABS_REGISTER.register(modEventBus);
 
-        MainTabs.register(modEventBus);
-
-        MainBlocks.register(modEventBus);
-        ModBlockEntities.register(modEventBus);
+        MainBlockEntities.register(modEventBus);
 
         MainSounds.register(modEventBus);
 
@@ -81,7 +83,7 @@ public class DragonMineZ implements ModBlockEntities, MainItems, MainTabs, MainB
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
+        // Hacer algo cuando el servidor empiece???
         LOGGER.info("HELLO from server starting");
     }
 
@@ -93,13 +95,13 @@ public class DragonMineZ implements ModBlockEntities, MainItems, MainTabs, MainB
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
 
             //BLOQUES
-            BlockEntityRenderers.register(ModBlockEntities.DBALL1_BLOCK_ENTITY.get(), Dball1BlockRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.DBALL2_BLOCK_ENTITY.get(), Dball2BlockRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.DBALL3_BLOCK_ENTITY.get(), Dball3BlockRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.DBALL4_BLOCK_ENTITY.get(), Dball4BlockRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.DBALL5_BLOCK_ENTITY.get(), Dball5BlockRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
-            BlockEntityRenderers.register(ModBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL1_BLOCK_ENTITY.get(), Dball1BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL2_BLOCK_ENTITY.get(), Dball2BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL3_BLOCK_ENTITY.get(), Dball3BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL4_BLOCK_ENTITY.get(), Dball4BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL5_BLOCK_ENTITY.get(), Dball5BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
+            BlockEntityRenderers.register(MainBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
 
         }
 

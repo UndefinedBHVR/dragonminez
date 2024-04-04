@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -18,9 +17,10 @@ import java.util.function.Supplier;
 
 public interface MainBlocks {
 
-    DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, DragonMineZ.MOD_ID);
+    DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, DragonMineZ.MOD_ID);
 
     //BLOQUE
+    //TODO: SFX Para Bloques Custom
     RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
 
@@ -37,61 +37,55 @@ public interface MainBlocks {
                     .noCollission()
             ));
 
-
-    RegistryObject<Block> DBALL1_BLOCK = BLOCKS.register("dball1",
+    //DRAGON BALLS
+    //TODO: Custom Particles para las Dragon Balls
+    RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
-    RegistryObject<Block> DBALL2_BLOCK = BLOCKS.register("dball2",
+    RegistryObject<Block> DBALL2_BLOCK = BLOCK_REGISTER.register("dball2",
             () -> new Dball2Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
-    RegistryObject<Block> DBALL3_BLOCK = BLOCKS.register("dball3",
+    RegistryObject<Block> DBALL3_BLOCK = BLOCK_REGISTER.register("dball3",
             () -> new Dball3Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
-    RegistryObject<Block> DBALL4_BLOCK = BLOCKS.register("dball4",
+    RegistryObject<Block> DBALL4_BLOCK = BLOCK_REGISTER.register("dball4",
             () -> new Dball4Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
-    RegistryObject<Block> DBALL5_BLOCK = BLOCKS.register("dball5",
+    RegistryObject<Block> DBALL5_BLOCK = BLOCK_REGISTER.register("dball5",
             () -> new Dball5Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
-    RegistryObject<Block> DBALL6_BLOCK = BLOCKS.register("dball6",
+    RegistryObject<Block> DBALL6_BLOCK = BLOCK_REGISTER.register("dball6",
             () -> new Dball6Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
-    RegistryObject<Block> DBALL7_BLOCK = BLOCKS.register("dball7",
+    RegistryObject<Block> DBALL7_BLOCK = BLOCK_REGISTER.register("dball7",
             () -> new Dball7Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK)
                     .noOcclusion()
                     .lightLevel(value -> 15)
                     .noParticlesOnBreak()
             ));
 
-    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
-        RegistryObject<T> toReturn = BLOCKS.register(name, block);
-        registerBlockItem(name, toReturn);
-        return toReturn;
-    }
-
-    private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
-        MainItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
-    }
-
-    static void register(IEventBus bus) {
-        BLOCKS.register(bus);
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> block) {
+        RegistryObject<Block> registeredObject = BLOCK_REGISTER.register(name, block);
+        //Registramos bloques como items también
+        MainItems.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return registeredObject;
     }
 }
