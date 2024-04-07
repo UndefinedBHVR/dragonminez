@@ -22,6 +22,8 @@
   "item.dragonminez.orange_capsule": "Capsule (POW)",
   "item.dragonminez.blue_capsule": "Capsule (ENE)",
   "item.dragonminez.purple_capsule": "Capsule (DEF)",
+  "item.dragonminez.comida_dino_raw": "Dino Raw Food",
+  "item.dragonminez.comida_dino_cooked": "Dino Cooked Food",
   "key.category.dragonminez.category": "DragonMine Z",
   "key.dragonminez.menu_stats": "Menu",
   "menu.title.dragonminez.statsmenu": "",
