@@ -53,5 +53,7 @@ public interface MainTabs {
                         output.accept(MainItems.CAPSULA_ANARANJADA.get());
                         output.accept(MainItems.CAPSULA_AZUL.get());
                         output.accept(MainItems.CAPSULA_MORADA.get());
+                        output.accept(MainItems.COMIDA_DINO_RAW.get());
+                        output.accept(MainItems.COMIDA_DINO_COOKED.get());
                     }).build());
 }

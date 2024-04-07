@@ -13,16 +13,11 @@ public interface MainItems {
     DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, DragonMineZ.MOD_ID);
 
     //CAPSULAS
-    RegistryObject<Item> CAPSULA_ROJA =
-            ITEM_REGISTER.register("capsula_roja", CapsulaRojaItem::new);
-    RegistryObject<Item> CAPSULA_VERDE =
-            ITEM_REGISTER.register("capsula_verde", CapsulaVerdeItem::new);
-    RegistryObject<Item> CAPSULA_ANARANJADA =
-            ITEM_REGISTER.register("capsula_anaranjada", CapsulaNaranjaItem::new);
-    RegistryObject<Item> CAPSULA_AZUL =
-            ITEM_REGISTER.register("capsula_azul", CapsulaAzulItem::new);
-    RegistryObject<Item> CAPSULA_MORADA =
-            ITEM_REGISTER.register("capsula_morada", CapsulaMoradaItem::new);
+    RegistryObject<Item> CAPSULA_ROJA = ITEM_REGISTER.register("capsula_roja", CapsulaRojaItem::new);
+    RegistryObject<Item> CAPSULA_VERDE = ITEM_REGISTER.register("capsula_verde", CapsulaVerdeItem::new);
+    RegistryObject<Item> CAPSULA_ANARANJADA = ITEM_REGISTER.register("capsula_anaranjada", CapsulaNaranjaItem::new);
+    RegistryObject<Item> CAPSULA_AZUL = ITEM_REGISTER.register("capsula_azul", CapsulaAzulItem::new);
+    RegistryObject<Item> CAPSULA_MORADA = ITEM_REGISTER.register("capsula_morada", CapsulaMoradaItem::new);
 
     //POTHALAS
     RegistryObject<Item> POTHALA_RIGHT =
@@ -78,4 +73,8 @@ public interface MainItems {
                     .stacksTo(1)
                     .fireResistant()
             ));
+
+    //COMIDA
+    RegistryObject<Item> COMIDA_DINO_RAW = ITEM_REGISTER.register("comida_dino_raw", ComidaDinoRaw::new);
+    RegistryObject<Item> COMIDA_DINO_COOKED = ITEM_REGISTER.register("comida_dino_cooked", ComidaDinoCooked::new);
 }
