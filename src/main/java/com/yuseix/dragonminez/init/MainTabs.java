@@ -55,5 +55,6 @@ public interface MainTabs {
                         output.accept(MainItems.CAPSULA_MORADA.get());
                         output.accept(MainItems.COMIDA_DINO_RAW.get());
                         output.accept(MainItems.COMIDA_DINO_COOKED.get());
+                        output.accept(MainItems.SENZU_BEAN.get());
                     }).build());
 }
