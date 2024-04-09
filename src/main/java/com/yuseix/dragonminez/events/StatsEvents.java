@@ -3,12 +3,16 @@ package com.yuseix.dragonminez.events;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.LayerDMZBase;
 import com.yuseix.dragonminez.character.LayerDMZPost;
+import com.yuseix.dragonminez.character.models.ModeloPrueba;
+import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -476,6 +480,7 @@ public class StatsEvents {
 
     }
 
+    /*
     @SubscribeEvent
     public static void changeSizePRE(RenderPlayerEvent.Pre event) {
 
@@ -514,13 +519,30 @@ public class StatsEvents {
 
     }
 
+    */
 
     @SubscribeEvent
     public static void nose(RenderPlayerEvent.Pre event) {
-        event.getRenderer().addLayer(new LayerDMZBase(event.getRenderer()));
+       //event.getRenderer().addLayer(new LayerDMZBase(event.getRenderer()));
+        event.setCanceled(true);
 
     }
+    @SubscribeEvent
+    public static void wa(RenderPlayerEvent.Pre event) {
 
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,event.getEntity()).ifPresent(cap -> {
+
+            if(cap.getBodytype() == 1){
+
+                float rot = Mth.rotLerp(event.getEntity().yRotO, event.getEntity().getYRot(), event.getPartialTick());
+
+                RenderPrueba.INSTANCE.render( (AbstractClientPlayer)event.getEntity(),rot, event.getPartialTick(),event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight());
+
+            }
+
+        });
+
+    }
 
     @SubscribeEvent
     public static void changeSizePOST(RenderPlayerEvent.Post event) {

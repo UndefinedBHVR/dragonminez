@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
 
 @Mod(DragonMineZ.MOD_ID)
-public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, MainBlocks, MainSounds, MainEntity {
+public class DragonMineZ {
 
     public static final String MOD_ID = "dragonminez";
 
@@ -42,17 +42,17 @@ public class DragonMineZ implements MainBlockEntities, MainItems, MainTabs, Main
         modEventBus.addListener(this::commonSetup);
 
         //Registramos Items
-        MainItems.ITEM_REGISTER.register(modEventBus);
+        MainItems.register(modEventBus);
         //Registramos Bloques
-        MainBlocks.BLOCK_REGISTER.register(modEventBus);
+        MainBlocks.register(modEventBus);
         //Registramos la nueva TAB del Creativo
-        MainTabs.CREATIVE_TABS_REGISTER.register(modEventBus);
+        MainTabs.register(modEventBus);
         //Registramos las entidades de los bloques
-        MainBlockEntities.BLOCK_ENTITY_TYPES_REGISTER.register(modEventBus);
+        MainBlockEntities.register(modEventBus);
         //Registramos los sonidos
-        MainSounds.SOUND_EVENTS_REGISTER.register(modEventBus);
+        MainSounds.register(modEventBus);
         //Registramos las entidades
-        MainEntity.ENTITY_TYPES_REGISTER.register(modEventBus);
+        MainEntity.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 
