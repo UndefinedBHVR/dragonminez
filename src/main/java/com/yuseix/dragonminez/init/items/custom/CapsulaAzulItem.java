@@ -31,6 +31,7 @@ public class CapsulaAzulItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.dragonminez.blue_capsule.tooltip").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.blue_capsule.tooltip2").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
     }
 
     @Override
