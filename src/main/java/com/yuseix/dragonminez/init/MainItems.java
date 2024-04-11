@@ -14,16 +14,16 @@ public class MainItems {
     public static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, DragonMineZ.MOD_ID);
 
     //CAPSULAS
-    public static final RegistryObject<Item> CAPSULA_ROJA =
-            ITEM_REGISTER.register("capsula_roja", CapsulaRojaItem::new);
-    public static final RegistryObject<Item> CAPSULA_VERDE =
-            ITEM_REGISTER.register("capsula_verde", CapsulaVerdeItem::new);
-    public static final RegistryObject<Item> CAPSULA_ANARANJADA =
-            ITEM_REGISTER.register("capsula_anaranjada", CapsulaNaranjaItem::new);
-    public static final RegistryObject<Item> CAPSULA_AZUL =
-            ITEM_REGISTER.register("capsula_azul", CapsulaAzulItem::new);
-    public static final RegistryObject<Item> CAPSULA_MORADA =
-            ITEM_REGISTER.register("capsula_morada", CapsulaMoradaItem::new);
+    public static final RegistryObject<Item> CAPSULA_ROJA = ITEM_REGISTER.register("capsula_roja", CapsulaRojaItem::new);
+    public static final RegistryObject<Item> CAPSULA_VERDE = ITEM_REGISTER.register("capsula_verde", CapsulaVerdeItem::new);
+    public static final RegistryObject<Item> CAPSULA_ANARANJADA = ITEM_REGISTER.register("capsula_anaranjada", CapsulaNaranjaItem::new);
+    public static final RegistryObject<Item> CAPSULA_AZUL = ITEM_REGISTER.register("capsula_azul", CapsulaAzulItem::new);
+    public static final RegistryObject<Item> CAPSULA_MORADA = ITEM_REGISTER.register("capsula_morada", CapsulaMoradaItem::new);
+
+    //COMIDA
+    public static final RegistryObject<Item> SENZU_BEAN = ITEM_REGISTER.register("senzu_bean", SenzuBean::new);
+    public static final RegistryObject<Item> COMIDA_DINO_RAW = ITEM_REGISTER.register("comida_dino_raw", ComidaDinoRaw::new);
+    public static final RegistryObject<Item> COMIDA_DINO_COOKED = ITEM_REGISTER.register("comida_dino_cooked", ComidaDinoCooked::new);
 
     //POTHALAS
     public static final RegistryObject<Item> POTHALA_RIGHT =
@@ -79,6 +79,7 @@ public class MainItems {
                     .stacksTo(1)
                     .fireResistant()
             ));
+
     public static void register(IEventBus bus) {
         ITEM_REGISTER.register(bus);
     }
