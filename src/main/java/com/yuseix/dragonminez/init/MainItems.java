@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.items.custom.*;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -45,37 +46,37 @@ public class MainItems {
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
-            () -> new DbBallBlockItem(MainBlocks.DBALL1_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL1_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL2_BLOCK_ITEM = ITEM_REGISTER.register("dball2",
-            () -> new DbBallBlockItem(MainBlocks.DBALL2_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL2_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL3_BLOCK_ITEM = ITEM_REGISTER.register("dball3",
-            () -> new DbBallBlockItem(MainBlocks.DBALL3_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL3_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL4_BLOCK_ITEM = ITEM_REGISTER.register("dball4",
-            () -> new DbBallBlockItem(MainBlocks.DBALL4_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL4_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL5_BLOCK_ITEM = ITEM_REGISTER.register("dball5",
-            () -> new DbBallBlockItem(MainBlocks.DBALL5_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL5_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL6_BLOCK_ITEM = ITEM_REGISTER.register("dball6",
-            () -> new DbBallBlockItem(MainBlocks.DBALL6_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL6_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL7_BLOCK_ITEM = ITEM_REGISTER.register("dball7",
-            () -> new DbBallBlockItem(MainBlocks.DBALL7_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL7_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
