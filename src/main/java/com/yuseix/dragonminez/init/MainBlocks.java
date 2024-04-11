@@ -30,7 +30,7 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
 
 
-    //plantas
+    //PLANTAS
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
                     .noOcclusion()
@@ -42,53 +42,44 @@ public class MainBlocks {
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
     public static final RegistryObject<Block> DBALL2_BLOCK = BLOCK_REGISTER.register("dball2",
             () -> new Dball2Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
     public static final RegistryObject<Block> DBALL3_BLOCK = BLOCK_REGISTER.register("dball3",
             () -> new Dball3Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
     public static final RegistryObject<Block> DBALL4_BLOCK = BLOCK_REGISTER.register("dball4",
             () -> new Dball4Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
     public static final RegistryObject<Block> DBALL5_BLOCK = BLOCK_REGISTER.register("dball5",
             () -> new Dball5Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
     public static final RegistryObject<Block> DBALL6_BLOCK = BLOCK_REGISTER.register("dball6",
             () -> new Dball6Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
     public static final RegistryObject<Block> DBALL7_BLOCK = BLOCK_REGISTER.register("dball7",
             () -> new Dball7Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
                     .lightLevel(value -> 15)
-                    .noParticlesOnBreak()
             ));
 
-    private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
-        RegistryObject<T> toReturn = BLOCK_REGISTER.register(name, block);
-        registerBlockItem(name, toReturn);
-        return toReturn;
-    }
-
-    private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
-        MainItems.ITEM_REGISTER.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    private static RegistryObject<Block> registerBlock(String name, Supplier<Block> supplier) {
+        RegistryObject<Block> registeredObject = BLOCK_REGISTER.register(name, supplier);
+        //Registramos bloques como items también
+        //Nota: No se usa el método MainItems.register() porque los bloques no son un evento BUS; se registra el bloque como item aquí.
+        MainItems.ITEM_REGISTER.register(name, () -> new BlockItem(registeredObject.get(), new Item.Properties()));
+        return registeredObject;
     }
 
     public static void register(IEventBus bus) {
