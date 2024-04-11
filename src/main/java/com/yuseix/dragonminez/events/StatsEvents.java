@@ -8,12 +8,16 @@ import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -522,33 +526,26 @@ public class StatsEvents {
     */
 
     @SubscribeEvent
-    public static void nose(RenderPlayerEvent.Pre event) {
-       //event.getRenderer().addLayer(new LayerDMZBase(event.getRenderer()));
-        event.setCanceled(true);
-
-    }
-    @SubscribeEvent
     public static void wa(RenderPlayerEvent.Pre event) {
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,event.getEntity()).ifPresent(cap -> {
+        event.setCanceled(true);
 
-            if(cap.getBodytype() == 1){
+        Minecraft mc = Minecraft.getInstance();
 
-                float rot = Mth.rotLerp(event.getEntity().yRotO, event.getEntity().getYRot(), event.getPartialTick());
+        RenderPrueba wa = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
 
-                RenderPrueba.INSTANCE.render( (AbstractClientPlayer)event.getEntity(),rot, event.getPartialTick(),event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight());
+        wa.render((AbstractClientPlayer) event.getEntity(),event.getEntity().getYRot(),event.getPartialTick(),event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight());
 
-            }
 
-        });
 
     }
+
 
     @SubscribeEvent
     public static void changeSizePOST(RenderPlayerEvent.Post event) {
 
         event.getPoseStack().popPose();
-        event.getRenderer().addLayer(new LayerDMZPost(event.getRenderer()));
+        //event.getRenderer().addLayer(new LayerDMZPost(event.getRenderer()));
     }
 
     private static double getEnergyToRemove(int level) {

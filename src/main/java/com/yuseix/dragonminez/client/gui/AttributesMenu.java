@@ -13,9 +13,12 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttributesMenu extends Screen implements RenderEntityInv {
+
 
     private final List<AbstractWidget> botones = new ArrayList<>();
 
@@ -174,36 +178,36 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             int LTITULO = posX +195;
             int RTITULO = posX - 80;
-            int LSUBTITULO = posX + 155;
-            int RSUBTITULO = posX - 12;
-            int LDESC = posX - 60;
-            int RDESC = posX + 245;
+            int LSUBTITULO = posX + 158;
+            int RSUBTITULO = posX - 158;
+            int LDESC = posX + 245;
+            int RDESC = posX - 30;
 
             //SUBIR STATS
             //Pos cambiada a -140 de -250 por motivos de cambio de resoluciones para adaptar
             graphics.blit(menu, posX - 140, posY, 0, 0, 148, 221);
-            graphics.drawString(font, ChatFormatting.BOLD + "STATS", LTITULO, posY + 22, 0xFCC3C3, true);
+            graphics.drawString(this.font.self(), ChatFormatting.BOLD + "STATS", LTITULO, posY + 22, 0xFCC3C3, true);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "ZPoints: ", LSUBTITULO, posY + 35, 0xFFFFFF, true);
-            graphics.drawString(font, String.valueOf(zpoints), posX - 45, posY + 30, 0xFFE800, false);
+            graphics.drawString(Minecraft.getInstance().fontFilterFishy, ChatFormatting.BOLD + "ZPoints: ", LSUBTITULO, posY + 38, 0xFFFFFF, true);
+            graphics.drawString(font, String.valueOf(zpoints), posX - 45, posY + 38, 0xFFE800, false);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "STR: ", LSUBTITULO, posY + 45, 0x320C0C, true);
-            graphics.drawString(font, String.valueOf(str), LDESC, posY + 45, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "STR: ", LSUBTITULO, posY + 50, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(str), LDESC, posY + 50, 0xBB1C2A, false);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "DEF: ", LSUBTITULO, posY + 60, 0x320C0C, true);
-            graphics.drawString(font, String.valueOf(def), LDESC, posY + 60, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "DEF: ", LSUBTITULO, posY + 65, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(def), LDESC, posY + 65, 0xBB1C2A, false);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "CON: ", LSUBTITULO, posY + 75, 0x320C0C, true);
-            graphics.drawString(font, String.valueOf(con), LDESC, posY + 75, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "CON: ", LSUBTITULO, posY + 80, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(con), LDESC, posY + 80, 0xBB1C2A, false);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "POW: ", LSUBTITULO, posY + 90, 0x320C0C, true);
-            graphics.drawString(font, String.valueOf(kipower), LDESC, posY + 90, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "POW: ", LSUBTITULO, posY + 95, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(kipower), LDESC, posY + 95, 0xBB1C2A, false);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "ENE: ", LSUBTITULO, posY + 105, 0x320C0C, true);
-            graphics.drawString(font, String.valueOf(energy), LDESC, posY + 105, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "ENE: ", LSUBTITULO, posY + 110, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(energy), LDESC, posY + 110, 0xBB1C2A, false);
 
-            graphics.drawString(font, ChatFormatting.BOLD + "ZPCost: ", LSUBTITULO, posY + 120, 0xF0B61E, true);
-            graphics.drawString(font, String.valueOf(zCost), posX - 45, posY + 120, 0xFFE800, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "ZPCost: ", LSUBTITULO, posY + 125, 0xF0B61E, true);
+            graphics.drawString(font, String.valueOf(zCost), posX - 45, posY + 125, 0xFFE800, false);
 
             //STATS
             graphics.blit(menu2, posX + 140, posY, 0, 0, 147, 163);

@@ -2,14 +2,20 @@ package com.yuseix.dragonminez;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.FaceModel;
+import com.yuseix.dragonminez.character.models.ModeloPrueba;
+import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.blocks.entity.MainBlockEntities;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.network.ModMessages;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -96,10 +102,12 @@ public class DragonMineZ {
 
         }
 
-        @SubscribeEvent
+
+            @SubscribeEvent
         public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
             e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
+            e.registerLayerDefinition(ModeloPrueba.LAYER_LOCATION, ModeloPrueba::createBodyLayer);
         }
 
 
