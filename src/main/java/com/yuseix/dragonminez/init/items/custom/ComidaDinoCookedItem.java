@@ -6,8 +6,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class ComidaDinoCooked extends Item {
-    public ComidaDinoCooked() {
+public class ComidaDinoCookedItem extends Item {
+    public ComidaDinoCookedItem() {
         super(new Properties().food(
                 new FoodProperties.Builder()
                         .nutrition(6)
