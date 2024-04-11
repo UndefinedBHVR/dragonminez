@@ -81,7 +81,7 @@ public class DragonMineZ {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Hacer algo cuando el servidor empiece???
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("HOLA SOY DRAGON BLOCK TEST UWU");
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

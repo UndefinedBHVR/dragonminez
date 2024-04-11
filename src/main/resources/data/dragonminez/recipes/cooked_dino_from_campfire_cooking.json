@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "dragonminez:comida_dino_raw"
+  },
+  "result": "dragonminez:comida_dino_cooked"
+}

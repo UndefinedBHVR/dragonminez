@@ -79,7 +79,6 @@ public class MainItems {
                     .stacksTo(1)
                     .fireResistant()
             ));
-
     public static void register(IEventBus bus) {
         ITEM_REGISTER.register(bus);
     }
