@@ -23,7 +23,7 @@ public class SenzuBeanItem extends Item {
 
     @Override
     public @NotNull Component getName(@NotNull ItemStack pStack) {
-        return Component.translatable("item.dragonminez.comida_dino_raw");
+        return Component.translatable("item.dragonminez.senzu_bean");
     }
 
     //TODO: Crear sonido distinto para la Senzu Bean?
