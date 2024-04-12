@@ -57,6 +57,7 @@ public class MainTabs {
                         output.accept(MainItems.COMIDA_DINO_RAW.get());
                         output.accept(MainItems.COMIDA_DINO_COOKED.get());
                         output.accept(MainItems.SENZU_BEAN.get());
+                        output.accept(MainItems.MIGHT_TREE_FRUIT.get());
                     }).build());
 
     public static void register(IEventBus bus) {
