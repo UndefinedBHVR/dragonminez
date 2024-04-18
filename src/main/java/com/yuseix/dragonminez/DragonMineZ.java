@@ -3,6 +3,7 @@ package com.yuseix.dragonminez;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.character.models.ModeloPrueba;
+import com.yuseix.dragonminez.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
@@ -108,7 +109,9 @@ public class DragonMineZ {
             e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
             e.registerLayerDefinition(ModeloPrueba.LAYER_LOCATION, ModeloPrueba::createBodyLayer);
-        }
+                e.registerLayerDefinition(BioAndroidModel.LAYER_LOCATION, BioAndroidModel::createBodyLayer);
+
+            }
 
 
     }

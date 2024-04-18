@@ -34,5 +34,25 @@
   "item.dragonminez.green_capsule.tooltip": "\u00A77Gives you \u00A7a+5 CON \u00A77stat points.",
   "item.dragonminez.orange_capsule.tooltip": "\u00A77Gives you \u00A7a+5 POW \u00A77stat points.",
   "item.dragonminez.blue_capsule.tooltip": "\u00A77Gives you \u00A7a+5 ENE \u00A77stat points.",
-  "item.dragonminez.purple_capsule.tooltip": "\u00A77Gives you \u00A7a+5 DEF \u00A77stat points."
+  "item.dragonminez.purple_capsule.tooltip": "\u00A77Gives you \u00A7a+5 DEF \u00A77stat points.",
+
+
+  "dmz.races.name.human": "Human",
+  "dmz.races.name.saiyan": "Saiyan",
+  "dmz.races.name.namek": "Namekian",
+  "dmz.races.name.bioandroid": "Bio-Android",
+  "dmz.races.name.colddemon": "Cold Demon",
+  "dmz.races.name.majin": "Majin",
+  "dmz.ccreation.name": "Character Creation",
+  "dmz.ccreation.race": "RACE",
+  "dmz.ccreation.bodytype": "BODYTYPE",
+  "dmz.ccreation.eyetype": "EYETYPE",
+
+  "dmz.races.body0.hum": "Default",
+  "dmz.races.body1.hum": "Custom",
+  "dmz.races.body0.sai": "Default",
+  "dmz.races.body1.sai": "Custom",
+
+  "dmz.races.eye0.saihum": "Default",
+  "dmz.races.eye1.saihum": "Type 1"
 }

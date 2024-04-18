@@ -2,7 +2,9 @@ package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
+import com.yuseix.dragonminez.client.gui.CharacterCMenu;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
+import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminez.utils.KeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -25,6 +27,9 @@ public class ClientEvents {
 
         }
 
+
+
+
         @SubscribeEvent
         public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
             if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
@@ -39,7 +44,8 @@ public class ClientEvents {
     public static class ClientModBusEvents {
         @SubscribeEvent
         public static void onKeyRegister(RegisterKeyMappingsEvent e) {
-            //Tecla para abrir menu
+
+            //Tecla para abrir menu de stats
             e.register(KeyBinding.STATS_MENU_KEY);
 
         }

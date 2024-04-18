@@ -21,6 +21,9 @@ public class PlayerStatsAttributes {
 
     private int bodyColor;
 
+    private boolean AcceptCharacter = false;
+
+
     private final Player player;
 
     public PlayerStatsAttributes(Player player) {
@@ -201,10 +204,34 @@ public class PlayerStatsAttributes {
         if (races > 6) {
             this.races = 6;
         }
+        if(this.races < 0){
+            this.races = 0;
+        }
         ModEvents.sync(player);
 
     }
 
+    public int removeRACE(int race) {
+
+        if (this.races > 0) {
+            this.races -= race;
+        } else {
+            this.races = 0;
+        }
+
+        ModEvents.sync(player);
+        return races;
+    }
+    public int addRACE(int race) {
+        if (this.races < 5) {
+            this.races += race;
+        } else {
+            this.races = 5;
+        }
+
+        ModEvents.sync(player);
+        return races;
+    }
     public int getHairID() {
         return hairID;
     }
@@ -414,6 +441,14 @@ public class PlayerStatsAttributes {
         ModEvents.sync(player);
     }
 
+    public boolean isAcceptCharacter() {
+        return AcceptCharacter;
+    }
+
+    public void setAcceptCharacter(boolean acceptCharacter) {
+        AcceptCharacter = acceptCharacter;
+        ModEvents.sync(player);
+    }
 
     public CompoundTag saveNBTData() {
 
@@ -439,7 +474,7 @@ public class PlayerStatsAttributes {
         nbt.putInt("bodyColor", bodyColor);
 
         nbt.putInt("zpoints", zpoints);
-
+        nbt.putBoolean("acceptCharacter", AcceptCharacter);
         return nbt;
     }
 
@@ -464,6 +499,7 @@ public class PlayerStatsAttributes {
         curStam = nbt.getInt("currentStamina");
 
         bodyColor = nbt.getInt("bodyColor");
+        AcceptCharacter = nbt.getBoolean("acceptCharacter");
 
     }
 
