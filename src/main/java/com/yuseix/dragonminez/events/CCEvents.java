@@ -77,7 +77,7 @@ public class CCEvents {
     @SubscribeEvent
     public static void changeSizePOST(RenderPlayerEvent.Post event) {
 
-        event.getPoseStack().popPose();
+       // event.getPoseStack().popPose();
         //event.getRenderer().addLayer(new LayerDMZPost(event.getRenderer()));
     }
 
