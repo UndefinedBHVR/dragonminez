@@ -19,46 +19,16 @@ public class MainTabs {
     public static final RegistryObject<CreativeModeTab> BLOQUES_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_BLOCK.get()))
 
-                    .title(Component.translatable("itemGroup.dragonminez.blocks"))
-
-                    .displayItems((parameters, output) -> {
-                        //Dragon Balls
-                        output.accept(MainItems.DBALL1_BLOCK_ITEM.get());
-                        output.accept(MainItems.DBALL2_BLOCK_ITEM.get());
-                        output.accept(MainItems.DBALL3_BLOCK_ITEM.get());
-                        output.accept(MainItems.DBALL4_BLOCK_ITEM.get());
-                        output.accept(MainItems.DBALL5_BLOCK_ITEM.get());
-                        output.accept(MainItems.DBALL6_BLOCK_ITEM.get());
-                        output.accept(MainItems.DBALL7_BLOCK_ITEM.get());
-
-                        //Other Blocks
-                        output.accept(MainBlocks.NAMEK_BLOCK.get());
-                        output.accept(MainBlocks.NAMEK_GRASS_BLOCK.get());
-                        output.accept(MainBlocks.NAMEK_DIRT.get());
-                        output.accept(MainBlocks.NAMEK_GRASS.get());
-
-                    }).build());
+                .title(Component.translatable("itemGroup.dragonminez.blocks"))
+                .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> output.accept(block.get().asItem()))).build()
+    );
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.POTHALA_RIGHT.get()))
 
-                    .title(Component.translatable("itemGroup.dragonminez.items"))
-
-                    .displayItems((parameters, output) -> {
-                        output.accept(MainItems.POTHALA_RIGHT.get());
-                        output.accept(MainItems.POTHALA_LEFT.get());
-                        output.accept(MainItems.GREEN_POTHALA_RIGHT.get());
-                        output.accept(MainItems.GREEN_POTHALA_LEFT.get());
-                        output.accept(MainItems.CAPSULA_ROJA.get());
-                        output.accept(MainItems.CAPSULA_VERDE.get());
-                        output.accept(MainItems.CAPSULA_ANARANJADA.get());
-                        output.accept(MainItems.CAPSULA_AZUL.get());
-                        output.accept(MainItems.CAPSULA_MORADA.get());
-                        output.accept(MainItems.COMIDA_DINO_RAW.get());
-                        output.accept(MainItems.COMIDA_DINO_COOKED.get());
-                        output.accept(MainItems.SENZU_BEAN.get());
-                        output.accept(MainItems.MIGHT_TREE_FRUIT.get());
-                    }).build());
+                .title(Component.translatable("itemGroup.dragonminez.items"))
+                .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> output.accept(item.get().asItem()))).build()
+    );
 
     public static void register(IEventBus bus) {
         CREATIVE_TABS_REGISTER.register(bus);
