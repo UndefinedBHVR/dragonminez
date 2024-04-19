@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init;
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,7 +28,10 @@ public class MainTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.POTHALA_RIGHT.get()))
 
                 .title(Component.translatable("itemGroup.dragonminez.items"))
-                .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> output.accept(item.get().asItem()))).build()
+                .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
+                    if (!(item.get() instanceof BlockItem))
+                        output.accept(item.get().asItem());
+                })).build()
     );
 
     public static void register(IEventBus bus) {
