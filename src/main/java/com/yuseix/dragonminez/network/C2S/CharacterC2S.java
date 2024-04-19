@@ -45,6 +45,14 @@ public class CharacterC2S {
                         case "BodyType":
                             playerstats.setBodytype(packet.cantidad);
                             break;
+                        case "EyeType":
+                            playerstats.setEyesType(packet.cantidad);
+                            break;
+                        case "setRace":
+                            playerstats.setRace(packet.cantidad);
+                            playerstats.setBodytype(0);
+                            playerstats.setEyesType(0);
+                            break;
                         default:
                             System.out.println("Algo salio mal !");
                             break;
