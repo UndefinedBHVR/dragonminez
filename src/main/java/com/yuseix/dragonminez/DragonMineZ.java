@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.character.models.ModeloPrueba;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.character.renders.GeoBioAndroidRender;
 import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
@@ -91,6 +92,8 @@ public class DragonMineZ {
         public static void onClientSetup(FMLClientSetupEvent event) {
             //ENTIDADES
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
+
+            EntityRenderers.register(EntityType.PLAYER, GeoBioAndroidRender::new);
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_BLOCK_ENTITY.get(), Dball1BlockRenderer::new);

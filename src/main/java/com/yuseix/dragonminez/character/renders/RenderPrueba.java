@@ -57,7 +57,7 @@ public class RenderPrueba extends LivingEntityRenderer<AbstractClientPlayer, Bio
         this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
-        //this.addLayer(new LayerDMZBase(this));
+        this.addLayer(new LayerDMZBase(this));
     }
 
 

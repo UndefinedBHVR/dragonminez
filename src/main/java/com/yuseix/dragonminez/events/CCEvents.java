@@ -30,6 +30,8 @@ public class CCEvents {
     private static RenderPrueba render;
 
 
+
+    /*
     @SubscribeEvent
     public static void Hands(RenderArmEvent event){
 
@@ -45,9 +47,10 @@ public class CCEvents {
         event.setCanceled(true);
     }
 
+    */
         
 
-
+/*
     @SubscribeEvent
     public static void RenderNEW(RenderPlayerEvent.Pre event) {
 
@@ -70,6 +73,7 @@ public class CCEvents {
 
     }
 
+    */
     @SubscribeEvent
     public static void changeSizePOST(RenderPlayerEvent.Post event) {
 

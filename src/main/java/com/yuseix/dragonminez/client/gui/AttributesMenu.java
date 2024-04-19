@@ -106,10 +106,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
                 //Botones de Razas
                 botonesRazas.add(new DMZRightButton("right",posX - 23, posY + 35, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("RaceAdd", 1));
+                    ModMessages.sendToServer(new CharacterC2S("setRace", 1));
                 }));
                 botonesRazas.add(new DMZRightButton("left",posX - 109, posY + 35, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("RaceRemove", 1));
+                    ModMessages.sendToServer(new CharacterC2S("setRace", 0));
                 }));
 
                 botonesRazas.forEach(this::addRenderableWidget);

@@ -211,27 +211,6 @@ public class PlayerStatsAttributes {
 
     }
 
-    public int removeRACE(int race) {
-
-        if (this.races > 0) {
-            this.races -= race;
-        } else {
-            this.races = 0;
-        }
-
-        ModEvents.sync(player);
-        return races;
-    }
-    public int addRACE(int race) {
-        if (this.races < 5) {
-            this.races += race;
-        } else {
-            this.races = 5;
-        }
-
-        ModEvents.sync(player);
-        return races;
-    }
     public int getHairID() {
         return hairID;
     }

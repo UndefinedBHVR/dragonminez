@@ -48,13 +48,8 @@ public class CharacterC2S {
                         case "EyeType":
                             playerstats.setEyesType(packet.cantidad);
                             break;
-                        case "RaceAdd":
-                            playerstats.addRACE(packet.cantidad);
-                            playerstats.setBodytype(0);
-                            playerstats.setEyesType(0);
-                            break;
-                        case "RaceRemove":
-                            playerstats.removeRACE(packet.cantidad);
+                        case "setRace":
+                            playerstats.setRace(packet.cantidad);
                             playerstats.setBodytype(0);
                             playerstats.setEyesType(0);
                             break;

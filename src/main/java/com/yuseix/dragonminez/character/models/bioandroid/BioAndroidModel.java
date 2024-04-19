@@ -29,6 +29,9 @@ public class BioAndroidModel<T extends LivingEntity> extends PlayerModel<T> {
 	public final ModelPart rightleg;
 	public final ModelPart leftleg;
 
+
+
+
 	public BioAndroidModel(ModelPart root) {
 		super(root, false);
 		this.headwa = root.getChild("head");
@@ -37,6 +40,7 @@ public class BioAndroidModel<T extends LivingEntity> extends PlayerModel<T> {
 		this.leftarm = root.getChild("left_arm");
 		this.rightleg = root.getChild("right_leg");
 		this.leftleg = root.getChild("left_leg");
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -126,6 +130,7 @@ public class BioAndroidModel<T extends LivingEntity> extends PlayerModel<T> {
 		this.leftarm.copyFrom(this.leftArm);
 		this.rightleg.copyFrom(this.rightLeg);
 		this.leftleg.copyFrom(this.leftLeg);
+
 
 	}
 
