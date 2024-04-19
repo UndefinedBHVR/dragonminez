@@ -45,6 +45,9 @@ public class MainItems {
                     .stacksTo(1)
                     .fireResistant()));
 
+    //MINERALES
+    public static final RegistryObject<Item> NAMEKIUM = ITEM_REGISTER.register("namekium", NamekiumItem::new);
+
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
             () -> new BlockItem(MainBlocks.DBALL1_BLOCK.get(), properties

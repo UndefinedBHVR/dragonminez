@@ -20,18 +20,30 @@ public class MainTabs {
     public static final RegistryObject<CreativeModeTab> BLOQUES_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_BLOCK.get()))
 
-                .title(Component.translatable("itemGroup.dragonminez.blocks"))
-                .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> output.accept(block.get().asItem()))).build()
+                    .title(Component.translatable("itemGroup.dragonminez.blocks"))
+                    .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> output.accept(block.get().asItem()))).build()
     );
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.POTHALA_RIGHT.get()))
 
-                .title(Component.translatable("itemGroup.dragonminez.items"))
-                .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
-                    if (!(item.get() instanceof BlockItem))
-                        output.accept(item.get().asItem());
-                })).build()
+                    .title(Component.translatable("itemGroup.dragonminez.items"))
+                    .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
+                        if (!(item.get() instanceof BlockItem))
+                            output.accept(item.get().asItem());
+                    })).build()
+    );
+
+    public static final RegistryObject<CreativeModeTab> ORES_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_ores_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEKIUM_ORE.get()))
+
+                    .title(Component.translatable("itemGroup.dragonminez.ores"))
+                    .displayItems((parameters, output) -> {
+                        //Añadir más items a la lista
+                        output.accept(MainBlocks.NAMEKIUM_ORE.get().asItem());
+                        output.accept(MainBlocks.NAMEKIUM_FURNACE.get().asItem());
+                        output.accept(MainItems.NAMEKIUM.get());
+                    }).build()
     );
 
     public static void register(IEventBus bus) {

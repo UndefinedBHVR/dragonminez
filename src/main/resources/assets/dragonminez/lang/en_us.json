@@ -45,5 +45,8 @@
   "itemGroup.dragonminez.items": "DMZ Items",
   "key.category.dragonminez.category": "DragonMine Z",
   "key.dragonminez.menu_stats": "Menu",
-  "menu.title.dragonminez.statsmenu": ""
+  "menu.title.dragonminez.statsmenu": "",
+  "item.dragonminez.namekium": "Namekium",
+  "block.dragonminez.namekium_ore": "Namekium Ore",
+  "container.dragonminez.namekium_furnace": "Namekium Furnace"
 }

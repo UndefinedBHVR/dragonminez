@@ -9,16 +9,25 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class MainBlocks {
 
     public static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, DragonMineZ.MOD_ID);
+
+    private static ToIntFunction<BlockState> litBlockEmission(int pLightValue) {
+        return (p_50763_) -> (Boolean)p_50763_.getValue(BlockStateProperties.LIT) ? pLightValue : 0;
+    }
 
     //BLOQUE
     //TODO: SFX Para Bloques Custom
@@ -29,6 +38,21 @@ public class MainBlocks {
     public static final RegistryObject<Block> NAMEK_DIRT = registerBlock("namek_dirt",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
 
+    //ORES
+    public static final RegistryObject<Block> NAMEKIUM_ORE = registerBlock("namekium_ore",
+            () -> new NamekiumOreBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
+                    .randomTicks().lightLevel(litBlockEmission(9)).strength(3.0F, 3.0F)
+            ));
+
+    public static final RegistryObject<Block> NAMEKIUM_FURNACE = registerBlock("namekium_furnace",
+            () -> new NamekiumFurnaceBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.5F)
+                    .lightLevel(litBlockEmission(13))
+            ));
 
     //PLANTAS
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
@@ -36,6 +60,7 @@ public class MainBlocks {
                     .noOcclusion()
                     .noCollission()
             ));
+
 
     //DRAGON BALLS - TIERRA
     public static final RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",
