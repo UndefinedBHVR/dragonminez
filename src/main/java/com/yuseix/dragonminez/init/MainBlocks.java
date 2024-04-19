@@ -39,15 +39,15 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
 
     //ORES
-    public static final RegistryObject<Block> NAMEKIUM_ORE = registerBlock("namekium_ore",
-            () -> new NamekiumOreBlock(BlockBehaviour.Properties.of()
+    public static final RegistryObject<Block> GETE_ORE = registerBlock("gete_ore",
+            () -> new GeteOreBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.STONE)
                     .requiresCorrectToolForDrops()
                     .randomTicks().lightLevel(litBlockEmission(9)).strength(3.0F, 3.0F)
             ));
 
-    public static final RegistryObject<Block> NAMEKIUM_FURNACE = registerBlock("namekium_furnace",
-            () -> new NamekiumFurnaceBlock(BlockBehaviour.Properties.of()
+    public static final RegistryObject<Block> GETE_FURNACE = registerBlock("gete_furnace",
+            () -> new GeteFurnaceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.STONE)
                     .requiresCorrectToolForDrops()
                     .strength(3.5F)

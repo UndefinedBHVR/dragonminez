@@ -13,11 +13,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class NamekiumOreBlock extends Block {
+public class GeteOreBlock extends Block {
 
     public static final BooleanProperty LIT;
 
-    public NamekiumOreBlock(BlockBehaviour.Properties properties) {
+    public GeteOreBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
     }

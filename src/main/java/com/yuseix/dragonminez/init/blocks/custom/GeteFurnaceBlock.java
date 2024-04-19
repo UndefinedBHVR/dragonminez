@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.init.blocks.custom;
 
-import com.yuseix.dragonminez.init.blocks.entity.NamekiumFurnaceBlockEntity;
+import com.yuseix.dragonminez.init.blocks.entity.GeteFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -16,13 +16,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public class NamekiumFurnaceBlock extends AbstractFurnaceBlock {
-    public NamekiumFurnaceBlock(Properties pProperties) {
+public class GeteFurnaceBlock extends AbstractFurnaceBlock {
+    public GeteFurnaceBlock(Properties pProperties) {
         super(pProperties);
     }
 
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new NamekiumFurnaceBlockEntity(blockPos, blockState);
+        return new GeteFurnaceBlockEntity(blockPos, blockState);
     }
 
     @Override

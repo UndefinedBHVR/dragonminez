@@ -35,14 +35,14 @@ public class MainTabs {
     );
 
     public static final RegistryObject<CreativeModeTab> ORES_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_ores_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEKIUM_ORE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.GETE_ORE.get()))
 
                     .title(Component.translatable("itemGroup.dragonminez.ores"))
                     .displayItems((parameters, output) -> {
                         //Añadir más items a la lista
-                        output.accept(MainBlocks.NAMEKIUM_ORE.get().asItem());
-                        output.accept(MainBlocks.NAMEKIUM_FURNACE.get().asItem());
-                        output.accept(MainItems.NAMEKIUM.get());
+                        output.accept(MainBlocks.GETE_ORE.get().asItem());
+                        output.accept(MainBlocks.GETE_FURNACE.get().asItem());
+                        output.accept(MainItems.GETE.get());
                     }).build()
     );
 

@@ -10,13 +10,12 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class NamekiumFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
-    public NamekiumFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(MainBlockEntities.NAMEKIUM_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState, RecipeType.SMELTING);
+public class GeteFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
+    public GeteFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(MainBlockEntities.GETE_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState, RecipeType.SMELTING);
     }
 
-    protected Component getDefaultName() {
-        return Component.translatable("container.dragonminez.namekium_furnace");
+    protected Component getDefaultName() {return Component.translatable("container.dragonminez.gete_furnace");
     }
 
     protected AbstractContainerMenu createMenu(int pId, Inventory pPlayer) {
