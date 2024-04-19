@@ -43,10 +43,12 @@
   "item.dragonminez.red_capsule.tooltip2": "\u00A77This capsule is used to increase your strength.",
   "itemGroup.dragonminez.blocks": "DMZ Blocks",
   "itemGroup.dragonminez.items": "DMZ Items",
+  "itemGroup.dragonminez.ores": "DMZ Ores",
   "key.category.dragonminez.category": "DragonMine Z",
   "key.dragonminez.menu_stats": "Menu",
   "menu.title.dragonminez.statsmenu": "",
   "item.dragonminez.namekium": "Namekium",
   "block.dragonminez.namekium_ore": "Namekium Ore",
-  "container.dragonminez.namekium_furnace": "Namekium Furnace"
+  "container.dragonminez.namekium_furnace": "Namekium Furnace",
+  "block.dragonminez.namekium_furnace": "Namekium Furnace"
 }
