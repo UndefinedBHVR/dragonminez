@@ -7,6 +7,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RedstoneTorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -14,11 +15,11 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public class NamekiumOreBlock extends Block {
 
-    public static final BooleanProperty POWERED = BooleanProperty.create("powered");
+    public static final BooleanProperty LIT;
 
     public NamekiumOreBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(POWERED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
     }
 
     @Override
@@ -29,8 +30,8 @@ public class NamekiumOreBlock extends Block {
 
     private static void interact(BlockState pState, Level pLevel, BlockPos pPos) {
         spawnParticles(pLevel, pPos);
-        if (!(Boolean)pState.getValue(POWERED)) {
-            pLevel.setBlock(pPos, pState.setValue(POWERED, true), 3);
+        if (!(Boolean) pState.getValue(LIT)) {
+            pLevel.setBlock(pPos, pState.setValue(LIT, true), 3);
         }
 
     }
@@ -53,6 +54,10 @@ public class NamekiumOreBlock extends Block {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(POWERED);
+        pBuilder.add(LIT);
+    }
+
+    static {
+        LIT = RedstoneTorchBlock.LIT;
     }
 }
