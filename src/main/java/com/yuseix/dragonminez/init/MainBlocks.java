@@ -40,7 +40,9 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
     public static final RegistryObject<Block> NAMEK_STONE = registerBlock("namek_stone",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
-    //Arboles de Namek
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE = registerBlock("namek_deepslate",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops().strength(1.5F, 6.0F)));
+    // Arboles de Namek
     public static final RegistryObject<Block> NAMEK_SACRED_LOG = registerBlock("namek_sacred_log",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> NAMEK_SACRED_PLANKS = registerBlock("namek_sacred_planks",
