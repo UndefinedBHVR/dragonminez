@@ -22,6 +22,7 @@ public class GeteOreDebrisBlock extends Block {
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
     }
 
+    @SuppressWarnings("deprecation, NullableProblems")
     @Override
     public void attack(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
         interact(pState, pLevel, pPos);
