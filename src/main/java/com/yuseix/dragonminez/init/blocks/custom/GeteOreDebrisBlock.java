@@ -13,11 +13,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class GeteOreBlock extends Block {
+public class GeteOreDebrisBlock extends Block {
 
     public static final BooleanProperty LIT;
 
-    public GeteOreBlock(BlockBehaviour.Properties properties) {
+    public GeteOreDebrisBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(LIT, false));
     }
