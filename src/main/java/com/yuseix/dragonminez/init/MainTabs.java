@@ -27,7 +27,7 @@ public class MainTabs {
     public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_GRASS_BLOCK.get()))
 
-                    .title(Component.translatable("itemGroup.dragonminez.namek"))
+                    .title(Component.translatable("itemGroup.dragonminez_namek_tab"))
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
                         if (item.getId().getPath().startsWith("namek_"))
                             output.accept(item.get().asItem());
