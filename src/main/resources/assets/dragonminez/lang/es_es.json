@@ -51,7 +51,7 @@
   "key.dragonminez.menu_stats": "Menú",
   "menu.title.dragonminez.statsmenu": "",
   "item.dragonminez.gete": "Escombros de Gete",
-  "block.dragonminez.gete_ore": "Mena de Gete",
+  "block.dragonminez.gete_debris_ore": "Mena de Gete",
   "container.dragonminez.gete_furnace": "Horno de Gete",
   "block.dragonminez.gete_furnace": "Horno de Gete"
 }

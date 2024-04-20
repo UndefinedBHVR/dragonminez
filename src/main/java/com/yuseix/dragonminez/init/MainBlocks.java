@@ -5,13 +5,10 @@ import com.yuseix.dragonminez.init.blocks.custom.*;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,15 +18,17 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
+@SuppressWarnings("unused")
 public class MainBlocks {
 
     public static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, DragonMineZ.MOD_ID);
 
     private static ToIntFunction<BlockState> litBlockEmission(int pLightValue) {
-        return (p_50763_) -> (Boolean)p_50763_.getValue(BlockStateProperties.LIT) ? pLightValue : 0;
+        return (IsThisOn) -> (Boolean) IsThisOn.getValue(BlockStateProperties.LIT) ? pLightValue : 0;
     }
 
-    //BLOQUE
+    //INICIO DE ITEMS SIN NECESIDADES ESPECIALES **NO** TIENEN SU CLASE EN INIT.BLOCKS.CUSTOM:
+    //BLOQUES
     //TODO: SFX Para Bloques Custom
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
@@ -37,15 +36,63 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
     public static final RegistryObject<Block> NAMEK_DIRT = registerBlock("namek_dirt",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
+    public static final RegistryObject<Block> NAMEK_COBBLESTONE = registerBlock("namek_cobblestone",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> NAMEK_STONE = registerBlock("namek_stone",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE)));
+    //Arboles de Namek
+    public static final RegistryObject<Block> NAMEK_SACRED_LOG = registerBlock("namek_sacred_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> NAMEK_SACRED_PLANKS = registerBlock("namek_sacred_planks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> NAMEK_SACRED_LEAVES = registerBlock("namek_sacred_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).sound(SoundType.GRASS)));
+
+    public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> NAMEK_AJISSA_PLANKS = registerBlock("namek_ajissa_planks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD)));
+    public static final RegistryObject<Block> NAMEK_AJISSA_LEAVES = registerBlock("namek_ajissa_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).sound(SoundType.GRASS)));
+    //GETE
+    public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+    //TODO: SAPLING (AUN NO SE COMO HACERLO, XD)
+//    public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
+//            () -> new SaplingBlock(new SacredTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)
+//                    .mapColor(MapColor.PLANT)
+//                    .noCollission()
+//                    .randomTicks()
+//                    .instabreak()
+//                    .sound(SoundType.GRASS)
+//                    .pushReaction(PushReaction.DESTROY)
+//            ));
+
+    //FIN DE ITEMS SIN NECESIDADES ESPECIALES
 
     //ORES
-    public static final RegistryObject<Block> GETE_ORE = registerBlock("gete_ore",
-            () -> new GeteOreBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
-                    .requiresCorrectToolForDrops()
-                    .randomTicks().lightLevel(litBlockEmission(9)).strength(3.0F, 3.0F)
+    public static final RegistryObject<Block> GETE_ORE = registerBlock("gete_debris_ore",
+            () -> new GeteOreDebrisBlock(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS)
+                    .randomTicks().lightLevel(litBlockEmission(9))
             ));
+    public static final RegistryObject<Block> NAMEK_DIAMOND_ORE = registerBlock("namek_diamond_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_GOLD_ORE = registerBlock("namek_gold_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GOLD_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_IRON_ORE = registerBlock("namek_iron_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_LAPIS_ORE = registerBlock("namek_lapis_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.LAPIS_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_REDSTONE_ORE = registerBlock("namek_redstone_ore",
+            () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.REDSTONE_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_COAL_ORE = registerBlock("namek_coal_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.COAL_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_EMERALD_ORE = registerBlock("namek_emerald_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.EMERALD_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
+    public static final RegistryObject<Block> NAMEK_COPPER_ORE = registerBlock("namek_copper_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.EMERALD_ORE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)));
 
+    //HORNO CUSTOM
     public static final RegistryObject<Block> GETE_FURNACE = registerBlock("gete_furnace",
             () -> new GeteFurnaceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.STONE)
