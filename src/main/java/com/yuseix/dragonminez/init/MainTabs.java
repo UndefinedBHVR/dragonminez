@@ -24,7 +24,15 @@ public class MainTabs {
                     .title(Component.translatable("itemGroup.dragonminez.blocks"))
                     .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> output.accept(block.get().asItem()))).build()
     );
+    public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_GRASS_BLOCK.get()))
 
+                    .title(Component.translatable("itemGroup.dragonminez.namek"))
+                    .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
+                        if (item.getId().getPath().startsWith("namek_"))
+                            output.accept(item.get().asItem());
+                    })).build()
+    );
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.POTHALA_RIGHT.get()))
 

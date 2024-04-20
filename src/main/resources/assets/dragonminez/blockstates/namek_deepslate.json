@@ -1,0 +1,62 @@
+{
+  "variants": {
+    "axis=x": [
+      {
+        "model": "dragonminez:block/namek_deepslate",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate_mirrored",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate_mirrored",
+        "x": 90,
+        "y": 90
+      }
+    ],
+    "axis=y": [
+      {
+        "model": "dragonminez:block/namek_deepslate"
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate_mirrored"
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate",
+        "y": 180
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate_mirrored",
+        "y": 180
+      }
+    ],
+    "axis=z": [
+      {
+        "model": "dragonminez:block/namek_deepslate",
+        "x": 90
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate_mirrored",
+        "x": 90
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "dragonminez:block/namek_deepslate_mirrored",
+        "x": 90,
+        "y": 180
+      }
+    ]
+  }
+}
