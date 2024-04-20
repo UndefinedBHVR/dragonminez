@@ -50,7 +50,8 @@ public class MainItems {
                     .fireResistant()));
 
     //MINERALES
-    public static final RegistryObject<Item> GETE = ITEM_REGISTER.register("gete", GeteItem::new);
+    public static final RegistryObject<Item> GETE = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
+    public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
