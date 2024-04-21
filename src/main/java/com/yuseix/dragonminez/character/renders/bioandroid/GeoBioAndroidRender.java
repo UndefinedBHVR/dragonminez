@@ -56,6 +56,7 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
     private static final String HELMET = "armorbipedHead";
 
 
+
     //BIOANDROIDE
     private static final ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase1.png");
     private static final ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase2.png");
@@ -266,16 +267,11 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
             // lo ideal sería que tengas una referencia estática de cada parte del cuerpo, "head" "body" "rightArm", etc para no tener que estar iterando entre todas
             // las partes del modelo cada tick
 
-            /*
+
             render(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight,
                     packedOverlay, red, green, blue, alpha);
 
 
-             */
-            for (GeoBone group : model.topLevelBones()) {
-                renderRecursively(poseStack, animatable, group, renderType, bufferSource, buffer, isReRender, partialTick, packedLight,
-                        packedOverlay, red, green, blue, alpha);
-            }
             /* Esto es lo que estaba originalmente, que renderizaba el modelo completo, lo dejé comentado por si te sirve para algo xd
                Si queres probar el modelo completo, quita el comentario de esto y comentá el método de arriba render(...)
             for (GeoBone group : model.topLevelBones()) {
@@ -283,6 +279,7 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
                         packedOverlay, red, green, blue, alpha);
             }*/
         }
+
         poseStack.popPose();
     }
 
@@ -301,22 +298,45 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
 
         // como dije en otra parte, model.getBone(...) itera entre todos los grupos del modelo para encontrar el que pedís, por eso lo ideal sería que tengas una referencia
         // estática
-        var head = model.getBone("bipedHead").get();
         // los ultimos 4 parámetros son, red, green, blue, alpha
-        VertexConsumer skin_type1 = bufferSource.getBuffer(RenderType.entitySolid(B_BODY1));
-        VertexConsumer skin_type2 = bufferSource.getBuffer(RenderType.entityCutoutNoCull(B_BODY2));
-        VertexConsumer skin_type3 = bufferSource.getBuffer(RenderType.entityCutoutNoCull(B_BODY3));
-        VertexConsumer bcola = bufferSource.getBuffer(RenderType.entityCutoutNoCull(B_BODYCOLA));
+        var skin_type1 = RenderType.entityTranslucent(B_BODY1);
+        var skin_type2 = RenderType.entityCutoutNoCull(B_BODY2);
+        var skin_type3 = RenderType.entityCutoutNoCull(B_BODY3);
+        var bcola = RenderType.entityCutoutNoCull(B_BODYCOLA);
 
-        renderRecursively(poseStack, animatable, head, appliedRenderType, bufferSource, bufferSource.getBuffer(RenderType.entityCutoutNoCull(B_BODY1)), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
-        renderRecursively(poseStack, animatable, head, appliedRenderType, bufferSource, skin_type2, isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, head, appliedRenderType, bufferSource, skin_type3, isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
-
+        var head = model.getBone("bipedHead").get();
+        renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
+        renderRecursively(poseStack, animatable, head, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
+        renderRecursively(poseStack, animatable, head, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
 
         var body = model.getBone("bipedBody").get();
         // acá si la textura tendría que cambiar, tendrias que cambiar bufferSource.getBuffer() por el de la nueva textura,
         // bufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(....nuevatextura.png)))
-        renderRecursively(poseStack, animatable, body, appliedRenderType, bufferSource, bufferSource.getBuffer(appliedRenderType), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
+        renderRecursively(poseStack, animatable, body, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,0.920f, 0.920f, 0.920f, 1.0f);
+        renderRecursively(poseStack, animatable, body, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,0.760f, 0.760f, 0.760f, 1.0f);
+        renderRecursively(poseStack, animatable, body, bcola, bufferSource, bufferSource.getBuffer(bcola), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,1f, 1f, 1f, 1.0f);
 
+        var brazoderecho = model.getBone("bipedRightArm").get();
+        renderRecursively(poseStack, animatable, brazoderecho, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
+        renderRecursively(poseStack, animatable, brazoderecho, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
+        renderRecursively(poseStack, animatable, brazoderecho, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
+
+        var brazoizquierdo = model.getBone("bipedLeftArm").get();
+        renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
+        renderRecursively(poseStack, animatable, brazoizquierdo, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
+        renderRecursively(poseStack, animatable, brazoizquierdo, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
+
+        var piernaderecha = model.getBone("bipedRightLeg").get();
+        renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
+        renderRecursively(poseStack, animatable, piernaderecha, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
+        renderRecursively(poseStack, animatable, piernaderecha, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
+
+        var piernaizquierda = model.getBone("bipedLeftLeg").get();
+        renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
+        renderRecursively(poseStack, animatable, piernaizquierda, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
+        renderRecursively(poseStack, animatable, piernaizquierda, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
+
+        //System.out.println("El evento cargo bien");
     }
 }

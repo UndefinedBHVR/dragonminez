@@ -56,6 +56,7 @@ public class GeoBioAndroidPlayer extends LivingEntity implements GeoReplacedEnti
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.bioandroid.tail", Animation.LoopType.LOOP));
         } else {
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.bioandroid.tail", Animation.LoopType.LOOP));
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.bioandroid.idle", Animation.LoopType.LOOP));
         }
         return PlayState.CONTINUE;
 
