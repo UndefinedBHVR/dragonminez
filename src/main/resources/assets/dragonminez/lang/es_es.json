@@ -83,5 +83,11 @@
   "block.dragonminez.namek_deepslate_redstone": "Mena de Redstone de Pizarra Profunda de Namek",
   "block.dragonminez.namek_deepslate_lapis": "Mena de Lapislázuli de Pizarra Profunda de Namek",
   "block.dragonminez.namek_deepslate_emerald": "Mena de Esmeralda de Pizarra Profunda de Namek",
-  "block.dragonminez.namek_deepslate_copper": "Mena de Cobre de Pizarra Profunda de Namek"
+  "block.dragonminez.namek_deepslate_copper": "Mena de Cobre de Pizarra Profunda de Namek",
+  "block.dragonminez.namek_sacred_grass": "Césped Sagrado de Namek",
+  "block.dragonminez.namek_sacred_grass_block": "Bloque de Césped Sagrado de Namek",
+  "block.dragonminez.namek_sacred_door": "Puerta Sagrada",
+  "block.dragonminez.namek_ajissa_door": "Puerta de Ajissa",
+  "block.dragonminez.namek_ajissa_trapdoor": "Trampilla de Ajissa",
+  "block.dragonminez.namek_sacred_trapdoor": "Trampilla Sagrada"
 }
