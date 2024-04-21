@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -56,16 +57,14 @@ public class MainBlocks {
     public static final RegistryObject<Block> NAMEK_AJISSA_LEAVES = registerBlock("namek_ajissa_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).sound(SoundType.GRASS)));
 
-    //TODO: ARREGLAR ESTO
-
-    //    public static final RegistryObject<DoorBlock> NAMEK_SACRED_DOOR = BLOCK_REGISTER.register("namek_sacred_door",
-//            () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
-//    public static final RegistryObject<DoorBlock> NAMEK_AJISSA_DOOR = BLOCK_REGISTER.register("namek_ajissa_door",
-//            () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
-//    public static final RegistryObject<TrapDoorBlock> NAMEK_SACRED_TRAPDOOR = BLOCK_REGISTER.register("namek_sacred_trapdoor",
-//            () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
-//    public static final RegistryObject<TrapDoorBlock> NAMEK_AJISSA_TRAPDOOR = BLOCK_REGISTER.register("namek_ajissa_trapdoor",
-//            () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> NAMEK_SACRED_DOOR = registerBlock("namek_sacred_door",
+            () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> NAMEK_AJISSA_DOOR = registerBlock("namek_ajissa_door",
+            () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> NAMEK_SACRED_TRAPDOOR = registerBlock("namek_sacred_trapdoor",
+            () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> NAMEK_AJISSA_TRAPDOOR = registerBlock("namek_ajissa_trapdoor",
+            () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
     //GETE
     public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));

@@ -22,7 +22,8 @@ public class MainTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.DBALL4_BLOCK.get()))
 
                     .title(Component.translatable("itemGroup.dragonminez.blocks"))
-                    .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> output.accept(block.get().asItem()))).build()
+                    .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) ->
+                            output.accept(block.get().asItem()))).build()
     );
     public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_GRASS_BLOCK.get()))

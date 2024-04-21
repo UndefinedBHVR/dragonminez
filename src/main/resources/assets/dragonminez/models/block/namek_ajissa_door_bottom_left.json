@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/door_bottom_left",
+  "render_type": "minecraft:cutout",
   "textures": {
     "bottom": "dragonminez:block/namek/ajissa_door_bottom",
     "top": "dragonminez:block/namek/ajissa_door_top"

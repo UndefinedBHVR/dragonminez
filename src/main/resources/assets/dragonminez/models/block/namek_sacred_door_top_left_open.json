@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/door_top_left_open",
+  "render_type": "minecraft:cutout",
   "textures": {
     "bottom": "dragonminez:block/namek/sacred_door_bottom",
     "top": "dragonminez:block/namek/sacred_door_top"
