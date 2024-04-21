@@ -53,7 +53,7 @@ public class GeoBioAndroidPlayer extends LivingEntity implements GeoReplacedEnti
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
         if (tAnimationState.isMoving()) {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.dino1.walk", Animation.LoopType.LOOP));
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.bioandroid.tail", Animation.LoopType.LOOP));
         } else {
             tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.bioandroid.tail", Animation.LoopType.LOOP));
         }

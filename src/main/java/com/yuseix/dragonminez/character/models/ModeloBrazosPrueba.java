@@ -11,10 +11,10 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ModeloPrueba<T extends LivingEntity> extends PlayerModel<T> {
+public class ModeloBrazosPrueba<T extends LivingEntity> extends PlayerModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "modeloprueba"), "main");
 
-	public ModeloPrueba(ModelPart root) {
+	public ModeloBrazosPrueba(ModelPart root) {
         super(root,false);
 		ModelPart head = root.getChild("head");
     }

@@ -2,85 +2,44 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.renders.RenderPrueba;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.character.renders.RenderBrazos;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderArmEvent;
-import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = {Dist.CLIENT})
 public class CCEvents {
 
-    private static RenderPrueba render;
+    private static RenderBrazos render;
 
-
-
-    /*
     @SubscribeEvent
     public static void Hands(RenderArmEvent event){
 
         Minecraft mc = Minecraft.getInstance();
-        
-            RenderPrueba wa = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
 
+        if(render == null){
+            render = new RenderBrazos(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
+        }
         var poseStack = new PoseStack();
         poseStack.translate(0.5, -0.5, -0.6);
 
-        wa.renderRightHand(event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight(), (AbstractClientPlayer) mc.player);
+        if(event.getArm() == HumanoidArm.RIGHT){
+            render.renderRightHand(event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight(), (AbstractClientPlayer) mc.player);
+        } else {
+            render.renderLeftHand(event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight(), (AbstractClientPlayer) mc.player);
+
+        }
 
         event.setCanceled(true);
     }
 
-    */
-        
-
-/*
-    @SubscribeEvent
-    public static void RenderNEW(RenderPlayerEvent.Pre event) {
-
-        event.setCanceled(true);
-
-        Minecraft mc = Minecraft.getInstance();
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            if(cap.getRace() == 0){
-                if(render == null) {
-                    render = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
-                }
-                render.render((AbstractClientPlayer) event.getEntity(),event.getEntity().getYRot(),event.getPartialTick(),event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight());
-
-            }
-
-        });
-
-
-
-    }
-
-    */
-    @SubscribeEvent
-    public static void changeSizePOST(RenderPlayerEvent.Post event) {
-
-       // event.getPoseStack().popPose();
-        //event.getRenderer().addLayer(new LayerDMZPost(event.getRenderer()));
-    }
-
+    /*
     @SuppressWarnings({"deprecation", "removal"})
     @SubscribeEvent
     public static void cambiarTamano(EntityEvent.Size event) {
@@ -139,4 +98,6 @@ public class CCEvents {
 
 
     }
+
+    */
 }

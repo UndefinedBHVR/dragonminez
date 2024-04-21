@@ -6,9 +6,6 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.LayerDMZBase;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroidModel;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -19,14 +16,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -37,17 +31,20 @@ import net.minecraft.world.scores.Score;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-
-import java.util.Iterator;
 
 
 @OnlyIn(Dist.CLIENT)
-public class RenderPrueba extends LivingEntityRenderer<AbstractClientPlayer, BioAndroidModel<AbstractClientPlayer>> {
+public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, BioAndroidModel<AbstractClientPlayer>> {
+
+    //BIOANDROIDE
+    private static final ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase1.png");
+    private static final ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase2.png");
+    private static final ResourceLocation B_BODY3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase3.png");
 
 
-    public RenderPrueba(EntityRendererProvider.Context pContext) {
+
+    public RenderBrazos(EntityRendererProvider.Context pContext) {
 
         super(pContext, new BioAndroidModel<>(pContext.bakeLayer(BioAndroidModel.LAYER_LOCATION)), 0.5f);
 
@@ -114,12 +111,10 @@ public class RenderPrueba extends LivingEntityRenderer<AbstractClientPlayer, Bio
         }
     }
 
-
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
         return abstractClientPlayer.getSkinTextureLocation();
     }
-
 
     @Override
     protected boolean shouldShowName(AbstractClientPlayer player) {
@@ -160,11 +155,6 @@ public class RenderPrueba extends LivingEntityRenderer<AbstractClientPlayer, Bio
     }
 
     private void renderHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear) {
-
-        ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/body/bodybase1.png");
-        ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/body/bodybase2.png");
-        ResourceLocation B_BODY3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/body/bodybase3.png");
-
 
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
         this.setModelProperties(pPlayer);
