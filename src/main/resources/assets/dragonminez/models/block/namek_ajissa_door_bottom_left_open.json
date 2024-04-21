@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left_open",
+  "textures": {
+    "bottom": "dragonminez:block/namek/ajassia_door_bottom",
+    "top": "dragonminez:block/namek/ajassia_door_top"
+  }
+}
