@@ -49,13 +49,23 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> NAMEK_SACRED_LEAVES = registerBlock("namek_sacred_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).sound(SoundType.GRASS)));
-
     public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> NAMEK_AJISSA_PLANKS = registerBlock("namek_ajissa_planks",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.WOOD)));
     public static final RegistryObject<Block> NAMEK_AJISSA_LEAVES = registerBlock("namek_ajissa_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).sound(SoundType.GRASS)));
+
+    //TODO: ARREGLAR ESTO
+
+    //    public static final RegistryObject<DoorBlock> NAMEK_SACRED_DOOR = BLOCK_REGISTER.register("namek_sacred_door",
+//            () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+//    public static final RegistryObject<DoorBlock> NAMEK_AJISSA_DOOR = BLOCK_REGISTER.register("namek_ajissa_door",
+//            () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+//    public static final RegistryObject<TrapDoorBlock> NAMEK_SACRED_TRAPDOOR = BLOCK_REGISTER.register("namek_sacred_trapdoor",
+//            () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+//    public static final RegistryObject<TrapDoorBlock> NAMEK_AJISSA_TRAPDOOR = BLOCK_REGISTER.register("namek_ajissa_trapdoor",
+//            () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
     //GETE
     public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
@@ -104,7 +114,7 @@ public class MainBlocks {
     public static final RegistryObject<Block> NAMEK_DEEPSLATE_LAPIS = registerBlock("namek_deepslate_lapis",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_LAPIS_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
     public static final RegistryObject<Block> NAMEK_DEEPSLATE_REDSTONE = registerBlock("namek_deepslate_redstone",
-        () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_REDSTONE_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
+            () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_REDSTONE_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
     public static final RegistryObject<Block> NAMEK_DEEPSLATE_COAL = registerBlock("namek_deepslate_coal",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_COAL_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
     public static final RegistryObject<Block> NAMEK_DEEPSLATE_EMERALD = registerBlock("namek_deepslate_emerald",
