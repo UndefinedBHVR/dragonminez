@@ -35,6 +35,8 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
+    public static final RegistryObject<Block> NAMEK_SACRED_GRASS_BLOCK = registerBlock("namek_sacred_grass_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
     public static final RegistryObject<Block> NAMEK_DIRT = registerBlock("namek_dirt",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
     public static final RegistryObject<Block> NAMEK_COBBLESTONE = registerBlock("namek_cobblestone",
@@ -132,6 +134,11 @@ public class MainBlocks {
 
     //PLANTAS
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
+                    .noOcclusion()
+                    .noCollission()
+            ));
+    public static final RegistryObject<Block> NAMEK_SACRED_GRASS = registerBlock("namek_sacred_grass",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
                     .noOcclusion()
                     .noCollission()
