@@ -22,7 +22,7 @@ public class CCEvents {
     public static void Hands(RenderArmEvent event){
 
         Minecraft mc = Minecraft.getInstance();
-
+        
         if(render == null){
             render = new RenderBrazos(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
         }

@@ -58,6 +58,7 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
 
 
     //BIOANDROIDE
+    // Ta bien, pero te diria que crees una clase aparte que se llame TextureReferences o algo así y ahí tengas todas las texturas para no saturar esta clase
     private static final ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase1.png");
     private static final ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase2.png");
     private static final ResourceLocation B_BODY3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase3.png");
@@ -303,6 +304,12 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
         var skin_type2 = RenderType.entityCutoutNoCull(B_BODY2);
         var skin_type3 = RenderType.entityCutoutNoCull(B_BODY3);
         var bcola = RenderType.entityCutoutNoCull(B_BODYCOLA);
+
+        // color decimal a rgb, a menos que quieras guardar los colores en la nbt con 3 variables xdxd
+        int color = 16777215; // blanco
+        float r = (color >> 16) / 255.0F;
+        float g = ((color >> 8) & 0xff) / 255.0f;
+        float b = (color & 0xff) / 255.0f;
 
         var head = model.getBone("bipedHead").get();
         renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
