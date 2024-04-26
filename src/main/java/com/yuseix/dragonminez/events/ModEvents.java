@@ -54,9 +54,9 @@ public class ModEvents {
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
-            event.getEntity().heal((float) (cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
+            event.getEntity().heal((float) (cap.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
 
-            int maxEnergia = (int) (cap.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+            int maxEnergia = (int) (cap.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()) ;
             int maxStamina = cap.getStamina() + 3;
 
             cap.setCurrentEnergy(maxEnergia);

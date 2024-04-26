@@ -29,7 +29,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             int StaminaMax = playerstats.getStamina() + 3;
             int curStamina = playerstats.getCurStam();
 
-            int energiaMax = (int) (playerstats.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+            int energiaMax = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()) ;
             int curEnergia = playerstats.getCurrentEnergy();
 
             int staminatotal = Math.min(((83 * curStamina) / StaminaMax), 83);

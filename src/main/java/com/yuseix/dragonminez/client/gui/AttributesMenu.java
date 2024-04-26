@@ -530,11 +530,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 int stamina = playerstats.getStamina();
 
                 //AtributosMaximos
-                int MaxStr = (int) (str * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
-                int MaxDef = (int) (def * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get();
-                int MaxCon = (int) (con * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
-                int MaxKiPower = (int) (kipower * 0.5) * DMCAttrConfig.MULTIPLIER_KIPOWER.get();
-                int MaxEnergy = (int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+                int MaxStr = 1;
+                int MaxDef = 1;
+                int MaxCon = 1;
+                int MaxKiPower = 1;
+                int MaxEnergy = 1;
                 int MaxStamina = stamina + 3;
 
                 int LTITULO = posX +195;

@@ -21,7 +21,7 @@ public class ClientEvents {
         public static void onKeyInput(InputEvent.Key event) {
 
             if (KeyBinding.STATS_MENU_KEY.consumeClick()) {
-                Minecraft.getInstance().setScreen(new AttributesMenu(
+                Minecraft.getInstance().setScreen(new CharacterCMenu(
                         Component.translatable("menu.title.dragonminez.statsmenu")));
             }
 

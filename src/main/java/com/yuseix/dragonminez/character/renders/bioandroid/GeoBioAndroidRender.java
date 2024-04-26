@@ -63,6 +63,7 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
     private static final ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase2.png");
     private static final ResourceLocation B_BODY3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase3.png");
     private static final ResourceLocation B_BODYCOLA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodycola.png");
+    private static final ResourceLocation B_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0.png");
 
     public GeoBioAndroidRender(EntityRendererProvider.Context renderManager) {
         super(renderManager, new GeoBioAndroidModel(), new GeoBioAndroidPlayer());
@@ -292,8 +293,6 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
      */
     private void render(PoseStack poseStack, GeoBioAndroidPlayer animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         var player = currentEntity;
-        // no crees un new ResourceLocation acá dentro, porque lo va a crear sin parar cada tick, lo ideal sería que tengas en otro lado las referencias a la textura,
-        // tipo public static final ResourceLocation CELL = new ResourceLocation... etc;
 
         var appliedRenderType = RenderType.entityTranslucent(new ResourceLocation("dragonminez", "textures/entity/skindeljugador.png"));
 
@@ -304,6 +303,7 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
         var skin_type2 = RenderType.entityCutoutNoCull(B_BODY2);
         var skin_type3 = RenderType.entityCutoutNoCull(B_BODY3);
         var bcola = RenderType.entityCutoutNoCull(B_BODYCOLA);
+        var ojos = RenderType.entityCutoutNoCull(B_EYES);
 
         // color decimal a rgb, a menos que quieras guardar los colores en la nbt con 3 variables xdxd
         int color = 16777215; // blanco
@@ -343,6 +343,9 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
         renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.250f, 0.232f, 0.235f, 1.0f);
         renderRecursively(poseStack, animatable, piernaizquierda, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
         renderRecursively(poseStack, animatable, piernaizquierda, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
+
+        poseStack.translate(0.0f,0.0f,-0.001f);
+        renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1f, 1f, 1f, 1.0f);
 
         //System.out.println("El evento cargo bien");
     }
