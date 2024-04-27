@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.character.models.bioandroid;// Made with Blockbench 4.9.1
+package com.yuseix.dragonminez.character.models;// Made with Blockbench 4.9.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -6,20 +6,15 @@ package com.yuseix.dragonminez.character.models.bioandroid;// Made with Blockben
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
-import net.minecraft.client.model.AnimationUtils;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 
-public class BioAndroidModel<T extends LivingEntity> extends PlayerModel<T> {
+public class ModeloBrazos<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "bioandroidmodel"), "main");
 	public final ModelPart headwa;
@@ -32,7 +27,7 @@ public class BioAndroidModel<T extends LivingEntity> extends PlayerModel<T> {
 
 
 
-	public BioAndroidModel(ModelPart root) {
+	public ModeloBrazos(ModelPart root) {
 		super(root, false);
 		this.headwa = root.getChild("head");
 		this.bodywa = root.getChild("body");

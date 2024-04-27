@@ -41,5 +41,6 @@
   "itemGroup.dragonminez.items": "DMZ Items",
   "key.category.dragonminez.category": "DragonMine Z",
   "key.dragonminez.menu_stats": "Menu",
-  "menu.title.dragonminez.statsmenu": ""
+  "menu.title.dragonminez.statsmenu": "",
+  "dmz.ccreation.eyestype": "Eyes Type"
 }

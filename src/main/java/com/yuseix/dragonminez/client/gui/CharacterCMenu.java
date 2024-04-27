@@ -1,10 +1,14 @@
 package com.yuseix.dragonminez.client.gui;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
@@ -15,13 +19,20 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharacterCMenu extends Screen {
+public class CharacterCMenu extends Screen{
 
     private int alturaTexto;
     private int anchoTexto;
@@ -42,12 +53,14 @@ public class CharacterCMenu extends Screen {
     //OTROS
     MutableComponent CCreation = (Component.translatable("dmz.ccreation.name"));
     MutableComponent Race = (Component.translatable("dmz.ccreation.race"));
+    MutableComponent EYES = (Component.translatable("dmz.ccreation.eyestype"));
 
     private final List<AbstractWidget> botonesRazas = new ArrayList<>();
 
     private DMZRightButton botonRazaRight;
     private DMZRightButton botonRazaLeft;
-
+    private DMZRightButton nextButton;
+    private DMZRightButton backButton;
     private static int currentPage = 0;
 
     public CharacterCMenu(Component pTitle) {
@@ -85,8 +98,10 @@ public class CharacterCMenu extends Screen {
         if(currentPage == 0){
             this.removeWidget(botonRazaRight);
             this.removeWidget(botonRazaLeft);
+            this.removeWidget(nextButton);
+            this.removeWidget(backButton);
 
-            DMZRightButton nextButton = this.addRenderableWidget(new DMZRightButton("right",posX + 23, posY + 90, Component.empty(), button -> {
+            nextButton = this.addRenderableWidget(new DMZRightButton("right",posX + 23, posY + 90, Component.empty(), button -> {
                 currentPage = 1;
             }));
 
@@ -139,10 +154,13 @@ public class CharacterCMenu extends Screen {
 
             });
         } else if(currentPage == 1){
+            this.removeWidget(nextButton);
+            this.removeWidget(backButton);
 
-            DMZRightButton backButton = this.addRenderableWidget(new DMZRightButton("left",posX - 23, posY + 90, Component.empty(), button -> {
+            backButton = this.addRenderableWidget(new DMZRightButton("left",posX - 23, posY + 90, Component.empty(), button -> {
                 currentPage = 0;
             }));
+
         } else if (currentPage == 2) {
 
         } else {
@@ -234,8 +252,27 @@ public class CharacterCMenu extends Screen {
                         break;
                 }
 
+                Entity target = this.minecraft.player;
+                Entity dino = new DinoEntity(MainEntity.DINO1.get(), this.minecraft.player.level());
+
+                if(dino instanceof LivingEntity){
+                    LivingEntity livingDino = (LivingEntity) dino;
+
+                    renderEntityInInventoryFollowsAngle(pGuiGraphics, Ancho / 2, Altura/2, 20, 30, 0, livingDino);
+                }
             });
         } else if(currentPage == 1){
+
+            alturaTexto = (Altura / 2);
+            anchoTexto = (Ancho / 2);
+
+            RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+            RenderSystem.setShaderTexture(0, menu1);
+            pGuiGraphics.blit(menu1, anchoTexto- 190, alturaTexto - 110, 0, 0, 148, 222);
+
+            alturaTexto = (Altura / 2);
+            anchoTexto = (Ancho- this.font.width(this.EYES)) / 2;
+            pGuiGraphics.drawString(font,EYES.withStyle(ChatFormatting.BOLD),anchoTexto-115,alturaTexto-90,0xffffff);
 
         }else if(currentPage == 2){
 
@@ -259,5 +296,48 @@ public class CharacterCMenu extends Screen {
     }
     public static void drawStringWithBorder(GuiGraphics guiGraphics,Font font, Component texto, int x, int y, int ColorTexto){
         drawStringWithBorder(guiGraphics,font, texto, x,y,ColorTexto,0);
+    }
+
+    public static void renderEntityInInventoryFollowsAngle(GuiGraphics guiGraphics, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity livingEntity) {
+        Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
+        Quaternionf quaternionf1 = (new Quaternionf()).rotateX(angleYComponent * 20.0F * 0.017453292F);
+        quaternionf.mul(quaternionf1);
+        float f2 = livingEntity.yBodyRot;
+        float f3 = livingEntity.getYRot();
+        float f4 = livingEntity.getXRot();
+        float f5 = livingEntity.yHeadRotO;
+        float f6 = livingEntity.yHeadRot;
+        livingEntity.yBodyRot = 180.0F + angleXComponent * 20.0F;
+        livingEntity.setYRot(180.0F + angleXComponent * 40.0F);
+        livingEntity.setXRot(-angleYComponent * 20.0F);
+        livingEntity.yHeadRot = livingEntity.getYRot();
+        livingEntity.yHeadRotO = livingEntity.getYRot();
+        renderEntityInInv(guiGraphics, x, y, scale, quaternionf, quaternionf1, livingEntity);
+        livingEntity.yBodyRot = f2;
+        livingEntity.setYRot(f3);
+        livingEntity.setXRot(f4);
+        livingEntity.yHeadRotO = f5;
+        livingEntity.yHeadRot = f6;
+    }
+
+
+    public static void renderEntityInInv(GuiGraphics pGuiGraphics, int pX, int pY, int pScale, Quaternionf pPose, @Nullable Quaternionf pCameraOrientation, LivingEntity pEntity) {
+        pGuiGraphics.pose().pushPose();
+        pGuiGraphics.pose().translate(pX, pY, 50.0);
+        pGuiGraphics.pose().mulPoseMatrix((new Matrix4f()).scaling((float) pScale, (float) pScale, (float) (-pScale)));
+        pGuiGraphics.pose().mulPose(pPose);
+        Lighting.setupForEntityInInventory();
+        EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+        if (pCameraOrientation != null) {
+            pCameraOrientation.conjugate();
+            entityrenderdispatcher.overrideCameraOrientation(pCameraOrientation);
+        }
+        entityrenderdispatcher.setRenderShadow(false);
+        entityrenderdispatcher.render(pEntity, 0.0, 0.0, 0.0, 0.0F, 1.0F, pGuiGraphics.pose(), pGuiGraphics.bufferSource(), 15728880);
+
+        pGuiGraphics.flush();
+        entityrenderdispatcher.setRenderShadow(true);
+        pGuiGraphics.pose().popPose();
+        Lighting.setupFor3DItems();
     }
 }

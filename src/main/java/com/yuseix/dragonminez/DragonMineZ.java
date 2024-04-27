@@ -2,8 +2,7 @@ package com.yuseix.dragonminez;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.FaceModel;
-import com.yuseix.dragonminez.character.models.ModeloBrazosPrueba;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.character.models.ModeloBrazos;
 import com.yuseix.dragonminez.character.renders.bioandroid.GeoBioAndroidRender;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
@@ -107,8 +106,7 @@ public class DragonMineZ {
         public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
             e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
-            e.registerLayerDefinition(ModeloBrazosPrueba.LAYER_LOCATION, ModeloBrazosPrueba::createBodyLayer);
-                e.registerLayerDefinition(BioAndroidModel.LAYER_LOCATION, BioAndroidModel::createBodyLayer);
+                e.registerLayerDefinition(ModeloBrazos.LAYER_LOCATION, ModeloBrazos::createBodyLayer);
 
             }
 

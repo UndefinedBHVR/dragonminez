@@ -2,10 +2,9 @@ package com.yuseix.dragonminez.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.LayerDMZBase;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.character.models.ModeloBrazos;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,26 +15,20 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.scores.Objective;
-import net.minecraft.world.scores.Score;
-import net.minecraft.world.scores.Scoreboard;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, BioAndroidModel<AbstractClientPlayer>> {
+public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, ModeloBrazos<AbstractClientPlayer>> {
 
     //BIOANDROIDE
     private static final ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase1.png");
@@ -46,14 +39,9 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Bio
 
     public RenderBrazos(EntityRendererProvider.Context pContext) {
 
-        super(pContext, new BioAndroidModel<>(pContext.bakeLayer(BioAndroidModel.LAYER_LOCATION)), 0.5f);
+        super(pContext, new ModeloBrazos<>(pContext.bakeLayer(ModeloBrazos.LAYER_LOCATION)), 0.5f);
 
         this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
-        this.addLayer(new ArrowLayer(pContext, this));
-        this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
-        this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
-        this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
-        this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new LayerDMZBase(this));
     }
 
@@ -61,14 +49,14 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Bio
 
 
     @Override
-    public void render(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(@NotNull AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
 
         this.setModelProperties(pEntity);
         super.render(pEntity, pEntityYaw, pPartialTicks, pPoseStack, pBuffer, pPackedLight);
 
     }
 
-    private static HumanoidModel.ArmPose getArmPose(AbstractClientPlayer pPlayer, InteractionHand pHand) {
+    private static HumanoidModel.ArmPose getArmPose(@NotNull AbstractClientPlayer pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         if (itemstack.isEmpty()) {
             return HumanoidModel.ArmPose.EMPTY;
@@ -112,49 +100,24 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Bio
     }
 
     @Override
-    public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull AbstractClientPlayer abstractClientPlayer) {
         return abstractClientPlayer.getSkinTextureLocation();
     }
 
-    @Override
-    protected boolean shouldShowName(AbstractClientPlayer player) {
-        return !player.isCrouching() && super.shouldShowName(player);
-    }
 
-    @Override
-    protected void scale(AbstractClientPlayer player, PoseStack stack, float partialTickTime) {
-        stack.scale(1f, 1f, 1f);
-    }
-    @Override
-    protected void renderNameTag(AbstractClientPlayer player, Component name, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
-        double d0 = this.entityRenderDispatcher.distanceToSqr(player);
-        matrixStack.pushPose();
-        if (d0 < 100.0D) {
-            Scoreboard scoreboard = player.getScoreboard();
-            Objective objective = scoreboard.getDisplayObjective(2);
-            if (objective != null) {
-                Score score = scoreboard.getOrCreatePlayerScore(player.getScoreboardName(), objective);
-                super.renderNameTag(player, Component.literal(Integer.toString(score.getScore())).append(" ").append(objective.getDisplayName()), matrixStack, buffer, packedLight);
-                matrixStack.translate(0.0D, 9.0F * 1.15F * 0.025F, 0.0D);
-            }
-        }
-
-        super.renderNameTag(player, name, matrixStack, buffer, packedLight);
-        matrixStack.popPose();
-    }
 
     public void renderRightHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-            this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel)this.model).rightArm, ((PlayerModel)this.model).rightSleeve);
+            this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel<?>)this.model).rightArm, ((PlayerModel)this.model).rightSleeve);
 
     }
 
     public void renderLeftHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-            this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel)this.model).leftArm, ((PlayerModel)this.model).leftSleeve);
+            this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel<?>)this.model).leftArm, ((PlayerModel)this.model).leftSleeve);
 
 
     }
 
-    private void renderHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear) {
+    private void renderHand(PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, @NotNull ModelPart pRendererArm, ModelPart pRendererArmwear) {
 
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
         this.setModelProperties(pPlayer);
@@ -173,7 +136,7 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Bio
 
     }
 
-    private void setModelProperties(AbstractClientPlayer pClientPlayer) {
+    private void setModelProperties(@NotNull AbstractClientPlayer pClientPlayer) {
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
         if (pClientPlayer.isSpectator()) {
             playermodel.setAllVisible(false);
@@ -201,44 +164,6 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Bio
                 playermodel.rightArmPose = humanoidmodel$armpose1;
                 playermodel.leftArmPose = humanoidmodel$armpose;
             }
-        }
-
-    }
-
-    @Override
-    protected void setupRotations(AbstractClientPlayer pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
-        float f = pEntityLiving.getSwimAmount(pPartialTicks);
-        float f3;
-        float f2;
-        if (pEntityLiving.isFallFlying()) {
-            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-            f3 = (float)pEntityLiving.getFallFlyingTicks() + pPartialTicks;
-            f2 = Mth.clamp(f3 * f3 / 100.0F, 0.0F, 1.0F);
-            if (!pEntityLiving.isAutoSpinAttack()) {
-                pPoseStack.mulPose(Axis.XP.rotationDegrees(f2 * (-90.0F - pEntityLiving.getXRot())));
-            }
-
-            Vec3 vec3 = pEntityLiving.getViewVector(pPartialTicks);
-            Vec3 vec31 = pEntityLiving.getDeltaMovementLerped(pPartialTicks);
-            double d0 = vec31.horizontalDistanceSqr();
-            double d1 = vec3.horizontalDistanceSqr();
-            if (d0 > 0.0 && d1 > 0.0) {
-                double d2 = (vec31.x * vec3.x + vec31.z * vec3.z) / Math.sqrt(d0 * d1);
-                double d3 = vec31.x * vec3.z - vec31.z * vec3.x;
-                pPoseStack.mulPose(Axis.YP.rotation((float)(Math.signum(d3) * Math.acos(d2))));
-            }
-        } else if (f > 0.0F) {
-            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-            f3 = !pEntityLiving.isInWater() && !pEntityLiving.isInFluidType((fluidType, height) -> {
-                return pEntityLiving.canSwimInFluidType(fluidType);
-            }) ? -90.0F : -90.0F - pEntityLiving.getXRot();
-            f2 = Mth.lerp(f, 0.0F, f3);
-            pPoseStack.mulPose(Axis.XP.rotationDegrees(f2));
-            if (pEntityLiving.isVisuallySwimming()) {
-                pPoseStack.translate(0.0F, -1.0F, 0.3F);
-            }
-        } else {
-            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
         }
 
     }

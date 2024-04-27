@@ -3,26 +3,21 @@ package com.yuseix.dragonminez.character;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.character.models.ModeloBrazos;
 import com.yuseix.dragonminez.events.ModEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelEvent;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerDMZBase extends RenderLayer<AbstractClientPlayer, BioAndroidModel<AbstractClientPlayer>> {
+public class LayerDMZBase extends RenderLayer<AbstractClientPlayer, ModeloBrazos<AbstractClientPlayer>> {
 
     private static final ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/body/bodybase1.png");
     private static final ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/body/bodybase2.png");
@@ -31,7 +26,7 @@ public class LayerDMZBase extends RenderLayer<AbstractClientPlayer, BioAndroidMo
     private static final ResourceLocation B_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/eyes/eyes_0.png");
     private static final ResourceLocation B_EYE_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/races/bioandroid/imperfect/eyes/eyes_0_iris.png");
 
-    public LayerDMZBase(RenderLayerParent<AbstractClientPlayer, BioAndroidModel<AbstractClientPlayer>> pRenderer) {
+    public LayerDMZBase(RenderLayerParent<AbstractClientPlayer, ModeloBrazos<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
     }
 
