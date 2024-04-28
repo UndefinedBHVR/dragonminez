@@ -82,9 +82,9 @@ public class DragonMineZ {
                 """
                         DragonMineZ:
                         Only the official DMZ development team is allowed to play the mod.
-
-
                         If you are not a member of this team, the mod will cause an error.
+
+                        This mod is in a development phase! Expect bugs, errors and crashes!
 
                         Proceed with caution!""");
         ModLoader.get().addWarning(modLoadingWarning);
