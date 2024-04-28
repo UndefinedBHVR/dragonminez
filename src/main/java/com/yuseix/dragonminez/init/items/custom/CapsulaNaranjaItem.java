@@ -32,6 +32,7 @@ public class CapsulaNaranjaItem extends Item {
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
 
         pTooltipComponents.add(Component.translatable("item.dragonminez.orange_capsule.tooltip").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.orange_capsule.tooltip2").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

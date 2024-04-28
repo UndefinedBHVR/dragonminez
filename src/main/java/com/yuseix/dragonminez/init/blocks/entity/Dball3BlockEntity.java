@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.blocks.entity;
 
+import com.yuseix.dragonminez.init.MainBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;

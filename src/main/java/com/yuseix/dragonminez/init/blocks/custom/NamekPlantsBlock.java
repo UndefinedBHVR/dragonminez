@@ -18,7 +18,7 @@ public class NamekPlantsBlock extends FlowerBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        return pState.is(MainBlocks.NAMEK_GRASS_BLOCK.get()) || pState.is(MainBlocks.NAMEK_DIRT.get());
+        return pState.is(MainBlocks.NAMEK_GRASS_BLOCK.get()) || pState.is(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
     }
 
     @Override
