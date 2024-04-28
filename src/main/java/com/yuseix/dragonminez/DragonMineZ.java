@@ -79,7 +79,14 @@ public class DragonMineZ {
         // Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
         IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
         ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT,
-                "DragonMineZ:\nOnly the following usernames are allowed to play the mod: \n\n" + ALLOWED_USERNAMES + "\n\nIf you are not one of these users, the mod will cause an error.\n\nProceed with caution!");
+                """
+                        DragonMineZ:
+                        Only the official DMZ development team is allowed to play the mod.
+
+
+                        If you are not a member of this team, the mod will cause an error.
+
+                        Proceed with caution!""");
         ModLoader.get().addWarning(modLoadingWarning);
     }
 
