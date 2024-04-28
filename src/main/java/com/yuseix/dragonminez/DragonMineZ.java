@@ -5,7 +5,6 @@ import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.character.models.ModeloPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
-import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -17,17 +16,25 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.ModLoadingStage;
+import net.minecraftforge.fml.ModLoadingWarning;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forgespi.language.IModInfo;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Mod(DragonMineZ.MOD_ID)
 public class DragonMineZ {
@@ -36,7 +43,14 @@ public class DragonMineZ {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
+            "Dev",
+            "MrBrunoh",
+            "Yuseix",
+            "ezShokkoh");
+
     public DragonMineZ() {
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
@@ -56,10 +70,27 @@ public class DragonMineZ {
         MainEntity.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerLogin);
 
         GeckoLib.initialize();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminez-common.toml");
+
+        // Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
+        IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
+        ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT,
+                "DragonMineZ:\nOnly the following usernames are allowed to play the mod: \n\n" + ALLOWED_USERNAMES + "\n\nIf you are not one of these users, the mod will cause an error.\n\nProceed with caution!");
+        ModLoader.get().addWarning(modLoadingWarning);
+    }
+
+    private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+
+        String username = event.getEntity().getGameProfile().getName();
+
+        if (!ALLOWED_USERNAMES.contains(username)) {
+            LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
+            throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -98,7 +129,7 @@ public class DragonMineZ {
         }
 
 
-            @SubscribeEvent
+        @SubscribeEvent
         public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
             e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
