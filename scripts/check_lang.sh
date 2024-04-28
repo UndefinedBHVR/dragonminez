@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 FALLIDO=0
 
 for i in ./src/main/resources/assets/dragonminez/lang/*.json
