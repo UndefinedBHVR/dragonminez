@@ -7,7 +7,7 @@ do
     if ! jq . "${i}" > /dev/null
     then
         echo "El Archivo ${i} es un JSON con formato incorrecto."
-        FALLDIO=1
+        FALLIDO=1
     fi
 done
 
