@@ -1,18 +1,32 @@
 name: Java CI
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17 Temurin
-      uses: actions/setup-java@v4.2.1
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Checkea idiomas pa
-      run: ./scripts/check_lang.sh
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17 Temurin
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Gradle Wrapper Validation
+        run: gradle/wrapper-validation-action@v3.3.2
+
+      - name: Cache
+        uses: actions/cache@v4.0.2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle', '**/gradle-wrapper.properties') }}
+
+      - name: Checkea idiomas pa
+        run: ./scripts/check_lang.sh
+
+      - name: Build with Gradle
+        uses: gradle/actions@v3.3.2
