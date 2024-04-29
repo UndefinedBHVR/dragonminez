@@ -43,6 +43,11 @@ public class MainBlockEntities {
                     BlockEntityType.Builder.of(Dball7BlockEntity::new, MainBlocks.DBALL7_BLOCK.get())
                             .build(null));
 
+    public static final RegistryObject<BlockEntityType<Dball1NamekBlockEntity>> DBALL1_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball1_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball1NamekBlockEntity::new, MainBlocks.DBALL1_NAMEK_BLOCK.get())
+                            .build(null));
+
     //ORES (por ahora solo el Horno)
     public static final RegistryObject<BlockEntityType<GeteFurnaceBlockEntity>> GETE_FURNACE_BLOCK_ENTITY =
             BLOCK_ENTITY_TYPES_REGISTER.register("gete_furnace_block_entity", () ->
@@ -50,7 +55,7 @@ public class MainBlockEntities {
                             .build(null));
 
 
-    public static void register(IEventBus bus){
+    public static void register(IEventBus bus) {
         BLOCK_ENTITY_TYPES_REGISTER.register(bus);
     }
 }

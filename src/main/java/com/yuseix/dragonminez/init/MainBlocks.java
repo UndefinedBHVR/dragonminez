@@ -184,6 +184,11 @@ public class MainBlocks {
                     .noOcclusion()
                     .lightLevel(value -> 15)
             ));
+    public static final RegistryObject<Block> DBALL1_NAMEK_BLOCK = BLOCK_REGISTER.register("dball1_namek",
+            () -> new Dball1NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .lightLevel(value -> 15)
+            ));
 
     private static RegistryObject<Block> registerBlock(String name, Supplier<Block> supplier) {
         RegistryObject<Block> registeredObject = BLOCK_REGISTER.register(name, supplier);

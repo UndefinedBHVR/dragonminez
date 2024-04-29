@@ -2,7 +2,6 @@ package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
-import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
 import com.yuseix.dragonminez.utils.KeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -26,6 +25,7 @@ public class ClientEvents {
         }
 
         @SubscribeEvent
+        //Cancela el renderizado de la barra de vida
         public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
             if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
                 event.setCanceled(true);
