@@ -30,8 +30,6 @@ public class MainBlocks {
 
     //INICIO DE ITEMS SIN NECESIDADES ESPECIALES **NO** TIENEN SU CLASE EN INIT.BLOCKS.CUSTOM:
     //BLOQUES
-    /*TODO: Que los bloques custom tengan propios SFX (Conseguir a alguien que haga los sonidos?)
-     *  Estaría interesante que sean custom...*/
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
@@ -71,7 +69,7 @@ public class MainBlocks {
     //GETE
     public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-    /*TODO: Crear el Sapling de Namek_Sacred
+    /*
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
             () -> new SaplingBlock(new SacredTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)
                     .mapColor(MapColor.PLANT)
@@ -125,8 +123,6 @@ public class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_COPPER_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
 
     //HORNO CUSTOM
-    /*TODO: Hacer que el horno custom de Gete funcione
-     *  Que tenga una GUI propia y que pueda cocinar cosas de una manera diferente, usar una mecánica diferente. */
     public static final RegistryObject<Block> GETE_FURNACE = registerBlock("gete_furnace",
             () -> new GeteFurnaceBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.STONE)
