@@ -5,6 +5,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.LayerDMZBase;
 import com.yuseix.dragonminez.character.models.ModeloBrazos;
+import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -125,10 +127,21 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Mod
         playermodel.crouching = false;
         playermodel.swimAmount = 0.0F;
         playermodel.setupAnim(pPlayer, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-
         pRendererArm.xRot = 0.0F;
-        VertexConsumer skin_type1 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY1));
-        pRendererArm.render(pPoseStack, skin_type1, pCombinedLight, OverlayTexture.NO_OVERLAY, 0.250f, 0.232f, 0.235f, 1.0f);
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,pPlayer).ifPresent(cap -> {
+
+            if(cap.getRace() == 0){
+                //Cuerpo1
+                int bodyColor1 = cap.getBodyColor();
+                float colorR = (bodyColor1 >> 16) / 255.0F;
+                float colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+                float colorB = (bodyColor1 & 0xff) / 255.0f;
+                VertexConsumer skin_type1 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY1));
+                pRendererArm.render(pPoseStack, skin_type1, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            }
+        });
+
         VertexConsumer skin_type2 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY2));
         pRendererArm.render(pPoseStack, skin_type2, pCombinedLight, OverlayTexture.NO_OVERLAY, 0.920f, 0.920f, 0.920f, 1.0f);
         VertexConsumer skin_type3 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY3));

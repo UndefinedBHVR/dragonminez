@@ -37,7 +37,7 @@ public class DMZRightButton extends Button {
             }
 
             offset = 20;
-        } else {
+        } else if(tipo.equals("left")){
             if (this.isHovered()) {
                 //ejemplo para añadir botones mas adelante buttonX += 10;
                 buttonY += 14;

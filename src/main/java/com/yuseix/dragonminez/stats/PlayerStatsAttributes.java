@@ -19,7 +19,7 @@ public class PlayerStatsAttributes {
     private int energy = 5, currentEnergy;
 
 
-    private int bodyColor;
+    private int bodyColor, bodyColor2,bodyColor3,eye1Color,eye2Color,hairColor,auraColor;
 
     private boolean AcceptCharacter = false;
 
@@ -45,6 +45,62 @@ public class PlayerStatsAttributes {
 
     public void setBodyColor(int bodyColor) {
         this.bodyColor = bodyColor;
+        ModEvents.sync(player);
+    }
+
+    public int getBodyColor2() {
+        return bodyColor2;
+    }
+
+    public void setBodyColor2(int bodyColor2) {
+        this.bodyColor2 = bodyColor2;
+        ModEvents.sync(player);
+    }
+
+    public int getBodyColor3() {
+        return bodyColor3;
+    }
+
+    public void setBodyColor3(int bodyColor3) {
+        this.bodyColor3 = bodyColor3;
+        ModEvents.sync(player);
+    }
+
+    public int getEye1Color() {
+        return eye1Color;
+
+    }
+
+    public void setEye1Color(int eye1Color) {
+        this.eye1Color = eye1Color;
+        ModEvents.sync(player);
+    }
+
+    public int getEye2Color() {
+        return eye2Color;
+    }
+
+    public void setEye2Color(int eye2Color) {
+        this.eye2Color = eye2Color;
+        ModEvents.sync(player);
+    }
+
+    public int getHairColor() {
+        return hairColor;
+    }
+
+    public void setHairColor(int hairColor) {
+        this.hairColor = hairColor;
+        ModEvents.sync(player);
+    }
+
+    public int getAuraColor() {
+        return auraColor;
+    }
+
+    public void setAuraColor(int auraColor) {
+        this.auraColor = auraColor;
+        ModEvents.sync(player);
     }
 
     public int addStrength(int points) {
@@ -363,17 +419,6 @@ public class PlayerStatsAttributes {
         return this.currentEnergy;
     }
 
-    public int getCurBody() {
-
-
-        return curBody;
-    }
-
-    public void setCurBody(int curBody) {
-        this.curBody = curBody;
-        ModEvents.sync(player);
-    }
-
     public int getCurStam() {
 
         return curStam;
@@ -429,6 +474,8 @@ public class PlayerStatsAttributes {
         ModEvents.sync(player);
     }
 
+
+
     public CompoundTag saveNBTData() {
 
         CompoundTag nbt = new CompoundTag();
@@ -451,6 +498,13 @@ public class PlayerStatsAttributes {
         nbt.putInt("currentStamina", curStam);
 
         nbt.putInt("bodyColor", bodyColor);
+        nbt.putInt("bodyColor2", bodyColor2);
+        nbt.putInt("bodyColor3", bodyColor3);
+        nbt.putInt("hairColor", hairColor);
+        nbt.putInt("eye1Color", eye1Color);
+        nbt.putInt("eye2Color", eye2Color);
+        nbt.putInt("auraColor", auraColor);
+
 
         nbt.putInt("zpoints", zpoints);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
@@ -478,6 +532,14 @@ public class PlayerStatsAttributes {
         curStam = nbt.getInt("currentStamina");
 
         bodyColor = nbt.getInt("bodyColor");
+        bodyColor2 = nbt.getInt("bodyColor2");
+        bodyColor3 = nbt.getInt("bodyColor3");
+        hairColor = nbt.getInt("hairColor");
+        eye1Color = nbt.getInt("eye1Color");
+        eye2Color = nbt.getInt("eye2Color");
+        auraColor = nbt.getInt("auraColor");
+
+
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
 
     }

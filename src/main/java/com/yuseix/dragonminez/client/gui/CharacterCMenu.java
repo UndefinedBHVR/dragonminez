@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
+import com.yuseix.dragonminez.client.gui.buttons.ColorButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.events.ModEvents;
@@ -18,6 +19,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
@@ -25,6 +27,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.client.gui.widget.ForgeSlider;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
@@ -39,8 +42,13 @@ public class CharacterCMenu extends Screen{
 
     private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
+    private static final ResourceLocation menu2 = new ResourceLocation(DragonMineZ.MOD_ID,
+            "textures/gui/menumedio.png");
     private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menutexto.png");
+    private static final ResourceLocation colorCuadrado = new ResourceLocation(DragonMineZ.MOD_ID,
+            "textures/gui/buttons/characterbuttons.png");
+
 
     //NOMBRES DE LAS RAZAS
     MutableComponent Human = (Component.translatable("dmz.races.name.human"));
@@ -54,14 +62,24 @@ public class CharacterCMenu extends Screen{
     MutableComponent CCreation = (Component.translatable("dmz.ccreation.name"));
     MutableComponent Race = (Component.translatable("dmz.ccreation.race"));
     MutableComponent EYES = (Component.translatable("dmz.ccreation.eyestype"));
+    MutableComponent BACK = (Component.translatable("dmz.ccreation.back"));
+    MutableComponent NEXT = (Component.translatable("dmz.ccreation.next"));
+    MutableComponent COLOR_MENU = (Component.translatable("dmz.ccreation.color_menu"));
 
-    private final List<AbstractWidget> botonesRazas = new ArrayList<>();
 
-    private DMZRightButton botonRazaRight;
-    private DMZRightButton botonRazaLeft;
-    private DMZRightButton nextButton;
-    private DMZRightButton backButton;
+    MutableComponent EYES_TYPE_1 = (Component.translatable("dmz.ccreation.eyestype.type1"));
+
+    private final List<AbstractWidget> botonOjos = new ArrayList<>();
+
+    private DMZRightButton botonRazaRight,botonRazaLeft;
+
+    private TextButton nextButton,backButton, setColor;
+    private ColorButton eyesButtonColor;
+    private ForgeSlider sliderR,sliderG,sliderB;
+    private int colorR,colorG,colorB;
     private static int currentPage = 0;
+    private static String partePagina = "";
+
 
     public CharacterCMenu(Component pTitle) {
         super(pTitle);
@@ -69,7 +87,6 @@ public class CharacterCMenu extends Screen{
 
     @Override
     protected void init() {
-        super.init();
 
         //MenuInicio
         int posX = (this.minecraft.getWindow().getGuiScaledWidth()) / 2;
@@ -79,9 +96,81 @@ public class CharacterCMenu extends Screen{
 
         } else if (currentPage == 1){
 
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+                int sliderX = posX + 80;
+                sliderR = this.addRenderableWidget(new ForgeSlider(sliderX,posY-75,100,15,Component.literal("R:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RED),Component.empty(),0.0,255.0,colorR,true){
+                    @Override
+                    protected void applyValue() {
+                        super.applyValue();
+                        colorR = this.getValueInt();
+                    }
+                });
+                sliderG = this.addRenderableWidget(new ForgeSlider(sliderX,posY-55,100,15,Component.literal("G:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GREEN),Component.empty(),0.0,255.0,colorB,true){
+                    @Override
+                    protected void applyValue() {
+                        super.applyValue();
+                        colorG = this.getValueInt();
+                    }
+                });
+                sliderB = this.addRenderableWidget(new ForgeSlider(sliderX,posY-35,100,15,Component.literal("B:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE),Component.empty(),0.0,255.0,colorG,true){
+                    @Override
+                    protected void applyValue() {
+                        super.applyValue();
+                        colorB = this.getValueInt();
+                    }
+                });
+
+                switch (cap.getRace()){
+                    case 0:
+                        //BOTON COLOR
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1",posX - 140, posY - 57,Component.empty(),button -> {
+                            int cuerpo = cap.getBodyColor();
+
+                            float r = (cuerpo >> 16) / 255.0F;
+                            float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                            float b = (cuerpo & 0xff) / 255.0f;
+
+                            colorR = (int) (r*255);
+                            colorG = (int) (g*255);
+                            colorB = (int) (b*255);
+
+                            sliderR.setValue(colorR);
+                            sliderG.setValue(colorG);
+                            sliderB.setValue(colorB);
+
+                            this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX + 80, posY+10,Component.literal("SET"),wa -> {
+                                ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR,colorG,colorB)));
+
+                            }));
+                            this.partePagina = "cuerpo1";
+                        }));
+
+
+
+
+
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+
+                }
+
+            });
+
         }
 
-
+        super.init();
     }
     @Override
     public boolean isPauseScreen() {
@@ -95,13 +184,18 @@ public class CharacterCMenu extends Screen{
         int posX = (this.minecraft.getWindow().getGuiScaledWidth()) / 2;
         int posY = (this.minecraft.getWindow().getGuiScaledHeight()) / 2;
 
-        if(currentPage == 0){
-            this.removeWidget(botonRazaRight);
-            this.removeWidget(botonRazaLeft);
-            this.removeWidget(nextButton);
-            this.removeWidget(backButton);
+        botonOjos.forEach(this::removeWidget);
+        botonOjos.clear();
+        this.removeWidget(botonRazaRight);
+        this.removeWidget(botonRazaLeft);
+        this.removeWidget(nextButton);
+        this.removeWidget(backButton);
 
-            nextButton = this.addRenderableWidget(new DMZRightButton("right",posX + 23, posY + 90, Component.empty(), button -> {
+
+        if(currentPage == 0){
+
+
+            nextButton = this.addRenderableWidget(new TextButton(posX + 23, posY + 90, NEXT.withStyle(ChatFormatting.BOLD), button -> {
                 currentPage = 1;
             }));
 
@@ -153,12 +247,53 @@ public class CharacterCMenu extends Screen{
                 }
 
             });
-        } else if(currentPage == 1){
-            this.removeWidget(nextButton);
-            this.removeWidget(backButton);
 
-            backButton = this.addRenderableWidget(new DMZRightButton("left",posX - 23, posY + 90, Component.empty(), button -> {
+        } else if(currentPage == 1){
+
+
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,minecraft.player).ifPresent(cap -> {
+
+                switch(cap.getRace()){
+                    case 0:
+                        if(cap.getEyesType() == 0){
+                            botonOjos.forEach(this::removeWidget);
+
+                            botonOjos.add(new DMZRightButton("right",posX - 95, posY - 73,Component.empty(),button -> {
+
+                            }));
+                            botonOjos.add(new DMZRightButton("left",posX - 175, posY - 73,Component.empty(),button -> {
+
+                            }));
+                            botonOjos.forEach(this::addRenderableWidget);
+
+
+                        }
+
+
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
+
+            });
+
+            //BOTON VOLVER
+             this.backButton = (TextButton) this.addRenderableWidget(new TextButton(posX - 85, posY+105,BACK.withStyle(ChatFormatting.BOLD),button -> {
                 currentPage = 0;
+            }));
+            //BOTON SIGUIENTE
+            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(posX + 10, posY+105,NEXT.withStyle(ChatFormatting.BOLD),button -> {
+
             }));
 
         } else if (currentPage == 2) {
@@ -175,7 +310,6 @@ public class CharacterCMenu extends Screen{
 
         var Altura = pGuiGraphics.guiHeight();
         var Ancho = pGuiGraphics.guiWidth();
-
 
         if(currentPage == 0){
             RenderSystem.enableBlend();
@@ -263,16 +397,78 @@ public class CharacterCMenu extends Screen{
             });
         } else if(currentPage == 1){
 
+            //MENU CARACTERISTICAS
             alturaTexto = (Altura / 2);
             anchoTexto = (Ancho / 2);
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+            pGuiGraphics.blit(menu1, anchoTexto - 205, alturaTexto - 110, 0, 0, 148, 222);
+            RenderSystem.disableBlend();
+
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, minecraft.player).ifPresent(cap -> {
+
+                switch(cap.getRace()){
+                    case 0:
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = (Ancho- this.font.width(this.EYES)) / 2;
+                        pGuiGraphics.drawString(font,this.EYES.withStyle(ChatFormatting.BOLD),anchoTexto-133,alturaTexto-89,0xFF9B9B);
+
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = (Ancho / 2);
+                        RenderSystem.enableBlend();
+                        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                        RenderSystem.setShaderTexture(0, texto);
+                        pGuiGraphics.blit(texto, anchoTexto- 168, alturaTexto - 30, 0, 0, 73, 15);
+                        RenderSystem.disableBlend();
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = (Ancho - this.font.width(this.EYES_TYPE_1))/ 2;
+                        drawStringWithBorder(pGuiGraphics,font,this.EYES_TYPE_1,anchoTexto - 130,alturaTexto - 70,0xFFFFFF);
+
+
+
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            //MENU COLOR
+            alturaTexto = (Altura / 2);
+            anchoTexto = (Ancho / 2);
+            RenderSystem.enableBlend();
+            pGuiGraphics.blit(menu2, anchoTexto+ 60, alturaTexto - 110, 0, 0, 148, 163);
+            RenderSystem.disableBlend();
+            //TITULO
+            alturaTexto = (Altura / 2);
+            anchoTexto = (Ancho- this.font.width(this.COLOR_MENU)) / 2;
+            pGuiGraphics.drawString(font,this.COLOR_MENU.withStyle(ChatFormatting.BOLD),anchoTexto+132,alturaTexto-88,0xFF9B9B);
+
+            //CUADRITO DE COLOR
+            alturaTexto = (Altura / 2);
+            anchoTexto = (Ancho / 2);
+            if(partePagina.equals("cuerpo1")){
+                float rColor = sliderR.getValueInt() / 255.0F;
+                float gColor = sliderG.getValueInt() / 255.0f;
+                float bColor = sliderB.getValueInt() / 255.0f;
+
+                RenderSystem.enableBlend();
+                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderTexture(0, colorCuadrado);
+                pGuiGraphics.blit(colorCuadrado, anchoTexto + 120, alturaTexto - 10, 41, 0, 20, 14);
+                RenderSystem.disableBlend();
+            }
 
             RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
-            RenderSystem.setShaderTexture(0, menu1);
-            pGuiGraphics.blit(menu1, anchoTexto- 190, alturaTexto - 110, 0, 0, 148, 222);
-
-            alturaTexto = (Altura / 2);
-            anchoTexto = (Ancho- this.font.width(this.EYES)) / 2;
-            pGuiGraphics.drawString(font,EYES.withStyle(ChatFormatting.BOLD),anchoTexto-115,alturaTexto-90,0xffffff);
 
         }else if(currentPage == 2){
 
@@ -285,7 +481,30 @@ public class CharacterCMenu extends Screen{
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
     }
-    
+
+
+    @Override
+    public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+        return super.mouseReleased(pMouseX, pMouseY, pButton);
+    }
+
+    @Override
+    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+        return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+
+    public static int calcularColor(int r, int g, int b){
+        //Convertir el numero a decimal
+        int colorDecimal = (r << 16) + (g << 8) + b;
+
+        return colorDecimal;
+    }
+
     public static void drawStringWithBorder(GuiGraphics guiGraphics,Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde){
 
         guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);

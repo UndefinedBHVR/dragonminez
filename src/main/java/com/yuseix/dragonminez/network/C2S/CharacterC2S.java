@@ -53,6 +53,27 @@ public class CharacterC2S {
                             playerstats.setBodytype(0);
                             playerstats.setEyesType(0);
                             break;
+                        case "BodyColor1":
+                            playerstats.setBodyColor(packet.cantidad);
+                            break;
+                        case "BodyColor2":
+                            playerstats.setBodyColor2(packet.cantidad);
+                            break;
+                        case "BodyColor3":
+                            playerstats.setBodyColor3(packet.cantidad);
+                            break;
+                        case "eye1Color":
+                            playerstats.setEye1Color(packet.cantidad);
+                            break;
+                        case "eye2Color":
+                            playerstats.setEye2Color(packet.cantidad);
+                            break;
+                        case "hairColor":
+                            playerstats.setHairColor(packet.cantidad);
+                            break;
+                        case "auraColor":
+                            playerstats.setAuraColor(packet.cantidad);
+                            break;
                         default:
                             System.out.println("Algo salio mal !");
                             break;

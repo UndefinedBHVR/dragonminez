@@ -18,6 +18,7 @@ public class CCEvents {
 
     private static RenderBrazos render;
 
+
     @SubscribeEvent
     public static void Hands(RenderArmEvent event){
 
@@ -38,6 +39,8 @@ public class CCEvents {
 
         event.setCanceled(true);
     }
+
+
 
     /*
     @SuppressWarnings({"deprecation", "removal"})
