@@ -89,6 +89,11 @@ public class MainItems {
                     .stacksTo(1)
                     .fireResistant()
             ));
+    public static final RegistryObject<Item> DBALL1_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball1_namek",
+            () -> new BlockItem(MainBlocks.DBALL1_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
 
     public static void register(IEventBus bus) {
         ITEM_REGISTER.register(bus);
