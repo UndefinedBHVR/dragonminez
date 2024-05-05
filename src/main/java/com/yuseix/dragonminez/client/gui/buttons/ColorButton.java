@@ -29,15 +29,37 @@ public class ColorButton extends Button {
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-            if(tipo.equals("bodyColor1")){
-                //CONVERTIR DE DECIMAL A FLOAT
-                int color = cap.getBodyColor(); // blanco
-                float r = (color >> 16) / 255.0F;
-                float g = ((color >> 8) & 0xff) / 255.0f;
-                float b = (color & 0xff) / 255.0f;
 
-                pGuiGraphics.setColor(r, g, b, 1.0f);
+            int color;
+            float r,g,b;
+            switch(tipo){
+                case "bodyColor1":
+                    //CONVERTIR DE DECIMAL A FLOAT
+                    color = cap.getBodyColor(); // blanco
+                    r = (color >> 16) / 255.0F;
+                    g = ((color >> 8) & 0xff) / 255.0f;
+                    b = (color & 0xff) / 255.0f;
 
+                    pGuiGraphics.setColor(r, g, b, 1.0f);
+                    break;
+                case "bodyColor2":
+                    //CONVERTIR DE DECIMAL A FLOAT
+                    color = cap.getBodyColor2(); // blanco
+                    r = (color >> 16) / 255.0F;
+                    g = ((color >> 8) & 0xff) / 255.0f;
+                    b = (color & 0xff) / 255.0f;
+
+                    pGuiGraphics.setColor(r, g, b, 1.0f);
+                    break;
+                case "bodyColor3":
+                    //CONVERTIR DE DECIMAL A FLOAT
+                    color = cap.getBodyColor3(); // blanco
+                    r = (color >> 16) / 255.0F;
+                    g = ((color >> 8) & 0xff) / 255.0f;
+                    b = (color & 0xff) / 255.0f;
+
+                    pGuiGraphics.setColor(r, g, b, 1.0f);
+                    break;
             }
 
             RenderSystem.setShaderTexture(0, botones);

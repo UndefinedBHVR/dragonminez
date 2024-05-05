@@ -37,6 +37,7 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Mod
     private static final ResourceLocation B_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase2.png");
     private static final ResourceLocation B_BODY3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase3.png");
 
+    private float colorR,colorG,colorB;
 
 
     public RenderBrazos(EntityRendererProvider.Context pContext) {
@@ -121,6 +122,7 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Mod
 
     private void renderHand(PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, @NotNull ModelPart pRendererArm, ModelPart pRendererArmwear) {
 
+
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
         this.setModelProperties(pPlayer);
         playermodel.attackTime = 0.0F;
@@ -134,18 +136,28 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Mod
             if(cap.getRace() == 0){
                 //Cuerpo1
                 int bodyColor1 = cap.getBodyColor();
-                float colorR = (bodyColor1 >> 16) / 255.0F;
-                float colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
-                float colorB = (bodyColor1 & 0xff) / 255.0f;
+                colorR = (bodyColor1 >> 16) / 255.0F;
+                colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+                colorB = (bodyColor1 & 0xff) / 255.0f;
                 VertexConsumer skin_type1 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY1));
                 pRendererArm.render(pPoseStack, skin_type1, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                int bodyColor2 = cap.getBodyColor2();
+                colorR = (bodyColor2 >> 16) / 255.0F;
+                colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+                colorB = (bodyColor2 & 0xff) / 255.0f;
+                VertexConsumer skin_type2 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY2));
+                pRendererArm.render(pPoseStack, skin_type2, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                int bodyColor3 = cap.getBodyColor3();
+                colorR = (bodyColor3 >> 16) / 255.0F;
+                colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+                colorB = (bodyColor3 & 0xff) / 255.0f;
+                VertexConsumer skin_type3 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY3));
+                pRendererArm.render(pPoseStack, skin_type3, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
             }
         });
 
-        VertexConsumer skin_type2 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY2));
-        pRendererArm.render(pPoseStack, skin_type2, pCombinedLight, OverlayTexture.NO_OVERLAY, 0.920f, 0.920f, 0.920f, 1.0f);
-        VertexConsumer skin_type3 = pBuffer.getBuffer(RenderType.entityCutoutNoCull(B_BODY3));
-        pRendererArm.render(pPoseStack, skin_type3, pCombinedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
 
     }
 

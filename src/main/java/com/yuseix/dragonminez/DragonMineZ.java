@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.blocks.entity.MainBlockEntities;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.FakeBioAndroidRenderer;
 import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -78,7 +79,7 @@ public class DragonMineZ {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Hacer algo cuando el servidor empiece???
-        LOGGER.info("HOLA SOY DRAGON BLOCK TEST UWU");
+
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -87,6 +88,7 @@ public class DragonMineZ {
         public static void onClientSetup(FMLClientSetupEvent event) {
             //ENTIDADES
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
+            EntityRenderers.register(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidRenderer::new);
 
             EntityRenderers.register(EntityType.PLAYER, GeoBioAndroidRender::new);
 

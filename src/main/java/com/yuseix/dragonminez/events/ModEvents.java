@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
+import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
@@ -129,6 +130,7 @@ public class ModEvents {
         @SubscribeEvent
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
             event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
+            //event.put(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidEntity.setAttributes());
         }
 
 

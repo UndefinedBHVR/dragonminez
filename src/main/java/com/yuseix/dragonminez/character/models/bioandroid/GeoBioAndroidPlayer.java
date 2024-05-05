@@ -17,8 +17,6 @@ public class GeoBioAndroidPlayer extends LivingEntity implements GeoReplacedEnti
 
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    private Player player;
-
     public GeoBioAndroidPlayer(){
         super(EntityType.PLAYER, null);
     }

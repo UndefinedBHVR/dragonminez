@@ -58,7 +58,7 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
     private static final String HELMET = "armorbipedHead";
 
 
-
+    private float colorR,colorG,colorB;
     //BIOANDROIDE
     // Ta bien, pero te diria que crees una clase aparte que se llame TextureReferences o algo así y ahí tengas todas las texturas para no saturar esta clase
     private static final ResourceLocation B_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodybase1.png");
@@ -152,17 +152,21 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
 
                 if(stack == player.getMainHandItem()){
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
-
                     if(stack.getItem() instanceof ShieldItem){
-                        poseStack.translate(0, 0.125, -0.25);
+                        poseStack.mulPose(Axis.YP.rotationDegrees(-90f));
+                        // X: Arriba o abajo ( + es arriba - abajo)
+                        // Y: adelante o atrás ( - es atras + es adelante)
+                        // Z: derecha o izquierda ( - es derecha + izquierda)
+                        poseStack.translate(0.25, 0.53, -0.15);
                     }
 
                 } else if (stack == player.getOffhandItem()){
                     poseStack.mulPose(Axis.XP.rotationDegrees(-90f));
+                    poseStack.mulPose(Axis.YP.rotationDegrees(-90f));
 
                     if (stack.getItem() instanceof ShieldItem) {
-                        poseStack.translate(0, 0.125, 0.25);
                         poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                        poseStack.translate(-0.18, 0.52, -0.15);
                     }
 
                 }
@@ -296,8 +300,6 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
     private void render(PoseStack poseStack, GeoBioAndroidPlayer animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         var player = currentEntity;
 
-        var appliedRenderType = RenderType.entityTranslucent(new ResourceLocation("dragonminez", "textures/entity/skindeljugador.png"));
-
         var head = model.getBone("bipedHead").get();
         var body = model.getBone("bipedBody").get();
         var brazoderecho = model.getBone("bipedRightArm").get();
@@ -312,18 +314,12 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
         var bcola = RenderType.entityCutoutNoCull(B_BODYCOLA);
         var ojos = RenderType.entityCutoutNoCull(B_EYES);
 
-        // color decimal a rgb, a menos que quieras guardar los colores en la nbt con 3 variables xdxd
-        int color = 16777215; // blanco
-        float r = (color >> 16) / 255.0F;
-        float g = ((color >> 8) & 0xff) / 255.0f;
-        float b = (color & 0xff) / 255.0f;
-
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,player).ifPresent(cap -> {
             //Cuerpo1
             int bodyColor1 = cap.getBodyColor();
-            float colorR = (bodyColor1 >> 16) / 255.0F;
-            float colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
-            float colorB = (bodyColor1 & 0xff) / 255.0f;
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             renderRecursively(poseStack, animatable, brazoderecho, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
@@ -331,31 +327,38 @@ public class GeoBioAndroidRender extends GeoReplacedEntityRenderer<Player, GeoBi
             renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             //Cuerpo2
+            int bodyColor2 = cap.getBodyColor2();
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+
+            renderRecursively(poseStack, animatable, head, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, body, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, brazoderecho, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, brazoizquierdo, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, piernaderecha, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, piernaizquierda, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            //Cuerpo3
+            int bodyColor3 = cap.getBodyColor3();
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+
+            renderRecursively(poseStack, animatable, head, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, body, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, brazoderecho, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, brazoizquierdo, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, piernaderecha, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, piernaizquierda, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
         });
 
-        renderRecursively(poseStack, animatable, head, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, head, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
 
-        renderRecursively(poseStack, animatable, body, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, body, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,0.760f, 0.760f, 0.760f, 1.0f);
         renderRecursively(poseStack, animatable, body, bcola, bufferSource, bufferSource.getBuffer(bcola), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,1f, 1f, 1f, 1.0f);
 
-        renderRecursively(poseStack, animatable, brazoderecho, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, brazoderecho, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
-
-        renderRecursively(poseStack, animatable, brazoizquierdo, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, brazoizquierdo, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
-
-        renderRecursively(poseStack, animatable, piernaderecha, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, piernaderecha, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
-
-        renderRecursively(poseStack, animatable, piernaizquierda, skin_type2, bufferSource, bufferSource.getBuffer(skin_type2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  0.920f, 0.920f, 0.920f, 1.0f);
-        renderRecursively(poseStack, animatable, piernaizquierda, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, 0.760f, 0.760f, 0.760f, 1.0f);
 
         poseStack.translate(0.0f,0.0f,-0.001f);
         renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1f, 1f, 1f, 1.0f);
 
-        //System.out.println("El evento cargo bien");
     }
 }
