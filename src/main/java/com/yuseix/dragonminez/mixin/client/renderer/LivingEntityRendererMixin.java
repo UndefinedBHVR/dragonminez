@@ -1,7 +1,10 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.yuseix.dragonminez.character.renders.GeoBaseRenderer;
 import com.yuseix.dragonminez.character.renders.bioandroid.GeoBioAndroidRender;
+import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,28 +23,41 @@ public class LivingEntityRendererMixin<T extends LivingEntity> {
 
     @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "HEAD"), cancellable = true)
     public void injectGeckolibRenderer(T entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
-        if (!(entity instanceof AbstractClientPlayer clientPlayer)) {
-            return;
-        }
-        //System.out.println("Soy el mixin soy el mixin");
+        if ((entity instanceof AbstractClientPlayer clientPlayer)) {
 
-        GeoBioAndroidRender gonckoRenderer = this.getGeckoRenderer();
-        if(gonckoRenderer == null){
-            return;
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,clientPlayer).ifPresent(cap -> {
+
+                GeoBaseRenderer baseRenderer = this.getRenderersDMZ();
+
+                    if(baseRenderer == null){
+                        return;
+                    }
+
+                baseRenderer.render(clientPlayer, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+                    ci.cancel();
+
+
+
+            });
+
+
         }
 
-        gonckoRenderer.render(clientPlayer, entityYaw, partialTicks, matrixStack, buffer, packedLight);
-        ci.cancel();
+
+
     }
 
     //Access list
-    public GeoBioAndroidRender getGeckoRenderer() {
+
+    public GeoBaseRenderer getRenderersDMZ() {
         EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
         EntityRenderer<?> entityRenderer = ((EntityRenderDispatcherAccessor) entityRenderDispatcher).getRenderers().get(EntityType.PLAYER);
 
-        if (!(entityRenderer instanceof GeoBioAndroidRender gonckoRenderer)) {
+        if (!(entityRenderer instanceof GeoBaseRenderer render)) {
             return null;
         }
-        return gonckoRenderer;
+        return render;
     }
+
+
 }

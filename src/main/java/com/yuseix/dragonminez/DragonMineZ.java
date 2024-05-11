@@ -3,6 +3,7 @@ package com.yuseix.dragonminez;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.character.models.ModeloBrazos;
+import com.yuseix.dragonminez.character.renders.GeoBaseRenderer;
 import com.yuseix.dragonminez.character.renders.bioandroid.GeoBioAndroidRender;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
@@ -90,7 +91,7 @@ public class DragonMineZ {
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
             EntityRenderers.register(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidRenderer::new);
 
-            EntityRenderers.register(EntityType.PLAYER, GeoBioAndroidRender::new);
+            EntityRenderers.register(EntityType.PLAYER, GeoBaseRenderer::new);
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_BLOCK_ENTITY.get(), Dball1BlockRenderer::new);

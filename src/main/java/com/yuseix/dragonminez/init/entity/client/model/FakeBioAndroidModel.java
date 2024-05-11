@@ -18,6 +18,6 @@ public class FakeBioAndroidModel extends GeoModel<FakeBioAndroidEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(FakeBioAndroidEntity fakeBioAndroidEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/bioandroidrace.animation.json");
+        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/entity/bioandroidrace.animation.json");
     }
 }

@@ -231,7 +231,9 @@ public class CharacterCMenu extends Screen{
                 alturaTexto = (this.height + 125)/ 2;
                 anchoTexto = this.width/2;
 
-                    renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 65, 0, 0, bio);
+                if(cap.getRace() == 0){
+                    renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 15, 30, 0, bio);
+                }
 
             });
         } else if(currentPage == 1){
@@ -686,7 +688,6 @@ public class CharacterCMenu extends Screen{
         }
         entityrenderdispatcher.setRenderShadow(false);
         entityrenderdispatcher.render(pEntity, 0.0, 0.0, 0.0, 0.0F, 1.0F, pGuiGraphics.pose(), pGuiGraphics.bufferSource(), 15728880);
-
         pGuiGraphics.flush();
         entityrenderdispatcher.setRenderShadow(true);
         pGuiGraphics.pose().popPose();

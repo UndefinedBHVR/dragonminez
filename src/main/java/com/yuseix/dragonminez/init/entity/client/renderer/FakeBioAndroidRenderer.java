@@ -30,6 +30,7 @@ public class FakeBioAndroidRenderer extends GeoEntityRenderer<FakeBioAndroidEnti
 
     }
 
+
     @Override
     public void actuallyRender(PoseStack poseStack, FakeBioAndroidEntity animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.pushPose();
@@ -41,6 +42,7 @@ public class FakeBioAndroidRenderer extends GeoEntityRenderer<FakeBioAndroidEnti
 
         poseStack.popPose();
     }
+
 
     private void render(PoseStack poseStack, FakeBioAndroidEntity animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         var player = Minecraft.getInstance().player;
@@ -107,9 +109,5 @@ public class FakeBioAndroidRenderer extends GeoEntityRenderer<FakeBioAndroidEnti
 
     }
 
-    @Override
-    public void render(FakeBioAndroidEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
-    }
 }
 

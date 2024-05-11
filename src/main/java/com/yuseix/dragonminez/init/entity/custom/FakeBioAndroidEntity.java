@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.custom;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -23,6 +24,13 @@ public class FakeBioAndroidEntity extends LivingEntity implements GeoEntity {
         super(pEntityType, pLevel);
     }
 
+    public static AttributeSupplier setAttributes() {
+        return Animal.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 50.0D)
+                .add(Attributes.ATTACK_DAMAGE, 10.5f)
+                .add(Attributes.ATTACK_SPEED, 1.0f)
+                .add(Attributes.MOVEMENT_SPEED, 0.22F).build();
+    }
     @Override
     public Iterable<ItemStack> getArmorSlots() {
         return null;

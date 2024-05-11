@@ -40,7 +40,7 @@ public class ModEvents {
         event.getEntity().refreshDimensions();
 
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get()));
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get())));
     }
 
     @SubscribeEvent
@@ -54,7 +54,7 @@ public class ModEvents {
 
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON.get());
             event.getEntity().heal((float) (cap.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
 
             int maxEnergia = (int) (cap.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()) ;
@@ -130,7 +130,7 @@ public class ModEvents {
         @SubscribeEvent
         public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
             event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
-            //event.put(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidEntity.setAttributes());
+            event.put(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidEntity.setAttributes());
         }
 
 

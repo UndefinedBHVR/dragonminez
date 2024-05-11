@@ -25,6 +25,7 @@ public class MainEntity {
     public static final RegistryObject<EntityType<FakeBioAndroidEntity>> FAKEBIOANDROID1 =
             ENTITY_TYPES_REGISTER.register("fakebioandroid1",
                     () -> EntityType.Builder.of(FakeBioAndroidEntity::new, MobCategory.AMBIENT)
+                            .sized(1.0f,1.0f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fakebioandroid1").toString())
             );
 
