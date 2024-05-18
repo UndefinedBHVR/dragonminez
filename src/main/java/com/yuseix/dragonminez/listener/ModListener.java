@@ -6,8 +6,10 @@ import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
+import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
-import model.Keys;
+import com.yuseix.dragonminez.network.PacketHandler;
+import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -33,6 +36,8 @@ public final class ModListener {
                     SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     Animal::checkAnimalSpawnRules);
 
+            //Registramos los packets
+            PacketHandler.register();
             ModMessages.register();
         });
     }
@@ -79,5 +84,10 @@ public final class ModListener {
         } catch (IllegalAccessException e) {
             System.out.println("Error al intentar registrar una tecla! " + e.getMessage());
         }
+    }
+
+    @SubscribeEvent
+    public void onCapabilitiesRegister(RegisterCapabilitiesEvent event) {
+        event.register(StatsAttrProviderV2.class);
     }
 }

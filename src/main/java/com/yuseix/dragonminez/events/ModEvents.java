@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.StatsCommand;
+import com.yuseix.dragonminez.commands.StatsCommandV2;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainEntity;
@@ -121,6 +122,8 @@ public class ModEvents {
     public static void onCommandsRegister(RegisterCommandsEvent event) {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
+        //Temporal
+        new StatsCommandV2(event.getDispatcher());
         ConfigCommand.register(event.getDispatcher());
     }
 
