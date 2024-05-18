@@ -13,12 +13,9 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -176,7 +173,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             int MaxEnergy = (int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
             int MaxStamina = stamina + 3;
 
-            int LTITULO = posX +195;
+            int LTITULO = posX + 195;
             int RTITULO = posX - 80;
             int LSUBTITULO = posX + 158;
             int RSUBTITULO = posX - 158;
