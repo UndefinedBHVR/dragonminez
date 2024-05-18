@@ -7,15 +7,21 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.network.ModMessages;
+import model.Keys;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public final class ModListener {
 
@@ -53,5 +59,25 @@ public final class ModListener {
         e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
         e.registerLayerDefinition(ModeloPrueba.LAYER_LOCATION, ModeloPrueba::createBodyLayer);
+    }
+
+    @SubscribeEvent
+    public void onKeyRegister(RegisterKeyMappingsEvent event) {
+        /*
+        Usa reflection para registrar todas las teclas de la clase Keys, utilicé esto para no tener que registrar cada tecla manualmente
+        También porque los fields son static
+         */
+        try {
+            Field[] fields = Keys.class.getDeclaredFields();
+
+            for (Field field : fields) {
+                if (Modifier.isStatic(field.getModifiers()) && field.getType() == KeyMapping.class) {
+                    KeyMapping keyMapping = (KeyMapping) field.get(null);
+                    event.register(keyMapping);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("Error al intentar registrar una tecla! " + e.getMessage());
+        }
     }
 }
