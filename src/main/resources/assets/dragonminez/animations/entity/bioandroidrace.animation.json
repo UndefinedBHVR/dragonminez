@@ -5,7 +5,7 @@
 			"loop": true,
 			"animation_length": 3.9167,
 			"bones": {
-				"tail1": {
+				"tail1b": {
 					"rotation": {
 						"0.0": {
 							"vector": [-2.50086, 1.49857, -0.06544]
@@ -53,7 +53,7 @@
 						}
 					}
 				},
-				"tail2": {
+				"tail2b": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 2.5, 0]
@@ -113,7 +113,7 @@
 						}
 					}
 				},
-				"tail3": {
+				"tail3b": {
 					"rotation": {
 						"0.0": {
 							"vector": [2.5, 5, 0]
@@ -173,7 +173,7 @@
 						}
 					}
 				},
-				"tail4": {
+				"tail4b": {
 					"rotation": {
 						"0.0": {
 							"vector": [2.5, 5, 0]
@@ -233,7 +233,7 @@
 						}
 					}
 				},
-				"tail5": {
+				"tail5b": {
 					"rotation": {
 						"0.0": {
 							"vector": [2.5, 5, 0]
@@ -293,7 +293,7 @@
 						}
 					}
 				},
-				"tail6": {
+				"tail6b": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 5, 0]
@@ -454,6 +454,12 @@
 					}
 				}
 			}
+		},
+		"misc.idle": {
+			"loop": true
+		},
+		"move.walk": {
+			"loop": true
 		}
 	},
 	"geckolib_format_version": 2

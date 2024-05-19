@@ -4,11 +4,11 @@
   "package": "com.yuseix.dragonminez.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "client.renderer.PlayerEntityMixin",
+    "client.renderer.HeldItemRendererMixin",
+    "client.renderer.EntityRenderDispatcherMixin"
   ],
   "client": [
-    "client.renderer.EntityRenderDispatcherMixin",
-    "client.renderer.PlayerEntityMixin",
-    "client.renderer.HeldItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

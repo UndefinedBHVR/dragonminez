@@ -30,7 +30,6 @@ import java.util.Map;
 public class EntityRenderDispatcherMixin {
 
     private Map<Integer, GeoEntityRenderer> dmzRenderers = ImmutableMap.of();
-
     @Shadow
     public Map<EntityType<?>, EntityRenderer<?>> renderers;
     @Shadow
