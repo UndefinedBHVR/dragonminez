@@ -9,7 +9,6 @@ import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -22,7 +21,6 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Random;
@@ -40,15 +38,16 @@ public class StatsEvents {
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
+        Player player = event.player instanceof Player ? event.player : null;
 
 
         //Regenerar stamina
-        if (event.side == LogicalSide.SERVER) {
+        if (player instanceof ServerPlayer) {
 
             energiacounter++;
             tickcounter++;
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.player).ifPresent(playerstats -> {
+            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
 
                 int maxcon = (int) (playerstats.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
                 int maxstamina = (playerstats.getStamina() + 3);
@@ -66,7 +65,6 @@ public class StatsEvents {
                         tickcounter = 0;
 
                     }
-
                 }
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
                     if (energiacounter >= 60 * 5) {
@@ -79,16 +77,19 @@ public class StatsEvents {
                     }
                 }
 
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
 
             });
 
-            //Debug de stats
+            /* Debug de stats
+
             event.player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> event.player.sendSystemMessage(Component.literal(playerstats.getRace() +
                     " " + playerstats.getHairID() + " " + playerstats.getBodytype() + " " + playerstats.getEyesType() + " " + playerstats.getStrength() +
                     " " + playerstats.getDefense() + " " + playerstats.getConstitution() + " " + playerstats.getCurBody() + " " + playerstats.getCurStam() +
                     " " + playerstats.getStamina() + " " + playerstats.getKiPower() + " " + playerstats.getEnergy() + " " + playerstats.getCurrentEnergy() +
                     " " + playerstats.getBodyColor())));
+
+             */
 
         }
 

@@ -61,7 +61,7 @@ public class PacketStats implements Packet {
                     System.out.println("Algo salio mal !");
                     break;
             }
-            PacketHandler.sendToAll(player, new PacketStatsSync(playerstats.getRace(), playerstats.getHairID(), playerstats.getBodytype(), playerstats.getEyesType(), playerstats.getStrength(), playerstats.getDefense(), playerstats.getConstitution(), playerstats.getCurBody(), playerstats.getCurStam(), playerstats.getStamina(), playerstats.getKiPower(), playerstats.getEnergy(), playerstats.getCurrentEnergy(), playerstats.getBodyColor()));
+            PacketHandler.sendToPlayer(new PacketStatsSync(playerstats.getRace(), playerstats.getHairID(), playerstats.getBodytype(), playerstats.getEyesType(), playerstats.getStrength(), playerstats.getDefense(), playerstats.getConstitution(), playerstats.getCurBody(), playerstats.getCurStam(), playerstats.getStamina(), playerstats.getKiPower(), playerstats.getEnergy(), playerstats.getCurrentEnergy(), playerstats.getBodyColor()), player);
         });
     }
 }

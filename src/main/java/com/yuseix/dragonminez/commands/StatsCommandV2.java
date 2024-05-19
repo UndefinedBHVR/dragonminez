@@ -139,11 +139,11 @@ public class StatsCommandV2 {
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
                         break;
                 }
-                PacketHandler.sendToAll(player, new PacketStatsSync(statsAttributesV2.getRace(),
+                PacketHandler.sendToPlayer(new PacketStatsSync(statsAttributesV2.getRace(),
                         statsAttributesV2.getHairID(), statsAttributesV2.getBodytype(), statsAttributesV2.getEyesType(),
                         statsAttributesV2.getStrength(), statsAttributesV2.getDefense(), statsAttributesV2.getConstitution(), statsAttributesV2.getCurBody(),
                         statsAttributesV2.getCurStam(), statsAttributesV2.getStamina(), statsAttributesV2.getKiPower(), statsAttributesV2.getEnergy(),
-                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()));
+                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()), player);
             });
 
         }
@@ -201,11 +201,11 @@ public class StatsCommandV2 {
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
                         break;
                 }
-                PacketHandler.sendToAll(player, new PacketStatsSync(statsAttributesV2.getRace(),
+                PacketHandler.sendToPlayer(new PacketStatsSync(statsAttributesV2.getRace(),
                         statsAttributesV2.getHairID(), statsAttributesV2.getBodytype(), statsAttributesV2.getEyesType(),
                         statsAttributesV2.getStrength(), statsAttributesV2.getDefense(), statsAttributesV2.getConstitution(), statsAttributesV2.getCurBody(),
                         statsAttributesV2.getCurStam(), statsAttributesV2.getStamina(), statsAttributesV2.getKiPower(), statsAttributesV2.getEnergy(),
-                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()));
+                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()), player);
             });
 
         }
@@ -316,11 +316,11 @@ public class StatsCommandV2 {
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
                         break;
                 }
-                PacketHandler.sendToAll(player, new PacketStatsSync(statsAttributesV2.getRace(),
+                PacketHandler.sendToPlayer(new PacketStatsSync(statsAttributesV2.getRace(),
                         statsAttributesV2.getHairID(), statsAttributesV2.getBodytype(), statsAttributesV2.getEyesType(),
                         statsAttributesV2.getStrength(), statsAttributesV2.getDefense(), statsAttributesV2.getConstitution(), statsAttributesV2.getCurBody(),
                         statsAttributesV2.getCurStam(), statsAttributesV2.getStamina(), statsAttributesV2.getKiPower(), statsAttributesV2.getEnergy(),
-                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()));
+                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()), player);
             });
 
         }
