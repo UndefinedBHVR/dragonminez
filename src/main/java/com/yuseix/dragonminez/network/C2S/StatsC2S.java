@@ -10,6 +10,11 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
+/**
+ * @deprecated Esta clase es obsoleta, se recomienda usar {@link com.yuseix.dragonminez.network.packets.PacketStats}
+ * Esta se eliminará pronto.
+ */
+@Deprecated
 public class StatsC2S {
 
     private int id;

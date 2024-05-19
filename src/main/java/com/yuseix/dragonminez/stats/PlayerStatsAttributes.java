@@ -5,6 +5,11 @@ import com.yuseix.dragonminez.events.ModEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
+/**
+ * @deprecated Esta clase es obsoleta, se recomienda usar {@link com.yuseix.dragonminez.stats.StatsAttributesV2}
+ * Esta se eliminará pronto.
+ */
+@Deprecated
 public class PlayerStatsAttributes {
 
     private int races;

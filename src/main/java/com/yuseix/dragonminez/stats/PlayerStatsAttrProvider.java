@@ -14,6 +14,11 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @deprecated Esta clase es obsoleta, se recomienda usar {@link com.yuseix.dragonminez.stats.StatsAttrProviderV2}
+ * Esta se eliminará pronto.
+ */
+@Deprecated
 public class PlayerStatsAttrProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
     public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "mod");

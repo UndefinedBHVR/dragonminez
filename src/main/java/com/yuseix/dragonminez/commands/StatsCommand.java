@@ -17,8 +17,12 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * @deprecated Método descontinuado e inservible, se ha reemplazado por {@link StatsCommandV2} y será eliminado pronto...
+ */
+@Deprecated
 public class StatsCommand {
-
+    
     public StatsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
         dispatcher.register(Commands.literal("dmzstats")
