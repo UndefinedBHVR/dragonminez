@@ -25,7 +25,7 @@ public class ModMessages {
 
     public static void register() {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(DragonMineZ.MOD_ID, "messages"))
+                .named(new ResourceLocation(DragonMineZ.MOD_ID, "messagesold"))
                 .networkProtocolVersion(() -> "1.0")
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)

@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminez.stats.PlayerStatsAttributes;
+import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -41,6 +42,11 @@ public class ModEvents {
 
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
                 event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get()));
+
+        event.getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(cap -> {
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
+            event.getEntity().heal((float) (cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
+        });
     }
 
     @SubscribeEvent

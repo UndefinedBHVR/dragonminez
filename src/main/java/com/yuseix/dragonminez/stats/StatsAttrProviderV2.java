@@ -2,7 +2,6 @@ package com.yuseix.dragonminez.stats;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -34,11 +33,6 @@ public class StatsAttrProviderV2 implements ICapabilityProvider, INBTSerializabl
         } else {
             return LazyOptional.empty();
         }
-    }
-
-    //Esto se usa en partes de manejo in-game
-    public static @NotNull <T> LazyOptional<T> getCap(Capability<T> cap, Entity entity) {
-        return entity.getCapability(cap);
     }
 
     @Override

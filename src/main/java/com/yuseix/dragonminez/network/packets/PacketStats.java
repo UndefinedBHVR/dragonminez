@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.network.packets;
 
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.network.Packet;
+import com.yuseix.dragonminez.network.PacketHandler;
 import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +37,7 @@ public class PacketStats implements Packet {
     //O sea que se procesa el jugador en el método handle de Packets Handler, y no acá.
     @Override
     public void handle(ServerPlayer player) {
-        StatsAttrProviderV2.getCap(StatsAttrProviderV2.CAPABILITY, player).ifPresent(playerstats -> {
+        player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
             switch (this.keyNumber) {
                 case 0:
                     playerstats.addStrength(this.cantidad);
@@ -60,6 +61,7 @@ public class PacketStats implements Packet {
                     System.out.println("Algo salio mal !");
                     break;
             }
+            PacketHandler.sendToAll(player, new PacketStatsSync(playerstats.getRace(), playerstats.getHairID(), playerstats.getBodytype(), playerstats.getEyesType(), playerstats.getStrength(), playerstats.getDefense(), playerstats.getConstitution(), playerstats.getCurBody(), playerstats.getCurStam(), playerstats.getStamina(), playerstats.getKiPower(), playerstats.getEnergy(), playerstats.getCurrentEnergy(), playerstats.getBodyColor()));
         });
     }
 }

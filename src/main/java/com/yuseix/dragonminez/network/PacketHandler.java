@@ -2,10 +2,10 @@ package com.yuseix.dragonminez.network;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.packets.PacketStats;
+import com.yuseix.dragonminez.network.packets.PacketStatsSync;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -26,6 +26,7 @@ public final class PacketHandler {
                 .simpleChannel();
 
         addPacket(NetworkDirection.PLAY_TO_SERVER, PacketStats.class);
+        addPacket(NetworkDirection.PLAY_TO_CLIENT, PacketStatsSync.class);
 
     }
 
@@ -63,7 +64,7 @@ public final class PacketHandler {
         INSTANCE.send(PacketDistributor.ALL.noArg(), packet);
     }
 
-    public static void sendToAll(Player player, Packet packet) {
+    public static void sendToAll(ServerPlayer player, Packet packet) {
         INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), packet);
     }
 }

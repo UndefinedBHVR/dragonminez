@@ -5,8 +5,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.network.PacketHandler;
+import com.yuseix.dragonminez.network.packets.PacketStatsSync;
 import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
@@ -91,7 +91,7 @@ public class StatsCommandV2 {
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            StatsAttrProviderV2.getCap(StatsAttrProviderV2.CAPABILITY, player).ifPresent(statsAttributesV2 -> {
+            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(statsAttributesV2 -> {
 
                 switch (stat) {
                     case "strength":
@@ -139,6 +139,11 @@ public class StatsCommandV2 {
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
                         break;
                 }
+                PacketHandler.sendToAll(player, new PacketStatsSync(statsAttributesV2.getRace(),
+                        statsAttributesV2.getHairID(), statsAttributesV2.getBodytype(), statsAttributesV2.getEyesType(),
+                        statsAttributesV2.getStrength(), statsAttributesV2.getDefense(), statsAttributesV2.getConstitution(), statsAttributesV2.getCurBody(),
+                        statsAttributesV2.getCurStam(), statsAttributesV2.getStamina(), statsAttributesV2.getKiPower(), statsAttributesV2.getEnergy(),
+                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()));
             });
 
         }
@@ -148,54 +153,59 @@ public class StatsCommandV2 {
     private int addStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(statsAttributesV2 -> {
 
                 switch (stat) {
                     case "strenght":
-                        playerStatsAttributes.addStrength(cantidad);
+                        statsAttributesV2.addStrength(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
-                        playerStatsAttributes.addDefense(cantidad);
+                        statsAttributesV2.addDefense(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
-                        playerStatsAttributes.addCon(cantidad);
-                        playerStatsAttributes.addStam(cantidad);
+                        statsAttributesV2.addCon(cantidad);
+                        statsAttributesV2.addStam(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+                        statsAttributesV2.setCurStam(statsAttributesV2.getStamina() + 3);
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
-                        playerStatsAttributes.addKipwr(cantidad);
+                        statsAttributesV2.addKipwr(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
-                        playerStatsAttributes.addEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        statsAttributesV2.addEnergy(cantidad);
+                        statsAttributesV2.setCurrentEnergy((int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
-                        playerStatsAttributes.addStrength(cantidad);
-                        playerStatsAttributes.addDefense(cantidad);
-                        playerStatsAttributes.addCon(cantidad);
-                        playerStatsAttributes.addStam(cantidad);
-                        playerStatsAttributes.addKipwr(cantidad);
-                        playerStatsAttributes.addEnergy(cantidad);
+                        statsAttributesV2.addStrength(cantidad);
+                        statsAttributesV2.addDefense(cantidad);
+                        statsAttributesV2.addCon(cantidad);
+                        statsAttributesV2.addStam(cantidad);
+                        statsAttributesV2.addKipwr(cantidad);
+                        statsAttributesV2.addEnergy(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+                        statsAttributesV2.setCurStam(statsAttributesV2.getStamina() + 3);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        statsAttributesV2.setCurrentEnergy((int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
                         break;
                 }
+                PacketHandler.sendToAll(player, new PacketStatsSync(statsAttributesV2.getRace(),
+                        statsAttributesV2.getHairID(), statsAttributesV2.getBodytype(), statsAttributesV2.getEyesType(),
+                        statsAttributesV2.getStrength(), statsAttributesV2.getDefense(), statsAttributesV2.getConstitution(), statsAttributesV2.getCurBody(),
+                        statsAttributesV2.getCurStam(), statsAttributesV2.getStamina(), statsAttributesV2.getKiPower(), statsAttributesV2.getEnergy(),
+                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()));
             });
 
         }
@@ -205,107 +215,112 @@ public class StatsCommandV2 {
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(statsAttributesV2 -> {
 
-                int raza = playerStatsAttributes.getRace();
+                int raza = statsAttributesV2.getRace();
                 int energiacurrent = 0;
 
                 switch (stat) {
                     case "strenght":
 
-                        playerStatsAttributes.setStrength(cantidad);
+                        statsAttributesV2.setStrength(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + playerStatsAttributes.getStrength()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + statsAttributesV2.getStrength()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
 
-                        playerStatsAttributes.setDefense(cantidad);
+                        statsAttributesV2.setDefense(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + playerStatsAttributes.getDefense()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + statsAttributesV2.getDefense()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
 
-                        playerStatsAttributes.setConstitution(cantidad);
-                        playerStatsAttributes.setStamina(cantidad);
+                        statsAttributesV2.setConstitution(cantidad);
+                        statsAttributesV2.setStamina(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + playerStatsAttributes.getConstitution()).withStyle(ChatFormatting.YELLOW));
+                        statsAttributesV2.setCurStam(statsAttributesV2.getStamina() + 3);
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + statsAttributesV2.getConstitution()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
 
-                        playerStatsAttributes.setKiPower(cantidad);
+                        statsAttributesV2.setKiPower(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + playerStatsAttributes.getKiPower()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + statsAttributesV2.getKiPower()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
 
-                        playerStatsAttributes.setEnergy(cantidad);
+                        statsAttributesV2.setEnergy(cantidad);
 
 
                         if (raza == 0) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 1) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 2) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 3) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 4) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 5) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         }
 
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + playerStatsAttributes.getEnergy()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + statsAttributesV2.getEnergy()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
 
-                        playerStatsAttributes.setStrength(cantidad);
-                        playerStatsAttributes.setDefense(cantidad);
-                        playerStatsAttributes.setConstitution(cantidad);
-                        playerStatsAttributes.setStamina(cantidad);
-                        playerStatsAttributes.setKiPower(cantidad);
-                        playerStatsAttributes.setEnergy(cantidad);
+                        statsAttributesV2.setStrength(cantidad);
+                        statsAttributesV2.setDefense(cantidad);
+                        statsAttributesV2.setConstitution(cantidad);
+                        statsAttributesV2.setStamina(cantidad);
+                        statsAttributesV2.setKiPower(cantidad);
+                        statsAttributesV2.setEnergy(cantidad);
 
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+                        statsAttributesV2.setCurStam(statsAttributesV2.getStamina() + 3);
 
                         if (raza == 0) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 1) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 2) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 3) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 4) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         } else if (raza == 5) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                            energiacurrent = (int) (statsAttributesV2.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            statsAttributesV2.setCurrentEnergy(energiacurrent);
                         }
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + playerStatsAttributes.getStrength()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + statsAttributesV2.getStrength()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     default:
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
                         break;
                 }
+                PacketHandler.sendToAll(player, new PacketStatsSync(statsAttributesV2.getRace(),
+                        statsAttributesV2.getHairID(), statsAttributesV2.getBodytype(), statsAttributesV2.getEyesType(),
+                        statsAttributesV2.getStrength(), statsAttributesV2.getDefense(), statsAttributesV2.getConstitution(), statsAttributesV2.getCurBody(),
+                        statsAttributesV2.getCurStam(), statsAttributesV2.getStamina(), statsAttributesV2.getKiPower(), statsAttributesV2.getEnergy(),
+                        statsAttributesV2.getCurrentEnergy(), statsAttributesV2.getBodyColor()));
             });
 
         }
