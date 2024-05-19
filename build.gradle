@@ -211,7 +211,7 @@ tasks.named('processResources', ProcessResources).configure {
 
 mixin {
     // MixinGradle Settings
-    add sourceSets.main, 'dragonminez.refmap.json'
+    add sourceSets.main, 'mixins.dragonminez.refmap.json'
     config 'dragonminez.mixins.json'
 
     debug.verbose = true

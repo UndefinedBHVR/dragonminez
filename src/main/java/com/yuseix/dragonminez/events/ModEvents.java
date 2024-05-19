@@ -89,16 +89,14 @@ public class ModEvents {
     @SubscribeEvent
     public static void onTrack(PlayerEvent.StartTracking event) {
         var trackingplayer = event.getEntity();
-        if (!(trackingplayer instanceof ServerPlayer player)) {
-            return;
-        }
-        if (event.getTarget() instanceof ServerPlayer trackedplayer) {
-            PlayerStatsAttrProvider.getCap(INSTANCE, event.getTarget()).ifPresent(cap -> ModMessages.sendToPlayer(
-                    new StatsSyncS2C(trackedplayer), player
-            ));
+        if (!(trackingplayer instanceof ServerPlayer serverplayer)) return;
+
+        var tracked = event.getTarget();
+        if (tracked instanceof ServerPlayer trackedplayer) {
+            PlayerStatsAttrProvider.getCap(INSTANCE, tracked).ifPresent(cap -> ModMessages.sendToPlayer(
+                    new StatsSyncS2C(trackedplayer), serverplayer));
         }
     }
-
 
     public static void sync(Player player) {
         ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));

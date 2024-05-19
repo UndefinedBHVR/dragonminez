@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.yuseix.dragonminez.mixin",
+  "refmap": "mixins.dragonminez.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "client.renderer.PlayerEntityMixin",
@@ -9,6 +10,9 @@
     "client.renderer.EntityRenderDispatcherMixin"
   ],
   "client": [
+    "client.renderer.PlayerEntityMixin",
+    "client.renderer.HeldItemRendererMixin",
+    "client.renderer.EntityRenderDispatcherMixin"
   ],
   "injectors": {
     "defaultRequire": 1
