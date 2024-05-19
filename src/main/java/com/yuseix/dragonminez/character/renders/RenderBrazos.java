@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.character.renders;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.LayerDMZBase;
 import com.yuseix.dragonminez.character.models.ModeloBrazos;
 import com.yuseix.dragonminez.events.ModEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
@@ -45,7 +44,6 @@ public class RenderBrazos extends LivingEntityRenderer<AbstractClientPlayer, Mod
         super(pContext, new ModeloBrazos<>(pContext.bakeLayer(ModeloBrazos.LAYER_LOCATION)), 0.5f);
 
         this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
-        this.addLayer(new LayerDMZBase(this));
     }
 
 

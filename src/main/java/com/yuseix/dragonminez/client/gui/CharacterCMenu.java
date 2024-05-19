@@ -232,7 +232,7 @@ public class CharacterCMenu extends Screen{
                 anchoTexto = this.width/2;
 
                 if(cap.getRace() == 0){
-                    renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 15, 30, 0, bio);
+                    //renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 15, 30, 0, bio);
                 }
 
             });

@@ -1,9 +1,7 @@
 package com.yuseix.dragonminez;
 
 import com.mojang.logging.LogUtils;
-import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.character.models.ModeloBrazos;
-import com.yuseix.dragonminez.character.renders.GeoBaseRenderer;
 import com.yuseix.dragonminez.character.renders.bioandroid.GeoBioAndroidRender;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
@@ -79,8 +77,6 @@ public class DragonMineZ {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        // Hacer algo cuando el servidor empiece???
-
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -91,7 +87,7 @@ public class DragonMineZ {
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
             EntityRenderers.register(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidRenderer::new);
 
-            EntityRenderers.register(EntityType.PLAYER, GeoBaseRenderer::new);
+            //EntityRenderers.register(EntityType.PLAYER, GeoBaseRenderer::new);
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_BLOCK_ENTITY.get(), Dball1BlockRenderer::new);
@@ -107,7 +103,6 @@ public class DragonMineZ {
 
             @SubscribeEvent
         public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
-            e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
 
                 e.registerLayerDefinition(ModeloBrazos.LAYER_LOCATION, ModeloBrazos::createBodyLayer);
 

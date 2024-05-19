@@ -16,9 +16,10 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = {Dist.CLIENT})
 public class CCEvents {
 
-    private static RenderBrazos render;
+    //private static RenderBrazos render;
 
 
+    /*
     @SubscribeEvent
     public static void Hands(RenderArmEvent event){
 
@@ -40,6 +41,7 @@ public class CCEvents {
         event.setCanceled(true);
     }
 
+    */
 
 
     /*
