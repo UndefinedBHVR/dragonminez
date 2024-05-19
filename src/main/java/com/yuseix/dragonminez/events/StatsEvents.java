@@ -5,9 +5,11 @@ import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -81,6 +83,13 @@ public class StatsEvents {
 
             });
 
+            //Debug de stats
+            event.player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> event.player.sendSystemMessage(Component.literal(playerstats.getRace() +
+                    " " + playerstats.getHairID() + " " + playerstats.getBodytype() + " " + playerstats.getEyesType() + " " + playerstats.getStrength() +
+                    " " + playerstats.getDefense() + " " + playerstats.getConstitution() + " " + playerstats.getCurBody() + " " + playerstats.getCurStam() +
+                    " " + playerstats.getStamina() + " " + playerstats.getKiPower() + " " + playerstats.getEnergy() + " " + playerstats.getCurrentEnergy() +
+                    " " + playerstats.getBodyColor())));
+
         }
 
 
@@ -91,7 +100,7 @@ public class StatsEvents {
         if (!(event.getEntity() instanceof Player)) {  //LA ENTIDAD QUE RECIBE EL GOLPE NO ES UN JUGADOR
             if (event.getSource().getEntity() instanceof Player jugadorpemrd) { //SI EL QUE HACE DANO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
+                event.getSource().getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
 
                     int raza = playerstats.getRace();
 
@@ -210,7 +219,7 @@ public class StatsEvents {
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                event.getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
                     int raza = playerstats.getRace();
 
                     switch (raza) {
@@ -261,7 +270,7 @@ public class StatsEvents {
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                event.getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
 
                     int razas = playerstats.getRace();
 

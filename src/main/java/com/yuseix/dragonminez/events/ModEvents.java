@@ -8,7 +8,9 @@ import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.PacketHandler;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
+import com.yuseix.dragonminez.network.packets.PacketStatsSync;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminez.stats.PlayerStatsAttributes;
 import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
@@ -23,6 +25,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,16 +40,24 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+
+
         sync(event.getEntity());
         event.getEntity().refreshDimensions();
 
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
                 event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get()));
+    }
 
-        event.getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(cap -> {
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
-            event.getEntity().heal((float) (cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
-        });
+    @SubscribeEvent
+    public void onEntityJoinWorld(EntityJoinLevelEvent event) {
+        if (!event.getLevel().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
+
+            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> PacketHandler.sendToPlayer(
+                    new PacketStatsSync(playerstats.getRace(), playerstats.getHairID(), playerstats.getBodytype(), playerstats.getEyesType(),
+                            playerstats.getStrength(), playerstats.getDefense(), playerstats.getConstitution(), playerstats.getCurBody(), playerstats.getCurStam(),
+                            playerstats.getStamina(), playerstats.getKiPower(), playerstats.getEnergy(), playerstats.getCurrentEnergy(), playerstats.getBodyColor()), player));
+        }
     }
 
     @SubscribeEvent
