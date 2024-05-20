@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "dmz_planks",
+  "ingredients": [
+    {
+      "item": "dragonminez:namek_sacred_log"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "dragonminez:namek_sacred_planks"
+  }
+}
