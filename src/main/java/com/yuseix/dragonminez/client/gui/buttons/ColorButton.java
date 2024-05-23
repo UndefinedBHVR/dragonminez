@@ -33,6 +33,24 @@ public class ColorButton extends Button {
             int color;
             float r,g,b;
             switch(tipo){
+                case "eyeColor1":
+                    //CONVERTIR DE DECIMAL A FLOAT
+                    color = cap.getEye1Color(); // blanco
+                    r = (color >> 16) / 255.0F;
+                    g = ((color >> 8) & 0xff) / 255.0f;
+                    b = (color & 0xff) / 255.0f;
+
+                    pGuiGraphics.setColor(r, g, b, 1.0f);
+                    break;
+                case "eyeColor2":
+                    //CONVERTIR DE DECIMAL A FLOAT
+                    color = cap.getEye2Color(); // blanco
+                    r = (color >> 16) / 255.0F;
+                    g = ((color >> 8) & 0xff) / 255.0f;
+                    b = (color & 0xff) / 255.0f;
+
+                    pGuiGraphics.setColor(r, g, b, 1.0f);
+                    break;
                 case "bodyColor1":
                     //CONVERTIR DE DECIMAL A FLOAT
                     color = cap.getBodyColor(); // blanco

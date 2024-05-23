@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.events.ModEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fml.common.Mod;
 
 public class PlayerStatsAttributes {
 
@@ -18,6 +19,7 @@ public class PlayerStatsAttributes {
 
     private int energy = 5, currentEnergy;
 
+    private String gender;
 
     private int bodyColor, bodyColor2,bodyColor3,eye1Color,eye2Color,hairColor,auraColor;
 
@@ -474,7 +476,14 @@ public class PlayerStatsAttributes {
         ModEvents.sync(player);
     }
 
+    public String getGender() {
+        return gender;
+    }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+        ModEvents.sync(player);
+    }
 
     public CompoundTag saveNBTData() {
 
@@ -505,6 +514,7 @@ public class PlayerStatsAttributes {
         nbt.putInt("eye2Color", eye2Color);
         nbt.putInt("auraColor", auraColor);
 
+        nbt.putString("gender", gender);
 
         nbt.putInt("zpoints", zpoints);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
@@ -539,6 +549,7 @@ public class PlayerStatsAttributes {
         eye2Color = nbt.getInt("eye2Color");
         auraColor = nbt.getInt("auraColor");
 
+        gender = nbt.getString("gender");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
 

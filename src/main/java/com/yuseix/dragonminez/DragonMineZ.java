@@ -2,7 +2,6 @@ package com.yuseix.dragonminez;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.character.models.ModeloBrazos;
-import com.yuseix.dragonminez.character.renders.bioandroid.GeoBioAndroidRender;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.blocks.entity.MainBlockEntities;
@@ -12,7 +11,6 @@ import com.yuseix.dragonminez.init.entity.client.renderer.FakeBioAndroidRenderer
 import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;

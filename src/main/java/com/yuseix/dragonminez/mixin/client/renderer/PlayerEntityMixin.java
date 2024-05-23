@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
+import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +18,8 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public abstract class PlayerEntityMixin extends LivingEntity implements GeoAnimatable {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
+    Player player = (Player) (Object) this;
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
     }
@@ -27,8 +31,20 @@ public abstract class PlayerEntityMixin extends LivingEntity implements GeoAnima
                 DefaultAnimations.genericIdleController(this)
                 );
 
-        controllers.add(new AnimationController<>(this, "tailBio", 0, this::cola));
-        controllers.add(new AnimationController<>(this, "tailS", 0, this::colaS));
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> {
+
+            if(cap.getRace() == 0){
+                System.out.println("Funciona la animacion");
+                //controllers.add(new AnimationController<>(this, "tailBio", 0, this::cola));
+            }else if(cap.getRace() == 1){
+                controllers.add(new AnimationController<>(this, "tailS", 0, this::colaS));
+            }else if(cap.getRace() == 3){
+                controllers.add(new AnimationController<>(this, "tailBio", 0, this::cola));
+            }
+
+        });
+
 
     }
 

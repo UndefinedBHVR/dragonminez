@@ -5,7 +5,7 @@
 			"loop": true,
 			"animation_length": 3.9167,
 			"bones": {
-				"tail1b": {
+				"tail1": {
 					"rotation": {
 						"0.0": {
 							"vector": [-2.50086, 1.49857, -0.06544]
@@ -53,7 +53,7 @@
 						}
 					}
 				},
-				"tail2b": {
+				"tail2": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 2.5, 0]
@@ -113,7 +113,7 @@
 						}
 					}
 				},
-				"tail3b": {
+				"tail3": {
 					"rotation": {
 						"0.0": {
 							"vector": [2.5, 5, 0]
@@ -173,7 +173,7 @@
 						}
 					}
 				},
-				"tail4b": {
+				"tail4": {
 					"rotation": {
 						"0.0": {
 							"vector": [2.5, 5, 0]
@@ -233,7 +233,7 @@
 						}
 					}
 				},
-				"tail5b": {
+				"tail5": {
 					"rotation": {
 						"0.0": {
 							"vector": [2.5, 5, 0]
@@ -293,7 +293,7 @@
 						}
 					}
 				},
-				"tail6b": {
+				"tail6": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 5, 0]
@@ -355,31 +355,10 @@
 				}
 			}
 		},
-		"animation.bioandroid.idle": {
+		"misc.idle": {
 			"animation_length": 3.75,
 			"bones": {
-				"bipedBody": {
-					"rotation": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"2.0": {
-							"vector": [0, 0, 0]
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0, 0]
-						},
-						"0.5417": {
-							"vector": [0, 0, 0]
-						},
-						"2.0": {
-							"vector": [0, 0, 0]
-						}
-					}
-				},
-				"bipedRightArm": {
+				"right_arm": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 0, 0]
@@ -398,25 +377,7 @@
 						}
 					}
 				},
-				"bipedRightHand": {
-					"rotation": {
-						"0.0": {
-							"vector": [-2.5, 0, 0]
-						},
-						"2.0": {
-							"vector": [-2.5, 0, 0]
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0.25, -0.25]
-						},
-						"2.0": {
-							"vector": [0, 0.25, -0.25]
-						}
-					}
-				},
-				"bipedLeftArm": {
+				"left_arm": {
 					"rotation": {
 						"0.0": {
 							"vector": [0, 0, 0]
@@ -432,31 +393,10 @@
 						},
 						"3.75": {
 							"vector": [0, 0, 0]
-						}
-					}
-				},
-				"bipedLeftHand": {
-					"rotation": {
-						"0.0": {
-							"vector": [-2.5, 0, 0]
-						},
-						"2.0": {
-							"vector": [-2.5, 0, 0]
-						}
-					},
-					"position": {
-						"0.0": {
-							"vector": [0, 0.25, -0.25]
-						},
-						"2.0": {
-							"vector": [0, 0.25, -0.25]
 						}
 					}
 				}
 			}
-		},
-		"misc.idle": {
-			"loop": true
 		},
 		"move.walk": {
 			"loop": true

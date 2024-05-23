@@ -20,7 +20,7 @@ public class StatsSyncS2C {
 
     public StatsSyncS2C(Player player) {
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
-        player.getId();
+        Id = player.getId();
     }
 
     public StatsSyncS2C(FriendlyByteBuf buf) {
@@ -50,5 +50,6 @@ public class StatsSyncS2C {
             player.refreshDimensions();
         }
     }
+
 
 }

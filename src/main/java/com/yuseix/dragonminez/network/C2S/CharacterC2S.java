@@ -29,7 +29,6 @@ public class CharacterC2S {
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeUtf(tipo);
         buf.writeInt(cantidad);
-
     }
 
     public static void handle(CharacterC2S packet, Supplier<NetworkEvent.Context> ctx) {
@@ -42,6 +41,13 @@ public class CharacterC2S {
                 PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.tipo) {
+                        case "Gender":
+                            if(packet.cantidad == 0){
+                                playerstats.setGender("Male");
+                            } else {
+                                playerstats.setGender("Female");
+                            }
+                            break;
                         case "BodyType":
                             playerstats.setBodytype(packet.cantidad);
                             break;

@@ -1,12 +1,13 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
 import com.google.common.collect.ImmutableMap;
+import com.yuseix.dragonminez.character.models.GeoHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
-import com.yuseix.dragonminez.character.models.saiyan.GeoSaiyanModel;
-import com.yuseix.dragonminez.character.renders.GeoSaiyanRender;
-import com.yuseix.dragonminez.character.renders.bioandroid.GeoBioAndroidRender;
+import com.yuseix.dragonminez.character.renders.GeoHumanSaiyanRender;
+import com.yuseix.dragonminez.character.renders.GeoBioAndroidRender;
 import com.yuseix.dragonminez.events.ModEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -29,21 +30,64 @@ import java.util.Map;
 public class EntityRenderDispatcherMixin {
 
     private Map<Integer, GeoEntityRenderer> dmzRenderers = ImmutableMap.of();
+    private Map<String, GeoEntityRenderer> dmzRendererHyS = ImmutableMap.of();
     @Shadow
     public Map<EntityType<?>, EntityRenderer<?>> renderers;
     @Shadow
     private Map<String, EntityRenderer<? extends Player>> playerRenderers;
 
-    @Inject(at = @At("HEAD"), method = "getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;", cancellable = true, remap = false)
+    @Inject(at = @At("HEAD"), method = "getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;", cancellable = true)
     public void dmz$getRenderer(Entity entity, CallbackInfoReturnable<EntityRenderer<? super Entity>> cir) {
         if(entity instanceof Player player) {
 
             PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap ->{
 
-                if(cap.getRace() == 0){
+
+                if(cap.getRace() == 3){
                     cir.setReturnValue(dmzRenderers.get(cap.getRace()));
-                } else if(cap.getRace() == 1){
-                    cir.setReturnValue(dmzRenderers.get(cap.getRace()));
+                }
+
+                if(player instanceof AbstractClientPlayer abstractClientPlayer){
+                    String modelname = abstractClientPlayer.getModelName();
+
+                    switch (cap.getRace()){
+                        case 0:
+                            if(cap.getBodytype() == 0){
+                                if("default".equals(modelname)){
+                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                } else if("slim".equals(modelname)){
+                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                }
+                            }
+
+                            if(cap.getGender().equals("male")){
+                                cir.setReturnValue(dmzRendererHyS.get("default"));
+                            }else{
+                                cir.setReturnValue(dmzRendererHyS.get("slim"));
+                            }
+
+                            break;
+
+                        case 1:
+                            if(cap.getBodytype() == 0){
+                                if("default".equals(modelname)){
+                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                } else if("slim".equals(modelname)){
+                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                }
+                            }
+
+                            if(cap.getGender().equals("male")){
+                                cir.setReturnValue(dmzRendererHyS.get("default"));
+                            }else{
+                                cir.setReturnValue(dmzRendererHyS.get("slim"));
+                            }
+
+                            break;
+
+                        default:
+                            break;
+                    }
                 }
 
             });
@@ -54,13 +98,23 @@ public class EntityRenderDispatcherMixin {
     @Inject(at = @At("TAIL"), method = "onResourceManagerReload(Lnet/minecraft/server/packs/resources/ResourceManager;)V", locals = LocalCapture.CAPTURE_FAILHARD)
     public void dmz$reload(ResourceManager resourceManager, CallbackInfo ci, EntityRendererProvider.Context entityrendererprovider$context) {
         dmzRenderers = reloadDragonRenderers(entityrendererprovider$context);
+        dmzRendererHyS = reloadHumanRender(entityrendererprovider$context);
+    }
+
+
+    private static Map<String, GeoEntityRenderer> reloadHumanRender(EntityRendererProvider.Context ctx) {
+        ImmutableMap.Builder<String, GeoEntityRenderer> builder = ImmutableMap.builder();
+
+        builder.put("default",new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("stevehumansaiyanmodel")));
+        builder.put("slim",new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("alexhumansaiyanmodel")));
+
+        return builder.build();
     }
 
     private static Map<Integer, GeoEntityRenderer> reloadDragonRenderers(EntityRendererProvider.Context ctx) {
         ImmutableMap.Builder<Integer, GeoEntityRenderer> builder = ImmutableMap.builder();
 
-        builder.put(0,new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
-        builder.put(1,new GeoSaiyanRender(ctx, new GeoSaiyanModel()));
+        builder.put(3,new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
 
         return builder.build();
     }
