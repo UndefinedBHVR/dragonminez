@@ -37,8 +37,11 @@ public class DragonMineZ {
         MainSounds.register(modEventBus);
         //Registramos las entidades
         MainEntity.register(modEventBus);
-
+        //Registramos los NPCS (Puntos de Interés y Profesiones)
+        MainNPCs.register(modEventBus);
+        //Regsitramos el Listener del Mod (Normalmente eventos de Forge y FML más como frontend)
         modEventBus.register(new ModListener());
+        //Regsitramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend)
         MinecraftForge.EVENT_BUS.register(new ForgeListener());
 
         GeckoLib.initialize();

@@ -27,6 +27,37 @@ un issue en GitHub si aparece un error.
 
 Asegúrate de subir todo a otro branch que no sea main para evitar que el código se rompa o arruines la vida a Yuseix.
 
+## Uso de GitHub Copilot
+
+A continuación se muestran algunas ayudas para GitHub Copilot al momento de auto-completar código, estas deben ser
+SIEMPRE sugeridas por Copilot y/o al momento de crear un TODO para las GitHub Actions.
+Para usar esto, usar periódicamente estas labels para que Copilot pueda aprender de ellas.
+
+### **Labels Posibles:**
+
+    Estado: Ayuda Requerida
+    Estado: Completado
+    Estado: Descartado
+    Estado: Disponible
+    Estado: Pendiente
+    Estado: Trabajandolo
+
+    Priodidad: Media
+    Priodidad: Alta
+    Priodidad: Baja
+    Priodidad: Crítica
+
+    Tipo: Animaciones
+    Tipo: Bug
+    Tipo: Comandos
+    Tipo: GUI
+    Tipo: Modelos
+    Tipo: Nueva Idea
+    Tipo: Optimizaciones
+    Tipo: Sonidos
+    Tipo: Tooltips
+    Tipo: Traducciones
+
 ## Uso de Sonidos de Terceros
 
 Algunos sonidos se usan desde la página de [Zapsplat](https://www.zapsplat.com/) y
