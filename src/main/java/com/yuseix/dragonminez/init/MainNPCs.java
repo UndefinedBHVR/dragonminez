@@ -25,6 +25,7 @@ public final class MainNPCs {
     /*TODO:
      * Cambiar el Bloque de Interés a uno propio, este puede ser uno de namek?
      * De manera adicional configurar modelos para la profesión del aldeano (en este caso el NPC)
+     * Finalmente añadir más NPCs y tal vez algunos personalizados...
      * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos, Tipo: Nueva Idea
      */
     public static final RegistryObject<PoiType> INTEREST_TEST = INTEREST_REGISTER.register("test",
