@@ -53,10 +53,10 @@ public class CharacterCMenu extends Screen{
 
     private final List<AbstractWidget> botonOjos = new ArrayList<>();
 
-    private DMZRightButton botonRazaRight,botonRazaLeft, eyesTypeRight, eyesTypeLeft;
+    private DMZRightButton botonRazaRight,botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton,gendersLeftButton;
 
     private TextButton nextButton,backButton, setColor;
-    private ColorButton eyesButtonColor,eyesButtonColor2,bodyButtonColor1,bodyButtonColor2,bodyButtonColor3;
+    private ColorButton eyesButtonColor,eyesButtonColor2,bodyButtonColor1,bodyButtonColor2,bodyButtonColor3, hairButtonColor;
     private ForgeSlider sliderR,sliderG,sliderB;
     private int colorR,colorG,colorB;
     private static int currentPage = 0;
@@ -106,8 +106,9 @@ public class CharacterCMenu extends Screen{
 
         } else if(currentPage == 1){
 
-                botonesOjos(105,alto - 75);
-
+            botonesBodyType(113, alto - 40);
+            botonesGeneros(113, alto - 76);
+            botonesOjos(113,alto + 10);
 
         } else if (currentPage == 2) {
 
@@ -232,11 +233,11 @@ public class CharacterCMenu extends Screen{
                         if(cap.getGender().equals("Male")){
                             alturaTexto = (Altura / 2);
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_MALE,anchoTexto +76,alturaTexto - 72,0xFFFFFF);
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_MALE,anchoTexto +76,alturaTexto - 72,0xFFFFFF, 0x2133A6);
                         } else if(cap.getGender().equals("Female")){
                             alturaTexto = (Altura / 2);
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_FEMALE,anchoTexto +76,alturaTexto - 72,0xFFFFFF);
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_FEMALE,anchoTexto +76,alturaTexto - 72,0xFFFFFF, 0xFC63D9);
 
                         }
 
@@ -258,6 +259,11 @@ public class CharacterCMenu extends Screen{
                             alturaTexto = (Altura / 2);
                             anchoTexto = (20 - this.font.width(TranslateManager.H_BODY_TYPE));
                             drawStringWithBorder(pGuiGraphics,font,TranslateManager.H_BODY_TYPE,anchoTexto + 83,alturaTexto - 36,0xFFFFFF);
+                        } else if(cap.getBodytype() == 1){
+                            alturaTexto = (Altura / 2);
+                            anchoTexto = (20 - this.font.width(TranslateManager.H_BODY_TYPE2));
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.H_BODY_TYPE2,anchoTexto + 83,alturaTexto - 36,0xFFFFFF);
+
                         }
                         //OJOS
                         alturaTexto = (Altura / 2);
@@ -272,12 +278,36 @@ public class CharacterCMenu extends Screen{
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES));
                         pGuiGraphics.drawString(font,TranslateManager.EYES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-3,0xFF9B9B);
 
-                        if(cap.getEyesType() == 0){
-                            alturaTexto = (Altura / 2);
-                            anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_1));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_1,anchoTexto +83,alturaTexto + 13,0xFFFFFF);
+                            if(cap.getEyesType() == 0){
+                                alturaTexto = (Altura / 2);
+                                anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_1));
+                                drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_1,anchoTexto +83,alturaTexto + 13,0xFFFFFF);
+                            } else if(cap.getEyesType() == 1){
+                                alturaTexto = (Altura / 2);
+                                anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_2));
+                                drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_2,anchoTexto +83,alturaTexto + 13,0xFFFFFF);
+
+                            }
+
+                        //HAIR COLOR
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = 47;
+                        RenderSystem.enableBlend();
+                        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                        RenderSystem.setShaderTexture(0, texto);
+                        pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 42, 0, 0, 73, 15);
+                        RenderSystem.disableBlend();
+                        //HAIR TITULO
+                        anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
+                        pGuiGraphics.drawString(font,TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+77,alturaTexto+46,0x65FC63);
+
+                        if (cap.getHairID() == 0){
+                            anchoTexto = (20 - this.font.width(TranslateManager.HAIR_0));
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.HAIR_0,anchoTexto +83,alturaTexto + 62,0xFFFFFF);
+                        }else if(cap.getHairID() == 1){
 
                         }
+
                         break;
                     case 1:
                         break;
@@ -383,9 +413,23 @@ public class CharacterCMenu extends Screen{
                     rColor = sliderR.getValueInt() / 255.0F;
                     gColor = sliderG.getValueInt() / 255.0f;
                     bColor = sliderB.getValueInt() / 255.0f;
-
+                    RenderSystem.enableBlend();
+                    RenderSystem.setShaderTexture(0,colorCuadrado);
                     RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
                     pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
+                    RenderSystem.disableBlend();
+
+                    break;
+                case "cabelloPagina":
+                    rColor = sliderR.getValueInt() / 255.0F;
+                    gColor = sliderG.getValueInt() / 255.0f;
+                    bColor = sliderB.getValueInt() / 255.0f;
+                    RenderSystem.enableBlend();
+                    RenderSystem.setShaderTexture(0,colorCuadrado);
+                    RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                    pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
+                    RenderSystem.disableBlend();
+
                     break;
             }
 
@@ -425,12 +469,61 @@ public class CharacterCMenu extends Screen{
                 sliders(this.width-127,((this.minecraft.getWindow().getGuiScaledHeight()) / 2)+25);
                 botonesRazaColores(72,posY);
 
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+                    switch(cap.getRace()){
+                        case 0:
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                            break;
+                        case 1:
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                            break;
+                        case 2:
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 2075172));
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", 12263460));
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                            break;
+                        case 3:
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 1603072));
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", 10478369));
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                            break;
+                        case 4:
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 15590399));
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", 15255295));
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", 15240865));
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                            break;
+                        case 5:
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16753919));
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 11796480));
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
+                            break;
+                        default:
+
+                            break;
+                    }
+
+
+                });
                 ModMessages.sendToServer(new CharacterC2S("Gender", 0));
 
             }));
         }else if(currentPage == 1){
             //BOTON VOLVER
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY+105,TranslateManager.BACK.withStyle(ChatFormatting.BOLD),button -> {
+            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY+112,TranslateManager.BACK.withStyle(ChatFormatting.BOLD),button -> {
                 currentPage = 0;
                 this.removeWidget(sliderR);
                 this.removeWidget(sliderG);
@@ -440,12 +533,17 @@ public class CharacterCMenu extends Screen{
                 this.removeWidget(bodyButtonColor1);
                 this.removeWidget(bodyButtonColor2);
                 this.removeWidget(bodyButtonColor3);
+                this.removeWidget(hairButtonColor);
                 this.removeWidget(setColor);
                 this.removeWidget(eyesTypeLeft);
                 this.removeWidget(eyesTypeRight);
+                this.removeWidget(bodyTypeRightButton);
+                this.removeWidget(bodyTypeLeftButton);
+                this.removeWidget(gendersRigthButton);
+                this.removeWidget(gendersLeftButton);
             }));
             //BOTON SIGUIENTE
-            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY+105,TranslateManager.NEXT.withStyle(ChatFormatting.BOLD),button -> {
+            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY+112,TranslateManager.NEXT.withStyle(ChatFormatting.BOLD),button -> {
             }));
         }else{
 
@@ -463,6 +561,7 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(bodyButtonColor1);
         this.removeWidget(bodyButtonColor2);
         this.removeWidget(bodyButtonColor3);
+        this.removeWidget(hairButtonColor);
 
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -537,6 +636,28 @@ public class CharacterCMenu extends Screen{
                         this.partePagina = "cuerpo1";
                     }));
 
+                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor",posX, posY + 73,Component.empty(),button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getHairColor();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r*255);
+                        colorG = (int) (g*255);
+                        colorB = (int) (b*255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR,colorG,colorB)));
+
+                        }));
+                        this.partePagina = "cabelloPagina";
+                    }));
                     break;
                 case 1:
                     this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1",posX, posY - 6,Component.empty(),button -> {
@@ -658,20 +779,21 @@ public class CharacterCMenu extends Screen{
 
             switch(cap.getRace()){
                 case 0:
-                    if(cap.getEyesType() == 0){
+                    if(cap.getBodytype() > 0){
+                        if(cap.getEyesType() == 0){
+                            this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
+                                this.removeWidget(eyesTypeRight);
+                                this.removeWidget(eyesTypeLeft);
+                            }));
 
-                        this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX - 10, posY, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                            this.removeWidget(eyesTypeRight);
-                            this.removeWidget(eyesTypeLeft);
-                        }));
-
-                    } else if(cap.getEyesType() == 1){
-                        this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                            this.removeWidget(eyesTypeRight);
-                            this.removeWidget(eyesTypeLeft);
-                        }));
+                        } else if(cap.getEyesType() == 1){
+                            this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
+                                this.removeWidget(eyesTypeRight);
+                                this.removeWidget(eyesTypeLeft);
+                            }));
+                        }
                     }
 
                     break;
@@ -705,11 +827,91 @@ public class CharacterCMenu extends Screen{
                     break;
             }
 
-            botonOjos.forEach(this::addRenderableWidget);
+        });
+    }
+    public void botonesBodyType(int posX, int posY){
+
+        this.removeWidget(bodyTypeRightButton);
+        this.removeWidget(bodyTypeLeftButton);
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,minecraft.player).ifPresent(cap -> {
+
+            switch(cap.getRace()){
+                case 0:
+                    if(cap.getBodytype() == 0){
+                        this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
+                            this.removeWidget(bodyTypeRightButton);
+                            this.removeWidget(bodyTypeLeftButton);
+                        }));
+                    } else if(cap.getBodytype() == 1){
+                        this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                            this.removeWidget(bodyTypeRightButton);
+                            this.removeWidget(bodyTypeLeftButton);
+                        }));
+                    }
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+            }
+
 
         });
     }
+    public void botonesGeneros(int posX, int posY){
 
+        this.removeWidget(gendersRigthButton);
+        this.removeWidget(gendersLeftButton);
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,minecraft.player).ifPresent(cap -> {
+
+            switch(cap.getRace()){
+                case 0:
+                    if(cap.getGender().equals("Female")){
+
+                        this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("Gender", 0));
+                            this.removeWidget(gendersRigthButton);
+                            this.removeWidget(gendersLeftButton);
+                        }));
+                    } else if(cap.getGender().equals("Male")){
+                        this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("Gender", 1));
+                            this.removeWidget(gendersRigthButton);
+                            this.removeWidget(gendersLeftButton);
+                        }));
+                    }
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                default:
+                    break;
+            }
+
+
+        });
+    }
     public void botonesRazasElegir(int posX, int posY){
 
         this.removeWidget(botonRazaRight);
@@ -718,65 +920,109 @@ public class CharacterCMenu extends Screen{
         PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             if(cap.getRace() == 0){
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 40, posY, Component.empty(), button -> {
+                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 1));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                 }));
             }else if (cap.getRace() == 1){
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 40, posY, Component.empty(), button -> {
+                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 2));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
-
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 2075172));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 12263460));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
 
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 40, posY, Component.empty(), button -> {
+                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 0));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                 }));
             }else if (cap.getRace() == 2){
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 40, posY, Component.empty(), button -> {
+                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 3));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
-
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 1603072));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 10478369));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 40, posY, Component.empty(), button -> {
+                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 1));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                 }));
 
             }else if (cap.getRace() == 3){
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 40, posY, Component.empty(), button -> {
+                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 4));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 15590399));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 15255295));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 15240865));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 40, posY, Component.empty(), button -> {
+                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 2));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 2075172));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 12263460));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
             }else if (cap.getRace() == 4){
 
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 40, posY, Component.empty(), button -> {
+                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 5));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16753919));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 11796480));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
+                    ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
                 }));
-                this.botonRazaLeft =  (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 40, posY, Component.empty(), button -> {
+                this.botonRazaLeft =  (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 3));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 1603072));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 10478369));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
             } else {
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 40, posY, Component.empty(), button -> {
+                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 4));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 15590399));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 15255295));
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 15240865));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
             }
 

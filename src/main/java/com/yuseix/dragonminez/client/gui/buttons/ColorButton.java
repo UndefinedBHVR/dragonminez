@@ -78,6 +78,15 @@ public class ColorButton extends Button {
 
                     pGuiGraphics.setColor(r, g, b, 1.0f);
                     break;
+                case "hairColor":
+                    //CONVERTIR DE DECIMAL A FLOAT
+                    color = cap.getHairColor(); // blanco
+                    r = (color >> 16) / 255.0F;
+                    g = ((color >> 8) & 0xff) / 255.0f;
+                    b = (color & 0xff) / 255.0f;
+
+                    pGuiGraphics.setColor(r, g, b, 1.0f);
+                    break;
             }
 
             RenderSystem.setShaderTexture(0, botones);

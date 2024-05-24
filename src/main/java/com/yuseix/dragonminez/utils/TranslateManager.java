@@ -23,6 +23,9 @@ public class TranslateManager {
     public static MutableComponent GENDERS = (Component.translatable("dmz.ccreation.genders"));
     //CUERPOS TITULO
     public static MutableComponent BODYTYPES = (Component.translatable("dmz.ccreation.bodytypes"));
+    //HAIR TITULO
+    public static MutableComponent HAIRTYPES = (Component.translatable("dmz.ccreation.hairtypes"));
+
     //BACK BUTTON
     public static MutableComponent BACK = (Component.translatable("dmz.ccreation.back"));
     //NEXT BUTTON
@@ -32,12 +35,18 @@ public class TranslateManager {
 
     //TIPO DE OJOS 1
     public static MutableComponent EYES_TYPE_1 = (Component.translatable("dmz.ccreation.eyestype.type1"));
+    public static MutableComponent EYES_TYPE_2 = (Component.translatable("dmz.ccreation.eyestype.type2"));
+
     //TIPO DE CUERPO HUMANO 1
     public static MutableComponent H_BODY_TYPE = (Component.translatable("dmz.ccreation.human.bodytype.type1"));
+    public static MutableComponent H_BODY_TYPE2 = (Component.translatable("dmz.ccreation.human.bodytype.type2"));
+
     //TIPO DE CUERPO BIOANDROID 1
     public static MutableComponent B_BODY_TYPE = (Component.translatable("dmz.ccreation.bioandroid.bodytype.type1"));
     //TIPO DE GENEROS
     public static MutableComponent GENDER_MALE = (Component.translatable("dmz.ccreation.genders.male"));
     public static MutableComponent GENDER_FEMALE = (Component.translatable("dmz.ccreation.genders.female"));
+    //TIPO DE CABELLOS
+    public static MutableComponent HAIR_0 = (Component.translatable("dmz.ccreation.hairs.0"));
 
 }
