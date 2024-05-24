@@ -54,6 +54,12 @@
   "dmz.ccreation.genders.female": "Female",
   "dmz.ccreation.hairtypes": "Hair",
   "dmz.ccreation.hairs.0": "Default",
+  "dmz.races.name.human": "Human",
+  "dmz.races.name.saiyan": "Saiyan",
+  "dmz.races.name.namek": "Namekian",
+  "dmz.races.name.bioandroid": "Bio-Android",
+  "dmz.races.name.colddemon": "Cold Demon",
+  "dmz.races.name.majin": "Majin",
   "dmz.ccreation.back": "Back",
   "dmz.ccreation.next": "Next",
   "dmz.ccreation.color_menu": "COLOR"

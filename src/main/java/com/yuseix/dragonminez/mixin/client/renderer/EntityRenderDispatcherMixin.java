@@ -58,13 +58,15 @@ public class EntityRenderDispatcherMixin {
                                 } else if("slim".equals(modelname)){
                                     cir.setReturnValue(dmzRendererHyS.get(modelname));
                                 }
+                            } else if(cap.getBodytype() == 1){
+                                if(cap.getGender().equals("Male")){
+                                    cir.setReturnValue(dmzRendererHyS.get("default"));
+                                }else{
+                                    cir.setReturnValue(dmzRendererHyS.get("slim"));
+                                }
                             }
 
-                            if(cap.getGender().equals("male")){
-                                cir.setReturnValue(dmzRendererHyS.get("default"));
-                            }else{
-                                cir.setReturnValue(dmzRendererHyS.get("slim"));
-                            }
+
 
                             break;
 
@@ -77,7 +79,7 @@ public class EntityRenderDispatcherMixin {
                                 }
                             }
 
-                            if(cap.getGender().equals("male")){
+                            if(cap.getGender().equals("Male")){
                                 cir.setReturnValue(dmzRendererHyS.get("default"));
                             }else{
                                 cir.setReturnValue(dmzRendererHyS.get("slim"));
