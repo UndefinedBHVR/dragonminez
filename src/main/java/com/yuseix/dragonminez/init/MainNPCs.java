@@ -16,18 +16,19 @@ import java.util.HashSet;
 public final class MainNPCs {
     //NOTA: LOS ALDEANOS FUNCIONAN COMO NPCS, ASÍ QUE USAREMOS TÉCNICAMENTE ALDEANOS CON SKIN DE NAMEKIANOS/NPCS, ETC.
 
+    /*TODO: NPCs
+     * Cambiar el Bloque de Interés a uno propio, este puede ser uno de namek?
+     * De manera adicional configurar modelos para la profesión del aldeano (en este caso el NPC)
+     * Finalmente añadir más NPCs y tal vez algunos personalizados...
+     * labels: Estado: Disponible, Prioridad: Baja, Tipo: Modelos, Tipo: Nueva Idea
+     */
+
     public static final DeferredRegister<PoiType> INTEREST_REGISTER =
             DeferredRegister.create(ForgeRegistries.POI_TYPES, DragonMineZ.MOD_ID);
 
     public static final DeferredRegister<VillagerProfession> PROFESSION_REGISTER =
             DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, DragonMineZ.MOD_ID);
 
-    /*TODO:
-     * Cambiar el Bloque de Interés a uno propio, este puede ser uno de namek?
-     * De manera adicional configurar modelos para la profesión del aldeano (en este caso el NPC)
-     * Finalmente añadir más NPCs y tal vez algunos personalizados...
-     * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos, Tipo: Nueva Idea
-     */
     public static final RegistryObject<PoiType> INTEREST_TEST = INTEREST_REGISTER.register("test",
             //maxTickets es la cantidad de aldeanos que pueden obtener el "trabajo" al mismo tiempo (como usarlo al mismo tiempo, no como limite de profesiones)
             //validRange es la distancia máxima a la que el aldeano puede estar del bloque para que cuente como "trabajo"
