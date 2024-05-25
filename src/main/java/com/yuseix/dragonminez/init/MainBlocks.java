@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 @SuppressWarnings("unused")
-public class MainBlocks {
+public final class MainBlocks {
 
     public static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, DragonMineZ.MOD_ID);
 
@@ -147,6 +147,9 @@ public class MainBlocks {
                     .noCollission()
             ));
 
+    //LIQUIDOS
+    public static final RegistryObject<LiquidBlock> HEALING_LIQUID_BLOCK = BLOCK_REGISTER.register("healing_liquid_block",
+            () -> new LiquidBlock(MainFluids.SOURCE_HEALING_LIQUID, BlockBehaviour.Properties.copy(Blocks.WATER)));
 
     //DRAGON BALLS - TIERRA
     public static final RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",
