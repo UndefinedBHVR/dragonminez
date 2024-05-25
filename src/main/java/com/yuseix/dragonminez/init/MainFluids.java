@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.fluids.SimpleFluid;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
@@ -34,4 +35,9 @@ public final class MainFluids {
             = new ForgeFlowingFluid.Properties(MainFluids.HEALING_FLUID_TYPE, SOURCE_HEALING, FLOWING_HEALING)
             .block(MainBlocks.HEALING_BLOCK)
             .bucket(MainItems.HEALING_BUCKET);
+
+    public static void register(IEventBus bus) {
+        FLUID_TYPE_REGISTER.register(bus);
+        FLUIDS_REGISTER.register(bus);
+    }
 }
