@@ -19,19 +19,19 @@ public final class MainFluids {
     public static final DeferredRegister<Fluid> FLUIDS_REGISTER =
             DeferredRegister.create(ForgeRegistries.FLUIDS, DragonMineZ.MOD_ID);
 
-    public static final RegistryObject<FluidType> HEALING_LIQUID_FLUID_TYPE = FLUID_TYPE_REGISTER.register("healing_liquid_fluid_type",
+    public static final RegistryObject<FluidType> HEALING_FLUID_TYPE = FLUID_TYPE_REGISTER.register("healing_fluid_type",
             () -> new SimpleFluid(
                     0xe07f38,
                     FluidType.Properties.create().lightLevel(5)));
 
-    public static final RegistryObject<FlowingFluid> SOURCE_HEALING_LIQUID = FLUIDS_REGISTER.register("healing_liquid_fluid",
-            () -> new ForgeFlowingFluid.Source(MainFluids.HEALING_LIQUID_FLUID_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> SOURCE_HEALING = FLUIDS_REGISTER.register("healing_fluid",
+            () -> new ForgeFlowingFluid.Source(MainFluids.HEALING_FLUID_PROPERTIES));
 
-    public static final RegistryObject<FlowingFluid> FLOWING_HEALING_LIQUID = FLUIDS_REGISTER.register("flowing_healing_liquid_fluid",
-            () -> new ForgeFlowingFluid.Flowing(MainFluids.HEALING_LIQUID_FLUID_PROPERTIES));
+    public static final RegistryObject<FlowingFluid> FLOWING_HEALING = FLUIDS_REGISTER.register("flowing_healing_fluid",
+            () -> new ForgeFlowingFluid.Flowing(MainFluids.HEALING_FLUID_PROPERTIES));
 
-    public static final ForgeFlowingFluid.Properties HEALING_LIQUID_FLUID_PROPERTIES
-            = new ForgeFlowingFluid.Properties(MainFluids.HEALING_LIQUID_FLUID_TYPE, SOURCE_HEALING_LIQUID, FLOWING_HEALING_LIQUID)
-            .block(MainBlocks.HEALING_LIQUID_BLOCK)
-            .bucket(MainItems.HEALING_LIQUID_BUCKET);
+    public static final ForgeFlowingFluid.Properties HEALING_FLUID_PROPERTIES
+            = new ForgeFlowingFluid.Properties(MainFluids.HEALING_FLUID_TYPE, SOURCE_HEALING, FLOWING_HEALING)
+            .block(MainBlocks.HEALING_BLOCK)
+            .bucket(MainItems.HEALING_BUCKET);
 }

@@ -60,8 +60,8 @@ public final class ModListener {
         BlockEntityRenderers.register(MainBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
         BlockEntityRenderers.register(MainBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
 
-        ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING_LIQUID.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING_LIQUID.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING.get(), RenderType.translucent());
 
     }
 

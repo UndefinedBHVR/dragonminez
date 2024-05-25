@@ -24,8 +24,10 @@ public final class MainTabs {
 
                     .title(Component.translatable("itemGroup.dragonminez.blocks"))
                     .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
-                        if (!block.getId().getPath().startsWith("namek_") || !(block.get() instanceof LiquidBlock))
-                            output.accept(block.get().asItem());
+                        if (!block.getId().getPath().startsWith("namek_")) {
+                            if (!(block.get() instanceof LiquidBlock))
+                                output.accept(block.get().asItem());
+                        }
                     })).build()
     );
     public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",

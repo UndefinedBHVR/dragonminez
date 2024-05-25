@@ -39,6 +39,9 @@ public class DragonMineZ {
         MainEntity.register(modEventBus);
         //Registramos los NPCS (Puntos de Interés y Profesiones)
         MainNPCs.register(modEventBus);
+        //Registramos los Fluidos (Tipo de Fluido y Fluido/s)
+        MainFluids.FLUIDS_REGISTER.register(modEventBus);
+        MainFluids.FLUID_TYPE_REGISTER.register(modEventBus);
         //Regsitramos el Listener del Mod (Normalmente eventos de Forge y FML más como frontend)
         modEventBus.register(new ModListener());
         //Regsitramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend)
