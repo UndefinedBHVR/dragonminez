@@ -52,6 +52,10 @@ public final class MainItems {
                     .fireResistant()));
 
     //LÍQUIDOS
+    /*TODO: Texturas Líquido de Curación
+     *    Falta la textura del item de: Líquido de Curación (en un bucket)
+     * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos
+     */
     public static final RegistryObject<Item> HEALING_LIQUID_BUCKET = ITEM_REGISTER.register("healing_liquid",
             () -> new BucketItem(MainFluids.SOURCE_HEALING_LIQUID, properties
                     .craftRemainder(Items.BUCKET)
