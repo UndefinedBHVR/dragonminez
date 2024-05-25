@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class MainBlockEntities {
+public final class MainBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES_REGISTER =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, DragonMineZ.MOD_ID);

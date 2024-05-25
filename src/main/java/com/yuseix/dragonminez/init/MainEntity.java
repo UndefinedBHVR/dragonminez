@@ -10,7 +10,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class MainEntity {
+public final class MainEntity {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES_REGISTER =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, DragonMineZ.MOD_ID);
 
@@ -22,7 +22,7 @@ public class MainEntity {
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "dino").toString())
             );
 
-    public static void register(IEventBus bus){
+    public static void register(IEventBus bus) {
         ENTITY_TYPES_REGISTER.register(bus);
     }
 }

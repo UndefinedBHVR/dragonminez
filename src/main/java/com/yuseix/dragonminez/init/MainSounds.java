@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class MainSounds {
+public final class MainSounds {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS_REGISTER =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, DragonMineZ.MOD_ID);
