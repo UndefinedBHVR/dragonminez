@@ -11,9 +11,18 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable> extends GeoEntityRenderer<T> {
@@ -28,9 +37,93 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
     public void actuallyRender(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.pushPose();
 
+        LivingEntity livingEntity = this.animatable;
+        boolean shouldSit = this.animatable.isPassenger() && (this.animatable.getVehicle() != null && this.animatable.getVehicle().shouldRiderSit());
+        float lerpBodyRot = Mth.rotLerp(partialTick, livingEntity.yBodyRotO, livingEntity.yBodyRot);
+        float lerpHeadRot = Mth.rotLerp(partialTick, livingEntity.yHeadRotO, livingEntity.yHeadRot);
+        float netHeadYaw = lerpHeadRot - lerpBodyRot;
+
+        if (shouldSit && this.animatable.getVehicle() instanceof LivingEntity livingentity) {
+            lerpBodyRot = Mth.rotLerp(partialTick, livingentity.yBodyRotO, livingentity.yBodyRot);
+            netHeadYaw = lerpHeadRot - lerpBodyRot;
+            float clampedHeadYaw = Mth.clamp(Mth.wrapDegrees(netHeadYaw), -85, 85);
+            lerpBodyRot = lerpHeadRot - clampedHeadYaw;
+
+            if (clampedHeadYaw * clampedHeadYaw > 2500f)
+                lerpBodyRot += clampedHeadYaw * 0.2f;
+
+            netHeadYaw = lerpHeadRot - lerpBodyRot;
+        }
+
+        if (this.animatable.getPose() == Pose.SLEEPING) {
+            Direction bedDirection = livingEntity.getBedOrientation();
+
+            if (bedDirection != null) {
+                float eyePosOffset = livingEntity.getEyeHeight(Pose.STANDING) - 0.1F;
+
+                poseStack.translate(-bedDirection.getStepX() * eyePosOffset, 0, -bedDirection.getStepZ() * eyePosOffset);
+            }
+        }
+
+        float ageInTicks = this.animatable.tickCount + partialTick;
+        float limbSwingAmount = 0;
+        float limbSwing = 0;
+
+        applyRotations(animatable, poseStack, ageInTicks, lerpBodyRot, partialTick);
+
+        if (!shouldSit && this.animatable.isAlive()) {
+            limbSwingAmount = livingEntity.walkAnimation.speed(partialTick);
+            limbSwing = livingEntity.walkAnimation.position(partialTick);
+
+            if (livingEntity.isBaby())
+                limbSwing *= 3f;
+
+            if (limbSwingAmount > 1f)
+                limbSwingAmount = 1f;
+        }
+
+        float headPitch = Mth.lerp(partialTick, this.animatable.xRotO, this.animatable.getXRot());
+        float motionThreshold = getMotionAnimThreshold(animatable);
+        boolean isMoving;
+
+
+        Vec3 velocity = livingEntity.getDeltaMovement();
+        float avgVelocity = (float)(Math.abs(velocity.x) + Math.abs(velocity.z)) / 2f;
+
+        isMoving = avgVelocity >= motionThreshold && limbSwingAmount != 0;
+
+
+
+        if (!isReRender) {
+            AnimationState animationState = new AnimationState<>(animatable, limbSwing, limbSwingAmount, partialTick, isMoving);
+            long instanceId = getInstanceId(animatable);
+
+            animationState.setData(DataTickets.TICK, animatable.getTick(this.animatable));
+            animationState.setData(DataTickets.ENTITY, this.animatable);
+            animationState.setData(DataTickets.ENTITY_MODEL_DATA, new EntityModelData(shouldSit, livingEntity.isBaby(), -netHeadYaw, -headPitch));
+            this.model.addAdditionalStateData(animatable, instanceId, animationState::setData);
+            this.model.handleAnimations(animatable, instanceId, animationState);
+        }
+
+        poseStack.translate(0, 0.01f, 0);
+
+        this.modelRenderTranslations = new Matrix4f(poseStack.last().pose());
+
+        if (this.animatable.isInvisibleTo(Minecraft.getInstance().player)) {
+            if (Minecraft.getInstance().shouldEntityAppearGlowing(this.animatable)) {
+                buffer = bufferSource.getBuffer(renderType = RenderType.outline(getTextureLocation(animatable)));
+            }
+            else {
+                renderType = null;
+            }
+        }
+
         if (renderType != null) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            RenderType finalRenderType = renderType;
+            VertexConsumer finalBuffer = buffer;
+
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, livingEntity).ifPresent(cap -> {
 
                 var raza = cap.getRace();
                 var bodytype = cap.getBodytype();
@@ -39,17 +132,17 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                     //Humano
                     case 0:
                         if(bodytype == 0){
-                            HumanRenderBody1(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight,
+                            HumanRenderBody1(poseStack, animatable, model, finalRenderType, bufferSource, finalBuffer, isReRender, partialTick, packedLight,
                                     packedOverlay, red, green, blue, alpha);
                         }else if(bodytype == 1){
-                            HumanRenderBody2(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight,
+                            HumanRenderBody2(poseStack, animatable, model, finalRenderType, bufferSource, finalBuffer, isReRender, partialTick, packedLight,
                                     packedOverlay, red, green, blue, alpha);
                         }
                         break;
                     //SAIYAJIN
                     case 1:
                         if(bodytype == 0){
-                            SaiyanRenderBody1(poseStack, animatable, model, renderType, bufferSource, buffer, isReRender, partialTick, packedLight,
+                            SaiyanRenderBody1(poseStack, animatable, model, finalRenderType, bufferSource, finalBuffer, isReRender, partialTick, packedLight,
                                     packedOverlay, red, green, blue, alpha);
                         }else if(bodytype == 1){
 
@@ -71,6 +164,8 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
     }
     private void HumanRenderBody1(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 
+        LivingEntity livingEntity = animatable;
+
         var head = model.getBone("head").get();
         var body = model.getBone("body").get();
         var brazoderecho = model.getBone("right_arm").get();
@@ -78,9 +173,9 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var piernaderecha = model.getBone("right_leg").get();
         var piernaizquierda = model.getBone("left_leg").get();
 
-        var skin_type1 = RenderType.entityTranslucent(Minecraft.getInstance().player.getSkinTextureLocation());
+        var skin_type1 = RenderType.entityTranslucent(animatable.getSkinTextureLocation());
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(cap -> {
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,livingEntity).ifPresent(cap -> {
             //Cuerpo1
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
@@ -95,6 +190,8 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
 
     private void HumanRenderBody2(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 
+        LivingEntity livingEntity = animatable;
+
         var head = model.getBone("head").get();
         var body = model.getBone("body").get();
         var brazoderecho = model.getBone("right_arm").get();
@@ -106,7 +203,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var ojos = RenderType.entityCutoutNoCull(TextureManager.SH_EYES1);
         var iris = RenderType.entityCutoutNoCull(TextureManager.SH_IRIS1);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(cap -> {
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,livingEntity).ifPresent(cap -> {
 
             if(cap.getGender().equals("Male")){
                 //Cuerpo1
@@ -154,6 +251,8 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
 
     private void SaiyanRenderBody1(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 
+        LivingEntity livingEntity = animatable;
+
         var head = model.getBone("head").get();
         var body = model.getBone("body").get();
         var brazoderecho = model.getBone("right_arm").get();
@@ -161,9 +260,9 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var piernaderecha = model.getBone("right_leg").get();
         var piernaizquierda = model.getBone("left_leg").get();
 
-        var skin_type1 = RenderType.entityTranslucent(Minecraft.getInstance().player.getSkinTextureLocation());
+        var skin_type1 = RenderType.entityTranslucent(animatable.getSkinTextureLocation());
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,Minecraft.getInstance().player).ifPresent(cap -> {
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,livingEntity).ifPresent(cap -> {
             //Cuerpo1
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
