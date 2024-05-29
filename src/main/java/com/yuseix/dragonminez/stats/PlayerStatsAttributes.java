@@ -19,7 +19,7 @@ public class PlayerStatsAttributes {
 
     private int energy = 5, currentEnergy;
 
-    private String gender;
+    private String gender = "Male";
 
     private int bodyColor, bodyColor2,bodyColor3,eye1Color,eye2Color,hairColor,auraColor;
 

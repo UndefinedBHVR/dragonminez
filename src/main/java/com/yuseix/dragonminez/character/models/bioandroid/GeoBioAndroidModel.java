@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.character.models.bioandroid;
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.openjdk.nashorn.internal.ir.annotations.Ignore;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
@@ -12,7 +11,7 @@ import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.DefaultedGeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class GeoBioAndroidModel extends DefaultedGeoModel {
+public class GeoBioAndroidModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
 
     public GeoBioAndroidModel() {
         super(new ResourceLocation(DragonMineZ.MOD_ID, "bioandroidrace"));
@@ -24,16 +23,15 @@ public class GeoBioAndroidModel extends DefaultedGeoModel {
     }
 
     @Override
-    public void setCustomAnimations(GeoAnimatable animatable, long instanceId, AnimationState animationState) {
+    public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
+
         CoreGeoBone head = getAnimationProcessor().getBone("head");
 
-        if(head == null){
-            return;
+        if(head != null){
+            EntityModelData entityModelData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
+
+            head.setRotX(entityModelData.headPitch() * Mth.DEG_TO_RAD);
+            head.setRotY(entityModelData.netHeadYaw() * Mth.DEG_TO_RAD);
         }
-
-        EntityModelData entityModelData1 = (EntityModelData) animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-        head.setRotX(entityModelData1.headPitch() * Mth.DEG_TO_RAD);
-        head.setRotY(entityModelData1.netHeadYaw() * Mth.DEG_TO_RAD);
-
     }
 }
