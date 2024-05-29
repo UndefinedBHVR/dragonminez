@@ -1,7 +1,10 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.blocks.custom.*;
+import com.yuseix.dragonminez.init.blocks.custom.GeteFurnaceBlock;
+import com.yuseix.dragonminez.init.blocks.custom.GeteOreDebrisBlock;
+import com.yuseix.dragonminez.init.blocks.custom.NamekPlantsBlock;
+import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

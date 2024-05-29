@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.init.blocks.custom;
+package com.yuseix.dragonminez.init.blocks.custom.dballs;
 
 import com.google.common.collect.ImmutableMap;
-import com.yuseix.dragonminez.init.blocks.entity.Dball6BlockEntity;
+import com.yuseix.dragonminez.init.blocks.entity.Dball2BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,11 +18,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class Dball6Block extends BaseEntityBlock {
+public class Dball2Block extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public Dball6Block(Properties pProperties) {
+    public Dball2Block(Properties pProperties) {
         super(pProperties);
     }
 
@@ -32,11 +32,11 @@ public class Dball6Block extends BaseEntityBlock {
         switch (((Direction) pState.getValue(FACING)).getAxis()) {
             case X:
                 // Ajusta las coordenadas X para centrarlo en el eje X
-                return Dball6Block.box((16 - 7.5) / 2.0, 0.0, (16 - 7.5) / 2.0, (16 + 7.5) / 2.0, 7.0, (16 + 7.5) / 2.0);
+                return Dball2Block.box((16 - 7.5) / 2.0, 0.0, (16 - 7.5) / 2.0, (16 + 7.5) / 2.0, 7.0, (16 + 7.5) / 2.0);
             case Z:
             default:
                 // Ajusta las coordenadas Z para centrarlo en el eje Z
-                return Dball6Block.box((16 - 8) / 2.0, 0.0, (16 - 8) / 2.0, (16 + 8) / 2.0, 7.0, (16 + 8) / 2.0);
+                return Dball2Block.box((16 - 8) / 2.0, 0.0, (16 - 8) / 2.0, (16 + 8) / 2.0, 7.0, (16 + 8) / 2.0);
         }
 
     }
@@ -44,7 +44,7 @@ public class Dball6Block extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Dball6BlockEntity(blockPos, blockState);
+        return new Dball2BlockEntity(blockPos, blockState);
     }
 
     @Override
