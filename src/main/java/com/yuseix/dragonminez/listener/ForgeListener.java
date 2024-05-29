@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.listener;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -52,10 +51,5 @@ public final class ForgeListener {
     public void onServerStarting(ServerStartingEvent event) {
         // Hacer algo cuando el servidor empiece???
         LOGGER.info("HOLA SOY DRAGON BLOCK TEST UWU");
-    }
-    
-
-    public boolean isGameActive() {
-        return !(Minecraft.getInstance().level == null || Minecraft.getInstance().player == null);
     }
 }

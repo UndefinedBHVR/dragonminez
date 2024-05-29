@@ -2,11 +2,16 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.entity.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class MainBlockEntities {
 
@@ -58,4 +63,14 @@ public final class MainBlockEntities {
     public static void register(IEventBus bus) {
         BLOCK_ENTITY_TYPES_REGISTER.register(bus);
     }
+
+    public static final Set<Class<? extends BlockEntity>> ALL_DBALL_ENTITY_CLASSES = new HashSet<>(Arrays.asList(
+            Dball1BlockEntity.class,
+            Dball2BlockEntity.class,
+            Dball3BlockEntity.class,
+            Dball4BlockEntity.class,
+            Dball5BlockEntity.class,
+            Dball6BlockEntity.class,
+            Dball7BlockEntity.class
+    ));
 }

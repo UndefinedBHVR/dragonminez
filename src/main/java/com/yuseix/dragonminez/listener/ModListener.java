@@ -64,7 +64,7 @@ public final class ModListener {
         ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING.get(), RenderType.translucent());
 
-        MinecraftForge.EVENT_BUS.addListener(Dball1BlockRenderer::renderOutlineDball1);
+        MinecraftForge.EVENT_BUS.addListener(DballOutlineRenderer::renderOutlineDball);
     }
 
     @SubscribeEvent
