@@ -46,5 +46,11 @@
     "sounds": [
       "dragonminez:critico2"
     ]
+  },
+  "radar_scan": {
+    "subtitle": "sounds.dragonminez.radar_scan",
+    "sounds": [
+      "dragonminez:radar_scan"
+    ]
   }
 }

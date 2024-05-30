@@ -22,6 +22,8 @@ public final class MainSounds {
     public static final RegistryObject<SoundEvent> CRITICO1 = registerSoundEvent("critic_punch1");
     public static final RegistryObject<SoundEvent> CRITICO2 = registerSoundEvent("critic_punch2");
 
+    public static final RegistryObject<SoundEvent> RADAR_SCAN = registerSoundEvent("radar_scan");
+
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
 

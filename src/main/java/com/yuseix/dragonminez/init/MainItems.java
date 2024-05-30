@@ -66,6 +66,9 @@ public final class MainItems {
     public static final RegistryObject<Item> GETE = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
     public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
 
+    //DRAGON BALL RADAR (TIERRA)
+    public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
+
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
             () -> new BlockItem(MainBlocks.DBALL1_BLOCK.get(), properties

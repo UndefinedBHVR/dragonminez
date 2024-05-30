@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.PacketHandler;
 import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
+import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -97,5 +98,6 @@ public final class ModListener {
     @SubscribeEvent
     public void onCapabilitiesRegister(RegisterCapabilitiesEvent event) {
         event.register(StatsAttrProviderV2.class);
+        event.register(DragonBallGenProvider.class);
     }
 }
