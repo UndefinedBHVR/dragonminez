@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.mixins;
 
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.character.renders.RenderPrueba;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -31,7 +31,7 @@ public class EntityRenderDispatcherMixin {
     public void drgnAscnt$getRenderer(Entity entity, CallbackInfoReturnable<EntityRenderer<? super Entity>> cir) {
         if (entity instanceof Player player) {
             Minecraft mc = Minecraft.getInstance();
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> {
+            PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(cap -> {
                 int bodyType = cap.getBodytype();
                 if (bodyType == 1) {
                     //cir.setReturnValue(new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));

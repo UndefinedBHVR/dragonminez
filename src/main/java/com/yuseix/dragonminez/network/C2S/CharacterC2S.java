@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,7 +37,7 @@ public class CharacterC2S {
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.tipo) {
                         case "BodyType":

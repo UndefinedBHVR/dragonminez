@@ -63,10 +63,12 @@ public class ModMessages {
                 .add();
     }
 
+    //Manda un paquete al Servidor (message no es un mensaje, es un paquete)
     public static <MSG> void sendToServer(MSG message) {
         INSTANCE.sendToServer(message);
     }
 
+    //Manda un paquete a un jugador (message no es un mensaje, es un paquete)
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
     }

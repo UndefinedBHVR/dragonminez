@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
@@ -33,7 +33,7 @@ public class PlayerStatsAttributes {
 
     public void setZpoints(int zpoints) {
         this.zpoints = zpoints;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
     }
 
     public int getBodyColor() {
@@ -44,84 +44,76 @@ public class PlayerStatsAttributes {
         this.bodyColor = bodyColor;
     }
 
-    public int addStrength(int points) {
+    public void addStrength(int points) {
 
         if (strength <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             strength += points;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return strength;
     }
 
-    public int addDefense(int points) {
+    public void addDefense(int points) {
 
         if (defense <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             defense += points;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return defense;
     }
 
-    public int addCon(int points) {
+    public void addCon(int points) {
 
         if (constitution <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             constitution += points;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return constitution;
     }
 
-    public int addStam(int points) {
+    public void addStam(int points) {
 
         if (stamina <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             stamina += points;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return stamina;
     }
 
-    public int addKipwr(int points) {
+    public void addKipwr(int points) {
 
         if (KiPower <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             KiPower += points;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return KiPower;
     }
 
-    public int addEnergy(int points) {
+    public void addEnergy(int points) {
 
         if (energy <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             energy += points;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return energy;
     }
 
-    public int addZpoints(int points) {
+    public void addZpoints(int points) {
 
         zpoints += points;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return zpoints;
     }
 
-    public int removeZpoints(int points) {
+    public void removeZpoints(int points) {
 
         zpoints -= points;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return zpoints;
     }
 
-    public int removeStrenght(int points) {
+    public void removeStrenght(int points) {
 
         if (this.strength > 3) {
             this.strength -= points;
@@ -129,22 +121,20 @@ public class PlayerStatsAttributes {
             this.strength = 3;
         }
 
-        ModEvents.syncStats(player);
-        return strength;
+        ForgeBusEvents.syncStats(player);
     }
 
-    public int removeDefense(int points) {
+    public void removeDefense(int points) {
 
         if (this.defense > 3) {
             this.defense -= points;
         } else {
             this.defense = 3;
         }
-        ModEvents.syncStats(player);
-        return defense;
+        ForgeBusEvents.syncStats(player);
     }
 
-    public int removeConstitution(int points) {
+    public void removeConstitution(int points) {
 
         if (this.constitution > 5) {
             this.constitution -= points;
@@ -152,44 +142,40 @@ public class PlayerStatsAttributes {
             this.constitution = 5;
         }
 
-        ModEvents.syncStats(player);
-        return constitution;
+        ForgeBusEvents.syncStats(player);
     }
 
-    public int removeKiPower(int points) {
+    public void removeKiPower(int points) {
 
         if (this.KiPower > 5) {
             this.KiPower -= points;
         } else {
             this.KiPower = 5;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return KiPower;
     }
 
-    public int removeEnergy(int points) {
+    public void removeEnergy(int points) {
 
         if (this.energy > 10) {
             this.energy -= points;
         } else {
             this.energy = 10;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return energy;
     }
 
-    public int removeStamina(int points) {
+    public void removeStamina(int points) {
 
         if (this.stamina > 10) {
             this.stamina -= points;
         } else {
             this.stamina = 10;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return stamina;
     }
 
     public int getRace() {
@@ -197,11 +183,8 @@ public class PlayerStatsAttributes {
     }
 
     public void setRace(int races) {
-        this.races = races;
-        if (races > 6) {
-            this.races = 6;
-        }
-        ModEvents.syncStats(player);
+        this.races = Math.min(races, 6);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -211,7 +194,7 @@ public class PlayerStatsAttributes {
 
     public void setHairID(int hairID) {
         this.hairID = hairID;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -221,7 +204,7 @@ public class PlayerStatsAttributes {
 
     public void setBodytype(int bodytype) {
         this.bodytype = bodytype;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
     }
 
     public int getEyesType() {
@@ -230,7 +213,7 @@ public class PlayerStatsAttributes {
 
     public void setEyesType(int eyesType) {
         this.eyesType = eyesType;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -248,7 +231,7 @@ public class PlayerStatsAttributes {
             this.strength = strength;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -267,7 +250,7 @@ public class PlayerStatsAttributes {
             this.defense = defense;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
     }
 
     public int getConstitution() {
@@ -284,7 +267,7 @@ public class PlayerStatsAttributes {
             this.constitution = constitution;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -302,7 +285,7 @@ public class PlayerStatsAttributes {
             this.KiPower = kiPower;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -320,7 +303,7 @@ public class PlayerStatsAttributes {
             this.energy = energy;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -330,7 +313,7 @@ public class PlayerStatsAttributes {
 
     public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
@@ -341,20 +324,17 @@ public class PlayerStatsAttributes {
             this.currentEnergy = 0;
         }
 
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
     }
 
-    public int addCurEnergy(int currentEnergy) {
+    public void addCurEnergy(int currentEnergy) {
 
         if (this.currentEnergy < ((int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get())) {
             this.currentEnergy += currentEnergy;
-        } else {
-            this.currentEnergy += 0;
         }
 
-        ModEvents.syncStats(player);
-        return this.currentEnergy;
+        ForgeBusEvents.syncStats(player);
     }
 
     public int getCurBody() {
@@ -365,7 +345,7 @@ public class PlayerStatsAttributes {
 
     public void setCurBody(int curBody) {
         this.curBody = curBody;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
     }
 
     public int getCurStam() {
@@ -375,30 +355,26 @@ public class PlayerStatsAttributes {
 
     public void setCurStam(int curStam) {
         this.curStam = curStam;
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
     }
 
-    public int removeCurStam(int curStam) {
+    public void removeCurStam(int curStam) {
         this.curStam -= curStam;
 
         if (this.curStam < 0) {
             this.curStam = 0;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
 
-        return this.curStam;
     }
 
-    public int addCurStam(int curStam) {
+    public void addCurStam(int curStam) {
 
         if (this.curStam < (stamina + 3)) {
             this.curStam += curStam;
-        } else {
-            this.curStam += 0;
         }
 
-        ModEvents.syncStats(player);
-        return this.curStam;
+        ForgeBusEvents.syncStats(player);
     }
 
     public int getStamina() {
@@ -411,7 +387,7 @@ public class PlayerStatsAttributes {
         } else {
             this.stamina = stamina;
         }
-        ModEvents.syncStats(player);
+        ForgeBusEvents.syncStats(player);
     }
 
 

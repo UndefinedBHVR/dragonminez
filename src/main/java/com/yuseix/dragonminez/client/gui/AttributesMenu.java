@@ -5,7 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -49,7 +49,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int posY = (this.height - 256) / 2;
 
         assert Minecraft.getInstance().player != null;
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int zpoints = playerstats.getZpoints();
 
@@ -109,7 +109,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         super.tick();
         //No calcular jugadores que no estan en linea pero registrados
         assert Minecraft.getInstance().player != null;
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int zpoints = playerstats.getZpoints();
 
@@ -140,7 +140,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, menu);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             //PuntosZ
             int zpoints = playerstats.getZpoints();

@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.listener;
+package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.character.FaceModel;
 import com.yuseix.dragonminez.character.models.ModeloPrueba;
@@ -7,8 +7,10 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
+import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.PlayerStatsAttributes;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -19,9 +21,11 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -29,7 +33,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public final class ModListener {
+//Anteriormente llamado ModListener o ClientEvents
+//ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
+//Si un evento tiene "class x implements IMobBusEvent" TIENE que estar acá.
+public final class ModBusEvents {
 
     @SubscribeEvent
     public void onCommonSetup(final FMLCommonSetupEvent event) {
@@ -38,7 +45,7 @@ public final class ModListener {
             SpawnPlacements.register(MainEntity.DINO1.get(),
                     SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     Animal::checkAnimalSpawnRules);
-            
+
             ModMessages.register();
         });
     }
@@ -63,6 +70,21 @@ public final class ModListener {
 
         MinecraftForge.EVENT_BUS.addListener(DballOutlineRenderer::renderOutlineDball);
     }
+
+    @SubscribeEvent
+    public void entityAttributeEvent(EntityAttributeCreationEvent event) {
+        event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
+    }
+
+    @SubscribeEvent
+    public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
+        //e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
+    }
+
+    @SubscribeEvent
+    public static void registerModelLayers(EntityRenderersEvent.AddLayers e) {
+    }
+
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
@@ -92,7 +114,9 @@ public final class ModListener {
     }
 
     @SubscribeEvent
-    public void onCapabilitiesRegister(RegisterCapabilitiesEvent event) {
+    public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        event.register(PlayerStatsAttributes.class);
         event.register(DragonBallGenProvider.class);
     }
+
 }

@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -40,7 +40,7 @@ public class CapsulaAzulItem extends Item {
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
         if (!pLevel.isClientSide) {
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addEnergy(5));
+            PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, pPlayer).ifPresent(stats -> stats.addEnergy(5));
 
             pPlayer.displayClientMessage(Component.translatable("item.dragonminez.blue_capsule.ene.use").withStyle(ChatFormatting.GREEN), true);
         }

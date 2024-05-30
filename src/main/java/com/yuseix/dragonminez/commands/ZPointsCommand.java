@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -40,7 +40,7 @@ public class ZPointsCommand {
 
             player.sendSystemMessage(Component.literal("Has dado " + puntos + " puntos a " + player.getName().getString()));
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> playerstats.addZpoints(puntos));
+            PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(playerstats -> playerstats.addZpoints(puntos));
 
 
         }

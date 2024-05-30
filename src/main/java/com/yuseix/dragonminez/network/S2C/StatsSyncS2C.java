@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.network.S2C;
 
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -18,7 +18,7 @@ public class StatsSyncS2C {
     private CompoundTag nbt;
 
     public StatsSyncS2C(Player player) {
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
 
 
     }
@@ -49,7 +49,7 @@ public class StatsSyncS2C {
     @OnlyIn(Dist.CLIENT)
     public static void handleClient(Supplier<NetworkEvent.Context> ctx, CompoundTag nbt) {
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> cap.loadNBTData(nbt));
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> cap.loadNBTData(nbt));
         Minecraft.getInstance().player.refreshDimensions();
 
     }

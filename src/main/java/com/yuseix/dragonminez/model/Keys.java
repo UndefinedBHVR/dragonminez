@@ -15,5 +15,7 @@ public class Keys {
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
     public static final KeyMapping PANEL_GUI = new KeyMapping("key.dragonminez.panel_gui",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_L, CATEGORY);
+    public static final KeyMapping STATS_MENU = new KeyMapping("key.dragonminez.menu_stats",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
 
 }

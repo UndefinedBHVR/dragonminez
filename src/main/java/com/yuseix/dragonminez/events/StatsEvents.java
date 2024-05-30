@@ -1,23 +1,17 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.LayerDMZBase;
-import com.yuseix.dragonminez.character.LayerDMZPost;
-import com.yuseix.dragonminez.character.models.ModeloPrueba;
 import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -52,7 +46,7 @@ public class StatsEvents {
             energiacounter++;
             tickcounter++;
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.player).ifPresent(playerstats -> {
+            PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, event.player).ifPresent(playerstats -> {
 
                 int maxcon = (int) (playerstats.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
                 int maxstamina = (playerstats.getStamina() + 3);
@@ -97,7 +91,7 @@ public class StatsEvents {
         if (!(event.getEntity() instanceof Player)) {  //LA ENTIDAD QUE RECIBE EL GOLPE NO ES UN JUGADOR
             if (event.getSource().getEntity() instanceof Player jugadorpemrd) { //SI EL QUE HACE DANO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
 
                     int raza = playerstats.getRace();
 
@@ -216,7 +210,7 @@ public class StatsEvents {
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
                     int raza = playerstats.getRace();
 
                     switch (raza) {
@@ -267,7 +261,7 @@ public class StatsEvents {
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
                     int razas = playerstats.getRace();
 
@@ -404,7 +398,7 @@ public class StatsEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             if (realDistance > 4.5f) {
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(stats -> {
+                PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(stats -> {
                     int level = (stats.getStrength() +
                             stats.getDefense() +
                             stats.getConstitution() +
@@ -432,7 +426,7 @@ public class StatsEvents {
         //Obtenemos el tamaño de los atributos maximos
         float atributosMaximos = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
 
             //Obtenemos los puntos de constitucion del jugador
             int vidaJugador = cap.getConstitution();
@@ -532,10 +526,9 @@ public class StatsEvents {
 
         Minecraft mc = Minecraft.getInstance();
 
-        RenderPrueba wa = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
+        RenderPrueba wa = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(), mc.getEntityModels(), mc.font));
 
-        wa.render((AbstractClientPlayer) event.getEntity(),event.getEntity().getYRot(),event.getPartialTick(),event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight());
-
+        wa.render((AbstractClientPlayer) event.getEntity(), event.getEntity().getYRot(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
 
 
     }

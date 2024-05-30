@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.character;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -31,7 +31,7 @@ public class LayerDMZBase extends RenderLayer<AbstractClientPlayer, PlayerModel<
     public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, AbstractClientPlayer abstractClientPlayer, float v, float v1, float v2, float v3, float v4, float v5) {
 
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, abstractClientPlayer).ifPresent(cap -> {
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, abstractClientPlayer).ifPresent(cap -> {
 
             int raza = cap.getRace();
             int bodyType = cap.getBodytype();

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -21,7 +21,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
         int vidarestante = (int) Minecraft.getInstance().player.getHealth();
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int vidawa = ((163 * vidarestante) / VidaMaxima);
             int vida = Math.min(vidawa, 163);
