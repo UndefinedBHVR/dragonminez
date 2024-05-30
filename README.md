@@ -58,15 +58,16 @@ Para usar esto, usar periódicamente estas labels para que Copilot pueda aprende
     Tipo: Tooltips
     Tipo: Traducciones
 
-## Uso de Sonidos de Terceros
+## Uso de Terceros
+
+### Sonidos
 
 Algunos sonidos se usan desde la página de [Zapsplat](https://www.zapsplat.com/) y
-de [Freesound](https://freesound.org/).
-A continuación se muestra una lista de los sonidos usados y su autor:
+de [Freesound](https://freesound.org/):
 
 - [Dragon Ball Scouter/Rastreador Remade.wav](https://freesound.org/s/518004/) by Pablobd -- License: Attribution 3.0
 
-## Autores y Agradecimientos
+## Autores
 
 - **Yuseix** - *Programador y Líder del Proyecto* - [Yuseix](https://github.com/yuseix300)
 - **Bruno** - *Programador* - [MrBrunoh](https://github.com/Bruneitor123)
