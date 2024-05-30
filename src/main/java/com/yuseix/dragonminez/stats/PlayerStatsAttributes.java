@@ -5,11 +5,6 @@ import com.yuseix.dragonminez.events.ModEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
-/**
- * @deprecated Esta clase es obsoleta, se recomienda usar {@link com.yuseix.dragonminez.stats.StatsAttributesV2}
- * Esta se eliminará pronto.
- */
-@Deprecated
 public class PlayerStatsAttributes {
 
     private int races;
@@ -38,7 +33,7 @@ public class PlayerStatsAttributes {
 
     public void setZpoints(int zpoints) {
         this.zpoints = zpoints;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
     }
 
     public int getBodyColor() {
@@ -54,7 +49,7 @@ public class PlayerStatsAttributes {
         if (strength <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             strength += points;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return strength;
     }
@@ -64,7 +59,7 @@ public class PlayerStatsAttributes {
         if (defense <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             defense += points;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return defense;
     }
@@ -74,7 +69,7 @@ public class PlayerStatsAttributes {
         if (constitution <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             constitution += points;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return constitution;
     }
@@ -84,7 +79,7 @@ public class PlayerStatsAttributes {
         if (stamina <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             stamina += points;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return stamina;
     }
@@ -94,7 +89,7 @@ public class PlayerStatsAttributes {
         if (KiPower <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             KiPower += points;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return KiPower;
     }
@@ -105,7 +100,7 @@ public class PlayerStatsAttributes {
             energy += points;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return energy;
     }
@@ -113,7 +108,7 @@ public class PlayerStatsAttributes {
     public int addZpoints(int points) {
 
         zpoints += points;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return zpoints;
     }
@@ -121,7 +116,7 @@ public class PlayerStatsAttributes {
     public int removeZpoints(int points) {
 
         zpoints -= points;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return zpoints;
     }
@@ -134,7 +129,7 @@ public class PlayerStatsAttributes {
             this.strength = 3;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
         return strength;
     }
 
@@ -145,7 +140,7 @@ public class PlayerStatsAttributes {
         } else {
             this.defense = 3;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
         return defense;
     }
 
@@ -157,7 +152,7 @@ public class PlayerStatsAttributes {
             this.constitution = 5;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
         return constitution;
     }
 
@@ -168,7 +163,7 @@ public class PlayerStatsAttributes {
         } else {
             this.KiPower = 5;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return KiPower;
     }
@@ -180,7 +175,7 @@ public class PlayerStatsAttributes {
         } else {
             this.energy = 10;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return energy;
     }
@@ -192,7 +187,7 @@ public class PlayerStatsAttributes {
         } else {
             this.stamina = 10;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return stamina;
     }
@@ -206,7 +201,7 @@ public class PlayerStatsAttributes {
         if (races > 6) {
             this.races = 6;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -216,7 +211,7 @@ public class PlayerStatsAttributes {
 
     public void setHairID(int hairID) {
         this.hairID = hairID;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -226,7 +221,7 @@ public class PlayerStatsAttributes {
 
     public void setBodytype(int bodytype) {
         this.bodytype = bodytype;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
     }
 
     public int getEyesType() {
@@ -235,7 +230,7 @@ public class PlayerStatsAttributes {
 
     public void setEyesType(int eyesType) {
         this.eyesType = eyesType;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -253,7 +248,7 @@ public class PlayerStatsAttributes {
             this.strength = strength;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -272,7 +267,7 @@ public class PlayerStatsAttributes {
             this.defense = defense;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
     }
 
     public int getConstitution() {
@@ -289,7 +284,7 @@ public class PlayerStatsAttributes {
             this.constitution = constitution;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -307,7 +302,7 @@ public class PlayerStatsAttributes {
             this.KiPower = kiPower;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -325,7 +320,7 @@ public class PlayerStatsAttributes {
             this.energy = energy;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -335,7 +330,7 @@ public class PlayerStatsAttributes {
 
     public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -346,7 +341,7 @@ public class PlayerStatsAttributes {
             this.currentEnergy = 0;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
     }
 
@@ -358,7 +353,7 @@ public class PlayerStatsAttributes {
             this.currentEnergy += 0;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
         return this.currentEnergy;
     }
 
@@ -370,7 +365,7 @@ public class PlayerStatsAttributes {
 
     public void setCurBody(int curBody) {
         this.curBody = curBody;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
     }
 
     public int getCurStam() {
@@ -380,7 +375,7 @@ public class PlayerStatsAttributes {
 
     public void setCurStam(int curStam) {
         this.curStam = curStam;
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
     }
 
     public int removeCurStam(int curStam) {
@@ -389,7 +384,7 @@ public class PlayerStatsAttributes {
         if (this.curStam < 0) {
             this.curStam = 0;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
 
         return this.curStam;
     }
@@ -402,7 +397,7 @@ public class PlayerStatsAttributes {
             this.curStam += 0;
         }
 
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
         return this.curStam;
     }
 
@@ -416,7 +411,7 @@ public class PlayerStatsAttributes {
         } else {
             this.stamina = stamina;
         }
-        ModEvents.sync(player);
+        ModEvents.syncStats(player);
     }
 
 

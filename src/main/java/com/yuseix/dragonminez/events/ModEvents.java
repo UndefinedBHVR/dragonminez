@@ -2,18 +2,14 @@ package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.StatsCommand;
-import com.yuseix.dragonminez.commands.StatsCommandV2;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.PacketHandler;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
-import com.yuseix.dragonminez.network.packets.PacketStatsSync;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
 import com.yuseix.dragonminez.stats.PlayerStatsAttributes;
-import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,11 +21,9 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.server.command.ConfigCommand;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
@@ -40,9 +34,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
-
-
-        sync(event.getEntity());
+        syncStats(event.getEntity());
         event.getEntity().refreshDimensions();
 
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
@@ -50,24 +42,13 @@ public class ModEvents {
     }
 
     @SubscribeEvent
-    public void onEntityJoinWorld(EntityJoinLevelEvent event) {
-        if (!event.getLevel().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
-
-            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> PacketHandler.sendToPlayer(
-                    new PacketStatsSync(playerstats.getRace(), playerstats.getHairID(), playerstats.getBodytype(), playerstats.getEyesType(),
-                            playerstats.getStrength(), playerstats.getDefense(), playerstats.getConstitution(), playerstats.getCurBody(), playerstats.getCurStam(),
-                            playerstats.getStamina(), playerstats.getKiPower(), playerstats.getEnergy(), playerstats.getCurrentEnergy(), playerstats.getBodyColor()), player));
-        }
-    }
-
-    @SubscribeEvent
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        sync(event.getEntity());
+        syncStats(event.getEntity());
     }
 
     @SubscribeEvent
     public static void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        sync(event.getEntity());
+        syncStats(event.getEntity());
 
         PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
@@ -103,22 +84,9 @@ public class ModEvents {
 
     }
 
-    @SubscribeEvent
-    public static void onTrack(PlayerEvent.StartTracking event) {
-        var trackingplayer = event.getEntity();
-        if (!(trackingplayer instanceof ServerPlayer player)) {
-            return;
-        }
-        if (event.getTarget() instanceof ServerPlayer trackedplayer) {
-            PlayerStatsAttrProvider.getCap(INSTANCE, event.getTarget()).ifPresent(cap -> ModMessages.sendToPlayer(
-                    new StatsSyncS2C(trackedplayer), player
-            ));
-        }
-    }
+    public static void syncStats(Player player) {
+        ModMessages.sendToPlayer(new StatsSyncS2C(player), (ServerPlayer) player);
 
-
-    public static void sync(Player player) {
-        ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));
     }
 
     @SubscribeEvent
@@ -139,8 +107,6 @@ public class ModEvents {
     public static void onCommandsRegister(RegisterCommandsEvent event) {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
-        //Temporal
-        new StatsCommandV2(event.getDispatcher());
         ConfigCommand.register(event.getDispatcher());
     }
 

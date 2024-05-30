@@ -9,8 +9,6 @@ import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.PacketHandler;
-import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -40,9 +38,7 @@ public final class ModListener {
             SpawnPlacements.register(MainEntity.DINO1.get(),
                     SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     Animal::checkAnimalSpawnRules);
-
-            //Registramos los packets
-            PacketHandler.register();
+            
             ModMessages.register();
         });
     }
@@ -97,7 +93,6 @@ public final class ModListener {
 
     @SubscribeEvent
     public void onCapabilitiesRegister(RegisterCapabilitiesEvent event) {
-        event.register(StatsAttrProviderV2.class);
         event.register(DragonBallGenProvider.class);
     }
 }

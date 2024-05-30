@@ -3,12 +3,10 @@ package com.yuseix.dragonminez.listener;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,15 +46,6 @@ public final class ForgeListener {
         }
     }
 
-    @SubscribeEvent
-    public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
-        Entity entity = event.getObject();
-
-        if (entity instanceof Player) {
-            if (!entity.getCapability(StatsAttrProviderV2.CAPABILITY).isPresent())
-                event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "stats"), new StatsAttrProviderV2());
-        }
-    }
 
     @SubscribeEvent
     public void onAttachCapabilitiesWorld(AttachCapabilitiesEvent<Level> event) {

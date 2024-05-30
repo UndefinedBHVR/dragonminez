@@ -1,18 +1,23 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.LayerDMZBase;
+import com.yuseix.dragonminez.character.LayerDMZPost;
+import com.yuseix.dragonminez.character.models.ModeloPrueba;
 import com.yuseix.dragonminez.character.renders.RenderPrueba;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
-import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -21,6 +26,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Random;
@@ -38,16 +44,15 @@ public class StatsEvents {
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player instanceof Player ? event.player : null;
 
 
         //Regenerar stamina
-        if (player instanceof ServerPlayer) {
+        if (event.side == LogicalSide.SERVER) {
 
             energiacounter++;
             tickcounter++;
 
-            player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
+            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.player).ifPresent(playerstats -> {
 
                 int maxcon = (int) (playerstats.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
                 int maxstamina = (playerstats.getStamina() + 3);
@@ -65,6 +70,7 @@ public class StatsEvents {
                         tickcounter = 0;
 
                     }
+
                 }
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
                     if (energiacounter >= 60 * 5) {
@@ -77,19 +83,9 @@ public class StatsEvents {
                     }
                 }
 
-                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
+                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
 
             });
-
-            /* Debug de stats
-
-            event.player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> event.player.sendSystemMessage(Component.literal(playerstats.getRace() +
-                    " " + playerstats.getHairID() + " " + playerstats.getBodytype() + " " + playerstats.getEyesType() + " " + playerstats.getStrength() +
-                    " " + playerstats.getDefense() + " " + playerstats.getConstitution() + " " + playerstats.getCurBody() + " " + playerstats.getCurStam() +
-                    " " + playerstats.getStamina() + " " + playerstats.getKiPower() + " " + playerstats.getEnergy() + " " + playerstats.getCurrentEnergy() +
-                    " " + playerstats.getBodyColor())));
-
-             */
 
         }
 
@@ -101,7 +97,7 @@ public class StatsEvents {
         if (!(event.getEntity() instanceof Player)) {  //LA ENTIDAD QUE RECIBE EL GOLPE NO ES UN JUGADOR
             if (event.getSource().getEntity() instanceof Player jugadorpemrd) { //SI EL QUE HACE DANO ES UN JUGADOR
 
-                event.getSource().getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
 
                     int raza = playerstats.getRace();
 
@@ -220,7 +216,7 @@ public class StatsEvents {
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                event.getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
                     int raza = playerstats.getRace();
 
                     switch (raza) {
@@ -271,7 +267,7 @@ public class StatsEvents {
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
-                event.getEntity().getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
+                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
                     int razas = playerstats.getRace();
 
@@ -536,9 +532,10 @@ public class StatsEvents {
 
         Minecraft mc = Minecraft.getInstance();
 
-        RenderPrueba wa = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(), mc.getEntityModels(), mc.font));
+        RenderPrueba wa = new RenderPrueba(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
 
-        wa.render((AbstractClientPlayer) event.getEntity(), event.getEntity().getYRot(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
+        wa.render((AbstractClientPlayer) event.getEntity(),event.getEntity().getYRot(),event.getPartialTick(),event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight());
+
 
 
     }

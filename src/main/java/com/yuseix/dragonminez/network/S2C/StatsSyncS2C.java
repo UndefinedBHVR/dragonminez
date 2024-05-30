@@ -13,10 +13,6 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-/**
- * @deprecated Método descontinuado e inservible, se ha reemplazado por {@link com.yuseix.dragonminez.network.packets.PacketStatsSync} Esta se eliminará pronto.
- */
-@Deprecated
 public class StatsSyncS2C {
 
     private CompoundTag nbt;

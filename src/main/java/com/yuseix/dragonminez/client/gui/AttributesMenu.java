@@ -7,13 +7,10 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.events.ModEvents;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.PacketHandler;
-import com.yuseix.dragonminez.network.packets.PacketStats;
 import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
-import com.yuseix.dragonminez.stats.StatsAttrProviderV2;
-import com.yuseix.dragonminez.utils.ClientPlayerStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -51,7 +48,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int posX = (this.width - 152) / 2;
         int posY = (this.height - 256) / 2;
 
-        Minecraft.getInstance().player.getCapability(StatsAttrProviderV2.CAPABILITY).ifPresent(playerstats -> {
+        assert Minecraft.getInstance().player != null;
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int zpoints = playerstats.getZpoints();
 
@@ -73,27 +71,27 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             if (zpoints >= zCost) {
                 //Fuerza
                 botones.add(new CustomButtons(posX - 125, posY + 45, Component.empty(), button -> {
-                    PacketHandler.sendToServer(new PacketStats(0, 1));
+                    ModMessages.sendToServer(new StatsC2S(0, 1));
                     ModMessages.sendToServer(new ZPointsC2S(1, zCost));
                 }));
                 //Defensa
                 botones.add(new CustomButtons(posX - 125, posY + 60, Component.empty(), button -> {
-                    PacketHandler.sendToServer(new PacketStats(1, 1));
+                    ModMessages.sendToServer(new StatsC2S(1, 1));
                     ModMessages.sendToServer(new ZPointsC2S(1, zCost));
                 }));
                 //Vida
                 botones.add(new CustomButtons(posX - 125, posY + 75, Component.empty(), button -> {
-                    PacketHandler.sendToServer(new PacketStats(2, 1));
+                    ModMessages.sendToServer(new StatsC2S(2, 1));
                     ModMessages.sendToServer(new ZPointsC2S(1, zCost));
                 }));
                 //Kipower
                 botones.add(new CustomButtons(posX - 125, posY + 90, Component.empty(), button -> {
-                    PacketHandler.sendToServer(new PacketStats(3, 1));
+                    ModMessages.sendToServer(new StatsC2S(3, 1));
                     ModMessages.sendToServer(new ZPointsC2S(1, zCost));
                 }));
                 //Energy
                 botones.add(new CustomButtons(posX - 125, posY + 105, Component.empty(), button -> {
-                    PacketHandler.sendToServer(new PacketStats(4, 1));
+                    ModMessages.sendToServer(new StatsC2S(4, 1));
                     ModMessages.sendToServer(new ZPointsC2S(1, zCost));
                 }));
             }
@@ -142,100 +140,104 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, menu);
 
-        //PuntosZ
-        int zpoints = ClientPlayerStats.zpoints;
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-        int level = (ClientPlayerStats.strength +
-                ClientPlayerStats.defense +
-                ClientPlayerStats.constitution +
-                ClientPlayerStats.KiPower +
-                ClientPlayerStats.energy) / 5;
+            //PuntosZ
+            int zpoints = playerstats.getZpoints();
 
-        int zCost = (ClientPlayerStats.strength +
-                ClientPlayerStats.defense +
-                ClientPlayerStats.constitution +
-                ClientPlayerStats.KiPower +
-                ClientPlayerStats.energy + 6) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
+            int level = (playerstats.getStrength() +
+                    playerstats.getDefense() +
+                    playerstats.getConstitution() +
+                    playerstats.getKiPower() +
+                    playerstats.getEnergy()) / 5;
 
-        //Attributos
-        int str = ClientPlayerStats.strength;
-        int def = ClientPlayerStats.defense;
-        int con = ClientPlayerStats.constitution;
-        int kipower = ClientPlayerStats.KiPower;
-        int energy = ClientPlayerStats.energy;
-        int stamina = ClientPlayerStats.stamina;
+            int zCost = (playerstats.getStrength() +
+                    playerstats.getDefense() +
+                    playerstats.getConstitution() +
+                    playerstats.getKiPower() +
+                    playerstats.getEnergy() + 6) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
 
-        //AtributosMaximos
-        int MaxStr = (int) (str * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
-        int MaxDef = (int) (def * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get();
-        int MaxCon = (int) (con * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
-        int MaxKiPower = (int) (kipower * 0.5) * DMCAttrConfig.MULTIPLIER_KIPOWER.get();
-        int MaxEnergy = (int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
-        int MaxStamina = stamina + 3;
+            //Attributos
+            int str = playerstats.getStrength();
+            int def = playerstats.getDefense();
+            int con = playerstats.getConstitution();
+            int kipower = playerstats.getKiPower();
+            int energy = playerstats.getEnergy();
+            int stamina = playerstats.getStamina();
 
-        int LTITULO = posX + 195;
-        int RTITULO = posX - 80;
-        int LSUBTITULO = posX + 158;
-        int RSUBTITULO = posX - 158;
-        int LDESC = posX + 245;
-        int RDESC = posX - 30;
+            //AtributosMaximos
+            int MaxStr = (int) (str * 0.5) * DMCAttrConfig.MULTIPLIER_STR.get();
+            int MaxDef = (int) (def * 0.5) * DMCAttrConfig.MULTIPLIER_DEF.get();
+            int MaxCon = (int) (con * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get();
+            int MaxKiPower = (int) (kipower * 0.5) * DMCAttrConfig.MULTIPLIER_KIPOWER.get();
+            int MaxEnergy = (int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+            int MaxStamina = stamina + 3;
 
-        //SUBIR STATS
-        //Pos cambiada a -140 de -250 por motivos de cambio de resoluciones para adaptar
-        graphics.blit(menu, posX - 140, posY, 0, 0, 148, 221);
-        graphics.drawString(this.font.self(), ChatFormatting.BOLD + "STATS", LTITULO, posY + 22, 0xFCC3C3, true);
+            int LTITULO = posX + 195;
+            int RTITULO = posX - 80;
+            int LSUBTITULO = posX + 158;
+            int RSUBTITULO = posX - 158;
+            int LDESC = posX + 245;
+            int RDESC = posX - 30;
 
-        graphics.drawString(Minecraft.getInstance().fontFilterFishy, ChatFormatting.BOLD + "ZPoints: ", LSUBTITULO, posY + 38, 0xFFFFFF, true);
-        graphics.drawString(font, String.valueOf(zpoints), posX - 45, posY + 38, 0xFFE800, false);
+            //SUBIR STATS
+            //Pos cambiada a -140 de -250 por motivos de cambio de resoluciones para adaptar
+            graphics.blit(menu, posX - 140, posY, 0, 0, 148, 221);
+            graphics.drawString(this.font.self(), ChatFormatting.BOLD + "STATS", LTITULO, posY + 22, 0xFCC3C3, true);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "STR: ", LSUBTITULO, posY + 50, 0x320C0C, true);
-        graphics.drawString(font, String.valueOf(str), LDESC, posY + 50, 0xBB1C2A, false);
+            graphics.drawString(Minecraft.getInstance().fontFilterFishy, ChatFormatting.BOLD + "ZPoints: ", LSUBTITULO, posY + 38, 0xFFFFFF, true);
+            graphics.drawString(font, String.valueOf(zpoints), posX - 45, posY + 38, 0xFFE800, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "DEF: ", LSUBTITULO, posY + 65, 0x320C0C, true);
-        graphics.drawString(font, String.valueOf(def), LDESC, posY + 65, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "STR: ", LSUBTITULO, posY + 50, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(str), LDESC, posY + 50, 0xBB1C2A, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "CON: ", LSUBTITULO, posY + 80, 0x320C0C, true);
-        graphics.drawString(font, String.valueOf(con), LDESC, posY + 80, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "DEF: ", LSUBTITULO, posY + 65, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(def), LDESC, posY + 65, 0xBB1C2A, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "POW: ", LSUBTITULO, posY + 95, 0x320C0C, true);
-        graphics.drawString(font, String.valueOf(kipower), LDESC, posY + 95, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "CON: ", LSUBTITULO, posY + 80, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(con), LDESC, posY + 80, 0xBB1C2A, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "ENE: ", LSUBTITULO, posY + 110, 0x320C0C, true);
-        graphics.drawString(font, String.valueOf(energy), LDESC, posY + 110, 0xBB1C2A, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "POW: ", LSUBTITULO, posY + 95, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(kipower), LDESC, posY + 95, 0xBB1C2A, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "ZPCost: ", LSUBTITULO, posY + 125, 0xF0B61E, true);
-        graphics.drawString(font, String.valueOf(zCost), posX - 45, posY + 125, 0xFFE800, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "ENE: ", LSUBTITULO, posY + 110, 0x320C0C, true);
+            graphics.drawString(font, String.valueOf(energy), LDESC, posY + 110, 0xBB1C2A, false);
 
-        //STATS
-        graphics.blit(menu2, posX + 140, posY, 0, 0, 147, 163);
-        graphics.drawString(font, ChatFormatting.BOLD + "INFORMATION", RTITULO, posY + 15, 0xF0B61E, true);
+            graphics.drawString(font, ChatFormatting.BOLD + "ZPCost: ", LSUBTITULO, posY + 125, 0xF0B61E, true);
+            graphics.drawString(font, String.valueOf(zCost), posX - 45, posY + 125, 0xFFE800, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "Damage: ", RSUBTITULO, posY + 30, 0x830318, true);
-        graphics.drawString(font, String.valueOf(MaxStr), RDESC, posY + 30, 0x9B1D32, false);
+            //STATS
+            graphics.blit(menu2, posX + 140, posY, 0, 0, 147, 163);
+            graphics.drawString(font, ChatFormatting.BOLD + "INFORMATION", RTITULO, posY + 15, 0xF0B61E, true);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "Defense: ", RSUBTITULO, posY + 45, 0x830318, true);
-        graphics.drawString(font, String.valueOf(MaxDef), RDESC, posY + 45, 0x9B1D32, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "Damage: ", RSUBTITULO, posY + 30, 0x830318, true);
+            graphics.drawString(font, String.valueOf(MaxStr), RDESC, posY + 30, 0x9B1D32, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "Body: ", RSUBTITULO, posY + 60, 0x830318, true);
-        graphics.drawString(font, String.valueOf(MaxCon), RDESC, posY + 60, 0x9B1D32, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "Defense: ", RSUBTITULO, posY + 45, 0x830318, true);
+            graphics.drawString(font, String.valueOf(MaxDef), RDESC, posY + 45, 0x9B1D32, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "Stamina: ", RSUBTITULO, posY + 75, 0x830318, true);
-        graphics.drawString(font, String.valueOf(MaxStamina), RDESC, posY + 75, 0x9B1D32, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "Body: ", RSUBTITULO, posY + 60, 0x830318, true);
+            graphics.drawString(font, String.valueOf(MaxCon), RDESC, posY + 60, 0x9B1D32, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "KiPower: ", RSUBTITULO, posY + 90, 0x830318, true);
-        graphics.drawString(font, String.valueOf(MaxKiPower), RDESC, posY + 90, 0x9B1D32, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "Stamina: ", RSUBTITULO, posY + 75, 0x830318, true);
+            graphics.drawString(font, String.valueOf(MaxStamina), RDESC, posY + 75, 0x9B1D32, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "Max Ki: ", RSUBTITULO, posY + 105, 0x830318, true);
-        graphics.drawString(font, String.valueOf(MaxEnergy), RDESC, posY + 105, 0x9B1D32, false);
+            graphics.drawString(font, ChatFormatting.BOLD + "KiPower: ", RSUBTITULO, posY + 90, 0x830318, true);
+            graphics.drawString(font, String.valueOf(MaxKiPower), RDESC, posY + 90, 0x9B1D32, false);
 
-        graphics.drawString(font, ChatFormatting.BOLD + this.minecraft.player.getName().getString(), posX + 63, posY + 10, 0xFFFFFF, true);
-        graphics.drawString(font, ChatFormatting.BOLD + "Lvl: ", posX + 50, posY + 25, 0xFFE800, true);
-        graphics.drawString(font, ChatFormatting.BOLD + String.valueOf(level), posX + 80, posY + 25, 0x67EDFC, true);
+            graphics.drawString(font, ChatFormatting.BOLD + "Max Ki: ", RSUBTITULO, posY + 105, 0x830318, true);
+            graphics.drawString(font, String.valueOf(MaxEnergy), RDESC, posY + 105, 0x9B1D32, false);
 
-        RenderEntityInv.renderEntityInInventoryFollowsAngle(graphics, posX + 73, posY + 200, 80, 0, 0, this.minecraft.player);
+            graphics.drawString(font, ChatFormatting.BOLD + this.minecraft.player.getName().getString(), posX + 63, posY + 10, 0xFFFFFF, true);
+            graphics.drawString(font, ChatFormatting.BOLD + "Lvl: ", posX + 50, posY + 25, 0xFFE800, true);
+            graphics.drawString(font, ChatFormatting.BOLD + String.valueOf(level), posX + 80, posY + 25, 0x67EDFC, true);
 
-        graphics.drawString(font, ChatFormatting.BOLD + "Humano :v", posX + 45, posY + 220, 0x45E9FC, true);
+            RenderEntityInv.renderEntityInInventoryFollowsAngle(graphics, posX + 73, posY + 200, 80, 0, 0, this.minecraft.player);
 
+            graphics.drawString(font, ChatFormatting.BOLD + "Humano :v", posX + 45, posY + 220, 0x45E9FC, true);
+
+
+        });
 
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
 

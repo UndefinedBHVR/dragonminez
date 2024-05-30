@@ -14,11 +14,6 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-/**
- * @deprecated Esta clase es obsoleta, se recomienda usar {@link com.yuseix.dragonminez.network.PacketHandler}
- * Esta se eliminará pronto.
- */
-@Deprecated
 public class ModMessages {
 
     public static SimpleChannel INSTANCE;
