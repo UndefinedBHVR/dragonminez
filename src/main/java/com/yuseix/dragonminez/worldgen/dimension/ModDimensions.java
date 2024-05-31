@@ -32,7 +32,7 @@ public class ModDimensions {
     public static final ResourceKey<DimensionType> NAMEK_DIM_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE,
             new ResourceLocation(DragonMineZ.MOD_ID, "planet_namek"));
 
-    //Más fácil para agregar futuras dimensiones en lista :P
+//    Más fácil para agregar futuras dimensiones en lista :P
 //    public static void generateDimension(BootstapContext<DimensionType> context) {
 //        namekDimension(context);
 //    }
@@ -62,16 +62,16 @@ public class ModDimensions {
         HolderGetter<DimensionType> dimType = context.lookup(Registries.DIMENSION_TYPE);
         HolderGetter<NoiseGeneratorSettings> noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);
 
-        MultiNoiseBiomeSource biome = MultiNoiseBiomeSource.createFromList(
+        NoiseBasedChunkGenerator noiseBasedChunkGenerator = new NoiseBasedChunkGenerator(
+                MultiNoiseBiomeSource.createFromList(
                 new Climate.ParameterList<>(List.of(
                         Pair.of(Climate.parameters(0.2F, 0.6F, 0.1F, 0.6F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.AJISSA_PLAINS)),
                         Pair.of(Climate.parameters(0.4F, 0.4F, -0.4F, 0.7F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.SACRED_PLAINS)),
                         Pair.of(Climate.parameters(0.5F, 0.6F, 0.3F, 0.5F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.NAMEK_OCEAN))
-                )));
+                ))),
+        noiseGenSettings.getOrThrow(NoiseGeneratorSettings.AMPLIFIED));
+        LevelStem stem = new LevelStem(dimType.getOrThrow(ModDimensions.NAMEK_DIM_TYPE), noiseBasedChunkGenerator);
 
-        Holder<NoiseGeneratorSettings> noise = noiseGenSettings.getOrThrow(NoiseGeneratorSettings.OVERWORLD);
-        NoiseBasedChunkGenerator generator = new NoiseBasedChunkGenerator(biome, noise);
-
-        context.register(NAMEK_STEM, new LevelStem(dimType.getOrThrow(NAMEK_DIM_TYPE), generator));
+        context.register(NAMEK_STEM, stem);
     }
 }

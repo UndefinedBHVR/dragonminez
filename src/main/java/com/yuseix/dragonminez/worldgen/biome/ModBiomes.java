@@ -45,11 +45,6 @@ public class ModBiomes {
         BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
         BiomeDefaultFeatures.addDefaultSprings(builder);
         BiomeDefaultFeatures.plainsSpawns(mobs);
-        BiomeDefaultFeatures.addPlainGrass(builder);
-        BiomeDefaultFeatures.addDefaultOres(builder);
-        BiomeDefaultFeatures.addPlainVegetation(builder);
-        BiomeDefaultFeatures.addDefaultMushrooms(builder);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(builder);
 
         context.register(AJISSA_PLAINS, new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
@@ -82,11 +77,6 @@ public class ModBiomes {
         BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
         BiomeDefaultFeatures.addDefaultSprings(builder);
         BiomeDefaultFeatures.plainsSpawns(mobs);
-        BiomeDefaultFeatures.addPlainGrass(builder);
-        BiomeDefaultFeatures.addDefaultOres(builder);
-        BiomeDefaultFeatures.addPlainVegetation(builder);
-        BiomeDefaultFeatures.addDefaultMushrooms(builder);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(builder);
 
         context.register(SACRED_PLAINS, new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
@@ -113,12 +103,10 @@ public class ModBiomes {
                 .lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
 
         BiomeDefaultFeatures.warmOceanSpawns(mobs, 10, 4);
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
         BiomeDefaultFeatures.addDefaultCrystalFormations(builder);
         BiomeDefaultFeatures.addDefaultMonsterRoom(builder);
         BiomeDefaultFeatures.addDefaultUndergroundVariety(builder);
         BiomeDefaultFeatures.addDefaultSprings(builder);
-        BiomeDefaultFeatures.addDefaultOres(builder);
         BiomeDefaultFeatures.addDefaultExtraVegetation(builder);
 
         context.register(NAMEK_OCEAN, new Biome.BiomeBuilder()
