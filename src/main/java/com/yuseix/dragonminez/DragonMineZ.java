@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.listener.ForgeListener;
 import com.yuseix.dragonminez.listener.ModListener;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoader;

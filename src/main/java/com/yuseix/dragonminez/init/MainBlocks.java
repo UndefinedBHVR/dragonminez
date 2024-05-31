@@ -135,6 +135,10 @@ public class MainBlocks {
                     .lightLevel(litBlockEmission(13))
             ));
 
+    //PORTALES
+    public static final RegistryObject<Block> NAMEK_PORTAL = registerBlock("namek_portal",
+            () -> new NamekPortalBlock());
+
     //PLANTAS
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
