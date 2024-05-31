@@ -1,12 +1,10 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.common.Mod;
 
-public class PlayerStatsAttributes {
+public class DMZStatsAttributes {
 
     private int races;
     private int hairID, bodytype, eyesType;
@@ -28,7 +26,7 @@ public class PlayerStatsAttributes {
 
     private final Player player;
 
-    public PlayerStatsAttributes(Player player) {
+    public DMZStatsAttributes(Player player) {
         this.player = player;
     }
 
@@ -38,7 +36,7 @@ public class PlayerStatsAttributes {
 
     public void setZpoints(int zpoints) {
         this.zpoints = zpoints;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getBodyColor() {
@@ -47,7 +45,7 @@ public class PlayerStatsAttributes {
 
     public void setBodyColor(int bodyColor) {
         this.bodyColor = bodyColor;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getBodyColor2() {
@@ -56,7 +54,7 @@ public class PlayerStatsAttributes {
 
     public void setBodyColor2(int bodyColor2) {
         this.bodyColor2 = bodyColor2;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getBodyColor3() {
@@ -65,7 +63,7 @@ public class PlayerStatsAttributes {
 
     public void setBodyColor3(int bodyColor3) {
         this.bodyColor3 = bodyColor3;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getEye1Color() {
@@ -75,7 +73,7 @@ public class PlayerStatsAttributes {
 
     public void setEye1Color(int eye1Color) {
         this.eye1Color = eye1Color;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getEye2Color() {
@@ -84,7 +82,7 @@ public class PlayerStatsAttributes {
 
     public void setEye2Color(int eye2Color) {
         this.eye2Color = eye2Color;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getHairColor() {
@@ -93,7 +91,7 @@ public class PlayerStatsAttributes {
 
     public void setHairColor(int hairColor) {
         this.hairColor = hairColor;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getAuraColor() {
@@ -102,7 +100,7 @@ public class PlayerStatsAttributes {
 
     public void setAuraColor(int auraColor) {
         this.auraColor = auraColor;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int addStrength(int points) {
@@ -110,7 +108,7 @@ public class PlayerStatsAttributes {
         if (strength <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             strength += points;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return strength;
     }
@@ -120,7 +118,7 @@ public class PlayerStatsAttributes {
         if (defense <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             defense += points;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return defense;
     }
@@ -130,7 +128,7 @@ public class PlayerStatsAttributes {
         if (constitution <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             constitution += points;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return constitution;
     }
@@ -140,7 +138,7 @@ public class PlayerStatsAttributes {
         if (stamina <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             stamina += points;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return stamina;
     }
@@ -150,7 +148,7 @@ public class PlayerStatsAttributes {
         if (KiPower <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
             KiPower += points;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return KiPower;
     }
@@ -161,7 +159,7 @@ public class PlayerStatsAttributes {
             energy += points;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return energy;
     }
@@ -169,7 +167,7 @@ public class PlayerStatsAttributes {
     public int addZpoints(int points) {
 
         zpoints += points;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return zpoints;
     }
@@ -177,7 +175,7 @@ public class PlayerStatsAttributes {
     public int removeZpoints(int points) {
 
         zpoints -= points;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return zpoints;
     }
@@ -190,7 +188,7 @@ public class PlayerStatsAttributes {
             this.strength = 3;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
         return strength;
     }
 
@@ -201,7 +199,7 @@ public class PlayerStatsAttributes {
         } else {
             this.defense = 3;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
         return defense;
     }
 
@@ -213,7 +211,7 @@ public class PlayerStatsAttributes {
             this.constitution = 5;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
         return constitution;
     }
 
@@ -224,7 +222,7 @@ public class PlayerStatsAttributes {
         } else {
             this.KiPower = 5;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return KiPower;
     }
@@ -236,7 +234,7 @@ public class PlayerStatsAttributes {
         } else {
             this.energy = 10;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return energy;
     }
@@ -248,7 +246,7 @@ public class PlayerStatsAttributes {
         } else {
             this.stamina = 10;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return stamina;
     }
@@ -265,7 +263,7 @@ public class PlayerStatsAttributes {
         if(this.races < 0){
             this.races = 0;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -275,7 +273,7 @@ public class PlayerStatsAttributes {
 
     public void setHairID(int hairID) {
         this.hairID = hairID;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -285,7 +283,7 @@ public class PlayerStatsAttributes {
 
     public void setBodytype(int bodytype) {
         this.bodytype = bodytype;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getEyesType() {
@@ -294,7 +292,7 @@ public class PlayerStatsAttributes {
 
     public void setEyesType(int eyesType) {
         this.eyesType = eyesType;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -312,7 +310,7 @@ public class PlayerStatsAttributes {
             this.strength = strength;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -331,7 +329,7 @@ public class PlayerStatsAttributes {
             this.defense = defense;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int getConstitution() {
@@ -348,7 +346,7 @@ public class PlayerStatsAttributes {
             this.constitution = constitution;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -366,7 +364,7 @@ public class PlayerStatsAttributes {
             this.KiPower = kiPower;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -384,7 +382,7 @@ public class PlayerStatsAttributes {
             this.energy = energy;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -394,7 +392,7 @@ public class PlayerStatsAttributes {
 
     public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -405,7 +403,7 @@ public class PlayerStatsAttributes {
             this.currentEnergy = 0;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
     }
 
@@ -417,7 +415,7 @@ public class PlayerStatsAttributes {
             this.currentEnergy += 0;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
         return this.currentEnergy;
     }
 
@@ -428,7 +426,7 @@ public class PlayerStatsAttributes {
 
     public void setCurStam(int curStam) {
         this.curStam = curStam;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public int removeCurStam(int curStam) {
@@ -437,7 +435,7 @@ public class PlayerStatsAttributes {
         if (this.curStam < 0) {
             this.curStam = 0;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
 
         return this.curStam;
     }
@@ -450,7 +448,7 @@ public class PlayerStatsAttributes {
             this.curStam += 0;
         }
 
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
         return this.curStam;
     }
 
@@ -464,7 +462,7 @@ public class PlayerStatsAttributes {
         } else {
             this.stamina = stamina;
         }
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public boolean isAcceptCharacter() {
@@ -473,7 +471,7 @@ public class PlayerStatsAttributes {
 
     public void setAcceptCharacter(boolean acceptCharacter) {
         AcceptCharacter = acceptCharacter;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public String getGender() {
@@ -482,7 +480,7 @@ public class PlayerStatsAttributes {
 
     public void setGender(String gender) {
         this.gender = gender;
-        ModEvents.sync(player);
+        DMZCapabilities.sync(player);
     }
 
     public CompoundTag saveNBTData() {

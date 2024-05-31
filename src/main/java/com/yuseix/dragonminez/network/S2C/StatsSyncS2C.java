@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.network.S2C;
 
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,7 +19,7 @@ public class StatsSyncS2C {
     private int Id;
 
     public StatsSyncS2C(Player player) {
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
         Id = player.getId();
     }
 
@@ -46,7 +46,7 @@ public class StatsSyncS2C {
     public static void handleClient(Supplier<NetworkEvent.Context> paramSupplier, int id, CompoundTag nbt) {
         var entity = Minecraft.getInstance().level.getEntity(id);
         if(entity instanceof Player player) {
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> cap.loadNBTData(nbt));
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(cap -> cap.loadNBTData(nbt));
             player.refreshDimensions();
         }
     }

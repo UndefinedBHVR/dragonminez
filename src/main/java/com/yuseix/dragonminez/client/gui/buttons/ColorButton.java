@@ -2,8 +2,8 @@ package com.yuseix.dragonminez.client.gui.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -28,7 +28,7 @@ public class ColorButton extends Button {
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             int color;
             float r,g,b;

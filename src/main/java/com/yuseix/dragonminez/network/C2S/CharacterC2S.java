@@ -1,11 +1,9 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -38,7 +36,7 @@ public class CharacterC2S {
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.tipo) {
                         case "Gender":

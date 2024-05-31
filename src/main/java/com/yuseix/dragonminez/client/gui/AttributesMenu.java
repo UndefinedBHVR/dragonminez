@@ -6,20 +6,17 @@ import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -98,7 +95,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int posY = (this.height - 222) / 2;
 
         assert Minecraft.getInstance().player != null;
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int race = playerstats.getRace();
 
@@ -193,7 +190,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int posX = (this.width - 148) / 2;
         int posY = (this.height - 222) / 2;
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             if(playerstats.isAcceptCharacter() == false ){
 
@@ -326,7 +323,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         var Ancho = graphics.guiWidth();
 
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             if(playerstats.isAcceptCharacter() == false ){
 

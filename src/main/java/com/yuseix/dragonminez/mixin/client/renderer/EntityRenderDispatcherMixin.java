@@ -5,8 +5,8 @@ import com.yuseix.dragonminez.character.models.GeoHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
 import com.yuseix.dragonminez.character.renders.GeoHumanSaiyanRender;
 import com.yuseix.dragonminez.character.renders.GeoBioAndroidRender;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -40,7 +40,7 @@ public class EntityRenderDispatcherMixin {
     public void dmz$getRenderer(Entity entity, CallbackInfoReturnable<EntityRenderer<? super Entity>> cir) {
         if(entity instanceof Player player) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap ->{
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(cap ->{
 
 
                 if(cap.getRace() == 3){

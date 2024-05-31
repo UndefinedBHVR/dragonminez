@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez;
 
 import com.mojang.logging.LogUtils;
-import com.yuseix.dragonminez.character.models.ModeloBrazos;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.blocks.entity.MainBlockEntities;
@@ -77,35 +76,5 @@ public class DragonMineZ {
     public void onServerStarting(ServerStartingEvent event) {
     }
 
-    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            //ENTIDADES
-            EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
-            EntityRenderers.register(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidRenderer::new);
 
-            //EntityRenderers.register(EntityType.PLAYER, GeoBaseRenderer::new);
-
-            //BLOQUES
-            BlockEntityRenderers.register(MainBlockEntities.DBALL1_BLOCK_ENTITY.get(), Dball1BlockRenderer::new);
-            BlockEntityRenderers.register(MainBlockEntities.DBALL2_BLOCK_ENTITY.get(), Dball2BlockRenderer::new);
-            BlockEntityRenderers.register(MainBlockEntities.DBALL3_BLOCK_ENTITY.get(), Dball3BlockRenderer::new);
-            BlockEntityRenderers.register(MainBlockEntities.DBALL4_BLOCK_ENTITY.get(), Dball4BlockRenderer::new);
-            BlockEntityRenderers.register(MainBlockEntities.DBALL5_BLOCK_ENTITY.get(), Dball5BlockRenderer::new);
-            BlockEntityRenderers.register(MainBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
-            BlockEntityRenderers.register(MainBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
-
-        }
-
-
-            @SubscribeEvent
-        public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
-
-                e.registerLayerDefinition(ModeloBrazos.LAYER_LOCATION, ModeloBrazos::createBodyLayer);
-
-            }
-
-
-    }
 }

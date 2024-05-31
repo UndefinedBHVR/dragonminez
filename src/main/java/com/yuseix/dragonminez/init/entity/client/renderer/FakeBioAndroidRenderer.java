@@ -3,17 +3,16 @@ package com.yuseix.dragonminez.init.entity.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.init.entity.client.model.FakeBioAndroidModel;
 import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
@@ -61,7 +60,7 @@ public class FakeBioAndroidRenderer extends GeoEntityRenderer<FakeBioAndroidEnti
         var bcola = RenderType.entityTranslucent(B_BODYCOLA);
         var ojos = RenderType.entityTranslucent(B_EYES);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,player).ifPresent(cap -> {
             //Cuerpo1
             int bodyColor1 = cap.getBodyColor();
             float colorR = (bodyColor1 >> 16) / 255.0F;

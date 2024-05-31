@@ -1,48 +1,11 @@
 package com.yuseix.dragonminez.events;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.renders.RenderBrazos;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderArmEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = {Dist.CLIENT})
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class CCEvents {
-
-    //private static RenderBrazos render;
-
-
-    /*
-    @SubscribeEvent
-    public static void Hands(RenderArmEvent event){
-
-        Minecraft mc = Minecraft.getInstance();
-        
-        if(render == null){
-            render = new RenderBrazos(new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(),mc.getItemRenderer(),mc.getBlockRenderer(),mc.getEntityRenderDispatcher().getItemInHandRenderer(), mc.getResourceManager(),mc.getEntityModels(),mc.font));
-        }
-        var poseStack = new PoseStack();
-        poseStack.translate(0.5, -0.5, -0.6);
-
-        if(event.getArm() == HumanoidArm.RIGHT){
-            render.renderRightHand(event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight(), (AbstractClientPlayer) mc.player);
-        } else {
-            render.renderLeftHand(event.getPoseStack(),event.getMultiBufferSource(),event.getPackedLight(), (AbstractClientPlayer) mc.player);
-
-        }
-
-        event.setCanceled(true);
-    }
-
-    */
-
 
     /*
     @SuppressWarnings({"deprecation", "removal"})

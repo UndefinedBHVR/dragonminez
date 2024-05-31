@@ -5,8 +5,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -90,7 +90,7 @@ public class StatsCommand {
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
                 switch (stat) {
                     case "strenght":
@@ -147,7 +147,7 @@ public class StatsCommand {
     private int addStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
                 switch (stat) {
                     case "strenght":
@@ -204,7 +204,7 @@ public class StatsCommand {
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
                 int raza = playerStatsAttributes.getRace();
                 int energiacurrent = 0;

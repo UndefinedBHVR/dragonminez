@@ -2,8 +2,8 @@ package com.yuseix.dragonminez.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -123,7 +123,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
             RenderType finalRenderType = renderType;
             VertexConsumer finalBuffer = buffer;
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, livingEntity).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, livingEntity).ifPresent(cap -> {
 
                 var raza = cap.getRace();
                 var bodytype = cap.getBodytype();
@@ -175,7 +175,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
 
         var skin_type1 = RenderType.entityTranslucent(animatable.getSkinTextureLocation());
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,livingEntity).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
             //Cuerpo1
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
@@ -203,7 +203,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var ojos = RenderType.entityCutoutNoCull(TextureManager.SH_EYES1);
         var iris = RenderType.entityCutoutNoCull(TextureManager.SH_IRIS1);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,livingEntity).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
 
             if(cap.getGender().equals("Male")){
                 //Cuerpo1
@@ -262,7 +262,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
 
         var skin_type1 = RenderType.entityTranslucent(animatable.getSkinTextureLocation());
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,livingEntity).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
             //Cuerpo1
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);

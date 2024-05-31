@@ -3,30 +3,26 @@ package com.yuseix.dragonminez.client.gui;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.ColorButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
-import com.yuseix.dragonminez.events.ModEvents;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 import org.joml.Matrix4f;
@@ -191,7 +187,7 @@ public class CharacterCMenu extends Screen{
             pGuiGraphics.drawString(font, this.Race.withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFDFDFD, true);
 
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
                 var raza = cap.getRace();
 
@@ -264,7 +260,7 @@ public class CharacterCMenu extends Screen{
             pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
             RenderSystem.disableBlend();
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, minecraft.player).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
                 switch(cap.getRace()){
                     case 0:
@@ -513,7 +509,7 @@ public class CharacterCMenu extends Screen{
                 sliders(this.width-127,((this.minecraft.getWindow().getGuiScaledHeight()) / 2)+25);
                 botonesRazaColores(72,this.height/2);
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
                     switch(cap.getRace()){
                         case 0:
@@ -607,7 +603,7 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(bodyButtonColor3);
         this.removeWidget(hairButtonColor);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             switch (cap.getRace()){
                 case 0:
@@ -819,7 +815,7 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(eyesTypeRight);
         this.removeWidget(eyesTypeLeft);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
 
             switch(cap.getRace()){
                 case 0:
@@ -878,7 +874,7 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(bodyTypeRightButton);
         this.removeWidget(bodyTypeLeftButton);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
 
             switch(cap.getRace()){
                 case 0:
@@ -919,7 +915,7 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(gendersRigthButton);
         this.removeWidget(gendersLeftButton);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
 
             switch(cap.getRace()){
                 case 0:
@@ -961,7 +957,7 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(botonRazaRight);
         this.removeWidget(botonRazaLeft);
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             if(cap.getRace() == 0){
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {

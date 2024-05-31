@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.events.ModEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -14,22 +13,22 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerStatsAttrProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+public class DMZStatsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
     public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "mod");
     private final Player player;
-    private final PlayerStatsAttributes backend;
-    private final LazyOptional<PlayerStatsAttributes> optional;
+    private final DMZStatsAttributes backend;
+    private final LazyOptional<DMZStatsAttributes> optional;
 
-    public PlayerStatsAttrProvider(Player player) {
+    public DMZStatsProvider(Player player) {
         this.player = player;
-        backend = new PlayerStatsAttributes(this.player);
+        backend = new DMZStatsAttributes(this.player);
         optional = LazyOptional.of(() -> backend);
     }
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return ModEvents.INSTANCE.orEmpty(cap, this.optional);
+        return DMZCapabilities.INSTANCE.orEmpty(cap, this.optional);
     }
 
     public static @NotNull <T> LazyOptional<T> getCap(Capability<T> cap, Entity entity) {

@@ -3,7 +3,8 @@ package com.yuseix.dragonminez.events;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -40,7 +41,7 @@ public class StatsEvents {
             energiacounter++;
             tickcounter++;
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.player).ifPresent(playerstats -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
 
                 int maxcon = (int) (playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get());
                 int maxstamina = (playerstats.getStamina() + 3);
@@ -85,7 +86,7 @@ public class StatsEvents {
         if (!(event.getEntity() instanceof Player)) {  //LA ENTIDAD QUE RECIBE EL GOLPE NO ES UN JUGADOR
             if (event.getSource().getEntity() instanceof Player jugadorpemrd) { //SI EL QUE HACE DANO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
 
                     int raza = playerstats.getRace();
 
@@ -201,7 +202,7 @@ public class StatsEvents {
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
                     int raza = playerstats.getRace();
 
                     switch (raza) {
@@ -252,7 +253,7 @@ public class StatsEvents {
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
                     int razas = playerstats.getRace();
 
@@ -382,6 +383,67 @@ public class StatsEvents {
     }
 
 
+    /*
+    @SuppressWarnings({"deprecation", "removal"})
+    @SubscribeEvent
+    public static void cambiarTamano(EntityEvent.Size event) {
+
+    //Obtenemos el tamaño de los atributos maximos
+        float atributosMaximos = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+
+        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
+
+        //Obtenemos los puntos de constitucion del jugador
+        int vidaJugador = cap.getConstitution();
+
+        //Obtenemos las razas
+        int razas = cap.getRace();
+
+
+        if (razas == 0) { //TODO: HUMANO
+            //tamaño default de la hitbox
+            float xhitbox = 0.52f;
+            float yhitbox = 1.65f;
+
+            //Calculo de la estatura camara y hitbox
+            float estaturaCon = Math.min(((0.21f * vidaJugador) / atributosMaximos), 0.21f);
+
+            //Colocamos la nueva hitbox (ESTO ES IMPORTANTE PARA EL RENDERIZADO DE MODELOS A FUTURO! )
+            EntityDimensions hitboxBase = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox + estaturaCon) + 0.02f, event.getNewSize().fixed);
+
+            event.setNewSize(hitboxBase);
+
+            //Ponemos que la camara se coloque.
+            event.setNewEyeHeight(yhitbox + estaturaCon);
+
+            //Obtenemos el evento si el jugador esta en shift
+            if (event.getEntity().isShiftKeyDown()) {
+                EntityDimensions hitboxShift = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox + estaturaCon) - 0.07f, event.getNewSize().fixed);
+                event.setNewSize(hitboxShift);
+                event.setNewEyeHeight((yhitbox - 0.35f) + estaturaCon);
+            }
+
+            if (event.getEntity().isSwimming()) {
+                EntityDimensions hitboxSwimming = new EntityDimensions((xhitbox + estaturaCon) + 0.02f, (yhitbox + estaturaCon) - 1.01f, event.getNewSize().fixed);
+                event.setNewSize(hitboxSwimming);
+                event.setNewEyeHeight((yhitbox - 1.35f) + estaturaCon);
+            }
+
+            if (event.getEntity().isVisuallyCrawling()) {
+                EntityDimensions hitboxCrawling = new EntityDimensions((xhitbox + estaturaCon) + 0.02f, (yhitbox + estaturaCon) - 1.01f, event.getNewSize().fixed);
+                event.setNewSize(hitboxCrawling);
+                event.setNewEyeHeight((yhitbox - 1.35f) + estaturaCon);
+            }
+
+        }
+
+
+    });
+
+
+}
+
+*/
     private static int calcularSTR(String raza, int StatSTR){
 
         double maxStr = 0;
@@ -436,7 +498,7 @@ public class StatsEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             if (realDistance > 4.5f) {
 
-                PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(stats -> {
+                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(stats -> {
                     int level = (stats.getStrength() +
                             stats.getDefense() +
                             stats.getConstitution() +

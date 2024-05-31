@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -13,7 +13,6 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements GeoAnimatable {
@@ -25,19 +24,23 @@ public abstract class PlayerMixin extends LivingEntity implements GeoAnimatable 
         super(pEntityType, pLevel);
     }
 
-    Player player = (Player) (Object) this;
+    Player player = (Player)(Object)this;
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(DefaultAnimations.genericIdleController(this));
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-            if(cap.getRace() == 0){
+            var raza = cap.getRace();
 
-            }else if(cap.getRace() == 1){
+            if(raza == 0){
 
-            }else if(cap.getRace() == 3){
+            }else if(raza == 1){
+
+            }else if(raza == 2){
+
+            } else if(raza == 3){
                 controllerRegistrar.add(
                         new AnimationController<>(this, "colaimperfect", 0, this::colaBio)
 
