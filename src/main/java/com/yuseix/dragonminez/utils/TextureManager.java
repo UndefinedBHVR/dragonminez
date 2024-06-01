@@ -17,5 +17,6 @@ public class TextureManager {
     public static final ResourceLocation SH_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/body/bodytype1.png");
     public static final ResourceLocation SH_EYES1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/eyestype1.png");
     public static final ResourceLocation SH_IRIS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/iristype1.png");
+    public static final ResourceLocation SH_IRIS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/iristype2.png");
 
 }
