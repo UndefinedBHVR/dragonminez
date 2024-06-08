@@ -34,6 +34,17 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
     }
 
     @Override
+    public void render(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        poseStack.pushPose();
+
+        poseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+
+        poseStack.popPose();
+    }
+
+    @Override
     public void actuallyRender(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         poseStack.pushPose();
 
@@ -174,9 +185,19 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var piernaderecha = model.getBone("right_leg").get();
         var piernaizquierda = model.getBone("left_leg").get();
 
+        //ocultar cola
+        var tail = model.getBone("tail1s").get();
+        tail.setHidden(true);
+
+        //CABELLOS
+        var gokuhair = model.getBone("songokuhair").get();
+
+        var hair_color_texture = RenderType.entityTranslucent(TextureManager.HAIR_COLOR);
+
         var skin_type1 = RenderType.entityTranslucent(animatable.getSkinTextureLocation());
 
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
+
             //Cuerpo1
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
@@ -184,6 +205,21 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
             renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
+
+            switch (cap.getHairID()){
+                case 0:
+                    gokuhair.setHidden(false);
+                    int hairColor = cap.getHairColor();
+                    colorR = (hairColor >> 16) / 255.0F;
+                    colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                    colorB = (hairColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, hair_color_texture, bufferSource, bufferSource.getBuffer(hair_color_texture), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
 
         });
 
@@ -200,10 +236,24 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var piernaderecha = model.getBone("right_leg").get();
         var piernaizquierda = model.getBone("left_leg").get();
 
+        //ocultar cola
+        var tail = model.getBone("tail1s").get();
+        tail.setHidden(true);
+
         var skin_type1 = RenderType.entityTranslucent(TextureManager.SH_BODY1);
+        var skin_type1_fem = RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM);
+
+        //TIPO 1
         var ojos = RenderType.entityCutoutNoCull(TextureManager.SH_EYES1);
         var iris = RenderType.entityCutoutNoCull(TextureManager.SH_IRIS1);
         var iris2 = RenderType.entityCutoutNoCull(TextureManager.SH_IRIS2);
+        var cejas = RenderType.entityCutoutNoCull(TextureManager.SH_EYES1_CEJAS);
+
+        //CABELLOS
+        var gokuhair = model.getBone("songokuhair").get();
+
+        var hair_color_texture = RenderType.entityTranslucent(TextureManager.HAIR_COLOR);
+
 
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
 
@@ -225,12 +275,12 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 colorR = (bodyColor1 >> 16) / 255.0F;
                 colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
                 colorB = (bodyColor1 & 0xff) / 255.0f;
-                renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, brazoderecho, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, head, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, body, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, brazoderecho, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, piernaderecha, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, piernaizquierda, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
             }
 
@@ -254,6 +304,29 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 poseStack.translate(0.0f,0.0f,-0.0002f);
                 renderRecursively(poseStack, animatable, head, iris2, bufferSource, bufferSource.getBuffer(iris2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
+                //CEJAS
+                int hairColor = cap.getHairColor();
+                colorR = (hairColor >> 16) / 255.0F;
+                colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                colorB = (hairColor & 0xff) / 255.0f;
+                poseStack.translate(0.0f,0.0f,-0.0001f);
+                renderRecursively(poseStack, animatable, head, cejas, bufferSource, bufferSource.getBuffer(cejas), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            }
+
+
+            switch (cap.getHairID()){
+                case 0:
+                    gokuhair.setHidden(false);
+                    int hairColor = cap.getHairColor();
+                    colorR = (hairColor >> 16) / 255.0F;
+                    colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                    colorB = (hairColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, hair_color_texture, bufferSource, bufferSource.getBuffer(hair_color_texture), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
             }
 
         });
@@ -271,9 +344,22 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var piernaderecha = model.getBone("right_leg").get();
         var piernaizquierda = model.getBone("left_leg").get();
 
+        //COLA
+        var tail = model.getBone("tail1s").get();
+        tail.setHidden(false);
+        //CABELLOS
+        var gokuhair = model.getBone("songokuhair").get();
+
+        var hair_color_texture = RenderType.entityTranslucent(TextureManager.HAIR_COLOR);
+
         var skin_type1 = RenderType.entityTranslucent(animatable.getSkinTextureLocation());
+        var cola = RenderType.entityTranslucent(TextureManager.SAIYAN_COLA);
 
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
+
+            //COLA
+            renderRecursively(poseStack, animatable, body, cola, bufferSource, bufferSource.getBuffer(cola), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
+
             //Cuerpo1
             renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
@@ -281,6 +367,22 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
             renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
             renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
+
+
+            switch (cap.getHairID()){
+                case 0:
+                    gokuhair.setHidden(false);
+                    int hairColor = cap.getHairColor();
+                    colorR = (hairColor >> 16) / 255.0F;
+                    colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                    colorB = (hairColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, hair_color_texture, bufferSource, bufferSource.getBuffer(hair_color_texture), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
 
         });
 
@@ -298,11 +400,28 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var piernaizquierda = model.getBone("left_leg").get();
 
         var skin_type1 = RenderType.entityTranslucent(TextureManager.SH_BODY1);
+        var skin_type1_fem = RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM);
+
+        //TIPO 1
         var ojos = RenderType.entityCutoutNoCull(TextureManager.SH_EYES1);
         var iris = RenderType.entityCutoutNoCull(TextureManager.SH_IRIS1);
         var iris2 = RenderType.entityCutoutNoCull(TextureManager.SH_IRIS2);
+        var cejas = RenderType.entityCutoutNoCull(TextureManager.SH_EYES1_CEJAS);
+
+        //COLA
+        var tail = model.getBone("tail1s").get();
+        tail.setHidden(false);
+
+        //CABELLOS
+        var gokuhair = model.getBone("songokuhair").get();
+
+        var hair_color_texture = RenderType.entityTranslucent(TextureManager.HAIR_COLOR);
+        var cola = RenderType.entityTranslucent(TextureManager.SAIYAN_COLA);
 
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
+
+            //COLA
+            renderRecursively(poseStack, animatable, body, cola, bufferSource, bufferSource.getBuffer(cola), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1.0f, 1.0f, 1.0f, 1.0f);
 
             if(cap.getGender().equals("Male")){
                 //Cuerpo1
@@ -322,14 +441,15 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 colorR = (bodyColor1 >> 16) / 255.0F;
                 colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
                 colorB = (bodyColor1 & 0xff) / 255.0f;
-                renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, brazoderecho, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-                renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, head, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, body, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, brazoderecho, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, piernaderecha, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                renderRecursively(poseStack, animatable, piernaizquierda, skin_type1_fem, bufferSource, bufferSource.getBuffer(skin_type1_fem), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
             }
+
 
             if(cap.getEyesType() == 0){
                 int irisColor1 = cap.getEye1Color();
@@ -337,10 +457,10 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 colorG = ((irisColor1 >> 8) & 0xff) / 255.0f;
                 colorB = (irisColor1 & 0xff) / 255.0f;
                 //OJOS
-                poseStack.translate(0.0f,0.0f,-0.001f);
+                poseStack.translate(0.0f,0.0f,-0.0001f);
                 renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1f, 1f, 1f, 1.0f);
                 //IRIS
-                poseStack.translate(0.0f,0.0f,-0.002f);
+                poseStack.translate(0.0f,0.0f,-0.0002f);
                 renderRecursively(poseStack, animatable, head, iris, bufferSource, bufferSource.getBuffer(iris), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
                 int irisColor2 = cap.getEye2Color();
@@ -348,10 +468,34 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 colorG = ((irisColor2 >> 8) & 0xff) / 255.0f;
                 colorB = (irisColor2 & 0xff) / 255.0f;
                 //IRIS
-                poseStack.translate(0.0f,0.0f,-0.002f);
+                poseStack.translate(0.0f,0.0f,-0.0002f);
                 renderRecursively(poseStack, animatable, head, iris2, bufferSource, bufferSource.getBuffer(iris2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
+                //CEJAS
+                int hairColor = cap.getHairColor();
+                colorR = (hairColor >> 16) / 255.0F;
+                colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                colorB = (hairColor & 0xff) / 255.0f;
+                poseStack.translate(0.0f,0.0f,-0.0001f);
+                renderRecursively(poseStack, animatable, head, cejas, bufferSource, bufferSource.getBuffer(cejas), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             }
+
+            poseStack.translate(0.0f,0.0f,0.0f);
+            switch (cap.getHairID()){
+                case 0:
+                    gokuhair.setHidden(false);
+                    int hairColor = cap.getHairColor();
+                    colorR = (hairColor >> 16) / 255.0F;
+                    colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                    colorB = (hairColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, hair_color_texture, bufferSource, bufferSource.getBuffer(hair_color_texture), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
+
 
         });
 

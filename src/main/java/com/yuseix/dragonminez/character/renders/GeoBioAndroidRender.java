@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.yuseix.dragonminez.character.GeoPlayerItemInHandLayer;
 import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -117,9 +118,20 @@ public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable>
                 };
             }
         });
+        addRenderLayer(new GeoPlayerItemInHandLayer<>(this, renderManager.getItemInHandRenderer()));
 
     }
 
+    @Override
+    public void render(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        poseStack.pushPose();
+
+        poseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+
+        poseStack.popPose();
+    }
 
     @Override
     public void actuallyRender(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
@@ -249,6 +261,8 @@ public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable>
         var skin_type3 = RenderType.entityCutoutNoCull(TextureManager.B_IMPERFECT_BODY3);
         var bcola = RenderType.entityCutoutNoCull(TextureManager.B_IMPERFECT_BODYCOLA);
         var ojos = RenderType.entityCutoutNoCull(TextureManager.B_IMPERFECT_EYES);
+        var iris = RenderType.entityCutoutNoCull(TextureManager.B_IMPERFECT_IRIS);
+
 
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
             //Cuerpo1
@@ -287,14 +301,22 @@ public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable>
             renderRecursively(poseStack, animatable, piernaderecha, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
             renderRecursively(poseStack, animatable, piernaizquierda, skin_type3, bufferSource, bufferSource.getBuffer(skin_type3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
+            poseStack.translate(0.0f,0.0f,-0.001f);
+            renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1f, 1f, 1f, 1.0f);
+
+            int eyesColor = cap.getEye1Color();
+            colorR = (eyesColor >> 16) / 255.0F;
+            colorG = ((eyesColor >> 8) & 0xff) / 255.0f;
+            colorB = (eyesColor & 0xff) / 255.0f;
+
+            poseStack.translate(0.0f,0.0f,-0.002f);
+            renderRecursively(poseStack, animatable, head, iris, bufferSource, bufferSource.getBuffer(iris), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
         });
 
 
         renderRecursively(poseStack, animatable, body, bcola, bufferSource, bufferSource.getBuffer(bcola), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,1f, 1f, 1f, 1.0f);
 
 
-        poseStack.translate(0.0f,0.0f,-0.001f);
-        renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1f, 1f, 1f, 1.0f);
 
     }
 }

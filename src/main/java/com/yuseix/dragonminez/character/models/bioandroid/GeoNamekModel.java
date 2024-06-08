@@ -8,19 +8,20 @@ import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-import software.bernie.geckolib.model.DefaultedGeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class GeoBioAndroidModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
+public class GeoNamekModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
 
-    public GeoBioAndroidModel() {
-        super(new ResourceLocation(DragonMineZ.MOD_ID, "bioandroidrace"));
+
+    public GeoNamekModel() {
+        super(new ResourceLocation(DragonMineZ.MOD_ID, "namekianrace"));
     }
 
     @Override
     protected String subtype() {
         return "entity";
     }
+
     @Override
     public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
 
@@ -33,5 +34,4 @@ public class GeoBioAndroidModel<T extends GeoAnimatable> extends DefaultedEntity
             head.setRotY(entityModelData.netHeadYaw() * Mth.DEG_TO_RAD);
         }
     }
-
 }

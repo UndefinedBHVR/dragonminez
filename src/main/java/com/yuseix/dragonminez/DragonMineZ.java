@@ -27,6 +27,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
+import software.bernie.geckolib.core.molang.MolangParser;
 
 @Mod(DragonMineZ.MOD_ID)
 public class DragonMineZ {

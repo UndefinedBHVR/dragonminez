@@ -1,7 +1,11 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
@@ -68,4 +72,19 @@ public class CCEvents {
     }
 
     */
+    @SuppressWarnings({"deprecation", "removal"})
+    @SubscribeEvent
+    public static void cambiarTamanoHitboxEye(EntityEvent.Size event) {
+
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(cap -> {
+
+            var raza = cap.getRace();
+
+            if(raza == 0){
+
+            }
+        });
+
+
+    }
 }

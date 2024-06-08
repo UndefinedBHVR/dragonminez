@@ -12,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -383,67 +384,6 @@ public class StatsEvents {
     }
 
 
-    /*
-    @SuppressWarnings({"deprecation", "removal"})
-    @SubscribeEvent
-    public static void cambiarTamano(EntityEvent.Size event) {
-
-    //Obtenemos el tamaño de los atributos maximos
-        float atributosMaximos = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
-
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-        //Obtenemos los puntos de constitucion del jugador
-        int vidaJugador = cap.getConstitution();
-
-        //Obtenemos las razas
-        int razas = cap.getRace();
-
-
-        if (razas == 0) { //TODO: HUMANO
-            //tamaño default de la hitbox
-            float xhitbox = 0.52f;
-            float yhitbox = 1.65f;
-
-            //Calculo de la estatura camara y hitbox
-            float estaturaCon = Math.min(((0.21f * vidaJugador) / atributosMaximos), 0.21f);
-
-            //Colocamos la nueva hitbox (ESTO ES IMPORTANTE PARA EL RENDERIZADO DE MODELOS A FUTURO! )
-            EntityDimensions hitboxBase = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox + estaturaCon) + 0.02f, event.getNewSize().fixed);
-
-            event.setNewSize(hitboxBase);
-
-            //Ponemos que la camara se coloque.
-            event.setNewEyeHeight(yhitbox + estaturaCon);
-
-            //Obtenemos el evento si el jugador esta en shift
-            if (event.getEntity().isShiftKeyDown()) {
-                EntityDimensions hitboxShift = new EntityDimensions((xhitbox + estaturaCon) - 0.02f, (yhitbox + estaturaCon) - 0.07f, event.getNewSize().fixed);
-                event.setNewSize(hitboxShift);
-                event.setNewEyeHeight((yhitbox - 0.35f) + estaturaCon);
-            }
-
-            if (event.getEntity().isSwimming()) {
-                EntityDimensions hitboxSwimming = new EntityDimensions((xhitbox + estaturaCon) + 0.02f, (yhitbox + estaturaCon) - 1.01f, event.getNewSize().fixed);
-                event.setNewSize(hitboxSwimming);
-                event.setNewEyeHeight((yhitbox - 1.35f) + estaturaCon);
-            }
-
-            if (event.getEntity().isVisuallyCrawling()) {
-                EntityDimensions hitboxCrawling = new EntityDimensions((xhitbox + estaturaCon) + 0.02f, (yhitbox + estaturaCon) - 1.01f, event.getNewSize().fixed);
-                event.setNewSize(hitboxCrawling);
-                event.setNewEyeHeight((yhitbox - 1.35f) + estaturaCon);
-            }
-
-        }
-
-
-    });
-
-
-}
-
-*/
     private static int calcularSTR(String raza, int StatSTR){
 
         double maxStr = 0;
@@ -521,19 +461,11 @@ public class StatsEvents {
 
 
 
-    /*
+
     @SubscribeEvent
     public static void changeSizePRE(RenderPlayerEvent.Pre event) {
 
-        PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            //Tamaño del jugador dependiento lo atributos maximo de la config(ALPHA)
-            int atributosMAX = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
-
-            //Obtener los puntos de constitucion del jugador
-            int vidaJugador = cap.getConstitution();
-
-            //int porcentaje = (int) (vidaJugador / atributosMAX) * 100; //porcentaje del jugador respecto a la vida
+        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(cap -> {
 
             int razas = cap.getRace();
 
@@ -541,26 +473,23 @@ public class StatsEvents {
 
             if (razas == 0) {
 
-                //Escala default
-                float xyz = 1.0f;
+                event.getPoseStack().scale(1.0f, 1.0f, 1.0f);
 
-                //Calculamos la estatura para que aumente pero no pase de 0.5f
-                float estaturaCon = Math.min(((0.18f * vidaJugador) / atributosMAX), 0.18f);
+            }else if(razas == 1){
+                event.getPoseStack().scale(0.75f, 0.75f, 0.75f);
 
-                //Sumamos la escala default + el calculo del aumento
-                float estaturaBase = xyz + estaturaCon;
-
-                event.getPoseStack().scale(estaturaBase, estaturaBase, estaturaBase);
-
-
+            }else if(razas == 3){
+                event.getPoseStack().scale(0.75f, 0.75f, 0.75f);
             }
+
+            event.getPoseStack().popPose();
 
         });
 
 
     }
 
-    */
+
 
 
 

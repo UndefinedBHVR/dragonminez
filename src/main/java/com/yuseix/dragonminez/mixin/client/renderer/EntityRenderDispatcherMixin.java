@@ -3,8 +3,10 @@ package com.yuseix.dragonminez.mixin.client.renderer;
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.character.models.GeoHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
+import com.yuseix.dragonminez.character.models.bioandroid.GeoNamekModel;
 import com.yuseix.dragonminez.character.renders.GeoHumanSaiyanRender;
 import com.yuseix.dragonminez.character.renders.GeoBioAndroidRender;
+import com.yuseix.dragonminez.character.renders.GeoNamekRender;
 import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -29,8 +31,7 @@ import java.util.Map;
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
 
-    private Map<Integer, GeoEntityRenderer> dmzRenderers = ImmutableMap.of();
-    private Map<String, GeoEntityRenderer> dmzRendererHyS = ImmutableMap.of();
+    private Map<String, GeoEntityRenderer> dmzRendererers = ImmutableMap.of();
     @Shadow
     public Map<EntityType<?>, EntityRenderer<?>> renderers;
     @Shadow
@@ -42,9 +43,11 @@ public class EntityRenderDispatcherMixin {
 
             DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(cap ->{
 
-
-                if(cap.getRace() == 3){
-                    cir.setReturnValue(dmzRenderers.get(cap.getRace()));
+                if(cap.getRace() == 2){
+                    cir.setReturnValue(dmzRendererers.get("namek"));
+                }
+                else if(cap.getRace() == 3){
+                    cir.setReturnValue(dmzRendererers.get("bioandroid_imperfect"));
                 }
 
                 if(player instanceof AbstractClientPlayer abstractClientPlayer){
@@ -54,15 +57,15 @@ public class EntityRenderDispatcherMixin {
                         case 0:
                             if(cap.getBodytype() == 0){
                                 if("default".equals(modelname)){
-                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                    cir.setReturnValue(dmzRendererers.get(modelname));
                                 } else if("slim".equals(modelname)){
-                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                    cir.setReturnValue(dmzRendererers.get(modelname));
                                 }
                             } else if(cap.getBodytype() == 1){
                                 if(cap.getGender().equals("Male")){
-                                    cir.setReturnValue(dmzRendererHyS.get("default"));
+                                    cir.setReturnValue(dmzRendererers.get("default"));
                                 }else{
-                                    cir.setReturnValue(dmzRendererHyS.get("slim"));
+                                    cir.setReturnValue(dmzRendererers.get("slim"));
                                 }
                             }
 
@@ -73,15 +76,15 @@ public class EntityRenderDispatcherMixin {
                         case 1:
                             if(cap.getBodytype() == 0){
                                 if("default".equals(modelname)){
-                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                    cir.setReturnValue(dmzRendererers.get(modelname));
                                 } else if("slim".equals(modelname)){
-                                    cir.setReturnValue(dmzRendererHyS.get(modelname));
+                                    cir.setReturnValue(dmzRendererers.get(modelname));
                                 }
                             } else if(cap.getBodytype() == 1){
                                 if(cap.getGender().equals("Male")){
-                                    cir.setReturnValue(dmzRendererHyS.get("default"));
+                                    cir.setReturnValue(dmzRendererers.get("default"));
                                 }else{
-                                    cir.setReturnValue(dmzRendererHyS.get("slim"));
+                                    cir.setReturnValue(dmzRendererers.get("slim"));
                                 }
                             }
 
@@ -101,26 +104,24 @@ public class EntityRenderDispatcherMixin {
 
     @Inject(at = @At("TAIL"), method = "onResourceManagerReload(Lnet/minecraft/server/packs/resources/ResourceManager;)V", locals = LocalCapture.CAPTURE_FAILHARD)
     public void dmz$reload(ResourceManager resourceManager, CallbackInfo ci, EntityRendererProvider.Context entityrendererprovider$context) {
-        dmzRenderers = reloadDragonRenderers(entityrendererprovider$context);
-        dmzRendererHyS = reloadHumanRender(entityrendererprovider$context);
+        dmzRendererers = reloadDMZRenderers(entityrendererprovider$context);
     }
 
 
-    private static Map<String, GeoEntityRenderer> reloadHumanRender(EntityRendererProvider.Context ctx) {
+    private static Map<String, GeoEntityRenderer> reloadDMZRenderers(EntityRendererProvider.Context ctx) {
         ImmutableMap.Builder<String, GeoEntityRenderer> builder = ImmutableMap.builder();
-
+        //HUMANO Y SAIYAJIN
         builder.put("default",new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("stevehumansaiyanmodel")));
         builder.put("slim",new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("alexhumansaiyanmodel")));
+        //HUMANO Y SAIYAJIN MODELO FEMENINO (FASE ALPHA)
+        builder.put("fem",new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("femhumansaiyanmodel")));
+        //NAMEK BASE
+        builder.put("namek",new GeoNamekRender(ctx, new GeoNamekModel()));
+        //BIOANDROIDE BASE
+        builder.put("bioandroid_imperfect",new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
 
         return builder.build();
     }
 
-    private static Map<Integer, GeoEntityRenderer> reloadDragonRenderers(EntityRendererProvider.Context ctx) {
-        ImmutableMap.Builder<Integer, GeoEntityRenderer> builder = ImmutableMap.builder();
-
-        builder.put(3,new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
-
-        return builder.build();
-    }
 
 }

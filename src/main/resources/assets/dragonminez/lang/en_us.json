@@ -50,6 +50,8 @@
   "dmz.ccreation.bioandroid.bodytype.type1": "Dr.Gero's Design",
   "dmz.ccreation.human.bodytype.type1": "Default",
   "dmz.ccreation.human.bodytype.type2": "Warrior",
+  "dmz.ccreation.saiyan.bodytype.type1": "Default",
+  "dmz.ccreation.saiyan.bodytype.type2": "Warrior",
   "dmz.ccreation.genders.male": "Male",
   "dmz.ccreation.genders.female": "Female",
   "dmz.ccreation.hairtypes": "Hair",
