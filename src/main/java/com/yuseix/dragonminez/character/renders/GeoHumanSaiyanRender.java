@@ -21,6 +21,7 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.molang.MolangParser;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
@@ -97,6 +98,15 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         float motionThreshold = getMotionAnimThreshold(animatable);
         boolean isMoving;
 
+        /*
+        MolangParser parser = MolangParser.INSTANCE;
+
+        float finalNetHeadYaw = netHeadYaw;
+
+        parser.setValue("query.head_yaw",() -> finalNetHeadYaw*3);
+        parser.setValue("query.head_pitch",() -> headPitch*3);
+
+        */
 
         Vec3 velocity = livingEntity.getDeltaMovement();
         float avgVelocity = (float)(Math.abs(velocity.x) + Math.abs(velocity.z)) / 2f;
@@ -253,7 +263,6 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         var gokuhair = model.getBone("songokuhair").get();
 
         var hair_color_texture = RenderType.entityTranslucent(TextureManager.HAIR_COLOR);
-
 
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
 
@@ -436,7 +445,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
                 renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
-            }else {
+            }else{
                 int bodyColor1 = cap.getBodyColor();
                 colorR = (bodyColor1 >> 16) / 255.0F;
                 colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -459,7 +468,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 //OJOS
                 poseStack.translate(0.0f,0.0f,-0.0001f);
                 renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  1f, 1f, 1f, 1.0f);
-                //IRIS
+                //IRIS1
                 poseStack.translate(0.0f,0.0f,-0.0002f);
                 renderRecursively(poseStack, animatable, head, iris, bufferSource, bufferSource.getBuffer(iris), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
@@ -467,7 +476,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 colorR = (irisColor2 >> 16) / 255.0F;
                 colorG = ((irisColor2 >> 8) & 0xff) / 255.0f;
                 colorB = (irisColor2 & 0xff) / 255.0f;
-                //IRIS
+                //IRIS2
                 poseStack.translate(0.0f,0.0f,-0.0002f);
                 renderRecursively(poseStack, animatable, head, iris2, bufferSource, bufferSource.getBuffer(iris2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
@@ -479,6 +488,7 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
                 poseStack.translate(0.0f,0.0f,-0.0001f);
                 renderRecursively(poseStack, animatable, head, cejas, bufferSource, bufferSource.getBuffer(cejas), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             }
+
 
             poseStack.translate(0.0f,0.0f,0.0f);
             switch (cap.getHairID()){

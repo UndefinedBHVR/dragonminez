@@ -3,21 +3,18 @@ package com.yuseix.dragonminez.character.models;
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
-import software.bernie.geckolib.core.molang.MolangParser;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
-import software.bernie.geckolib.model.DefaultedGeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class GeoHumanSaiyanModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
+public class GeoNamekModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
 
-    public GeoHumanSaiyanModel(String tipo) {
-        super(new ResourceLocation(DragonMineZ.MOD_ID, tipo));
+
+    public GeoNamekModel() {
+        super(new ResourceLocation(DragonMineZ.MOD_ID, "namekianrace"));
     }
 
     @Override
@@ -37,5 +34,4 @@ public class GeoHumanSaiyanModel<T extends GeoAnimatable> extends DefaultedEntit
             head.setRotY(entityModelData.netHeadYaw() * Mth.DEG_TO_RAD);
         }
     }
-
 }

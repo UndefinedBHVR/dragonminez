@@ -33,6 +33,11 @@ public class TextureManager {
     public static final ResourceLocation N_EYES1_IRIS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/n_iristype2.png");
     public static final ResourceLocation N_EYES1_CEJAS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/n_cejastype1.png");
 
+    //MAJIN
+    public static final ResourceLocation MAJIN_BASE_MALE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype1_male.png");
+
+    public static final ResourceLocation MAJIN_BASE_MALE_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1.png");
+
 
     //HAIR COLOR
     public static final ResourceLocation HAIR_COLOR = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/haircolor.png");

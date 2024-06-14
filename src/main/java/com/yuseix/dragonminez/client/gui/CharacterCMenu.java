@@ -73,7 +73,7 @@ public class CharacterCMenu extends Screen{
         if(currentPage == 0){
 
         } else if (currentPage == 1){
-            sliders(posX-127,posY+25);
+            sliders(posX-127,posY+5);
 
             botonesRazaColores(72,posY);
 
@@ -385,6 +385,11 @@ public class CharacterCMenu extends Screen{
                         }
                         break;
                     case 2:
+                        //TIPO DE OJOS
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = (20 - this.font.width(TranslateManager.EYES));
+                        pGuiGraphics.drawString(font,TranslateManager.EYES.withStyle(ChatFormatting.BOLD),anchoTexto+94,alturaTexto-89,0xFF9B9B);
+
                         break;
                     case 3:
                         //TIPO DE OJOS
@@ -417,26 +422,82 @@ public class CharacterCMenu extends Screen{
                     case 4:
                         break;
                     case 5:
+                        //GENERO TITULO
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
+                        pGuiGraphics.drawString(font,TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD),anchoTexto+87,alturaTexto-89,0xC07FFD);
+
+
+                        if(cap.getGender().equals("Male")){
+                            alturaTexto = (Altura / 2);
+                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_MALE,anchoTexto +75,alturaTexto - 72,0xFFFFFF, 0x2133A6);
+                        } else if(cap.getGender().equals("Female")){
+                            alturaTexto = (Altura / 2);
+                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_FEMALE,anchoTexto +81,alturaTexto - 72,0xFFFFFF, 0xFC63D9);
+
+                        }
+
+                        //TIPO DE CUERPO
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = 47;
+                        RenderSystem.enableBlend();
+                        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                        RenderSystem.setShaderTexture(0, texto);
+                        pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
+                        RenderSystem.disableBlend();
+                        //CUERPO TITULO
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = (20- this.font.width(TranslateManager.BODYTYPES)) ;
+                        pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-57,0xFFCA9B);
+
+                        //TIPO DE CUERPO
+                        if(cap.getBodytype() == 0){
+                            alturaTexto = (Altura / 2);
+                            anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE));
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.S_BODY_TYPE,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
+                        } else if(cap.getBodytype() == 1){
+                            alturaTexto = (Altura / 2);
+                            anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE2));
+                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.S_BODY_TYPE2,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
+
+                        }
+                        //TIPO DE CABELLO
+                        alturaTexto = (Altura / 2);
+                        anchoTexto = 47;
+                        RenderSystem.enableBlend();
+                        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                        RenderSystem.setShaderTexture(0, texto);
+                        pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
+                        RenderSystem.disableBlend();
+                        //HAIR TITULO
+                        anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
+                        pGuiGraphics.drawString(font,TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+77,alturaTexto-9,0x65FC63);
+
                         break;
                     default:
                         break;
                 }
             });
 
+
             //MENU COLOR
-            alturaTexto = (this.height - 170)/ 2;
+            alturaTexto = (Altura / 2);
             anchoTexto = this.width - 150;
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0f);
-            pGuiGraphics.blit(menu2, anchoTexto, alturaTexto, 0, 0, 148, 163);
+            pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
             RenderSystem.disableBlend();
+
+
             //TITULO
             alturaTexto = (Altura / 2);
             anchoTexto = (this.width- this.font.width(TranslateManager.COLOR_MENU));
-            pGuiGraphics.drawString(font,TranslateManager.COLOR_MENU.withStyle(ChatFormatting.BOLD),anchoTexto-60,alturaTexto-63,0xFF9B9B);
+            pGuiGraphics.drawString(font,TranslateManager.COLOR_MENU.withStyle(ChatFormatting.BOLD),anchoTexto-60,alturaTexto-89,0xFF9B9B);
 
             //cuadrado colores.
-            alturaTexto = (Altura / 2) + 10;
+            alturaTexto = (Altura / 2) - 5;
             anchoTexto = (this.width - 105);
             float rColor,gColor,bColor;
 
@@ -539,7 +600,7 @@ public class CharacterCMenu extends Screen{
                 this.removeWidget(nextButton);
                 this.removeWidget(botonRazaLeft);
                 this.removeWidget(botonRazaRight);
-                sliders(this.width-127,((this.minecraft.getWindow().getGuiScaledHeight()) / 2)+25);
+                sliders(this.width-127,((this.minecraft.getWindow().getGuiScaledHeight()) / 2)+5);
                 botonesRazaColores(72,this.height/2);
 
                 DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {

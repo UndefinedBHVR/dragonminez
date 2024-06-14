@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.character.models.bioandroid;
+package com.yuseix.dragonminez.character.models;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.resources.ResourceLocation;
@@ -10,11 +10,10 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class GeoNamekModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
+public class GeoMajinModel<T extends GeoAnimatable> extends DefaultedEntityGeoModel<T> {
 
-
-    public GeoNamekModel() {
-        super(new ResourceLocation(DragonMineZ.MOD_ID, "namekianrace"));
+    public GeoMajinModel(String tipo) {
+        super(new ResourceLocation(DragonMineZ.MOD_ID, tipo));
     }
 
     @Override

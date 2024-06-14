@@ -2,10 +2,12 @@ package com.yuseix.dragonminez.mixin.client.renderer;
 
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.character.models.GeoHumanSaiyanModel;
+import com.yuseix.dragonminez.character.models.GeoMajinModel;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
-import com.yuseix.dragonminez.character.models.bioandroid.GeoNamekModel;
+import com.yuseix.dragonminez.character.models.GeoNamekModel;
 import com.yuseix.dragonminez.character.renders.GeoHumanSaiyanRender;
 import com.yuseix.dragonminez.character.renders.GeoBioAndroidRender;
+import com.yuseix.dragonminez.character.renders.GeoMajinRender;
 import com.yuseix.dragonminez.character.renders.GeoNamekRender;
 import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -89,7 +91,11 @@ public class EntityRenderDispatcherMixin {
                             }
 
                             break;
-
+                        case 5:
+                            if(cap.getGender().equals("Male")){
+                                cir.setReturnValue(dmzRendererers.get("majin_gordo"));
+                            }else{
+                            }
                         default:
                             break;
                     }
@@ -119,6 +125,8 @@ public class EntityRenderDispatcherMixin {
         builder.put("namek",new GeoNamekRender(ctx, new GeoNamekModel()));
         //BIOANDROIDE BASE
         builder.put("bioandroid_imperfect",new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
+        //MAJIN GORDO BASE
+        builder.put("majin_gordo",new GeoMajinRender(ctx, new GeoMajinModel("majinracegordo")));
 
         return builder.build();
     }
