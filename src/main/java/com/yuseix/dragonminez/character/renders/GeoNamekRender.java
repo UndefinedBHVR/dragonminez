@@ -159,6 +159,9 @@ public class GeoNamekRender <T extends AbstractClientPlayer & GeoAnimatable> ext
         var piernaderecha = model.getBone("right_leg").get();
         var piernaizquierda = model.getBone("left_leg").get();
 
+        var orejas_type1 = model.getBone("orejas").get();
+        var orejas_type2 = model.getBone("orejas2").get();
+
         var skin_type1_part1 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART1);
         var skin_type1_part2 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART2);
         var skin_type1_part3 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART3);
@@ -169,7 +172,41 @@ public class GeoNamekRender <T extends AbstractClientPlayer & GeoAnimatable> ext
         var cejas = RenderType.entityCutoutNoCull(TextureManager.N_EYES1_CEJAS);
 
 
+
         DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, livingEntity).ifPresent(cap -> {
+
+            int bodyColor = cap.getBodyColor();
+            poseStack.translate(0.0f,0.0f,0.0f);
+
+            switch (cap.getHairID()){
+                case 0:
+                    orejas_type1.setHidden(false);
+                    orejas_type2.setHidden(true);
+                    colorR = (bodyColor >> 16) / 255.0F;
+                    colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+                    colorB = (bodyColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, skin_type1_part1, bufferSource, bufferSource.getBuffer(skin_type1_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                case 1:
+                    orejas_type1.setHidden(true);
+                    orejas_type2.setHidden(false);
+                    colorR = (bodyColor >> 16) / 255.0F;
+                    colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+                    colorB = (bodyColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, skin_type1_part1, bufferSource, bufferSource.getBuffer(skin_type1_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                case 2:
+                    orejas_type1.setHidden(false);
+                    orejas_type2.setHidden(false);
+                    colorR = (bodyColor >> 16) / 255.0F;
+                    colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+                    colorB = (bodyColor & 0xff) / 255.0f;
+                    renderRecursively(poseStack, animatable, head, skin_type1_part1, bufferSource, bufferSource.getBuffer(skin_type1_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+                    break;
+                default:
+                    break;
+            }
+
 
             switch(cap.getBodytype()){
                 case 0:
@@ -242,7 +279,6 @@ public class GeoNamekRender <T extends AbstractClientPlayer & GeoAnimatable> ext
                 //OJOS
                 poseStack.translate(0.0f,0.0f,-0.0001f);
                 renderRecursively(poseStack, animatable, head, cejas, bufferSource, bufferSource.getBuffer(cejas), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-
             }
 
         });

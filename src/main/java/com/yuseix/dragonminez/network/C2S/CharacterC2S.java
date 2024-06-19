@@ -78,6 +78,9 @@ public class CharacterC2S {
                         case "auraColor":
                             playerstats.setAuraColor(packet.cantidad);
                             break;
+                        case "hairID":
+                            playerstats.setHairID(packet.cantidad);
+                            break;
                         default:
                             System.out.println("Algo salio mal !");
                             break;

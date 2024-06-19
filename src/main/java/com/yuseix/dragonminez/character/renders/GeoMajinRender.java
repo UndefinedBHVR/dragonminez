@@ -273,6 +273,14 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
             renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
             renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
 
+            if(cap.getEyesType() == 0){
+                int irisColor1 = cap.getBodyColor();
+                colorR = (irisColor1 >> 16) / 255.0F;
+                colorG = ((irisColor1 >> 8) & 0xff) / 255.0f;
+                colorB = (irisColor1 & 0xff) / 255.0f;
+                //OJOS
+                poseStack.translate(0.0f,0.0f,-0.0001f);
+                renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);}
         });
 
     }
