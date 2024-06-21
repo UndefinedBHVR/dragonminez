@@ -13,7 +13,6 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 public class ModBiomes {
     public static final ResourceKey<Biome> AJISSA_PLAINS = ResourceKey.create(Registries.BIOME,
@@ -36,8 +35,7 @@ public class ModBiomes {
         MobSpawnSettings.Builder mobs = new MobSpawnSettings.Builder();
         mobs.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 8, 1, 4));
 
-        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(context
-                .lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(features, carver);
 
         BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
         BiomeDefaultFeatures.addDefaultCrystalFormations(builder);
@@ -68,8 +66,7 @@ public class ModBiomes {
         MobSpawnSettings.Builder mobs = new MobSpawnSettings.Builder();
         mobs.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 8, 1, 4));
 
-        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(context
-                .lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(features, carver);
 
         BiomeDefaultFeatures.addDefaultCarversAndLakes(builder);
         BiomeDefaultFeatures.addDefaultCrystalFormations(builder);
@@ -99,8 +96,7 @@ public class ModBiomes {
 
         MobSpawnSettings.Builder mobs = new MobSpawnSettings.Builder();
 
-        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(context
-                .lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+        BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(features, carver);
 
         BiomeDefaultFeatures.warmOceanSpawns(mobs, 10, 4);
         BiomeDefaultFeatures.addDefaultCrystalFormations(builder);
@@ -111,8 +107,8 @@ public class ModBiomes {
 
         context.register(NAMEK_OCEAN, new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
-                .temperature(0.8F)
-                .downfall(0.4F)
+                .temperature(0.5F)
+                .downfall(0.5F)
                 .specialEffects(new BiomeSpecialEffects.Builder()
                         .waterColor(0x61b651)
                         .waterFogColor(0x326726)
