@@ -5,8 +5,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ModEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -90,7 +90,7 @@ public class StatsCommand {
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
                 switch (stat) {
                     case "strenght":
@@ -118,7 +118,7 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.removeEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy()  * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -131,7 +131,7 @@ public class StatsCommand {
 
                         playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -147,7 +147,7 @@ public class StatsCommand {
     private int addStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
                 switch (stat) {
                     case "strenght":
@@ -175,7 +175,7 @@ public class StatsCommand {
                         break;
                     case "energy":
                         playerStatsAttributes.addEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()) );
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -188,7 +188,7 @@ public class StatsCommand {
 
                         playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -204,7 +204,7 @@ public class StatsCommand {
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            PlayerStatsAttrProvider.getCap(ModEvents.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
 
                 int raza = playerStatsAttributes.getRace();
                 int energiacurrent = 0;
@@ -245,22 +245,22 @@ public class StatsCommand {
 
 
                         if (raza == 0) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 1) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy()  * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 2) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 3) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 4) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 5) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         }
 
@@ -280,22 +280,22 @@ public class StatsCommand {
                         playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
 
                         if (raza == 0) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()) ;
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 1) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 2) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 3) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get()) ;
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 4) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         } else if (raza == 5) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get();
+                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                             playerStatsAttributes.setCurrentEnergy(energiacurrent);
                         }
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + playerStatsAttributes.getStrength()).withStyle(ChatFormatting.YELLOW));
