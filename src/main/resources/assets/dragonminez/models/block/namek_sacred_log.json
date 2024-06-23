@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "dragonminez:block/namek/sacred_log_top",
+    "side": "dragonminez:block/namek/sacred_log"
+  }
+}

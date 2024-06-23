@@ -2,12 +2,14 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.items.custom.*;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+@SuppressWarnings("unused")
 public class MainItems {
 
     public static final Item.Properties properties = new Item.Properties();
@@ -21,9 +23,13 @@ public class MainItems {
     public static final RegistryObject<Item> CAPSULA_MORADA = ITEM_REGISTER.register("capsula_morada", CapsulaMoradaItem::new);
 
     //COMIDA
-    public static final RegistryObject<Item> SENZU_BEAN = ITEM_REGISTER.register("senzu_bean", SenzuBean::new);
-    public static final RegistryObject<Item> COMIDA_DINO_RAW = ITEM_REGISTER.register("comida_dino_raw", ComidaDinoRaw::new);
-    public static final RegistryObject<Item> COMIDA_DINO_COOKED = ITEM_REGISTER.register("comida_dino_cooked", ComidaDinoCooked::new);
+    public static final RegistryObject<Item> MIGHT_TREE_FRUIT = ITEM_REGISTER.register("might_tree_fruit", MightTreeFruitItem::new);
+    public static final RegistryObject<Item> SENZU_BEAN = ITEM_REGISTER.register("senzu_bean", SenzuBeanItem::new);
+    public static final RegistryObject<Item> COMIDA_DINO_RAW = ITEM_REGISTER.register("comida_dino_raw", ComidaDinoRawItem::new);
+    public static final RegistryObject<Item> COMIDA_DINO_COOKED = ITEM_REGISTER.register("comida_dino_cooked", ComidaDinoCookedItem::new);
+    public static final RegistryObject<Item> MEDICINA_CORAZON = ITEM_REGISTER.register("medicina_corazon", MedicinaCorazonItem::new);
+    public static final RegistryObject<Item> DINO_TAIL_RAW = ITEM_REGISTER.register("dino_tail_raw", DinoTailRawItem::new);
+    public static final RegistryObject<Item> DINO_TAIL_COOKED = ITEM_REGISTER.register("dino_tail_cooked", DinoTailCookedItem::new);
 
     //POTHALAS
     public static final RegistryObject<Item> POTHALA_RIGHT =
@@ -43,39 +49,48 @@ public class MainItems {
                     .stacksTo(1)
                     .fireResistant()));
 
+    //MINERALES
+    public static final RegistryObject<Item> GETE = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
+    public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
+
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
-            () -> new DbBallBlockItem(MainBlocks.DBALL1_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL1_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL2_BLOCK_ITEM = ITEM_REGISTER.register("dball2",
-            () -> new DbBallBlockItem(MainBlocks.DBALL2_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL2_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL3_BLOCK_ITEM = ITEM_REGISTER.register("dball3",
-            () -> new DbBallBlockItem(MainBlocks.DBALL3_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL3_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL4_BLOCK_ITEM = ITEM_REGISTER.register("dball4",
-            () -> new DbBallBlockItem(MainBlocks.DBALL4_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL4_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL5_BLOCK_ITEM = ITEM_REGISTER.register("dball5",
-            () -> new DbBallBlockItem(MainBlocks.DBALL5_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL5_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL6_BLOCK_ITEM = ITEM_REGISTER.register("dball6",
-            () -> new DbBallBlockItem(MainBlocks.DBALL6_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL6_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));
     public static final RegistryObject<Item> DBALL7_BLOCK_ITEM = ITEM_REGISTER.register("dball7",
-            () -> new DbBallBlockItem(MainBlocks.DBALL7_BLOCK.get(), properties
+            () -> new BlockItem(MainBlocks.DBALL7_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
+    public static final RegistryObject<Item> DBALL1_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball1_namek",
+            () -> new BlockItem(MainBlocks.DBALL1_NAMEK_BLOCK.get(), properties
                     .stacksTo(1)
                     .fireResistant()
             ));

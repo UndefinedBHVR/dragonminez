@@ -15,17 +15,19 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.listener.ForgeListener;
+import com.yuseix.dragonminez.listener.ModListener;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.ModLoadingStage;
+import net.minecraftforge.fml.ModLoadingWarning;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
+import net.minecraftforge.forgespi.language.IModInfo;
 import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.core.molang.LazyVariable;
 import software.bernie.geckolib.core.molang.MolangParser;
@@ -36,13 +38,9 @@ public class DragonMineZ {
 
     public static final String MOD_ID = "dragonminez";
 
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     public DragonMineZ() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         //Registramos Items
         MainItems.register(modEventBus);
@@ -57,7 +55,8 @@ public class DragonMineZ {
         //Registramos las entidades
         MainEntity.register(modEventBus);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        modEventBus.register(new ModListener());
+        MinecraftForge.EVENT_BUS.register(new ForgeListener());
 
         GeckoLib.initialize();
 
@@ -78,7 +77,19 @@ public class DragonMineZ {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+      
+      // Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
+        IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
+        ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT,
+                """
+                        DragonMineZ:
+                        Only the official DMZ development team is allowed to play the mod.
+                        If you are not a member of this team, the mod will cause an error.
+
+                        This mod is in a development phase! Expect bugs, errors and crashes!
+
+                        Proceed with caution!""");
+        ModLoader.get().addWarning(modLoadingWarning);
+                                                                    
     }
-
-
 }

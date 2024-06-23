@@ -1,5 +1,12 @@
 {
   "values": [
-    "dragonminez:bloque_prueba"
+    "dragonminez:namek_diamond_ore",
+    "dragonminez:namek_gold_ore",
+    "dragonminez:namek_redstone_ore",
+    "dragonminez:namek_emerald_ore",
+    "dragonminez:namek_deepslate_diamond",
+    "dragonminez:namek_deepslate_gold",
+    "dragonminez:namek_deepslate_redstone",
+    "dragonminez:namek_deepslate_emerald"
   ]
 }

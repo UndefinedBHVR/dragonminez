@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.init.blocks.entity.MainBlockEntities;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.FakeBioAndroidRenderer;
+import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.utils.KeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -31,6 +32,7 @@ public class ClientEvents {
         }
     }
     @SubscribeEvent
+    //Cancela el renderizado de la barra de vida
     public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
         if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
             event.setCanceled(true);
