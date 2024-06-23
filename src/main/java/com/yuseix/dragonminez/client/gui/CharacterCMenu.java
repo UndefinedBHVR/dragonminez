@@ -6,12 +6,12 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.ColorButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
-import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
@@ -22,7 +22,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
@@ -33,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharacterCMenu extends Screen{
+public class CharacterCMenu extends Screen {
 
     private int alturaTexto;
     private int anchoTexto;
@@ -49,12 +48,12 @@ public class CharacterCMenu extends Screen{
 
     private final List<AbstractWidget> botonOjos = new ArrayList<>();
 
-    private DMZRightButton botonRazaRight,botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton,gendersLeftButton, hairRigthButton,hairLeftButton;
+    private DMZRightButton botonRazaRight, botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton, gendersLeftButton, hairRigthButton, hairLeftButton;
 
-    private TextButton nextButton,backButton, setColor;
-    private ColorButton eyesButtonColor,eyesButtonColor2,bodyButtonColor1,bodyButtonColor2,bodyButtonColor3, hairButtonColor;
-    private ForgeSlider sliderR,sliderG,sliderB;
-    private int colorR,colorG,colorB;
+    private TextButton nextButton, backButton, setColor;
+    private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor;
+    private ForgeSlider sliderR, sliderG, sliderB;
+    private int colorR, colorG, colorB;
     private static int currentPage = 0;
     private static String partePagina = "";
 
@@ -70,41 +69,43 @@ public class CharacterCMenu extends Screen{
         int posX = (this.width);
         int posY = (this.minecraft.getWindow().getGuiScaledHeight()) / 2;
 
-        if(currentPage == 0){
+        if (currentPage == 0) {
 
-        } else if (currentPage == 1){
-            sliders(posX-127,posY+5);
+        } else if (currentPage == 1) {
+            sliders(posX - 127, posY + 5);
 
-            botonesRazaColores(72,posY);
+            botonesRazaColores(72, posY);
 
         }
 
         super.init();
     }
+
     @Override
     public boolean isPauseScreen() {
         return false;
     }
+
     @Override
     public void tick() {
         super.tick();
 
         //MenuInicio
-        int ancho = (this.width/2);
+        int ancho = (this.width / 2);
         int alto = (this.minecraft.getWindow().getGuiScaledHeight()) / 2;
 
 
-        botonNextBack(ancho, this.height- 25);
+        botonNextBack(ancho, this.height - 25);
 
-        if(currentPage == 0){
+        if (currentPage == 0) {
 
-                botonesRazasElegir(ancho,alto+87);
+            botonesRazasElegir(ancho, alto + 87);
 
-        } else if(currentPage == 1){
+        } else if (currentPage == 1) {
 
             botonesBodyType(113, alto - 44);
             botonesGeneros(113, alto - 76);
-            botonesOjos(113,alto + 3);
+            botonesOjos(113, alto + 3);
 
         } else if (currentPage == 2) {
 
@@ -121,27 +122,27 @@ public class CharacterCMenu extends Screen{
         var Altura = pGuiGraphics.guiHeight();
         var Ancho = pGuiGraphics.guiWidth();
 
-        if(currentPage == 0){
+        if (currentPage == 0) {
 
             var AlturaGui = this.height;
             var AnchoGui = this.width;
 
             pagina0(pGuiGraphics, AnchoGui, AlturaGui);
 
-        } else if(currentPage == 1){
+        } else if (currentPage == 1) {
 
             pagina1(pGuiGraphics);
 
             pagina1Color(pGuiGraphics);
 
 
-        }else if(currentPage == 2){
+        } else if (currentPage == 2) {
 
-        }else {
+        } else {
 
         }
 
-        RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0f);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
 
 
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -149,30 +150,30 @@ public class CharacterCMenu extends Screen{
     }
 
 
-    public static int calcularColor(int r, int g, int b){
+    public static int calcularColor(int r, int g, int b) {
         //Convertir el numero a decimal
         int colorDecimal = (r << 16) + (g << 8) + b;
 
         return colorDecimal;
     }
-    
-    public void botonNextBack(int posX, int posY){
+
+    public void botonNextBack(int posX, int posY) {
 
         this.removeWidget(backButton);
         this.removeWidget(nextButton);
 
-        if(currentPage == 0){
-            this.nextButton = this.addRenderableWidget(new TextButton(this.width-85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+        if (currentPage == 0) {
+            this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
                 currentPage = 1;
                 this.removeWidget(nextButton);
                 this.removeWidget(botonRazaLeft);
                 this.removeWidget(botonRazaRight);
-                sliders(this.width-127,((this.minecraft.getWindow().getGuiScaledHeight()) / 2)+5);
-                botonesRazaColores(72,this.height/2);
+                sliders(this.width - 127, ((this.minecraft.getWindow().getGuiScaledHeight()) / 2) + 5);
+                botonesRazaColores(72, this.height / 2);
 
-                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-                    switch(cap.getRace()){
+                    switch (cap.getRace()) {
                         case 0:
                             ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
                             ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
@@ -222,9 +223,9 @@ public class CharacterCMenu extends Screen{
                 ModMessages.sendToServer(new CharacterC2S("Gender", 0));
 
             }));
-        }else if(currentPage == 1){
+        } else if (currentPage == 1) {
             //BOTON VOLVER
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY,TranslateManager.BACK.withStyle(ChatFormatting.BOLD),button -> {
+            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
                 currentPage = 0;
                 this.removeWidget(sliderR);
                 this.removeWidget(sliderG);
@@ -244,18 +245,18 @@ public class CharacterCMenu extends Screen{
                 this.removeWidget(gendersLeftButton);
             }));
             //BOTON SIGUIENTE
-            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY,TranslateManager.NEXT.withStyle(ChatFormatting.BOLD),button -> {
+            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
             }));
-        }else{
+        } else {
 
         }
 
 
     }
 
-    public void botonesRazaColores(int posX, int posY){
+    public void botonesRazaColores(int posX, int posY) {
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         this.removeWidget(eyesButtonColor);
         this.removeWidget(eyesButtonColor2);
@@ -264,12 +265,12 @@ public class CharacterCMenu extends Screen{
         this.removeWidget(bodyButtonColor3);
         this.removeWidget(hairButtonColor);
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            switch (cap.getRace()){
+            switch (cap.getRace()) {
                 case 0:
                     //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1",posX - 15, posY + 18,Component.empty(),button -> {
+                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         int ojo1 = cap.getEye1Color();
 
@@ -277,22 +278,22 @@ public class CharacterCMenu extends Screen{
                         float g = ((ojo1 >> 8) & 0xff) / 255.0f;
                         float b = (ojo1 & 0xff) / 255.0f;
 
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
                         sliderR.setValue(colorR);
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
 
                         }));
                         this.partePagina = "ojo1";
                     }));
                     //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2",posX + 15, posY + 18,Component.empty(),button -> {
+                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         int ojo2 = cap.getEye2Color();
 
@@ -300,117 +301,22 @@ public class CharacterCMenu extends Screen{
                         float g = ((ojo2 >> 8) & 0xff) / 255.0f;
                         float b = (ojo2 & 0xff) / 255.0f;
 
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
                         sliderR.setValue(colorR);
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR, colorG, colorB)));
 
                         }));
                         this.partePagina = "ojo2";
                     }));
 
-                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1",posX, posY - 29,Component.empty(),button -> {
-                            this.removeWidget(setColor);
-                            int cuerpo = cap.getBodyColor();
-
-                            float r = (cuerpo >> 16) / 255.0F;
-                            float g = ((cuerpo >> 8) & 0xff) / 255.0f;
-                            float b = (cuerpo & 0xff) / 255.0f;
-
-                            colorR = (int) (r*255);
-                            colorG = (int) (g*255);
-                            colorB = (int) (b*255);
-
-                            sliderR.setValue(colorR);
-                            sliderG.setValue(colorG);
-                            sliderB.setValue(colorB);
-
-                            this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR,colorG,colorB)));
-
-                            }));
-                            this.partePagina = "cuerpo1";
-                        }));
-
-
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor",posX, posY + 64,Component.empty(),button -> {
-                        this.removeWidget(setColor);
-                        int cuerpo = cap.getHairColor();
-
-                        float r = (cuerpo >> 16) / 255.0F;
-                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
-                        float b = (cuerpo & 0xff) / 255.0f;
-
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
-
-                        sliderR.setValue(colorR);
-                        sliderG.setValue(colorG);
-                        sliderB.setValue(colorB);
-
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR,colorG,colorB)));
-
-                        }));
-                        this.partePagina = "cabelloPagina";
-                    }));
-                    break;
-                case 1:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1",posX - 15, posY + 18,Component.empty(),button -> {
-                        this.removeWidget(setColor);
-                        int ojo1 = cap.getEye1Color();
-
-                        float r = (ojo1 >> 16) / 255.0F;
-                        float g = ((ojo1 >> 8) & 0xff) / 255.0f;
-                        float b = (ojo1 & 0xff) / 255.0f;
-
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
-
-                        sliderR.setValue(colorR);
-                        sliderG.setValue(colorG);
-                        sliderB.setValue(colorB);
-
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR,colorG,colorB)));
-
-                        }));
-                        this.partePagina = "ojo1";
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2",posX + 15, posY + 18,Component.empty(),button -> {
-                        this.removeWidget(setColor);
-                        int ojo2 = cap.getEye2Color();
-
-                        float r = (ojo2 >> 16) / 255.0F;
-                        float g = ((ojo2 >> 8) & 0xff) / 255.0f;
-                        float b = (ojo2 & 0xff) / 255.0f;
-
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
-
-                        sliderR.setValue(colorR);
-                        sliderG.setValue(colorG);
-                        sliderB.setValue(colorB);
-
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR,colorG,colorB)));
-
-                        }));
-                        this.partePagina = "ojo2";
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1",posX, posY - 29,Component.empty(),button -> {
+                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         int cuerpo = cap.getBodyColor();
 
@@ -418,23 +324,23 @@ public class CharacterCMenu extends Screen{
                         float g = ((cuerpo >> 8) & 0xff) / 255.0f;
                         float b = (cuerpo & 0xff) / 255.0f;
 
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
                         sliderR.setValue(colorR);
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
 
                         }));
                         this.partePagina = "cuerpo1";
                     }));
 
 
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor",posX, posY + 64,Component.empty(),button -> {
+                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         int cuerpo = cap.getHairColor();
 
@@ -442,16 +348,111 @@ public class CharacterCMenu extends Screen{
                         float g = ((cuerpo >> 8) & 0xff) / 255.0f;
                         float b = (cuerpo & 0xff) / 255.0f;
 
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
                         sliderR.setValue(colorR);
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "cabelloPagina";
+                    }));
+                    break;
+                case 1:
+                    //BOTON COLOR OJO 1
+                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int ojo1 = cap.getEye1Color();
+
+                        float r = (ojo1 >> 16) / 255.0F;
+                        float g = ((ojo1 >> 8) & 0xff) / 255.0f;
+                        float b = (ojo1 & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "ojo1";
+                    }));
+                    //BOTON COLOR OJO 2
+                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int ojo2 = cap.getEye2Color();
+
+                        float r = (ojo2 >> 16) / 255.0F;
+                        float g = ((ojo2 >> 8) & 0xff) / 255.0f;
+                        float b = (ojo2 & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "ojo2";
+                    }));
+
+                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "cuerpo1";
+                    }));
+
+
+                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getHairColor();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
 
                         }));
                         this.partePagina = "cabelloPagina";
@@ -462,7 +463,7 @@ public class CharacterCMenu extends Screen{
                 case 3:
 
                     //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1",posX, posY - 63,Component.empty(),button -> {
+                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY - 63, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         int ojo1 = cap.getEye1Color();
 
@@ -470,92 +471,92 @@ public class CharacterCMenu extends Screen{
                         float g = ((ojo1 >> 8) & 0xff) / 255.0f;
                         float b = (ojo1 & 0xff) / 255.0f;
 
-                        colorR = (int) (r*255);
-                        colorG = (int) (g*255);
-                        colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
                         sliderR.setValue(colorR);
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
 
                         }));
                         this.partePagina = "ojo1";
                     }));
 
-            this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1",posX - 25, posY - 17,Component.empty(),button -> {
-                this.removeWidget(setColor);
-                int cuerpo = cap.getBodyColor();
+                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 25, posY - 17, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor();
 
-                float r = (cuerpo >> 16) / 255.0F;
-                float g = ((cuerpo >> 8) & 0xff) / 255.0f;
-                float b = (cuerpo & 0xff) / 255.0f;
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
 
-                colorR = (int) (r*255);
-                colorG = (int) (g*255);
-                colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
-                sliderR.setValue(colorR);
-                sliderG.setValue(colorG);
-                sliderB.setValue(colorB);
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
 
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
 
-                }));
-                this.partePagina = "cuerpo1";
-            }));
+                        }));
+                        this.partePagina = "cuerpo1";
+                    }));
 
-            this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2",posX, posY - 17,Component.empty(),button -> {
-                this.removeWidget(setColor);
-                int cuerpo = cap.getBodyColor2();
+                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX, posY - 17, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor2();
 
-                float r = (cuerpo >> 16) / 255.0F;
-                float g = ((cuerpo >> 8) & 0xff) / 255.0f;
-                float b = (cuerpo & 0xff) / 255.0f;
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
 
-                colorR = (int) (r*255);
-                colorG = (int) (g*255);
-                colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
-                sliderR.setValue(colorR);
-                sliderG.setValue(colorG);
-                sliderB.setValue(colorB);
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
 
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", calcularColor(colorR, colorG, colorB)));
 
-                }));
-                this.partePagina = "cuerpo2";
-            }));
+                        }));
+                        this.partePagina = "cuerpo2";
+                    }));
 
-            this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3",posX + 25, posY - 17,Component.empty(),button -> {
-                this.removeWidget(setColor);
-                int cuerpo = cap.getBodyColor3();
+                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 25, posY - 17, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor3();
 
-                float r = (cuerpo >> 16) / 255.0F;
-                float g = ((cuerpo >> 8) & 0xff) / 255.0f;
-                float b = (cuerpo & 0xff) / 255.0f;
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
 
-                colorR = (int) (r*255);
-                colorG = (int) (g*255);
-                colorB = (int) (b*255);
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
 
-                sliderR.setValue(colorR);
-                sliderG.setValue(colorG);
-                sliderB.setValue(colorB);
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
 
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY+43,Component.literal("SET"),wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", calcularColor(colorR,colorG,colorB)));
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", calcularColor(colorR, colorG, colorB)));
 
-                }));
-                this.partePagina = "cuerpo3";
-            }));
+                        }));
+                        this.partePagina = "cuerpo3";
+                    }));
 
 
-            break;
+                    break;
                 case 4:
                     break;
                 case 5:
@@ -568,40 +569,41 @@ public class CharacterCMenu extends Screen{
         });
         RenderSystem.disableBlend();
     }
-    public void botonesCabellos(int posX, int posY){
+
+    public void botonesCabellos(int posX, int posY) {
 
         this.removeWidget(hairRigthButton);
         this.removeWidget(hairLeftButton);
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            switch(cap.getRace()){
+            switch (cap.getRace()) {
                 case 0:
-                        if(cap.getHairID() == 0){
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("hairID", 1));
-                                this.removeWidget(hairRigthButton);
-                                this.removeWidget(hairLeftButton);
-                            }));
-
-                        } else if(cap.getHairID() == 1){
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("hairID", 0));
-                                this.removeWidget(hairRigthButton);
-                                this.removeWidget(hairLeftButton);
-                            }));
-                        }
-
-                    break;
-                case 1:
-                    if(cap.getHairID() == 0){
+                    if (cap.getHairID() == 0) {
                         this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
 
-                    } else if(cap.getHairID() == 1){
+                    } else if (cap.getHairID() == 1) {
+                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
+                    }
+
+                    break;
+                case 1:
+                    if (cap.getHairID() == 0) {
+                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 1));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
+
+                    } else if (cap.getHairID() == 1) {
                         this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                             this.removeWidget(hairRigthButton);
@@ -611,14 +613,14 @@ public class CharacterCMenu extends Screen{
 
                     break;
                 case 2:
-                    if(cap.getHairID() == 0){
+                    if (cap.getHairID() == 0) {
                         this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
 
-                    } else if(cap.getHairID() == 1){
+                    } else if (cap.getHairID() == 1) {
                         this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                             this.removeWidget(hairRigthButton);
@@ -639,24 +641,25 @@ public class CharacterCMenu extends Screen{
 
         });
     }
-    public void botonesOjos(int posX, int posY){
+
+    public void botonesOjos(int posX, int posY) {
 
         this.removeWidget(eyesTypeRight);
         this.removeWidget(eyesTypeLeft);
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            switch(cap.getRace()){
+            switch (cap.getRace()) {
                 case 0:
-                    if(cap.getBodytype() > 0){
-                        if(cap.getEyesType() == 0){
+                    if (cap.getBodytype() > 0) {
+                        if (cap.getEyesType() == 0) {
                             this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
                                 this.removeWidget(eyesTypeRight);
                                 this.removeWidget(eyesTypeLeft);
                             }));
 
-                        } else if(cap.getEyesType() == 1){
+                        } else if (cap.getEyesType() == 1) {
                             this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
                                 this.removeWidget(eyesTypeRight);
@@ -667,15 +670,15 @@ public class CharacterCMenu extends Screen{
 
                     break;
                 case 1:
-                    if(cap.getBodytype() > 0){
-                        if(cap.getEyesType() == 0){
+                    if (cap.getBodytype() > 0) {
+                        if (cap.getEyesType() == 0) {
                             this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
                                 this.removeWidget(eyesTypeRight);
                                 this.removeWidget(eyesTypeLeft);
                             }));
 
-                        } else if(cap.getEyesType() == 1){
+                        } else if (cap.getEyesType() == 1) {
                             this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
                                 this.removeWidget(eyesTypeRight);
@@ -699,22 +702,23 @@ public class CharacterCMenu extends Screen{
 
         });
     }
-    public void botonesBodyType(int posX, int posY){
+
+    public void botonesBodyType(int posX, int posY) {
 
         this.removeWidget(bodyTypeRightButton);
         this.removeWidget(bodyTypeLeftButton);
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            switch(cap.getRace()){
+            switch (cap.getRace()) {
                 case 0:
-                    if(cap.getBodytype() == 0){
+                    if (cap.getBodytype() == 0) {
                         this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
                             this.removeWidget(bodyTypeRightButton);
                             this.removeWidget(bodyTypeLeftButton);
                         }));
-                    } else if(cap.getBodytype() == 1){
+                    } else if (cap.getBodytype() == 1) {
                         this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                             this.removeWidget(bodyTypeRightButton);
@@ -723,13 +727,13 @@ public class CharacterCMenu extends Screen{
                     }
                     break;
                 case 1:
-                    if(cap.getBodytype() == 0){
+                    if (cap.getBodytype() == 0) {
                         this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
                             this.removeWidget(bodyTypeRightButton);
                             this.removeWidget(bodyTypeLeftButton);
                         }));
-                    } else if(cap.getBodytype() == 1){
+                    } else if (cap.getBodytype() == 1) {
                         this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                             this.removeWidget(bodyTypeRightButton);
@@ -752,23 +756,24 @@ public class CharacterCMenu extends Screen{
 
         });
     }
-    public void botonesGeneros(int posX, int posY){
+
+    public void botonesGeneros(int posX, int posY) {
 
         this.removeWidget(gendersRigthButton);
         this.removeWidget(gendersLeftButton);
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            switch(cap.getRace()){
+            switch (cap.getRace()) {
                 case 0:
-                    if(cap.getGender().equals("Female")){
+                    if (cap.getGender().equals("Female")) {
 
                         this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 0));
                             this.removeWidget(gendersRigthButton);
                             this.removeWidget(gendersLeftButton);
                         }));
-                    } else if(cap.getGender().equals("Male")){
+                    } else if (cap.getGender().equals("Male")) {
                         this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 1));
                             this.removeWidget(gendersRigthButton);
@@ -777,14 +782,14 @@ public class CharacterCMenu extends Screen{
                     }
                     break;
                 case 1:
-                    if(cap.getGender().equals("Female")){
+                    if (cap.getGender().equals("Female")) {
 
                         this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 0));
                             this.removeWidget(gendersRigthButton);
                             this.removeWidget(gendersLeftButton);
                         }));
-                    } else if(cap.getGender().equals("Male")){
+                    } else if (cap.getGender().equals("Male")) {
                         this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 1));
                             this.removeWidget(gendersRigthButton);
@@ -807,14 +812,15 @@ public class CharacterCMenu extends Screen{
 
         });
     }
-    public void botonesRazasElegir(int posX, int posY){
+
+    public void botonesRazasElegir(int posX, int posY) {
 
         this.removeWidget(botonRazaRight);
         this.removeWidget(botonRazaLeft);
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            if(cap.getRace() == 0){
+            if (cap.getRace() == 0) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 1));
                     this.removeWidget(botonRazaRight);
@@ -824,7 +830,7 @@ public class CharacterCMenu extends Screen{
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                 }));
-            }else if (cap.getRace() == 1){
+            } else if (cap.getRace() == 1) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 2));
                     this.removeWidget(botonRazaRight);
@@ -845,7 +851,7 @@ public class CharacterCMenu extends Screen{
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                 }));
-            }else if (cap.getRace() == 2){
+            } else if (cap.getRace() == 2) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 3));
                     this.removeWidget(botonRazaRight);
@@ -866,7 +872,7 @@ public class CharacterCMenu extends Screen{
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                 }));
 
-            }else if (cap.getRace() == 3){
+            } else if (cap.getRace() == 3) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 4));
                     this.removeWidget(botonRazaRight);
@@ -887,7 +893,7 @@ public class CharacterCMenu extends Screen{
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                 }));
-            }else if (cap.getRace() == 4){
+            } else if (cap.getRace() == 4) {
 
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 5));
@@ -898,7 +904,7 @@ public class CharacterCMenu extends Screen{
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
                 }));
-                this.botonRazaLeft =  (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
+                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 3));
                     this.removeWidget(botonRazaRight);
                     this.removeWidget(botonRazaLeft);
@@ -924,30 +930,30 @@ public class CharacterCMenu extends Screen{
         });
     }
 
-    public void sliders(int sliderX, int posY){
+    public void sliders(int sliderX, int posY) {
 
         this.removeWidget(sliderR);
         this.removeWidget(sliderG);
         this.removeWidget(sliderB);
 
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        sliderR = this.addRenderableWidget(new ForgeSlider(sliderX,posY-75,100,15,Component.literal("R:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RED),Component.empty(),0.0,255.0,colorR,true){
+        sliderR = this.addRenderableWidget(new ForgeSlider(sliderX, posY - 75, 100, 15, Component.literal("R:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.RED), Component.empty(), 0.0, 255.0, colorR, true) {
             @Override
             protected void applyValue() {
                 super.applyValue();
                 colorR = this.getValueInt();
             }
         });
-        sliderG = this.addRenderableWidget(new ForgeSlider(sliderX,posY-55,100,15,Component.literal("G:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GREEN),Component.empty(),0.0,255.0,colorB,true){
+        sliderG = this.addRenderableWidget(new ForgeSlider(sliderX, posY - 55, 100, 15, Component.literal("G:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GREEN), Component.empty(), 0.0, 255.0, colorB, true) {
             @Override
             protected void applyValue() {
                 super.applyValue();
                 colorG = this.getValueInt();
             }
         });
-        sliderB = this.addRenderableWidget(new ForgeSlider(sliderX,posY-35,100,15,Component.literal("B:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE),Component.empty(),0.0,255.0,colorG,true){
+        sliderB = this.addRenderableWidget(new ForgeSlider(sliderX, posY - 35, 100, 15, Component.literal("B:").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.BLUE), Component.empty(), 0.0, 255.0, colorG, true) {
             @Override
             protected void applyValue() {
                 super.applyValue();
@@ -957,11 +963,11 @@ public class CharacterCMenu extends Screen{
         RenderSystem.disableBlend();
     }
 
-    public void pagina0(GuiGraphics pGuiGraphics, int posX, int posY){
+    public void pagina0(GuiGraphics pGuiGraphics, int posX, int posY) {
 
         RenderSystem.enableBlend();
 
-        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.depthMask(false);
 
         pGuiGraphics.blit(texto, (pGuiGraphics.guiWidth() / 2) - 60, (pGuiGraphics.guiHeight() / 2) + 85, 0, 16, 130, 18);
@@ -972,14 +978,14 @@ public class CharacterCMenu extends Screen{
         alturaTexto = (posY / 2) - 40;
         anchoTexto = ((posX - this.font.width(TranslateManager.CCreation)) / 2);
 
-        drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation,anchoTexto,alturaTexto, 0xFFFFFF);
+        drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation, anchoTexto, alturaTexto, 0xFFFFFF);
 
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             var raza = cap.getRace();
 
-            switch (raza){
+            switch (raza) {
                 case 0: //Humano
                     alturaTexto = (posY / 2) + 90;
                     anchoTexto = ((posX - this.font.width(TranslateManager.Human)) / 2);
@@ -1027,120 +1033,120 @@ public class CharacterCMenu extends Screen{
                     break;
             }
 
-            LivingEntity bio = new FakeBioAndroidEntity(MainEntity.FAKEBIOANDROID1.get(),this.minecraft.level);
+            LivingEntity bio = new FakeBioAndroidEntity(MainEntity.FAKEBIOANDROID1.get(), this.minecraft.level);
             LivingEntity dino = new DinoEntity(MainEntity.DINO1.get(), this.minecraft.level);
 
-            if(cap.getRace() == 0){
+            if (cap.getRace() == 0) {
                 //renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 15, 30, 0, bio);
             }
 
         });
     }
 
-    public void pagina1(GuiGraphics pGuiGraphics){
+    public void pagina1(GuiGraphics pGuiGraphics) {
 
         //MENU CARACTERISTICAS
         alturaTexto = (pGuiGraphics.guiHeight() / 2);
         anchoTexto = 10;
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
         RenderSystem.disableBlend();
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            switch(cap.getRace()){
+            switch (cap.getRace()) {
                 case 0:
                     //GENERO TITULO
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
                     anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
-                    pGuiGraphics.drawString(font,TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD),anchoTexto+87,alturaTexto-89,0xC07FFD);
+                    pGuiGraphics.drawString(font, TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD), anchoTexto + 87, alturaTexto - 89, 0xC07FFD);
 
-                    switch (cap.getGender()){
-                        case "Male","male":
+                    switch (cap.getGender()) {
+                        case "Male", "male":
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_MALE,anchoTexto +75,alturaTexto - 72,0xFFFFFF, 0x2133A6);
+                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_MALE, anchoTexto + 75, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
                             break;
-                        case "Female","female":
+                        case "Female", "female":
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_FEMALE,anchoTexto +81,alturaTexto - 72,0xFFFFFF, 0xFC63D9);
+                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_FEMALE, anchoTexto + 81, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
                     //TIPO DE CUERPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20- this.font.width(TranslateManager.BODYTYPES)) ;
-                    pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-57,0xFFCA9B);
+                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
+                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 57, 0xFFCA9B);
 
                     //TIPO DE CUERPO
-                    if(cap.getBodytype() == 0){
+                    if (cap.getBodytype() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.H_BODY_TYPE));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.H_BODY_TYPE,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
-                    } else if(cap.getBodytype() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.H_BODY_TYPE, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                    } else if (cap.getBodytype() == 1) {
                         anchoTexto = (20 - this.font.width(TranslateManager.H_BODY_TYPE2));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.H_BODY_TYPE2,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.H_BODY_TYPE2, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
 
                     }
 
                     //OJOS TIPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //OJOS TITULO
                     anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font,TranslateManager.EYES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-10,0xFF9B9B);
+                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 10, 0xFF9B9B);
 
-                    if(cap.getEyesType() == 0){
+                    if (cap.getEyesType() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_1));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_1,anchoTexto +83,alturaTexto + 7,0xFFFFFF);
-                    } else if(cap.getEyesType() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_1, anchoTexto + 83, alturaTexto + 7, 0xFFFFFF);
+                    } else if (cap.getEyesType() == 1) {
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_2));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_2,anchoTexto +83,alturaTexto + 7,0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_2, anchoTexto + 83, alturaTexto + 7, 0xFFFFFF);
 
                     }
 
                     //HAIR COLOR
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 34, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
                     //HAIR TITULO
                     anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font,TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+77,alturaTexto+38,0x65FC63);
+                    pGuiGraphics.drawString(font, TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 77, alturaTexto + 38, 0x65FC63);
 
-                    if (cap.getHairID() == 0){
+                    if (cap.getHairID() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.HAIR_0));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.HAIR_0,anchoTexto +83,alturaTexto + 54,0xFFFFFF);
-                    }else if(cap.getHairID() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.HAIR_0, anchoTexto + 83, alturaTexto + 54, 0xFFFFFF);
+                    } else if (cap.getHairID() == 1) {
                     }
 
                     break;
                 case 1:
                     //GENERO TITULO
                     anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
-                    pGuiGraphics.drawString(font,TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD),anchoTexto+87,alturaTexto-89,0xC07FFD);
+                    pGuiGraphics.drawString(font, TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD), anchoTexto + 87, alturaTexto - 89, 0xC07FFD);
 
-                    switch (cap.getGender()){
-                        case "Male","male":
+                    switch (cap.getGender()) {
+                        case "Male", "male":
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_MALE,anchoTexto +75,alturaTexto - 72,0xFFFFFF, 0x2133A6);
+                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_MALE, anchoTexto + 75, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
                             break;
-                        case "Female","female":
+                        case "Female", "female":
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_FEMALE,anchoTexto +81,alturaTexto - 72,0xFFFFFF, 0xFC63D9);
+                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_FEMALE, anchoTexto + 81, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
@@ -1149,59 +1155,59 @@ public class CharacterCMenu extends Screen{
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20- this.font.width(TranslateManager.BODYTYPES)) ;
-                    pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-57,0xFFCA9B);
+                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
+                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 57, 0xFFCA9B);
 
                     //TIPO DE CUERPO
-                    if(cap.getBodytype() == 0){
+                    if (cap.getBodytype() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.S_BODY_TYPE,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
-                    } else if(cap.getBodytype() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                    } else if (cap.getBodytype() == 1) {
                         anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE2));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.S_BODY_TYPE2,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE2, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
 
                     }
                     //OJOS
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //OJOS TITULO
                     anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font,TranslateManager.EYES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-10,0xFF9B9B);
+                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 10, 0xFF9B9B);
 
-                    if(cap.getEyesType() == 0){
+                    if (cap.getEyesType() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_1));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_1,anchoTexto +83,alturaTexto + 7,0xFFFFFF);
-                    } else if(cap.getEyesType() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_1, anchoTexto + 83, alturaTexto + 7, 0xFFFFFF);
+                    } else if (cap.getEyesType() == 1) {
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_2));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_2,anchoTexto +83,alturaTexto + 7,0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_2, anchoTexto + 83, alturaTexto + 7, 0xFFFFFF);
 
                     }
 
                     //HAIR COLOR
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 34, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //HAIR TITULO
                     anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font,TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+77,alturaTexto+38,0x65FC63);
+                    pGuiGraphics.drawString(font, TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 77, alturaTexto + 38, 0x65FC63);
 
-                    if (cap.getHairID() == 0){
+                    if (cap.getHairID() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.HAIR_0));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.HAIR_0,anchoTexto +83,alturaTexto + 54,0xFFFFFF);
-                    }else if(cap.getHairID() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.HAIR_0, anchoTexto + 83, alturaTexto + 54, 0xFFFFFF);
+                    } else if (cap.getHairID() == 1) {
 
                     }
 
@@ -1210,50 +1216,50 @@ public class CharacterCMenu extends Screen{
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
                     anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font,TranslateManager.EYES.withStyle(ChatFormatting.BOLD),anchoTexto+94,alturaTexto-89,0xFF9B9B);
+                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 89, 0xFF9B9B);
 
-                    if(cap.getEyesType() == 0){
+                    if (cap.getEyesType() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_1));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_1,anchoTexto +83,alturaTexto - 73,0xFFFFFF);
-                    } else if(cap.getEyesType() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_1, anchoTexto + 83, alturaTexto - 73, 0xFFFFFF);
+                    } else if (cap.getEyesType() == 1) {
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_2));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_2,anchoTexto +83,alturaTexto - 73,0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_2, anchoTexto + 83, alturaTexto - 73, 0xFFFFFF);
                     }
                     //TIPO DE CUERPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 48, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20- this.font.width(TranslateManager.BODYTYPES)) ;
-                    pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-44,0xFFCA9B);
+                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
+                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 44, 0xFFCA9B);
 
                     //TIPO DE CUERPO
-                    if(cap.getBodytype() == 0){
-                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Default"),67,alturaTexto - 29,0xFFFFFF);
-                    } else if(cap.getBodytype() == 1){
-                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Custom"),67,alturaTexto - 29,0xFFFFFF);
+                    if (cap.getBodytype() == 0) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto - 29, 0xFFFFFF);
+                    } else if (cap.getBodytype() == 1) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Custom"), 67, alturaTexto - 29, 0xFFFFFF);
 
                     }
                     //TIPO DE CABELLO EN ESTE CASO OREJAS PARA EL NAMEK
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto -2, 0, 0, 73, 15);
+                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 2, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //HAIR TITULO
-                    pGuiGraphics.drawString(font,Component.literal("Ears").withStyle(ChatFormatting.BOLD),70,alturaTexto+1,0x65FC63);
+                    pGuiGraphics.drawString(font, Component.literal("Ears").withStyle(ChatFormatting.BOLD), 70, alturaTexto + 1, 0x65FC63);
 
-                    if(cap.getHairID() == 0){
-                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Default"),67,alturaTexto + 17,0xFFFFFF);
-                    }else if(cap.getHairID() == 1){
-                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Type 02"),67,alturaTexto + 17,0xFFFFFF);
-                    }else if(cap.getHairID() == 2){
-                        drawStringWithBorder(pGuiGraphics,font,Component.literal("None"),67,alturaTexto + 17,0xFFFFFF);
+                    if (cap.getHairID() == 0) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto + 17, 0xFFFFFF);
+                    } else if (cap.getHairID() == 1) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), 67, alturaTexto + 17, 0xFFFFFF);
+                    } else if (cap.getHairID() == 2) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 67, alturaTexto + 17, 0xFFFFFF);
                     }
 
                     break;
@@ -1261,24 +1267,24 @@ public class CharacterCMenu extends Screen{
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
                     anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font,TranslateManager.EYES.withStyle(ChatFormatting.BOLD),anchoTexto+94,alturaTexto-89,0xFF9B9B);
+                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 89, 0xFF9B9B);
 
                     anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_1));
-                    drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_1,anchoTexto +83,alturaTexto - 74,0xFFFFFF);
+                    drawStringWithBorder(pGuiGraphics, font, TranslateManager.EYES_TYPE_1, anchoTexto + 83, alturaTexto - 74, 0xFFFFFF);
 
                     //TIPO DE CUERPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 46, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES)) ;
-                    pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+94,alturaTexto-42,0xFFCA9B);
+                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
+                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 42, 0xFFCA9B);
 
                     anchoTexto = (20 - this.font.width(TranslateManager.B_BODY_TYPE));
-                    drawStringWithBorder(pGuiGraphics,font,TranslateManager.B_BODY_TYPE,anchoTexto + 106,alturaTexto - 28,0xFFFFFF);
+                    drawStringWithBorder(pGuiGraphics, font, TranslateManager.B_BODY_TYPE, anchoTexto + 106, alturaTexto - 28, 0xFFFFFF);
 
                     break;
                 case 4:
@@ -1287,51 +1293,51 @@ public class CharacterCMenu extends Screen{
                     //GENERO TITULO
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
                     anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
-                    pGuiGraphics.drawString(font,TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD),anchoTexto+87,alturaTexto-89,0xC07FFD);
+                    pGuiGraphics.drawString(font, TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD), anchoTexto + 87, alturaTexto - 89, 0xC07FFD);
 
-                    switch (cap.getGender()){
-                        case "Male","male":
+                    switch (cap.getGender()) {
+                        case "Male", "male":
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_MALE,anchoTexto +75,alturaTexto - 72,0xFFFFFF, 0x2133A6);
+                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_MALE, anchoTexto + 75, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
                             break;
-                        case "Female","female":
+                        case "Female", "female":
                             anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics,font,TranslateManager.GENDER_FEMALE,anchoTexto +81,alturaTexto - 72,0xFFFFFF, 0xFC63D9);
+                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_FEMALE, anchoTexto + 81, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
                     //TIPO DE CUERPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20- this.font.width(TranslateManager.BODYTYPES)) ;
-                    pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-57,0xFFCA9B);
+                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
+                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 57, 0xFFCA9B);
 
                     //TIPO DE CUERPO
-                    if(cap.getBodytype() == 0){
+                    if (cap.getBodytype() == 0) {
                         anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.S_BODY_TYPE,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
-                    } else if(cap.getBodytype() == 1){
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                    } else if (cap.getBodytype() == 1) {
                         anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE2));
-                        drawStringWithBorder(pGuiGraphics,font,TranslateManager.S_BODY_TYPE2,anchoTexto + 83,alturaTexto - 40,0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE2, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
 
                     }
 
                     //TIPO DE CABELLO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //HAIR TITULO
                     anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font,TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+77,alturaTexto-9,0x65FC63);
+                    pGuiGraphics.drawString(font, TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 77, alturaTexto - 9, 0x65FC63);
 
                     break;
                 default:
@@ -1340,37 +1346,34 @@ public class CharacterCMenu extends Screen{
         });
 
 
-
-
-
     }
 
-    public void pagina1Color(GuiGraphics pGuiGraphics){
+    public void pagina1Color(GuiGraphics pGuiGraphics) {
 
         //MENU COLOR
         alturaTexto = (pGuiGraphics.guiHeight() / 2);
         anchoTexto = this.width - 150;
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0f);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
         pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
         RenderSystem.disableBlend();
         //TITULO
-        anchoTexto = (this.width- this.font.width(TranslateManager.COLOR_MENU));
-        pGuiGraphics.drawString(font,TranslateManager.COLOR_MENU.withStyle(ChatFormatting.BOLD),anchoTexto-60,alturaTexto-89,0xFF9B9B);
+        anchoTexto = (this.width - this.font.width(TranslateManager.COLOR_MENU));
+        pGuiGraphics.drawString(font, TranslateManager.COLOR_MENU.withStyle(ChatFormatting.BOLD), anchoTexto - 60, alturaTexto - 89, 0xFF9B9B);
 
         //cuadrado colores.
         alturaTexto = (pGuiGraphics.guiHeight() / 2) - 5;
         anchoTexto = (this.width - 105);
-        float rColor,gColor,bColor;
+        float rColor, gColor, bColor;
 
-        switch(partePagina){
+        switch (partePagina) {
             case "ojo1":
                 rColor = sliderR.getValueInt() / 255.0F;
                 gColor = sliderG.getValueInt() / 255.0f;
                 bColor = sliderB.getValueInt() / 255.0f;
 
                 RenderSystem.enableBlend();
-                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
                 pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
                 RenderSystem.disableBlend();
                 break;
@@ -1380,7 +1383,7 @@ public class CharacterCMenu extends Screen{
                 bColor = sliderB.getValueInt() / 255.0f;
 
                 RenderSystem.enableBlend();
-                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
                 pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
                 RenderSystem.disableBlend();
                 break;
@@ -1390,7 +1393,7 @@ public class CharacterCMenu extends Screen{
                 bColor = sliderB.getValueInt() / 255.0f;
 
                 RenderSystem.enableBlend();
-                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
                 pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
                 RenderSystem.disableBlend();
                 break;
@@ -1400,8 +1403,8 @@ public class CharacterCMenu extends Screen{
                 bColor = sliderB.getValueInt() / 255.0f;
 
                 RenderSystem.enableBlend();
-                RenderSystem.setShaderTexture(0,colorCuadrado);
-                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderTexture(0, colorCuadrado);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
                 pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
                 RenderSystem.disableBlend();
                 break;
@@ -1410,8 +1413,8 @@ public class CharacterCMenu extends Screen{
                 gColor = sliderG.getValueInt() / 255.0f;
                 bColor = sliderB.getValueInt() / 255.0f;
                 RenderSystem.enableBlend();
-                RenderSystem.setShaderTexture(0,colorCuadrado);
-                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderTexture(0, colorCuadrado);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
                 pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
                 RenderSystem.disableBlend();
 
@@ -1421,8 +1424,8 @@ public class CharacterCMenu extends Screen{
                 gColor = sliderG.getValueInt() / 255.0f;
                 bColor = sliderB.getValueInt() / 255.0f;
                 RenderSystem.enableBlend();
-                RenderSystem.setShaderTexture(0,colorCuadrado);
-                RenderSystem.setShaderColor(rColor,gColor,bColor,1.0f);
+                RenderSystem.setShaderTexture(0, colorCuadrado);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
                 pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
                 RenderSystem.disableBlend();
 
@@ -1430,7 +1433,7 @@ public class CharacterCMenu extends Screen{
         }
     }
 
-    public static void drawStringWithBorder(GuiGraphics guiGraphics,Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde){
+    public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
 
         guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
@@ -1438,8 +1441,9 @@ public class CharacterCMenu extends Screen{
         guiGraphics.drawString(font, texto, x, y - 1, ColorBorde, false);
         guiGraphics.drawString(font, texto, x, y, ColorTexto, false);
     }
-    public static void drawStringWithBorder(GuiGraphics guiGraphics,Font font, Component texto, int x, int y, int ColorTexto){
-        drawStringWithBorder(guiGraphics,font, texto, x,y,ColorTexto,0);
+
+    public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
 
     public static void renderEntityInInventoryFollowsAngle(GuiGraphics guiGraphics, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity livingEntity) {

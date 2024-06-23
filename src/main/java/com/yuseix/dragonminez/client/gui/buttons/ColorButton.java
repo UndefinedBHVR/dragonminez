@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.client.gui.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,11 +28,11 @@ public class ColorButton extends Button {
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             int color;
-            float r,g,b;
-            switch(tipo){
+            float r, g, b;
+            switch (tipo) {
                 case "eyeColor1":
                     //CONVERTIR DE DECIMAL A FLOAT
                     color = cap.getEye1Color(); // blanco

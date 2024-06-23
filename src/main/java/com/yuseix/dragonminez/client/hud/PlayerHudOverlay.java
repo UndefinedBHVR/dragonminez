@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -21,7 +21,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
         int vidarestante = (int) Minecraft.getInstance().player.getHealth();
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int vidawa = ((163 * vidarestante) / VidaMaxima);
             int vida = Math.min(vidawa, 163);
@@ -29,7 +29,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             int StaminaMax = playerstats.getStamina() + 3;
             int curStamina = playerstats.getCurStam();
 
-            int energiaMax = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()) ;
+            int energiaMax = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
             int curEnergia = playerstats.getCurrentEnergy();
 
             int staminatotal = Math.min(((83 * curStamina) / StaminaMax), 83);

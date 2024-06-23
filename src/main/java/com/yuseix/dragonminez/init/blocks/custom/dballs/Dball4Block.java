@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.init.blocks.custom;
+package com.yuseix.dragonminez.init.blocks.custom.dballs;
 
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.init.blocks.entity.Dball4BlockEntity;

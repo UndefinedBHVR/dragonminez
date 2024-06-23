@@ -25,7 +25,7 @@ public class ModMessages {
 
     public static void register() {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(DragonMineZ.MOD_ID, "messages"))
+                .named(new ResourceLocation(DragonMineZ.MOD_ID, "messagesold"))
                 .networkProtocolVersion(() -> "1.0")
                 .clientAcceptedVersions(s -> true)
                 .serverAcceptedVersions(s -> true)
@@ -63,10 +63,12 @@ public class ModMessages {
                 .add();
     }
 
+    //Manda un paquete al Servidor (message no es un mensaje, es un paquete)
     public static <MSG> void sendToServer(MSG message) {
         INSTANCE.sendToServer(message);
     }
 
+    //Manda un paquete a un jugador (message no es un mensaje, es un paquete)
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
     }

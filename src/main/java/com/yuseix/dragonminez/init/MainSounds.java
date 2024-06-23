@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class MainSounds {
+public final class MainSounds {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS_REGISTER =
             DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, DragonMineZ.MOD_ID);
@@ -22,8 +22,11 @@ public class MainSounds {
     public static final RegistryObject<SoundEvent> CRITICO1 = registerSoundEvent("critic_punch1");
     public static final RegistryObject<SoundEvent> CRITICO2 = registerSoundEvent("critic_punch2");
 
+    public static final RegistryObject<SoundEvent> RADAR_SCAN = registerSoundEvent("radar_scan");
+
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
+
         return SOUND_EVENTS_REGISTER.register(name, () -> SoundEvent.createVariableRangeEvent(id));
     }
 

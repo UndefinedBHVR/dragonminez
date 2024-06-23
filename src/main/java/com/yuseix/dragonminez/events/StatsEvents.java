@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.events;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,7 +42,7 @@ public class StatsEvents {
             energiacounter++;
             tickcounter++;
 
-            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
 
                 int maxcon = (int) (playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get());
                 int maxstamina = (playerstats.getStamina() + 3);
@@ -87,7 +87,7 @@ public class StatsEvents {
         if (!(event.getEntity() instanceof Player)) {  //LA ENTIDAD QUE RECIBE EL GOLPE NO ES UN JUGADOR
             if (event.getSource().getEntity() instanceof Player jugadorpemrd) { //SI EL QUE HACE DANO ES UN JUGADOR
 
-                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getSource().getEntity()).ifPresent(playerstats -> {
 
                     int raza = playerstats.getRace();
 
@@ -203,14 +203,14 @@ public class StatsEvents {
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
 
-                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
                     int raza = playerstats.getRace();
 
                     switch (raza) {
                         case 0: //RAZA HUMANO
 
                             int defensaHumano = calcularDEF("humano", playerstats.getDefense());
-                                    event.setAmount(event.getAmount() - defensaHumano);
+                            event.setAmount(event.getAmount() - defensaHumano);
 
                             break;
                         case 1: //RAZA SAIYAN
@@ -254,7 +254,7 @@ public class StatsEvents {
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
 
-                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
                     int razas = playerstats.getRace();
 
@@ -265,7 +265,7 @@ public class StatsEvents {
                         case 0: //RAZA HUMANO
 
                             maxstr = calcularSTR("humano", playerstats.getStrength());
-                            maxdef = calcularDEF("humano",playerstats.getDefense());
+                            maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -282,8 +282,8 @@ public class StatsEvents {
                             break;
                         case 1: //RAZA SAIYAN
 
-                            maxstr = calcularSTR("saiyan",playerstats.getStrength());
-                            maxdef = calcularDEF("saiyan",playerstats.getDefense());
+                            maxstr = calcularSTR("saiyan", playerstats.getStrength());
+                            maxdef = calcularDEF("saiyan", playerstats.getDefense());
                             staminacost = (maxstr / 4);
 
                             if (curstamina >= staminacost) {
@@ -300,7 +300,7 @@ public class StatsEvents {
                         case 2: //RAZA NAMEK
 
                             maxstr = calcularSTR("humano", playerstats.getStrength());
-                            maxdef = calcularDEF("humano",playerstats.getDefense());
+                            maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -318,7 +318,7 @@ public class StatsEvents {
                         case 3: //RAZA BIOANDROIDE
 
                             maxstr = calcularSTR("humano", playerstats.getStrength());
-                            maxdef = calcularDEF("humano",playerstats.getDefense());
+                            maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -336,7 +336,7 @@ public class StatsEvents {
                         case 4: //RAZA COLD DEMON
 
                             maxstr = calcularSTR("humano", playerstats.getStrength());
-                            maxdef = calcularDEF("humano",playerstats.getDefense());
+                            maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -354,7 +354,7 @@ public class StatsEvents {
                         case 5: //RAZA MAJIN
 
                             maxstr = calcularSTR("humano", playerstats.getStrength());
-                            maxdef = calcularDEF("humano",playerstats.getDefense());
+                            maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -384,27 +384,28 @@ public class StatsEvents {
     }
 
 
-    private static int calcularSTR(String raza, int StatSTR){
+    private static int calcularSTR(String raza, int StatSTR) {
 
         double maxStr = 0;
 
         //Fórmula = ((StatSTR * ConfigRaza) * Transf) * Porcentaje
-                switch (raza){
-                    case "humano","Humano","h":
+        switch (raza) {
+            case "humano", "Humano", "h":
 
-                        maxStr = (StatSTR * DMCAttrConfig.MULTIPLIER_STR.get());
+                maxStr = (StatSTR * DMCAttrConfig.MULTIPLIER_STR.get());
 
-                        break;
-                    case "saiyan","Saiyan","s":
+                break;
+            case "saiyan", "Saiyan", "s":
 
-                        maxStr = (StatSTR * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get());
+                maxStr = (StatSTR * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get());
 
-                        break;
-                }
+                break;
+        }
 
         return (int) maxStr;
     }
-    private static int calcularDEF(String raza, int StatDEF){
+
+    private static int calcularDEF(String raza, int StatDEF) {
 
         Player player = Minecraft.getInstance().player;
 
@@ -414,13 +415,13 @@ public class StatsEvents {
         int DurezaArmor = Mth.floor(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
 
         //Defensa = (((((StatDEF * ConfigRaza) * Transf) * Porcentaje) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4))) / 2.25)
-        switch (raza){
-            case "humano","Humano","h":
+        switch (raza) {
+            case "humano", "Humano", "h":
 
                 maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
                 break;
-            case "saiyan","Saiyan","s":
+            case "saiyan", "Saiyan", "s":
 
                 maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
@@ -438,7 +439,7 @@ public class StatsEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             if (realDistance > 4.5f) {
 
-                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(stats -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
                     int level = (stats.getStrength() +
                             stats.getDefense() +
                             stats.getConstitution() +
@@ -459,13 +460,10 @@ public class StatsEvents {
     }
 
 
-
-
-
     @SubscribeEvent
     public static void changeSizePRE(RenderPlayerEvent.Pre event) {
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, event.getEntity()).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(cap -> {
 
             int razas = cap.getRace();
 
@@ -475,10 +473,10 @@ public class StatsEvents {
 
                 event.getPoseStack().scale(1.0f, 1.0f, 1.0f);
 
-            }else if(razas == 1){
+            } else if (razas == 1) {
                 event.getPoseStack().scale(0.75f, 0.75f, 0.75f);
 
-            }else if(razas == 3){
+            } else if (razas == 3) {
                 event.getPoseStack().scale(0.75f, 0.75f, 0.75f);
             }
 
@@ -488,10 +486,6 @@ public class StatsEvents {
 
 
     }
-
-
-
-
 
 
     private static double getEnergyToRemove(int level) {

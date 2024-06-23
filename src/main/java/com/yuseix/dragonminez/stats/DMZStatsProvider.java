@@ -28,7 +28,7 @@ public class DMZStatsProvider implements ICapabilityProvider, INBTSerializable<C
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return DMZCapabilities.INSTANCE.orEmpty(cap, this.optional);
+        return DMZStatsCapabilities.INSTANCE.orEmpty(cap, this.optional);
     }
 
     public static @NotNull <T> LazyOptional<T> getCap(Capability<T> cap, Entity entity) {

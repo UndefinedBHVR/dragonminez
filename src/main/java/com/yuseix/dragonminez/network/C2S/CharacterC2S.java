@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,6 +27,7 @@ public class CharacterC2S {
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeUtf(tipo);
         buf.writeInt(cantidad);
+
     }
 
     public static void handle(CharacterC2S packet, Supplier<NetworkEvent.Context> ctx) {
@@ -36,11 +37,11 @@ public class CharacterC2S {
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
-                DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.tipo) {
                         case "Gender":
-                            if(packet.cantidad == 0){
+                            if (packet.cantidad == 0) {
                                 playerstats.setGender("Male");
                             } else {
                                 playerstats.setGender("Female");

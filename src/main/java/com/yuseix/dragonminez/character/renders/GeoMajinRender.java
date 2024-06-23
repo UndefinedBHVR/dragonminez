@@ -4,7 +4,7 @@ package com.yuseix.dragonminez.character.renders;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.character.GeoPlayerItemInHandLayer;
-import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
@@ -57,15 +57,14 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
     private static final String HELMET = "armorbipedHead";
 
 
-    private float colorR,colorG,colorB;
-
+    private float colorR, colorG, colorB;
 
 
     //BIOANDROIDE
     public GeoMajinRender(EntityRendererProvider.Context renderManager, GeoModel model) {
         super(renderManager, model);
 
-        this.addRenderLayer(new ItemArmorGeoLayer<>(this){
+        this.addRenderLayer(new ItemArmorGeoLayer<>(this) {
 
             @Override
             public void preRender(PoseStack poseStack, T animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
@@ -81,9 +80,10 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
             @Nullable
             @Override
             protected ItemStack getArmorItemForBone(GeoBone bone, T animatable) {
-                return switch (bone.getName()){
+                return switch (bone.getName()) {
                     case LEFT_BOOT, RIGHT_BOOT, LEFT_BOOT_2, RIGHT_BOOT_2 -> this.bootsStack;
-                    case LEFT_ARMOR_LEG, RIGHT_ARMOR_LEG, LEFT_ARMOR_LEG_2, RIGHT_ARMOR_LEG_2, CHESTPLATE_2 -> this.leggingsStack;
+                    case LEFT_ARMOR_LEG, RIGHT_ARMOR_LEG, LEFT_ARMOR_LEG_2, RIGHT_ARMOR_LEG_2, CHESTPLATE_2 ->
+                            this.leggingsStack;
                     case CHESTPLATE, RIGHT_SLEEVE, LEFT_SLEEVE -> this.chestplateStack;
                     case HELMET -> this.helmetStack;
                     default -> null;
@@ -95,7 +95,8 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
             protected EquipmentSlot getEquipmentSlotForBone(GeoBone bone, ItemStack stack, T animatable) {
                 return switch (bone.getName()) {
                     case LEFT_BOOT, RIGHT_BOOT, LEFT_BOOT_2, RIGHT_BOOT_2 -> EquipmentSlot.FEET;
-                    case LEFT_ARMOR_LEG, RIGHT_ARMOR_LEG, LEFT_ARMOR_LEG_2, RIGHT_ARMOR_LEG_2, CHESTPLATE_2-> EquipmentSlot.LEGS;
+                    case LEFT_ARMOR_LEG, RIGHT_ARMOR_LEG, LEFT_ARMOR_LEG_2, RIGHT_ARMOR_LEG_2, CHESTPLATE_2 ->
+                            EquipmentSlot.LEGS;
                     case RIGHT_SLEEVE -> EquipmentSlot.MAINHAND;
                     case LEFT_SLEEVE -> EquipmentSlot.OFFHAND;
                     case CHESTPLATE -> EquipmentSlot.CHEST;
@@ -188,10 +189,9 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
 
 
         Vec3 velocity = livingEntity.getDeltaMovement();
-        float avgVelocity = (float)(Math.abs(velocity.x) + Math.abs(velocity.z)) / 2f;
+        float avgVelocity = (float) (Math.abs(velocity.x) + Math.abs(velocity.z)) / 2f;
 
         isMoving = avgVelocity >= motionThreshold && limbSwingAmount != 0;
-
 
 
         if (!isReRender) {
@@ -212,8 +212,7 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
         if (this.animatable.isInvisibleTo(Minecraft.getInstance().player)) {
             if (Minecraft.getInstance().shouldEntityAppearGlowing(this.animatable)) {
                 buffer = bufferSource.getBuffer(renderType = RenderType.outline(getTextureLocation(animatable)));
-            }
-            else {
+            } else {
                 renderType = null;
             }
         }
@@ -224,14 +223,13 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
             RenderType finalRenderType = renderType;
             VertexConsumer finalBuffer = buffer;
 
-            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, livingEntity).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, livingEntity).ifPresent(cap -> {
 
                 var bodytype = cap.getBodytype();
                 var gender = cap.getGender();
 
-                    renderBody1(poseStack, animatable, model, finalRenderType, bufferSource, finalBuffer, isReRender, partialTick, packedLight,
-                            packedOverlay, red, green, blue, alpha);
-
+                renderBody1(poseStack, animatable, model, finalRenderType, bufferSource, finalBuffer, isReRender, partialTick, packedLight,
+                        packedOverlay, red, green, blue, alpha);
 
 
             });
@@ -241,8 +239,6 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
 
         poseStack.popPose();
     }
-
-
 
 
     private void renderBody1(PoseStack poseStack, T animatable, BakedGeoModel model, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
@@ -260,27 +256,28 @@ public class GeoMajinRender<T extends AbstractClientPlayer & GeoAnimatable> exte
         var ojos = RenderType.entityCutoutNoCull(TextureManager.MAJIN_BASE_MALE_EYES);
 
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE,livingEntity).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, livingEntity).ifPresent(cap -> {
             //Cuerpo1
             int bodyColor1 = cap.getBodyColor();
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
-            renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-            renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-            renderRecursively(poseStack, animatable, brazoderecho, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-            renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-            renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
-            renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, head, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, body, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, brazoderecho, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, brazoizquierdo, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, piernaderecha, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            renderRecursively(poseStack, animatable, piernaizquierda, skin_type1, bufferSource, bufferSource.getBuffer(skin_type1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
-            if(cap.getEyesType() == 0){
+            if (cap.getEyesType() == 0) {
                 int irisColor1 = cap.getBodyColor();
                 colorR = (irisColor1 >> 16) / 255.0F;
                 colorG = ((irisColor1 >> 8) & 0xff) / 255.0f;
                 colorB = (irisColor1 & 0xff) / 255.0f;
                 //OJOS
-                poseStack.translate(0.0f,0.0f,-0.0001f);
-                renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY,  colorR, colorG, colorB, 1.0f);}
+                poseStack.translate(0.0f, 0.0f, -0.0001f);
+                renderRecursively(poseStack, animatable, head, ojos, bufferSource, bufferSource.getBuffer(ojos), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            }
         });
 
     }

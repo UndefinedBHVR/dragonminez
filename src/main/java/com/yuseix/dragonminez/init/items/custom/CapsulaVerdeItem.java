@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
-import com.yuseix.dragonminez.stats.DMZCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -43,7 +43,7 @@ public class CapsulaVerdeItem extends Item {
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
         if (!pLevel.isClientSide) {
-            DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
                 stats.addCon(5);
                 stats.addStam(5);
             });

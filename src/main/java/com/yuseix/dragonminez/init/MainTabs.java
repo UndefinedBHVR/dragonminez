@@ -6,12 +6,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 @SuppressWarnings("unused")
-public class MainTabs {
+public final class MainTabs {
 
     //Creative Mode Tabs
     //TODO: Separar las pestañas en más pestañas y crear checks para que no se muestren dos veces accidentalmente
@@ -23,8 +24,10 @@ public class MainTabs {
 
                     .title(Component.translatable("itemGroup.dragonminez.blocks"))
                     .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
-                        if (!block.getId().getPath().startsWith("namek_"))
-                            output.accept(block.get().asItem());
+                        if (!block.getId().getPath().startsWith("namek_")) {
+                            if (!(block.get() instanceof LiquidBlock))
+                                output.accept(block.get().asItem());
+                        }
                     })).build()
     );
     public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",

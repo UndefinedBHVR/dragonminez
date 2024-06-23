@@ -6,11 +6,11 @@ import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.stats.DMZCapabilities;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -95,23 +95,23 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int posY = (this.height - 222) / 2;
 
         assert Minecraft.getInstance().player != null;
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             int race = playerstats.getRace();
 
-            if(playerstats.isAcceptCharacter() == false){
+            if (playerstats.isAcceptCharacter() == false) {
 
                 //Botones de Razas
-                botonesRazas.add(new DMZRightButton("right",posX - 23, posY + 35, Component.empty(), button -> {
+                botonesRazas.add(new DMZRightButton("right", posX - 23, posY + 35, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 1));
                 }));
-                botonesRazas.add(new DMZRightButton("left",posX - 109, posY + 35, Component.empty(), button -> {
+                botonesRazas.add(new DMZRightButton("left", posX - 109, posY + 35, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 0));
                 }));
 
                 botonesRazas.forEach(this::addRenderableWidget);
 
-                switch(race){
+                switch (race) {
                     case 0: //HUMANO
 
                         break;
@@ -136,7 +136,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 }
 
 
-            }else {
+            } else {
 
 
                 int zpoints = playerstats.getZpoints();
@@ -178,7 +178,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             }
 
 
-
         });
     }
 
@@ -190,15 +189,15 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int posX = (this.width - 148) / 2;
         int posY = (this.height - 222) / 2;
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            if(playerstats.isAcceptCharacter() == false ){
+            if (playerstats.isAcceptCharacter() == false) {
 
-                switch(playerstats.getRace()){
+                switch (playerstats.getRace()) {
                     case 0: //HUMANO
 
                         //TIPO DE CUERPO
-                        if(playerstats.getBodytype() == 0){
+                        if (playerstats.getBodytype() == 0) {
                             this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
                             }));
@@ -206,7 +205,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                                 ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                             }));
 
-                        } if(playerstats.getBodytype() == 1){
+                        }
+                        if (playerstats.getBodytype() == 1) {
                             this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
                             }));
@@ -216,7 +216,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                         }
 
                         //TIPO DE OJOS
-                        if(playerstats.getEyesType() == 0){
+                        if (playerstats.getEyesType() == 0) {
                             this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
                             }));
@@ -224,20 +224,21 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
                             }));
 
-                        } if(playerstats.getEyesType() == 1){
-                        this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                        }));
-                        this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                        }));
-                    }
+                        }
+                        if (playerstats.getEyesType() == 1) {
+                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
+                            }));
+                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
+                            }));
+                        }
 
                         break;
                     case 1: //Saiyan
 
                         //TIPO DE CUERPO
-                        if(playerstats.getBodytype() == 0){
+                        if (playerstats.getBodytype() == 0) {
                             this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
                             }));
@@ -245,17 +246,18 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                                 ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                             }));
 
-                        } if(playerstats.getBodytype() == 1){
-                        this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
-                        }));
-                        this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 75, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                        }));
-                    }
+                        }
+                        if (playerstats.getBodytype() == 1) {
+                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
+                            }));
+                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 75, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                            }));
+                        }
 
                         //TIPO DE OJOS
-                        if(playerstats.getEyesType() == 0){
+                        if (playerstats.getEyesType() == 0) {
                             this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
                             }));
@@ -263,14 +265,15 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
                             }));
 
-                        } if(playerstats.getEyesType() == 1){
-                        this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                        }));
-                        this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                        }));
-                    }
+                        }
+                        if (playerstats.getEyesType() == 1) {
+                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
+                            }));
+                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
+                            }));
+                        }
 
                         break;
                     case 2: //Namek
@@ -291,7 +294,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 }
 
 
-            }else {
+            } else {
                 int zpoints = playerstats.getZpoints();
 
                 int zCost = (playerstats.getStrength() +
@@ -308,7 +311,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             }
 
 
-
         });
     }
 
@@ -323,15 +325,15 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         var Ancho = graphics.guiWidth();
 
 
-        DMZStatsProvider.getCap(DMZCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            if(playerstats.isAcceptCharacter() == false ){
+            if (playerstats.isAcceptCharacter() == false) {
 
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
                 RenderSystem.setShaderTexture(0, menu1);
 
-                graphics.blit(menu1, (this.width / 2 - 148) - 62,(this.height/2 - 222) + 112, 0, 0, 148, 222);
+                graphics.blit(menu1, (this.width / 2 - 148) - 62, (this.height / 2 - 222) + 112, 0, 0, 148, 222);
 
                 //TITULO
                 alturaTexto = (Altura / 2) - 40;
@@ -356,7 +358,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 //TITULO PARA TIPO DE CUERPO
                 RenderSystem.setShaderTexture(0, cuadronegro);
 
-                graphics.blit(cuadronegro, (this.width / 2 - 148) - 25,(this.height/2 - 222) + 168, 0, 0, 73, 15);
+                graphics.blit(cuadronegro, (this.width / 2 - 148) - 25, (this.height / 2 - 222) + 168, 0, 0, 73, 15);
 
                 alturaTexto = (Altura / 2) - 50;
                 anchoTexto = ((Ancho - this.font.width(this.BodyType)) / 2) - 137;
@@ -366,7 +368,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 //TITULO PARA TIPO DE OJOS
                 RenderSystem.setShaderTexture(0, cuadronegro);
 
-                graphics.blit(cuadronegro, (this.width / 2 - 148) - 25,(this.height/2 - 222) + 208, 0, 0, 73, 15);
+                graphics.blit(cuadronegro, (this.width / 2 - 148) - 25, (this.height / 2 - 222) + 208, 0, 0, 73, 15);
 
                 alturaTexto = (Altura / 2) - 10;
                 anchoTexto = ((Ancho - this.font.width(this.EyeType)) / 2) - 137;
@@ -376,126 +378,126 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 var raza = playerstats.getRace();
 
 
-                    switch (raza) {
-                        case 0: //Humano
-                            alturaTexto = (Altura / 2) - 70;
-                            anchoTexto = ((Ancho - this.font.width(this.Human)) / 2) - 137;
+                switch (raza) {
+                    case 0: //Humano
+                        alturaTexto = (Altura / 2) - 70;
+                        anchoTexto = ((Ancho - this.font.width(this.Human)) / 2) - 137;
 
-                            graphics.drawString(font, Human, anchoTexto, alturaTexto, 0x31EAFF, true);
+                        graphics.drawString(font, Human, anchoTexto, alturaTexto, 0x31EAFF, true);
 
-                            switch (playerstats.getBodytype()){
-                                case 0:
-                                    alturaTexto = (Altura / 2) - 30;
-                                    anchoTexto = ((Ancho - this.font.width(this.HBody0)) / 2) - 137;
+                        switch (playerstats.getBodytype()) {
+                            case 0:
+                                alturaTexto = (Altura / 2) - 30;
+                                anchoTexto = ((Ancho - this.font.width(this.HBody0)) / 2) - 137;
 
-                                    graphics.drawString(font, HBody0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                    break;
-                                case 1:
-                                    alturaTexto = (Altura / 2) - 30;
-                                    anchoTexto = ((Ancho - this.font.width(this.HBody1)) / 2) - 137;
+                                graphics.drawString(font, HBody0, anchoTexto, alturaTexto, 0xFFFFFF, true);
+                                break;
+                            case 1:
+                                alturaTexto = (Altura / 2) - 30;
+                                anchoTexto = ((Ancho - this.font.width(this.HBody1)) / 2) - 137;
 
-                                    graphics.drawString(font, HBody1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                    break;
+                                graphics.drawString(font, HBody1, anchoTexto, alturaTexto, 0xFEC9C9, true);
+                                break;
 
-                                default:
-                                    break;
-                            }
+                            default:
+                                break;
+                        }
 
-                            switch (playerstats.getEyesType()){
-                                case 0:
-                                    alturaTexto = (Altura / 2) + 10;
-                                    anchoTexto = ((Ancho - this.font.width(this.SHEye0)) / 2) - 137;
+                        switch (playerstats.getEyesType()) {
+                            case 0:
+                                alturaTexto = (Altura / 2) + 10;
+                                anchoTexto = ((Ancho - this.font.width(this.SHEye0)) / 2) - 137;
 
-                                    graphics.drawString(font, SHEye0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                    break;
-                                case 1:
-                                    alturaTexto = (Altura / 2) + 10;
-                                    anchoTexto = ((Ancho - this.font.width(this.SHEye1)) / 2) - 137;
+                                graphics.drawString(font, SHEye0, anchoTexto, alturaTexto, 0xFFFFFF, true);
+                                break;
+                            case 1:
+                                alturaTexto = (Altura / 2) + 10;
+                                anchoTexto = ((Ancho - this.font.width(this.SHEye1)) / 2) - 137;
 
-                                    graphics.drawString(font, SHEye1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                    break;
+                                graphics.drawString(font, SHEye1, anchoTexto, alturaTexto, 0xFEC9C9, true);
+                                break;
 
-                                default:
-                                    break;
-                            }
+                            default:
+                                break;
+                        }
 
 
-                            break;
-                        case 1: // Saiyan
-                            alturaTexto = (Altura / 2) - 70;
-                            anchoTexto = ((Ancho - this.font.width(this.Saiyan)) / 2) - 137;
+                        break;
+                    case 1: // Saiyan
+                        alturaTexto = (Altura / 2) - 70;
+                        anchoTexto = ((Ancho - this.font.width(this.Saiyan)) / 2) - 137;
 
-                            graphics.drawString(font, Saiyan, anchoTexto, alturaTexto, 0xFFBA35, true);
+                        graphics.drawString(font, Saiyan, anchoTexto, alturaTexto, 0xFFBA35, true);
 
-                            switch (playerstats.getBodytype()){
-                                case 0:
-                                    alturaTexto = (Altura / 2) - 30;
-                                    anchoTexto = ((Ancho - this.font.width(this.SBody0)) / 2) - 137;
+                        switch (playerstats.getBodytype()) {
+                            case 0:
+                                alturaTexto = (Altura / 2) - 30;
+                                anchoTexto = ((Ancho - this.font.width(this.SBody0)) / 2) - 137;
 
-                                    graphics.drawString(font, SBody0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                    break;
-                                case 1:
-                                    alturaTexto = (Altura / 2) - 30;
-                                    anchoTexto = ((Ancho - this.font.width(this.SBody1)) / 2) - 137;
+                                graphics.drawString(font, SBody0, anchoTexto, alturaTexto, 0xFFFFFF, true);
+                                break;
+                            case 1:
+                                alturaTexto = (Altura / 2) - 30;
+                                anchoTexto = ((Ancho - this.font.width(this.SBody1)) / 2) - 137;
 
-                                    graphics.drawString(font, SBody1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                    break;
+                                graphics.drawString(font, SBody1, anchoTexto, alturaTexto, 0xFEC9C9, true);
+                                break;
 
-                                default:
-                                    break;
-                            }
+                            default:
+                                break;
+                        }
 
-                            switch (playerstats.getEyesType()){
-                                case 0:
-                                    alturaTexto = (Altura / 2) + 10;
-                                    anchoTexto = ((Ancho - this.font.width(this.SHEye0)) / 2) - 137;
+                        switch (playerstats.getEyesType()) {
+                            case 0:
+                                alturaTexto = (Altura / 2) + 10;
+                                anchoTexto = ((Ancho - this.font.width(this.SHEye0)) / 2) - 137;
 
-                                    graphics.drawString(font, SHEye0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                    break;
-                                case 1:
-                                    alturaTexto = (Altura / 2) + 10;
-                                    anchoTexto = ((Ancho - this.font.width(this.SHEye1)) / 2) - 137;
+                                graphics.drawString(font, SHEye0, anchoTexto, alturaTexto, 0xFFFFFF, true);
+                                break;
+                            case 1:
+                                alturaTexto = (Altura / 2) + 10;
+                                anchoTexto = ((Ancho - this.font.width(this.SHEye1)) / 2) - 137;
 
-                                    graphics.drawString(font, SHEye1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                    break;
+                                graphics.drawString(font, SHEye1, anchoTexto, alturaTexto, 0xFEC9C9, true);
+                                break;
 
-                                default:
-                                    break;
-                            }
+                            default:
+                                break;
+                        }
 
-                            break;
-                        case 2: // Namek
-                            alturaTexto = (Altura / 2) - 70;
-                            anchoTexto = ((Ancho - this.font.width(this.Namek)) / 2) - 137;
+                        break;
+                    case 2: // Namek
+                        alturaTexto = (Altura / 2) - 70;
+                        anchoTexto = ((Ancho - this.font.width(this.Namek)) / 2) - 137;
 
-                            graphics.drawString(font, Namek, anchoTexto, alturaTexto, 0x378942, true);
+                        graphics.drawString(font, Namek, anchoTexto, alturaTexto, 0x378942, true);
 
-                            break;
-                        case 3: // BioAndroid
-                            alturaTexto = (Altura / 2) - 70;
-                            anchoTexto = ((Ancho - this.font.width(this.BioAndroid)) / 2) - 137;
+                        break;
+                    case 3: // BioAndroid
+                        alturaTexto = (Altura / 2) - 70;
+                        anchoTexto = ((Ancho - this.font.width(this.BioAndroid)) / 2) - 137;
 
-                            graphics.drawString(font, BioAndroid, anchoTexto, alturaTexto, 0x72DA58, true);
+                        graphics.drawString(font, BioAndroid, anchoTexto, alturaTexto, 0x72DA58, true);
 
-                            break;
-                        case 4: // ColdDemon
-                            alturaTexto = (Altura / 2) - 70;
-                            anchoTexto = ((Ancho - this.font.width(this.ColdDemon)) / 2) - 137;
+                        break;
+                    case 4: // ColdDemon
+                        alturaTexto = (Altura / 2) - 70;
+                        anchoTexto = ((Ancho - this.font.width(this.ColdDemon)) / 2) - 137;
 
-                            graphics.drawString(font, ColdDemon, anchoTexto, alturaTexto, 0xAC1BEC, true);
+                        graphics.drawString(font, ColdDemon, anchoTexto, alturaTexto, 0xAC1BEC, true);
 
-                            break;
-                        case 5: // Majin
-                            alturaTexto = (Altura / 2) - 70;
-                            anchoTexto = ((Ancho - this.font.width(this.Majin)) / 2) - 137;
+                        break;
+                    case 5: // Majin
+                        alturaTexto = (Altura / 2) - 70;
+                        anchoTexto = ((Ancho - this.font.width(this.Majin)) / 2) - 137;
 
-                            graphics.drawString(font, Majin, anchoTexto, alturaTexto, 0xFE7FF4, true);
+                        graphics.drawString(font, Majin, anchoTexto, alturaTexto, 0xFE7FF4, true);
 
-                            break;
-                        default:
+                        break;
+                    default:
 
-                            break;
-                    }
+                        break;
+                }
 
             } else {
 
@@ -534,7 +536,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 int MaxEnergy = 1;
                 int MaxStamina = stamina + 3;
 
-                int LTITULO = posX +195;
+                int LTITULO = posX + 195;
                 int RTITULO = posX - 80;
                 int LSUBTITULO = posX + 158;
                 int RSUBTITULO = posX - 158;

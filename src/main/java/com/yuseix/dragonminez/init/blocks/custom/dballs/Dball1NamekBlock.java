@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.init.blocks.custom;
+package com.yuseix.dragonminez.init.blocks.custom.dballs;
 
 import com.google.common.collect.ImmutableMap;
-import com.yuseix.dragonminez.init.blocks.entity.Dball2BlockEntity;
+import com.yuseix.dragonminez.init.blocks.entity.Dball1NamekBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,13 +18,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class Dball2Block extends BaseEntityBlock {
+public class Dball1NamekBlock extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public Dball2Block(Properties pProperties) {
+    public Dball1NamekBlock(Properties pProperties) {
         super(pProperties);
     }
+
+    private static final VoxelShape SHAPE =
+            Dball1NamekBlock.box(0, 0, 0, 8, 7, 8);
+
+    /*TODO: Change Block Textures for the BlockEntity
+     * 1. Cambiar el tamaño de la Dragon Ball?
+     * 2. Mantener textura igual de la Dragon Ball de la Tierra?
+     * 3. Cambiar ResourceLocations de la textura de la Dragon Ball? (Dball1NamekBlockModel.java)
+     */
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
@@ -32,11 +41,11 @@ public class Dball2Block extends BaseEntityBlock {
         switch (((Direction) pState.getValue(FACING)).getAxis()) {
             case X:
                 // Ajusta las coordenadas X para centrarlo en el eje X
-                return Dball2Block.box((16 - 7.5) / 2.0, 0.0, (16 - 7.5) / 2.0, (16 + 7.5) / 2.0, 7.0, (16 + 7.5) / 2.0);
+                return Dball1NamekBlock.box((16 - 7.5) / 2.0, 0.0, (16 - 7.5) / 2.0, (16 + 7.5) / 2.0, 7.0, (16 + 7.5) / 2.0);
             case Z:
             default:
                 // Ajusta las coordenadas Z para centrarlo en el eje Z
-                return Dball2Block.box((16 - 8) / 2.0, 0.0, (16 - 8) / 2.0, (16 + 8) / 2.0, 7.0, (16 + 8) / 2.0);
+                return Dball1NamekBlock.box((16 - 8) / 2.0, 0.0, (16 - 8) / 2.0, (16 + 8) / 2.0, 7.0, (16 + 8) / 2.0);
         }
 
     }
@@ -44,7 +53,7 @@ public class Dball2Block extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Dball2BlockEntity(blockPos, blockState);
+        return new Dball1NamekBlockEntity(blockPos, blockState);
     }
 
     @Override
@@ -77,4 +86,6 @@ public class Dball2Block extends BaseEntityBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING);
     }
+
+
 }
