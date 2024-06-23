@@ -1219,17 +1219,43 @@ public class CharacterCMenu extends Screen{
                         anchoTexto = (20 - this.font.width(TranslateManager.EYES_TYPE_2));
                         drawStringWithBorder(pGuiGraphics,font,TranslateManager.EYES_TYPE_2,anchoTexto +83,alturaTexto - 73,0xFFFFFF);
                     }
-
-                    //TIPO DE CABELLO
+                    //TIPO DE CUERPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
                     RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
                     RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 42, 0, 0, 73, 15);
+                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 48, 0, 0, 73, 15);
+                    RenderSystem.disableBlend();
+
+                    //CUERPO TITULO
+                    anchoTexto = (20- this.font.width(TranslateManager.BODYTYPES)) ;
+                    pGuiGraphics.drawString(font,TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+95,alturaTexto-44,0xFFCA9B);
+
+                    //TIPO DE CUERPO
+                    if(cap.getBodytype() == 0){
+                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Default"),67,alturaTexto - 29,0xFFFFFF);
+                    } else if(cap.getBodytype() == 1){
+                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Custom"),67,alturaTexto - 29,0xFFFFFF);
+
+                    }
+                    //TIPO DE CABELLO EN ESTE CASO OREJAS PARA EL NAMEK
+                    anchoTexto = 47;
+                    RenderSystem.enableBlend();
+                    RenderSystem.setShaderColor(1.0f,1.0f,1.0f,1.0f);
+                    RenderSystem.setShaderTexture(0, texto);
+                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto -2, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //HAIR TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font,TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD),anchoTexto+77,alturaTexto-39,0x65FC63);
+                    pGuiGraphics.drawString(font,Component.literal("Ears").withStyle(ChatFormatting.BOLD),70,alturaTexto+1,0x65FC63);
+
+                    if(cap.getHairID() == 0){
+                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Default"),67,alturaTexto + 17,0xFFFFFF);
+                    }else if(cap.getHairID() == 1){
+                        drawStringWithBorder(pGuiGraphics,font,Component.literal("Type 02"),67,alturaTexto + 17,0xFFFFFF);
+                    }else if(cap.getHairID() == 2){
+                        drawStringWithBorder(pGuiGraphics,font,Component.literal("None"),67,alturaTexto + 17,0xFFFFFF);
+                    }
+
                     break;
                 case 3:
                     //TIPO DE OJOS
