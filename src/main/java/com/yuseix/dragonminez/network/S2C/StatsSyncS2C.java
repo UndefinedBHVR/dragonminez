@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.network.S2C;
 
-import com.yuseix.dragonminez.events.ForgeBusEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,42 +16,39 @@ import java.util.function.Supplier;
 public class StatsSyncS2C {
 
     private CompoundTag nbt;
+    private int Id;
 
     public StatsSyncS2C(Player player) {
-        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
-
-
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> nbt = cap.saveNBTData());
+        Id = player.getId();
     }
 
     public StatsSyncS2C(FriendlyByteBuf buf) {
 
         nbt = buf.readNbt();
-
+        Id = buf.readInt();
     }
 
     public void toBytes(FriendlyByteBuf buf) {
 
         buf.writeNbt(nbt);
-
+        buf.writeInt(Id);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context = ctx.get();
-        context.enqueueWork(() -> {
-
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(ctx, nbt));
-
+    public void handle(Supplier<NetworkEvent.Context> paramSupplier) {
+        paramSupplier.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(paramSupplier, Id, nbt));
         });
-
-        ctx.get().setPacketHandled(true);
+        paramSupplier.get().setPacketHandled(true);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void handleClient(Supplier<NetworkEvent.Context> ctx, CompoundTag nbt) {
-
-        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> cap.loadNBTData(nbt));
-        Minecraft.getInstance().player.refreshDimensions();
-
+    public static void handleClient(Supplier<NetworkEvent.Context> paramSupplier, int id, CompoundTag nbt) {
+        var entity = Minecraft.getInstance().level.getEntity(id);
+        if (entity instanceof Player player) {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.loadNBTData(nbt));
+            player.refreshDimensions();
+        }
     }
 
 

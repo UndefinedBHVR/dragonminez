@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoader;
@@ -45,6 +46,8 @@ public class DragonMineZ {
         modEventBus.register(new ModBusEvents());
         //Registramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend, conocido como ModEvents)
         MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
+        //Se registran los eventos de las Capabilities de las Stats
+        MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
         GeckoLib.initialize();
 
@@ -62,5 +65,6 @@ public class DragonMineZ {
 
                         Proceed with caution!""");
         ModLoader.get().addWarning(modLoadingWarning);
+
     }
 }

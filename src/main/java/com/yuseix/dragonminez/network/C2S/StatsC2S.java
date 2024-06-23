@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.ForgeBusEvents;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -39,7 +39,7 @@ public class StatsC2S {
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
-                PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, player).ifPresent(playerstats -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
                     switch (packet.id) {
                         case 0:

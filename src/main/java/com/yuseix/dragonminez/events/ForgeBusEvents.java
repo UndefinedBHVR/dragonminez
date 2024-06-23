@@ -5,22 +5,20 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
+import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import com.yuseix.dragonminez.model.Keys;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
-import com.yuseix.dragonminez.stats.PlayerStatsAttrProvider;
-import com.yuseix.dragonminez.stats.PlayerStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,6 +31,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,14 +43,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-@SuppressWarnings("DataFlowIssue")
 //Anteriormente llamado ForgeListener ya que los eventos forman parte del bus de MinecraftForge
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
 //Si una clase extiende "Event" se considera un evento del bus de Forge y TIENE que estar acá.
 //O también si es parte del paquete "net.minecraftforge.eventbus.api"
 public final class ForgeBusEvents {
 
-    public static final Capability<PlayerStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
+    public static final Capability<DMZStatsCapabilities> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
@@ -75,36 +73,6 @@ public final class ForgeBusEvents {
             LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
             throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
         }
-
-        syncStats(player);
-        player.refreshDimensions();
-
-        PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
-                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get()));
-    }
-
-    @SubscribeEvent
-    public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        syncStats(event.getEntity());
-    }
-
-    @SubscribeEvent
-    public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        syncStats(event.getEntity());
-
-        PlayerStatsAttrProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
-            event.getEntity().heal((float) (cap.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
-
-            int maxEnergia = (int) (cap.getEnergy() * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get();
-            int maxStamina = cap.getStamina() + 3;
-
-            cap.setCurrentEnergy(maxEnergia);
-            cap.setStamina(maxStamina);
-
-        });
-
     }
 
     @SubscribeEvent
@@ -113,20 +81,6 @@ public final class ForgeBusEvents {
         if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
             event.setCanceled(true);
         }
-    }
-
-    @SubscribeEvent
-    public void onPlayerCloned(PlayerEvent.Clone event) {
-
-        event.getOriginal().reviveCaps();
-
-        PlayerStatsAttrProvider.getCap(ForgeBusEvents.INSTANCE, event.getEntity()).ifPresent(
-                cap -> PlayerStatsAttrProvider.getCap(INSTANCE, event.getOriginal()).ifPresent(originalcap ->
-                        cap.loadNBTData(originalcap.saveNBTData())));
-
-
-        event.getOriginal().invalidateCaps();
-
     }
 
     @SubscribeEvent
@@ -168,9 +122,9 @@ public final class ForgeBusEvents {
                 return;
             }
             //System.out.println("Añadiendo capability");
-            final PlayerStatsAttrProvider provider = new PlayerStatsAttrProvider(player);
+            final DMZStatsProvider provider = new DMZStatsProvider(player);
 
-            event.addCapability(PlayerStatsAttrProvider.ID, provider);
+            event.addCapability(DMZStatsProvider.ID, provider);
 
         }
     }
@@ -200,9 +154,10 @@ public final class ForgeBusEvents {
 
     }
 
-    public static void syncStats(Player player) {
-        ModMessages.sendToPlayer(new StatsSyncS2C(player), (ServerPlayer) player);
-
+    @SubscribeEvent
+    public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
+        event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
+        event.put(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidEntity.setAttributes());
     }
 
     private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {

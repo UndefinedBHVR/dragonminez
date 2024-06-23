@@ -1,7 +1,5 @@
 package com.yuseix.dragonminez.events;
 
-import com.yuseix.dragonminez.character.FaceModel;
-import com.yuseix.dragonminez.character.models.ModeloPrueba;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
@@ -10,7 +8,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.PlayerStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -66,7 +64,7 @@ public final class ModBusEvents {
         BlockEntityRenderers.register(MainBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
 
         //ITEMS
-        
+
 
         ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING.get(), RenderType.translucent());
@@ -91,9 +89,6 @@ public final class ModBusEvents {
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
-        e.registerLayerDefinition(FaceModel.LAYER_LOCATION, FaceModel::createBodyLayer);
-
-        e.registerLayerDefinition(ModeloPrueba.LAYER_LOCATION, ModeloPrueba::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -118,7 +113,7 @@ public final class ModBusEvents {
 
     @SubscribeEvent
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(PlayerStatsAttributes.class);
+        event.register(DMZStatsCapabilities.class);
         event.register(DragonBallGenProvider.class);
     }
 
