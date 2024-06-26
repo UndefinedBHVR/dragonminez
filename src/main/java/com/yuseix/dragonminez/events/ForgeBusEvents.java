@@ -2,14 +2,10 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.CharacterCMenu;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -32,7 +28,6 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -78,7 +73,7 @@ public final class ForgeBusEvents {
 
     @SubscribeEvent
     //Cancela el renderizado de la barra de vida
-    public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
+    public void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
         if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
             event.setCanceled(true);
         }

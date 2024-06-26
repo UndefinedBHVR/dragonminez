@@ -83,12 +83,12 @@ public final class ModBusEvents {
     }
 
     @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
+    public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
         //e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
     }
 
     @SubscribeEvent
-    public static void registerModelLayers(EntityRenderersEvent.AddLayers e) {
+    public void registerModelLayers(EntityRenderersEvent.AddLayers e) {
     }
 
 
