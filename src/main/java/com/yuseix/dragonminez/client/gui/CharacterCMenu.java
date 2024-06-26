@@ -1033,8 +1033,8 @@ public class CharacterCMenu extends Screen {
                     break;
             }
 
-            LivingEntity bio = new FakeBioAndroidEntity(MainEntity.FAKEBIOANDROID1.get(), this.minecraft.level);
-            LivingEntity dino = new DinoEntity(MainEntity.DINO1.get(), this.minecraft.level);
+            //LivingEntity bio = new FakeBioAndroidEntity(MainEntity.FAKEBIOANDROID1.get(), this.minecraft.level);
+            //LivingEntity dino = new DinoEntity(MainEntity.DINO1.get(), this.minecraft.level);
 
             if (cap.getRace() == 0) {
                 //renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 15, 30, 0, bio);

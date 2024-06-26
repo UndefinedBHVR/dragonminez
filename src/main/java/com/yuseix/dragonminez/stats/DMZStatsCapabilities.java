@@ -1,19 +1,25 @@
 package com.yuseix.dragonminez.stats;
 
+import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
-public final class DMZStatsCapabilities {
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+public class DMZStatsCapabilities {
 
     public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
     });
@@ -70,8 +76,20 @@ public final class DMZStatsCapabilities {
 
     }
 
+    @SubscribeEvent
+    public static void onTrack(PlayerEvent.StartTracking event) {
+        var trackingplayer = event.getEntity();
+        if (!(trackingplayer instanceof ServerPlayer serverplayer)) return;
+
+        var tracked = event.getTarget();
+        if (tracked instanceof ServerPlayer trackedplayer) {
+            DMZStatsProvider.getCap(INSTANCE, tracked).ifPresent(cap -> ModMessages.sendToPlayer(
+                    new StatsSyncS2C(trackedplayer), serverplayer));
+        }
+    }
+
     public static void syncStats(Player player) {
-        ModMessages.sendToPlayer(new StatsSyncS2C(player), (ServerPlayer) player);
+        ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));
     }
 
 }

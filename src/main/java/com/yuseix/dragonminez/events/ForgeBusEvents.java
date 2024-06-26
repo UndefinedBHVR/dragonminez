@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.events;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
+import com.yuseix.dragonminez.client.gui.CharacterCMenu;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.init.MainBlocks;
@@ -148,16 +149,10 @@ public final class ForgeBusEvents {
     public void onKeyInput(InputEvent.Key event) {
 
         if (Keys.STATS_MENU.consumeClick()) {
-            Minecraft.getInstance().setScreen(new AttributesMenu(
+            Minecraft.getInstance().setScreen(new CharacterCMenu(
                     Component.translatable("menu.title.dragonminez.statsmenu")));
         }
 
-    }
-
-    @SubscribeEvent
-    public static void entityAttributeEvent(EntityAttributeCreationEvent event) {
-        event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
-        event.put(MainEntity.FAKEBIOANDROID1.get(), FakeBioAndroidEntity.setAttributes());
     }
 
     private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
