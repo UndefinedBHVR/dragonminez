@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
@@ -10,11 +11,18 @@ import com.yuseix.dragonminez.model.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
+import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -23,6 +31,8 @@ import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,6 +41,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 //Anteriormente llamado ModListener o ClientEvents
 //ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
@@ -120,6 +132,22 @@ public final class ModBusEvents {
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(DMZStatsCapabilities.class);
         event.register(DragonBallGenProvider.class);
+    }
+
+    @SubscribeEvent
+    public void onGatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
+
+        DatapackBuiltinEntriesProvider provider = new DatapackBuiltinEntriesProvider(output, lookup,
+                new RegistrySetBuilder()
+                        .add(Registries.BIOME, ModBiomes::generateData)
+                        .add(Registries.LEVEL_STEM, ModDimensions::generateStem)
+                        .add(Registries.DIMENSION_TYPE, ModDimensions::generateDimension),
+                Set.of(DragonMineZ.MOD_ID));
+
+        generator.addProvider(event.includeServer(), provider);
     }
 
 }
