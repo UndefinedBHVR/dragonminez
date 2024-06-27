@@ -16,6 +16,7 @@ public final class ForgeListener {
     private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
             "Dev",
             "MrBrunoh",
+            "Toji71",
             "Yuseix",
             "ezShokkoh");
 
