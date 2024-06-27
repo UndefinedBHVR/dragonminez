@@ -26,8 +26,16 @@ description='''${mod_description}'''
 [[dependencies.${mod_id}]]
     modId="geckolib"
     mandatory=true
-    #Versiones desde la 4.4 hasta la 4.5 (sin contar la 4.5 se aceptan
+    #Versiones desde la 4.4 hasta la 4.5 exclusive
     versionRange="[4.4,4.5)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="terrablender"
+    mandatory=true
+    #Versiones desde la 3.0.1.4 en adelante
+    versionRange="${terrablender_version_range}"
     ordering="NONE"
     side="BOTH"
 

@@ -28,3 +28,6 @@ generated
 
 # Files from Forge MDK
 forge*changelog.txt
+
+run-data/
+src/generated/resources/.cache
