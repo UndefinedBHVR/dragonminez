@@ -165,6 +165,11 @@ public class GeoNamekRender<T extends AbstractClientPlayer & GeoAnimatable> exte
         var skin_type1_part2 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART2);
         var skin_type1_part3 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART3);
 
+        var skin_type2_part1 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART1);
+        var skin_type2_part2 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART2);
+        var skin_type2_part3 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART3);
+        var skin_type2_part4 = RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART4);
+
         var ojos = RenderType.entityCutoutNoCull(TextureManager.N_EYES1);
         var iris = RenderType.entityCutoutNoCull(TextureManager.N_EYES1_IRIS1);
         var iris2 = RenderType.entityCutoutNoCull(TextureManager.N_EYES1_IRIS2);
@@ -194,8 +199,8 @@ public class GeoNamekRender<T extends AbstractClientPlayer & GeoAnimatable> exte
                     renderRecursively(poseStack, animatable, head, skin_type1_part1, bufferSource, bufferSource.getBuffer(skin_type1_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
                     break;
                 case 2:
-                    orejas_type1.setHidden(false);
-                    orejas_type2.setHidden(false);
+                    orejas_type1.setHidden(true);
+                    orejas_type2.setHidden(true);
                     colorR = (bodyColor >> 16) / 255.0F;
                     colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
                     colorB = (bodyColor & 0xff) / 255.0f;
@@ -247,6 +252,53 @@ public class GeoNamekRender<T extends AbstractClientPlayer & GeoAnimatable> exte
                     renderRecursively(poseStack, animatable, piernaderecha, skin_type1_part3, bufferSource, bufferSource.getBuffer(skin_type1_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
                     renderRecursively(poseStack, animatable, piernaizquierda, skin_type1_part3, bufferSource, bufferSource.getBuffer(skin_type1_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
+                    break;
+                case 1:
+                    int body2Color1 = cap.getBodyColor();
+                    colorR = (body2Color1 >> 16) / 255.0F;
+                    colorG = ((body2Color1 >> 8) & 0xff) / 255.0f;
+                    colorB = (body2Color1 & 0xff) / 255.0f;
+
+                    //Cuerpo1
+                    renderRecursively(poseStack, animatable, head, skin_type2_part1, bufferSource, bufferSource.getBuffer(skin_type2_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, body, skin_type2_part1, bufferSource, bufferSource.getBuffer(skin_type2_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, brazoderecho, skin_type2_part1, bufferSource, bufferSource.getBuffer(skin_type2_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, brazoizquierdo, skin_type2_part1, bufferSource, bufferSource.getBuffer(skin_type2_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, piernaderecha, skin_type2_part1, bufferSource, bufferSource.getBuffer(skin_type2_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, piernaizquierda, skin_type2_part1, bufferSource, bufferSource.getBuffer(skin_type2_part1), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                    //Cuerpo 2
+                    int body2Color2 = cap.getBodyColor2();
+                    colorR = (body2Color2 >> 16) / 255.0F;
+                    colorG = ((body2Color2 >> 8) & 0xff) / 255.0f;
+                    colorB = (body2Color2 & 0xff) / 255.0f;
+
+                    renderRecursively(poseStack, animatable, head, skin_type2_part2, bufferSource, bufferSource.getBuffer(skin_type2_part2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, body, skin_type2_part2, bufferSource, bufferSource.getBuffer(skin_type2_part2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, brazoderecho, skin_type2_part2, bufferSource, bufferSource.getBuffer(skin_type2_part2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, brazoizquierdo, skin_type2_part2, bufferSource, bufferSource.getBuffer(skin_type2_part2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, piernaderecha, skin_type2_part2, bufferSource, bufferSource.getBuffer(skin_type2_part2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, piernaizquierda, skin_type2_part2, bufferSource, bufferSource.getBuffer(skin_type2_part2), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                    //Cuerpo 3
+                    int body2Color3 = cap.getBodyColor3();
+                    colorR = (body2Color3 >> 16) / 255.0F;
+                    colorG = ((body2Color3 >> 8) & 0xff) / 255.0f;
+                    colorB = (body2Color3 & 0xff) / 255.0f;
+
+                    renderRecursively(poseStack, animatable, head, skin_type2_part3, bufferSource, bufferSource.getBuffer(skin_type2_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, body, skin_type2_part3, bufferSource, bufferSource.getBuffer(skin_type2_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, brazoderecho, skin_type2_part3, bufferSource, bufferSource.getBuffer(skin_type2_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, brazoizquierdo, skin_type2_part3, bufferSource, bufferSource.getBuffer(skin_type2_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, piernaderecha, skin_type2_part3, bufferSource, bufferSource.getBuffer(skin_type2_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    renderRecursively(poseStack, animatable, piernaizquierda, skin_type2_part3, bufferSource, bufferSource.getBuffer(skin_type2_part3), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                    //Cuerpo 4
+                    int body2Color4 = cap.getHairColor();
+                    colorR = (body2Color4 >> 16) / 255.0F;
+                    colorG = ((body2Color4 >> 8) & 0xff) / 255.0f;
+                    colorB = (body2Color4 & 0xff) / 255.0f;
+
+                    renderRecursively(poseStack, animatable, head, skin_type2_part4, bufferSource, bufferSource.getBuffer(skin_type2_part4), isReRender, partialTick, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
                     break;
             }
 

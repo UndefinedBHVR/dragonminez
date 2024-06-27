@@ -106,7 +106,7 @@ public class CharacterCMenu extends Screen {
             botonesBodyType(113, alto - 44);
             botonesGeneros(113, alto - 76);
             botonesOjos(113, alto + 3);
-
+            botonesCabellos(113,alto+3);
         } else if (currentPage == 2) {
 
         } else {
@@ -243,6 +243,8 @@ public class CharacterCMenu extends Screen {
                 this.removeWidget(bodyTypeLeftButton);
                 this.removeWidget(gendersRigthButton);
                 this.removeWidget(gendersLeftButton);
+                this.removeWidget(hairRigthButton);
+                this.removeWidget(hairLeftButton);
             }));
             //BOTON SIGUIENTE
             this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
@@ -459,6 +461,144 @@ public class CharacterCMenu extends Screen {
                     }));
                     break;
                 case 2:
+                    //BOTON COLOR OJO 1
+                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int ojo1 = cap.getEye1Color();
+
+                        float r = (ojo1 >> 16) / 255.0F;
+                        float g = ((ojo1 >> 8) & 0xff) / 255.0f;
+                        float b = (ojo1 & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "ojo1";
+                    }));
+                    //BOTON COLOR OJO 2
+                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int ojo2 = cap.getEye2Color();
+
+                        float r = (ojo2 >> 16) / 255.0F;
+                        float g = ((ojo2 >> 8) & 0xff) / 255.0f;
+                        float b = (ojo2 & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "ojo2";
+                    }));
+
+                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 18, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "cuerpo1";
+                    }));
+
+                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX-11, posY - 18, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor2();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "cuerpo2";
+                    }));
+
+                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 18, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getBodyColor3();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "cuerpo3";
+                    }));
+
+                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX+33, posY - 18, Component.empty(), button -> {
+                        this.removeWidget(setColor);
+                        int cuerpo = cap.getHairColor();
+
+                        float r = (cuerpo >> 16) / 255.0F;
+                        float g = ((cuerpo >> 8) & 0xff) / 255.0f;
+                        float b = (cuerpo & 0xff) / 255.0f;
+
+                        colorR = (int) (r * 255);
+                        colorG = (int) (g * 255);
+                        colorB = (int) (b * 255);
+
+                        sliderR.setValue(colorR);
+                        sliderG.setValue(colorG);
+                        sliderB.setValue(colorB);
+
+                        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 43, Component.literal("SET"), wa -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
+
+                        }));
+                        this.partePagina = "cabelloPagina";
+                    }));
                     break;
                 case 3:
 
@@ -614,15 +754,26 @@ public class CharacterCMenu extends Screen {
                     break;
                 case 2:
                     if (cap.getHairID() == 0) {
-                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
 
                     } else if (cap.getHairID() == 1) {
-                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
+                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY+11, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 2));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
+                    }else if (cap.getHairID() == 2) {
+                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+11, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
@@ -742,6 +893,19 @@ public class CharacterCMenu extends Screen {
                     }
                     break;
                 case 2:
+                    if (cap.getBodytype() == 0) {
+                        this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY+12, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
+                            this.removeWidget(bodyTypeRightButton);
+                            this.removeWidget(bodyTypeLeftButton);
+                        }));
+                    } else if (cap.getBodytype() == 1) {
+                        this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+12, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                            this.removeWidget(bodyTypeRightButton);
+                            this.removeWidget(bodyTypeLeftButton);
+                        }));
+                    }
                     break;
                 case 3:
                     break;
@@ -1255,11 +1419,11 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.drawString(font, Component.literal("Ears").withStyle(ChatFormatting.BOLD), 70, alturaTexto + 1, 0x65FC63);
 
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto + 17, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto + 18, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), 67, alturaTexto + 17, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), 66, alturaTexto + 18, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 67, alturaTexto + 17, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 72, alturaTexto + 18, 0xFFFFFF);
                     }
 
                     break;

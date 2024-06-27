@@ -24,9 +24,16 @@ public class TextureManager {
     public static final ResourceLocation SH_EYES1_CEJAS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/cejas_eyestype1.png");
 
     //NAMEKIANO
+    //body1
     public static final ResourceLocation N_BASE_BODY1_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype1_base1.png");
     public static final ResourceLocation N_BASE_BODY1_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype1_base2.png");
     public static final ResourceLocation N_BASE_BODY1_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype1_base3.png");
+    //body2
+    public static final ResourceLocation N_BASE_BODY2_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype2_base1.png");
+    public static final ResourceLocation N_BASE_BODY2_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype2_base2.png");
+    public static final ResourceLocation N_BASE_BODY2_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype2_base3.png");
+    public static final ResourceLocation N_BASE_BODY2_PART4 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype2_base4.png");
+
     public static final ResourceLocation N_EYES1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/n_eyestype1.png");
     public static final ResourceLocation N_EYES1_IRIS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/n_iristype1.png");
     public static final ResourceLocation N_EYES1_IRIS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/n_iristype2.png");
