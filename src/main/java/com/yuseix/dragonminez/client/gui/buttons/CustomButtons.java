@@ -21,8 +21,6 @@ public class CustomButtons extends Button {
 
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.renderWidget(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-
 
         int buttonX = 0;
         int buttonY = 0;

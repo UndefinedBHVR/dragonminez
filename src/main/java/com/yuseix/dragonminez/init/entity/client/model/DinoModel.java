@@ -18,7 +18,7 @@ public class DinoModel extends GeoModel<DinoEntity> {
 
     @Override
     public ResourceLocation getTextureResource(DinoEntity dinoEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entities/dinos/dino1.png");
+        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/dinos/dino1.png");
     }
 
     @Override

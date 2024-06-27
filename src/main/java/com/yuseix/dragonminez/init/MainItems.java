@@ -3,14 +3,16 @@ package com.yuseix.dragonminez.init;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 @SuppressWarnings("unused")
-public class MainItems {
+public final class MainItems {
 
     public static final Item.Properties properties = new Item.Properties();
     public static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, DragonMineZ.MOD_ID);
@@ -49,9 +51,23 @@ public class MainItems {
                     .stacksTo(1)
                     .fireResistant()));
 
+    //LÍQUIDOS
+    /*TODO: Texturas Líquido de Curación
+     *    Falta la textura del item de: Líquido de Curación (en un bucket)
+     * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos
+     */
+    public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",
+            () -> new BucketItem(MainFluids.SOURCE_HEALING, properties
+                    .craftRemainder(Items.BUCKET)
+                    .stacksTo(1)
+            ));
+
     //MINERALES
     public static final RegistryObject<Item> GETE = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
     public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
+
+    //DRAGON BALL RADAR (TIERRA)
+    public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",

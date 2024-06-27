@@ -16,7 +16,7 @@ public class DinoRenderer extends GeoEntityRenderer<DinoEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(DinoEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entities/dinos/dino1.png");
+        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/dinos/dino1.png");
     }
 
     @Override

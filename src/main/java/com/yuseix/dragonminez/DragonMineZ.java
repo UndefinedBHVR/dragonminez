@@ -1,10 +1,10 @@
 package com.yuseix.dragonminez;
 
 import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.events.ForgeBusEvents;
+import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
-import com.yuseix.dragonminez.listener.ForgeListener;
-import com.yuseix.dragonminez.listener.ModListener;
-import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoader;
@@ -38,9 +38,16 @@ public class DragonMineZ {
         MainSounds.register(modEventBus);
         //Registramos las entidades
         MainEntity.register(modEventBus);
-
-        modEventBus.register(new ModListener());
-        MinecraftForge.EVENT_BUS.register(new ForgeListener());
+        //Registramos los NPCs (Puntos de Interés y Profesiones)
+        MainNPCs.register(modEventBus);
+        //Registramos los Fluidos (Tipo de Fluido y Fluido/s)
+        MainFluids.register(modEventBus);
+        //Registramos el Listener del Mod (Normalmente eventos de Forge y FML más como frontend, realmente son los eventos de renderizado y más cosas de cliente)
+        modEventBus.register(new ModBusEvents());
+        //Registramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend, conocido como ModEvents)
+        MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
+        //Se registran los eventos de las Capabilities de las Stats
+        MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
         GeckoLib.initialize();
 
@@ -58,5 +65,6 @@ public class DragonMineZ {
 
                         Proceed with caution!""");
         ModLoader.get().addWarning(modLoadingWarning);
+
     }
 }
