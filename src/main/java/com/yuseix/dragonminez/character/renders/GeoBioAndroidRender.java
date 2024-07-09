@@ -3,12 +3,14 @@ package com.yuseix.dragonminez.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import com.yuseix.dragonminez.character.GeoPlayerItemInHandLayer;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,11 +20,14 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -31,10 +36,15 @@ import software.bernie.geckolib.cache.object.GeoBone;
 import software.bernie.geckolib.constant.DataTickets;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.molang.MolangParser;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.ItemArmorGeoLayer;
+import software.bernie.geckolib.util.RenderUtils;
+
+import java.util.Optional;
 
 
 public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable> extends GeoEntityRenderer<T> {
@@ -187,6 +197,12 @@ public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable>
         float motionThreshold = getMotionAnimThreshold(animatable);
         boolean isMoving;
 
+        //CABEZA ROTACION
+        MolangParser parser = MolangParser.INSTANCE;
+
+        float finalNetHeadYaw = netHeadYaw;
+        parser.setValue("query.head_yaw",() -> headPitch*3);
+        parser.setValue("query.head_pitch",() -> finalNetHeadYaw*3);
 
         Vec3 velocity = livingEntity.getDeltaMovement();
         float avgVelocity = (float) (Math.abs(velocity.x) + Math.abs(velocity.z)) / 2f;
@@ -315,4 +331,19 @@ public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable>
 
 
     }
+
+
+
+    public void renderHand(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T player, HumanoidArm arm) {
+        poseStack.pushPose();
+
+        RenderUtils.prepMatrixForBone(poseStack, arm.getId() == 0 ? this.getGeoModel().getBone("left_arm").get() : this.getGeoModel().getBone("right_arm").get());
+
+
+        poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
+        poseStack.translate((arm == HumanoidArm.LEFT ? -0.37F : 0.37F), 0.125F, 0.78F);
+
+        poseStack.popPose();
+    }
+
 }

@@ -59,6 +59,7 @@ public final class ForgeBusEvents {
             "ezShokkoh");
 
 
+    /*
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
@@ -70,6 +71,7 @@ public final class ForgeBusEvents {
             throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
         }
     }
+    */
 
     @SubscribeEvent
     //Cancela el renderizado de la barra de vida
