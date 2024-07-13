@@ -97,16 +97,6 @@ public class GeoHumanSaiyanRender<T extends AbstractClientPlayer & GeoAnimatable
         float motionThreshold = getMotionAnimThreshold(animatable);
         boolean isMoving;
 
-        /*
-        MolangParser parser = MolangParser.INSTANCE;
-
-        float finalNetHeadYaw = netHeadYaw;
-
-        parser.setValue("query.head_yaw",() -> finalNetHeadYaw*3);
-        parser.setValue("query.head_pitch",() -> headPitch*3);
-
-        */
-
         Vec3 velocity = livingEntity.getDeltaMovement();
         float avgVelocity = (float) (Math.abs(velocity.x) + Math.abs(velocity.z)) / 2f;
 

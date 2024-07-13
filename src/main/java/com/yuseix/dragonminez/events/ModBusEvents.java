@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
@@ -94,6 +95,7 @@ public final class ModBusEvents {
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
+        e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createMesh);
     }
 
     @SubscribeEvent
