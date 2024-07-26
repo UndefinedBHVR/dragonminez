@@ -43,16 +43,11 @@ public class EntityRenderDispatcherMixin {
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-                /*
-                if(cap.getRace() == 1){
-                    cir.setReturnValue(dmzRendererersV2.get("default"));
-                }
-                */
-
                 if (player instanceof AbstractClientPlayer abstractClientPlayer) {
                     String modelname = abstractClientPlayer.getModelName();
 
                     switch (cap.getRace()) {
+                        //HUMANO RENDER
                         case 0:
                             if (cap.getBodytype() == 0) {
                                 if ("default".equals(modelname)) {
@@ -70,7 +65,7 @@ public class EntityRenderDispatcherMixin {
 
 
                             break;
-
+                        //SAIYAJIN RENDER
                         case 1:
                             if (cap.getBodytype() == 0) {
                                 if ("default".equals(modelname)) {
@@ -87,6 +82,11 @@ public class EntityRenderDispatcherMixin {
                             }
 
                             break;
+                        //NAMEKIANO RENDER
+                        case 2:
+                            cir.setReturnValue(dmzRendererersV2.get("namek"));
+                            break;
+                        //MAJIN RENDER
                         case 5:
                             if (cap.getGender().equals("Male")) {
                                 cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
@@ -188,6 +188,7 @@ public class EntityRenderDispatcherMixin {
         //HUMANO Y SAIYAJIN
         builder.put("default", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
         builder.put("slim", new HumanSaiyanRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
+        builder.put("namek", new NamekianRender(ctx));
 
         return builder.build();
     }

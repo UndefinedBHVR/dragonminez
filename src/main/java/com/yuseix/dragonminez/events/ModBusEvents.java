@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
+import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
 import com.yuseix.dragonminez.init.MainBlockEntities;
@@ -100,6 +101,7 @@ public final class ModBusEvents {
         //RAZAS
         e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
         e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
+        e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
 
         //CABELLOS
         e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
