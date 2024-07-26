@@ -1,9 +1,7 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
 import com.google.common.collect.ImmutableMap;
-import com.yuseix.dragonminez.character.models.GeoHumanSaiyanModel;
-import com.yuseix.dragonminez.character.models.GeoMajinModel;
-import com.yuseix.dragonminez.character.models.GeoNamekModel;
+import com.yuseix.dragonminez.character.models.*;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
 import com.yuseix.dragonminez.character.renders.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -45,9 +43,61 @@ public class EntityRenderDispatcherMixin {
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
+                /*
                 if(cap.getRace() == 1){
                     cir.setReturnValue(dmzRendererersV2.get("default"));
                 }
+                */
+
+                if (player instanceof AbstractClientPlayer abstractClientPlayer) {
+                    String modelname = abstractClientPlayer.getModelName();
+
+                    switch (cap.getRace()) {
+                        case 0:
+                            if (cap.getBodytype() == 0) {
+                                if ("default".equals(modelname)) {
+                                    cir.setReturnValue(dmzRendererersV2.get(modelname));
+                                } else if ("slim".equals(modelname)) {
+                                    cir.setReturnValue(dmzRendererersV2.get(modelname));
+                                }
+                            } else if (cap.getBodytype() == 1) {
+                                if (cap.getGender().equals("Male")) {
+                                    cir.setReturnValue(dmzRendererersV2.get("default"));
+                                } else {
+                                    cir.setReturnValue(dmzRendererersV2.get("slim"));
+                                }
+                            }
+
+
+                            break;
+
+                        case 1:
+                            if (cap.getBodytype() == 0) {
+                                if ("default".equals(modelname)) {
+                                    cir.setReturnValue(dmzRendererersV2.get(modelname));
+                                } else if ("slim".equals(modelname)) {
+                                    cir.setReturnValue(dmzRendererersV2.get(modelname));
+                                }
+                            } else if (cap.getBodytype() == 1) {
+                                if (cap.getGender().equals("Male")) {
+                                    cir.setReturnValue(dmzRendererersV2.get("default"));
+                                } else {
+                                    cir.setReturnValue(dmzRendererersV2.get("slim"));
+                                }
+                            }
+
+                            break;
+                        case 5:
+                            if (cap.getGender().equals("Male")) {
+                                cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
+                            } else {
+
+                            }
+                        default:
+                            break;
+                    }
+                }
+
                 /*
                 if (cap.getRace() == 2) {
                     cir.setReturnValue(dmzRendererers.get("namek"));
@@ -136,7 +186,8 @@ public class EntityRenderDispatcherMixin {
     private static Map<String, LivingEntityRenderer> reloadDMZRenderersV2(EntityRendererProvider.Context ctx) {
         ImmutableMap.Builder<String, LivingEntityRenderer> builder = ImmutableMap.builder();
         //HUMANO Y SAIYAJIN
-        builder.put("default", new HumanSaiyanRender(ctx));
+        builder.put("default", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
+        builder.put("slim", new HumanSaiyanRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
 
         return builder.build();
     }

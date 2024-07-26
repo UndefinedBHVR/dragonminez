@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.layer.HairsLayer;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
+import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -12,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -41,12 +43,12 @@ import net.minecraftforge.eventbus.api.Event;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer, HumanSaiyanModel<AbstractClientPlayer>> {
+public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
 
-    public HumanSaiyanRender(EntityRendererProvider.Context pContext) {
-        super(pContext, new HumanSaiyanModel<>(pContext.bakeLayer(HumanSaiyanModel.LAYER_LOCATION)), 0.5f);
+    public HumanSaiyanRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
+        super(pContext,model, 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
         this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
         this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
@@ -55,6 +57,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
     }
+
 
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
@@ -65,7 +68,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
     public void render(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         this.setModelProperties(pEntity);
 
-        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
@@ -149,47 +152,34 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                int bodyColor1 = cap.getBodyColor();
-                int eye1color = cap.getEye1Color();
-                int eye2color = cap.getEye2Color();
-                int cabellocolor = cap.getHairColor();
-
+                var genero = cap.getGender();
 
                 if (bodyType == 0) {
-                    playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+
+                    if(pEntity.getModelName().equals("default")){
+                        renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    } else {
+                        renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    }
+
                 } else if (bodyType > 0) {
                     pPoseStack.translate(0f,0f,0f);
+
+                    //CUERPO CUSTOM 1
                     if (bodyType == 1) {
-                        colorR = (bodyColor1 >> 16) / 255.0F;
-                        colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
-                        colorB = (bodyColor1 & 0xff) / 255.0f;
-
-                        playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                        if(genero.equals("Male")){
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        } else {
+                            renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        }
                     }
 
-                    if(cap.getEyesType() == 0){
-                        pPoseStack.translate(0f,0f,-0.001f);
-                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
-
-                        colorR = (cabellocolor >> 16) / 255.0F;
-                        colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
-                        colorB = (cabellocolor & 0xff) / 255.0f;
-                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-
-                        colorR = (eye1color >> 16) / 255.0F;
-                        colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                        colorB = (eye1color & 0xff) / 255.0f;
-                        pPoseStack.translate(0f,0f,-0.002f);
-                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-
-                        colorR = (eye2color >> 16) / 255.0F;
-                        colorG = ((eye2color >> 8) & 0xff) / 255.0f;
-                        colorB = (eye2color & 0xff) / 255.0f;
-                        pPoseStack.translate(0f,0f,-0.002f);
-                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-
+                    //RENDER EYES
+                    if(genero.equals("Male")){
+                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    } else {
+                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
                     }
-
                 }
 
             });
@@ -216,10 +206,9 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {
-        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
         if (pClientPlayer.isSpectator()) {
             playermodel.setAllVisible(false);
-            playermodel.head.visible = true;
             playermodel.hat.visible = true;
             playermodel.head.visible = true;
         } else {
@@ -291,6 +280,150 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         }
     }
 
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+
+            int eye1color = cap.getEye1Color();
+            int eye2color = cap.getEye2Color();
+            int cabellocolor = cap.getHairColor();
+
+            if(cap.getEyesType() == 0){
+
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+            }
+
+
+        });
+    }
+
+    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+
+            int eye1color = cap.getEye1Color();
+            int eye2color = cap.getEye2Color();
+            int cabellocolor = cap.getHairColor();
+
+            if(cap.getEyesType() == 0){
+
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+            }
+
+
+        });
+    }
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            //RENDERIZAR EL CUERPO ENTERO
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+
+        });
+    }
+    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            //RENDERIZAR EL CUERPO ENTERO
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+
+        });
+    }
+
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+
+                colorR = (bodyColor1 >> 16) / 255.0F;
+                colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+                colorB = (bodyColor1 & 0xff) / 255.0f;
+                //RENDERIZAR EL CUERPO ENTERO
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+
+
+        });
+
+    }
+    private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+
+                colorR = (bodyColor1 >> 16) / 255.0F;
+                colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+                colorB = (bodyColor1 & 0xff) / 255.0f;
+                //RENDERIZAR EL CUERPO ENTERO
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+        });
+
+    }
     @Override
     protected void setupRotations(AbstractClientPlayer pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         float f = pEntityLiving.getSwimAmount(pPartialTicks);

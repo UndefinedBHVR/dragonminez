@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,13 +16,13 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class HairsLayer extends RenderLayer<AbstractClientPlayer, HumanSaiyanModel<AbstractClientPlayer>> {
+public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
     private static final ResourceLocation SUIT_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/hairtexture.png");
     private float colorR, colorG, colorB;
 
     private GokuHairModel gokuhair;
 
-    public HairsLayer(RenderLayerParent<AbstractClientPlayer, HumanSaiyanModel<AbstractClientPlayer>> pRenderer) {
+    public HairsLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
         this.gokuhair = new GokuHairModel(GokuHairModel.createBodyLayer().bakeRoot());
     }
