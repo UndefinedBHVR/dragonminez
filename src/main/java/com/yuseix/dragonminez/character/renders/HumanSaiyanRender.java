@@ -1,29 +1,26 @@
 package com.yuseix.dragonminez.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.HairsLayer;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -52,6 +49,11 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         super(pContext, new HumanSaiyanModel<>(pContext.bakeLayer(HumanSaiyanModel.LAYER_LOCATION)), 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
         this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
+        this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
+        this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
+        this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
+        this.addLayer(new BeeStingerLayer(this));
+        this.addLayer(new HairsLayer(this));
     }
 
     @Override
@@ -62,16 +64,17 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
     @Override
     public void render(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         this.setModelProperties(pEntity);
+
         HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
         pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
-        this.model.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
+        playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
-        this.model.riding = shouldSit;
-        this.model.young = pEntity.isBaby();
+        playermodel.riding = shouldSit;
+        playermodel.young = pEntity.isBaby();
         float f = Mth.rotLerp(pPartialTicks, pEntity.yBodyRotO, pEntity.yBodyRot);
         float f1 = Mth.rotLerp(pPartialTicks, pEntity.yHeadRotO, pEntity.yHeadRot);
         float f2 = f1 - f;
@@ -131,8 +134,8 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             }
         }
 
-        this.model.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        this.model.setupAnim(pEntity, f5, f8, f7, f2, f6);
+        playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
+        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -153,7 +156,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
 
                 if (bodyType == 0) {
-                    this.model.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+                    playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
                 } else if (bodyType > 0) {
                     pPoseStack.translate(0f,0f,0f);
                     if (bodyType == 1) {
@@ -161,29 +164,29 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                         colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
                         colorB = (bodyColor1 & 0xff) / 255.0f;
 
-                        this.model.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                        playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
                     }
 
                     if(cap.getEyesType() == 0){
                         pPoseStack.translate(0f,0f,-0.001f);
-                        this.model.bipedhead.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
 
                         colorR = (cabellocolor >> 16) / 255.0F;
                         colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
                         colorB = (cabellocolor & 0xff) / 255.0f;
-                        this.model.bipedhead.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
                         colorR = (eye1color >> 16) / 255.0F;
                         colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                         colorB = (eye1color & 0xff) / 255.0f;
                         pPoseStack.translate(0f,0f,-0.002f);
-                        this.model.bipedhead.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
                         colorR = (eye2color >> 16) / 255.0F;
                         colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                         colorB = (eye2color & 0xff) / 255.0f;
                         pPoseStack.translate(0f,0f,-0.002f);
-                        this.model.bipedhead.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
                     }
 
@@ -193,18 +196,24 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
         }
 
+        if (!pEntity.isSpectator()) {
+            Iterator var24 = this.layers.iterator();
+
+            while(var24.hasNext()) {
+                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
+                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
 
         pPoseStack.popPose();
 
         if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
             this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
         }
+
+
     }
 
-    @Override
-    protected void renderNameTag(AbstractClientPlayer pEntity, Component pDisplayName, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
-        super.renderNameTag(pEntity, pDisplayName, pPoseStack, pBuffer, pPackedLight);
-    }
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {
         HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
@@ -212,7 +221,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             playermodel.setAllVisible(false);
             playermodel.head.visible = true;
             playermodel.hat.visible = true;
-            playermodel.bipedhead.visible = true;
+            playermodel.head.visible = true;
         } else {
             playermodel.setAllVisible(true);
             playermodel.hat.visible = pClientPlayer.isModelPartShown(PlayerModelPart.HAT);

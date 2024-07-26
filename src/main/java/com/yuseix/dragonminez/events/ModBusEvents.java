@@ -1,6 +1,10 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.character.layer.HairsLayer;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
+import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
+import com.yuseix.dragonminez.character.models.hair.GokuZHairModel;
+import com.yuseix.dragonminez.character.models.hair.HairModel;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
@@ -12,10 +16,14 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -90,13 +98,17 @@ public final class ModBusEvents {
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.AddLayers e) {
-    }
 
+    }
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
         e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createMesh);
+
+        //CABELLOS
+        e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
     }
+
 
     @SubscribeEvent
     public void onKeyRegister(RegisterKeyMappingsEvent event) {
