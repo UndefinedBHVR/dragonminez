@@ -3,6 +3,8 @@ package com.yuseix.dragonminez.mixin.client.renderer;
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.character.models.*;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
+import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
+import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.character.renders.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -86,74 +88,22 @@ public class EntityRenderDispatcherMixin {
                         case 2:
                             cir.setReturnValue(dmzRendererersV2.get("namek"));
                             break;
+                        //BIOANDROIDE RENDER
+                        case 3:
+                            cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
+                            break;
                         //MAJIN RENDER
                         case 5:
                             if (cap.getGender().equals("Male")) {
                                 cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
                             } else {
-
+                                cir.setReturnValue(dmzRendererersV2.get("majin_female"));
                             }
                         default:
                             break;
                     }
                 }
 
-                /*
-                if (cap.getRace() == 2) {
-                    cir.setReturnValue(dmzRendererers.get("namek"));
-                } else if (cap.getRace() == 3) {
-                    cir.setReturnValue(dmzRendererers.get("bioandroid_imperfect"));
-                }
-
-                if (player instanceof AbstractClientPlayer abstractClientPlayer) {
-                    String modelname = abstractClientPlayer.getModelName();
-
-                    switch (cap.getRace()) {
-                        case 0:
-                            if (cap.getBodytype() == 0) {
-                                if ("default".equals(modelname)) {
-                                    cir.setReturnValue(dmzRendererers.get(modelname));
-                                } else if ("slim".equals(modelname)) {
-                                    cir.setReturnValue(dmzRendererers.get(modelname));
-                                }
-                            } else if (cap.getBodytype() == 1) {
-                                if (cap.getGender().equals("Male")) {
-                                    cir.setReturnValue(dmzRendererers.get("default"));
-                                } else {
-                                    cir.setReturnValue(dmzRendererers.get("slim"));
-                                }
-                            }
-
-
-                            break;
-
-                        case 1:
-                            if (cap.getBodytype() == 0) {
-                                if ("default".equals(modelname)) {
-                                    cir.setReturnValue(dmzRendererers.get(modelname));
-                                } else if ("slim".equals(modelname)) {
-                                    cir.setReturnValue(dmzRendererers.get(modelname));
-                                }
-                            } else if (cap.getBodytype() == 1) {
-                                if (cap.getGender().equals("Male")) {
-                                    cir.setReturnValue(dmzRendererersV2.get("default"));
-                                } else {
-                                    cir.setReturnValue(dmzRendererers.get("slim"));
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            if (cap.getGender().equals("Male")) {
-                                cir.setReturnValue(dmzRendererers.get("majin_gordo"));
-                            } else {
-                            }
-                        default:
-                            break;
-                    }
-                }
-
-            */
             });
         }
 
@@ -189,6 +139,9 @@ public class EntityRenderDispatcherMixin {
         builder.put("default", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
         builder.put("slim", new HumanSaiyanRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
         builder.put("namek", new NamekianRender(ctx));
+        builder.put("bio_imperfect", new BioAndroidRender(ctx));
+        builder.put("majin_gordo", new MajinRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
+        builder.put("majin_female", new MajinRaceRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
 
         return builder.build();
     }

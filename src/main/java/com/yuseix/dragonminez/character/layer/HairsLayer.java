@@ -43,7 +43,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             var hairColor = cap.getHairColor();
             var hairId = cap.getHairID();
             var bodyColor = cap.getBodyColor();
-
+            var genero = cap.getGender();
 
             colorR = (hairColor >> 16) / 255.0F;
             colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -69,6 +69,19 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                     this.getParentModel().getHead().translateAndRotate(poseStack);
                     this.earsNamek.renderEars2(poseStack, multiBufferSource.getBuffer(RenderType.entityTranslucent(EARS)), packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
                 }
+            } else if(raza == 5){
+                if(genero.equals("Male")){
+
+                }else{
+                    if(hairId == 0){
+                        colorR = (bodyColor >> 16) / 255.0F;
+                        colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+                        colorB = (bodyColor & 0xff) / 255.0f;
+                        this.getParentModel().getHead().translateAndRotate(poseStack);
+                        this.gokuhair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    }
+                }
+
             }
         });
 

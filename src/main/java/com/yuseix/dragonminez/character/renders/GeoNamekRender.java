@@ -31,6 +31,8 @@ public class GeoNamekRender<T extends AbstractClientPlayer & GeoAnimatable> exte
 
     public GeoNamekRender(EntityRendererProvider.Context renderManager, GeoModel<T> model) {
         super(renderManager, model);
+
+
     }
 
     @Override

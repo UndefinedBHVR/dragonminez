@@ -48,8 +48,11 @@ public class TextureManager {
 
     //MAJIN
     public static final ResourceLocation MAJIN_BASE_MALE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype1_male.png");
+    public static final ResourceLocation MAJIN_BASE_FEMALE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype1_fem.png");
 
     public static final ResourceLocation MAJIN_BASE_MALE_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1.png");
+    public static final ResourceLocation MAJIN_BASE_FEMALE_EYES_BASE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_fem.png");
+    public static final ResourceLocation MAJIN_BASE_FEMALE_EYES_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_fem_iris.png");
 
 
     //HAIR COLOR
