@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.mixin.client.renderer;
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.character.models.*;
 import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
+import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.character.renders.*;
@@ -92,6 +93,10 @@ public class EntityRenderDispatcherMixin {
                         case 3:
                             cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
                             break;
+                        //DEMONCOLD
+                        case 4:
+                            cir.setReturnValue(dmzRendererersV2.get("demon_cold"));
+                            break;
                         //MAJIN RENDER
                         case 5:
                             if (cap.getGender().equals("Male")) {
@@ -142,6 +147,7 @@ public class EntityRenderDispatcherMixin {
         builder.put("bio_imperfect", new BioAndroidRender(ctx));
         builder.put("majin_gordo", new MajinRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
         builder.put("majin_female", new MajinRaceRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
+        builder.put("demon_cold", new DemonColdRender(ctx, new DemonColdModel<>(ctx.bakeLayer(DemonColdModel.LAYER_LOCATION))));
 
         return builder.build();
     }
