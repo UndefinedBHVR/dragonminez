@@ -33,6 +33,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             int curEnergia = playerstats.getCurrentEnergy();
 
             int staminatotal = Math.min(((83 * curStamina) / StaminaMax), 83);
+
             int energiatotal = Math.min(((119 * curEnergia) / energiaMax), 119);
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -112,6 +113,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, hud);
 
+
     };
+
+
 
 }

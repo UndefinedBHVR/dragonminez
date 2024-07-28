@@ -9,7 +9,6 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -1757,12 +1756,9 @@ public class CharacterCMenu extends Screen {
                     break;
             }
 
-            //LivingEntity bio = new FakeBioAndroidEntity(MainEntity.FAKEBIOANDROID1.get(), this.minecraft.level);
             //LivingEntity dino = new DinoEntity(MainEntity.DINO1.get(), this.minecraft.level);
+            renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, minecraft.player);
 
-            if (cap.getRace() == 0) {
-                //renderEntityInInventoryFollowsAngle(pGuiGraphics, anchoTexto, alturaTexto, 15, 30, 0, bio);
-            }
 
         });
     }
@@ -2241,14 +2237,28 @@ public class CharacterCMenu extends Screen {
         Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
         Quaternionf quaternionf1 = (new Quaternionf()).rotateX(angleYComponent * 20.0F * 0.017453292F);
         quaternionf.mul(quaternionf1);
+
+        // Guardar las rotaciones actuales de la entidad
         float f2 = livingEntity.yBodyRot;
         float f3 = livingEntity.getYRot();
         float f4 = livingEntity.getXRot();
         float f5 = livingEntity.yHeadRotO;
         float f6 = livingEntity.yHeadRot;
+
+        // Ajustar la rotación del cuerpo y de la cabeza
         livingEntity.yBodyRot = 180.0F + angleXComponent * 20.0F;
+        livingEntity.yHeadRot = livingEntity.yBodyRot;
+        livingEntity.yHeadRotO = livingEntity.yBodyRot;
+
+        // Renderizar la entidad
         renderEntityInInv(guiGraphics, x, y, scale, quaternionf, quaternionf1, livingEntity);
+
+        // Restaurar las rotaciones originales de la entidad
         livingEntity.yBodyRot = f2;
+        livingEntity.setYRot(f3);
+        livingEntity.setXRot(f4);
+        livingEntity.yHeadRotO = f5;
+        livingEntity.yHeadRot = f6;
     }
 
     public static void renderEntityInInv(GuiGraphics pGuiGraphics, int pX, int pY, int pScale, Quaternionf pPose, @Nullable Quaternionf pCameraOrientation, LivingEntity pEntity) {

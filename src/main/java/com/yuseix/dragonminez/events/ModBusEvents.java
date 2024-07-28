@@ -5,9 +5,12 @@ import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.character.models.hair.FemHairModel;
 import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.character.renders.HumanSaiyanRender;
+import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
@@ -59,6 +62,7 @@ public final class ModBusEvents {
                 SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
+
     @SubscribeEvent
     public void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
@@ -88,11 +92,12 @@ public final class ModBusEvents {
     @SubscribeEvent
     public void entityAttributeEvent(EntityAttributeCreationEvent event) {
         event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
+
     }
 
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
-        //e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
+        e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
     }
 
     @SubscribeEvent
@@ -113,6 +118,8 @@ public final class ModBusEvents {
 
         //CABELLOS
         e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
+        e.registerLayerDefinition(FemHairModel.LAYER_LOCATION,FemHairModel::createBodyLayer);
+
     }
 
 

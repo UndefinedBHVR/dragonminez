@@ -2,7 +2,6 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.init.entity.custom.FakeBioAndroidEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -21,12 +20,6 @@ public final class MainEntity {
                     () -> EntityType.Builder.of(DinoEntity::new, MobCategory.AMBIENT)
                             .sized(4.5f, 4.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "dino").toString())
-            );
-    public static final RegistryObject<EntityType<FakeBioAndroidEntity>> FAKEBIOANDROID1 =
-            ENTITY_TYPES_REGISTER.register("fakebioandroid1",
-                    () -> EntityType.Builder.of(FakeBioAndroidEntity::new, MobCategory.AMBIENT)
-                            .sized(1.0f,1.0f)
-                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "fakebioandroid1").toString())
             );
 
     public static void register(IEventBus bus) {

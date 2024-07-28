@@ -129,7 +129,21 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
                     pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_ARMS3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
                     break;
                 case 4:
-                    break;
+                    //DEMON COLD
+                    colorR = (color1body >> 16) / 255.0F;
+                    colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                    colorB = (color1body & 0xff) / 255.0f;
+                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    colorR = (color2body >> 16) / 255.0F;
+                    colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                    colorB = (color2body & 0xff) / 255.0f;
+                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    colorR = (color3body >> 16) / 255.0F;
+                    colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                    colorB = (color3body & 0xff) / 255.0f;
+                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                break;
                 case 5:
                     //MAJIN
                     colorR = (color1body >> 16) / 255.0F;
