@@ -23,11 +23,20 @@ public class DMZStatsAttributes {
 
     private boolean AcceptCharacter = false;
 
-
+    private String dmzClass = "Warrior";
+    private String dmzAlignment = "Good";
     private final Player player;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
+    }
+
+    public String getDmzClass() {
+        return dmzClass;
+    }
+
+    public String getDmzAlignment() {
+        return dmzAlignment;
     }
 
     public int getZpoints() {
@@ -455,6 +464,16 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public void setDmzClass(String dmzClass) {
+        this.dmzClass = dmzClass;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void setDmzAlignment(String dmzAlignment) {
+        this.dmzAlignment = dmzAlignment;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public CompoundTag saveNBTData() {
 
         CompoundTag nbt = new CompoundTag();
@@ -485,9 +504,12 @@ public class DMZStatsAttributes {
         nbt.putInt("auraColor", auraColor);
 
         nbt.putString("gender", gender);
+        nbt.putString("dmzClass", dmzClass);
+        nbt.putString("dmzAlignment",dmzAlignment);
 
         nbt.putInt("zpoints", zpoints);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
+
         return nbt;
     }
 
@@ -520,6 +542,8 @@ public class DMZStatsAttributes {
         auraColor = nbt.getInt("auraColor");
 
         gender = nbt.getString("gender");
+        dmzClass = nbt.getString("dmzClass");
+        dmzAlignment = nbt.getString("dmzAlignment");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
 

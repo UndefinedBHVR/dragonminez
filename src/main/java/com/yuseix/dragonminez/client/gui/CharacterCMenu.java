@@ -48,10 +48,10 @@ public class CharacterCMenu extends Screen {
 
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();
 
-    private DMZRightButton botonRazaRight, botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton, gendersLeftButton, hairRigthButton, hairLeftButton;
-
+    private DMZRightButton botonRazaRight, botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton, gendersLeftButton, hairRigthButton, hairLeftButton, claseRigthButton,claseLeftButton;
+    private DMZRightButton botonAlignmentRight, botonAlignmentLeft;
     private TextButton nextButton, backButton, setColor;
-    private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor;
+    private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
     private ForgeSlider sliderR, sliderG, sliderB;
     private int colorR, colorG, colorB;
     private static int currentPage = 0;
@@ -76,6 +76,10 @@ public class CharacterCMenu extends Screen {
 
             botonesRazaColores(72, posY);
 
+        } else if(currentPage == 2){
+            sliders(posX - 127, posY + 5);
+
+            botonAuraColor(72, posY);
         }
 
         super.init();
@@ -106,9 +110,10 @@ public class CharacterCMenu extends Screen {
             botonesBodyType(113, alto - 44);
             botonesGeneros(113, alto - 76);
             botonesOjos(113, alto + 3);
-            botonesCabellos(113,alto+3);
+            botonesCabellos(113, alto + 3);
         } else if (currentPage == 2) {
-
+            botonesClases(113, alto - 76);
+            botonesAlignment(113,alto - 39);
         } else {
 
         }
@@ -140,6 +145,9 @@ public class CharacterCMenu extends Screen {
 
 
         } else if (currentPage == 2) {
+
+            pagina2(pGuiGraphics);
+            pagina2Color(pGuiGraphics);
 
         } else {
 
@@ -252,13 +260,88 @@ public class CharacterCMenu extends Screen {
                 this.removeWidget(gendersLeftButton);
                 this.removeWidget(hairRigthButton);
                 this.removeWidget(hairLeftButton);
+                this.removeWidget(auraButtonColor);
                 clearAllButtons();
             }));
             //BOTON SIGUIENTE
             this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+                this.removeWidget(sliderR);
+                this.removeWidget(sliderG);
+                this.removeWidget(sliderB);
+                this.removeWidget(eyesButtonColor);
+                this.removeWidget(eyesButtonColor2);
+                this.removeWidget(bodyButtonColor1);
+                this.removeWidget(bodyButtonColor2);
+                this.removeWidget(bodyButtonColor3);
+                this.removeWidget(hairButtonColor);
+                this.removeWidget(setColor);
+                this.removeWidget(eyesTypeLeft);
+                this.removeWidget(eyesTypeRight);
+                this.removeWidget(bodyTypeRightButton);
+                this.removeWidget(bodyTypeLeftButton);
+                this.removeWidget(gendersRigthButton);
+                this.removeWidget(gendersLeftButton);
+                this.removeWidget(hairRigthButton);
+                this.removeWidget(hairLeftButton);
+                this.removeWidget(auraButtonColor);
+                this.removeWidget(nextButton);
+                this.removeWidget(botonRazaLeft);
+                this.removeWidget(botonRazaRight);
+                this.removeWidget(botonAlignmentRight);
+                this.removeWidget(botonAlignmentLeft);
+                clearAllButtons();
+                currentPage = 2;
+
+                sliders(this.width - 127, ((this.minecraft.getWindow().getGuiScaledHeight()) / 2) + 5);
+                botonAuraColor(72, this.height / 2);
             }));
         } else {
+            //BOTON VOLVER
+            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                currentPage = 1;
+                this.removeWidget(sliderR);
+                this.removeWidget(sliderG);
+                this.removeWidget(sliderB);
+                this.removeWidget(eyesButtonColor);
+                this.removeWidget(eyesButtonColor2);
+                this.removeWidget(bodyButtonColor1);
+                this.removeWidget(bodyButtonColor2);
+                this.removeWidget(bodyButtonColor3);
+                this.removeWidget(hairButtonColor);
+                this.removeWidget(setColor);
+                this.removeWidget(eyesTypeLeft);
+                this.removeWidget(eyesTypeRight);
+                this.removeWidget(bodyTypeRightButton);
+                this.removeWidget(bodyTypeLeftButton);
+                this.removeWidget(gendersRigthButton);
+                this.removeWidget(gendersLeftButton);
+                this.removeWidget(hairRigthButton);
+                this.removeWidget(hairLeftButton);
+                this.removeWidget(auraButtonColor);
+                this.removeWidget(claseRigthButton);
+                this.removeWidget(claseLeftButton);
+                this.removeWidget(botonAlignmentRight);
+                this.removeWidget(botonAlignmentLeft);
 
+                clearAllButtons();
+
+                sliders(this.width - 127, ((this.minecraft.getWindow().getGuiScaledHeight()) / 2) + 5);
+                botonesRazaColores(72, this.height / 2);
+
+            }));
+
+            //BOTON CONFIRMAR
+            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.literal("Confirm").withStyle(ChatFormatting.BOLD), button -> {
+                this.removeWidget(sliderR);
+                this.removeWidget(sliderG);
+                this.removeWidget(sliderB);
+                this.removeWidget(setColor);
+                this.removeWidget(auraButtonColor);
+                this.removeWidget(nextButton);
+                clearAllButtons();
+                currentPage = 3;
+
+            }));
         }
 
 
@@ -299,15 +382,15 @@ public class CharacterCMenu extends Screen {
                         sliderB.setValue(colorB);
 
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
@@ -333,16 +416,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
@@ -370,12 +453,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16754861);
-                        botonPresetColor(this.width - 113,posY + 12,16756082);
-                        botonPresetColor(this.width - 93,posY + 12,16765368);
-                        botonPresetColor(this.width - 73,posY + 12,6501920);
-                        botonPresetColor(this.width - 53,posY + 12,6960687);
-                        botonPresetColor(this.width - 33,posY + 12,9660502);
+                        botonPresetColor(this.width - 133, posY + 12, 16754861);
+                        botonPresetColor(this.width - 113, posY + 12, 16756082);
+                        botonPresetColor(this.width - 93, posY + 12, 16765368);
+                        botonPresetColor(this.width - 73, posY + 12, 6501920);
+                        botonPresetColor(this.width - 53, posY + 12, 6960687);
+                        botonPresetColor(this.width - 33, posY + 12, 9660502);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
@@ -403,16 +486,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,11603751);
-                        botonPresetColor(this.width - 113,posY + 12,2761084);
-                        botonPresetColor(this.width - 93,posY + 12,16777046);
-                        botonPresetColor(this.width - 73,posY + 12,2866128);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 11603751);
+                        botonPresetColor(this.width - 113, posY + 12, 2761084);
+                        botonPresetColor(this.width - 93, posY + 12, 16777046);
+                        botonPresetColor(this.width - 73, posY + 12, 2866128);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
@@ -441,16 +524,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
@@ -477,16 +560,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR, colorG, colorB)));
@@ -513,12 +596,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16754861);
-                        botonPresetColor(this.width - 113,posY + 12,16756082);
-                        botonPresetColor(this.width - 93,posY + 12,16765368);
-                        botonPresetColor(this.width - 73,posY + 12,6501920);
-                        botonPresetColor(this.width - 53,posY + 12,6960687);
-                        botonPresetColor(this.width - 33,posY + 12,9660502);
+                        botonPresetColor(this.width - 133, posY + 12, 16754861);
+                        botonPresetColor(this.width - 113, posY + 12, 16756082);
+                        botonPresetColor(this.width - 93, posY + 12, 16765368);
+                        botonPresetColor(this.width - 73, posY + 12, 6501920);
+                        botonPresetColor(this.width - 53, posY + 12, 6960687);
+                        botonPresetColor(this.width - 33, posY + 12, 9660502);
 
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
@@ -547,16 +630,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,11603751);
-                        botonPresetColor(this.width - 113,posY + 12,2761084);
-                        botonPresetColor(this.width - 93,posY + 12,16777046);
-                        botonPresetColor(this.width - 73,posY + 12,2866128);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 11603751);
+                        botonPresetColor(this.width - 113, posY + 12, 2761084);
+                        botonPresetColor(this.width - 93, posY + 12, 16777046);
+                        botonPresetColor(this.width - 73, posY + 12, 2866128);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
@@ -585,16 +668,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
@@ -621,16 +704,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR, colorG, colorB)));
@@ -657,12 +740,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,1474571);
-                        botonPresetColor(this.width - 113,posY + 12,3060257);
-                        botonPresetColor(this.width - 93,posY + 12,8892948);
-                        botonPresetColor(this.width - 73,posY + 12,12385321);
-                        botonPresetColor(this.width - 53,posY + 12,23337);
-                        botonPresetColor(this.width - 33,posY + 12,15872);
+                        botonPresetColor(this.width - 133, posY + 12, 1474571);
+                        botonPresetColor(this.width - 113, posY + 12, 3060257);
+                        botonPresetColor(this.width - 93, posY + 12, 8892948);
+                        botonPresetColor(this.width - 73, posY + 12, 12385321);
+                        botonPresetColor(this.width - 53, posY + 12, 23337);
+                        botonPresetColor(this.width - 33, posY + 12, 15872);
 
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
@@ -672,7 +755,7 @@ public class CharacterCMenu extends Screen {
                         this.partePagina = "cuerpo1";
                     }));
 
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX-11, posY - 18, Component.empty(), button -> {
+                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 18, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         clearAllButtons();
 
@@ -690,12 +773,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,12263460);
-                        botonPresetColor(this.width - 113,posY + 12,16711716);
-                        botonPresetColor(this.width - 93,posY + 12,16722688);
-                        botonPresetColor(this.width - 73,posY + 12,13183853);
-                        botonPresetColor(this.width - 53,posY + 12,16742144);
-                        botonPresetColor(this.width - 33,posY + 12,8650752);
+                        botonPresetColor(this.width - 133, posY + 12, 12263460);
+                        botonPresetColor(this.width - 113, posY + 12, 16711716);
+                        botonPresetColor(this.width - 93, posY + 12, 16722688);
+                        botonPresetColor(this.width - 73, posY + 12, 13183853);
+                        botonPresetColor(this.width - 53, posY + 12, 16742144);
+                        botonPresetColor(this.width - 33, posY + 12, 8650752);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor2", calcularColor(colorR, colorG, colorB)));
@@ -722,12 +805,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16761651);
-                        botonPresetColor(this.width - 113,posY + 12,16744043);
-                        botonPresetColor(this.width - 93,posY + 12,16733291);
-                        botonPresetColor(this.width - 73,posY + 12,16766262);
-                        botonPresetColor(this.width - 53,posY + 12,16735557);
-                        botonPresetColor(this.width - 33,posY + 12,12941637);
+                        botonPresetColor(this.width - 133, posY + 12, 16761651);
+                        botonPresetColor(this.width - 113, posY + 12, 16744043);
+                        botonPresetColor(this.width - 93, posY + 12, 16733291);
+                        botonPresetColor(this.width - 73, posY + 12, 16766262);
+                        botonPresetColor(this.width - 53, posY + 12, 16735557);
+                        botonPresetColor(this.width - 33, posY + 12, 12941637);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor3", calcularColor(colorR, colorG, colorB)));
@@ -736,7 +819,7 @@ public class CharacterCMenu extends Screen {
                         this.partePagina = "cuerpo3";
                     }));
 
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX+33, posY - 18, Component.empty(), button -> {
+                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 18, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         clearAllButtons();
 
@@ -754,12 +837,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,13611365);
-                        botonPresetColor(this.width - 113,posY + 12,13631306);
-                        botonPresetColor(this.width - 93,posY + 12,13612593);
-                        botonPresetColor(this.width - 73,posY + 12,7731455);
-                        botonPresetColor(this.width - 53,posY + 12,16752895);
-                        botonPresetColor(this.width - 33,posY + 12,16772351);
+                        botonPresetColor(this.width - 133, posY + 12, 13611365);
+                        botonPresetColor(this.width - 113, posY + 12, 13631306);
+                        botonPresetColor(this.width - 93, posY + 12, 13612593);
+                        botonPresetColor(this.width - 73, posY + 12, 7731455);
+                        botonPresetColor(this.width - 53, posY + 12, 16752895);
+                        botonPresetColor(this.width - 33, posY + 12, 16772351);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
@@ -789,16 +872,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
@@ -825,12 +908,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,1603072);
-                        botonPresetColor(this.width - 113,posY + 12,1603255);
-                        botonPresetColor(this.width - 93,posY + 12,13045263);
-                        botonPresetColor(this.width - 73,posY + 12,2237732);
-                        botonPresetColor(this.width - 53,posY + 12,8723455);
-                        botonPresetColor(this.width - 33,posY + 12,5752120);
+                        botonPresetColor(this.width - 133, posY + 12, 1603072);
+                        botonPresetColor(this.width - 113, posY + 12, 1603255);
+                        botonPresetColor(this.width - 93, posY + 12, 13045263);
+                        botonPresetColor(this.width - 73, posY + 12, 2237732);
+                        botonPresetColor(this.width - 53, posY + 12, 8723455);
+                        botonPresetColor(this.width - 33, posY + 12, 5752120);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
@@ -857,12 +940,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,5752120);
-                        botonPresetColor(this.width - 113,posY + 12,9961256);
-                        botonPresetColor(this.width - 93,posY + 12,13826075);
-                        botonPresetColor(this.width - 73,posY + 12,13826210);
-                        botonPresetColor(this.width - 53,posY + 12,13802495);
-                        botonPresetColor(this.width - 33,posY + 12,13802327);
+                        botonPresetColor(this.width - 133, posY + 12, 5752120);
+                        botonPresetColor(this.width - 113, posY + 12, 9961256);
+                        botonPresetColor(this.width - 93, posY + 12, 13826075);
+                        botonPresetColor(this.width - 73, posY + 12, 13826210);
+                        botonPresetColor(this.width - 53, posY + 12, 13802495);
+                        botonPresetColor(this.width - 33, posY + 12, 13802327);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor2", calcularColor(colorR, colorG, colorB)));
@@ -889,12 +972,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16718336);
-                        botonPresetColor(this.width - 113,posY + 12,16738560);
-                        botonPresetColor(this.width - 93,posY + 12,16722177);
-                        botonPresetColor(this.width - 73,posY + 12,16722247);
-                        botonPresetColor(this.width - 53,posY + 12,6563248);
-                        botonPresetColor(this.width - 33,posY + 12,6567522);
+                        botonPresetColor(this.width - 133, posY + 12, 16718336);
+                        botonPresetColor(this.width - 113, posY + 12, 16738560);
+                        botonPresetColor(this.width - 93, posY + 12, 16722177);
+                        botonPresetColor(this.width - 73, posY + 12, 16722247);
+                        botonPresetColor(this.width - 53, posY + 12, 6563248);
+                        botonPresetColor(this.width - 33, posY + 12, 6567522);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor3", calcularColor(colorR, colorG, colorB)));
@@ -925,16 +1008,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye1Color", calcularColor(colorR, colorG, colorB)));
@@ -961,16 +1044,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("eye2Color", calcularColor(colorR, colorG, colorB)));
@@ -997,12 +1080,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16185076);
-                        botonPresetColor(this.width - 113,posY + 12,9550335);
-                        botonPresetColor(this.width - 93,posY + 12,16759188);
-                        botonPresetColor(this.width - 73,posY + 12,16741082);
-                        botonPresetColor(this.width - 53,posY + 12,3222826);
-                        botonPresetColor(this.width - 33,posY + 12,7665147);
+                        botonPresetColor(this.width - 133, posY + 12, 16185076);
+                        botonPresetColor(this.width - 113, posY + 12, 9550335);
+                        botonPresetColor(this.width - 93, posY + 12, 16759188);
+                        botonPresetColor(this.width - 73, posY + 12, 16741082);
+                        botonPresetColor(this.width - 53, posY + 12, 3222826);
+                        botonPresetColor(this.width - 33, posY + 12, 7665147);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
@@ -1011,7 +1094,7 @@ public class CharacterCMenu extends Screen {
                         this.partePagina = "cuerpo1";
                     }));
 
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX-11, posY - 14, Component.empty(), button -> {
+                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 14, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         clearAllButtons();
 
@@ -1029,12 +1112,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,15171579);
-                        botonPresetColor(this.width - 113,posY + 12,15182331);
-                        botonPresetColor(this.width - 93,posY + 12,11009023);
-                        botonPresetColor(this.width - 73,posY + 12,10562395);
-                        botonPresetColor(this.width - 53,posY + 12,6821467);
-                        botonPresetColor(this.width - 33,posY + 12,5991935);
+                        botonPresetColor(this.width - 133, posY + 12, 15171579);
+                        botonPresetColor(this.width - 113, posY + 12, 15182331);
+                        botonPresetColor(this.width - 93, posY + 12, 11009023);
+                        botonPresetColor(this.width - 73, posY + 12, 10562395);
+                        botonPresetColor(this.width - 53, posY + 12, 6821467);
+                        botonPresetColor(this.width - 33, posY + 12, 5991935);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor2", calcularColor(colorR, colorG, colorB)));
@@ -1061,12 +1144,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,15676525);
-                        botonPresetColor(this.width - 113,posY + 12,15667217);
-                        botonPresetColor(this.width - 93,posY + 12,8082431);
-                        botonPresetColor(this.width - 73,posY + 12,4009215);
-                        botonPresetColor(this.width - 53,posY + 12,13804590);
-                        botonPresetColor(this.width - 33,posY + 12,16718964);
+                        botonPresetColor(this.width - 133, posY + 12, 15676525);
+                        botonPresetColor(this.width - 113, posY + 12, 15667217);
+                        botonPresetColor(this.width - 93, posY + 12, 8082431);
+                        botonPresetColor(this.width - 73, posY + 12, 4009215);
+                        botonPresetColor(this.width - 53, posY + 12, 13804590);
+                        botonPresetColor(this.width - 33, posY + 12, 16718964);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor3", calcularColor(colorR, colorG, colorB)));
@@ -1075,7 +1158,7 @@ public class CharacterCMenu extends Screen {
                         this.partePagina = "cuerpo3";
                     }));
 
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX+33, posY - 14, Component.empty(), button -> {
+                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 14, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         clearAllButtons();
 
@@ -1093,12 +1176,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16121880);
-                        botonPresetColor(this.width - 113,posY + 12,4391015);
-                        botonPresetColor(this.width - 93,posY + 12,8655866);
-                        botonPresetColor(this.width - 73,posY + 12,5114);
-                        botonPresetColor(this.width - 53,posY + 12,16729082);
-                        botonPresetColor(this.width - 33,posY + 12,7187240);
+                        botonPresetColor(this.width - 133, posY + 12, 16121880);
+                        botonPresetColor(this.width - 113, posY + 12, 4391015);
+                        botonPresetColor(this.width - 93, posY + 12, 8655866);
+                        botonPresetColor(this.width - 73, posY + 12, 5114);
+                        botonPresetColor(this.width - 53, posY + 12, 16729082);
+                        botonPresetColor(this.width - 33, posY + 12, 7187240);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("hairColor", calcularColor(colorR, colorG, colorB)));
@@ -1127,16 +1210,16 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16711680);
-                        botonPresetColor(this.width - 113,posY + 12,3093247);
-                        botonPresetColor(this.width - 93,posY + 12,16776978);
-                        botonPresetColor(this.width - 73,posY + 12,65535);
-                        botonPresetColor(this.width - 53,posY + 12,1051665);
-                        botonPresetColor(this.width - 33,posY + 12,5898388);
+                        botonPresetColor(this.width - 133, posY + 12, 16711680);
+                        botonPresetColor(this.width - 113, posY + 12, 3093247);
+                        botonPresetColor(this.width - 93, posY + 12, 16776978);
+                        botonPresetColor(this.width - 73, posY + 12, 65535);
+                        botonPresetColor(this.width - 53, posY + 12, 1051665);
+                        botonPresetColor(this.width - 33, posY + 12, 5898388);
 
-                        botonPresetColor(this.width - 128,posY + 28,5963569);
-                        botonPresetColor(this.width - 108,posY + 28,16729088);
-                        botonPresetColor(this.width - 88,posY + 28,16731647);
+                        botonPresetColor(this.width - 128, posY + 28, 5963569);
+                        botonPresetColor(this.width - 108, posY + 28, 16729088);
+                        botonPresetColor(this.width - 88, posY + 28, 16731647);
 
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
@@ -1146,7 +1229,7 @@ public class CharacterCMenu extends Screen {
                         this.partePagina = "ojo1";
                     }));
 
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1",  posX, posY - 30, Component.empty(), button -> {
+                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 30, Component.empty(), button -> {
                         this.removeWidget(setColor);
                         clearAllButtons();
 
@@ -1164,12 +1247,12 @@ public class CharacterCMenu extends Screen {
                         sliderG.setValue(colorG);
                         sliderB.setValue(colorB);
 
-                        botonPresetColor(this.width - 133,posY + 12,16753919);
-                        botonPresetColor(this.width - 113,posY + 12,16753744);
-                        botonPresetColor(this.width - 93,posY + 12,8037631);
-                        botonPresetColor(this.width - 73,posY + 12,16745006);
-                        botonPresetColor(this.width - 53,posY + 12,4998730);
-                        botonPresetColor(this.width - 33,posY + 12,7156385);
+                        botonPresetColor(this.width - 133, posY + 12, 16753919);
+                        botonPresetColor(this.width - 113, posY + 12, 16753744);
+                        botonPresetColor(this.width - 93, posY + 12, 8037631);
+                        botonPresetColor(this.width - 73, posY + 12, 16745006);
+                        botonPresetColor(this.width - 53, posY + 12, 4998730);
+                        botonPresetColor(this.width - 33, posY + 12, 7156385);
 
                         this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyColor1", calcularColor(colorR, colorG, colorB)));
@@ -1186,6 +1269,57 @@ public class CharacterCMenu extends Screen {
 
         });
         RenderSystem.disableBlend();
+    }
+
+    public void botonAuraColor(int posX, int posY) {
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        this.removeWidget(eyesButtonColor);
+        this.removeWidget(eyesButtonColor2);
+        this.removeWidget(bodyButtonColor1);
+        this.removeWidget(bodyButtonColor2);
+        this.removeWidget(bodyButtonColor3);
+        this.removeWidget(hairButtonColor);
+        this.removeWidget(auraButtonColor);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
+                this.removeWidget(setColor);
+                clearAllButtons();
+
+                int auraColor = cap.getAuraColor();
+
+                float r = (auraColor >> 16) / 255.0F;
+                float g = ((auraColor >> 8) & 0xff) / 255.0f;
+                float b = (auraColor & 0xff) / 255.0f;
+
+                colorR = (int) (r * 255);
+                colorG = (int) (g * 255);
+                colorB = (int) (b * 255);
+
+                sliderR.setValue(colorR);
+                sliderG.setValue(colorG);
+                sliderB.setValue(colorB);
+
+                botonPresetColor(this.width - 133, posY + 12, 16753919);
+                botonPresetColor(this.width - 113, posY + 12, 16753744);
+                botonPresetColor(this.width - 93, posY + 12, 8037631);
+                botonPresetColor(this.width - 73, posY + 12, 16745006);
+                botonPresetColor(this.width - 53, posY + 12, 4998730);
+                botonPresetColor(this.width - 33, posY + 12, 7156385);
+
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", calcularColor(colorR, colorG, colorB)));
+
+                }));
+                this.partePagina = "AuraPagina";
+            }));
+
+            RenderSystem.disableBlend();
+        });
+
     }
 
     public void botonesCabellos(int posX, int posY) {
@@ -1372,7 +1506,52 @@ public class CharacterCMenu extends Screen {
 
         });
     }
+    public void botonesClases(int posX, int posY) {
 
+        this.removeWidget(claseLeftButton);
+        this.removeWidget(claseRigthButton);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
+
+            if(cap.getDmzClass().equals("Warrior")){
+                this.claseRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzClass", 1));
+                    this.removeWidget(claseRigthButton);
+                    this.removeWidget(claseLeftButton);
+                }));
+            }else {
+                this.claseLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzClass", 0));
+                    this.removeWidget(claseRigthButton);
+                    this.removeWidget(claseLeftButton);
+                }));
+            }
+
+        });
+    }
+    public void botonesAlignment(int posX, int posY) {
+
+        this.removeWidget(botonAlignmentLeft);
+        this.removeWidget(botonAlignmentRight);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
+
+            if(cap.getDmzAlignment().equals("Good")){
+                this.botonAlignmentRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 1));
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                }));
+            }else {
+                this.botonAlignmentLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 0));
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                }));
+            }
+
+        });
+    }
     public void botonesBodyType(int posX, int posY) {
 
         this.removeWidget(bodyTypeRightButton);
@@ -2201,6 +2380,103 @@ public class CharacterCMenu extends Screen {
         }
     }
 
+    public void pagina2(GuiGraphics pGuiGraphics) {
+
+        //MENU CARACTERISTICAS
+        alturaTexto = (pGuiGraphics.guiHeight() / 2);
+        anchoTexto = 10;
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
+        RenderSystem.disableBlend();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
+
+            //CLASE DEL JUGADOR
+            alturaTexto = (pGuiGraphics.guiHeight() / 2);
+            anchoTexto = (20 - this.font.width(TranslateManager.CLASS_TYPE));
+            pGuiGraphics.drawString(font, TranslateManager.CLASS_TYPE.withStyle(ChatFormatting.BOLD), anchoTexto + 83, alturaTexto - 89, 0xFF9B9B);
+
+            if(cap.getDmzClass().equals("Warrior")){
+                anchoTexto = (20 - this.font.width(TranslateManager.CLASS_1));
+                drawStringWithBorder(pGuiGraphics, font, TranslateManager.CLASS_1, anchoTexto + 92, alturaTexto - 72, 0xFC4E2B);
+
+            } else {
+                anchoTexto = (20 - this.font.width(TranslateManager.CLASS_2));
+                drawStringWithBorder(pGuiGraphics, font, TranslateManager.CLASS_2, anchoTexto + 92, alturaTexto - 72, 0x2BFCFC);
+
+            }
+
+            //ALINEAMIENTO
+            anchoTexto = 47;
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, texto);
+            pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 56, 0, 0, 73, 15);
+            RenderSystem.disableBlend();
+
+            anchoTexto = (20 - this.font.width(TranslateManager.ALIGNMENT));
+            pGuiGraphics.drawString(font, TranslateManager.ALIGNMENT.withStyle(ChatFormatting.BOLD), anchoTexto + 92, alturaTexto - 52, 0xFFDEDE);
+
+            if(cap.getDmzAlignment().equals("Good")){
+                anchoTexto = (20 - this.font.width(TranslateManager.ALIGNMENT_GOOD));
+                drawStringWithBorder(pGuiGraphics, font, TranslateManager.ALIGNMENT_GOOD, anchoTexto + 75, alturaTexto - 35, 0x1EFFD9, 0x1E6CFF);
+
+            } else {
+                anchoTexto = (20 - this.font.width(TranslateManager.ALIGNMENT_EVIL));
+                drawStringWithBorder(pGuiGraphics, font, TranslateManager.ALIGNMENT_EVIL, anchoTexto + 72, alturaTexto - 35, 0xFF3D72,0xF61414);
+
+            }
+
+
+            //COLOR DE KI
+            anchoTexto = 47;
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, texto);
+            pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 16, 0, 0, 73, 15);
+            RenderSystem.disableBlend();
+
+            anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
+            pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 13, 0xFFCA9B);
+
+        });
+
+
+    }
+    public void pagina2Color(GuiGraphics pGuiGraphics) {
+
+        //MENU COLOR
+        alturaTexto = (pGuiGraphics.guiHeight() / 2);
+        anchoTexto = this.width - 150;
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f);
+        pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
+        RenderSystem.disableBlend();
+        //TITULO
+        anchoTexto = (this.width - this.font.width(TranslateManager.COLOR_MENU));
+        pGuiGraphics.drawString(font, TranslateManager.COLOR_MENU.withStyle(ChatFormatting.BOLD), anchoTexto - 60, alturaTexto - 89, 0xFF9B9B);
+
+        //cuadrado colores.
+        alturaTexto = (pGuiGraphics.guiHeight() / 2) - 5;
+        anchoTexto = (this.width - 105);
+        float rColor, gColor, bColor;
+
+        switch (partePagina) {
+            case "AuraPagina":
+                rColor = sliderR.getValueInt() / 255.0F;
+                gColor = sliderG.getValueInt() / 255.0f;
+                bColor = sliderB.getValueInt() / 255.0f;
+                RenderSystem.enableBlend();
+                RenderSystem.setShaderTexture(0, colorCuadrado);
+                RenderSystem.setShaderColor(rColor, gColor, bColor, 1.0f);
+                pGuiGraphics.blit(colorCuadrado, anchoTexto, alturaTexto, 41, 0, 61, 14);
+                RenderSystem.disableBlend();
+
+                break;
+
+        }
+    }
     private void botonPresetColor(int posX, int posY, int color){
         ColorButton2 presetWa = (ColorButton2) this.addRenderableWidget(new ColorButton2(posX, posY,color,Component.empty(), wa -> {
 

@@ -47,6 +47,20 @@ public class CharacterC2S {
                                 playerstats.setGender("Female");
                             }
                             break;
+                        case "dmzClass":
+                            if (packet.cantidad == 0) {
+                                playerstats.setDmzClass("Warrior");
+                            } else {
+                                playerstats.setDmzClass("Spiritualist");
+                            }
+                            break;
+                        case "dmzAlignment":
+                            if (packet.cantidad == 0) {
+                                playerstats.setDmzAlignment("Good");
+                            } else {
+                                playerstats.setDmzAlignment("Evil");
+                            }
+                            break;
                         case "BodyType":
                             playerstats.setBodytype(packet.cantidad);
                             break;
