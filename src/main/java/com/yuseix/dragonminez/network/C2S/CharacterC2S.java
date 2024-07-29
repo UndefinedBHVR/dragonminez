@@ -96,6 +96,13 @@ public class CharacterC2S {
                         case "hairID":
                             playerstats.setHairID(packet.cantidad);
                             break;
+                        case "isConfirm":
+                            if (packet.cantidad == 0) {
+                                playerstats.setAcceptCharacter(false);
+                            } else {
+                                playerstats.setAcceptCharacter(true);
+                            }
+                            break;
                         default:
                             System.out.println("Algo salio mal !");
                             break;

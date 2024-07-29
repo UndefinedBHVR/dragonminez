@@ -20,9 +20,12 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.CubeMap;
+import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 import org.joml.Matrix4f;
@@ -46,6 +49,8 @@ public class CharacterCMenu extends Screen {
     private static final ResourceLocation colorCuadrado = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/buttons/characterbuttons.png");
 
+    private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
+
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();
 
     private DMZRightButton botonRazaRight, botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton, gendersLeftButton, hairRigthButton, hairLeftButton, claseRigthButton,claseLeftButton;
@@ -54,12 +59,15 @@ public class CharacterCMenu extends Screen {
     private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
     private ForgeSlider sliderR, sliderG, sliderB;
     private int colorR, colorG, colorB;
-    private static int currentPage = 0;
+    private int currentPage = 0;
     private static String partePagina = "";
+
+    private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
 
 
     public CharacterCMenu(Component pTitle) {
         super(pTitle);
+
     }
 
     @Override
@@ -122,7 +130,7 @@ public class CharacterCMenu extends Screen {
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics);
+        //renderBackground(pGuiGraphics);
 
         var Altura = pGuiGraphics.guiHeight();
         var Ancho = pGuiGraphics.guiWidth();
@@ -131,6 +139,7 @@ public class CharacterCMenu extends Screen {
 
             var AlturaGui = this.height;
             var AnchoGui = this.width;
+            this.customPanorama.render(pPartialTick, 1.0f);
 
             pagina0(pGuiGraphics, AnchoGui, AlturaGui);
 
@@ -236,6 +245,7 @@ public class CharacterCMenu extends Screen {
 
                 });
                 ModMessages.sendToServer(new CharacterC2S("Gender", 0));
+                ModMessages.sendToServer(new CharacterC2S("auraColor", 8716287));
 
             }));
         } else if (currentPage == 1) {
@@ -339,8 +349,9 @@ public class CharacterCMenu extends Screen {
                 this.removeWidget(auraButtonColor);
                 this.removeWidget(nextButton);
                 clearAllButtons();
-                currentPage = 3;
 
+                ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
+                this.minecraft.setScreen(null);
             }));
         }
 
@@ -1303,12 +1314,12 @@ public class CharacterCMenu extends Screen {
                 sliderG.setValue(colorG);
                 sliderB.setValue(colorB);
 
-                botonPresetColor(this.width - 133, posY + 12, 16753919);
-                botonPresetColor(this.width - 113, posY + 12, 16753744);
-                botonPresetColor(this.width - 93, posY + 12, 8037631);
-                botonPresetColor(this.width - 73, posY + 12, 16745006);
-                botonPresetColor(this.width - 53, posY + 12, 4998730);
-                botonPresetColor(this.width - 33, posY + 12, 7156385);
+                botonPresetColor(this.width - 133, posY + 12, 5636095);
+                botonPresetColor(this.width - 113, posY + 12, 13793279);
+                botonPresetColor(this.width - 93, posY + 12, 16647168);
+                botonPresetColor(this.width - 73, posY + 12, 50432);
+                botonPresetColor(this.width - 53, posY + 12, 16762112);
+                botonPresetColor(this.width - 33, posY + 12, 16777215);
 
                 this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width - 110, posY + 45, Component.literal("SET"), wa -> {
                     ModMessages.sendToServer(new CharacterC2S("auraColor", calcularColor(colorR, colorG, colorB)));
@@ -1873,6 +1884,8 @@ public class CharacterCMenu extends Screen {
         RenderSystem.depthMask(false);
 
         pGuiGraphics.blit(texto, (pGuiGraphics.guiWidth() / 2) - 60, (pGuiGraphics.guiHeight() / 2) + 85, 0, 16, 130, 18);
+        pGuiGraphics.blit(texto, (this.width / 2) - 60, 10, 0, 16, 130, 18);
+
         RenderSystem.disableBlend();
 
 
@@ -1880,7 +1893,8 @@ public class CharacterCMenu extends Screen {
         alturaTexto = (posY / 2) - 40;
         anchoTexto = ((posX - this.font.width(TranslateManager.CCreation)) / 2);
 
-        drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation, anchoTexto, alturaTexto, 0xFFFFFF);
+        //drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation, anchoTexto, 16, 0xFFFFFF);
+        pGuiGraphics.drawString(font, TranslateManager.CCreation, anchoTexto + 7, 16, 0xFFFFFF, true);
 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
@@ -2399,7 +2413,7 @@ public class CharacterCMenu extends Screen {
 
             if(cap.getDmzClass().equals("Warrior")){
                 anchoTexto = (20 - this.font.width(TranslateManager.CLASS_1));
-                drawStringWithBorder(pGuiGraphics, font, TranslateManager.CLASS_1, anchoTexto + 92, alturaTexto - 72, 0xFC4E2B);
+                drawStringWithBorder(pGuiGraphics, font, TranslateManager.CLASS_1, anchoTexto + 85, alturaTexto - 72, 0xFC4E2B);
 
             } else {
                 anchoTexto = (20 - this.font.width(TranslateManager.CLASS_2));
@@ -2437,8 +2451,8 @@ public class CharacterCMenu extends Screen {
             pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 16, 0, 0, 73, 15);
             RenderSystem.disableBlend();
 
-            anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-            pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 13, 0xFFCA9B);
+            anchoTexto = (20 - this.font.width(TranslateManager.COLOR_AURA));
+            pGuiGraphics.drawString(font, TranslateManager.COLOR_AURA.withStyle(ChatFormatting.BOLD), anchoTexto + 96, alturaTexto - 12, 0xFFCA9B);
 
         });
 

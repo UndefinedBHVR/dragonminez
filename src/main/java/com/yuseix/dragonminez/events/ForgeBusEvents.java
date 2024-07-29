@@ -3,10 +3,13 @@ package com.yuseix.dragonminez.events;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.CharacterCMenu;
+import com.yuseix.dragonminez.commands.ResetCharacterCommand;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.model.Keys;
+import com.yuseix.dragonminez.network.C2S.MenuC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
@@ -139,6 +142,8 @@ public final class ForgeBusEvents {
     public void onCommandsRegister(RegisterCommandsEvent event) {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
+        new ResetCharacterCommand(event.getDispatcher());
+
         ConfigCommand.register(event.getDispatcher());
     }
 
@@ -146,8 +151,12 @@ public final class ForgeBusEvents {
     public void onKeyInput(InputEvent.Key event) {
 
         if (Keys.STATS_MENU.consumeClick()) {
+            /*
             Minecraft.getInstance().setScreen(new CharacterCMenu(
                     Component.translatable("menu.title.dragonminez.statsmenu")));
+
+             */
+            ModMessages.sendToServer(new MenuC2S());
         }
 
     }

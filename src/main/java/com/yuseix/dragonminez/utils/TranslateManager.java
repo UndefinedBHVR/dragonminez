@@ -60,4 +60,6 @@ public class TranslateManager {
     public static MutableComponent ALIGNMENT_GOOD = (Component.translatable("dmz.ccreation.alignment.good"));
     public static MutableComponent ALIGNMENT_EVIL = (Component.translatable("dmz.ccreation.alignment.evil"));
 
+    public static MutableComponent COLOR_AURA = (Component.translatable("dmz.ccreation.auracolor"));
+
 }

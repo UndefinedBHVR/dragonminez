@@ -80,6 +80,8 @@
   "dmz.ccreation.alignment": "Alignment",
   "dmz.ccreation.alignment.good": "Good",
   "dmz.ccreation.alignment.evil": "Evil",
+  "dmz.ccreation.auracolor": "Aura Color",
+  "dmz.ccreation.name": "CHARACTER CREATION",
   "item.dragonminez.gete_scrap": "Gete Scrap",
   "item.dragonminez.gete_ingot": "Gete Ingot",
   "block.dragonminez.gete_debris_ore": "Gete Debris",
