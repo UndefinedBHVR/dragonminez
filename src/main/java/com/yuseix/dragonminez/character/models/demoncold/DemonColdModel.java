@@ -1,4 +1,7 @@
-package com.yuseix.dragonminez.character.models.demoncold;
+package com.yuseix.dragonminez.character.models.demoncold;// Made with Blockbench 4.10.4
+// Exported for Minecraft version 1.17 or later with Mojang mappings
+// Paste this class into your mod and generate all required imports
+
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -9,12 +12,11 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
 public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "democold_mini");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "dc_minim");
 	private final ModelPart Head;
 	private final ModelPart orejas;
 	private final ModelPart cuernos;
@@ -69,17 +71,17 @@ public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 
 		PartDefinition Body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition tail1bio = Body.addOrReplaceChild("tail1bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -0.8F));
+		PartDefinition tail1bio = Body.addOrReplaceChild("tail1bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 9.5F, 3.2F));
 
-		PartDefinition tail2bio = tail1bio.addOrReplaceChild("tail2bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 6.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -0.3F));
+		PartDefinition tail2bio = tail1bio.addOrReplaceChild("tail2bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.7F));
 
-		PartDefinition tail3bio = tail2bio.addOrReplaceChild("tail3bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 6.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.7F));
+		PartDefinition tail3bio = tail2bio.addOrReplaceChild("tail3bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.7F));
 
-		PartDefinition tail4bio = tail3bio.addOrReplaceChild("tail4bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 6.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.8F));
+		PartDefinition tail4bio = tail3bio.addOrReplaceChild("tail4bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.8F));
 
-		PartDefinition tail5bio = tail4bio.addOrReplaceChild("tail5bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 6.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.8F));
+		PartDefinition tail5bio = tail4bio.addOrReplaceChild("tail5bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.8F));
 
-		PartDefinition tail6bio = tail5bio.addOrReplaceChild("tail6bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 7.9F));
+		PartDefinition tail6bio = tail5bio.addOrReplaceChild("tail6bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.9F));
 
 		PartDefinition RightArm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
 
@@ -96,28 +98,25 @@ public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 
-		float rotationSpeed = 0.1F; // Velocidad de rotación
-		float amplitude = 0.05F; // Amplitud de la rotación para cada segmento
-		float offset = 3.0F; // Desplazamiento para cada segmento para una transición más suave
+		float random = (float) Math.random();
 
-		// Tail 1 Animation
-		this.tail1bio.yRot = amplitude * Mth.sin(pEntity.tickCount * rotationSpeed);
+		this.tail1bio.yRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
+		this.tail1bio.xRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
 
-		// Tail 2 Animation (relative to Tail 1)
-		this.tail2bio.yRot = this.tail1bio.yRot * -0.1F + amplitude * Mth.sin((pEntity.tickCount + offset) * rotationSpeed);
+		this.tail2bio.yRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
+		this.tail2bio.xRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
 
-		// Tail 3 Animation (relative to Tail 2)
-		this.tail3bio.yRot = this.tail2bio.yRot * -0.2F + amplitude * Mth.sin((pEntity.tickCount + 2 * offset) * rotationSpeed);
+		this.tail3bio.yRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
+		this.tail3bio.xRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
 
-		// Tail 4 Animation (relative to Tail 3)
-		this.tail4bio.yRot = this.tail3bio.yRot * -0.3F + amplitude * Mth.sin((pEntity.tickCount + 3 * offset) * rotationSpeed);
+		this.tail4bio.yRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
+		this.tail4bio.xRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
 
-		// Tail 5 Animation (relative to Tail 4)
-		this.tail5bio.yRot = this.tail4bio.yRot * -0.4F + amplitude * Mth.sin((pEntity.tickCount + 4 * offset) * rotationSpeed);
+		this.tail5bio.yRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
+		this.tail5bio.xRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
 
-		// Tail 6 Animation (relative to Tail 5)
-		this.tail6bio.yRot = this.tail5bio.yRot * 0.5F + amplitude * Mth.sin((pEntity.tickCount + 5 * offset) * rotationSpeed);
-
+		this.tail6bio.yRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
+		this.tail6bio.xRot = (float) (Math.cos((pEntity.tickCount+random)*0.1f)*0.09F);
 	}
 
 	@Override

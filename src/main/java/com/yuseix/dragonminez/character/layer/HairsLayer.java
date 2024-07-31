@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.hair.EarsNamek;
 import com.yuseix.dragonminez.character.models.hair.FemHairModel;
 import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
+import com.yuseix.dragonminez.character.models.hair.TailModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;
@@ -27,13 +28,16 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     private GokuHairModel gokuhair;
     private FemHairModel femhair;
 
+
     private EarsNamek earsNamek;
+    private TailModel cola;
 
     public HairsLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
         this.gokuhair = new GokuHairModel(GokuHairModel.createBodyLayer().bakeRoot());
         this.earsNamek = new EarsNamek(EarsNamek.createBodyLayer().bakeRoot());
         this.femhair = new FemHairModel(FemHairModel.createBodyLayer().bakeRoot());
+        this.cola = new TailModel(TailModel.createBodyLayer().bakeRoot());
     }
 
     @Override
@@ -53,6 +57,13 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             colorB = (hairColor & 0xff) / 255.0f;
 
             if(raza == 0 || raza == 1){
+
+                if(raza == 1){
+                    this.getParentModel().copyPropertiesTo(this.cola);
+                    this.cola.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount,  ageInTicks, netHeadYaw,  headPitch);
+                    this.cola.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY,0.410f,0.119f,0.00410f,1.0f);
+                }
+
                 if(hairId == 0){
                     if(genero.equals("Male")){
                         this.getParentModel().getHead().translateAndRotate(poseStack);

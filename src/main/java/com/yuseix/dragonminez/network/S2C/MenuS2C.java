@@ -31,11 +31,9 @@ public class MenuS2C {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
                 if (openCharacterMenu) {
                     //Si el jugador no ha creado su persona
-                    System.out.println(openCharacterMenu);
                     Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
                 } else {
                     //Si el jugador ya creo a su personaje
-                    System.out.println(openCharacterMenu);
                     Minecraft.getInstance().setScreen(new CharacterCMenu(Component.translatable("menu.title.dragonminez.statsmenu")));
 
                 }
