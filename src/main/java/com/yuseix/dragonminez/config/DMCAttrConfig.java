@@ -34,7 +34,7 @@ public class DMCAttrConfig {
 
     //CONFIGS GENERALES
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_FALLDMG;
-    public static final ForgeConfigSpec.ConfigValue<Integer> MULTIPLIER_ZPOINTS_COST;
+    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_COST;
 
 
     static {
@@ -82,7 +82,7 @@ public class DMCAttrConfig {
 
 
         MULTIPLIER_ZPOINTS_COST = BUILDER.comment("Multiplier for ZPoints Cost (Min: 3 / Max: 200)")
-                .defineInRange("ZPoints: ", 5, 3, 200);
+                .defineInRange("ZPoints: ", 1.2, 1.0, 20.0);
 
         MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00)")
                 .defineInRange("FallDmg: ", 0.03, 0.01, 1.00);

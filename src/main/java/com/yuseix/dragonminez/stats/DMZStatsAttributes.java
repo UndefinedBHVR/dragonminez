@@ -176,16 +176,20 @@ public class DMZStatsAttributes {
 
     public void removeZpoints(int points) {
 
-        zpoints -= points;
+        if (this.zpoints >= points) {
+            this.zpoints -= points;
+        } else {
+            this.zpoints = 0;
+        }
         DMZStatsCapabilities.syncStats(player);
 
     }
 
     public void removeStrenght(int points) {
 
-        if (this.strength > 3) {
-            this.strength -= points;
-        } else {
+        this.strength -= points;
+
+        if (this.strength < 3) {
             this.strength = 3;
         }
 
@@ -194,9 +198,9 @@ public class DMZStatsAttributes {
 
     public void removeDefense(int points) {
 
-        if (this.defense > 3) {
-            this.defense -= points;
-        } else {
+        this.defense -= points;
+
+        if (this.defense < 3) {
             this.defense = 3;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -204,10 +208,10 @@ public class DMZStatsAttributes {
 
     public void removeConstitution(int points) {
 
-        if (this.constitution > 5) {
-            this.constitution -= points;
-        } else {
-            this.constitution = 5;
+        this.constitution -= points;
+
+        if (this.constitution < 3) {
+            this.constitution = 3;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -215,33 +219,36 @@ public class DMZStatsAttributes {
 
     public void removeKiPower(int points) {
 
-        if (this.KiPower > 5) {
-            this.KiPower -= points;
-        } else {
-            this.KiPower = 5;
+        this.KiPower -= points;
+
+        if (this.KiPower < 3) {
+            this.KiPower = 3;
         }
+
         DMZStatsCapabilities.syncStats(player);
 
     }
 
     public void removeEnergy(int points) {
 
-        if (this.energy > 10) {
-            this.energy -= points;
-        } else {
-            this.energy = 10;
+        this.energy -= points;
+
+        if (this.energy < 3) {
+            this.energy = 3;
         }
+
         DMZStatsCapabilities.syncStats(player);
 
     }
 
     public void removeStamina(int points) {
 
-        if (this.stamina > 10) {
-            this.stamina -= points;
-        } else {
-            this.stamina = 10;
+        this.stamina -= points;
+
+        if (this.stamina < 3) {
+            this.stamina = 3;
         }
+        
         DMZStatsCapabilities.syncStats(player);
 
     }
