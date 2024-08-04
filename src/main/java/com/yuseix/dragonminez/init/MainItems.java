@@ -1,11 +1,10 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
+import com.yuseix.dragonminez.init.armor.VegetaSaiyanArmor;
 import com.yuseix.dragonminez.init.items.custom.*;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -50,12 +49,35 @@ public final class MainItems {
             ITEM_REGISTER.register("green_pothala_left", () -> new Item(properties
                     .stacksTo(1)
                     .fireResistant()));
+    //ARMADURAS
+    //VEGETA SAGA SAIYAJIN ARMADURA
+    public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new VegetaSaiyanArmor
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE ,properties
+                            .fireResistant()
+                            .stacksTo(1)
 
+                    ));
+    public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new VegetaSaiyanArmor
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS ,properties
+                            .fireResistant()
+                            .stacksTo(1)
+
+                    ));
+    public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_BOOTS =
+            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmor
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS ,properties
+                            .fireResistant()
+                            .stacksTo(1)
+
+                    ));
     //LÍQUIDOS
     /*TODO: Texturas Líquido de Curación
      *    Falta la textura del item de: Líquido de Curación (en un bucket)
      * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos
      */
+
     public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",
             () -> new BucketItem(MainFluids.SOURCE_HEALING, properties
                     .craftRemainder(Items.BUCKET)
@@ -68,7 +90,9 @@ public final class MainItems {
 
     public static final RegistryObject<Item> KIKONO_SHARD = ITEM_REGISTER.register("kikono_shard",
             () -> new Item(properties
-                    .stacksTo(64)));
+                    .stacksTo(64)
+            ));
+
 
     //DRAGON BALL RADAR (TIERRA)
     public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
