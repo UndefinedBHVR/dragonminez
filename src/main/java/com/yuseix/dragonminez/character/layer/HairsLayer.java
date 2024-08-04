@@ -65,6 +65,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                 }
 
                 if(hairId == 0){
+                    this.gokuhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                     this.getParentModel().getHead().translateAndRotate(poseStack);
                     this.gokuhair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                 } else if(hairId == 1){
@@ -107,6 +108,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                         colorR = (bodyColor >> 16) / 255.0F;
                         colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
                         colorB = (bodyColor & 0xff) / 255.0f;
+                        this.gokuhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                         this.getParentModel().getHead().translateAndRotate(poseStack);
                         this.gokuhair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                     } if(hairId == 2){

@@ -1,7 +1,4 @@
-package com.yuseix.dragonminez.character.models.hair;// Made with Blockbench 4.10.4
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package com.yuseix.dragonminez.character.models.hair;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -218,10 +215,10 @@ public class GohanDBSHairModel extends HumanoidModel<AbstractClientPlayer> {
 		//super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 		float random = (float) Math.random();
 
-		this.hair14.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.03F);
-		this.hair23.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*-0.03F);
-		this.hair3.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.06f)*-0.02F);
-		this.hair22.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.06f)*0.02F);
+		this.hair14.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.03F);
+		this.hair23.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.03F);
+		this.hair3.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+		this.hair22.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
 		this.hair15.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
 		this.hair16.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
 		this.hair19.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
@@ -233,7 +230,7 @@ public class GohanDBSHairModel extends HumanoidModel<AbstractClientPlayer> {
 		this.hair1.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.06F);
 		this.hair18.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.06F);
 
-		this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.06f)*0.06F);
+		this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.06F);
 
 	}
 
