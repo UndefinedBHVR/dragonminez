@@ -72,6 +72,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                     this.getParentModel().getHead().translateAndRotate(poseStack);
                     this.femhair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                 } else if(hairId == 2){
+                    this.vegetahair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                     this.getParentModel().getHead().translateAndRotate(poseStack);
                     this.vegetahair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                 } else if(hairId == 3){
@@ -115,12 +116,14 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                         colorR = (bodyColor >> 16) / 255.0F;
                         colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
                         colorB = (bodyColor & 0xff) / 255.0f;
+                        this.vegetahair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                         this.getParentModel().getHead().translateAndRotate(poseStack);
                         this.vegetahair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                     }  if(hairId == 3){
                         colorR = (bodyColor >> 16) / 255.0F;
                         colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
                         colorB = (bodyColor & 0xff) / 255.0f;
+                        this.gohandbshair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                         this.getParentModel().getHead().translateAndRotate(poseStack);
                         this.gohandbshair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                     }

@@ -67,7 +67,7 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 		this.pelo6 = gokucabello.getChild("pelo6");
 		this.pelo7 = gokucabello.getChild("pelo7");
 		this.pelo8 = gokucabello.getChild("pelo8");
-		this.pelo9 = root.getChild("pelo9");
+		this.pelo9 = gokucabello.getChild("pelo9");
 		this.pelo10 = gokucabello.getChild("pelo10");
 		this.pelo11 = gokucabello.getChild("pelo11");
 		this.pelo12 = gokucabello.getChild("pelo12");
@@ -121,9 +121,9 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		PartDefinition pelo4 = gokucabello.addOrReplaceChild("pelo4", CubeListBuilder.create(), PartPose.offset(7.815F, -33.4851F, -7.4328F));
 
-		PartDefinition cube_r7 = pelo4.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(0, 33).addBox(-0.87F, -2.8201F, -1.4656F, 1.9F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-6.215F, 5.4851F, 3.7328F, -0.2618F, 0.0F, 0.2182F));
+		PartDefinition cube_r7 = pelo4.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(0, 33).addBox(-0.87F, -2.8201F, -1.4656F, 1.9F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.315F, 4.4851F, 3.7328F, -0.3532F, -0.1395F, -0.508F));
 
-		PartDefinition cube_r8 = pelo4.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(0, 33).addBox(-1.0F, -3.0F, -1.0F, 2.3F, 2.5F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.015F, 3.8851F, 3.4328F, -0.2618F, 0.0F, -0.5672F));
+		PartDefinition cube_r8 = pelo4.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(0, 33).addBox(-1.0F, -3.0F, -1.0F, 2.3F, 2.5F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.615F, 3.3851F, 3.4328F, -0.2618F, 0.0F, -0.7418F));
 
 		PartDefinition pelo5 = gokucabello.addOrReplaceChild("pelo5", CubeListBuilder.create(), PartPose.offset(4.0367F, -31.2182F, -3.1713F));
 
@@ -268,8 +268,8 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 		this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
 		this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
 		this.pelo3.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
-		this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
-		this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+		//this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+		//this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
 
 		this.pelo15.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
 		this.pelo14.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
