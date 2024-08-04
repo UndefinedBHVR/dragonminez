@@ -58,6 +58,7 @@ public final class MainTabs {
                         output.accept(MainBlocks.GETE_ORE.get().asItem());
                         output.accept(MainBlocks.GETE_FURNACE.get().asItem());
                         output.accept(MainItems.GETE.get());
+                        output.accept(MainItems.KIKONO_SHARD.get());
                     }).build()
     );
 
