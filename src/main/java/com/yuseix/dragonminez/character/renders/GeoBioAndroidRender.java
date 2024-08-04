@@ -4,7 +4,6 @@ package com.yuseix.dragonminez.character.renders;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.yuseix.dragonminez.character.GeoPlayerItemInHandLayer;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -129,7 +128,6 @@ public class GeoBioAndroidRender<T extends AbstractClientPlayer & GeoAnimatable>
                 };
             }
         });
-        addRenderLayer(new GeoPlayerItemInHandLayer<>(this, renderManager.getItemInHandRenderer()));
 
     }
 

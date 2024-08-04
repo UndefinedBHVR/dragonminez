@@ -25,49 +25,8 @@ public abstract class PlayerMixin extends LivingEntity implements GeoAnimatable 
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "cola", 0, this::cola),
-                new AnimationController<>(this, "idle", 0, this::idle)
-        );
-
-        controllerRegistrar.add(shift(this));
-        controllerRegistrar.add(swimm(this));
 
     }
-
-    private <T extends GeoAnimatable> PlayState cola(AnimationState<T> tAnimationState) {
-        if (tAnimationState.isMoving()) {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("dmz.tail", Animation.LoopType.LOOP));
-        } else {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("dmz.tail", Animation.LoopType.LOOP));
-        }
-        return PlayState.CONTINUE;
-
-    }
-
-    private <T extends GeoAnimatable> PlayState idle(AnimationState<T> tAnimationState) {
-        if (tAnimationState.isMoving()) {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("move.walk", Animation.LoopType.LOOP));
-        } else {
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("misc.idle", Animation.LoopType.LOOP));
-        }
-        return PlayState.CONTINUE;
-
-    }
-
-    public <T extends GeoAnimatable> AnimationController<T> shift(T animatable) {
-        return new AnimationController(animatable, "sneak", 0, (state) -> {
-            //return state.setAndContinue(player.isCrouching() ? (state.isMoving() ? DefaultAnimations.SNEAK : RawAnimation.begin().then("idle.shift", Animation.LoopType.LOOP)) : DefaultAnimations.IDLE);
-            return (player.isCrouching() ? (state.isMoving() ? state.setAndContinue(DefaultAnimations.SNEAK) : state.setAndContinue(RawAnimation.begin().then("idle.shift", Animation.LoopType.LOOP))) : PlayState.STOP);
-        });
-    }
-
-    public <T extends GeoAnimatable> AnimationController<T> swimm(T animatable) {
-        return new AnimationController(animatable, "swim", 5, (state) -> {
-            //return state.setAndContinue(player.isSwimming() ? (state.isMoving() ? DefaultAnimations.SWIM : DefaultAnimations.IDLE) : DefaultAnimations.IDLE);
-            return (player.isSwimming() ? (state.isMoving() ? state.setAndContinue(DefaultAnimations.SWIM) : state.setAndContinue(DefaultAnimations.IDLE)) : PlayState.STOP);
-        });
-    }
-
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;

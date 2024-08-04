@@ -129,12 +129,8 @@ public class EntityRenderDispatcherMixin {
         builder.put("default", new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("stevehumansaiyanmodel")));
         //HUMANO Y SAIYAJIN MODELO FEMENINO (FASE ALPHA)
         builder.put("fem", new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("femhumansaiyanmodel")));
-        //NAMEK BASE
-        builder.put("namek", new GeoNamekRender(ctx, new GeoNamekModel()));
         //BIOANDROIDE BASE
         builder.put("bioandroid_imperfect", new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
-        //MAJIN GORDO BASE
-        builder.put("majin_gordo", new GeoMajinRender(ctx, new GeoMajinModel("majinracegordo")));
 
         return builder.build();
     }
@@ -143,10 +139,14 @@ public class EntityRenderDispatcherMixin {
         //HUMANO Y SAIYAJIN
         builder.put("default", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
         builder.put("slim", new HumanSaiyanRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
+        //NAMEK
         builder.put("namek", new NamekianRender(ctx));
+        //BIO ANDROIDE
         builder.put("bio_imperfect", new BioAndroidRender(ctx));
+        //MAJIN
         builder.put("majin_gordo", new MajinRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
         builder.put("majin_female", new MajinRaceRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
+        //DEMON COLD
         builder.put("demon_cold", new DemonColdRender(ctx, new DemonColdModel<>(ctx.bakeLayer(DemonColdModel.LAYER_LOCATION))));
 
         return builder.build();
