@@ -16,10 +16,10 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 import java.util.function.Consumer;
 
-public class VegetaSaiyanArmor extends ArmorItem implements GeoItem {
+public class VegetaSaiyanArmorItem extends ArmorItem implements GeoItem {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public VegetaSaiyanArmor(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
+    public VegetaSaiyanArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
         super(pMaterial, pType, pProperties);
     }
 
@@ -30,8 +30,9 @@ public class VegetaSaiyanArmor extends ArmorItem implements GeoItem {
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
-                if(this.renderer == null)
+                if(this.renderer == null){
                     this.renderer = new VegetaSaiyanArmorRenderer();
+                }
 
                 this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
                 return this.renderer;

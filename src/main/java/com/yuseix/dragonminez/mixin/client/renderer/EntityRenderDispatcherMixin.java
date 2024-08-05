@@ -83,8 +83,8 @@ public class EntityRenderDispatcherMixin {
                                     cir.setReturnValue(dmzRendererersV2.get("slim"));
                                 }
                             }
-
                             break;
+
                         //NAMEKIANO RENDER
                         case 2:
                             cir.setReturnValue(dmzRendererersV2.get("namek"));

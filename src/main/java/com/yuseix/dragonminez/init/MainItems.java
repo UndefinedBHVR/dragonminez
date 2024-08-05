@@ -2,14 +2,13 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
-import com.yuseix.dragonminez.init.armor.VegetaSaiyanArmor;
+import com.yuseix.dragonminez.init.armor.VegetaSaiyanArmorItem;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.minecraft.world.item.ArmorItem;
 
 @SuppressWarnings("unused")
 public final class MainItems {
@@ -52,26 +51,21 @@ public final class MainItems {
                     .fireResistant()));
     //ARMADURAS
     //VEGETA SAGA SAIYAJIN ARMADURA
-
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new VegetaSaiyanArmor
+            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new VegetaSaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE , new Item.Properties()
                             .fireResistant()
-
                     ));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new VegetaSaiyanArmor
+            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new VegetaSaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS , new Item.Properties()
                             .fireResistant()
-
                     ));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_BOOTS =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmor
+            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS , new Item.Properties()
                             .fireResistant()
-
                     ));
-
 
     //LÍQUIDOS
     /*TODO: Texturas Líquido de Curación

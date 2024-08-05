@@ -14,7 +14,6 @@ import net.minecraft.world.level.ItemLike;
 
 import java.util.EnumMap;
 import java.util.function.Supplier;
-
 public enum ModArmorMaterials implements ArmorMaterial {
 
     KIKONO("kikono", 37, (EnumMap) Util.make(new EnumMap(ArmorItem.Type.class), (p_266655_) -> {
