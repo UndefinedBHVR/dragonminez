@@ -52,26 +52,20 @@ public final class MainItems {
     //ARMADURAS
     //VEGETA SAGA SAIYAJIN ARMADURA
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new VegetaSaiyanArmor
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE ,properties
-                            .fireResistant()
-                            .stacksTo(1)
-
-                    ));
+            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new VegetaSaiyanArmor(
+                    ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                    .fireResistant()
+                    .stacksTo(1)));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new VegetaSaiyanArmor
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS ,properties
-                            .fireResistant()
-                            .stacksTo(1)
-
-                    ));
+            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new VegetaSaiyanArmor(
+                    ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                    .fireResistant()
+                    .stacksTo(1)));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_BOOTS =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmor
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS ,properties
-                            .fireResistant()
-                            .stacksTo(1)
-
-                    ));
+            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmor(
+                    ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                    .fireResistant()
+                    .stacksTo(1)));
     //LÍQUIDOS
     /*TODO: Texturas Líquido de Curación
      *    Falta la textura del item de: Líquido de Curación (en un bucket)
