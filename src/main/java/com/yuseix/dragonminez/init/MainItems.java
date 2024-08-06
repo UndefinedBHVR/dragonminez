@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.armor.GokuArmorItem;
 import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
 import com.yuseix.dragonminez.init.armor.VegetaSaiyanArmorItem;
 import com.yuseix.dragonminez.init.items.custom.*;
@@ -63,6 +64,22 @@ public final class MainItems {
                     ));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_BOOTS =
             ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS , new Item.Properties()
+                            .fireResistant()
+                    ));
+    //GOKU GI
+    public static final RegistryObject<Item> GOKU_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("goku_armor_chestplate", () -> new GokuArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE , new Item.Properties()
+                            .fireResistant()
+                    ));
+    public static final RegistryObject<Item> GOKU_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("goku_armor_leggings", () -> new GokuArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS , new Item.Properties()
+                            .fireResistant()
+                    ));
+    public static final RegistryObject<Item> GOKU_ARMOR_BOOTS =
+            ITEM_REGISTER.register("goku_armor_boots", () -> new GokuArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS , new Item.Properties()
                             .fireResistant()
                     ));
