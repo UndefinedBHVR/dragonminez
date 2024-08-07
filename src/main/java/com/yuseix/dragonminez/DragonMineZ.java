@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoader;
@@ -21,6 +22,8 @@ import software.bernie.geckolib.GeckoLib;
 public class DragonMineZ {
 
     public static final String MOD_ID = "dragonminez";
+
+
 
     public DragonMineZ() {
 
@@ -42,6 +45,7 @@ public class DragonMineZ {
         MainNPCs.register(modEventBus);
         //Registramos los Fluidos (Tipo de Fluido y Fluido/s)
         MainFluids.register(modEventBus);
+        ModBiomes.register(modEventBus);
         //Registramos el Listener del Mod (Normalmente eventos de Forge y FML más como frontend, realmente son los eventos de renderizado y más cosas de cliente)
         modEventBus.register(new ModBusEvents());
         //Registramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend, conocido como ModEvents)
