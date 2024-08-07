@@ -4,7 +4,6 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.custom.GeteFurnaceBlock;
 import com.yuseix.dragonminez.init.blocks.custom.GeteOreDebrisBlock;
 import com.yuseix.dragonminez.init.blocks.custom.NamekPlantsBlock;
-import com.yuseix.dragonminez.init.blocks.custom.NamekPortalBlock;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
@@ -142,10 +141,6 @@ public final class MainBlocks {
                     .strength(3.5F)
                     .lightLevel(litBlockEmission(13))
             ));
-
-    //PORTALES
-    public static final RegistryObject<Block> NAMEK_PORTAL = registerBlock("namek_portal",
-            () -> new NamekPortalBlock());
 
     //PLANTAS
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
