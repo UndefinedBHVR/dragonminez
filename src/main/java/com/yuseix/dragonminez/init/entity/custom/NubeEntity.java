@@ -55,7 +55,7 @@ public class NubeEntity extends Mob implements GeoEntity {
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             Player player = (Player) this.getControllingPassenger();
 
-            float velocidad = 0.5f
+            float velocidad = 0.42f;
             // Obtener los valores de movimiento del jugador
             double strafe = player.xxa * velocidad;
             double forward = player.zza * velocidad;
@@ -65,6 +65,12 @@ public class NubeEntity extends Mob implements GeoEntity {
 
             // Aplicar movimiento
             Vec3 movement = new Vec3(strafe, player.yya * velocidad, forward);
+
+            // Rotar la cabeza y el cuerpo del mob hacia la dirección en la que está mirando el jugador
+            this.yRotO = player.yRotO;
+            this.setYRot(player.getYRot());
+            this.xRotO = player.xRotO;
+            this.setXRot(player.getXRot());
 
             if (this.isControlledByLocalInstance()) {
                 this.moveRelative(this.getSpeed(), movement);
