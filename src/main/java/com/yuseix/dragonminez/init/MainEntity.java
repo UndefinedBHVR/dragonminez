@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
+import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -21,7 +22,12 @@ public final class MainEntity {
                             .sized(4.5f, 4.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "dino").toString())
             );
-
+    public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =
+            ENTITY_TYPES_REGISTER.register("nube",
+                    () -> EntityType.Builder.of(NubeEntity::new, MobCategory.AMBIENT)
+                            .sized(1.2f, 1.2f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "nube").toString())
+            );
     public static void register(IEventBus bus) {
         ENTITY_TYPES_REGISTER.register(bus);
     }

@@ -159,6 +159,7 @@ public class CharacterCMenu extends Screen {
         });
 
     }
+
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(pGuiGraphics);

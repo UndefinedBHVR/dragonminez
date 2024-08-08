@@ -6,6 +6,7 @@ package com.yuseix.dragonminez.character.models;// Made with Blockbench 4.10.4
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -62,6 +63,7 @@ public class SlimHumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T>
 	@Override
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+
 	}
 
 	@Override
