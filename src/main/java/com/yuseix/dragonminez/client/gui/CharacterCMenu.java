@@ -50,6 +50,8 @@ public class CharacterCMenu extends Screen {
             "textures/gui/buttons/characterbuttons.png");
 
     private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
+    private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/buu_panorama");
+    private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/bio_panorama");
 
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();
 
@@ -63,6 +65,8 @@ public class CharacterCMenu extends Screen {
     private static String partePagina = "";
 
     private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
+    private final PanoramaRenderer panoramaBuu = new PanoramaRenderer(new CubeMap(PANORAMA_BUU));
+    private final PanoramaRenderer panoramaBio = new PanoramaRenderer(new CubeMap(PANORAMA_BIO));
 
 
     public CharacterCMenu(Component pTitle) {
@@ -128,18 +132,46 @@ public class CharacterCMenu extends Screen {
 
     }
 
+    public void panoramas(GuiGraphics graphics, float partialtick){
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            var race = cap.getRace();
+
+            if(race == 0){
+                this.customPanorama.render(partialtick, 1.0f);
+
+            }else if(race == 1){
+                this.customPanorama.render(partialtick, 1.0f);
+
+            }else if(race == 2){
+                this.customPanorama.render(partialtick, 1.0f);
+
+            }else if(race == 3){
+                this.panoramaBio.render(partialtick, 1.0f);
+
+            }else if(race == 4){
+                this.customPanorama.render(partialtick, 1.0f);
+
+            }else {
+                this.panoramaBuu.render(partialtick, 1.0f);
+
+            }
+        });
+
+    }
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        //renderBackground(pGuiGraphics);
+        renderBackground(pGuiGraphics);
 
         var Altura = pGuiGraphics.guiHeight();
         var Ancho = pGuiGraphics.guiWidth();
+
+        //panoramas(pGuiGraphics, pPartialTick);
 
         if (currentPage == 0) {
 
             var AlturaGui = this.height;
             var AnchoGui = this.width;
-            this.customPanorama.render(pPartialTick, 1.0f);
 
             pagina0(pGuiGraphics, AnchoGui, AlturaGui);
 
