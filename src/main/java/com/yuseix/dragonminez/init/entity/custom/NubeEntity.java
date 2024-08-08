@@ -97,6 +97,7 @@ public class NubeEntity extends Mob implements GeoEntity {
     public boolean hurt(DamageSource pSource, float pAmount) {
         if (pSource.getEntity() instanceof Player) {
             if (!this.level().isClientSide) {
+                //Aca poner el item que va a dropear
                 this.spawnAtLocation(Items.DIAMOND);
                 this.remove(RemovalReason.KILLED);
             }
