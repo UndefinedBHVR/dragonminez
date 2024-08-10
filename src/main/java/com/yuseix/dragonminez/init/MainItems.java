@@ -108,6 +108,8 @@ public final class MainItems {
 
     //DRAGON BALL RADAR (TIERRA)
     public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
+    //NUBE VOLADORA
+    public static final RegistryObject<Item> NUBE_ITEM = ITEM_REGISTER.register("kinton_flying", KintonFlyingItem::new);
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",

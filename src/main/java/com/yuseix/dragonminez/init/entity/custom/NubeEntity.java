@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
@@ -121,7 +122,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
         if (pSource.getEntity() instanceof Player) {
             if (!this.level().isClientSide) {
                 //Aca poner el item que va a dropear
-                this.spawnAtLocation(Items.DIAMOND);
+                this.spawnAtLocation(MainItems.NUBE_ITEM.get());
                 this.remove(RemovalReason.KILLED);
             }
             return true;
