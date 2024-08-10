@@ -22,6 +22,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -278,6 +280,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             var TPS = playerstats.getZpoints();
+            var raza = playerstats.getRace();
+
+            int DefensaArmor = Minecraft.getInstance().player.getArmorValue();
+            int DurezaArmor = Mth.floor(Minecraft.getInstance().player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
 
             anchoTexto = (this.width - 103);
             alturaTexto = (this.height / 2) - 83;
@@ -291,31 +297,40 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             var color = 0xFBA16A;
 
-            graphics.drawString(font, Component.literal("Strength:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, color);
+            graphics.drawString(font, Component.literal("Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, color);
             graphics.drawString(font, Component.literal("Defense:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, color);
             graphics.drawString(font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, color);
             graphics.drawString(font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, color);
-            graphics.drawString(font, Component.literal("Ki Power:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, color);
+            graphics.drawString(font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, color);
             graphics.drawString(font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, color);
 
             graphics.drawString(font, Component.literal("Multiplier:").withStyle(ChatFormatting.BOLD),anchoTexto - 3, alturaTexto + 80, 0xC51D1D);
 
-            var strMax = playerstats.getStrength();
-            var defMax = playerstats.getDefense();
-            var stmMax = playerstats.getStamina();
-            var conMax = playerstats.getConstitution();
-            var KPWMax = playerstats.getKiPower();
-            var enrMax = playerstats.getEnergy();
 
-            //VARIABLES:
-            //NIVEL
             anchoTexto = (this.width - 55);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+            if(raza == 0){
+                //DamageOutput = (((((Daño MC + (StatSTR/10) * ConfigRaza) * ConfigClase) * Transf) * Porcentaje)
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
+
+                var defMax = ((playerstats.getDefense()/5) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                var stmMax = playerstats.getStamina();
+                var conMax = playerstats.getConstitution();
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = playerstats.getEnergy();
+
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+
+            }
+
+
+
 
             drawStringWithBorderShadow(graphics, font, Component.literal("x"+"1.0"), anchoTexto-8, alturaTexto + 80, 0xFCFCFC);
 

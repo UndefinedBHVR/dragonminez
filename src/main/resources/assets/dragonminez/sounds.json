@@ -52,5 +52,11 @@
     "sounds": [
       "dragonminez:radar_scan"
     ]
+  },
+  "nube": {
+    "subtitle": "sounds.dragonminez.nube",
+    "sounds": [
+      "dragonminez:nube"
+    ]
   }
 }
