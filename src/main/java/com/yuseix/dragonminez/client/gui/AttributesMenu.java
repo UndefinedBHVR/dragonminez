@@ -1,6 +1,10 @@
 package com.yuseix.dragonminez.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
@@ -19,6 +23,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -92,6 +97,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
         menu2info(graphics);
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
+
+
+
 
     }
 

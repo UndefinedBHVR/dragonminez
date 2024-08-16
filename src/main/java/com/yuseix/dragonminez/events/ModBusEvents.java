@@ -17,8 +17,10 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.KarinRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.NubeRenderer;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
+import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -72,6 +74,7 @@ public final class ModBusEvents {
             //ENTIDADES
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
             EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
+            EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
@@ -97,6 +100,8 @@ public final class ModBusEvents {
     public void entityAttributeEvent(EntityAttributeCreationEvent event) {
         event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
         event.put(MainEntity.NUBE_VOLADORA.get(), NubeEntity.createAttributes());
+        event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
+
 
     }
 

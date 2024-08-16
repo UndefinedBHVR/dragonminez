@@ -147,11 +147,6 @@ public final class ForgeBusEvents {
     public void onKeyInput(InputEvent.Key event) {
 
         if (Keys.STATS_MENU.consumeClick()) {
-            /*
-            Minecraft.getInstance().setScreen(new CharacterCMenu(
-                    Component.translatable("menu.title.dragonminez.statsmenu")));
-
-             */
             ModMessages.sendToServer(new MenuC2S());
         }
 

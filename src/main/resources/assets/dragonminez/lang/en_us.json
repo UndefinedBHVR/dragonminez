@@ -13,6 +13,7 @@
 
   "entity.dragonminez.dino": "Dinosaur",
   "entity.dragonminez.nube": "Kinton Flying",
+  "entity.dragonminez.karin": "Master Korin",
 
   "item.dragonminez.blue_capsule": "Capsule (ENE)",
   "item.dragonminez.blue_capsule.ene.use": "+5 Energy",
