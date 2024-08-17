@@ -26,7 +26,7 @@ public final class MainEntity {
     public static final RegistryObject<EntityType<KarinEntity>> MASTER_KARIN =
             ENTITY_TYPES_REGISTER.register("karin",
                     () -> EntityType.Builder.of(KarinEntity::new, MobCategory.AMBIENT)
-                            .sized(1.2f, 1.2f)
+                            .sized(0.7f, 0.7f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "karin").toString())
             );
     public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =

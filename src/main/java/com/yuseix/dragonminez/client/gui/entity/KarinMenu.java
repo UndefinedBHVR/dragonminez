@@ -6,20 +6,30 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
+import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
+import com.yuseix.dragonminez.network.C2S.StatsC2S;
+import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
 
 public class KarinMenu extends Screen {
 
     private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/texto.png");
+
+    private GlowButton kinton;
 
     public KarinMenu() {
         super(Component.literal("karinwa"));
@@ -28,6 +38,21 @@ public class KarinMenu extends Screen {
     @Override
     protected void init() {
         super.init();
+        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-45, (this.height-23),Component.literal("NUBE VOLADORA"), wa -> {
+
+        }));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        /*
+        this.removeWidget(kinton);
+        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2), (this.height-78),Component.literal("NUBE VOLADORAAAA"), wa -> {
+
+        }));
+
+        */
     }
 
     @Override
@@ -54,15 +79,19 @@ public class KarinMenu extends Screen {
 
         buffer.vertex(centerX-140, centerY + 250, 0.0D).uv(0.0F, 1.0F).endVertex();
         buffer.vertex(centerX+140, centerY + 250, 0.0D).uv(1.0F, 1.0F).endVertex();
-        buffer.vertex(centerX+140, centerY-80, 0.0D).uv(1.0F, 0.0F).endVertex();
-        buffer.vertex(centerX-140, centerY-80, 0.0D).uv(0.0F, 0.0F).endVertex();
+        buffer.vertex(centerX+140, centerY-90, 0.0D).uv(1.0F, 0.0F).endVertex();
+        buffer.vertex(centerX-140, centerY-90, 0.0D).uv(0.0F, 0.0F).endVertex();
         Tesselator.getInstance().end();
 
         RenderSystem.disableBlend();
 
-
-        pGuiGraphics.drawString(font, Component.literal(karinEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX-120, centerY-78, 0xFFFFFF);
-        pGuiGraphics.drawString(font, Component.literal("Umino, umino,la racha we, no te olvides la racha"), centerX-120, centerY-63, 0xFFFFFF);
+        //NOMBRE DE LA ENTIDAD
+        pGuiGraphics.drawString(font, Component.literal(karinEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX-120, centerY-88, 0xFFFFFF);
+        //TEXTO QUE DIRA LA ENTIDAD
+        List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.menu"), 250);
+        for (int i = 0; i < lines.size(); i++) {
+            pGuiGraphics.drawString(font, lines.get(i), (centerX-120), (centerY-73)  + i * font.lineHeight, 0xFFFFFF);
+        }
 
     }
 
