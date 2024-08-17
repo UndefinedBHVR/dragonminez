@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
+import com.yuseix.dragonminez.network.C2S.KarinC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -29,7 +30,7 @@ public class KarinMenu extends Screen {
     private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/texto.png");
 
-    private GlowButton kinton;
+    private GlowButton kinton,senzu;
 
     public KarinMenu() {
         super(Component.literal("karinwa"));
@@ -38,7 +39,12 @@ public class KarinMenu extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-45, (this.height-23),Component.literal("NUBE VOLADORA"), wa -> {
+        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-45, (this.height-23),Component.translatable("lines.master_korin.kinton"), wa -> {
+        ModMessages.sendToServer(new KarinC2S(1));
+            this.minecraft.setScreen(null);
+
+        }));
+        this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-140, (this.height-23),Component.translatable("lines.master_korin.senzu"), wa -> {
 
         }));
     }
