@@ -44,10 +44,47 @@ public class StatsEvents {
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
 
-                int maxcon = (int) (playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get());
-                int maxstamina = (playerstats.getStamina() + 3);
-                int maxenergia = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                var vidaMC = 20;
+                var con = playerstats.getConstitution();
+                var raza = playerstats.getRace();
+                var energia = playerstats.getEnergy();
 
+                int maxstamina = 0;
+
+                int maxenergia = 0;
+
+                //ENERGIAAA
+                if(raza == 0){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get())) * 0.5);
+
+                } else if(raza == 1){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double)con * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get())) * 0.5);
+
+                } else if(raza == 2){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get())) * 0.5);
+
+                } else if(raza == 3){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get())) * 0.5);
+
+                } else if(raza == 4){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con* DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get())) * 0.5);
+
+                } else if(raza == 5){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get())) * 0.5);
+
+                }
 
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
 
@@ -65,22 +102,20 @@ public class StatsEvents {
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
                     if (energiacounter >= 60 * 5) {
 
-                        int regenki = ((maxenergia) / 10);
+                        int regenki = (Math.round(maxenergia / 10));
 
                         playerstats.addCurEnergy(regenki);
+                        System.out.println("energia restaurada: " + regenki);
 
                         energiacounter = 0;
                     }
                 }
 
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
-
             });
 
         }
 
-
-    }
+}
 
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
@@ -284,7 +319,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -301,7 +336,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -319,7 +354,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -337,7 +372,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -355,7 +390,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -373,7 +408,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -445,12 +480,32 @@ public class StatsEvents {
         switch (raza) {
             case "humano", "Humano", "h":
 
-                maxDef = ((StatDEF) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = ((StatDEF/4) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
                 break;
             case "saiyan", "Saiyan", "s":
 
                 maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "namek", "Namek", "n":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_NAMEK.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "BioAndroide", "Bio", "b":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "ColdDemon", "Cold", "c":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "Majin", "majin", "M":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_MAJIN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
                 break;
         }

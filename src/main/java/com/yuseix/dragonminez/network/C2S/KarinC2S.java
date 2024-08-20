@@ -38,6 +38,8 @@ public class KarinC2S {
 
                 if(packet.option == 1){
                     player.getInventory().add(new ItemStack(MainItems.NUBE_ITEM.get()));
+                }else if(packet.option == 2){
+                    player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get()));
                 }
 
             }

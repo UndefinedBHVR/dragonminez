@@ -13,6 +13,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -90,48 +91,112 @@ public class StatsCommand {
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+                var vidaMC = 20;
+                var con = stats.getConstitution();
+                var maxVIDA = 0.0;
+                var raza = stats.getRace();
 
                 switch (stat) {
                     case "strenght":
-                        playerStatsAttributes.removeStrenght(cantidad);
+                        stats.removeStrenght(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
-                        playerStatsAttributes.removeDefense(cantidad);
+                        stats.removeDefense(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
-                        playerStatsAttributes.removeConstitution(cantidad);
-                        playerStatsAttributes.removeStamina(cantidad);
+                        stats.removeConstitution(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+                        if(raza == 0){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 1){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 2){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 3){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 4){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 5){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        }
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
-                        playerStatsAttributes.removeKiPower(cantidad);
+                        stats.removeKiPower(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
-                        playerStatsAttributes.removeEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
+                        stats.removeEnergy(cantidad);
+
+                        if(stats.getRace() == 0){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                        } else if(stats.getRace() == 1){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                        } else if(stats.getRace() == 2){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                        } else if(stats.getRace() == 3){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                        } else if(stats.getRace() == 4){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                        } else if(stats.getRace() == 5){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                        }
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
-                        playerStatsAttributes.removeStrenght(cantidad);
-                        playerStatsAttributes.removeDefense(cantidad);
-                        playerStatsAttributes.removeConstitution(cantidad);
-                        playerStatsAttributes.removeStamina(cantidad);
-                        playerStatsAttributes.removeKiPower(cantidad);
-                        playerStatsAttributes.removeEnergy(cantidad);
+                        stats.removeStrenght(cantidad);
+                        stats.removeDefense(cantidad);
+                        stats.removeConstitution(cantidad);
+                        stats.removeKiPower(cantidad);
+                        stats.removeEnergy(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+                        if(raza == 0){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 1){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 2){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 3){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 4){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 5){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        }
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
+                        if(stats.getRace() == 0){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                        } else if(stats.getRace() == 1){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                        } else if(stats.getRace() == 2){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                        } else if(stats.getRace() == 3){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                        } else if(stats.getRace() == 4){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                        } else if(stats.getRace() == 5){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                        }
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -147,48 +212,112 @@ public class StatsCommand {
     private int addStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+
+                var vidaMC = 20;
+                var con = stats.getConstitution();
+                var maxVIDA = 0.0;
+                var raza = stats.getRace();
 
                 switch (stat) {
                     case "strenght":
-                        playerStatsAttributes.addStrength(cantidad);
+                        stats.addStrength(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
-                        playerStatsAttributes.addDefense(cantidad);
+                        stats.addDefense(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
-                        playerStatsAttributes.addCon(cantidad);
-                        playerStatsAttributes.addStam(cantidad);
+                        stats.addCon(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
-
+                        if(raza == 0){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 1){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 2){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 3){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 4){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 5){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        }
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
-                        playerStatsAttributes.addKipwr(cantidad);
+                        stats.addKipwr(cantidad);
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
-                        playerStatsAttributes.addEnergy(cantidad);
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
+                        stats.addEnergy(cantidad);
+                        if(stats.getRace() == 0){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                        } else if(stats.getRace() == 1){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                        } else if(stats.getRace() == 2){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                        } else if(stats.getRace() == 3){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                        } else if(stats.getRace() == 4){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                        } else if(stats.getRace() == 5){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                        }
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
-                        playerStatsAttributes.addStrength(cantidad);
-                        playerStatsAttributes.addDefense(cantidad);
-                        playerStatsAttributes.addCon(cantidad);
-                        playerStatsAttributes.addStam(cantidad);
-                        playerStatsAttributes.addKipwr(cantidad);
-                        playerStatsAttributes.addEnergy(cantidad);
+                        stats.addStrength(cantidad);
+                        stats.addDefense(cantidad);
+                        stats.addCon(cantidad);
+                        stats.addKipwr(cantidad);
+                        stats.addEnergy(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
+                        if(raza == 0){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 1){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 2){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 3){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 4){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 5){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        }
 
-                        playerStatsAttributes.setCurrentEnergy((int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get()));
+                        if(stats.getRace() == 0){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                        } else if(stats.getRace() == 1){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                        } else if(stats.getRace() == 2){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                        } else if(stats.getRace() == 3){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                        } else if(stats.getRace() == 4){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                        } else if(stats.getRace() == 5){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                        }
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
@@ -204,101 +333,128 @@ public class StatsCommand {
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerStatsAttributes -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
-                int raza = playerStatsAttributes.getRace();
+                int raza = stats.getRace();
                 int energiacurrent = 0;
+                var vidaMC = 20;
+                var con = stats.getConstitution();
+                var maxVIDA = 0.0;
 
                 switch (stat) {
                     case "strenght":
 
-                        playerStatsAttributes.setStrength(cantidad);
+                        stats.setStrength(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + playerStatsAttributes.getStrength()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
 
-                        playerStatsAttributes.setDefense(cantidad);
+                        stats.setDefense(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + playerStatsAttributes.getDefense()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + stats.getDefense()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
 
-                        playerStatsAttributes.setConstitution(cantidad);
-                        playerStatsAttributes.setStamina(cantidad);
+                        stats.setConstitution(cantidad);
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + playerStatsAttributes.getConstitution()).withStyle(ChatFormatting.YELLOW));
+                        if(raza == 0){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 1){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 2){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 3){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 4){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 5){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        }
+
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + stats.getConstitution()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
 
-                        playerStatsAttributes.setKiPower(cantidad);
+                        stats.setKiPower(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + playerStatsAttributes.getKiPower()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + stats.getKiPower()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
 
-                        playerStatsAttributes.setEnergy(cantidad);
+                        stats.setEnergy(cantidad);
 
 
-                        if (raza == 0) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 1) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 2) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 3) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 4) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 5) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                        if(stats.getRace() == 0){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                        } else if(stats.getRace() == 1){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                        } else if(stats.getRace() == 2){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                        } else if(stats.getRace() == 3){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                        } else if(stats.getRace() == 4){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                        } else if(stats.getRace() == 5){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
                         }
 
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + playerStatsAttributes.getEnergy()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + stats.getEnergy()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
 
-                        playerStatsAttributes.setStrength(cantidad);
-                        playerStatsAttributes.setDefense(cantidad);
-                        playerStatsAttributes.setConstitution(cantidad);
-                        playerStatsAttributes.setStamina(cantidad);
-                        playerStatsAttributes.setKiPower(cantidad);
-                        playerStatsAttributes.setEnergy(cantidad);
+                        stats.setStrength(cantidad);
+                        stats.setDefense(cantidad);
+                        stats.setConstitution(cantidad);
+                        stats.setKiPower(cantidad);
+                        stats.setEnergy(cantidad);
 
 
-                        playerStatsAttributes.setCurStam(playerStatsAttributes.getStamina() + 3);
-
-                        if (raza == 0) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 1) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 2) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 3) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 4) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
-                        } else if (raza == 5) {
-                            energiacurrent = (int) (playerStatsAttributes.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                            playerStatsAttributes.setCurrentEnergy(energiacurrent);
+                        if(raza == 0){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 1){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 2){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 3){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 4){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
+                        } else if(raza == 5){
+                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + playerStatsAttributes.getStrength()).withStyle(ChatFormatting.YELLOW));
+
+                        if(stats.getRace() == 0){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                        } else if(stats.getRace() == 1){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                        } else if(stats.getRace() == 2){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                        } else if(stats.getRace() == 3){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                        } else if(stats.getRace() == 4){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                        } else if(stats.getRace() == 5){
+                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                        }
+
+                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     default:

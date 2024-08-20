@@ -39,13 +39,14 @@ public class KarinMenu extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-45, (this.height-23),Component.translatable("lines.master_korin.kinton"), wa -> {
+        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-17, (this.height-23),Component.translatable("lines.master_korin.kinton"), wa -> {
         ModMessages.sendToServer(new KarinC2S(1));
             this.minecraft.setScreen(null);
 
         }));
-        this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-140, (this.height-23),Component.translatable("lines.master_korin.senzu"), wa -> {
-
+        this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-130, (this.height-23),Component.translatable("lines.master_korin.senzu"), wa -> {
+            ModMessages.sendToServer(new KarinC2S(2));
+            this.minecraft.setScreen(null);
         }));
     }
 

@@ -19,7 +19,7 @@ public class GlowButton extends Button {
 
 
     public GlowButton(int pX, int pY, Component pMessage, OnPress pOnPress) {
-        super(pX, pY, 92, 18, pMessage, pOnPress, DEFAULT_NARRATION);
+        super(pX, pY, 107, 18, pMessage, pOnPress, DEFAULT_NARRATION);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class GlowButton extends Button {
         }
 
         // Dibujar la textura del botón
-        pGuiGraphics.blit(botones, this.getX(), this.getY(), 0, buttonY, 92, 18);
+        pGuiGraphics.blit(botones, this.getX(), this.getY(), 0, buttonY, 107, 18);
 
         // Dibujar el texto del botón
         int textColor = this.isHovered ? 0xFFFFFF : 0x7CFDD6;

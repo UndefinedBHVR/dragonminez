@@ -54,6 +54,7 @@ public class DMCAttrConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_COST;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SPIRITUALIST;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_WARRIOR;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
 
     static {
         BUILDER.push("Configs for Attributes of DragonMineZ");
@@ -182,6 +183,9 @@ public class DMCAttrConfig {
 
         MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00)")
                 .defineInRange("FallDmg: ", 0.03, 0.01, 1.00);
+
+        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans")
+                        .define("Seconds: ", 10);
 
         BUILDER.pop();
         SPEC = BUILDER.build();

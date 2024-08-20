@@ -58,5 +58,11 @@
     "sounds": [
       "dragonminez:nube"
     ]
+  },
+  "senzu": {
+  "subtitle": "sounds.dragonminez.senzu",
+  "sounds": [
+    "dragonminez:senzu"
+  ]
   }
 }

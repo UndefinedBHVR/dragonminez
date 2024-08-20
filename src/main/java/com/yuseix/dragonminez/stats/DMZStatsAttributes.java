@@ -404,9 +404,7 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
-        if (this.currentEnergy < ((int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get())) {
-            this.currentEnergy += currentEnergy;
-        }
+        this.currentEnergy += currentEnergy;
 
         DMZStatsCapabilities.syncStats(player);
     }

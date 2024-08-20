@@ -287,7 +287,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void menu2info(GuiGraphics graphics){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            var TPS = playerstats.getZpoints();
             var raza = playerstats.getRace();
 
             int DefensaArmor = Minecraft.getInstance().player.getArmorValue();
@@ -320,12 +319,14 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 //DamageOutput = (((((Daño MC + (StatSTR/10) * ConfigRaza) * ConfigClase) * Transf) * Porcentaje)
                 var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
 
-                var defMax = ((playerstats.getDefense()/5) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
 
-                var stmMax = playerstats.getStamina();
-                var conMax = playerstats.getConstitution();
+                var vidaMC = 20;
+
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
+                var stmMax = Math.round(conMax * 0.5);
                 var KPWMax = playerstats.getKiPower();
-                var enrMax = playerstats.getEnergy();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
 
                 //VARIABLES:
                 drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);

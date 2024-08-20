@@ -29,9 +29,30 @@ public class DMZStatsCapabilities {
         syncStats(event.getEntity());
         event.getEntity().refreshDimensions();
 
-        DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap ->
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get())));
-    }
+        DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
+
+            var vidaMC = event.getEntity().getAttribute(Attributes.MAX_HEALTH).getBaseValue();
+            var con = cap.getConstitution();
+            var raza = cap.getRace();
+
+            if(raza == 0){
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get()));
+            } else if(raza == 1){
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            } else if(raza == 2){
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            } else if(raza == 3){
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            } else if(raza == 4){
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            } else if(raza == 5){
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            }
+
+        });
+
+
+        }
 
     @SubscribeEvent
     public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
@@ -44,15 +65,60 @@ public class DMZStatsCapabilities {
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue((cap.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON.get());
-            event.getEntity().heal((float) (cap.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
+            var vidaMC = 20;
+            var con = cap.getConstitution();
+            var raza = cap.getRace();
+            var energia = cap.getEnergy();
+            var maxVIDA = 0.0;
 
-            int maxEnergia = (int) (cap.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-            int maxStamina = cap.getStamina() + 3;
+            //VIDAAAAAAA
+            if(raza == 0){
+                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get());
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+                event.getEntity().heal((float) maxVIDA);
+                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
 
-            cap.setCurrentEnergy(maxEnergia);
-            cap.setStamina(maxStamina);
+            } else if(raza == 1){
+                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+                event.getEntity().heal((float) maxVIDA);
+                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
 
+            } else if(raza == 2){
+                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+                event.getEntity().heal((float) maxVIDA);
+                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
+            } else if(raza == 3){
+                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+                event.getEntity().heal((float) maxVIDA);
+                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
+            } else if(raza == 4){
+                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+                event.getEntity().heal((float) maxVIDA);
+                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
+            } else if(raza == 5){
+                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+                event.getEntity().heal((float) maxVIDA);
+                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
+            }
+            //ENERGIAAA
+            if(raza == 0){
+                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+            } else if(raza == 1){
+                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+            } else if(raza == 2){
+                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+            } else if(raza == 3){
+                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+            } else if(raza == 4){
+                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+            } else if(raza == 5){
+                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+            }
         });
 
     }
@@ -61,6 +127,7 @@ public class DMZStatsCapabilities {
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(DMZStatsAttributes.class);
     }
+
 
     @SubscribeEvent
     public void onPlayerCloned(PlayerEvent.Clone event) {
