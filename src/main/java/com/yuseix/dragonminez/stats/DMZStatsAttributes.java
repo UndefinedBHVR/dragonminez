@@ -386,7 +386,35 @@ public class DMZStatsAttributes {
     }
 
     public void setCurrentEnergy(int currentEnergy) {
-        this.currentEnergy = currentEnergy;
+
+        var maxEne = 0;
+
+        if(races == 0){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+
+        } else if(races == 1){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+
+        } else if(races == 2){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+
+        } else if(races == 3){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+
+        } else if(races == 4){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+
+        } else if(races == 5){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+
+        }
+
+        if(currentEnergy >= maxEne){
+            this.currentEnergy = maxEne;
+        } else {
+            this.currentEnergy = currentEnergy;
+        }
+
         DMZStatsCapabilities.syncStats(player);
 
     }
@@ -404,8 +432,37 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
-        this.currentEnergy += currentEnergy;
+        var maxEne = 0;
 
+        if(races == 0){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+
+        } else if(races == 1){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+
+        } else if(races == 2){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+
+        } else if(races == 3){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+
+        } else if(races == 4){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+
+        } else if(races == 5){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+
+        }
+
+        if(currentEnergy >= maxEne){
+            this.currentEnergy = maxEne;
+        } else {
+            this.currentEnergy += currentEnergy;
+
+            if(this.currentEnergy > maxEne){
+                this.currentEnergy = maxEne;
+            }
+        }
         DMZStatsCapabilities.syncStats(player);
     }
 
@@ -415,7 +472,37 @@ public class DMZStatsAttributes {
     }
 
     public void setCurStam(int curStam) {
-        this.curStam = curStam;
+
+        var maxStam = 0;
+        var maxVIDA = 0;
+
+        if(races == 0){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 1){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 2){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 3){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 4){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 5){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        }
+
+        if(curStam >= maxStam){
+            this.curStam = maxStam;
+        } else {
+            this.curStam = curStam;
+        }
+
+        //this.curStam = curStam;
         DMZStatsCapabilities.syncStats(player);
     }
 
@@ -430,9 +517,36 @@ public class DMZStatsAttributes {
     }
 
     public void addCurStam(int curStam) {
+        var maxStam = 0;
+        var maxVIDA = 0;
 
-        if (this.curStam < (stamina + 3)) {
+        if(races == 0){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 1){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 2){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 3){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 4){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 5){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        }
+        if(curStam >= maxStam){
+            this.curStam = maxStam;
+        } else {
             this.curStam += curStam;
+
+            if(this.curStam > maxStam){
+                this.curStam = maxStam;
+            }
         }
 
         DMZStatsCapabilities.syncStats(player);

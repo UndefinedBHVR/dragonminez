@@ -111,22 +111,22 @@ public class StatsCommand {
                         stats.removeConstitution(cantidad);
 
                         if(raza == 0){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 1){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 2){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 3){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 4){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 5){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
 
@@ -164,22 +164,22 @@ public class StatsCommand {
                         stats.removeEnergy(cantidad);
 
                         if(raza == 0){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 1){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 2){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 3){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 4){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 5){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
 
@@ -233,22 +233,22 @@ public class StatsCommand {
                         stats.addCon(cantidad);
 
                         if(raza == 0){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 1){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 2){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 3){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 4){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 5){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
@@ -285,22 +285,22 @@ public class StatsCommand {
                         stats.addEnergy(cantidad);
 
                         if(raza == 0){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 1){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 2){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 3){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 4){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 5){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
 
@@ -360,22 +360,22 @@ public class StatsCommand {
                         stats.setConstitution(cantidad);
 
                         if(raza == 0){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            maxVIDA = Math.round(vidaMC + ((double) stats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 1){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 2){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 3){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 4){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 5){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
 
@@ -421,22 +421,22 @@ public class StatsCommand {
 
 
                         if(raza == 0){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                            maxVIDA = Math.round(vidaMC + ((double) stats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 1){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 2){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 3){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 4){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         } else if(raza == 5){
-                            maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
                             stats.setCurStam((int) Math.round(maxVIDA * 0.5));
                         }
 

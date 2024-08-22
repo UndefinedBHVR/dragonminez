@@ -38,13 +38,12 @@ public class ShenlongRenderer extends GeoEntityRenderer<ShenlongEntity> {
         poseStack.popPose();
 
         // Código para generar el destello siempre que el ShenlongEntity esté vivo
-        float scale = 2.5F; // Factor de escala para el tamaño del rayo
+        float scale = 2.5F;
         RandomSource random = RandomSource.create(432L);
         VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.lightning());
         poseStack.pushPose();
 
-        // Ajuste de la posición del rayo para que siga la entidad
-        poseStack.translate(0.0F, 1.0F, 0.0F); // Puedes ajustar estas coordenadas según sea necesario
+        poseStack.translate(0.0F, 1.0F, 0.0F);
 
         for (int i = 0; i < 60; ++i) {
             // Aplicar rotaciones aleatorias para que los rayos giren
@@ -53,13 +52,11 @@ public class ShenlongRenderer extends GeoEntityRenderer<ShenlongEntity> {
             poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
 
             Matrix4f matrix = poseStack.last().pose();
-            int alpha = 255; // Opacidad completa para asegurar la visibilidad
+            int alpha = 255;
 
-            // Ajustar los parámetros para agrandar el rayo
             float length = 1.5F * scale; // Longitud del rayo
             float width = 0.3F * scale; // Grosor del rayo
 
-            // Dibuja un rayo grande
             vertex01(vertexConsumer, matrix, alpha);
             vertex2(vertexConsumer, matrix, length, width);
             vertex3(vertexConsumer, matrix, length, width);

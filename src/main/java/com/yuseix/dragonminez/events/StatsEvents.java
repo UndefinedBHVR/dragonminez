@@ -87,13 +87,10 @@ public class StatsEvents {
                 }
 
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
-
                     if (tickcounter >= 60 * 3) {
-
-                        int regenStamina = ((maxstamina) / 4);
+                        int regenStamina = (maxstamina / 4);
 
                         playerstats.addCurStam(regenStamina);
-
                         tickcounter = 0;
 
                     }
@@ -105,7 +102,6 @@ public class StatsEvents {
                         int regenki = (Math.round(maxenergia / 10));
 
                         playerstats.addCurEnergy(regenki);
-                        System.out.println("energia restaurada: " + regenki);
 
                         energiacounter = 0;
                     }
