@@ -10,7 +10,12 @@
   "block.dragonminez.namek_dirt": "Namek Dirt",
   "block.dragonminez.namek_grass": "Namek Grass",
   "block.dragonminez.namek_grass_block": "Namek Grass Block",
+
   "entity.dragonminez.dino": "Dinosaur",
+  "entity.dragonminez.nube": "Kinton Flying",
+  "entity.dragonminez.karin": "Master Korin",
+  "entity.dragonminez.shenlong": "Shenlong",
+
   "item.dragonminez.blue_capsule": "Capsule (ENE)",
   "item.dragonminez.blue_capsule.ene.use": "+5 Energy",
   "item.dragonminez.blue_capsule.tooltip": "\u00A77Gives you \u00A7a+5 ENE \u00A77stat points.",
@@ -44,12 +49,22 @@
   "item.dragonminez.red_capsule.str.use": "+5 Strength",
   "item.dragonminez.red_capsule.tooltip": "\u00A77Gives you \u00A7a+5 STR \u00A77stat points to your attributes.",
   "item.dragonminez.red_capsule.tooltip2": "\u00A77This capsule is used to increase your strength.",
+  "item.dragonminez.gete_scrap": "Gete Scrap",
+  "item.dragonminez.gete_ingot": "Gete Ingot",
+  "item.dragonminez.kinton_flying": "\u00A7eKinton Flying",
+
   "itemGroup.dragonminez.blocks": "DMZ Blocks",
   "itemGroup.dragonminez.items": "DMZ Items",
   "itemGroup.dragonminez.ores": "DMZ Ores",
   "itemGroup.dragonminez_namek_tab": "DMZ Namek",
+
   "key.category.dragonminez.category": "DragonMine Z",
+  "key.categories.dragonminez.main": "DragonMine Z",
   "key.dragonminez.menu_stats": "Menu",
+  "key.dragonminez.ki_charge": "Charge Ki",
+  "key.dragonminez.action_menu": "Action Menu",
+  "key.dragonminez.panel_gui": "Panel GUI",
+
   "menu.title.dragonminez.statsmenu": "",
   "dmz.ccreation.eyestype": "Eyes Type",
   "dmz.ccreation.bodytypes": "Body Type",
@@ -74,8 +89,14 @@
   "dmz.ccreation.back": "Back",
   "dmz.ccreation.next": "Next",
   "dmz.ccreation.color_menu": "COLOR",
-  "item.dragonminez.gete_scrap": "Gete Scrap",
-  "item.dragonminez.gete_ingot": "Gete Ingot",
+  "dmz.ccreation.class": "CLASS",
+  "dmz.ccreation.class.warrior": "Warrior",
+  "dmz.ccreation.class.spiritualist": "Spiritualist",
+  "dmz.ccreation.alignment": "Alignment",
+  "dmz.ccreation.alignment.good": "Good",
+  "dmz.ccreation.alignment.evil": "Evil",
+  "dmz.ccreation.auracolor": "Aura Color",
+  "dmz.ccreation.name": "CHARACTER CREATION",
   "block.dragonminez.gete_debris_ore": "Gete Debris",
   "container.dragonminez.gete_furnace": "Gete Furnace",
   "block.dragonminez.namek_cobblestone": "Namek Cobblestone",
@@ -113,8 +134,9 @@
   "block.dragonminez.namek_ajissa_door": "Ajissa Door",
   "block.dragonminez.namek_ajissa_trapdoor": "Ajissa trapdoor",
   "block.dragonminez.namek_sacred_trapdoor": "Sacred trapdoor",
-  "key.categories.dragonminez.main": "DragonMine Z",
-  "key.dragonminez.ki_charge": "Charge Ki",
-  "key.dragonminez.action_menu": "Action Menu",
-  "key.dragonminez.panel_gui": "Panel GUI"
+
+  "lines.master_korin.menu": "Hola que tal este es una prueba de texto para el menu waaaa cualquiera ddxdxddxdxdx, pene",
+  "lines.master_korin.kinton": "Give me a Kinton Flying",
+  "lines.master_korin.senzu": "I need senzu beams!"
+
 }

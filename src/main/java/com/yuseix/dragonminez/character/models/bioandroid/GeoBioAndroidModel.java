@@ -21,17 +21,6 @@ public class GeoBioAndroidModel<T extends GeoAnimatable> extends DefaultedEntity
     protected String subtype() {
         return "entity";
     }
-    @Override
-    public void setCustomAnimations(T animatable, long instanceId, AnimationState<T> animationState) {
 
-        CoreGeoBone head = getAnimationProcessor().getBone("head");
-
-        if(head != null){
-            EntityModelData entityModelData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
-
-            head.setRotX(entityModelData.headPitch() * Mth.DEG_TO_RAD);
-            head.setRotY(entityModelData.netHeadYaw() * Mth.DEG_TO_RAD);
-        }
-    }
 
 }

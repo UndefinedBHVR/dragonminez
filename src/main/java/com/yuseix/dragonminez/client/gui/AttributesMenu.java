@@ -1,6 +1,10 @@
 package com.yuseix.dragonminez.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
@@ -12,14 +16,19 @@ import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -30,53 +39,22 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class AttributesMenu extends Screen implements RenderEntityInv {
 
-    int alturaTexto;
-    int anchoTexto;
+    private int alturaTexto;
+    private int anchoTexto;
 
     private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
 
     private static final ResourceLocation cuadronegro = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menutexto.png");
-
-    //NOMBRES DE LAS RAZAS
-    MutableComponent Human = (Component.translatable("dmz.races.name.human"));
-    MutableComponent Saiyan = (Component.translatable("dmz.races.name.saiyan"));
-    MutableComponent Namek = (Component.translatable("dmz.races.name.namek"));
-    MutableComponent BioAndroid = (Component.translatable("dmz.races.name.bioandroid"));
-    MutableComponent ColdDemon = (Component.translatable("dmz.races.name.colddemon"));
-    MutableComponent Majin = (Component.translatable("dmz.races.name.majin"));
-
-    //OTROS
-    MutableComponent CCreation = (Component.translatable("dmz.ccreation.name"));
-    MutableComponent Race = (Component.translatable("dmz.ccreation.race"));
-    MutableComponent BodyType = (Component.translatable("dmz.ccreation.bodytype"));
-    MutableComponent EyeType = (Component.translatable("dmz.ccreation.eyetype"));
-
-    //BODYTYPES
-    MutableComponent HBody0 = (Component.translatable("dmz.races.body0.hum"));
-    MutableComponent HBody1 = (Component.translatable("dmz.races.body1.hum"));
-
-    MutableComponent SBody0 = (Component.translatable("dmz.races.body0.sai"));
-    MutableComponent SBody1 = (Component.translatable("dmz.races.body1.sai"));
-
-    //EYETYPES
-    MutableComponent SHEye0 = (Component.translatable("dmz.races.eye0.saihum"));
-    MutableComponent SHEye1 = (Component.translatable("dmz.races.eye1.saihum"));
-
-    private final List<AbstractWidget> botones = new ArrayList<>();
-    private final List<AbstractWidget> botonesRazas = new ArrayList<>();
-    private final List<AbstractWidget> botonesBodyType = new ArrayList<>();
-
-    private DMZRightButton botonRazRigth;
-    private DMZRightButton botonRazaLeft;
-
-    private static final ResourceLocation menu = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menugrande = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
-    private static final ResourceLocation menu2 = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menumedio = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menumedio.png");
-    private static final ResourceLocation menu3 = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menuraza = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menupequeno.png");
+
+    private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton;
 
     public AttributesMenu(Component pGuiScreen) {
         super(pGuiScreen);
@@ -85,97 +63,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     @Override
     public void init() {
+
         super.init();
 
-        botonesRazas.clear();
-        botonesRazas.forEach(this::removeWidget);
-
-        //MenuInicio
-        int posX = (this.width - 148) / 2;
-        int posY = (this.height - 222) / 2;
-
-        assert Minecraft.getInstance().player != null;
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            int race = playerstats.getRace();
-
-            if (playerstats.isAcceptCharacter() == false) {
-
-                //Botones de Razas
-                botonesRazas.add(new DMZRightButton("right", posX - 23, posY + 35, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 1));
-                }));
-                botonesRazas.add(new DMZRightButton("left", posX - 109, posY + 35, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 0));
-                }));
-
-                botonesRazas.forEach(this::addRenderableWidget);
-
-                switch (race) {
-                    case 0: //HUMANO
-
-                        break;
-                    case 1: //Saiyan
-
-                        break;
-                    case 2: //Namek
-
-                        break;
-                    case 3: //BioAndroide
-
-                        break;
-                    case 4: //ColdDemon
-
-                        break;
-                    case 5: //Majin
-
-                        break;
-                    default:
-
-                        break;
-                }
-
-
-            } else {
-
-
-                int zpoints = playerstats.getZpoints();
-
-                int zCost = (playerstats.getStrength() +
-                        playerstats.getDefense() +
-                        playerstats.getConstitution() +
-                        playerstats.getKiPower() +
-                        playerstats.getEnergy() + 6) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
-
-                if (zpoints >= zCost) {
-                    //Fuerza
-                    botones.add(new CustomButtons(posX - 125, posY + 45, Component.empty(), button -> {
-                        ModMessages.sendToServer(new StatsC2S(0, 1));
-                        ModMessages.sendToServer(new ZPointsC2S(1, zCost));
-                    }));
-                    //Defensa
-                    botones.add(new CustomButtons(posX - 125, posY + 60, Component.empty(), button -> {
-                        ModMessages.sendToServer(new StatsC2S(1, 1));
-                        ModMessages.sendToServer(new ZPointsC2S(1, zCost));
-                    }));
-                    //Vida
-                    botones.add(new CustomButtons(posX - 125, posY + 75, Component.empty(), button -> {
-                        ModMessages.sendToServer(new StatsC2S(2, 1));
-                        ModMessages.sendToServer(new ZPointsC2S(1, zCost));
-                    }));
-                    //Kipower
-                    botones.add(new CustomButtons(posX - 125, posY + 90, Component.empty(), button -> {
-                        ModMessages.sendToServer(new StatsC2S(3, 1));
-                        ModMessages.sendToServer(new ZPointsC2S(1, zCost));
-                    }));
-                    //Energy
-                    botones.add(new CustomButtons(posX - 125, posY + 105, Component.empty(), button -> {
-                        ModMessages.sendToServer(new StatsC2S(4, 1));
-                        ModMessages.sendToServer(new ZPointsC2S(1, zCost));
-                    }));
-                }
-
-            }
 
 
         });
@@ -185,428 +77,326 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void tick() {
         super.tick();
 
+        botonesStats();
         //MenuInicio
-        int posX = (this.width - 148) / 2;
-        int posY = (this.height - 222) / 2;
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-
-            if (playerstats.isAcceptCharacter() == false) {
-
-                switch (playerstats.getRace()) {
-                    case 0: //HUMANO
-
-                        //TIPO DE CUERPO
-                        if (playerstats.getBodytype() == 0) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                            }));
-
-                        }
-                        if (playerstats.getBodytype() == 1) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                            }));
-                        }
-
-                        //TIPO DE OJOS
-                        if (playerstats.getEyesType() == 0) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                            }));
-
-                        }
-                        if (playerstats.getEyesType() == 1) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                            }));
-                        }
-
-                        break;
-                    case 1: //Saiyan
-
-                        //TIPO DE CUERPO
-                        if (playerstats.getBodytype() == 0) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                            }));
-
-                        }
-                        if (playerstats.getBodytype() == 1) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 75, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                            }));
-                        }
-
-                        //TIPO DE OJOS
-                        if (playerstats.getEyesType() == 0) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                            }));
-
-                        }
-                        if (playerstats.getEyesType() == 1) {
-                            this.botonRazRigth = this.addRenderableWidget(new DMZRightButton("right", posX - 23, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                            }));
-                            this.botonRazaLeft = this.addRenderableWidget(new DMZRightButton("left", posX - 109, posY + 115, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                            }));
-                        }
-
-                        break;
-                    case 2: //Namek
-
-                        break;
-                    case 3: //BioAndroide
-
-                        break;
-                    case 4: //ColdDemon
-
-                        break;
-                    case 5: //Majin
-
-                        break;
-                    default:
-
-                        break;
-                }
 
 
-            } else {
-                int zpoints = playerstats.getZpoints();
 
-                int zCost = (playerstats.getStrength() +
-                        playerstats.getDefense() +
-                        playerstats.getConstitution() +
-                        playerstats.getKiPower() +
-                        playerstats.getEnergy() + 6) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
-
-                if (zpoints >= zCost) {
-                    botones.forEach(this::addRenderableWidget);
-                } else {
-                    this.clearWidgets();
-                }
-            }
-
-
-        });
     }
 
     @Override
     public void render(@NotNull GuiGraphics graphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(graphics);
 
-        int posX = (this.width - 152) / 2; //Normalmente da 100... (Ya no se ve)
-        int posY = (this.height - 256) / 2;
+        //Paneles del menu
+        menuPaneles(graphics);
 
-        var Altura = graphics.guiHeight();
-        var Ancho = graphics.guiWidth();
+        menu0info(graphics);
 
+        menu1info(graphics);
+
+        menu2info(graphics);
+        super.render(graphics, pMouseX, pMouseY, pPartialTick);
+
+
+
+
+    }
+
+    public void botonesStats(){
+        this.removeWidget(strBoton);
+        this.removeWidget(defBoton);
+        this.removeWidget(conBoton);
+        this.removeWidget(pwrBoton);
+        this.removeWidget(eneBoton);
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+            var tps = playerstats.getZpoints();
+            var str = playerstats.getStrength();
+            var def = playerstats.getDefense();
+            var con = playerstats.getConstitution();
+            var kipower = playerstats.getKiPower();
+            var energy = playerstats.getEnergy();
+            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get());
 
-            if (playerstats.isAcceptCharacter() == false) {
+            anchoTexto = 17;
+            alturaTexto = (this.height / 2) + 2;
+            if(tps >= cost){
+                this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto,Component.empty(), wa -> {
+                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                    ModMessages.sendToServer(new StatsC2S(0,1));
+                }));
+                this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
+                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                    ModMessages.sendToServer(new StatsC2S(1,1));
+                }));
+                this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
+                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                    ModMessages.sendToServer(new StatsC2S(2,1));
+                }));
+                this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
+                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                    ModMessages.sendToServer(new StatsC2S(3,1));
+                }));
+                this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
+                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                    ModMessages.sendToServer(new StatsC2S(4,1));
+                }));
+            }
+        });
+    }
 
-                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+    public void menu0info(GuiGraphics guiGraphics){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-                RenderSystem.setShaderTexture(0, menu1);
+            alturaTexto = 19;
+            anchoTexto = ((this.width / 2) - this.font.width(Minecraft.getInstance().player.getName().getString())) + 9;
 
-                graphics.blit(menu1, (this.width / 2 - 148) - 62, (this.height / 2 - 222) + 112, 0, 0, 148, 222);
+            var playername = Minecraft.getInstance().player.getName().getString();
+            var alignment = playerstats.getDmzAlignment();
+            var raza = playerstats.getRace();
 
-                //TITULO
-                alturaTexto = (Altura / 2) - 40;
-                anchoTexto = ((Ancho - this.font.width(this.CCreation)) / 2);
+            if(alignment.equals("Good")){
+                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x63FFFF);
+            }else {
+                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFA5252);
+            }
+            alturaTexto = 46;
+            if(raza == 0){
 
+                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Human)) + 16;
 
-                graphics.drawString(font, CCreation, anchoTexto + 1, alturaTexto, 0, false);
-                graphics.drawString(font, CCreation, anchoTexto - 1, alturaTexto, 0, false);
-                graphics.drawString(font, CCreation, anchoTexto, alturaTexto + 1, 0, false);
-                graphics.drawString(font, CCreation, anchoTexto, alturaTexto - 1, 0, false);
-                graphics.drawString(font, CCreation, anchoTexto, alturaTexto, 0xFDFDFD, false);
+                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Human, anchoTexto, alturaTexto, 0x177CFC);
+            } else if(raza == 1){
 
+                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Saiyan)) + 18;
 
-                //RAZA TITULO
+                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Saiyan, anchoTexto, alturaTexto, 0xFCB317);
+            } else if(raza == 2){
 
-                alturaTexto = (Altura / 2) - 89;
-                anchoTexto = ((Ancho - this.font.width(this.Race)) / 2) - 137;
+                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Namek)) + 23;
 
-                graphics.drawString(font, Race.withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFDFDFD, true);
+                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Namek, anchoTexto, alturaTexto, 0x186814);
 
+            } else if(raza == 3){
 
-                //TITULO PARA TIPO DE CUERPO
-                RenderSystem.setShaderTexture(0, cuadronegro);
+                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.BioAndroid)) + 30;
 
-                graphics.blit(cuadronegro, (this.width / 2 - 148) - 25, (this.height / 2 - 222) + 168, 0, 0, 73, 15);
+                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.BioAndroid, anchoTexto, alturaTexto, 0x7DFF76);
 
-                alturaTexto = (Altura / 2) - 50;
-                anchoTexto = ((Ancho - this.font.width(this.BodyType)) / 2) - 137;
+            } else if(raza == 4){
 
-                graphics.drawString(font, BodyType.withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFFE7C0, true);
+                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.ColdDemon)) + 30;
 
-                //TITULO PARA TIPO DE OJOS
-                RenderSystem.setShaderTexture(0, cuadronegro);
-
-                graphics.blit(cuadronegro, (this.width / 2 - 148) - 25, (this.height / 2 - 222) + 208, 0, 0, 73, 15);
-
-                alturaTexto = (Altura / 2) - 10;
-                anchoTexto = ((Ancho - this.font.width(this.EyeType)) / 2) - 137;
-
-                graphics.drawString(font, EyeType.withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xC0EDFF, true);
-
-                var raza = playerstats.getRace();
-
-
-                switch (raza) {
-                    case 0: //Humano
-                        alturaTexto = (Altura / 2) - 70;
-                        anchoTexto = ((Ancho - this.font.width(this.Human)) / 2) - 137;
-
-                        graphics.drawString(font, Human, anchoTexto, alturaTexto, 0x31EAFF, true);
-
-                        switch (playerstats.getBodytype()) {
-                            case 0:
-                                alturaTexto = (Altura / 2) - 30;
-                                anchoTexto = ((Ancho - this.font.width(this.HBody0)) / 2) - 137;
-
-                                graphics.drawString(font, HBody0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                break;
-                            case 1:
-                                alturaTexto = (Altura / 2) - 30;
-                                anchoTexto = ((Ancho - this.font.width(this.HBody1)) / 2) - 137;
-
-                                graphics.drawString(font, HBody1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        switch (playerstats.getEyesType()) {
-                            case 0:
-                                alturaTexto = (Altura / 2) + 10;
-                                anchoTexto = ((Ancho - this.font.width(this.SHEye0)) / 2) - 137;
-
-                                graphics.drawString(font, SHEye0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                break;
-                            case 1:
-                                alturaTexto = (Altura / 2) + 10;
-                                anchoTexto = ((Ancho - this.font.width(this.SHEye1)) / 2) - 137;
-
-                                graphics.drawString(font, SHEye1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-
-                        break;
-                    case 1: // Saiyan
-                        alturaTexto = (Altura / 2) - 70;
-                        anchoTexto = ((Ancho - this.font.width(this.Saiyan)) / 2) - 137;
-
-                        graphics.drawString(font, Saiyan, anchoTexto, alturaTexto, 0xFFBA35, true);
-
-                        switch (playerstats.getBodytype()) {
-                            case 0:
-                                alturaTexto = (Altura / 2) - 30;
-                                anchoTexto = ((Ancho - this.font.width(this.SBody0)) / 2) - 137;
-
-                                graphics.drawString(font, SBody0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                break;
-                            case 1:
-                                alturaTexto = (Altura / 2) - 30;
-                                anchoTexto = ((Ancho - this.font.width(this.SBody1)) / 2) - 137;
-
-                                graphics.drawString(font, SBody1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        switch (playerstats.getEyesType()) {
-                            case 0:
-                                alturaTexto = (Altura / 2) + 10;
-                                anchoTexto = ((Ancho - this.font.width(this.SHEye0)) / 2) - 137;
-
-                                graphics.drawString(font, SHEye0, anchoTexto, alturaTexto, 0xFFFFFF, true);
-                                break;
-                            case 1:
-                                alturaTexto = (Altura / 2) + 10;
-                                anchoTexto = ((Ancho - this.font.width(this.SHEye1)) / 2) - 137;
-
-                                graphics.drawString(font, SHEye1, anchoTexto, alturaTexto, 0xFEC9C9, true);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        break;
-                    case 2: // Namek
-                        alturaTexto = (Altura / 2) - 70;
-                        anchoTexto = ((Ancho - this.font.width(this.Namek)) / 2) - 137;
-
-                        graphics.drawString(font, Namek, anchoTexto, alturaTexto, 0x378942, true);
-
-                        break;
-                    case 3: // BioAndroid
-                        alturaTexto = (Altura / 2) - 70;
-                        anchoTexto = ((Ancho - this.font.width(this.BioAndroid)) / 2) - 137;
-
-                        graphics.drawString(font, BioAndroid, anchoTexto, alturaTexto, 0x72DA58, true);
-
-                        break;
-                    case 4: // ColdDemon
-                        alturaTexto = (Altura / 2) - 70;
-                        anchoTexto = ((Ancho - this.font.width(this.ColdDemon)) / 2) - 137;
-
-                        graphics.drawString(font, ColdDemon, anchoTexto, alturaTexto, 0xAC1BEC, true);
-
-                        break;
-                    case 5: // Majin
-                        alturaTexto = (Altura / 2) - 70;
-                        anchoTexto = ((Ancho - this.font.width(this.Majin)) / 2) - 137;
-
-                        graphics.drawString(font, Majin, anchoTexto, alturaTexto, 0xFE7FF4, true);
-
-                        break;
-                    default:
-
-                        break;
-                }
+                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.ColdDemon, anchoTexto, alturaTexto, 0x6A31EE);
 
             } else {
 
-                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                RenderSystem.setShaderTexture(0, menu);
+                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Majin)) + 14;
+
+                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Majin, anchoTexto, alturaTexto, 0xFF86FD);
+
+            }
+        });
+    }
+
+    public void menu1info(GuiGraphics graphics){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+
+            var TPS = playerstats.getZpoints();
+
+            var nivel = (playerstats.getStrength() + playerstats.getDefense() + playerstats.getConstitution()
+                    + playerstats.getKiPower() + playerstats.getEnergy()) / 7;
+
+            var clase = playerstats.getDmzClass();
+
+            alturaTexto = (this.height / 2) - 83;
+
+            //Information title
+            drawStringWithBorder(graphics, font, Component.literal("INFORMATION"), 45, alturaTexto, 0xFBC51C);
+
+            //Titulos
+            anchoTexto = 25;
+            alturaTexto = (this.height / 2) - 67;
+
+            graphics.drawString(font, Component.literal("Lvl:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xD7FEF5);
+            graphics.drawString(font, Component.literal("TPs:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 11, 0xD7FEF5);
+            graphics.drawString(font, Component.literal("Form:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 22, 0xD7FEF5);
+            graphics.drawString(font, Component.literal("Class:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 33, 0xD7FEF5);
+
+            //VARIABLES:
+            //NIVEL
+            anchoTexto = 68;
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
+            //TPS
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
+            //FORMA
+            drawStringWithBorderShadow(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
+            //Clase
+            if(clase.equals("Warrior")){
+                drawStringWithBorderShadow(graphics, font,TranslateManager.CLASS_1, anchoTexto, alturaTexto + 33, 0xFC4E2B);
+            }else {
+                drawStringWithBorderShadow(graphics, font,TranslateManager.CLASS_2, anchoTexto, alturaTexto + 33, 0x2BFCFC);
+            }
+
+            //STATS
+            alturaTexto = (this.height / 2) - 20;
+            anchoTexto = 37;
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            graphics.blit(cuadronegro, anchoTexto, alturaTexto, 0, 0, 73, 15);
+            RenderSystem.disableBlend();
+
+            //STATS TITLE
+            alturaTexto = (this.height / 2) - 16;
+            drawStringWithBorder(graphics, font, Component.literal("STATS"), 58, alturaTexto, 0x68CCFF);
+
+            //Variables stats
+            alturaTexto = (this.height / 2) + 2;
+            anchoTexto = 32;
+            graphics.drawString(font, Component.literal("STR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xD71432);
+            graphics.drawString(font, Component.literal("DEF:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, 0xD71432);
+            graphics.drawString(font, Component.literal("CON:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xD71432);
+            graphics.drawString(font, Component.literal("PWR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, 0xD71432);
+            graphics.drawString(font, Component.literal("ENE:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xD71432);
+            graphics.drawString(font, Component.literal("TPC:").withStyle(ChatFormatting.BOLD),anchoTexto - 7, alturaTexto + 64, 0x2BFFE2);
+
+            var strdefault = playerstats.getStrength();
+            var defdefault = playerstats.getDefense();
+            var condefault = playerstats.getConstitution();
+            var kipowerdefault = playerstats.getKiPower();
+            var energydefault = playerstats.getEnergy();
+
+            var cost =  (int) Math.round(((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get());
+
+            //STATS CAPABILITY
+            alturaTexto = (this.height / 2) + 2;
+            anchoTexto = 70;
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
+
+            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(cost)), anchoTexto-7, alturaTexto + 64, 0xFFCE41);
+
+        });
+
+    }
+
+    public void menu2info(GuiGraphics graphics){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+
+            var raza = playerstats.getRace();
+
+            int DefensaArmor = Minecraft.getInstance().player.getArmorValue();
+            int DurezaArmor = Mth.floor(Minecraft.getInstance().player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
+
+            anchoTexto = (this.width - 103);
+            alturaTexto = (this.height / 2) - 83;
+
+            //Information title
+            drawStringWithBorder(graphics, font, Component.literal("STATISTICS"), anchoTexto, alturaTexto, 0xF91E64);
+
+            //Titulos
+            anchoTexto = (this.width - 127);
+            alturaTexto = (this.height / 2) - 64;
+
+            var color = 0xFBA16A;
+
+            graphics.drawString(font, Component.literal("Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, color);
+            graphics.drawString(font, Component.literal("Defense:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, color);
+            graphics.drawString(font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, color);
+            graphics.drawString(font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, color);
+            graphics.drawString(font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, color);
+            graphics.drawString(font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, color);
+
+            graphics.drawString(font, Component.literal("Multiplier:").withStyle(ChatFormatting.BOLD),anchoTexto - 3, alturaTexto + 80, 0xC51D1D);
 
 
-                //PuntosZ
-                int zpoints = playerstats.getZpoints();
+            anchoTexto = (this.width - 55);
+            if(raza == 0){
+                //DamageOutput = (((((Daño MC + (StatSTR/10) * ConfigRaza) * ConfigClase) * Transf) * Porcentaje)
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
 
-                int level = (playerstats.getStrength() +
-                        playerstats.getDefense() +
-                        playerstats.getConstitution() +
-                        playerstats.getKiPower() +
-                        playerstats.getEnergy()) / 5;
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
 
-                int zCost = (playerstats.getStrength() +
-                        playerstats.getDefense() +
-                        playerstats.getConstitution() +
-                        playerstats.getKiPower() +
-                        playerstats.getEnergy() + 6) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get();
+                var vidaMC = 20;
 
-                //Attributos
-                int str = playerstats.getStrength();
-                int def = playerstats.getDefense();
-                int con = playerstats.getConstitution();
-                int kipower = playerstats.getKiPower();
-                int energy = playerstats.getEnergy();
-                int stamina = playerstats.getStamina();
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
+                var stmMax = Math.round(conMax * 0.5);
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
 
-                //AtributosMaximos
-                int MaxStr = 1;
-                int MaxDef = 1;
-                int MaxCon = 1;
-                int MaxKiPower = 1;
-                int MaxEnergy = 1;
-                int MaxStamina = stamina + 3;
-
-                int LTITULO = posX + 195;
-                int RTITULO = posX - 80;
-                int LSUBTITULO = posX + 158;
-                int RSUBTITULO = posX - 158;
-                int LDESC = posX + 245;
-                int RDESC = posX - 30;
-
-                //SUBIR STATS
-                //Pos cambiada a -140 de -250 por motivos de cambio de resoluciones para adaptar
-                graphics.blit(menu, posX - 140, posY, 0, 0, 148, 221);
-                graphics.drawString(this.font.self(), ChatFormatting.BOLD + "STATS", LTITULO, posY + 22, 0xFCC3C3, true);
-
-                graphics.drawString(Minecraft.getInstance().fontFilterFishy, ChatFormatting.BOLD + "ZPoints: ", LSUBTITULO, posY + 38, 0xFFFFFF, true);
-                graphics.drawString(font, String.valueOf(zpoints), posX - 45, posY + 38, 0xFFE800, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "STR: ", LSUBTITULO, posY + 50, 0x320C0C, true);
-                graphics.drawString(font, String.valueOf(str), LDESC, posY + 50, 0xBB1C2A, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "DEF: ", LSUBTITULO, posY + 65, 0x320C0C, true);
-                graphics.drawString(font, String.valueOf(def), LDESC, posY + 65, 0xBB1C2A, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "CON: ", LSUBTITULO, posY + 80, 0x320C0C, true);
-                graphics.drawString(font, String.valueOf(con), LDESC, posY + 80, 0xBB1C2A, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "POW: ", LSUBTITULO, posY + 95, 0x320C0C, true);
-                graphics.drawString(font, String.valueOf(kipower), LDESC, posY + 95, 0xBB1C2A, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "ENE: ", LSUBTITULO, posY + 110, 0x320C0C, true);
-                graphics.drawString(font, String.valueOf(energy), LDESC, posY + 110, 0xBB1C2A, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "ZPCost: ", LSUBTITULO, posY + 125, 0xF0B61E, true);
-                graphics.drawString(font, String.valueOf(zCost), posX - 45, posY + 125, 0xFFE800, false);
-
-                //STATS
-                graphics.blit(menu2, posX + 140, posY, 0, 0, 147, 163);
-                graphics.drawString(font, ChatFormatting.BOLD + "INFORMATION", RTITULO, posY + 15, 0xF0B61E, true);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "Damage: ", RSUBTITULO, posY + 30, 0x830318, true);
-                graphics.drawString(font, String.valueOf(MaxStr), RDESC, posY + 30, 0x9B1D32, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "Defense: ", RSUBTITULO, posY + 45, 0x830318, true);
-                graphics.drawString(font, String.valueOf(MaxDef), RDESC, posY + 45, 0x9B1D32, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "Body: ", RSUBTITULO, posY + 60, 0x830318, true);
-                graphics.drawString(font, String.valueOf(MaxCon), RDESC, posY + 60, 0x9B1D32, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "Stamina: ", RSUBTITULO, posY + 75, 0x830318, true);
-                graphics.drawString(font, String.valueOf(MaxStamina), RDESC, posY + 75, 0x9B1D32, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "KiPower: ", RSUBTITULO, posY + 90, 0x830318, true);
-                graphics.drawString(font, String.valueOf(MaxKiPower), RDESC, posY + 90, 0x9B1D32, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "Max Ki: ", RSUBTITULO, posY + 105, 0x830318, true);
-                graphics.drawString(font, String.valueOf(MaxEnergy), RDESC, posY + 105, 0x9B1D32, false);
-
-                graphics.drawString(font, ChatFormatting.BOLD + this.minecraft.player.getName().getString(), posX + 63, posY + 10, 0xFFFFFF, true);
-                graphics.drawString(font, ChatFormatting.BOLD + "Lvl: ", posX + 50, posY + 25, 0xFFE800, true);
-                graphics.drawString(font, ChatFormatting.BOLD + String.valueOf(level), posX + 80, posY + 25, 0x67EDFC, true);
-
-                //RenderEntityInv.renderEntityInInventoryFollowsAngle(graphics, posX + 73, posY + 200, 80, 0, 0, this.minecraft.player);
-
-                graphics.drawString(font, ChatFormatting.BOLD + "Humano :v", posX + 45, posY + 220, 0x45E9FC, true);
-
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
             }
 
 
+
+
+            drawStringWithBorderShadow(graphics, font, Component.literal("x"+"1.0"), anchoTexto-8, alturaTexto + 80, 0xFCFCFC);
+
+
         });
 
-        super.render(graphics, pMouseX, pMouseY, pPartialTick);
+    }
 
+    public void menuPaneles(GuiGraphics guiGraphics){
+        //INFORMACION (Nivel, tps, forma)
+        alturaTexto = (this.height / 2) - 105;
+        anchoTexto = 2;
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        guiGraphics.blit(menugrande, anchoTexto, alturaTexto, 0, 0, 146, 219);
+        RenderSystem.disableBlend();
+
+        //NOMBRE JUGADOR
+        alturaTexto = 5;
+        anchoTexto = (this.width/2) - 71;
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        guiGraphics.blit(menuraza, anchoTexto, alturaTexto, 0, 93, 145, 60);
+        RenderSystem.disableBlend();
+
+        //INFO GENERAL (Fuerza maxima, energia maxima, stamina, etc)
+        alturaTexto = (this.height / 2) - 105;
+        anchoTexto = (this.width - 148);
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        guiGraphics.blit(menugrande, anchoTexto, alturaTexto, 0, 0, 146, 219);
+        RenderSystem.disableBlend();
+
+    }
+
+    public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+
+        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde);
+        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde);
+        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde);
+        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde);
+        guiGraphics.drawString(font, texto, x, y, ColorTexto);
+    }
+
+    public static void drawStringWithBorderShadow(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+
+        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y, ColorTexto, false);
+    }
+    public static void drawStringWithBorderShadow(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorderShadow(guiGraphics, font, texto, x, y, ColorTexto, 0);
+    }
+    public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
 
     @Override

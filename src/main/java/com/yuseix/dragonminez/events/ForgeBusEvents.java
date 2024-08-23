@@ -2,17 +2,17 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.gui.CharacterCMenu;
+import com.yuseix.dragonminez.commands.ResetCharacterCommand;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.model.Keys;
+import com.yuseix.dragonminez.utils.Keys;
+import com.yuseix.dragonminez.network.C2S.MenuC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -28,7 +28,6 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.command.ConfigCommand;
@@ -60,6 +59,7 @@ public final class ForgeBusEvents {
             "ezShokkoh");
 
 
+    /*
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
@@ -71,6 +71,7 @@ public final class ForgeBusEvents {
             throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
         }
     }
+    */
 
     @SubscribeEvent
     //Cancela el renderizado de la barra de vida
@@ -138,6 +139,8 @@ public final class ForgeBusEvents {
     public void onCommandsRegister(RegisterCommandsEvent event) {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
+        new ResetCharacterCommand(event.getDispatcher());
+
         ConfigCommand.register(event.getDispatcher());
     }
 
@@ -145,8 +148,7 @@ public final class ForgeBusEvents {
     public void onKeyInput(InputEvent.Key event) {
 
         if (Keys.STATS_MENU.consumeClick()) {
-            Minecraft.getInstance().setScreen(new CharacterCMenu(
-                    Component.translatable("menu.title.dragonminez.statsmenu")));
+            ModMessages.sendToServer(new MenuC2S());
         }
 
     }

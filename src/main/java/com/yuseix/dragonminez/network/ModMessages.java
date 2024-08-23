@@ -1,9 +1,8 @@
 package com.yuseix.dragonminez.network;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.C2S.StatsC2S;
-import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
+import com.yuseix.dragonminez.network.C2S.*;
+import com.yuseix.dragonminez.network.S2C.MenuS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.ZPointsS2C;
 import net.minecraft.resources.ResourceLocation;
@@ -50,6 +49,17 @@ public class ModMessages {
                 .encoder(CharacterC2S::toBytes)
                 .consumerMainThread(CharacterC2S::handle)
                 .add();
+        net.messageBuilder(MenuC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(MenuC2S::new)
+                .encoder(MenuC2S::toBytes)
+                .consumerMainThread(MenuC2S::handle)
+                .add();
+        net.messageBuilder(KarinC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(KarinC2S::new)
+                .encoder(KarinC2S::toBytes)
+                .consumerMainThread(KarinC2S::handle)
+                .add();
+
         //ENVIAR DATOS AL CLIENTE
         net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ZPointsS2C::new)
@@ -60,6 +70,11 @@ public class ModMessages {
                 .decoder(StatsSyncS2C::new)
                 .encoder(StatsSyncS2C::toBytes)
                 .consumerMainThread(StatsSyncS2C::handle)
+                .add();
+        net.messageBuilder(MenuS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(MenuS2C::new)
+                .encoder(MenuS2C::toBytes)
+                .consumerMainThread(MenuS2C::handle)
                 .add();
     }
 

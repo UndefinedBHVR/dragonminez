@@ -22,17 +22,57 @@ public class PlayerHudOverlay implements RenderEntityInv {
         int vidarestante = (int) Minecraft.getInstance().player.getHealth();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+            var vidaMC = 20;
+            var con = playerstats.getConstitution();
+            var maxVIDA = 0.0;
 
             int vidawa = ((163 * vidarestante) / VidaMaxima);
             int vida = Math.min(vidawa, 163);
 
-            int StaminaMax = playerstats.getStamina() + 3;
+            int StaminaMax = 0;
+
+            if(playerstats.getRace() == 0){
+                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                StaminaMax = ((int) Math.round(maxVIDA * 0.5));
+            } else if(playerstats.getRace() == 1){
+                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                StaminaMax = ((int) Math.round(maxVIDA * 0.5));
+            } else if(playerstats.getRace() == 2){
+                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                StaminaMax = ((int) Math.round(maxVIDA * 0.5));
+            } else if(playerstats.getRace() == 3){
+                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                StaminaMax = ((int) Math.round(maxVIDA * 0.5));
+            } else if(playerstats.getRace() == 4){
+                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                StaminaMax = ((int) Math.round(maxVIDA * 0.5));
+            } else if(playerstats.getRace() == 5){
+                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                StaminaMax = ((int) Math.round(maxVIDA * 0.5));
+            }
+
             int curStamina = playerstats.getCurStam();
 
-            int energiaMax = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+            int energiaMax = 0;
+
+            if(playerstats.getRace() == 0){
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+            } else if(playerstats.getRace() == 1){
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+            } else if(playerstats.getRace() == 2){
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+            } else if(playerstats.getRace() == 3){
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+            } else if(playerstats.getRace() == 4){
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+            } else if(playerstats.getRace() == 5){
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+            }
+            
             int curEnergia = playerstats.getCurrentEnergy();
 
             int staminatotal = Math.min(((83 * curStamina) / StaminaMax), 83);
+
             int energiatotal = Math.min(((119 * curEnergia) / energiaMax), 119);
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -112,6 +152,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, hud);
 
+
     };
+
+
 
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,6 +25,7 @@ public class TextButton extends Button {
         super(pX, pY, 74, 20, pMessage, pOnPress, DEFAULT_NARRATION);
     }
 
+    /*
     @Override
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0f);
@@ -44,7 +46,30 @@ public class TextButton extends Button {
         pGuiGraphics.drawString(Minecraft.getInstance().font, this.getMessage(),this.getX() + 23,this.getY() + 5,0xFFFFFF);
 
     }
+*/
 
+    @Override
+    protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0f);
+        Minecraft minecraft = Minecraft.getInstance();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, botones);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+
+        int buttonY = 28;
+        if(this.isHovered){
+            buttonY += 20;
+        }
+        
+        // Dibujar la textura del botón
+        pGuiGraphics.blit(botones, this.getX(), this.getY(), 0, buttonY, 74, 20);
+
+        // Dibujar el texto del botón
+        int textColor = this.active ? 16777215 : 10526880;
+        pGuiGraphics.drawCenteredString(minecraft.font, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, textColor);
+    }
 
 
 

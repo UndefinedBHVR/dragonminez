@@ -41,6 +41,11 @@ public class StatsC2S {
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
+                    var vidaMC = 20;
+                    var raza = playerstats.getRace();
+                    var VidaTotal = 0.0f;
+                    var con = playerstats.getConstitution();
+
                     switch (packet.id) {
                         case 0:
                             playerstats.addStrength(packet.cantidad);
@@ -50,8 +55,27 @@ public class StatsC2S {
                             break;
                         case 2:
                             playerstats.addCon(packet.cantidad);
-                            playerstats.addStam(packet.cantidad);
-                            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue((playerstats.getConstitution() * 0.5) * DMCAttrConfig.MULTIPLIER_CON.get());
+
+                            if(raza == 0){
+                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            } else if(raza == 1){
+                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            } else if(raza == 2){
+                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            } else if(raza == 3){
+                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            } else if(raza == 4){
+                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            } else if(raza == 5){
+                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            }
+
                             player.refreshDimensions();
                             break;
                         case 3:
