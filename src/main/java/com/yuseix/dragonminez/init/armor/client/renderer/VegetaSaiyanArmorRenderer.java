@@ -51,7 +51,10 @@ public class VegetaSaiyanArmorRenderer extends GeoArmorRenderer<VegetaSaiyanArmo
                                     this.model.getBone("alexRightArm").ifPresent(bone -> bone.setHidden(false));
                                     this.model.getBone("alexLeftArm").ifPresent(bone -> bone.setHidden(false));
                                 }
+
+
                             } else if (cap.getBodytype() == 1) {
+
                                 if (cap.getGender().equals("Male")) {
                                     this.model.getBone("steveRightArm").ifPresent(bone -> bone.setHidden(false));
                                     this.model.getBone("steveLeftArm").ifPresent(bone -> bone.setHidden(false));
@@ -59,6 +62,8 @@ public class VegetaSaiyanArmorRenderer extends GeoArmorRenderer<VegetaSaiyanArmo
                                     this.model.getBone("alexRightArm").ifPresent(bone -> bone.setHidden(false));
                                     this.model.getBone("alexLeftArm").ifPresent(bone -> bone.setHidden(false));
                                 }
+
+
                             }
                         } else if(raza == 1){
                             if (cap.getBodytype() == 0) {

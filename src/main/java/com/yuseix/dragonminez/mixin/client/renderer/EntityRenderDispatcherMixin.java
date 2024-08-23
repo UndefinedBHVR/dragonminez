@@ -138,14 +138,14 @@ public class EntityRenderDispatcherMixin {
         ImmutableMap.Builder<String, LivingEntityRenderer> builder = ImmutableMap.builder();
         //HUMANO Y SAIYAJIN
         builder.put("default", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
-        builder.put("slim", new HumanSaiyanRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
+        builder.put("slim", new SlimHumanSMajinRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
         //NAMEK
         builder.put("namek", new NamekianRender(ctx));
         //BIO ANDROIDE
         builder.put("bio_imperfect", new BioAndroidRender(ctx));
         //MAJIN
-        builder.put("majin_gordo", new MajinRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
-        builder.put("majin_female", new MajinRaceRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
+        builder.put("majin_gordo", new MajinFATRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
+        builder.put("majin_female", new SlimHumanSMajinRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
         //DEMON COLD
         builder.put("demon_cold", new DemonColdRender(ctx, new DemonColdModel<>(ctx.bakeLayer(DemonColdModel.LAYER_LOCATION))));
 

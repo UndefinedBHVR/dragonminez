@@ -15,6 +15,7 @@ import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.KarinRenderer;
@@ -135,6 +136,8 @@ public final class ModBusEvents {
         e.registerLayerDefinition(VegetaHairModel.LAYER_LOCATION,VegetaHairModel::createBodyLayer);
         e.registerLayerDefinition(GohanDBSHairModel.LAYER_LOCATION,GohanDBSHairModel::createBodyLayer);
 
+        //ARMADURAS
+        e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
     }
 
 

@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.armor.GokuArmorItem;
 import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
+import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
 import com.yuseix.dragonminez.init.armor.VegetaSaiyanArmorItem;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.*;
@@ -80,6 +81,22 @@ public final class MainItems {
                     ));
     public static final RegistryObject<Item> GOKU_ARMOR_BOOTS =
             ITEM_REGISTER.register("goku_armor_boots", () -> new GokuArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS , new Item.Properties()
+                            .fireResistant()
+                    ));
+    //PICCOLO
+    public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("piccolo_armor_chestplate", () -> new PiccoloArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE , new Item.Properties()
+                            .fireResistant()
+                    ));
+    public static final RegistryObject<Item> PICCOLO_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("piccolo_armor_leggings", () -> new PiccoloArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS , new Item.Properties()
+                            .fireResistant()
+                    ));
+    public static final RegistryObject<Item> PICCOLO_ARMOR_BOOTS =
+            ITEM_REGISTER.register("piccolo_armor_boots", () -> new PiccoloArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS , new Item.Properties()
                             .fireResistant()
                     ));
