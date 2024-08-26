@@ -11,11 +11,11 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
-            "continentalness": 0,
+            "continentalness": 0.1,
             "erosion": 0,
             "weirdness": 0,
             "depth": 0,
-            "offset": 0.4
+            "offset": 0
           }
         },
         {
@@ -23,7 +23,7 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
-            "continentalness": -0.5,
+            "continentalness": 0.6,
             "erosion": 0,
             "weirdness": 0,
             "depth": 0,
@@ -35,10 +35,10 @@
           "parameters": {
             "temperature": 0,
             "humidity": 0,
-            "continentalness": -0.25,
+            "continentalness": -0.45,
             "erosion": 0,
             "weirdness": 0,
-            "depth": -0.4,
+            "depth": 0,
             "offset": 0
           }
         }
