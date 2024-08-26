@@ -50,5 +50,16 @@ public class TranslateManager {
     //TIPO DE CABELLOS
     public static MutableComponent HAIR_0 = (Component.translatable("dmz.ccreation.hairs.0"));
 
+    //TIPO DE CLASE
+    public static MutableComponent CLASS_TYPE = (Component.translatable("dmz.ccreation.class"));
+    public static MutableComponent CLASS_1 = (Component.translatable("dmz.ccreation.class.warrior"));
+    public static MutableComponent CLASS_2 = (Component.translatable("dmz.ccreation.class.spiritualist"));
+
+    //ALIGNMENT
+    public static MutableComponent ALIGNMENT = (Component.translatable("dmz.ccreation.alignment"));
+    public static MutableComponent ALIGNMENT_GOOD = (Component.translatable("dmz.ccreation.alignment.good"));
+    public static MutableComponent ALIGNMENT_EVIL = (Component.translatable("dmz.ccreation.alignment.evil"));
+
+    public static MutableComponent COLOR_AURA = (Component.translatable("dmz.ccreation.auracolor"));
 
 }

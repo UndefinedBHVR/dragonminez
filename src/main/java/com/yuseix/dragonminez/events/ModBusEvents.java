@@ -1,12 +1,31 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
+import com.yuseix.dragonminez.character.models.NamekianModel;
+import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
+import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
+import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.character.models.hair.FemHairModel;
+import com.yuseix.dragonminez.character.models.hair.GohanDBSHairModel;
+import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
+import com.yuseix.dragonminez.character.models.hair.VegetaHairModel;
+import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
+import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainFluids;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.KarinRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.NubeRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.ShenlongRenderer;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.model.Keys;
+import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
+import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
+import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
@@ -51,11 +70,15 @@ public final class ModBusEvents {
                 SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
+
     @SubscribeEvent
     public void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             //ENTIDADES
             EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
+            EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
+            EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
+            EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
@@ -80,21 +103,43 @@ public final class ModBusEvents {
     @SubscribeEvent
     public void entityAttributeEvent(EntityAttributeCreationEvent event) {
         event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
+        event.put(MainEntity.NUBE_VOLADORA.get(), NubeEntity.createAttributes());
+        event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
+        event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
+
     }
 
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
-        //e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
+        e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
     }
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.AddLayers e) {
-    }
 
+    }
 
     @SubscribeEvent
     public void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
+        //RAZAS
+        e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
+        e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
+        e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
+        e.registerLayerDefinition(BioAndroideModelo.LAYER_LOCATION, BioAndroideModelo::createBodyLayer);
+        e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
+        e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
+        e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
+
+        //CABELLOS
+        e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
+        e.registerLayerDefinition(FemHairModel.LAYER_LOCATION,FemHairModel::createBodyLayer);
+        e.registerLayerDefinition(VegetaHairModel.LAYER_LOCATION,VegetaHairModel::createBodyLayer);
+        e.registerLayerDefinition(GohanDBSHairModel.LAYER_LOCATION,GohanDBSHairModel::createBodyLayer);
+
+        //ARMADURAS
+        e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
     }
+
 
     @SubscribeEvent
     public void onKeyRegister(RegisterKeyMappingsEvent event) {

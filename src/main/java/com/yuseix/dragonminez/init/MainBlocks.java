@@ -160,36 +160,43 @@ public final class MainBlocks {
     public static final RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL2_BLOCK = BLOCK_REGISTER.register("dball2",
             () -> new Dball2Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL3_BLOCK = BLOCK_REGISTER.register("dball3",
             () -> new Dball3Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL4_BLOCK = BLOCK_REGISTER.register("dball4",
             () -> new Dball4Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL5_BLOCK = BLOCK_REGISTER.register("dball5",
             () -> new Dball5Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL6_BLOCK = BLOCK_REGISTER.register("dball6",
             () -> new Dball6Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL7_BLOCK = BLOCK_REGISTER.register("dball7",
             () -> new Dball7Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
     public static final RegistryObject<Block> DBALL1_NAMEK_BLOCK = BLOCK_REGISTER.register("dball1_namek",

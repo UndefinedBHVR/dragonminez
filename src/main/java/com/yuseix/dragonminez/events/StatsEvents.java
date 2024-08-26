@@ -44,19 +44,53 @@ public class StatsEvents {
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
 
-                int maxcon = (int) (playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get());
-                int maxstamina = (playerstats.getStamina() + 3);
-                int maxenergia = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                var vidaMC = 20;
+                var con = playerstats.getConstitution();
+                var raza = playerstats.getRace();
+                var energia = playerstats.getEnergy();
 
+                int maxstamina = 0;
+
+                int maxenergia = 0;
+
+                //ENERGIAAA
+                if(raza == 0){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get())) * 0.5);
+
+                } else if(raza == 1){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double)con * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get())) * 0.5);
+
+                } else if(raza == 2){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get())) * 0.5);
+
+                } else if(raza == 3){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get())) * 0.5);
+
+                } else if(raza == 4){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con* DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get())) * 0.5);
+
+                } else if(raza == 5){
+                    maxenergia = ( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                    event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                    maxstamina = (int) Math.round( (vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get())) * 0.5);
+
+                }
 
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
-
                     if (tickcounter >= 60 * 3) {
-
-                        int regenStamina = ((maxstamina) / 4);
+                        int regenStamina = (maxstamina / 4);
 
                         playerstats.addCurStam(regenStamina);
-
                         tickcounter = 0;
 
                     }
@@ -65,7 +99,7 @@ public class StatsEvents {
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
                     if (energiacounter >= 60 * 5) {
 
-                        int regenki = ((maxenergia) / 10);
+                        int regenki = (Math.round(maxenergia / 10));
 
                         playerstats.addCurEnergy(regenki);
 
@@ -73,14 +107,11 @@ public class StatsEvents {
                     }
                 }
 
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxcon);
-
             });
 
         }
 
-
-    }
+}
 
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
@@ -93,25 +124,31 @@ public class StatsEvents {
 
                     int staminacost, curstamina;
 
+                    var danoDefault = event.getAmount();
+
                     switch (raza) {
                         case 0: //TODO: HUMANO
-                            int maxstrHUMANO = calcularSTR("humano", playerstats.getStrength());
+
+                            int maxstrHUMANO = calcularSTR("humano", playerstats.getStrength(),danoDefault);
 
                             staminacost = (maxstrHUMANO / 4);
 
                             curstamina = playerstats.getCurStam();
 
                             if (curstamina >= staminacost) {
+                                //Aca es el dano total
                                 event.setAmount(maxstrHUMANO);
+                                //System.out.println("Dano total del Humano: " + maxstrHUMANO);
                                 playerstats.removeCurStam(staminacost);
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
+                                //System.out.println("Dano default del jugador(deberia ser 1 o 2 si es critico): " + danoDefault);
                             }
 
                             break;
                         case 1: //TODO: SAIYAN
-                            int maxstrSaiyan = calcularSTR("saiyan", playerstats.getStrength());
+                            int maxstrSaiyan = calcularSTR("saiyan", playerstats.getStrength(),danoDefault);
 
                             staminacost = (maxstrSaiyan / 4);
 
@@ -122,12 +159,12 @@ public class StatsEvents {
                                 playerstats.removeCurStam(staminacost);
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
                         case 2: //TODO: NAMEKIANO
-                            int maxstrNamek = calcularSTR("humano", playerstats.getStrength());
+                            int maxstrNamek = calcularSTR("namek", playerstats.getStrength(),danoDefault);
                             staminacost = (maxstrNamek / 4);
 
                             curstamina = playerstats.getCurStam();
@@ -142,7 +179,7 @@ public class StatsEvents {
 
                             break;
                         case 3: //TODO: BIOANDROIDE
-                            int maxstrBioAndroide = calcularSTR("humano", playerstats.getStrength());
+                            int maxstrBioAndroide = calcularSTR("bio", playerstats.getStrength(), danoDefault);
 
                             staminacost = (maxstrBioAndroide / 4);
 
@@ -158,7 +195,7 @@ public class StatsEvents {
 
                             break;
                         case 4: //TODO: COLDDEMON
-                            int maxstrColdDemon = calcularSTR("humano", playerstats.getStrength());
+                            int maxstrColdDemon = calcularSTR("colddemon", playerstats.getStrength(), danoDefault);
                             staminacost = (maxstrColdDemon / 4);
 
                             curstamina = playerstats.getCurStam();
@@ -173,7 +210,7 @@ public class StatsEvents {
 
                             break;
                         case 5: //TODO: MAJIN
-                            int maxstrMajin = calcularSTR("humano", playerstats.getStrength());
+                            int maxstrMajin = calcularSTR("majin", playerstats.getStrength(),danoDefault);
                             staminacost = (maxstrMajin / 4);
 
                             curstamina = playerstats.getCurStam();
@@ -202,6 +239,7 @@ public class StatsEvents {
         if (event.getEntity() instanceof Player) { //SI LA ENTIDAD QUE RECIBE UN GOLPE ES UN JUGADOR
 
             if (!(event.getSource().getEntity() instanceof Player)) { //SI LA ENTIDAD QUE HACE DANO NO ES UN JUGADOR
+                var danoDefault = event.getAmount();
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
                     int raza = playerstats.getRace();
@@ -253,6 +291,7 @@ public class StatsEvents {
             }
 
             if ((event.getSource().getEntity() instanceof Player jugadorpemrd)) { //SI LA ENTIDAD QUE HACE DANO ES UN JUGADOR
+                var danoDefault = event.getAmount();
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(playerstats -> {
 
@@ -264,7 +303,7 @@ public class StatsEvents {
                     switch (razas) {
                         case 0: //RAZA HUMANO
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength());
+                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
                             maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
@@ -276,13 +315,13 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
                         case 1: //RAZA SAIYAN
 
-                            maxstr = calcularSTR("saiyan", playerstats.getStrength());
+                            maxstr = calcularSTR("saiyan", playerstats.getStrength(), danoDefault);
                             maxdef = calcularDEF("saiyan", playerstats.getDefense());
                             staminacost = (maxstr / 4);
 
@@ -293,13 +332,13 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
                         case 2: //RAZA NAMEK
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength());
+                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
                             maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
@@ -311,13 +350,13 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
                         case 3: //RAZA BIOANDROIDE
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength());
+                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
                             maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
@@ -329,13 +368,13 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
                         case 4: //RAZA COLD DEMON
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength());
+                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
                             maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
@@ -347,13 +386,13 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
                         case 5: //RAZA MAJIN
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength());
+                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
                             maxdef = calcularDEF("humano", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
@@ -365,7 +404,7 @@ public class StatsEvents {
 
                             }
                             if (staminacost >= curstamina) {
-                                event.setAmount(1);
+                                event.setAmount(danoDefault);
                             }
 
                             break;
@@ -384,23 +423,42 @@ public class StatsEvents {
     }
 
 
-    private static int calcularSTR(String raza, int StatSTR) {
+    private static int calcularSTR(String raza, int StatSTR, float danoJugador) {
 
-        double maxStr = 0;
+            double maxStr = 0;
+
+            switch (raza) {
+                case "humano", "Humano", "h":
+                     maxStr = ((danoJugador + ((double) StatSTR /10)) * DMCAttrConfig.MULTIPLIER_STR.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+
+                    break;
+
+                case "saiyan", "Saiyan", "s":
+                        maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+
+                    break;
+                case "namek", "Namek", "n":
+                        maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_NAMEK.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+
+                    break;
+                case "bioandroide", "bio", "b":
+                        maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_BIO.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+
+                    break;
+                case "colddemon", "cold", "c":
+
+                    maxStr = ((danoJugador + ((double) StatSTR/10)) * DMCAttrConfig.MULTIPLIER_STR_COLD.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+
+                    break;
+                case "majin", "Majin", "m":
+
+                    maxStr = ((danoJugador + ((double) StatSTR/10)) * DMCAttrConfig.MULTIPLIER_STR_MAJIN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+
+                    break;
+            }
 
         //Fórmula = ((StatSTR * ConfigRaza) * Transf) * Porcentaje
-        switch (raza) {
-            case "humano", "Humano", "h":
 
-                maxStr = (StatSTR * DMCAttrConfig.MULTIPLIER_STR.get());
-
-                break;
-            case "saiyan", "Saiyan", "s":
-
-                maxStr = (StatSTR * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get());
-
-                break;
-        }
 
         return (int) maxStr;
     }
@@ -418,12 +476,32 @@ public class StatsEvents {
         switch (raza) {
             case "humano", "Humano", "h":
 
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = ((StatDEF/4) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
                 break;
             case "saiyan", "Saiyan", "s":
 
                 maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "namek", "Namek", "n":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_NAMEK.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "BioAndroide", "Bio", "b":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "ColdDemon", "Cold", "c":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+
+                break;
+            case "Majin", "majin", "M":
+
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_MAJIN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
                 break;
         }
@@ -458,35 +536,6 @@ public class StatsEvents {
         }
 
     }
-
-
-    @SubscribeEvent
-    public static void changeSizePRE(RenderPlayerEvent.Pre event) {
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            int razas = cap.getRace();
-
-            event.getPoseStack().pushPose();
-
-            if (razas == 0) {
-
-                event.getPoseStack().scale(1.0f, 1.0f, 1.0f);
-
-            } else if (razas == 1) {
-                event.getPoseStack().scale(0.75f, 0.75f, 0.75f);
-
-            } else if (razas == 3) {
-                event.getPoseStack().scale(0.75f, 0.75f, 0.75f);
-            }
-
-            event.getPoseStack().popPose();
-
-        });
-
-
-    }
-
 
     private static double getEnergyToRemove(int level) {
         double energyRemovalValue;

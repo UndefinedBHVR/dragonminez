@@ -23,11 +23,20 @@ public class DMZStatsAttributes {
 
     private boolean AcceptCharacter = false;
 
-
+    private String dmzClass = "Warrior";
+    private String dmzAlignment = "Good";
     private final Player player;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
+    }
+
+    public String getDmzClass() {
+        return dmzClass;
+    }
+
+    public String getDmzAlignment() {
+        return dmzAlignment;
     }
 
     public int getZpoints() {
@@ -167,16 +176,20 @@ public class DMZStatsAttributes {
 
     public void removeZpoints(int points) {
 
-        zpoints -= points;
+        if (this.zpoints >= points) {
+            this.zpoints -= points;
+        } else {
+            this.zpoints = 0;
+        }
         DMZStatsCapabilities.syncStats(player);
 
     }
 
     public void removeStrenght(int points) {
 
-        if (this.strength > 3) {
-            this.strength -= points;
-        } else {
+        this.strength -= points;
+
+        if (this.strength < 3) {
             this.strength = 3;
         }
 
@@ -185,9 +198,9 @@ public class DMZStatsAttributes {
 
     public void removeDefense(int points) {
 
-        if (this.defense > 3) {
-            this.defense -= points;
-        } else {
+        this.defense -= points;
+
+        if (this.defense < 3) {
             this.defense = 3;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -195,10 +208,10 @@ public class DMZStatsAttributes {
 
     public void removeConstitution(int points) {
 
-        if (this.constitution > 5) {
-            this.constitution -= points;
-        } else {
-            this.constitution = 5;
+        this.constitution -= points;
+
+        if (this.constitution < 3) {
+            this.constitution = 3;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -206,33 +219,36 @@ public class DMZStatsAttributes {
 
     public void removeKiPower(int points) {
 
-        if (this.KiPower > 5) {
-            this.KiPower -= points;
-        } else {
-            this.KiPower = 5;
+        this.KiPower -= points;
+
+        if (this.KiPower < 3) {
+            this.KiPower = 3;
         }
+
         DMZStatsCapabilities.syncStats(player);
 
     }
 
     public void removeEnergy(int points) {
 
-        if (this.energy > 10) {
-            this.energy -= points;
-        } else {
-            this.energy = 10;
+        this.energy -= points;
+
+        if (this.energy < 3) {
+            this.energy = 3;
         }
+
         DMZStatsCapabilities.syncStats(player);
 
     }
 
     public void removeStamina(int points) {
 
-        if (this.stamina > 10) {
-            this.stamina -= points;
-        } else {
-            this.stamina = 10;
+        this.stamina -= points;
+
+        if (this.stamina < 3) {
+            this.stamina = 3;
         }
+        
         DMZStatsCapabilities.syncStats(player);
 
     }
@@ -370,7 +386,35 @@ public class DMZStatsAttributes {
     }
 
     public void setCurrentEnergy(int currentEnergy) {
-        this.currentEnergy = currentEnergy;
+
+        var maxEne = 0;
+
+        if(races == 0){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+
+        } else if(races == 1){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+
+        } else if(races == 2){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+
+        } else if(races == 3){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+
+        } else if(races == 4){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+
+        } else if(races == 5){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+
+        }
+
+        if(currentEnergy >= maxEne){
+            this.currentEnergy = maxEne;
+        } else {
+            this.currentEnergy = currentEnergy;
+        }
+
         DMZStatsCapabilities.syncStats(player);
 
     }
@@ -388,10 +432,37 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
-        if (this.currentEnergy < ((int) (energy * 0.5) * DMCAttrConfig.MULTIPLIER_ENERGY.get())) {
-            this.currentEnergy += currentEnergy;
+        var maxEne = 0;
+
+        if(races == 0){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+
+        } else if(races == 1){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+
+        } else if(races == 2){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+
+        } else if(races == 3){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+
+        } else if(races == 4){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+
+        } else if(races == 5){
+            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+
         }
 
+        if(currentEnergy >= maxEne){
+            this.currentEnergy = maxEne;
+        } else {
+            this.currentEnergy += currentEnergy;
+
+            if(this.currentEnergy > maxEne){
+                this.currentEnergy = maxEne;
+            }
+        }
         DMZStatsCapabilities.syncStats(player);
     }
 
@@ -401,7 +472,37 @@ public class DMZStatsAttributes {
     }
 
     public void setCurStam(int curStam) {
-        this.curStam = curStam;
+
+        var maxStam = 0;
+        var maxVIDA = 0;
+
+        if(races == 0){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 1){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 2){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 3){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 4){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 5){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        }
+
+        if(curStam >= maxStam){
+            this.curStam = maxStam;
+        } else {
+            this.curStam = curStam;
+        }
+
+        //this.curStam = curStam;
         DMZStatsCapabilities.syncStats(player);
     }
 
@@ -416,9 +517,36 @@ public class DMZStatsAttributes {
     }
 
     public void addCurStam(int curStam) {
+        var maxStam = 0;
+        var maxVIDA = 0;
 
-        if (this.curStam < (stamina + 3)) {
+        if(races == 0){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 1){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 2){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 3){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 4){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        } else if(races == 5){
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            maxStam = ((int) Math.round(maxVIDA * 0.5));
+        }
+        if(curStam >= maxStam){
+            this.curStam = maxStam;
+        } else {
             this.curStam += curStam;
+
+            if(this.curStam > maxStam){
+                this.curStam = maxStam;
+            }
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -455,6 +583,16 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public void setDmzClass(String dmzClass) {
+        this.dmzClass = dmzClass;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void setDmzAlignment(String dmzAlignment) {
+        this.dmzAlignment = dmzAlignment;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public CompoundTag saveNBTData() {
 
         CompoundTag nbt = new CompoundTag();
@@ -485,9 +623,12 @@ public class DMZStatsAttributes {
         nbt.putInt("auraColor", auraColor);
 
         nbt.putString("gender", gender);
+        nbt.putString("dmzClass", dmzClass);
+        nbt.putString("dmzAlignment",dmzAlignment);
 
         nbt.putInt("zpoints", zpoints);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
+
         return nbt;
     }
 
@@ -520,6 +661,8 @@ public class DMZStatsAttributes {
         auraColor = nbt.getInt("auraColor");
 
         gender = nbt.getString("gender");
+        dmzClass = nbt.getString("dmzClass");
+        dmzAlignment = nbt.getString("dmzAlignment");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
 

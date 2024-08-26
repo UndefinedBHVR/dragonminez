@@ -39,6 +39,7 @@ public final class MainTabs {
                             output.accept(item.get().asItem());
                     })).build()
     );
+
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_items_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.POTHALA_RIGHT.get()))
 
@@ -58,6 +59,7 @@ public final class MainTabs {
                         output.accept(MainBlocks.GETE_ORE.get().asItem());
                         output.accept(MainBlocks.GETE_FURNACE.get().asItem());
                         output.accept(MainItems.GETE.get());
+                        output.accept(MainItems.KIKONO_SHARD.get());
                     }).build()
     );
 
