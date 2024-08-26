@@ -1,9 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.blocks.custom.GeteFurnaceBlock;
-import com.yuseix.dragonminez.init.blocks.custom.GeteOreDebrisBlock;
-import com.yuseix.dragonminez.init.blocks.custom.NamekPlantsBlock;
+import com.yuseix.dragonminez.init.blocks.custom.*;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
@@ -38,9 +36,9 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
+            () -> new NamekGrassBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
     public static final RegistryObject<Block> NAMEK_SACRED_GRASS_BLOCK = registerBlock("namek_sacred_grass_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
+            () -> new NamekSacredGrassBlock(BlockBehaviour.Properties.copy(Blocks.GRASS_BLOCK).sound(SoundType.GRASS)));
     public static final RegistryObject<Block> NAMEK_DIRT = registerBlock("namek_dirt",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.ROOTED_DIRT)));
     public static final RegistryObject<Block> NAMEK_COBBLESTONE = registerBlock("namek_cobblestone",

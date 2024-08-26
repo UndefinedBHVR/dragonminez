@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.levelgen.Heightmap;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoader;
@@ -47,6 +48,8 @@ public class DragonMineZ {
         MainNPCs.register(modEventBus);
         //Registramos los Fluidos (Tipo de Fluido y Fluido/s)
         MainFluids.register(modEventBus);
+        //Registramos los Biomas
+        ModBiomes.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 
