@@ -2,7 +2,6 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.custom.*;
-import com.yuseix.dragonminez.init.blocks.custom.ModFlammableLeavesBlock;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;

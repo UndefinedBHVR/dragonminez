@@ -6,8 +6,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
-
 public class ModFlammableLeavesBlock extends LeavesBlock {
     public ModFlammableLeavesBlock(Properties properties) {
         super(properties);
