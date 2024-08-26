@@ -12,9 +12,9 @@
   "block.dragonminez.namek_grass_block": "Namek Grass Block",
 
   "entity.dragonminez.dino": "Dinosaur",
-  "entity.dragonminez.nube": "Kinton Flying",
+  "entity.dragonminez.nube": "Flying Nimbus",
   "entity.dragonminez.karin": "Master Korin",
-  "entity.dragonminez.shenlong": "Shenlong",
+  "entity.dragonminez.shenlong": "Shenron",
 
   "item.dragonminez.blue_capsule": "Capsule (ENE)",
   "item.dragonminez.blue_capsule.ene.use": "+5 Energy",
@@ -132,11 +132,17 @@
   "block.dragonminez.namek_sacred_grass_block": "Namek Sacred Grass Block",
   "block.dragonminez.namek_sacred_door": "Sacred Door",
   "block.dragonminez.namek_ajissa_door": "Ajissa Door",
-  "block.dragonminez.namek_ajissa_trapdoor": "Ajissa trapdoor",
-  "block.dragonminez.namek_sacred_trapdoor": "Sacred trapdoor",
+  "block.dragonminez.namek_ajissa_trapdoor": "Ajissa Trapdoor",
+  "block.dragonminez.namek_sacred_trapdoor": "Sacred Trapdoor",
+  "block.dragonminez.namek_ajissa_wood": "Ajissa Wood",
+  "block.dragonminez.namek_sacred_wood": "Sacred Wood",
+  "block.dragonminez.namek_stripped_ajissa_log": "Stripped Ajissa Log",
+  "block.dragonminez.namek_stripped_sacred_log": "Stripped Sacred Log",
+  "block.dragonminez.namek_stripped_ajissa_wood": "Stripped Ajissa Wood",
+  "block.dragonminez.namek_stripped_sacred_wood": "Stripped Sacred Wood",
 
   "lines.master_korin.menu": "Hola que tal este es una prueba de texto para el menu waaaa cualquiera ddxdxddxdxdx, pene",
-  "lines.master_korin.kinton": "Give me a Kinton Flying",
-  "lines.master_korin.senzu": "I need senzu beams!"
+  "lines.master_korin.kinton": "Give me a Flying Nimbus!",
+  "lines.master_korin.senzu": "I need some Senzu Beans!"
 
 }

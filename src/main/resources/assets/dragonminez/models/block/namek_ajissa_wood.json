@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "dragonminez:block/namek/ajissa_log",
+    "side": "dragonminez:block/namek/ajissa_log"
+  }
+}
