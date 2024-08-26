@@ -1,18 +1,18 @@
 {
   "carvers": {
-    "air": [],
-    "liquid": [
+    "air": [
       "minecraft:canyon",
       "minecraft:cave",
       "minecraft:cave_extra_underground"
-    ]
+    ],
+    "liquid": []
   },
   "downfall": 0.4,
   "effects": {
-    "fog_color": 5745224,
-    "sky_color": 5607732,
-    "water_color": 6403665,
-    "water_fog_color": 3303206
+    "sky_color": 8454030,
+    "fog_color": 4379191,
+    "water_color": 1479227,
+    "water_fog_color": 676390
   },
   "has_precipitation": false,
   "temperature": 0.8,
@@ -78,6 +78,32 @@
       }
     ],
     "water_ambient": [
+      {
+        "type": "minecraft:salmon",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "minecraft:cod",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "minecraft:pufferfish",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
+      },
+      {
+        "type": "minecraft:tropical_fish",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "water_creature": [
       {
         "type": "minecraft:squid",
         "weight": 1,

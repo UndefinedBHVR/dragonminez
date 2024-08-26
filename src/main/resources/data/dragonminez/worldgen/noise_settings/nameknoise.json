@@ -410,7 +410,9 @@
         "if_true": {
           "type": "minecraft:biome",
           "biome_is": [
-            "dragonminez:namek_biome"
+            "dragonminez:ajissa_plains",
+            "dragonminez:sacred_land",
+            "dragonminez:namekian_rivers"
           ]
         },
         "then_run": {
