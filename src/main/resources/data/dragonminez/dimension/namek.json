@@ -19,7 +19,7 @@
           }
         },
         {
-          "biome": "minecraft:forest",
+          "biome": "dragonminez:sacred_land",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
@@ -31,14 +31,14 @@
           }
         },
         {
-          "biome": "minecraft:warm_ocean",
+          "biome": "dragonminez:namekian_rivers",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
             "continentalness": -0.25,
             "erosion": 0,
             "weirdness": 0,
-            "depth": -0.3,
+            "depth": -0.4,
             "offset": 0
           }
         }

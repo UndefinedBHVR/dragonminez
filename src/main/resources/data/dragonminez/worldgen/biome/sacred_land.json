@@ -163,8 +163,8 @@
   ],
   "spawn_costs": {
     "minecraft:enderman": {
-        "energy_budget": 0.12,
-        "charge": 1
-        }
+      "energy_budget": 0.12,
+      "charge": 1
     }
+  }
 }
