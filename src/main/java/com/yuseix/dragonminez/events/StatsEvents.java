@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.init.MainDimensions;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;

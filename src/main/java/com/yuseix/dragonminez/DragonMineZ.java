@@ -51,6 +51,7 @@ public class DragonMineZ {
         //Registramos los Biomas
         ModBiomes.register(modEventBus);
 
+
         MinecraftForge.EVENT_BUS.register(this);
 
         //Registramos el Listener del Mod (Normalmente eventos de Forge y FML más como frontend, realmente son los eventos de renderizado y más cosas de cliente)
