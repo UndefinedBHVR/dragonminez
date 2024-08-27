@@ -92,6 +92,7 @@ public final class ModBusEvents {
             BlockEntityRenderers.register(MainBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
             BlockEntityRenderers.register(MainBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
 
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_AJISSA_BLOCK.get(), RenderType.cutout());
 
             //ITEMS
             ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());

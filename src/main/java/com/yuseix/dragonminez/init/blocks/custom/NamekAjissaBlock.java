@@ -4,9 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -18,11 +17,14 @@ public class NamekAjissaBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public NamekAjissaBlock(Properties pProperties) {
-        super(pProperties);
+    public NamekAjissaBlock() {
+        super(BlockBehaviour.Properties.of()
+                .noOcclusion()
+                .sound(SoundType.ANVIL)
+        );
     }
 
-    private static final VoxelShape SHAPE =  Block.box(0, 0, 0, 12, 16, 12);
+    private static final VoxelShape SHAPE =  Block.box(2, 0, 2, 14, 16, 14);
 
 
     @Override

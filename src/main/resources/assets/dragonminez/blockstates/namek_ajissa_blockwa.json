@@ -1,8 +1,8 @@
 {
   "variants": {
-    "facing=north": { "model": "dragonminez:block/namek_ajissa_block" },
-    "facing=east": { "model": "dragonminez:block/namek_ajissa_block", "y": 90 },
-    "facing=south": { "model": "dragonminez:block/namek_ajissa_block", "y": 180 },
-    "facing=west": { "model": "dragonminez:block/namek_ajissa_block", "y": 270 }
+    "facing=north": { "model": "dragonminez:block/namek_ajissa_blockwa" },
+    "facing=east": { "model": "dragonminez:block/namek_ajissa_blockwa", "y": 90 },
+    "facing=south": { "model": "dragonminez:block/namek_ajissa_blockwa", "y": 180 },
+    "facing=west": { "model": "dragonminez:block/namek_ajissa_blockwa", "y": 270 }
   }
 }
