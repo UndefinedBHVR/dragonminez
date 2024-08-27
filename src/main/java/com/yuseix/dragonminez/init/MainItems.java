@@ -170,6 +170,7 @@ public final class MainItems {
                     .fireResistant()
             ));
 
+
     public static void register(IEventBus bus) {
         ITEM_REGISTER.register(bus);
     }

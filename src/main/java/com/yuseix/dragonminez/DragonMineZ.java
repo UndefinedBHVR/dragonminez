@@ -87,6 +87,7 @@ public class DragonMineZ {
                     Animal::checkAnimalSpawnRules);
 
             ModMessages.register();
+
         });
     }
 

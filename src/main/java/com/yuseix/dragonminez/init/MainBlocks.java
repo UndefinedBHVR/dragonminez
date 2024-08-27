@@ -32,8 +32,7 @@ public final class MainBlocks {
 
     //INICIO DE ITEMS SIN NECESIDADES ESPECIALES **NO** TIENEN SU CLASE EN INIT.BLOCKS.CUSTOM:
     //BLOQUES
-    /*TODO: Que los bloques custom tengan propios SFX (Conseguir a alguien que haga los sonidos?)
-     *  Estaría interesante que sean custom...*/
+
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
@@ -48,6 +47,11 @@ public final class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE)));
     public static final RegistryObject<Block> NAMEK_DEEPSLATE = registerBlock("namek_deepslate",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE).sound(SoundType.DEEPSLATE)));
+    public static final RegistryObject<Block> NAMEK_AJISSA_BLOCK = registerBlock("namek_ajissa_blockwa",
+            () -> new NamekAjisaBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG)
+                    .noOcclusion()
+                    .sound(SoundType.CHERRY_WOOD)
+            ));
 
     //Madera de Ajissa de Namek
     public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
