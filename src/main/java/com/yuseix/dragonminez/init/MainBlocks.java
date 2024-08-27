@@ -48,10 +48,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_DEEPSLATE = registerBlock("namek_deepslate",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE).sound(SoundType.DEEPSLATE)));
     public static final RegistryObject<Block> NAMEK_AJISSA_BLOCK = registerBlock("namek_ajissa_blockwa",
-            () -> new NamekAjisaBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG)
-                    .noOcclusion()
-                    .sound(SoundType.CHERRY_WOOD)
-            ));
+            () -> new NamekAjisaBlock(BlockBehaviour.Properties.of().sound(SoundType.CHERRY_WOOD)));
 
     //Madera de Ajissa de Namek
     public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
