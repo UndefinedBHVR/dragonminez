@@ -1,7 +1,11 @@
 package com.yuseix.dragonminez.init.armor;
 
-import com.yuseix.dragonminez.init.armor.client.renderer.GokuArmorRenderer;
+import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
@@ -9,44 +13,49 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.NotNull;
-import software.bernie.geckolib.animatable.GeoItem;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class GokuArmorItem extends ArmorItem implements GeoItem {
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+public class GokuArmorItem extends ArmorItem {
+
+    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/goku_gi_layer1.png").toString();
+    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/goku_gi_layer2.png").toString();
+
 
     public GokuArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
         super(pMaterial, pType, pProperties);
     }
 
     @Override
+    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        switch (slot) {
+            case HEAD:
+                return LAYER1;
+            case LEGS:
+                return LAYER2;
+            case FEET:
+                return LAYER1;
+            default:
+                return LAYER1;
+        }
+    }
+
+    @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
-            private GokuArmorRenderer renderer;
+
+            private ArmorBaseModel model;
+
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
-                if(this.renderer == null){
-                    this.renderer = new GokuArmorRenderer();
+                if(model == null){
+                    model = new ArmorBaseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorBaseModel.LAYER_LOCATION));
                 }
+                return model;
 
-                this.renderer.prepForRender(livingEntity, itemStack, equipmentSlot, original);
-                return this.renderer;
             }
         });
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-
-    }
-
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
     }
 }
