@@ -99,16 +99,20 @@
     "liquid": []
   },
   "features": [
+    [],
     [
       "minecraft:lake_lava_surface",
       "minecraft:lake_lava_underground"
     ],
+    [],
+    [],
+    [],
+    [],
     [
       "dragonminez:namek_ore_coal_upper",
       "dragonminez:namek_ore_coal_lower",
       "dragonminez:namek_ore_iron_upper",
       "dragonminez:namek_ore_iron_middle",
-      "dragonminez:namek_ore_iron_small",
       "dragonminez:namek_ore_diamond",
       "dragonminez:namek_ore_diamond_large",
       "dragonminez:namek_ore_diamond_buried",
@@ -119,12 +123,15 @@
       "dragonminez:namek_ore_gold",
       "dragonminez:namek_underwater_magma",
       "dragonminez:namek_ore_emerald",
-      "dragonminez:namek_ore_copper",
-      "dragonminez:namek_ore_copper_large"
+      "dragonminez:namek_ore_copper"
     ],
+    [],
     [
       "minecraft:spring_water",
       "minecraft:spring_lava"
+    ],
+    [
+      "dragonminez:namek_patch_grass_plain"
     ]
   ]
 }
