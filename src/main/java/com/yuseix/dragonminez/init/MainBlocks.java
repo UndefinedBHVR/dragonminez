@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -66,6 +67,17 @@ public final class MainBlocks {
             () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
     public static final RegistryObject<Block> NAMEK_AJISSA_DOOR = registerBlock("namek_ajissa_door",
             () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> NAMEK_AJISSA_SLAB = registerBlock("namek_ajissa_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.OAK_SLAB)));
+    public static final RegistryObject<Block> NAMEK_AJISSA_STAIRS = registerBlock("namek_ajissa_stairs",
+            () -> new StairBlock(() -> NAMEK_AJISSA_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.OAK_STAIRS)));
+    public static final RegistryObject<Block> NAMEK_AJISSA_FENCE = registerBlock("namek_ajissa_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE)));
+    public static final RegistryObject<Block> NAMEK_AJISSA_FENCE_GATE = registerBlock("namek_ajissa_fence_gate",
+            () -> new FenceGateBlock(BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE).sound(SoundType.CHERRY_WOOD), WoodType.OAK));
+    public static final RegistryObject<Block> NAMEK_AJISSA_BUTTON = registerBlock("namek_ajissa_button",
+            () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).sound(SoundType.CHERRY_WOOD),
+                    BlockSetType.OAK, 30, true));
 
     //Madera Sagrada de Namek
     public static final RegistryObject<Block> NAMEK_SACRED_LOG = registerBlock("namek_sacred_log",
@@ -85,6 +97,17 @@ public final class MainBlocks {
             () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.DARK_OAK));
     public static final RegistryObject<Block> NAMEK_SACRED_TRAPDOOR = registerBlock("namek_sacred_trapdoor",
             () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.DARK_OAK));
+    public static final RegistryObject<Block> NAMEK_SACRED_SLAB = registerBlock("namek_sacred_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_SLAB)));
+    public static final RegistryObject<Block> NAMEK_SACRED_STAIRS = registerBlock("namek_sacred_stairs",
+            () -> new StairBlock(() -> NAMEK_SACRED_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.DARK_OAK_STAIRS)));
+    public static final RegistryObject<Block> NAMEK_SACRED_FENCE = registerBlock("namek_sacred_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_FENCE)));
+    public static final RegistryObject<Block> NAMEK_SACRED_FENCE_GATE = registerBlock("namek_sacred_fence_gate",
+            () -> new FenceGateBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_FENCE_GATE).sound(SoundType.CHERRY_WOOD), WoodType.DARK_OAK));
+    public static final RegistryObject<Block> NAMEK_SACRED_BUTTON = registerBlock("namek_sacred_button",
+            () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_BUTTON).sound(SoundType.CHERRY_WOOD),
+                    BlockSetType.DARK_OAK, 30, true));
 
     //Ores Nuevos
     public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
