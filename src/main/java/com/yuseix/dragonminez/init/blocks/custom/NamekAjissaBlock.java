@@ -1,11 +1,8 @@
 package com.yuseix.dragonminez.init.blocks.custom;
 
-import com.yuseix.dragonminez.init.MainBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -17,11 +14,11 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NamekAjisaBlock extends Block {
+public class NamekAjissaBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public NamekAjisaBlock(Properties pProperties) {
+    public NamekAjissaBlock(Properties pProperties) {
         super(pProperties);
     }
 
