@@ -14,7 +14,7 @@ import java.awt.*;
 public class ModDimensions {
 
     public static final ResourceKey<Level> NAMEK_KEY = ResourceKey.create(Registries.DIMENSION,
-            new ResourceLocation(DragonMineZ.MOD_ID, "namekdim"));
+            new ResourceLocation(DragonMineZ.MOD_ID, "namek"));
 
     public static final ResourceKey<DimensionType> NAMEK_TYPE =
             ResourceKey.create(Registries.DIMENSION_TYPE, NAMEK_KEY.location());
