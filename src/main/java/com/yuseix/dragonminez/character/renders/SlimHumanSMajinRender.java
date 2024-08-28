@@ -306,14 +306,14 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
+                pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
+                pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
             }
@@ -337,7 +337,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
             colorR = (ojoscolorbase >> 16) / 255.0F;
             colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
             colorB = (ojoscolorbase & 0xff) / 255.0f;
-            pPoseStack.translate(0f,0f,-0.002f);
+            pPoseStack.translate(0f,0f,-0.001f);
             playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
         });

@@ -30,11 +30,6 @@ public class TranslateManager {
     public static MutableComponent NEXT = (Component.translatable("dmz.ccreation.next"));
     //COLOR MENU TITULO
     public static MutableComponent COLOR_MENU = (Component.translatable("dmz.ccreation.color_menu"));
-
-    //TIPO DE OJOS 1
-    public static MutableComponent EYES_TYPE_1 = (Component.translatable("dmz.ccreation.eyestype.type1"));
-    public static MutableComponent EYES_TYPE_2 = (Component.translatable("dmz.ccreation.eyestype.type2"));
-
     //TIPO DE CUERPO HUMANO
     public static MutableComponent H_BODY_TYPE = (Component.translatable("dmz.ccreation.human.bodytype.type1"));
     public static MutableComponent H_BODY_TYPE2 = (Component.translatable("dmz.ccreation.human.bodytype.type2"));
@@ -47,8 +42,6 @@ public class TranslateManager {
     //TIPO DE GENEROS
     public static MutableComponent GENDER_MALE = (Component.translatable("dmz.ccreation.genders.male"));
     public static MutableComponent GENDER_FEMALE = (Component.translatable("dmz.ccreation.genders.female"));
-    //TIPO DE CABELLOS
-    public static MutableComponent HAIR_0 = (Component.translatable("dmz.ccreation.hairs.0"));
 
     //TIPO DE CLASE
     public static MutableComponent CLASS_TYPE = (Component.translatable("dmz.ccreation.class"));

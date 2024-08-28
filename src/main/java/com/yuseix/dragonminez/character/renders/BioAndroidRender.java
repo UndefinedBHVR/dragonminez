@@ -223,7 +223,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
+                pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_IRIS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
             }

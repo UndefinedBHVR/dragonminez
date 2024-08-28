@@ -20,7 +20,8 @@ public class NamekAjissaBlock extends Block {
     public NamekAjissaBlock() {
         super(BlockBehaviour.Properties.of()
                 .noOcclusion()
-                .sound(SoundType.ANVIL)
+                .strength(1.0f)
+                .sound(SoundType.CHERRY_WOOD)
         );
     }
 
