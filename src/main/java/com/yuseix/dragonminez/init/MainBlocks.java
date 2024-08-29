@@ -47,14 +47,13 @@ public final class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE)));
     public static final RegistryObject<Block> NAMEK_DEEPSLATE = registerBlock("namek_deepslate",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE).sound(SoundType.DEEPSLATE)));
-    public static final RegistryObject<Block> NAMEK_AJISSA_BLOCK = registerBlock("namek_ajissa_blockwa",
-            () -> new NamekAjissaBlock());
+
 
     //Madera de Ajissa de Namek
     public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
-            () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).sound(SoundType.CHERRY_WOOD)));
+            () -> new NamekLogBlock());
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_LOG = registerBlock("namek_stripped_ajissa_log",
-            () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_LOG).sound(SoundType.CHERRY_WOOD)));
+            () -> new NamekLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_WOOD = registerBlock("namek_ajissa_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_WOOD = registerBlock("namek_stripped_ajissa_wood",
@@ -82,9 +81,9 @@ public final class MainBlocks {
 
     //Madera Sagrada de Namek
     public static final RegistryObject<Block> NAMEK_SACRED_LOG = registerBlock("namek_sacred_log",
-            () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_LOG).sound(SoundType.CHERRY_WOOD)));
+            () -> new NamekLogBlock());
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_LOG = registerBlock("namek_stripped_sacred_log",
-            () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_DARK_OAK_LOG).sound(SoundType.CHERRY_WOOD)));
+            () -> new NamekLogBlock());
     public static final RegistryObject<Block> NAMEK_SACRED_WOOD = registerBlock("namek_sacred_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_WOOD = registerBlock("namek_stripped_sacred_wood",
@@ -116,6 +115,10 @@ public final class MainBlocks {
     public static final RegistryObject<Block> GETE_ORE = registerBlock("gete_debris_ore",
             () -> new GeteOreDebrisBlock(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS)
                     .randomTicks().lightLevel(litBlockEmission(9))));
+    public static final RegistryObject<Block> NAMEK_KIKONO_ORE = registerBlock("namek_kikono_ore",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).requiresCorrectToolForDrops().strength(9.0F, 12.0F)));
+    public static final RegistryObject<Block> KIKONO_BLOCK = registerBlock("kikono_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
 
     /*TODO: Crear el Sapling de Namek_Sacred
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",

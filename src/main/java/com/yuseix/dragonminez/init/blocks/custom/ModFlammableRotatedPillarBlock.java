@@ -35,14 +35,8 @@ public class ModFlammableRotatedPillarBlock extends RotatedPillarBlock {
     @Override
     public @Nullable BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
         if(context.getItemInHand().getItem() instanceof AxeItem) {
-            if(state.is(MainBlocks.NAMEK_AJISSA_LOG.get())) {
-                return MainBlocks.NAMEK_STRIPPED_AJISSA_LOG.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));
-            }
             if(state.is(MainBlocks.NAMEK_AJISSA_WOOD.get())) {
                 return MainBlocks.NAMEK_STRIPPED_AJISSA_WOOD.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));
-            }
-            if(state.is(MainBlocks.NAMEK_SACRED_LOG.get())) {
-                return MainBlocks.NAMEK_STRIPPED_SACRED_LOG.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));
             }
             if(state.is(MainBlocks.NAMEK_SACRED_WOOD.get())) {
                 return MainBlocks.NAMEK_STRIPPED_SACRED_WOOD.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));

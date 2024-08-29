@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.blocks.custom;
 
+import com.yuseix.dragonminez.init.MainBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -13,11 +14,11 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NamekAjissaBlock extends Block {
+public class NamekLogBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public NamekAjissaBlock() {
+    public NamekLogBlock() {
         super(BlockBehaviour.Properties.of()
                 .noOcclusion()
                 .strength(1.0f)
