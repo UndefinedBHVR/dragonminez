@@ -17,7 +17,6 @@ public final class MainEntity {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES_REGISTER =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, DragonMineZ.MOD_ID);
 
-
     public static final RegistryObject<EntityType<DinoEntity>> DINO1 =
             ENTITY_TYPES_REGISTER.register("dino",
                     () -> EntityType.Builder.of(DinoEntity::new, MobCategory.MONSTER)

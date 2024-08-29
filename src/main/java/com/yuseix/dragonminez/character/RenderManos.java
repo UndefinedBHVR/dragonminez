@@ -148,8 +148,6 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 }
     private void DEMONCOLD_ARMS(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, ModelPart pRendererArm){
 
-        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
-
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             var bodytype = cap.getBodytype();
