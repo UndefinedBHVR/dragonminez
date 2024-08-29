@@ -10,8 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-public class KintonFlyingItem extends Item {
-    public KintonFlyingItem( ) {
+public class FlyingNimbusItem extends Item {
+    public FlyingNimbusItem( ) {
         super(new Properties().stacksTo(1));
     }
 
