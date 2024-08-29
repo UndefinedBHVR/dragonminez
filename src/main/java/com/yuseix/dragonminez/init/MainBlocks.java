@@ -119,16 +119,6 @@ public final class MainBlocks {
     public static final RegistryObject<Block> KIKONO_BLOCK = registerBlock("kikono_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
 
-    /*TODO: Crear el Sapling de Namek_Sacred
-    public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
-            () -> new SaplingBlock(new SacredTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)
-                    .mapColor(MapColor.PLANT)
-                    .noCollission()
-                    .randomTicks()
-                    .instabreak()
-                    .sound(SoundType.GRASS)
-                    .pushReaction(PushReaction.DESTROY)
-            ));*/
     //FIN DE ITEMS SIN NECESIDADES ESPECIALES
 
     //ORES
@@ -187,6 +177,12 @@ public final class MainBlocks {
     *       )); */
 
     //PLANTAS
+
+    public static final RegistryObject<Block> NAMEK_AJISSA_SAPLING = registerBlock("namek_ajissa_sapling",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)
+                    .noOcclusion()
+                    .noCollission()
+            ));
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
                     .noOcclusion()
