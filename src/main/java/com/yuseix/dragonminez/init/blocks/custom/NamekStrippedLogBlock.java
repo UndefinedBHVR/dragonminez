@@ -12,8 +12,10 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -22,12 +24,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class NamekLogBlock extends Block {
+public class NamekStrippedLogBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public NamekLogBlock() {
-        super(BlockBehaviour.Properties.of()
+    public NamekStrippedLogBlock() {
+        super(Properties.of()
                 .noOcclusion()
                 .strength(1.0f)
                 .sound(SoundType.CHERRY_WOOD)
@@ -76,17 +78,4 @@ public class NamekLogBlock extends Block {
         pBuilder.add(FACING);
     }
 
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (player.getItemInHand(hand).getItem() instanceof AxeItem) {
-            Block newBlock = MainBlocks.NAMEK_STRIPPED_AJISSA_LOG.get(); // Reemplaza con tu nuevo bloque
-            level.setBlock(pos, newBlock.defaultBlockState().setValue(FACING, state.getValue(FACING)), 3);
-
-            level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
-
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        }
-
-        return InteractionResult.PASS;
-    }
 }

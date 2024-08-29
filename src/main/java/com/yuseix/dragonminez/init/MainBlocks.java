@@ -53,7 +53,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
             () -> new NamekLogBlock());
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_LOG = registerBlock("namek_stripped_ajissa_log",
-            () -> new NamekLogBlock());
+            () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_WOOD = registerBlock("namek_ajissa_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_WOOD = registerBlock("namek_stripped_ajissa_wood",
@@ -81,9 +81,9 @@ public final class MainBlocks {
 
     //Madera Sagrada de Namek
     public static final RegistryObject<Block> NAMEK_SACRED_LOG = registerBlock("namek_sacred_log",
-            () -> new NamekLogBlock());
+            () -> new NamekSacredLogBlock());
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_LOG = registerBlock("namek_stripped_sacred_log",
-            () -> new NamekLogBlock());
+            () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_SACRED_WOOD = registerBlock("namek_sacred_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_WOOD = registerBlock("namek_stripped_sacred_wood",

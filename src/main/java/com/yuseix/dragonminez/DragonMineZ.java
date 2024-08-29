@@ -4,10 +4,12 @@ import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
+import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraftforge.common.MinecraftForge;
@@ -80,15 +82,24 @@ public class DragonMineZ {
 
     }
 
+
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
+
+
             SpawnPlacements.register(MainEntity.DINO1.get(),
-                    SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    Animal::checkAnimalSpawnRules);
+                    SpawnPlacements.Type.ON_GROUND,
+                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    Animal::checkAnimalSpawnRules
+            );
+
+
 
             ModMessages.register();
 
         });
     }
+
+
 
 }
