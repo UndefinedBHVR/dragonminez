@@ -86,7 +86,7 @@ public final class MainItems {
                     ));
     //PICCOLO
     public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("piccolo_armor_chestplate", () -> new PiccoloArmorItem
+            ITEM_REGISTER.register("piccolo_armor_cape", () -> new PiccoloArmorItem //CON CAPA
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE , new Item.Properties()
                             .fireResistant()
                     ));
@@ -114,7 +114,7 @@ public final class MainItems {
             ));
 
     //MINERALES
-    public static final RegistryObject<Item> GETE = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
+    public static final RegistryObject<Item> GETE_SCRAP = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
     public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
 
     public static final RegistryObject<Item> KIKONO_SHARD = ITEM_REGISTER.register("kikono_shard",
