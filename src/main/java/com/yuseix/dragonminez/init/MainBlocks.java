@@ -116,9 +116,9 @@ public final class MainBlocks {
             () -> new GeteOreDebrisBlock(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS)
                     .randomTicks().lightLevel(litBlockEmission(9))));
     public static final RegistryObject<Block> NAMEK_KIKONO_ORE = registerBlock("namek_kikono_ore",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE).requiresCorrectToolForDrops().strength(9.0F, 12.0F)));
+            () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_REDSTONE_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
     public static final RegistryObject<Block> KIKONO_BLOCK = registerBlock("kikono_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.REDSTONE_BLOCK).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
 
     /*TODO: Crear el Sapling de Namek_Sacred
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
@@ -178,6 +178,14 @@ public final class MainBlocks {
                     .strength(3.5F)
                     .lightLevel(litBlockEmission(13))
             ));
+
+    //ARMOR STATION
+   /* public static final RegistryObject<Block> KIKONO_ARMOR_STATION = registerBlock("kikono_armor_station",
+    *         () -> new KikonoArmorStationBlock(BlockBehaviour.Properties.of()
+    *               .mapColor(MapColor.STONE)
+    *               .requiresCorrectToolForDrops()
+    *               .strength(3.5F)
+    *       )); */
 
     //PLANTAS
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
