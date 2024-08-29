@@ -307,6 +307,7 @@ public class CharacterCMenu extends Screen {
                 clearAllButtons();
 
                 ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
 
             }));
             //BOTON SIGUIENTE

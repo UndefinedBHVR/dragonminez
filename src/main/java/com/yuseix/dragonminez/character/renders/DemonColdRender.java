@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.character.renders;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -144,6 +143,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
                 if (bodyType == 0) {
                     renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                } else if(bodyType == 1){
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                } else if(bodyType == 2){
+                    renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight);
                 }
                 renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
 
@@ -182,30 +185,106 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1_DECO)), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 2
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 3
             colorR = (bodyColor3 >> 16) / 255.0F;
             colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor3 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 4
             colorR = (bodyColor4 >> 16) / 255.0F;
             colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor4 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_BASE_PART4)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART4)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
         });
 
     }
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
 
+        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor4 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 4
+            colorR = (bodyColor4 >> 16) / 255.0F;
+            colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor4 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART4)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+        });
+
+    }
+    private void renderBodyType2(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+
+        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor4 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 4
+            colorR = (bodyColor4 >> 16) / 255.0F;
+            colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor4 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART4)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+        });
+
+    }
     private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
 
         DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
