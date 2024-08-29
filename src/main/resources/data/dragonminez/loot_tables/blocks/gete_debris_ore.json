@@ -1,7 +1,21 @@
 {
-  "variants": {
-    "": {
-      "model": "dragonminez:block/gete_debris_ore"
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "dragonminez:gete_debris_ore"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
     }
-  }
+  ],
+  "random_sequence": "dragonminez:blocks/gete_debris_ore"
 }

@@ -113,12 +113,11 @@ public final class MainBlocks {
     public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
     public static final RegistryObject<Block> GETE_ORE = registerBlock("gete_debris_ore",
-            () -> new GeteOreDebrisBlock(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS)
-                    .randomTicks().lightLevel(litBlockEmission(9))));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS).requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> NAMEK_KIKONO_ORE = registerBlock("namek_kikono_ore",
-            () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_REDSTONE_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS).requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> KIKONO_BLOCK = registerBlock("kikono_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.REDSTONE_BLOCK).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
 
     /*TODO: Crear el Sapling de Namek_Sacred
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
