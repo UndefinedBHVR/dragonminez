@@ -128,7 +128,7 @@ public class StatsEvents {
                     var danoDefault = event.getAmount();
 
                     switch (raza) {
-                        case 0: //TODO: HUMANO
+                        case 0: //HUMANO
 
                             int maxstrHUMANO = calcularSTR("humano", playerstats.getStrength(),danoDefault);
 
@@ -148,7 +148,7 @@ public class StatsEvents {
                             }
 
                             break;
-                        case 1: //TODO: SAIYAN
+                        case 1: //SAIYAN
                             int maxstrSaiyan = calcularSTR("saiyan", playerstats.getStrength(),danoDefault);
 
                             staminacost = (maxstrSaiyan / 4);
@@ -164,7 +164,7 @@ public class StatsEvents {
                             }
 
                             break;
-                        case 2: //TODO: NAMEKIANO
+                        case 2: //NAMEKIANO
                             int maxstrNamek = calcularSTR("namek", playerstats.getStrength(),danoDefault);
                             staminacost = (maxstrNamek / 4);
 
@@ -179,7 +179,7 @@ public class StatsEvents {
                             }
 
                             break;
-                        case 3: //TODO: BIOANDROIDE
+                        case 3: //BIOANDROIDE
                             int maxstrBioAndroide = calcularSTR("bio", playerstats.getStrength(), danoDefault);
 
                             staminacost = (maxstrBioAndroide / 4);
@@ -195,7 +195,7 @@ public class StatsEvents {
                             }
 
                             break;
-                        case 4: //TODO: COLDDEMON
+                        case 4: //COLDDEMON
                             int maxstrColdDemon = calcularSTR("colddemon", playerstats.getStrength(), danoDefault);
                             staminacost = (maxstrColdDemon / 4);
 
@@ -210,7 +210,7 @@ public class StatsEvents {
                             }
 
                             break;
-                        case 5: //TODO: MAJIN
+                        case 5: //MAJIN
                             int maxstrMajin = calcularSTR("majin", playerstats.getStrength(),danoDefault);
                             staminacost = (maxstrMajin / 4);
 
@@ -225,7 +225,7 @@ public class StatsEvents {
                             }
                             break;
 
-                        default: //TODO: FUTURAS RAZAS
+                        default: //FUTURAS RAZAS
 
                             break;
 
@@ -260,25 +260,25 @@ public class StatsEvents {
                             break;
                         case 2: //RAZA NAMEK
 
-                            int defensaNamek = calcularDEF("humano", playerstats.getDefense());
+                            int defensaNamek = calcularDEF("namek", playerstats.getDefense());
                             event.setAmount(event.getAmount() - defensaNamek);
 
                             break;
                         case 3: //RAZA BIOANDROIDE
 
-                            int defensaBioAndroide = calcularDEF("humano", playerstats.getDefense());
+                            int defensaBioAndroide = calcularDEF("Bio", playerstats.getDefense());
                             event.setAmount(event.getAmount() - defensaBioAndroide);
 
                             break;
                         case 4: //RAZA COLD DEMON
 
-                            int defensaColdDemon = calcularDEF("humano", playerstats.getDefense());
+                            int defensaColdDemon = calcularDEF("ColdDemon", playerstats.getDefense());
                             event.setAmount(event.getAmount() - defensaColdDemon);
 
                             break;
                         case 5: //RAZA MAJIN
 
-                            int defensaMajin = calcularDEF("humano", playerstats.getDefense());
+                            int defensaMajin = calcularDEF("Majin", playerstats.getDefense());
                             event.setAmount(event.getAmount() - defensaMajin);
 
                             break;
@@ -339,8 +339,8 @@ public class StatsEvents {
                             break;
                         case 2: //RAZA NAMEK
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
-                            maxdef = calcularDEF("humano", playerstats.getDefense());
+                            maxstr = calcularSTR("namek", playerstats.getStrength(), danoDefault);
+                            maxdef = calcularDEF("namek", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -357,8 +357,8 @@ public class StatsEvents {
                             break;
                         case 3: //RAZA BIOANDROIDE
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
-                            maxdef = calcularDEF("humano", playerstats.getDefense());
+                            maxstr = calcularSTR("bioandroide", playerstats.getStrength(), danoDefault);
+                            maxdef = calcularDEF("BioAndroide", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -375,8 +375,8 @@ public class StatsEvents {
                             break;
                         case 4: //RAZA COLD DEMON
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
-                            maxdef = calcularDEF("humano", playerstats.getDefense());
+                            maxstr = calcularSTR("colddemon", playerstats.getStrength(), danoDefault);
+                            maxdef = calcularDEF("ColdDemon", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -393,8 +393,8 @@ public class StatsEvents {
                             break;
                         case 5: //RAZA MAJIN
 
-                            maxstr = calcularSTR("humano", playerstats.getStrength(), danoDefault);
-                            maxdef = calcularDEF("humano", playerstats.getDefense());
+                            maxstr = calcularSTR("majin", playerstats.getStrength(), danoDefault);
+                            maxdef = calcularDEF("majin", playerstats.getDefense());
 
                             staminacost = (maxstr / 4);
 
@@ -497,7 +497,7 @@ public class StatsEvents {
                 break;
             case "ColdDemon", "Cold", "c":
 
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_COLD.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
 
                 break;
             case "Majin", "majin", "M":

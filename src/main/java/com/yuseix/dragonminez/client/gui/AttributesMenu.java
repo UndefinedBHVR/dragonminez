@@ -117,7 +117,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var con = playerstats.getConstitution();
             var kipower = playerstats.getKiPower();
             var energy = playerstats.getEnergy();
-            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get());
+            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get() + 5);
 
             anchoTexto = 17;
             alturaTexto = (this.height / 2) + 2;
@@ -327,6 +327,106 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 var stmMax = Math.round(conMax * 0.5);
                 var KPWMax = playerstats.getKiPower();
                 var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+
+            } else if(raza == 1){ //SAIYAN
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
+
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
+
+                var vidaMC = 20;
+
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+                var stmMax = Math.round(conMax * 0.5);
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+
+            } else if(raza == 2){ //NAMEK
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_NAMEK.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
+
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_NAMEK.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
+
+                var vidaMC = 20;
+
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+                var stmMax = Math.round(conMax * 0.5);
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+
+            } else if(raza == 3){
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_BIO.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
+
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
+
+                var vidaMC = 20;
+
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+                var stmMax = Math.round(conMax * 0.5);
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+
+            } else if(raza == 4){
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_COLD.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
+
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_COLD.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
+
+                var vidaMC = 20;
+
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+                var stmMax = Math.round(conMax * 0.5);
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+
+                //VARIABLES:
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+
+            } else {
+                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_MAJIN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
+
+                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_MAJIN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
+
+                var vidaMC = 20;
+
+                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                var stmMax = Math.round(conMax * 0.5);
+                var KPWMax = playerstats.getKiPower();
+                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
 
                 //VARIABLES:
                 drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
