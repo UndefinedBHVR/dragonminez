@@ -155,7 +155,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                     if (bodyType == 0) {
                         if(pEntity.getModelName().equals("default")){
                         } else {
-                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
                     } else if (bodyType > 0) {
@@ -163,21 +163,21 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                         //CUERPO CUSTOM 1
                         if (bodyType == 1) {
-                            renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                            renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
                         //RENDER EYES
 
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                     }
                 } else {
 
                     if (bodyType == 0) {
-                        renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
 
-                    renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
 
                 }
@@ -279,7 +279,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
     }
 
 
-    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
@@ -294,34 +294,34 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //CEJAS Y COLOR DE CEJAS
                 colorR = (cabellocolor >> 16) / 255.0F;
                 colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
                 colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 
 
         });
     }
-    private void renderMAJINFEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderMAJINFEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();
 
@@ -331,30 +331,30 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
             //OJOS BLANCOS
             pPoseStack.translate(0f,0f,-0.001f);
-            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
             //IRIS COLORES
             colorR = (ojoscolorbase >> 16) / 255.0F;
             colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
             colorB = (ojoscolorbase & 0xff) / 255.0f;
             pPoseStack.translate(0f,0f,-0.001f);
-            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
         });
     }
-    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
     }
 
-    private void renderMajinFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderMajinFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();
 
@@ -366,12 +366,12 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 
     }
-    private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
@@ -383,7 +383,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 

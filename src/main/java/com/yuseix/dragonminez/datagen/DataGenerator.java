@@ -1,9 +1,15 @@
 package com.yuseix.dragonminez.datagen;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -19,5 +25,15 @@ public class DataGenerator {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
+    }
+
+    @SubscribeEvent
+    public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
+        System.out.println("SPAWN REGISTRADO");
+        event.register(MainEntity.DINO1.get(),
+                SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkAnyLightMonsterSpawnRules,
+                SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 }

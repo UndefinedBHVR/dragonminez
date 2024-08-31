@@ -156,17 +156,17 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
                 if (bodyType == 0) {
 
                         if(genero.equals("Male")){
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         } else {
-                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
 
                     //RENDER EYES
                     if(genero.equals("Male")){
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
 
                 }
@@ -193,7 +193,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
     }
 
-    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinGordoModel<AbstractClientPlayer> playermodel = (MajinGordoModel)this.getModel();
 
@@ -205,12 +205,12 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 
     }
-    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();
 
@@ -222,13 +222,13 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 
     }
 
-    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinGordoModel<AbstractClientPlayer> playermodel = (MajinGordoModel)this.getModel();
 
@@ -242,12 +242,12 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
                 //OJOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
         });
     }
 
-    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();
 
@@ -257,14 +257,14 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //IRIS COLORES
                 colorR = (ojoscolorbase >> 16) / 255.0F;
                 colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
                 colorB = (ojoscolorbase & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
         });
     }
