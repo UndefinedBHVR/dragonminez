@@ -50,8 +50,6 @@ public class DragonMineZ {
         MainNPCs.register(modEventBus);
         //Registramos los Fluidos (Tipo de Fluido y Fluido/s)
         MainFluids.register(modEventBus);
-        //Registramos los Biomas
-        ModBiomes.register(modEventBus);
 
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -68,6 +66,7 @@ public class DragonMineZ {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminez-common.toml");
 
         // Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
+        /*
         IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
         ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT,
                 """
@@ -80,20 +79,12 @@ public class DragonMineZ {
                         Proceed with caution!""");
         ModLoader.get().addWarning(modLoadingWarning);
 
+         */
     }
 
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-
-
-            SpawnPlacements.register(MainEntity.DINO1.get(),
-                    SpawnPlacements.Type.ON_GROUND,
-                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    Animal::checkAnimalSpawnRules
-            );
-
-
 
             ModMessages.register();
 

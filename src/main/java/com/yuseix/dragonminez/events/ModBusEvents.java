@@ -12,6 +12,7 @@ import com.yuseix.dragonminez.character.models.hair.VegetaHairModel;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
+import com.yuseix.dragonminez.datagen.ModWorldGenProvider;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
@@ -36,6 +37,9 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
@@ -45,6 +49,8 @@ import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -53,11 +59,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.concurrent.CompletableFuture;
 
 //Anteriormente llamado ModListener o ClientEvents
 //ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
 //Si un evento tiene "class x implements IMobBusEvent" TIENE que estar acá.
-public final class ModBusEvents {
+public class ModBusEvents {
 
     @SubscribeEvent
     public void onCommonSetup(final FMLCommonSetupEvent event) {
@@ -65,11 +72,12 @@ public final class ModBusEvents {
     }
 
     @SubscribeEvent
-    public void onSpawnPlacementRegister(SpawnPlacementRegisterEvent event) {
+    public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
+        System.out.println("SPAWN REGISTRADO");
         event.register(MainEntity.DINO1.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Animal::checkAnimalSpawnRules,
+                DinoEntity::checkCreatureSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 
@@ -116,14 +124,11 @@ public final class ModBusEvents {
 
     }
 
+
+
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
         e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
-    }
-
-    @SubscribeEvent
-    public void registerModelLayers(EntityRenderersEvent.AddLayers e) {
-
     }
 
     @SubscribeEvent

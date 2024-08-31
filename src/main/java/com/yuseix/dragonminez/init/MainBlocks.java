@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.custom.*;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
+import com.yuseix.dragonminez.worldgen.tree.NamekAjissaGrower;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -52,6 +53,9 @@ public final class MainBlocks {
     //Madera de Ajissa de Namek
     public static final RegistryObject<Block> NAMEK_AJISSA_LOG = registerBlock("namek_ajissa_log",
             () -> new NamekLogBlock());
+
+    public static final RegistryObject<Block> NAMEK_AJISSA_SAPPLING = registerBlock("namek_ajissa_sapplingwa",
+            () -> new SaplingBlock(new NamekAjissaGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_LOG = registerBlock("namek_stripped_ajissa_log",
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_WOOD = registerBlock("namek_ajissa_wood",
@@ -84,6 +88,7 @@ public final class MainBlocks {
             () -> new NamekSacredLogBlock());
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_LOG = registerBlock("namek_stripped_sacred_log",
             () -> new NamekStrippedLogBlock());
+
     public static final RegistryObject<Block> NAMEK_SACRED_WOOD = registerBlock("namek_sacred_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_WOOD = registerBlock("namek_stripped_sacred_wood",
