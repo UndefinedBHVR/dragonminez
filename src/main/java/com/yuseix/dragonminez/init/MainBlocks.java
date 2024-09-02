@@ -34,7 +34,8 @@ public final class MainBlocks {
 
     //INICIO DE ITEMS SIN NECESIDADES ESPECIALES **NO** TIENEN SU CLASE EN INIT.BLOCKS.CUSTOM:
     //BLOQUES
-
+    public static final RegistryObject<Block> TIME_CHAMBER_BLOCK = registerBlock("time_chamber_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
