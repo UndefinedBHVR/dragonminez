@@ -19,13 +19,13 @@ public final class MainEntity {
 
     public static final RegistryObject<EntityType<DinoEntity>> DINO1 =
             ENTITY_TYPES_REGISTER.register("dino",
-                    () -> EntityType.Builder.of(DinoEntity::new, MobCategory.MONSTER)
+                    () -> EntityType.Builder.of(DinoEntity::new, MobCategory.AMBIENT)
                             .sized(4.5f, 4.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "dino").toString())
             );
     public static final RegistryObject<EntityType<KarinEntity>> MASTER_KARIN =
             ENTITY_TYPES_REGISTER.register("karin",
-                    () -> EntityType.Builder.of(KarinEntity::new, MobCategory.AMBIENT)
+                    () -> EntityType.Builder.of(KarinEntity::new, MobCategory.CREATURE)
                             .sized(0.7f, 0.7f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "karin").toString())
             );

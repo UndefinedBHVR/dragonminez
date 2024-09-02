@@ -29,11 +29,10 @@ public class DataGenerator {
 
     @SubscribeEvent
     public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
-        System.out.println("SPAWN REGISTRADO");
         event.register(MainEntity.DINO1.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Monster::checkAnyLightMonsterSpawnRules,
+                DinoEntity::checkCreatureSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.REPLACE);
     }
 }

@@ -85,6 +85,11 @@ public final class MainItems {
                             .fireResistant()
                     ));
     //PICCOLO
+    public static final RegistryObject<Item> PICCOLO_ARMOR_HELMET =
+            ITEM_REGISTER.register("piccolo_armor_helmet", () -> new PiccoloArmorItem //TURBANTE
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.HELMET , new Item.Properties()
+                            .fireResistant()
+                    ));
     public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("piccolo_armor_cape", () -> new PiccoloArmorItem //CON CAPA
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE , new Item.Properties()
