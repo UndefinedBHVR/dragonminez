@@ -139,7 +139,7 @@ public class ModDimensions extends NoiseRouterData{
 
         NoiseSettings time_chamber_noiseSettings = NoiseSettings.create(
                 -64,
-                384,
+                4,
                 1,
                 2);
 
@@ -175,22 +175,30 @@ public class ModDimensions extends NoiseRouterData{
     }
 
     private static NoiseRouter TimeChamber_noiseRouter(HolderGetter<DensityFunction> densityFunctions, HolderGetter<NormalNoise.NoiseParameters> noise) {
+        // Densidad constante negativa por defecto para indicar aire/vacío
+        DensityFunction constantNegative = DensityFunctions.constant(-1.0);
+        // Densidad constante para bloques sólidos
+        DensityFunction constantPositive = DensityFunctions.constant(1.0);
+        // Genera una transición abrupta entre terreno sólido y vacío a la altura y = 4
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(-64, 4, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
+
         return new NoiseRouter(
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0),
-                DensityFunctions.constant(1.0));
+                constantNegative, // barrierNoise: No necesitamos barreras
+                constantNegative, // fluidLevelFloodednessNoise: No necesitamos fluidos
+                constantNegative, // fluidLevelSpreadNoise: No necesitamos propagación de fluidos
+                constantNegative, // lavaNoise: Sin lava
+                constantNegative, // temperature: Constante
+                constantNegative, // vegetation: Constante
+                constantNegative, // continents: No variaciones continentales
+                constantNegative, // erosion: Sin erosión
+                depthFunction,    // depth: Sólido hasta y = 4
+                constantNegative, // ridges: Sin crestas
+                depthFunction,    // initialDensityWithoutJaggedness: Sólido hasta y = 4
+                depthFunction,    // finalDensity: Sólido hasta y = 4
+                constantNegative, // veinToggle: Sin venas
+                constantNegative, // veinRidged: Sin venas
+                constantNegative  // veinGap: Sin venas
+        );
     }
 
     public static SurfaceRules.RuleSource makeRules() {
