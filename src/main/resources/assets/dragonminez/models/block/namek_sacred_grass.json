@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cross",
   "textures": {
-    "cross": "dragonminez:block/namek/namek_sacred_grass"
+    "cross": "dragonminez:block/namek_sacred_grass"
   },
   "render_type": "cutout"
 }

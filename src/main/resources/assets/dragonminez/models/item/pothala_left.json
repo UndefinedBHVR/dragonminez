@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0":"dragonminez:item/pothalaleft"
+    "layer0":"dragonminez:item/pothala_left"
   }
 }

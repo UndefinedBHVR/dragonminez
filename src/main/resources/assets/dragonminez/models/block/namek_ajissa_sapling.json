@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cross",
   "textures": {
-    "cross": "dragonminez:block/namek/ajissa_sapling"
+    "cross": "dragonminez:block/namek_ajissa_sapling"
   }
 }

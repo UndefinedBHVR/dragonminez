@@ -4,7 +4,7 @@
       "model": "dragonminez:block/namek_ajissa_slab"
     },
     "type=double": {
-      "model": "minecraft:block/namek_ajissa_planks"
+      "model": "dragonminez:block/namek_ajissa_planks"
     },
     "type=top": {
       "model": "dragonminez:block/namek_ajissa_slab_top"

@@ -2,6 +2,6 @@
   "parent": "minecraft:block/template_orientable_trapdoor_top",
   "render_type": "minecraft:cutout",
   "textures": {
-    "texture": "dragonminez:block/namek/ajissa_trapdoor"
+    "texture": "dragonminez:block/namek_ajissa_trapdoor"
   }
 }

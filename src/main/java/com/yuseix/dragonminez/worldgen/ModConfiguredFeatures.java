@@ -51,6 +51,7 @@ public class ModConfiguredFeatures {
 
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_AJISSA_KEY = registerKey("namek_ajissa_key");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_SACRED_KEY = registerKey("namek_sacred_key");
 
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
@@ -148,10 +149,20 @@ public class ModConfiguredFeatures {
         //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
         register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
-                new StraightTrunkPlacer(5,4,3),
+                new StraightTrunkPlacer(8,3,5),
 
                 BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LEAVES.get()),
-                new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
+                new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(3), 3),
+
+                new TwoLayersFeatureSize(1,0,2)).build()
+        );
+
+        register(context, TREE_NAMEK_SACRED_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LOG.get()),
+                new StraightTrunkPlacer(8,3,5),
+
+                BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LEAVES.get()),
+                new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(3), 3),
 
                 new TwoLayersFeatureSize(1,0,2)).build()
         );

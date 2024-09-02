@@ -8,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,8 +24,18 @@ public class DataGenerator {
         net.minecraft.data.DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new DMZItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DMZBlockStateProvider(packOutput, existingFileHelper));
+        DMZBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
+                new DMZBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new DMZItemTagGenerator(packOutput, lookupProvider,
+                blockTagGenerator.contentsGetter(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new DMZRecipeProvider(packOutput));
+        generator.addProvider(event.includeServer(), DMZLootTableProvider.create(packOutput));
+
     }
 
     @SubscribeEvent

@@ -4,7 +4,7 @@
       "model": "dragonminez:block/namek_sacred_slab"
     },
     "type=double": {
-      "model": "minecraft:block/namek_sacred_planks"
+      "model": "dragonminez:block/namek_sacred_planks"
     },
     "type=top": {
       "model": "dragonminez:block/namek_sacred_slab_top"

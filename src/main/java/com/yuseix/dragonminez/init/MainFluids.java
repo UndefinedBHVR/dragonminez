@@ -33,7 +33,7 @@ public final class MainFluids {
 
     public static final ForgeFlowingFluid.Properties HEALING_FLUID_PROPERTIES
             = new ForgeFlowingFluid.Properties(MainFluids.HEALING_FLUID_TYPE, SOURCE_HEALING, FLOWING_HEALING)
-            .block(MainBlocks.HEALING_BLOCK)
+            .block(MainBlocks.HEALING_LIQUID)
             .bucket(MainItems.HEALING_BUCKET);
 
     public static void register(IEventBus bus) {

@@ -45,7 +45,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_PATCH_SACRED_GRASS_PLAIN = registerKey("namek_patch_sacred_grass_placed");
 
 
-    public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_SAPPLING_PLACED_KEY = registerKey("namek_ajissa_sappling_placed");
+    public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_SAPLING_PLACED_KEY = registerKey("namek_ajissa_sapling_placed");
 
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
@@ -127,7 +127,7 @@ public class ModPlacedFeatures {
                         .build());
         //ARBOLES
         //Ejemplo de arbol
-        register(context, NAMEK_AJISSA_SAPPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY),
+        register(context, NAMEK_AJISSA_SAPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
                         MainBlocks.NAMEK_AJISSA_SAPLING.get()));
     }

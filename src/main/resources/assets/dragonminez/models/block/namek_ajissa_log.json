@@ -2,8 +2,8 @@
   "credit": "",
   "texture_size": [32, 32],
   "textures": {
-    "1": "dragonminez:block/namek/namek_ajissa_logbb",
-    "particle": "dragonminez:block/namek/namek_ajissa_logbb"
+    "1": "dragonminez:block/namek_ajissa_logbb",
+    "particle": "dragonminez:block/namek_ajissa_logbb"
   },
   "elements": [
     {
