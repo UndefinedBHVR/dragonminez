@@ -61,44 +61,14 @@ public class DMZItemModelProvider extends ItemModelProvider {
 
         //Bloques (MainBlocks)
         blockItem(MainBlocks.NAMEK_BLOCK);
-        simpleBlockItem(MainBlocks.NAMEK_GRASS_BLOCK);
-        simpleBlockItem(MainBlocks.NAMEK_SACRED_GRASS_BLOCK);
-        simpleBlockItemBlockTexture(MainBlocks.NAMEK_GRASS);
-        simpleBlockItemBlockTexture(MainBlocks.NAMEK_SACRED_GRASS);
         blockItem(MainBlocks.NAMEK_DIRT);
         blockItem(MainBlocks.NAMEK_STONE);
         blockItem(MainBlocks.NAMEK_COBBLESTONE);
-        blockItem(MainBlocks.NAMEK_DEEPSLATE);
-        blockItem(MainBlocks.NAMEK_AJISSA_LOG);
-        blockItem(MainBlocks.NAMEK_STRIPPED_AJISSA_LOG);;
-        saplingItem(MainBlocks.NAMEK_AJISSA_SAPLING);
-        blockItem(MainBlocks.NAMEK_AJISSA_WOOD);
-        blockItem(MainBlocks.NAMEK_STRIPPED_AJISSA_WOOD);
         blockItem(MainBlocks.NAMEK_AJISSA_PLANKS);
         blockItem(MainBlocks.NAMEK_AJISSA_LEAVES);
-        trapdoorItem(MainBlocks.NAMEK_AJISSA_TRAPDOOR);
-        blockItem(MainBlocks.NAMEK_AJISSA_DOOR);
-        simpleBlockItem(MainBlocks.NAMEK_AJISSA_SLAB);
-        simpleBlockItem(MainBlocks.NAMEK_AJISSA_STAIRS);
-        fenceItem(MainBlocks.NAMEK_AJISSA_FENCE);
-        simpleBlockItem(MainBlocks.NAMEK_AJISSA_FENCE_GATE);
-        buttonItem(MainBlocks.NAMEK_AJISSA_BUTTON);
-        blockItem(MainBlocks.NAMEK_SACRED_LOG);
-        blockItem(MainBlocks.NAMEK_STRIPPED_SACRED_LOG);
-        saplingItem(MainBlocks.NAMEK_SACRED_SAPLING);
-        blockItem(MainBlocks.NAMEK_SACRED_WOOD);
-        blockItem(MainBlocks.NAMEK_STRIPPED_SACRED_WOOD);
         blockItem(MainBlocks.NAMEK_SACRED_PLANKS);
         blockItem(MainBlocks.NAMEK_SACRED_LEAVES);
-        trapdoorItem(MainBlocks.NAMEK_SACRED_TRAPDOOR);
-        blockItem(MainBlocks.NAMEK_SACRED_DOOR);
-        simpleBlockItem(MainBlocks.NAMEK_SACRED_SLAB);
-        simpleBlockItem(MainBlocks.NAMEK_SACRED_STAIRS);
-        fenceItem(MainBlocks.NAMEK_SACRED_FENCE);
-        simpleBlockItem(MainBlocks.NAMEK_SACRED_FENCE_GATE);
-        buttonItem(MainBlocks.NAMEK_SACRED_BUTTON);
         blockItem(MainBlocks.GETE_BLOCK);
-        blockItem(MainBlocks.GETE_ORE);
         blockItem(MainBlocks.NAMEK_KIKONO_ORE);
         blockItem(MainBlocks.KIKONO_BLOCK);
         blockItem(MainBlocks.NAMEK_DIAMOND_ORE);
@@ -119,22 +89,6 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DEEPSLATE_COPPER);
         blockItem(MainBlocks.GETE_FURNACE);
         /*blockItem(MainBlocks.KIKONO_ARMOR_STATION);*/
-        blockItem(MainBlocks.NAMEK_GRASS);
-        blockItem(MainBlocks.NAMEK_SACRED_GRASS);
-        blockItem(MainBlocks.DBALL1_BLOCK);
-        blockItem(MainBlocks.DBALL2_BLOCK);
-        blockItem(MainBlocks.DBALL3_BLOCK);
-        blockItem(MainBlocks.DBALL4_BLOCK);
-        blockItem(MainBlocks.DBALL5_BLOCK);
-        blockItem(MainBlocks.DBALL6_BLOCK);
-        blockItem(MainBlocks.DBALL7_BLOCK);
-        blockItem(MainBlocks.DBALL1_NAMEK_BLOCK);
-        /*blockItem(MainBlocks.DBALL2_NAMEK_BLOCK);
-        blockItem(MainBlocks.DBALL3_NAMEK_BLOCK);
-        blockItem(MainBlocks.DBALL4_NAMEK_BLOCK);
-        blockItem(MainBlocks.DBALL5_NAMEK_BLOCK);
-        blockItem(MainBlocks.DBALL6_NAMEK_BLOCK);
-        blockItem(MainBlocks.DBALL7_NAMEK_BLOCK);*/
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
@@ -155,27 +109,5 @@ public class DMZItemModelProvider extends ItemModelProvider {
     public void simpleBlockItem(RegistryObject<Block> block) {
         this.withExistingParent(DragonMineZ.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
                 modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
-    }
-    private ItemModelBuilder saplingItem(RegistryObject<Block> item) {
-        return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "block/" + item.getId().getPath()));
-    }
-    public void trapdoorItem(RegistryObject<Block> block) {
-        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
-                modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath() + "_bottom"));
-    }
-    public void fenceItem(RegistryObject<Block> block) {
-        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/fence_inventory"))
-                .texture("texture", new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
-    }
-    public void buttonItem(RegistryObject<Block> block) {
-        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/button_inventory"))
-                .texture("texture", new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
-    }
-    private ItemModelBuilder simpleBlockItemBlockTexture(RegistryObject<Block> item) {
-        return withExistingParent(item.getId().getPath(),
-                new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "block/" + item.getId().getPath()));
     }
 }

@@ -20,46 +20,19 @@ public class DMZBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         //Bloques
         blockWithItem(MainBlocks.NAMEK_BLOCK);
-        blockWithItem(MainBlocks.NAMEK_GRASS_BLOCK);
-        blockWithItem(MainBlocks.NAMEK_SACRED_GRASS_BLOCK);
         blockWithItem(MainBlocks.NAMEK_DIRT);
         blockWithItem(MainBlocks.NAMEK_STONE);
         blockWithItem(MainBlocks.NAMEK_COBBLESTONE);
         axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
 
         //Madera de Ajissa de Namek
-        axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_AJISSA_WOOD.get()), blockTexture(MainBlocks.NAMEK_AJISSA_WOOD.get()), blockTexture(MainBlocks.NAMEK_AJISSA_WOOD.get()));
-        axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_STRIPPED_AJISSA_WOOD.get()), blockTexture(MainBlocks.NAMEK_STRIPPED_AJISSA_WOOD.get()), blockTexture(MainBlocks.NAMEK_STRIPPED_AJISSA_WOOD.get()));
         blockWithItem(MainBlocks.NAMEK_AJISSA_PLANKS);
-        blockItem(MainBlocks.NAMEK_AJISSA_WOOD);
-        blockItem(MainBlocks.NAMEK_STRIPPED_AJISSA_WOOD);
         leavesBlock(MainBlocks.NAMEK_AJISSA_LEAVES);
-        stairsBlock(((StairBlock) MainBlocks.NAMEK_AJISSA_STAIRS.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
-        slabBlock(((SlabBlock) MainBlocks.NAMEK_AJISSA_SLAB.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
-        buttonBlock(((ButtonBlock) MainBlocks.NAMEK_AJISSA_BUTTON.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
-        fenceBlock(((FenceBlock) MainBlocks.NAMEK_AJISSA_FENCE.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
-        fenceGateBlock(((FenceGateBlock) MainBlocks.NAMEK_AJISSA_FENCE_GATE.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
-        doorBlockWithRenderType(((DoorBlock) MainBlocks.NAMEK_AJISSA_DOOR.get()), modLoc("block/ajissa_door_bottom"), modLoc("block/ajissa_door_top"), "cutout");
-        trapdoorBlockWithRenderType(((TrapDoorBlock) MainBlocks.NAMEK_AJISSA_TRAPDOOR.get()), modLoc("block/ajissa_trapdoor"), true, "cutout");
-
-        //Madera Sagrada de Namek
-        axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_SACRED_WOOD.get()), blockTexture(MainBlocks.NAMEK_SACRED_WOOD.get()), blockTexture(MainBlocks.NAMEK_SACRED_WOOD.get()));
-        axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_STRIPPED_SACRED_WOOD.get()), blockTexture(MainBlocks.NAMEK_STRIPPED_SACRED_WOOD.get()), blockTexture(MainBlocks.NAMEK_STRIPPED_SACRED_WOOD.get()));
         blockWithItem(MainBlocks.NAMEK_SACRED_PLANKS);
-        blockItem(MainBlocks.NAMEK_SACRED_WOOD);
-        blockItem(MainBlocks.NAMEK_STRIPPED_SACRED_WOOD);
         leavesBlock(MainBlocks.NAMEK_SACRED_LEAVES);
-        stairsBlock(((StairBlock) MainBlocks.NAMEK_SACRED_STAIRS.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
-        slabBlock(((SlabBlock) MainBlocks.NAMEK_SACRED_SLAB.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
-        buttonBlock(((ButtonBlock) MainBlocks.NAMEK_SACRED_BUTTON.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
-        fenceBlock(((FenceBlock) MainBlocks.NAMEK_SACRED_FENCE.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
-        fenceGateBlock(((FenceGateBlock) MainBlocks.NAMEK_SACRED_FENCE_GATE.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
-        doorBlockWithRenderType(((DoorBlock) MainBlocks.NAMEK_SACRED_DOOR.get()), modLoc("block/sacred_door_bottom"), modLoc("block/sacred_door_top"), "cutout");
-        trapdoorBlockWithRenderType(((TrapDoorBlock) MainBlocks.NAMEK_SACRED_TRAPDOOR.get()), modLoc("block/sacred_trapdoor"), true, "cutout");
 
         //Ores Nuevos
         blockWithItem(MainBlocks.GETE_BLOCK);
-        blockWithItem(MainBlocks.GETE_ORE);
         blockWithItem(MainBlocks.NAMEK_KIKONO_ORE);
         blockWithItem(MainBlocks.KIKONO_BLOCK);
 
@@ -86,10 +59,6 @@ public class DMZBlockStateProvider extends BlockStateProvider {
         //BlockEntities
         blockWithItem(MainBlocks.GETE_FURNACE);
         //blockWithItem(MainBlocks.KIKONO_ARMOR_STATION);
-
-        //Plantas
-        simpleBlockWithItem(MainBlocks.NAMEK_GRASS.get(), models().cross(blockTexture(MainBlocks.NAMEK_GRASS.get()).getPath(), blockTexture(MainBlocks.NAMEK_GRASS.get())).renderType("cutout"));
-        simpleBlockWithItem(MainBlocks.NAMEK_SACRED_GRASS.get(), models().cross(blockTexture(MainBlocks.NAMEK_SACRED_GRASS.get()).getPath(), blockTexture(MainBlocks.NAMEK_SACRED_GRASS.get())).renderType("cutout"));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

@@ -232,6 +232,8 @@ tasks.named('jar', Jar).configure {
         ])
     }
 
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     // This is the preferred method to reobfuscate your jar file
     finalizedBy 'reobfJar'
 }

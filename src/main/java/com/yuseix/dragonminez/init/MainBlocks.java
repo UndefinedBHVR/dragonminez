@@ -195,7 +195,7 @@ public final class MainBlocks {
 
     //LIQUIDOS
     public static final RegistryObject<LiquidBlock> HEALING_LIQUID = BLOCK_REGISTER.register("healing_liquid_block",
-            () -> new LiquidBlock(MainFluids.SOURCE_HEALING, BlockBehaviour.Properties.copy(Blocks.WATER)));
+            () -> new LiquidBlock(MainFluids.SOURCE_HEALING, BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
 
     //DRAGON BALLS - TIERRA
     public static final RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",

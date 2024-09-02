@@ -45,11 +45,11 @@
   "item.dragonminez.dinotail_cooked": "Cooked Dino Tail",
   "item.dragonminez.dinotail_raw": "Raw Dino Tail",
   "item.dragonminez.might_tree_fruit": "Fruit of the Tree of Might",
-    "item.dragonminez.might_tree_fruit.tooltip": "\u00A77This fruit will give you a temporary power boost.",
+  "item.dragonminez.might_tree_fruit.tooltip": "\u00A77This fruit will give you a temporary power boost.",
   "item.dragonminez.heart_medicine": "Heart Medicine",
   "item.dragonminez.heart_medicine.tooltip": "\u00A77This strange bottle says it's been manufactured on the year 2064...",
   "item.dragonminez.senzu_bean": "Senzu Bean",
-    "item.dragonminez.senzu_bean.tooltip": "\u00A77This magical bean will heal you completely.",
+  "item.dragonminez.senzu_bean.tooltip": "\u00A77This magical bean will heal you completely.",
 
   "item.dragonminez.green_pothala_left": "Green Pothala (Left)",
   "item.dragonminez.green_pothala_right": "Green Pothala (Right)",

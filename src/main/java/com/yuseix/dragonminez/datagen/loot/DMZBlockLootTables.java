@@ -1,20 +1,19 @@
 package com.yuseix.dragonminez.datagen.loot;
 
 import com.yuseix.dragonminez.init.MainBlocks;
-import io.netty.util.Constant;
+import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
-import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
-import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -79,6 +78,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.NAMEK_COBBLESTONE.get());
         this.dropSelf(MainBlocks.NAMEK_DEEPSLATE.get());
         this.dropSelf(MainBlocks.GETE_FURNACE.get());
+        this.dropSelf(MainBlocks.GETE_ORE.get());
         /*this.dropSelf(MainBlocks.KIKONO_ARMOR_STATION.get());*/
 
         //Bloques que Dropean otros items
@@ -114,17 +114,19 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
                 block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_EMERALD.get(), Items.EMERALD));
         this.add(MainBlocks.NAMEK_DEEPSLATE_COPPER.get(),
                 block -> MultiOreDrop(MainBlocks.NAMEK_DEEPSLATE_COPPER.get(), Items.COPPER_INGOT));
+        this.add(MainBlocks.NAMEK_KIKONO_ORE.get(),
+                block -> SingleOreDrop(MainBlocks.NAMEK_KIKONO_ORE.get(), MainItems.KIKONO_SHARD.get()));
 
         //Bloques que se dropean si se rompen con Silk Touch
-
+        this.add(MainBlocks.NAMEK_STONE.get(), block -> SilkTouchBlockDrop(MainBlocks.NAMEK_STONE.get(), MainBlocks.NAMEK_COBBLESTONE.get()));
 
         //Vegetacion
         this.add(MainBlocks.NAMEK_AJISSA_LEAVES.get(),
                 block -> createLeavesDrops(block, MainBlocks.NAMEK_AJISSA_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         this.add(MainBlocks.NAMEK_SACRED_LEAVES.get(),
                 block -> createLeavesDrops(block, MainBlocks.NAMEK_SACRED_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
-        this.add(MainBlocks.NAMEK_GRASS_BLOCK.get(), block -> GrassBlockDrop(MainBlocks.NAMEK_GRASS_BLOCK.get()));
-        this.add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get(), block -> GrassBlockDrop(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get()));
+        this.add(MainBlocks.NAMEK_GRASS_BLOCK.get(), block -> SilkTouchBlockDrop(MainBlocks.NAMEK_GRASS_BLOCK.get(), MainBlocks.NAMEK_DIRT.get()));
+        this.add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get(), block -> SilkTouchBlockDrop(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get(), MainBlocks.NAMEK_DIRT.get()));
         this.add(MainBlocks.NAMEK_GRASS.get(), block -> ShearsOnlyDrop(MainBlocks.NAMEK_GRASS.get()));
         this.add(MainBlocks.NAMEK_SACRED_GRASS.get(), block -> ShearsOnlyDrop(MainBlocks.NAMEK_SACRED_GRASS.get()));
     }
@@ -148,13 +150,13 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
                                 .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
     }
 
-    protected LootTable.Builder GrassBlockDrop(Block pBlock) {
+    protected LootTable.Builder SilkTouchBlockDrop(Block pBlock, Block pDrop) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(pBlock)
                                 .when(HAS_SILK_TOUCH))
-                        .add(LootItem.lootTableItem(MainBlocks.NAMEK_DIRT.get())
+                        .add(LootItem.lootTableItem(pDrop)
                                 .when(HAS_NO_SILK_TOUCH)));
     }
     protected LootTable.Builder ShearsOnlyDrop(Block pBlock) {
