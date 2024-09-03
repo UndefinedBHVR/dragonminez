@@ -43,9 +43,7 @@ public class DragonMineZ {
         //Registramos los Fluidos (Tipo de Fluido y Fluido/s)
         MainFluids.register(modEventBus);
         //Register del commonSetup para las Flores y FlowerPots
-        /*TODO: Fixear la siguiente línea para que no de error xd
-         * modEventBus.addListener(this::commonSetup);
-         * La misma se utilizaría para el evento de colocar una Planta en una Maceta */
+        modEventBus.addListener(this::commonSetup);
 
 
         MinecraftForge.EVENT_BUS.register(this);
