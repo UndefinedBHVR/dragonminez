@@ -59,6 +59,7 @@ public class DMZBlockStateProvider extends BlockStateProvider {
         //BlockEntities
         blockWithItem(MainBlocks.GETE_FURNACE);
         //blockWithItem(MainBlocks.KIKONO_ARMOR_STATION);
+
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

@@ -8,7 +8,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoubleBlockCombiner;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
@@ -81,6 +80,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.GETE_ORE.get());
         /*this.dropSelf(MainBlocks.KIKONO_ARMOR_STATION.get());*/
 
+
         //Bloques que Dropean otros items
         this.add(MainBlocks.NAMEK_DIAMOND_ORE.get(),
                 block -> SingleOreDrop(MainBlocks.NAMEK_DIAMOND_ORE.get(), Items.DIAMOND));
@@ -129,6 +129,31 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get(), block -> SilkTouchBlockDrop(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get(), MainBlocks.NAMEK_DIRT.get()));
         this.add(MainBlocks.NAMEK_GRASS.get(), block -> ShearsOnlyDrop(MainBlocks.NAMEK_GRASS.get()));
         this.add(MainBlocks.NAMEK_SACRED_GRASS.get(), block -> ShearsOnlyDrop(MainBlocks.NAMEK_SACRED_GRASS.get()));
+        this.add(MainBlocks.NAMEK_FERN.get(), block -> ShearsOnlyDrop(MainBlocks.NAMEK_FERN.get()));
+        this.add(MainBlocks.POTTED_NAMEK_FERN.get(), createPotFlowerItemTable(MainBlocks.NAMEK_FERN.get()));
+        this.add(MainBlocks.SACRED_FERN.get(), block -> ShearsOnlyDrop(MainBlocks.SACRED_FERN.get()));
+        this.add(MainBlocks.POTTED_SACRED_FERN.get(), createPotFlowerItemTable(MainBlocks.SACRED_FERN.get()));
+        this.dropSelf(MainBlocks.CHRYSANTHEMUM_FLOWER.get());
+        this.add(MainBlocks.POTTED_CHRYSANTHEMUM_FLOWER.get(), createPotFlowerItemTable(MainBlocks.CHRYSANTHEMUM_FLOWER.get()));
+        this.dropSelf(MainBlocks.AMARYLLIS_FLOWER.get());
+        this.add(MainBlocks.POTTED_AMARYLLIS_FLOWER.get(), createPotFlowerItemTable(MainBlocks.AMARYLLIS_FLOWER.get()));
+        this.dropSelf(MainBlocks.MARIGOLD_FLOWER.get());
+        this.add(MainBlocks.POTTED_MARIGOLD_FLOWER.get(), createPotFlowerItemTable(MainBlocks.MARIGOLD_FLOWER.get()));
+        this.dropSelf(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get());
+        this.add(MainBlocks.POTTED_CATHARANTHUS_ROSEUS_FLOWER.get(), createPotFlowerItemTable(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get()));
+        this.dropSelf(MainBlocks.TRILLIUM_FLOWER.get());
+        this.add(MainBlocks.POTTED_TRILLIUM_FLOWER.get(), createPotFlowerItemTable(MainBlocks.TRILLIUM_FLOWER.get()));
+        this.dropSelf(MainBlocks.LOTUS_FLOWER.get());
+        this.dropSelf(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get());
+        this.add(MainBlocks.POTTED_SACRED_CHRYSANTHEMUM_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get()));
+        this.dropSelf(MainBlocks.SACRED_AMARYLLIS_FLOWER.get());
+        this.add(MainBlocks.POTTED_SACRED_AMARYLLIS_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_AMARYLLIS_FLOWER.get()));
+        this.dropSelf(MainBlocks.SACRED_MARIGOLD_FLOWER.get());
+        this.add(MainBlocks.POTTED_SACRED_MARIGOLD_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_MARIGOLD_FLOWER.get()));
+        this.dropSelf(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get());
+        this.add(MainBlocks.POTTED_SACRED_CATHARANTHUS_ROSEUS_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get()));
+        this.dropSelf(MainBlocks.SACRED_TRILLIUM_FLOWER.get());
+        this.add(MainBlocks.POTTED_SACRED_TRILLIUM_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_TRILLIUM_FLOWER.get()));
     }
 
 

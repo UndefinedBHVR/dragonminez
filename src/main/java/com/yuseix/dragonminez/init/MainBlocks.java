@@ -58,6 +58,9 @@ public final class MainBlocks {
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_SAPLING = registerBlock("namek_ajissa_sapling",
             () -> new SaplingBlock(new NamekAjissaGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+    public static final RegistryObject<Block> POTTED_AJISSA_SAPLING = registerBlock("potted_ajissa_sapling",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_AJISSA_SAPLING,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
     public static final RegistryObject<Block> NAMEK_AJISSA_WOOD = registerBlock("namek_ajissa_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_WOOD = registerBlock("namek_stripped_ajissa_wood",
@@ -90,6 +93,9 @@ public final class MainBlocks {
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
             () -> new SaplingBlock(new NamekSacredGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+    public static final RegistryObject<Block> POTTED_SACRED_SAPLING = registerBlock("potted_sacred_sapling",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_SACRED_SAPLING,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
     public static final RegistryObject<Block> NAMEK_SACRED_WOOD = registerBlock("namek_sacred_wood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_WOOD).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_STRIPPED_SACRED_WOOD = registerBlock("namek_stripped_sacred_wood",
@@ -181,17 +187,89 @@ public final class MainBlocks {
     *               .strength(3.5F)
     *       )); */
 
-    //PLANTAS
+    //Plantas Namek 1
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.GRASS)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> CHRYSANTHEMUM_FLOWER = registerBlock("chrysanthemum_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.DANDELION)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_CHRYSANTHEMUM_FLOWER = registerBlock("potted_chrysanthemum_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.CHRYSANTHEMUM_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_DANDELION).noOcclusion()));
+    public static final RegistryObject<Block> AMARYLLIS_FLOWER = registerBlock("amaryllis_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.POPPY)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_AMARYLLIS_FLOWER = registerBlock("potted_amaryllis_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.AMARYLLIS_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY).noOcclusion()));
+    public static final RegistryObject<Block> MARIGOLD_FLOWER = registerBlock("marigold_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.BLUE_ORCHID)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_MARIGOLD_FLOWER = registerBlock("potted_marigold_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.MARIGOLD_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_BLUE_ORCHID).noOcclusion()));
+    public static final RegistryObject<Block> CATHARANTHUS_ROSEUS_FLOWER = registerBlock("catharanthus_roseus_flower",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
-                    .noOcclusion()
-                    .noCollission()
-            ));
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_CATHARANTHUS_ROSEUS_FLOWER = registerBlock("potted_catharanthus_roseus_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.CATHARANTHUS_ROSEUS_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_ALLIUM).noOcclusion()));
+    public static final RegistryObject<Block> TRILLIUM_FLOWER = registerBlock("trillium_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.AZURE_BLUET)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_TRILLIUM_FLOWER = registerBlock("potted_trillium_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.TRILLIUM_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_AZURE_BLUET).noOcclusion()));
+    public static final RegistryObject<Block> NAMEK_FERN = registerBlock("namek_fern",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.FERN)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_NAMEK_FERN = registerBlock("potted_namek_fern",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_FERN,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
+    public static final RegistryObject<Block> LOTUS_FLOWER = registerBlock("lotus_flower",
+            () -> new NamekWaterlilyBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD).noCollission()));
+
+    //Plantas Namek Sacred
     public static final RegistryObject<Block> NAMEK_SACRED_GRASS = registerBlock("namek_sacred_grass",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.GRASS)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> SACRED_CHRYSANTHEMUM_FLOWER = registerBlock("sacred_chrysanthemum_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.DANDELION)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_SACRED_CHRYSANTHEMUM_FLOWER = registerBlock("potted_sacred_chrysanthemum_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_DANDELION).noOcclusion()));
+    public static final RegistryObject<Block> SACRED_AMARYLLIS_FLOWER = registerBlock("sacred_amaryllis_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.POPPY)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_SACRED_AMARYLLIS_FLOWER = registerBlock("potted_sacred_amaryllis_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_AMARYLLIS_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_POPPY).noOcclusion()));
+    public static final RegistryObject<Block> SACRED_MARIGOLD_FLOWER = registerBlock("sacred_marigold_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.BLUE_ORCHID)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_SACRED_MARIGOLD_FLOWER = registerBlock("potted_sacred_marigold_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_MARIGOLD_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_BLUE_ORCHID).noOcclusion()));
+    public static final RegistryObject<Block> SACRED_CATHARANTHUS_ROSEUS_FLOWER = registerBlock("sacred_catharanthus_roseus_flower",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.ALLIUM)
-                    .noOcclusion()
-                    .noCollission()
-            ));
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_SACRED_CATHARANTHUS_ROSEUS_FLOWER = registerBlock("potted_sacred_catharanthus_roseus_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_ALLIUM).noOcclusion()));
+    public static final RegistryObject<Block> SACRED_TRILLIUM_FLOWER = registerBlock("sacred_trillium_flower",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.AZURE_BLUET)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_SACRED_TRILLIUM_FLOWER = registerBlock("potted_sacred_trillium_flower",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_TRILLIUM_FLOWER,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_AZURE_BLUET).noOcclusion()));
+    public static final RegistryObject<Block> SACRED_FERN = registerBlock("sacred_fern",
+            () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.FERN)
+                    .noOcclusion().noCollission()));
+    public static final RegistryObject<Block> POTTED_SACRED_FERN = registerBlock("potted_sacred_fern",
+            () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_FERN,
+                    BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
 
     //LIQUIDOS
     public static final RegistryObject<LiquidBlock> HEALING_LIQUID = BLOCK_REGISTER.register("healing_liquid_block",

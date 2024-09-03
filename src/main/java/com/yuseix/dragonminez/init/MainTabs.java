@@ -38,6 +38,14 @@ public final class MainTabs {
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
                         if (item.getId().getPath().startsWith("namek_"))
                             output.accept(item.get().asItem());
+                        if (item.getId().getPath().startsWith("sacred_"))
+                            output.accept(item.get().asItem());
+                        output.accept(MainBlocks.CHRYSANTHEMUM_FLOWER.get().asItem());
+                        output.accept(MainBlocks.AMARYLLIS_FLOWER.get().asItem());
+                        output.accept(MainBlocks.MARIGOLD_FLOWER.get().asItem());
+                        output.accept(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get().asItem());
+                        output.accept(MainBlocks.TRILLIUM_FLOWER.get().asItem());
+                        output.accept(MainBlocks.LOTUS_FLOWER.get().asItem());
                     })).build()
     );
 

@@ -89,6 +89,20 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DEEPSLATE_COPPER);
         blockItem(MainBlocks.GETE_FURNACE);
         /*blockItem(MainBlocks.KIKONO_ARMOR_STATION);*/
+
+        //Vegetacion
+        blockItem(MainBlocks.CHRYSANTHEMUM_FLOWER);
+        blockItem(MainBlocks.AMARYLLIS_FLOWER);
+        blockItem(MainBlocks.MARIGOLD_FLOWER);
+        blockItem(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER);
+        blockItem(MainBlocks.TRILLIUM_FLOWER);
+        blockItem(MainBlocks.NAMEK_FERN);
+        blockItem(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER);
+        blockItem(MainBlocks.SACRED_AMARYLLIS_FLOWER);
+        blockItem(MainBlocks.SACRED_MARIGOLD_FLOWER);
+        blockItem(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER);
+        blockItem(MainBlocks.SACRED_TRILLIUM_FLOWER);
+        blockItem(MainBlocks.SACRED_FERN);
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
