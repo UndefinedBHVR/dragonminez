@@ -154,6 +154,8 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.add(MainBlocks.POTTED_SACRED_CATHARANTHUS_ROSEUS_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get()));
         this.dropSelf(MainBlocks.SACRED_TRILLIUM_FLOWER.get());
         this.add(MainBlocks.POTTED_SACRED_TRILLIUM_FLOWER.get(), createPotFlowerItemTable(MainBlocks.SACRED_TRILLIUM_FLOWER.get()));
+        this.add(MainBlocks.POTTED_AJISSA_SAPLING.get(), createPotFlowerItemTable(MainBlocks.NAMEK_AJISSA_SAPLING.get()));
+        this.add(MainBlocks.POTTED_SACRED_SAPLING.get(), createPotFlowerItemTable(MainBlocks.NAMEK_SACRED_SAPLING.get()));
     }
 
 
