@@ -33,6 +33,8 @@ public class ModDimensions extends NoiseRouterData{
     DIMENSIONTYPE = Esto es para establecer reglas en nuestro mundo
 
      */
+
+    //Namek
     public static final ResourceKey<Level> NAMEK_DIM_LEVEL__KEY = ResourceKey.create(Registries.DIMENSION,
             new ResourceLocation(DragonMineZ.MOD_ID, "namek"));
     public static final ResourceKey<LevelStem> NAMEK_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
@@ -41,6 +43,7 @@ public class ModDimensions extends NoiseRouterData{
             ResourceKey.create(Registries.DIMENSION_TYPE,
                     new ResourceLocation(DragonMineZ.MOD_ID, "namek_type"));
 
+    //Habitación del Tiempo
     public static final ResourceKey<Level> TIME_CHAMBER_DIM_LEVEL__KEY = ResourceKey.create(Registries.DIMENSION,
             new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));
     public static final ResourceKey<LevelStem> TIME_CHAMBER_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
@@ -81,9 +84,9 @@ public class ModDimensions extends NoiseRouterData{
                 1.0, // coordinateScale
                 true, // bedWorks
                 true, // respawnAnchorWorks
-                -64, // minY
-                384, // height
-                384, // logicalHeight
+                0, // minY
+                64, // height
+                64, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
                 7.0f, // ambientLight
@@ -138,8 +141,8 @@ public class ModDimensions extends NoiseRouterData{
                 2);
 
         NoiseSettings time_chamber_noiseSettings = NoiseSettings.create(
-                -64,
-                4,
+                -16,
+                64,
                 1,
                 2);
 
@@ -180,7 +183,7 @@ public class ModDimensions extends NoiseRouterData{
         // Densidad constante para bloques sólidos
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
         // Genera una transición abrupta entre terreno sólido y vacío a la altura y = 4
-        DensityFunction depthFunction = DensityFunctions.yClampedGradient(-64, 4, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 4, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
 
         return new NoiseRouter(
                 constantNegative, // barrierNoise: No necesitamos barreras
