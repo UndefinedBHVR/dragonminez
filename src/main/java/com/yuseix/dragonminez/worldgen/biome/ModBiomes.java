@@ -23,10 +23,14 @@ public class ModBiomes {
     public static final ResourceKey<Biome> NAMEKIAN_RIVERS = ResourceKey.create(Registries.BIOME,
             new ResourceLocation(DragonMineZ.MOD_ID, "namekian_rivers"));
 
+    public static final ResourceKey<Biome> TIME_CHAMBER = ResourceKey.create(Registries.BIOME,
+            new ResourceLocation(DragonMineZ.MOD_ID, "hyperbolic_time_chamber"));
+
     public static void boostrap(BootstapContext<Biome> context){
         context.register(AJISSA_PLAINS, testBiome(context));
         context.register(SACRED_LAND, sacredBiome(context));
         context.register(NAMEKIAN_RIVERS, namekianRiverBiome(context));
+        context.register(TIME_CHAMBER, Time_Chamber_Biome(context));
 
     }
     public static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
@@ -143,4 +147,30 @@ public class ModBiomes {
                         .build())
                 .build();
     }
+    public static Biome Time_Chamber_Biome(BootstapContext<Biome> context) {
+        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+
+        BiomeGenerationSettings.Builder biomeBuilder =
+                new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+
+
+        return new Biome.BiomeBuilder()
+                .hasPrecipitation(false)
+                .downfall(0.8f)
+                .temperature(0.7f)
+                .generationSettings(biomeBuilder.build())
+                .mobSpawnSettings(spawnBuilder.build())
+                .specialEffects((new BiomeSpecialEffects.Builder())
+                        .waterColor(0xDCF2FF)
+                        .waterFogColor(0xDCF2FF)
+                        .skyColor(0xF7FCFF)
+                        .grassColorOverride(0xDCF2FF)
+                        .foliageColorOverride(0xDCF2FF)
+                        .fogColor(0xDCF2FF)
+                        .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
+                        .build())
+                .build();
+    }
+
+
 }

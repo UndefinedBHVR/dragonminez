@@ -41,8 +41,17 @@ public class ModDimensions extends NoiseRouterData{
             ResourceKey.create(Registries.DIMENSION_TYPE,
                     new ResourceLocation(DragonMineZ.MOD_ID, "namek_type"));
 
+    public static final ResourceKey<Level> TIME_CHAMBER_DIM_LEVEL__KEY = ResourceKey.create(Registries.DIMENSION,
+            new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));
+    public static final ResourceKey<LevelStem> TIME_CHAMBER_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
+            new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));
+    public static final ResourceKey<DimensionType> TIME_CHAMBER_DIM_TYPE =
+            ResourceKey.create(Registries.DIMENSION_TYPE,
+                    new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber_type"));
+
     //NOISE SETTINGS CUSTOM
     public static final ResourceKey<NoiseGeneratorSettings> NAMEK_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "nameknoisegen"));
+    public static final ResourceKey<NoiseGeneratorSettings> TIME_CHAMBER_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber_noisegen"));
 
 
     public static void bootstrapType(BootstapContext<DimensionType> context) {
@@ -62,7 +71,25 @@ public class ModDimensions extends NoiseRouterData{
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
                 7.0f, // ambientLight
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
+
+        context.register(TIME_CHAMBER_DIM_TYPE, new DimensionType(
+                OptionalLong.of(7500), // fixedTime
+                false, // hasSkylight
+                false, // hasCeiling
+                false, // ultraWarm
+                false, // natural
+                1.0, // coordinateScale
+                true, // bedWorks
+                true, // respawnAnchorWorks
+                -64, // minY
+                384, // height
+                384, // logicalHeight
+                BlockTags.INFINIBURN_OVERWORLD, // infiniburn
+                BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
+                7.0f, // ambientLight
+                new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
     }
+
     public static void bootstrapStem(BootstapContext<LevelStem> context) {
         HolderGetter<Biome> biomeRegistry = context.lookup(Registries.BIOME);
         HolderGetter<DimensionType> dimTypes = context.lookup(Registries.DIMENSION_TYPE);
@@ -71,8 +98,8 @@ public class ModDimensions extends NoiseRouterData{
         //Noise custom (Ya esta hecho en json pq en codigo es una japa
         //Aca es para poner un solo bioma en toda la dimension
         NoiseBasedChunkGenerator wrappedChunkGenerator = new NoiseBasedChunkGenerator(
-                new FixedBiomeSource(biomeRegistry.getOrThrow(ModBiomes.AJISSA_PLAINS)),
-                noiseGenSettings.getOrThrow(NAMEK_NOISE_SETTINGS));
+                new FixedBiomeSource(biomeRegistry.getOrThrow(ModBiomes.TIME_CHAMBER)),
+                noiseGenSettings.getOrThrow(TIME_CHAMBER_NOISE_SETTINGS));
 
 
         //Varios Biomas
@@ -86,9 +113,12 @@ public class ModDimensions extends NoiseRouterData{
                                         Climate.parameters(0.0F, 0.0F, -0.45f, 0.0F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.NAMEKIAN_RIVERS))
                         ))),
                 noiseGenSettings.getOrThrow(NAMEK_NOISE_SETTINGS)); //Aca es poner nuestro namek noise
-        LevelStem stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.NAMEK_DIM_TYPE), noiseNamekMultiBiomes);
+        LevelStem namek_stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.NAMEK_DIM_TYPE), noiseNamekMultiBiomes);
+        LevelStem timechamber_stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.TIME_CHAMBER_DIM_TYPE), wrappedChunkGenerator);
 
-        context.register(NAMEK_DIM_KEY, stem);
+        context.register(NAMEK_DIM_KEY, namek_stem);
+        context.register(TIME_CHAMBER_DIM_KEY, timechamber_stem);
+
     }
 
     public static void bootstrapNoise(BootstapContext<NoiseGeneratorSettings> context) {
@@ -97,14 +127,24 @@ public class ModDimensions extends NoiseRouterData{
         HolderGetter<DensityFunction> densityFunctions = context.lookup(Registries.DENSITY_FUNCTION);
         HolderGetter<NormalNoise.NoiseParameters> noiseParameters = context.lookup(Registries.NOISE);
 
-        NoiseSettings noiseSettings = NoiseSettings.create(
+        SurfaceRules.RuleSource time_chamber_surfaceRule = SurfaceRules.sequence(
+                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.state(MainBlocks.TIME_CHAMBER_BLOCK.get().defaultBlockState()))
+        );
+
+        NoiseSettings namek_noiseSettings = NoiseSettings.create(
                 -64,
                 384,
                 1,
                 2);
 
+        NoiseSettings time_chamber_noiseSettings = NoiseSettings.create(
+                -64,
+                4,
+                1,
+                2);
+
         NoiseGeneratorSettings noisegen = new NoiseGeneratorSettings(
-                noiseSettings,
+                namek_noiseSettings,
                 MainBlocks.NAMEK_STONE.get().defaultBlockState(),
                 Blocks.WATER.defaultBlockState(),
                 NoiseRouterData.overworld(context.lookup(Registries.DENSITY_FUNCTION), context.lookup(Registries.NOISE), false, false),
@@ -117,8 +157,49 @@ public class ModDimensions extends NoiseRouterData{
                 false);
 
         context.register(NAMEK_NOISE_SETTINGS, noisegen);
+
+        NoiseGeneratorSettings time_chamber_noisegen = new NoiseGeneratorSettings(
+                time_chamber_noiseSettings,
+                MainBlocks.TIME_CHAMBER_BLOCK.get().defaultBlockState(),
+                Blocks.AIR.defaultBlockState(),
+                TimeChamber_noiseRouter(densityFunctions,noiseParameters),
+                time_chamber_surfaceRule,
+                List.of(),
+                0,
+                false,
+                false,
+                false,
+                false);
+
+        context.register(TIME_CHAMBER_NOISE_SETTINGS, time_chamber_noisegen);
     }
 
+    private static NoiseRouter TimeChamber_noiseRouter(HolderGetter<DensityFunction> densityFunctions, HolderGetter<NormalNoise.NoiseParameters> noise) {
+        // Densidad constante negativa por defecto para indicar aire/vacío
+        DensityFunction constantNegative = DensityFunctions.constant(-1.0);
+        // Densidad constante para bloques sólidos
+        DensityFunction constantPositive = DensityFunctions.constant(1.0);
+        // Genera una transición abrupta entre terreno sólido y vacío a la altura y = 4
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(-64, 4, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
+
+        return new NoiseRouter(
+                constantNegative, // barrierNoise: No necesitamos barreras
+                constantNegative, // fluidLevelFloodednessNoise: No necesitamos fluidos
+                constantNegative, // fluidLevelSpreadNoise: No necesitamos propagación de fluidos
+                constantNegative, // lavaNoise: Sin lava
+                constantNegative, // temperature: Constante
+                constantNegative, // vegetation: Constante
+                constantNegative, // continents: No variaciones continentales
+                constantNegative, // erosion: Sin erosión
+                depthFunction,    // depth: Sólido hasta y = 4
+                constantNegative, // ridges: Sin crestas
+                depthFunction,    // initialDensityWithoutJaggedness: Sólido hasta y = 4
+                depthFunction,    // finalDensity: Sólido hasta y = 4
+                constantNegative, // veinToggle: Sin venas
+                constantNegative, // veinRidged: Sin venas
+                constantNegative  // veinGap: Sin venas
+        );
+    }
 
     public static SurfaceRules.RuleSource makeRules() {
         SurfaceRules.RuleSource bedrockRule = SurfaceRules.ifTrue(

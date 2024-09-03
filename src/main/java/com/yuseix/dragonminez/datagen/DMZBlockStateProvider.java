@@ -17,12 +17,13 @@ public class DMZBlockStateProvider extends BlockStateProvider {
     }
 
     @Override
-    protected void registerStatesAndModels() {
+    public void registerStatesAndModels() {
         //Bloques
         blockWithItem(MainBlocks.NAMEK_BLOCK);
         blockWithItem(MainBlocks.NAMEK_DIRT);
         blockWithItem(MainBlocks.NAMEK_STONE);
         blockWithItem(MainBlocks.NAMEK_COBBLESTONE);
+        blockWithItem(MainBlocks.TIME_CHAMBER_BLOCK);
         axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
 
         //Madera de Ajissa de Namek
