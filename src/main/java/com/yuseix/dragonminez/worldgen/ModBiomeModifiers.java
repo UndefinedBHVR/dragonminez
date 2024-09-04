@@ -113,6 +113,7 @@ public class ModBiomeModifiers {
                 biomes.getOrThrow(DMZTags.Biomes.IS_NAMEKWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_DIAMOND_LARGE_ORE_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
+
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

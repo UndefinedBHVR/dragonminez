@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.worldgen.ModPlacedFeatures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -27,7 +28,7 @@ public class ModBiomes {
             new ResourceLocation(DragonMineZ.MOD_ID, "hyperbolic_time_chamber"));
 
     public static void boostrap(BootstapContext<Biome> context){
-        context.register(AJISSA_PLAINS, testBiome(context));
+        context.register(AJISSA_PLAINS, ajisa_plainsBiome(context));
         context.register(SACRED_LAND, sacredBiome(context));
         context.register(NAMEKIAN_RIVERS, namekianRiverBiome(context));
         context.register(TIME_CHAMBER, Time_Chamber_Biome(context));
@@ -42,11 +43,11 @@ public class ModBiomes {
         BiomeDefaultFeatures.addSurfaceFreezing(builder);
     }
 
-    public static Biome testBiome(BootstapContext<Biome> context) {
+    public static Biome ajisa_plainsBiome(BootstapContext<Biome> context) {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
 
         //spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 5, 4, 4));
-        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.BEE, 5, 4, 4));
+        //spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.BEE, 5, 4, 4));
         //BiomeDefaultFeatures.farmAnimals(spawnBuilder);
         //BiomeDefaultFeatures.commonSpawns(spawnBuilder);
 
@@ -64,12 +65,11 @@ public class ModBiomes {
         //BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
         //BiomeDefaultFeatures.addExtraGold(biomeBuilder);
 
-        //biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_PLAINS);
-
-
-        //biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.PINE_PLACED_KEY);
-
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_AJISSA_SAPLING_PLACED_KEY);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PATCH_GRASS_PLAIN);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PLAINS_FLOWERS);
+
+
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
@@ -92,7 +92,7 @@ public class ModBiomes {
     public static Biome sacredBiome(BootstapContext<Biome> context) {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
 
-        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.BEE, 5, 4, 4));
+        //spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.BEE, 5, 4, 4));
 
         BiomeGenerationSettings.Builder biomeBuilder =
                 new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
@@ -100,9 +100,10 @@ public class ModBiomes {
         BiomeDefaultFeatures.addDefaultCarversAndLakes(biomeBuilder);
         BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
 
-        //biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.PINE_PLACED_KEY);
-
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_SACRED_AJISSA_PLACED_KEY);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PATCH_SACRED_GRASS_PLAIN);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_SACRED_FLOWERS);
+
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)

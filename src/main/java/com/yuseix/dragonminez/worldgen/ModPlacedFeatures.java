@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.worldgen;
 import com.google.common.collect.ImmutableList;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -13,9 +14,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.List;
 
@@ -44,8 +45,12 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_PATCH_GRASS_PLAIN = registerKey("namek_patch_grass_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_PATCH_SACRED_GRASS_PLAIN = registerKey("namek_patch_sacred_grass_placed");
 
+    public static final ResourceKey<PlacedFeature> NAMEK_PLAINS_FLOWERS = registerKey("namek_plains_flowers_placed");
+    public static final ResourceKey<PlacedFeature> NAMEK_SACRED_FLOWERS = registerKey("namek_sacred_flowers_placed");
+
 
     public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_SAPLING_PLACED_KEY = registerKey("namek_ajissa_sapling_placed");
+    public static final ResourceKey<PlacedFeature> NAMEK_SACRED_AJISSA_PLACED_KEY = registerKey("namek_sacred_ajissa_sapling_placed");
 
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
@@ -110,7 +115,7 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-80), VerticalAnchor.absolute(80))));
 
 
-        //GRASS
+        //PLAINS
         register(context, NAMEK_PATCH_GRASS_PLAIN, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_PATCH_GRASS_KEY),
                 ImmutableList.<PlacementModifier>builder()
                         .add(NoiseThresholdCountPlacement.of(-0.8f, 5, 10)) // Equivalente a "minecraft:noise_threshold_count"
@@ -118,18 +123,53 @@ public class ModPlacedFeatures {
                         .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) // Equivalente a "minecraft:heightmap"
                         .add(BiomeFilter.biome()) // Equivalente a "minecraft:biome"
                         .build());
-        register(context, NAMEK_PATCH_SACRED_GRASS_PLAIN, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_PATCH_SACRED_GRASS_KEY),
+        register(context, NAMEK_PLAINS_FLOWERS, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_FLOWERS_KEY),
                 ImmutableList.<PlacementModifier>builder()
-                        .add(NoiseThresholdCountPlacement.of(-0.8f, 5, 10)) // Equivalente a "minecraft:noise_threshold_count"
+                        .add(NoiseThresholdCountPlacement.of(-0.8f, 15, 4)) // Equivalente a "minecraft:noise_threshold_count"
+                        .add(RarityFilter.onAverageOnceEvery(32))
                         .add(InSquarePlacement.spread()) // Equivalente a "minecraft:in_square"
                         .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) // Equivalente a "minecraft:heightmap"
                         .add(BiomeFilter.biome()) // Equivalente a "minecraft:biome"
                         .build());
+        //SACRED
+        register(context, NAMEK_PATCH_SACRED_GRASS_PLAIN, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SACRED_FLOWERS_KEY),
+                ImmutableList.<PlacementModifier>builder()
+                        .add(NoiseThresholdCountPlacement.of(-0.8f, 5, 10))
+                        .add(InSquarePlacement.spread())
+                        .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG))
+                        .add(BiomeFilter.biome())
+                        .build());
+        register(context, NAMEK_SACRED_FLOWERS, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SACRED_FLOWERS_KEY),
+                ImmutableList.<PlacementModifier>builder()
+                        .add(NoiseThresholdCountPlacement.of(-0.8f, 15, 4)) // Equivalente a "minecraft:noise_threshold_count"
+                        .add(RarityFilter.onAverageOnceEvery(32))
+                        .add(InSquarePlacement.spread()) // Equivalente a "minecraft:in_square"
+                        .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) // Equivalente a "minecraft:heightmap"
+                        .add(BiomeFilter.biome()) // Equivalente a "minecraft:biome"
+                        .build());
+
+
         //ARBOLES
         //Ejemplo de arbol
+        /*
         register(context, NAMEK_AJISSA_SAPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 2),
                         MainBlocks.NAMEK_AJISSA_SAPLING.get()));
+
+         */
+        register(context, NAMEK_AJISSA_SAPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY),
+                List.of(
+                        PlacementUtils.countExtra(3, 0.5f, 2),  // Controla la cantidad de árboles generados
+                        InSquarePlacement.spread(),  // Para dispersar los árboles en un área cuadrada
+                        SurfaceWaterDepthFilter.forMaxDepth(0),  // Limita la profundidad del agua a 0
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),  // Usa WORLD_SURFACE para generar en la superficie
+                        BiomeFilter.biome(),  // Asegura que se genere en el bioma correcto
+                        BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(MainBlocks.NAMEK_AJISSA_SAPLING.get().defaultBlockState(), BlockPos.ZERO))  // Verifica si el sapling puede sobrevivir
+                )
+        );
+        register(context, NAMEK_SACRED_AJISSA_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_SACRED_KEY),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
+                        MainBlocks.NAMEK_SACRED_SAPLING.get()));
     }
 
 

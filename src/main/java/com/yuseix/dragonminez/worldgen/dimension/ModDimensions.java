@@ -111,11 +111,12 @@ public class ModDimensions extends NoiseRouterData{
                         new Climate.ParameterList<>(List.of(Pair.of(
                                         Climate.parameters(0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.AJISSA_PLAINS)),
                                 Pair.of(
-                                        Climate.parameters(0.0F, 0.0F, 0.6F, 0.0F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.SACRED_LAND)),
+                                        Climate.parameters(0.0F, 0.0F, 0.1F, 0.0F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.SACRED_LAND)),
                                 Pair.of(
                                         Climate.parameters(0.0F, 0.0F, -0.45f, 0.0F, 0.0F, 0.0F, 0.0F), biomeRegistry.getOrThrow(ModBiomes.NAMEKIAN_RIVERS))
                         ))),
                 noiseGenSettings.getOrThrow(NAMEK_NOISE_SETTINGS)); //Aca es poner nuestro namek noise
+
         LevelStem namek_stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.NAMEK_DIM_TYPE), noiseNamekMultiBiomes);
         LevelStem timechamber_stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.TIME_CHAMBER_DIM_TYPE), wrappedChunkGenerator);
 
@@ -142,7 +143,7 @@ public class ModDimensions extends NoiseRouterData{
 
         NoiseSettings time_chamber_noiseSettings = NoiseSettings.create(
                 -16,
-                64,
+                384,
                 1,
                 2);
 
@@ -165,7 +166,7 @@ public class ModDimensions extends NoiseRouterData{
                 time_chamber_noiseSettings,
                 MainBlocks.TIME_CHAMBER_BLOCK.get().defaultBlockState(),
                 Blocks.AIR.defaultBlockState(),
-                TimeChamber_noiseRouter(densityFunctions,noiseParameters),
+                TimeChamber_noiseRouter(densityFunctions, noiseParameters),
                 time_chamber_surfaceRule,
                 List.of(),
                 0,

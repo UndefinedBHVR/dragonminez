@@ -11,8 +11,10 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -45,7 +48,11 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_DIAMOND_ORE_LARGE_KEY = registerKey("namek_diamond_ore_large_configured");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_GRASS_KEY = registerKey("namek_patch_grass_configured");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_FLOWERS_KEY = registerKey("namek_flowers_configured");
+
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_SACRED_GRASS_KEY = registerKey("namek_patch_sacred_grass_configured");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SACRED_FLOWERS_KEY = registerKey("namek_sacred_flowers_configured");
 
 
 
@@ -138,13 +145,41 @@ public class ModConfiguredFeatures {
 
         //GRASS
         register(context, NAMEK_PATCH_GRASS_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(32, 7, 3,
-                PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS.get()
-                        .defaultBlockState()
-                )))));
+                PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+                        BlockStateProvider.simple(MainBlocks.NAMEK_GRASS.get().defaultBlockState())
+                        ))));
         register(context, NAMEK_PATCH_SACRED_GRASS_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(32, 7, 3,
-                PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_GRASS.get()
-                        .defaultBlockState()
+                PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+                        BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_GRASS.get().defaultBlockState()
                 )))));
+
+        register(context, NAMEK_FLOWERS_KEY, Feature.FLOWER, new RandomPatchConfiguration(64, 6, 2,
+                PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+                        new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+
+                                .add(MainBlocks.CHRYSANTHEMUM_FLOWER.get().defaultBlockState(), 5)
+                                .add(MainBlocks.AMARYLLIS_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.MARIGOLD_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.TRILLIUM_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.NAMEK_FERN.get().defaultBlockState(), 8)
+
+                                .build())
+                ))));
+
+        register(context, NAMEK_SACRED_FLOWERS_KEY, Feature.FLOWER, new RandomPatchConfiguration(64, 6, 2,
+                PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+                        new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+
+                                .add(MainBlocks.SACRED_AMARYLLIS_FLOWER.get().defaultBlockState(), 5)
+                                .add(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.SACRED_MARIGOLD_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.SACRED_TRILLIUM_FLOWER.get().defaultBlockState(), 8)
+                                .add(MainBlocks.SACRED_FERN.get().defaultBlockState(), 8)
+
+                                .build())
+                ))));
 
         //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
         register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
@@ -154,7 +189,9 @@ public class ModConfiguredFeatures {
                 BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LEAVES.get()),
                 new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
 
-                new TwoLayersFeatureSize(1,0,2)).build()
+                new TwoLayersFeatureSize(1,0,2))
+                .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))
+                .build()
         );
 
         register(context, TREE_NAMEK_SACRED_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
@@ -164,7 +201,9 @@ public class ModConfiguredFeatures {
                 BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LEAVES.get()),
                 new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
 
-                new TwoLayersFeatureSize(1,0,2)).build()
+                new TwoLayersFeatureSize(1,0,2))
+                .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))
+                .build()
         );
     }
 
