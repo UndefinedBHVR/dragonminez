@@ -44,9 +44,64 @@ public class DMZItemTagGenerator extends ItemTagsProvider {
                 .add(MainBlocks.NAMEK_AJISSA_PLANKS.get().asItem())
                 .add(MainBlocks.NAMEK_SACRED_PLANKS.get().asItem());
 
+        this.tag(ItemTags.LEAVES)
+                .add(MainBlocks.NAMEK_AJISSA_LEAVES.get().asItem())
+                .add(MainBlocks.NAMEK_SACRED_LEAVES.get().asItem());
+
         this.tag(ItemTags.STONE_CRAFTING_MATERIALS)
                 .add(MainBlocks.NAMEK_STONE.get().asItem())
                 .add(MainBlocks.NAMEK_COBBLESTONE.get().asItem())
                 .add(MainBlocks.NAMEK_DEEPSLATE.get().asItem());
+
+        this.tag(ItemTags.STONE_TOOL_MATERIALS)
+                .add(MainBlocks.NAMEK_STONE.get().asItem())
+                .add(MainBlocks.NAMEK_COBBLESTONE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE.get().asItem());
+
+        this.tag(ItemTags.COAL_ORES)
+                .add(MainBlocks.NAMEK_COAL_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_COAL.get().asItem());
+
+        this.tag(ItemTags.IRON_ORES)
+                .add(MainBlocks.NAMEK_IRON_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_IRON.get().asItem());
+
+        this.tag(ItemTags.GOLD_ORES)
+                .add(MainBlocks.NAMEK_GOLD_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_GOLD.get().asItem());
+
+        this.tag(ItemTags.REDSTONE_ORES)
+                .add(MainBlocks.NAMEK_REDSTONE_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_REDSTONE.get().asItem());
+
+        this.tag(ItemTags.LAPIS_ORES)
+                .add(MainBlocks.NAMEK_LAPIS_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_LAPIS.get().asItem());
+
+        this.tag(ItemTags.DIAMOND_ORES)
+                .add(MainBlocks.NAMEK_DIAMOND_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_DIAMOND.get().asItem());
+
+        this.tag(ItemTags.EMERALD_ORES)
+                .add(MainBlocks.NAMEK_EMERALD_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_EMERALD.get().asItem());
+
+        this.tag(ItemTags.COPPER_ORES)
+                .add(MainBlocks.NAMEK_COPPER_ORE.get().asItem())
+                .add(MainBlocks.NAMEK_DEEPSLATE_COPPER.get().asItem());
+
+        this.tag(ItemTags.FLOWERS)
+                .add(MainBlocks.CHRYSANTHEMUM_FLOWER.get().asItem())
+                .add(MainBlocks.MARIGOLD_FLOWER.get().asItem())
+                .add(MainBlocks.AMARYLLIS_FLOWER.get().asItem())
+                .add(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get().asItem())
+                .add(MainBlocks.TRILLIUM_FLOWER.get().asItem())
+                .add(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get().asItem())
+                .add(MainBlocks.SACRED_MARIGOLD_FLOWER.get().asItem())
+                .add(MainBlocks.SACRED_AMARYLLIS_FLOWER.get().asItem())
+                .add(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get().asItem())
+                .add(MainBlocks.SACRED_TRILLIUM_FLOWER.get().asItem());
+
+
     }
 }
