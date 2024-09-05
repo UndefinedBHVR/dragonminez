@@ -3,10 +3,9 @@ package com.yuseix.dragonminez.worldgen;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.utils.DMZTags;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,16 +14,16 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
-import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
@@ -60,8 +59,14 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_AJISSA_KEY = registerKey("namek_ajissa_key");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_SACRED_KEY = registerKey("namek_sacred_key");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_TREES_KEY = registerKey("namek_ajissa_trees_key");
+
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
+
+        HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
+
+
         //MC NORMAL
         RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest deepslateReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
@@ -196,6 +201,18 @@ public class ModConfiguredFeatures {
         );
 
          */
+        register(context, NAMEK_TREES_KEY, Feature.RANDOM_SELECTOR,
+                new RandomFeatureConfiguration(
+                        List.of(
+                                new WeightedPlacedFeature(
+                                        placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_AJISSA_SAPLING_PLACED_KEY), // Árbol sagrado
+                                        0.08F  // Probabilidad de 8%
+                                )
+                        ),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_SACRED_AJISSA_PLACED_KEY)  // Árbol ajissa por defecto
+                )
+        );
+
         register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE,
                 new TreeConfiguration.TreeConfigurationBuilder(
                         BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),

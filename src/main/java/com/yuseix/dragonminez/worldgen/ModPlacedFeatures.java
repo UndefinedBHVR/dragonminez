@@ -52,6 +52,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_SAPLING_PLACED_KEY = registerKey("namek_ajissa_sapling_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_SACRED_AJISSA_PLACED_KEY = registerKey("namek_sacred_ajissa_sapling_placed");
 
+    public static final ResourceKey<PlacedFeature> NAMEK_TREES_PLACED_KEY = registerKey("namek_trees_placed");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -132,7 +133,7 @@ public class ModPlacedFeatures {
                         .add(BiomeFilter.biome()) // Equivalente a "minecraft:biome"
                         .build());
         //SACRED
-        register(context, NAMEK_PATCH_SACRED_GRASS_PLAIN, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SACRED_FLOWERS_KEY),
+        register(context, NAMEK_PATCH_SACRED_GRASS_PLAIN, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_PATCH_SACRED_GRASS_KEY),
                 ImmutableList.<PlacementModifier>builder()
                         .add(NoiseThresholdCountPlacement.of(-0.8f, 5, 10))
                         .add(InSquarePlacement.spread())
@@ -175,6 +176,16 @@ public class ModPlacedFeatures {
                         )
                 )
         );
+        register(context, NAMEK_TREES_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_TREES_KEY),
+                List.of(
+                        PlacementUtils.countExtra(3, 0.1f, 2),  // Controla la cantidad de árboles generados
+                        InSquarePlacement.spread(),  // Para dispersar los árboles en un área cuadrada
+                        SurfaceWaterDepthFilter.forMaxDepth(0),  // Limita la profundidad del agua a 0
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),  // Usa WORLD_SURFACE para generar en la superficie
+                        BiomeFilter.biome()  // Asegura que se genere en el bioma correcto
+                )
+        );
+
 
         register(context, NAMEK_SACRED_AJISSA_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_SACRED_KEY),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
