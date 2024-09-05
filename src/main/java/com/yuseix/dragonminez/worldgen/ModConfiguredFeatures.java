@@ -182,6 +182,7 @@ public class ModConfiguredFeatures {
                 ))));
 
         //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
+        /*
         register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
                 new StraightTrunkPlacer(4,2,4),
@@ -192,6 +193,21 @@ public class ModConfiguredFeatures {
                 new TwoLayersFeatureSize(1,0,2))
                 .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))
                 .build()
+        );
+
+         */
+        register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
+                        new StraightTrunkPlacer(4, 2, 4),
+                        BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LEAVES.get()),
+                        new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
+                        new TwoLayersFeatureSize(1, 0, 2)
+                )
+                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))  // Principal bloque de suelo
+                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))  // Bloque adicional
+                        .dirt(BlockStateProvider.simple(Blocks.DIRT))  // Bloque adicional (opcional)
+                        .build()
         );
 
         register(context, TREE_NAMEK_SACRED_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(

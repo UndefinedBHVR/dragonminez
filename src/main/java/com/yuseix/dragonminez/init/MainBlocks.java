@@ -58,7 +58,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_STRIPPED_AJISSA_LOG = registerBlock("namek_stripped_ajissa_log",
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_SAPLING = registerBlock("namek_ajissa_sapling",
-            () -> new SaplingBlock(new NamekAjissaGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+            () -> new NamekAjissaSaplingBlock(new NamekAjissaGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
     public static final RegistryObject<Block> POTTED_AJISSA_SAPLING = registerBlock("potted_ajissa_sapling",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_AJISSA_SAPLING,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));

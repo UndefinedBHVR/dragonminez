@@ -135,9 +135,10 @@ public class ModDimensions extends NoiseRouterData{
                 SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.state(MainBlocks.TIME_CHAMBER_BLOCK.get().defaultBlockState()))
         );
 
+
         NoiseSettings namek_noiseSettings = NoiseSettings.create(
                 -64,
-                384,
+                256,
                 1,
                 2);
 
@@ -147,7 +148,7 @@ public class ModDimensions extends NoiseRouterData{
                 1,
                 2);
 
-        NoiseGeneratorSettings noisegen = new NoiseGeneratorSettings(
+        NoiseGeneratorSettings namek_noisegen = new NoiseGeneratorSettings(
                 namek_noiseSettings,
                 MainBlocks.NAMEK_STONE.get().defaultBlockState(),
                 Blocks.WATER.defaultBlockState(),
@@ -160,7 +161,7 @@ public class ModDimensions extends NoiseRouterData{
                 true,
                 false);
 
-        context.register(NAMEK_NOISE_SETTINGS, noisegen);
+        context.register(NAMEK_NOISE_SETTINGS, namek_noisegen);
 
         NoiseGeneratorSettings time_chamber_noisegen = new NoiseGeneratorSettings(
                 time_chamber_noiseSettings,
@@ -218,7 +219,7 @@ public class ModDimensions extends NoiseRouterData{
         SurfaceRules.RuleSource namekSurfaceRule = SurfaceRules.sequence(
                 // Primera condición: Verifica si el bioma es uno de los especificados.
                 SurfaceRules.ifTrue(
-                        SurfaceRules.isBiome(ModBiomes.AJISSA_PLAINS, ModBiomes.AJISSA_PLAINS, ModBiomes.NAMEKIAN_RIVERS),
+                        SurfaceRules.isBiome(ModBiomes.AJISSA_PLAINS, ModBiomes.NAMEKIAN_RIVERS),
                         SurfaceRules.sequence(
                                 // Segunda condición: Verifica si estamos por encima de la superficie preliminar.
                                 SurfaceRules.ifTrue(

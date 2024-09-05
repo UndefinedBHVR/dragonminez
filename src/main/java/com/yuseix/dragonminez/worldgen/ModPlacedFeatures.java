@@ -164,9 +164,18 @@ public class ModPlacedFeatures {
                         SurfaceWaterDepthFilter.forMaxDepth(0),  // Limita la profundidad del agua a 0
                         HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),  // Usa WORLD_SURFACE para generar en la superficie
                         BiomeFilter.biome(),  // Asegura que se genere en el bioma correcto
-                        BlockPredicateFilter.forPredicate(BlockPredicate.wouldSurvive(MainBlocks.NAMEK_AJISSA_SAPLING.get().defaultBlockState(), BlockPos.ZERO))  // Verifica si el sapling puede sobrevivir
+                        BlockPredicateFilter.forPredicate(
+                                BlockPredicate.allOf(
+                                        BlockPredicate.wouldSurvive(MainBlocks.NAMEK_AJISSA_SAPLING.get().defaultBlockState(), BlockPos.ZERO),  // Verifica si el sapling puede sobrevivir
+                                        BlockPredicate.matchesBlocks(List.of(
+                                                MainBlocks.NAMEK_GRASS_BLOCK.get(),
+                                                MainBlocks.NAMEK_DIRT.get()
+                                        ))
+                                )
+                        )
                 )
         );
+
         register(context, NAMEK_SACRED_AJISSA_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_SACRED_KEY),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
                         MainBlocks.NAMEK_SACRED_SAPLING.get()));
