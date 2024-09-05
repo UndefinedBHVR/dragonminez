@@ -36,6 +36,24 @@ public final class MainFluids {
             .block(MainBlocks.HEALING_LIQUID)
             .bucket(MainItems.HEALING_BUCKET);
 
+    //Liquido de Agua de Namek
+
+    public static final RegistryObject<FluidType> NAMEK_FLUID_TYPE = FLUID_TYPE_REGISTER.register("namek_water_fluid_type",
+            () -> new SimpleFluid(
+                    0xaef359,
+                    FluidType.Properties.create().lightLevel(5)));
+
+    public static final RegistryObject<FlowingFluid> SOURCE_NAMEK = FLUIDS_REGISTER.register("namek_water_fluid",
+            () -> new ForgeFlowingFluid.Source(MainFluids.NAMEK_FLUID_PROPERTIES));
+
+    public static final RegistryObject<FlowingFluid> FLOWING_NAMEK = FLUIDS_REGISTER.register("flowing_namek_water_fluid",
+            () -> new ForgeFlowingFluid.Flowing(MainFluids.NAMEK_FLUID_PROPERTIES));
+
+    public static final ForgeFlowingFluid.Properties NAMEK_FLUID_PROPERTIES
+            = new ForgeFlowingFluid.Properties(MainFluids.NAMEK_FLUID_TYPE, SOURCE_NAMEK, FLOWING_NAMEK)
+            .block(MainBlocks.NAMEK_WATER_LIQUID)
+            .bucket(MainItems.NAMEK_WATER_BUCKET);
+
     public static void register(IEventBus bus) {
         FLUID_TYPE_REGISTER.register(bus);
         FLUIDS_REGISTER.register(bus);
