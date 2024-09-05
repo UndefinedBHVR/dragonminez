@@ -70,7 +70,7 @@ public final class MainBlocks {
             () -> new ModFlammableBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_AJISSA_LEAVES = registerBlock("namek_ajissa_leaves",
             () -> new ModFlammableLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).sound(SoundType.CHERRY_LEAVES)
-                    .isViewBlocking((pState, pReader, pPos) -> false) .isSuffocating((pState, pReader, pPos) -> false)));
+                    .isViewBlocking((pState, pReader, pPos) -> false).isSuffocating((pState, pReader, pPos) -> false)));
     public static final RegistryObject<Block> NAMEK_AJISSA_TRAPDOOR = registerBlock("namek_ajissa_trapdoor",
             () -> new TrapDoorBlock(BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).strength(3.0F).noOcclusion(), BlockSetType.OAK));
     public static final RegistryObject<Block> NAMEK_AJISSA_DOOR = registerBlock("namek_ajissa_door",
@@ -105,7 +105,7 @@ public final class MainBlocks {
             () -> new ModFlammableBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_PLANKS).sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<Block> NAMEK_SACRED_LEAVES = registerBlock("namek_sacred_leaves",
             () -> new ModFlammableLeavesBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_LEAVES).sound(SoundType.CHERRY_LEAVES)
-                    .isViewBlocking((pState, pReader, pPos) -> false) .isSuffocating((pState, pReader, pPos) -> false)));
+                    .isViewBlocking((pState, pReader, pPos) -> false).isSuffocating((pState, pReader, pPos) -> false)));
     public static final RegistryObject<Block> NAMEK_SACRED_DOOR = registerBlock("namek_sacred_door",
             () -> new DoorBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_DOOR).strength(3.0F).noOcclusion(), BlockSetType.DARK_OAK));
     public static final RegistryObject<Block> NAMEK_SACRED_TRAPDOOR = registerBlock("namek_sacred_trapdoor",
@@ -181,12 +181,12 @@ public final class MainBlocks {
                     .lightLevel(litBlockEmission(13))
             ));
 
-   /* public static final RegistryObject<Block> KIKONO_ARMOR_STATION = registerBlock("kikono_armor_station",
-    *         () -> new KikonoArmorStationBlock(BlockBehaviour.Properties.of()
-    *               .mapColor(MapColor.STONE)
-    *               .requiresCorrectToolForDrops()
-    *               .strength(3.5F)
-    *       )); */
+    /* public static final RegistryObject<Block> KIKONO_ARMOR_STATION = registerBlock("kikono_armor_station",
+     *         () -> new KikonoArmorStationBlock(BlockBehaviour.Properties.of()
+     *               .mapColor(MapColor.STONE)
+     *               .requiresCorrectToolForDrops()
+     *               .strength(3.5F)
+     *       )); */
 
     //Plantas Namek 1
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",
@@ -275,6 +275,9 @@ public final class MainBlocks {
     //LIQUIDOS
     public static final RegistryObject<LiquidBlock> HEALING_LIQUID = BLOCK_REGISTER.register("healing_liquid_block",
             () -> new LiquidBlock(MainFluids.SOURCE_HEALING, BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+
+    public static final RegistryObject<LiquidBlock> NAMEK_WATER_LIQUID = BLOCK_REGISTER.register("namek_water_liquid_block",
+            () -> new LiquidBlock(MainFluids.SOURCE_NAMEK, BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
 
     //DRAGON BALLS - TIERRA
     public static final RegistryObject<Block> DBALL1_BLOCK = BLOCK_REGISTER.register("dball1",
