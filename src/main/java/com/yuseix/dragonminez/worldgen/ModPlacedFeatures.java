@@ -49,9 +49,10 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_SACRED_FLOWERS = registerKey("namek_sacred_flowers_placed");
 
 
-    public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_SAPLING_PLACED_KEY = registerKey("namek_ajissa_sapling_placed");
-    public static final ResourceKey<PlacedFeature> NAMEK_SACRED_AJISSA_PLACED_KEY = registerKey("namek_sacred_ajissa_sapling_placed");
-
+    public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_TREE_PLACED = registerKey("namek_ajissa_tree");
+    public static final ResourceKey<PlacedFeature> NAMEK_SACRED_TREE_PLACED = registerKey("namek_sacred_tree");
+    public static final ResourceKey<PlacedFeature> NAMEK_AJISSA_TREES = registerKey("namek_ajissa_trees");
+    public static final ResourceKey<PlacedFeature> NAMEK_SACRED_TREES = registerKey("namek_sacred_trees");
 
     public static void bootstrap(BootstapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -139,7 +140,7 @@ public class ModPlacedFeatures {
                         .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG))
                         .add(BiomeFilter.biome())
                         .build());
-        register(context, NAMEK_SACRED_FLOWERS, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SACRED_FLOWERS_KEY),
+        register(context, NAMEK_SACRED_FLOWERS, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_PATCH_SACRED_GRASS_KEY),
                 ImmutableList.<PlacementModifier>builder()
                         .add(NoiseThresholdCountPlacement.of(-0.8f, 15, 4)) // Equivalente a "minecraft:noise_threshold_count"
                         .add(RarityFilter.onAverageOnceEvery(32))
@@ -152,12 +153,12 @@ public class ModPlacedFeatures {
         //ARBOLES
         //Ejemplo de arbol
         /*
-        register(context, NAMEK_AJISSA_SAPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY),
+        register(context, NAMEK_AJISSA_SAPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_AJISSA_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.5f, 2),
                         MainBlocks.NAMEK_AJISSA_SAPLING.get()));
 
          */
-        register(context, NAMEK_AJISSA_SAPLING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY),
+        register(context, NAMEK_AJISSA_TREE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_AJISSA_TREE),
                 List.of(
                         PlacementUtils.countExtra(3, 0.5f, 2),  // Controla la cantidad de árboles generados
                         InSquarePlacement.spread(),  // Para dispersar los árboles en un área cuadrada
@@ -176,7 +177,7 @@ public class ModPlacedFeatures {
                 )
         );
 
-        register(context, NAMEK_SACRED_AJISSA_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREE_NAMEK_SACRED_KEY),
+        register(context, NAMEK_SACRED_TREE_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SACRED_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
                         MainBlocks.NAMEK_SACRED_SAPLING.get()));
     }

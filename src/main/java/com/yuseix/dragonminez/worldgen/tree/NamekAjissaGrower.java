@@ -11,6 +11,6 @@ public class NamekAjissaGrower extends AbstractTreeGrower {
     @Nullable
     @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomSource, boolean b) {
-        return ModConfiguredFeatures.TREE_NAMEK_AJISSA_KEY;
+        return ModConfiguredFeatures.NAMEK_AJISSA_TREE;
     }
 }

@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -201,9 +202,88 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.ANIMALS_SPAWNABLE_ON)
                 .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
-                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
+                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get())
+                .add(MainBlocks.NAMEK_DIRT.get());
 
         this.tag(BlockTags.FROGS_SPAWNABLE_ON)
+                .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
+                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
+
+        this.tag(BlockTags.BEACON_BASE_BLOCKS)
+                .add(MainBlocks.GETE_BLOCK.get())
+                .add(MainBlocks.KIKONO_BLOCK.get());
+
+        this.tag(BlockTags.DIRT)
+                .add(MainBlocks.NAMEK_DIRT.get())
+                .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
+                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
+
+        this.tag(BlockTags.COAL_ORES)
+                .add(MainBlocks.NAMEK_COAL_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_COAL.get());
+
+        this.tag(BlockTags.IRON_ORES)
+                .add(MainBlocks.NAMEK_IRON_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_IRON.get());
+
+        this.tag(BlockTags.COPPER_ORES)
+                .add(MainBlocks.NAMEK_COPPER_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_COPPER.get());
+
+        this.tag(BlockTags.LAPIS_ORES)
+                .add(MainBlocks.NAMEK_LAPIS_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_LAPIS.get());
+
+        this.tag(BlockTags.GOLD_ORES)
+                .add(MainBlocks.NAMEK_GOLD_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_GOLD.get());
+
+        this.tag(BlockTags.DIAMOND_ORES)
+                .add(MainBlocks.NAMEK_DIAMOND_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_DIAMOND.get());
+
+        this.tag(BlockTags.REDSTONE_ORES)
+                .add(MainBlocks.NAMEK_REDSTONE_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_REDSTONE.get());
+
+        this.tag(BlockTags.EMERALD_ORES)
+                .add(MainBlocks.NAMEK_EMERALD_ORE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_EMERALD.get());
+
+        this.tag(BlockTags.FLOWERS)
+                .add(MainBlocks.CHRYSANTHEMUM_FLOWER.get())
+                .add(MainBlocks.MARIGOLD_FLOWER.get())
+                .add(MainBlocks.AMARYLLIS_FLOWER.get())
+                .add(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get())
+                .add(MainBlocks.TRILLIUM_FLOWER.get())
+                .add(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get())
+                .add(MainBlocks.SACRED_MARIGOLD_FLOWER.get())
+                .add(MainBlocks.SACRED_AMARYLLIS_FLOWER.get())
+                .add(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get())
+                .add(MainBlocks.SACRED_TRILLIUM_FLOWER.get());
+
+        this.tag(BlockTags.FLOWER_POTS)
+                .add(MainBlocks.POTTED_CHRYSANTHEMUM_FLOWER.get())
+                .add(MainBlocks.POTTED_MARIGOLD_FLOWER.get())
+                .add(MainBlocks.POTTED_AMARYLLIS_FLOWER.get())
+                .add(MainBlocks.POTTED_CATHARANTHUS_ROSEUS_FLOWER.get())
+                .add(MainBlocks.POTTED_TRILLIUM_FLOWER.get())
+                .add(MainBlocks.POTTED_NAMEK_FERN.get())
+                .add(MainBlocks.POTTED_AJISSA_SAPLING.get())
+                .add(MainBlocks.POTTED_SACRED_CHRYSANTHEMUM_FLOWER.get())
+                .add(MainBlocks.POTTED_SACRED_MARIGOLD_FLOWER.get())
+                .add(MainBlocks.POTTED_AMARYLLIS_FLOWER.get())
+                .add(MainBlocks.POTTED_CATHARANTHUS_ROSEUS_FLOWER.get())
+                .add(MainBlocks.POTTED_TRILLIUM_FLOWER.get())
+                .add(MainBlocks.POTTED_SACRED_FERN.get())
+                .add(MainBlocks.POTTED_SACRED_SAPLING.get());
+
+        this.tag(BlockTags.SAPLINGS)
+                .add(MainBlocks.NAMEK_SACRED_SAPLING.get())
+                .add(MainBlocks.NAMEK_AJISSA_SAPLING.get());
+
+        this.tag(BlockTags.VALID_SPAWN)
+                .add(MainBlocks.NAMEK_DIRT.get())
                 .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
                 .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
     }

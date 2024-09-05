@@ -3,10 +3,10 @@ package com.yuseix.dragonminez.worldgen;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.utils.DMZTags;
-import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -15,16 +15,16 @@ import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.RandomSelectorFeature;
+import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
-import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
@@ -57,8 +57,10 @@ public class ModConfiguredFeatures {
 
 
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_AJISSA_KEY = registerKey("namek_ajissa_key");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_SACRED_KEY = registerKey("namek_sacred_key");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_AJISSA_TREE = registerKey("namek_ajissa_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SACRED_TREE = registerKey("namek_sacred_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AJISSA_TREES = registerKey("ajissa_trees");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SACRED_TREES = registerKey("sacred_trees");
 
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
@@ -183,7 +185,7 @@ public class ModConfiguredFeatures {
 
         //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
         /*
-        register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+        register(context, NAMEK_AJISSA_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
                 new StraightTrunkPlacer(4,2,4),
 
@@ -196,29 +198,28 @@ public class ModConfiguredFeatures {
         );
 
          */
-        register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE,
+        register(context, NAMEK_AJISSA_TREE, Feature.TREE,
                 new TreeConfiguration.TreeConfigurationBuilder(
                         BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
                         new StraightTrunkPlacer(4, 2, 4),
                         BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LEAVES.get()),
                         new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
-                        new TwoLayersFeatureSize(1, 0, 2)
-                )
-                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))  // Principal bloque de suelo
-                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))  // Bloque adicional
-                        .dirt(BlockStateProvider.simple(Blocks.DIRT))  // Bloque adicional (opcional)
+                        new TwoLayersFeatureSize(1, 0, 2))
+
+                        .ignoreVines()
+                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))  // Principal bloque de suelo
                         .build()
         );
 
-        register(context, TREE_NAMEK_SACRED_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+        register(context, NAMEK_SACRED_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LOG.get()),
                 new StraightTrunkPlacer(5,3,5),
-
                 BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LEAVES.get()),
                 new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
-
                 new TwoLayersFeatureSize(1,0,2))
-                .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))
+
+                .ignoreVines()
+                .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))
                 .build()
         );
     }
