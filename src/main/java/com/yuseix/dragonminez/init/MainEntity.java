@@ -8,18 +8,29 @@ import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public final class MainEntity {
+import static net.minecraft.world.entity.SpawnPlacements.Type.ON_GROUND;
+import static net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING;
+import static net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operation.REPLACE;
+
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class MainEntity {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES_REGISTER =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, DragonMineZ.MOD_ID);
 
     public static final RegistryObject<EntityType<DinoEntity>> DINO1 =
             ENTITY_TYPES_REGISTER.register("dino",
-                    () -> EntityType.Builder.of(DinoEntity::new, MobCategory.AMBIENT)
+                    () -> EntityType.Builder.of(DinoEntity::new, MobCategory.CREATURE)
                             .sized(4.5f, 4.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "dino").toString())
             );
@@ -41,6 +52,16 @@ public final class MainEntity {
                             .sized(2.5f, 4.5f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "shenlong").toString())
             );
+
+    @SubscribeEvent
+    public static void registerSpawnPlacements(SpawnPlacementRegisterEvent e) {
+        e.register(MainEntity.DINO1.get(),
+                ON_GROUND,
+                MOTION_BLOCKING,
+                Animal::checkAnimalSpawnRules,
+                REPLACE);
+    }
+
     public static void register(IEventBus bus) {
         ENTITY_TYPES_REGISTER.register(bus);
     }

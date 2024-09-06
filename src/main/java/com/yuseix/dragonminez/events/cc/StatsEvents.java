@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.events;
+package com.yuseix.dragonminez.events.cc;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMCAttrConfig;

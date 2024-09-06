@@ -128,8 +128,6 @@ public class ModBusEvents {
 
     }
 
-
-
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
         e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);

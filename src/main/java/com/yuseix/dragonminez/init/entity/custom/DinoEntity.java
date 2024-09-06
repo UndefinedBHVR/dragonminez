@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.custom;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -17,11 +18,11 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -31,16 +32,16 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class DinoEntity extends Monster implements GeoEntity {
+public class DinoEntity extends Animal implements GeoEntity {
 
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public DinoEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
+    public DinoEntity(EntityType<? extends Animal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
     public static AttributeSupplier setAttributes() {
-        return Monster.createMobAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 50.0D)
                 .add(Attributes.ATTACK_DAMAGE, 10.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
@@ -66,10 +67,11 @@ public class DinoEntity extends Monster implements GeoEntity {
         controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackpredicate));
     }
 
-    public static boolean checkCreatureSpawnRules(EntityType<DinoEntity> pType, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+    public static boolean checkDinoSpawnRules(EntityType<DinoEntity> pType, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
         // No restringimos por luz ni por altura específica, solo verificamos que no sea en dificultad Peaceful.
         return pLevel.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(pType, pLevel, pSpawnType, pPos, pRandom);
     }
+
 
     private <T extends GeoAnimatable> PlayState attackpredicate(AnimationState<T> event) {
         if (this.swinging) {
@@ -92,5 +94,11 @@ public class DinoEntity extends Monster implements GeoEntity {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
+    }
+
+    @Nullable
+    @Override
+    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -38,12 +39,5 @@ public class DataGenerator {
 
     }
 
-    @SubscribeEvent
-    public static void entitySpawnRestriction(SpawnPlacementRegisterEvent event) {
-        event.register(MainEntity.DINO1.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                DinoEntity::checkCreatureSpawnRules,
-                SpawnPlacementRegisterEvent.Operation.REPLACE);
-    }
+
 }
