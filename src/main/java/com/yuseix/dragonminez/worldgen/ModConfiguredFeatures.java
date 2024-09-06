@@ -56,10 +56,11 @@ public class ModConfiguredFeatures {
 
 
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_AJISSA_KEY = registerKey("namek_ajissa_key");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> TREE_NAMEK_SACRED_KEY = registerKey("namek_sacred_key");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AJISSA_TREE_KEY = registerKey("ajissa_tree_configured");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SACRED_TREE_KEY = registerKey("sacred_tree_configured");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_TREES_KEY = registerKey("namek_ajissa_trees_key");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TREES_AJISSA_KEY = registerKey("trees_ajissa_configured");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TREES_SACRED_KEY = registerKey("trees_sacred_configured");
 
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
@@ -188,7 +189,7 @@ public class ModConfiguredFeatures {
 
         //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
         /*
-        register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+        register(context, AJISSA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
                 new StraightTrunkPlacer(4,2,4),
 
@@ -201,19 +202,30 @@ public class ModConfiguredFeatures {
         );
 
          */
-        register(context, NAMEK_TREES_KEY, Feature.RANDOM_SELECTOR,
+        register(context, TREES_AJISSA_KEY, Feature.RANDOM_SELECTOR,
                 new RandomFeatureConfiguration(
                         List.of(
                                 new WeightedPlacedFeature(
-                                        placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_AJISSA_SAPLING_PLACED_KEY), // Árbol sagrado
+                                        placedFeatures.getOrThrow(ModPlacedFeatures.SACRED_TREE_PLACED), // Árbol sagrado
                                         0.08F  // Probabilidad de 8%
                                 )
                         ),
-                        placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_SACRED_AJISSA_PLACED_KEY)  // Árbol ajissa por defecto
+                        placedFeatures.getOrThrow(ModPlacedFeatures.AJISSA_TREE_PLACED)  // Árbol ajissa por defecto
+                )
+        );
+        register(context, TREES_SACRED_KEY, Feature.RANDOM_SELECTOR,
+                new RandomFeatureConfiguration(
+                        List.of(
+                                new WeightedPlacedFeature(
+                                        placedFeatures.getOrThrow(ModPlacedFeatures.AJISSA_TREE_PLACED), // Árbol ajissa
+                                        0.08F  // Probabilidad de 8%
+                                )
+                        ),
+                        placedFeatures.getOrThrow(ModPlacedFeatures.SACRED_TREE_PLACED)  // Árbol sagrado por defecto
                 )
         );
 
-        register(context, TREE_NAMEK_AJISSA_KEY, Feature.TREE,
+        register(context, AJISSA_TREE_KEY, Feature.TREE,
                 new TreeConfiguration.TreeConfigurationBuilder(
                         BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
                         new StraightTrunkPlacer(4, 2, 4),
@@ -221,22 +233,22 @@ public class ModConfiguredFeatures {
                         new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
                         new TwoLayersFeatureSize(1, 0, 2)
                 )
-                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))  // Principal bloque de suelo
-                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))  // Bloque adicional
-                        .dirt(BlockStateProvider.simple(Blocks.DIRT))  // Bloque adicional (opcional)
+                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))  // Principal bloque de suelo
+                        .ignoreVines()
                         .build()
         );
 
-        register(context, TREE_NAMEK_SACRED_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LOG.get()),
-                new StraightTrunkPlacer(5,3,5),
-
-                BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LEAVES.get()),
-                new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
-
-                new TwoLayersFeatureSize(1,0,2))
-                .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))
-                .build()
+        register(context, SACRED_TREE_KEY, Feature.TREE,
+                new TreeConfiguration.TreeConfigurationBuilder(
+                        BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LOG.get()),
+                        new StraightTrunkPlacer(4, 2, 4),
+                        BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_LEAVES.get()),
+                        new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
+                        new TwoLayersFeatureSize(1, 0, 2)
+                )
+                        .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_DIRT.get()))  // Principal bloque de suelo
+                        .ignoreVines()
+                        .build()
         );
     }
 

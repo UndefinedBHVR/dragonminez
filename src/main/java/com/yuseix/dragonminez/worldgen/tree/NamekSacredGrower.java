@@ -11,6 +11,6 @@ public class NamekSacredGrower extends AbstractTreeGrower {
     @Nullable
     @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomSource, boolean b) {
-        return ModConfiguredFeatures.NAMEK_SACRED_TREE;
+        return ModConfiguredFeatures.SACRED_TREE_KEY;
     }
 }
