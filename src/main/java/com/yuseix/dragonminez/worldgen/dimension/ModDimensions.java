@@ -44,7 +44,7 @@ public class ModDimensions extends NoiseRouterData{
                     new ResourceLocation(DragonMineZ.MOD_ID, "namek_type"));
 
     //Habitación del Tiempo
-    public static final ResourceKey<Level> TIME_CHAMBER_DIM_LEVEL__KEY = ResourceKey.create(Registries.DIMENSION,
+    public static final ResourceKey<Level> TIME_CHAMBER_DIM_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
             new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));
     public static final ResourceKey<LevelStem> TIME_CHAMBER_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
             new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));

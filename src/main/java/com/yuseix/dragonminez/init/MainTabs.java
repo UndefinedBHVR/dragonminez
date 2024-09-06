@@ -25,8 +25,13 @@ public final class MainTabs {
                     .title(Component.translatable("itemGroup.dragonminez.blocks"))
                     .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
                         if (!block.getId().getPath().startsWith("namek_")) {
-                            if (!(block.get() instanceof LiquidBlock))
-                                output.accept(block.get().asItem());
+                            if (!block.getId().getPath().startsWith("sacred_")) {
+                                if (!block.getId().getPath().endsWith("_flower")) {
+                                    if (!(block.get() instanceof LiquidBlock)) {
+                                        output.accept(block.get().asItem());
+                                    }
+                                }
+                            }
                         }
                     })).build()
     );

@@ -51,7 +51,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.NAMEK_AJISSA_PLANKS.get());
         this.add(MainBlocks.NAMEK_AJISSA_DOOR.get(), block -> createDoorTable(MainBlocks.NAMEK_AJISSA_DOOR.get()));
         this.dropSelf(MainBlocks.NAMEK_AJISSA_TRAPDOOR.get());
-        this.add(MainBlocks.NAMEK_AJISSA_SLAB.get(), block -> createSlabItemTable(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        this.add(MainBlocks.NAMEK_AJISSA_SLAB.get(), block -> createSlabItemTable(MainBlocks.NAMEK_AJISSA_SLAB.get()));
         this.dropSelf(MainBlocks.NAMEK_AJISSA_STAIRS.get());
         this.dropSelf(MainBlocks.NAMEK_AJISSA_FENCE.get());
         this.dropSelf(MainBlocks.NAMEK_AJISSA_FENCE_GATE.get());
@@ -64,7 +64,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.NAMEK_SACRED_PLANKS.get());
         this.add(MainBlocks.NAMEK_SACRED_DOOR.get(), block -> createDoorTable(MainBlocks.NAMEK_SACRED_DOOR.get()));
         this.dropSelf(MainBlocks.NAMEK_SACRED_TRAPDOOR.get());
-        this.add(MainBlocks.NAMEK_SACRED_SLAB.get(), block -> createSlabItemTable(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        this.add(MainBlocks.NAMEK_SACRED_SLAB.get(), block -> createSlabItemTable(MainBlocks.NAMEK_SACRED_SLAB.get()));
         this.dropSelf(MainBlocks.NAMEK_SACRED_STAIRS.get());
         this.dropSelf(MainBlocks.NAMEK_SACRED_FENCE.get());
         this.dropSelf(MainBlocks.NAMEK_SACRED_FENCE_GATE.get());

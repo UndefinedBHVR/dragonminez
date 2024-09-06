@@ -59,7 +59,7 @@ public final class MainBlocks {
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_SAPLING = registerBlock("namek_ajissa_sapling",
             () -> new NamekAjissaSaplingBlock(new NamekAjissaGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
-    public static final RegistryObject<Block> POTTED_AJISSA_SAPLING = registerBlock("potted_ajissa_sapling",
+    public static final RegistryObject<Block> POTTED_AJISSA_SAPLING = registerBlock("potted_ajissa_sapling_flower",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_AJISSA_SAPLING,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
     public static final RegistryObject<Block> NAMEK_AJISSA_WOOD = registerBlock("namek_ajissa_wood",
@@ -94,7 +94,7 @@ public final class MainBlocks {
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
             () -> new SaplingBlock(new NamekSacredGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
-    public static final RegistryObject<Block> POTTED_SACRED_SAPLING = registerBlock("potted_sacred_sapling",
+    public static final RegistryObject<Block> POTTED_SACRED_SAPLING = registerBlock("potted_sacred_sapling_flower",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_SACRED_SAPLING,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
     public static final RegistryObject<Block> NAMEK_SACRED_WOOD = registerBlock("namek_sacred_wood",
@@ -170,7 +170,9 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_DEEPSLATE_COPPER = registerBlock("namek_deepslate_copper",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_COPPER_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
 
-    //BlockEntities
+    //Bloques Especiales
+    public static final RegistryObject<Block> TIME_CHAMBER_PORTAL = registerBlock("time_chamber_portal",
+            () -> new TimeChamberPortalBlock());
     /*TODO: Hacer que el horno custom de Gete funcione
      *  Que tenga una GUI propia y que pueda cocinar cosas de una manera diferente, usar una mecánica diferente. */
     public static final RegistryObject<Block> GETE_FURNACE = registerBlock("gete_furnace",
@@ -225,7 +227,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_FERN = registerBlock("namek_fern",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.FERN)
                     .noOcclusion().noCollission()));
-    public static final RegistryObject<Block> POTTED_NAMEK_FERN = registerBlock("potted_namek_fern",
+    public static final RegistryObject<Block> POTTED_NAMEK_FERN = registerBlock("potted_namek_fern_flower",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_FERN,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
     public static final RegistryObject<Block> LOTUS_FLOWER = registerBlock("lotus_flower",
@@ -268,7 +270,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> SACRED_FERN = registerBlock("sacred_fern",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.FERN)
                     .noOcclusion().noCollission()));
-    public static final RegistryObject<Block> POTTED_SACRED_FERN = registerBlock("potted_sacred_fern",
+    public static final RegistryObject<Block> POTTED_SACRED_FERN = registerBlock("potted_sacred_fern_flower",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_FERN,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
 

@@ -89,6 +89,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DEEPSLATE_COPPER);
         blockItem(MainBlocks.GETE_FURNACE);
         /*blockItem(MainBlocks.KIKONO_ARMOR_STATION);*/
+        blockItem(MainBlocks.TIME_CHAMBER_PORTAL);
 
         //Vegetacion
         blockItem(MainBlocks.CHRYSANTHEMUM_FLOWER);
