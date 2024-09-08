@@ -5,8 +5,8 @@
   ],
   "spawners": {
     "type": "dragonminez:dino",
-    "weight": 150,
+    "weight": 30,
     "minCount": 1,
-    "maxCount": 2
+    "maxCount": 5
   }
 }

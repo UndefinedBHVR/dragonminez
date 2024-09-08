@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
+import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
@@ -31,6 +32,9 @@ public class KarinMenu extends Screen {
             "textures/gui/texto.png");
 
     private GlowButton kinton,senzu;
+    private DMZButton AcceptButton,DeclineButton;
+
+    private int PageOption;
 
     public KarinMenu() {
         super(Component.literal("karinwa"));
@@ -39,6 +43,7 @@ public class KarinMenu extends Screen {
     @Override
     protected void init() {
         super.init();
+        /*
         this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-17, (this.height-23),Component.translatable("lines.master_korin.kinton"), wa -> {
         ModMessages.sendToServer(new KarinC2S(1));
             this.minecraft.setScreen(null);
@@ -48,23 +53,73 @@ public class KarinMenu extends Screen {
             ModMessages.sendToServer(new KarinC2S(2));
             this.minecraft.setScreen(null);
         }));
+
+         */
     }
 
     @Override
     public void tick() {
         super.tick();
-        /*
-        this.removeWidget(kinton);
-        this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2), (this.height-78),Component.literal("NUBE VOLADORAAAA"), wa -> {
 
-        }));
+        //PAGINA 0
+        if(PageOption == 0){
+            //Dar nube voladora
+            this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-17, (this.height-23),Component.translatable("lines.master_korin.kinton"), wa -> {
+                //ModMessages.sendToServer(new KarinC2S(1));
+                //this.minecraft.setScreen(null);
+                PageOption = 1;
+                removeWidget(this.kinton);
+                removeWidget(this.senzu);
+            }));
+            //Dar Senzu
+            this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-130, (this.height-23),Component.translatable("lines.master_korin.senzu"), wa -> {
+                //ModMessages.sendToServer(new KarinC2S(2));
+                //this.minecraft.setScreen(null);
+                PageOption = 1;
+                removeWidget(this.kinton);
+                removeWidget(this.senzu);
+            }));
+        } else if(PageOption == 1){
+            //Dar nube voladora
+            this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-17, (this.height-23),Component.translatable("lines.master_korin.kinton"), wa -> {
+                //ModMessages.sendToServer(new KarinC2S(1));
+                //this.minecraft.setScreen(null);
+                PageOption = 1;
+                removeWidget(this.kinton);
+                removeWidget(this.senzu);
+            }));
+            //Dar Senzu
+            this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width/2)-130, (this.height-23),Component.translatable("lines.master_korin.senzu"), wa -> {
+                //ModMessages.sendToServer(new KarinC2S(2));
+                //this.minecraft.setScreen(null);
+                PageOption = 1;
+                removeWidget(this.kinton);
+                removeWidget(this.senzu);
+            }));
 
-        */
+            //Aceptar
+            this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.master_korin.accept"), "Accept", wa -> {
+                ModMessages.sendToServer(new KarinC2S(1));
+                this.minecraft.setScreen(null);
+                PageOption = 1;
+
+            }));
+            //Rechazar
+            this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),Component.translatable("lines.master_korin.decline"), "Decline", wa -> {
+                this.minecraft.setScreen(null);
+                removerBotones();
+                PageOption = 0;
+            }));
+        }
+
+
+
+
+
     }
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
         // Calculate the position to center the texture
         int centerX = (this.width / 2);
@@ -92,18 +147,41 @@ public class KarinMenu extends Screen {
 
         RenderSystem.disableBlend();
 
+
+
         //NOMBRE DE LA ENTIDAD
         pGuiGraphics.drawString(font, Component.literal(karinEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX-120, centerY-88, 0xFFFFFF);
+
         //TEXTO QUE DIRA LA ENTIDAD
-        List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.menu"), 250);
-        for (int i = 0; i < lines.size(); i++) {
-            pGuiGraphics.drawString(font, lines.get(i), (centerX-120), (centerY-73)  + i * font.lineHeight, 0xFFFFFF);
+        if(PageOption == 0){
+            List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.menu"), 250);
+            for (int i = 0; i < lines.size(); i++) {
+                pGuiGraphics.drawString(font, lines.get(i), (centerX-120), (centerY-73)  + i * font.lineHeight, 0xFFFFFF);
+            }
+        } else if(PageOption == 1){
+            List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.nube"), 250);
+            for (int i = 0; i < lines.size(); i++) {
+                pGuiGraphics.drawString(font, lines.get(i), (centerX-120), (centerY-73)  + i * font.lineHeight, 0xFFFFFF);
+            }
         }
+
+        //Botones
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+
+
 
     }
 
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    public void removerBotones(){
+        removeWidget(this.kinton);
+        removeWidget(this.senzu);
+        removeWidget(this.AcceptButton);
+        removeWidget(this.DeclineButton);
+
     }
 }
