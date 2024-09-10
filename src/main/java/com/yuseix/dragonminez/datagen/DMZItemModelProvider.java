@@ -54,12 +54,20 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.PICCOLO_ARMOR_LEGGINGS);
         armorItem(MainItems.PICCOLO_ARMOR_BOOTS);
 
+        //Crafting Armaduras
+        simpleItem(MainItems.KIKONO_STRING);
+        simpleItem(MainItems.KIKONO_CLOTH);
+        simpleItem(MainItems.ARMOR_CRAFTING_KIT);
+        patternItem(MainItems.PATTERN_GOTEN);
+        patternItem(MainItems.PATTERN_GOKU1);
+        patternItem(MainItems.PATTERN_GOHAN1);
+        patternItem(MainItems.PATTERN_VEGETA1);
+        patternItem(MainItems.PATTERN_PICCOLO);
+
         //Minerales
         simpleItem(MainItems.GETE_SCRAP);
         simpleItem(MainItems.GETE_INGOT);
         simpleItem(MainItems.KIKONO_SHARD);
-        simpleItem(MainItems.KIKONO_STRING);
-        simpleItem(MainItems.KIKONO_CLOTH);
 
         //Bloques (MainBlocks)
         blockItem(MainBlocks.NAMEK_BLOCK);
@@ -116,6 +124,11 @@ public class DMZItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(DragonMineZ.MOD_ID, "item/armors/" + item.getId().getPath()));
+    }
+    private ItemModelBuilder patternItem(RegistryObject<Item> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(DragonMineZ.MOD_ID, "item/patterns/" + item.getId().getPath()));
     }
     private ItemModelBuilder blockItem(RegistryObject<Block> item) {
         return withExistingParent(item.getId().getPath(),

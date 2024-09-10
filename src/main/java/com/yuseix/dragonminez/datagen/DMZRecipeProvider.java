@@ -6,11 +6,9 @@ import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -43,6 +41,100 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
         oreSmelting(pWriter, Cobre, RecipeCategory.MISC, Items.COPPER_INGOT, 0.7f, 200, "copper_ingot");
         oreBlasting(pWriter, Carbon, RecipeCategory.MISC, Items.COAL, 0.1f, 100, "coal");
         oreSmelting(pWriter, Carbon, RecipeCategory.MISC, Items.COAL, 0.1f, 200, "coal");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, MainItems.KIKONO_SHARD.get(), 9)
+                .requires(MainBlocks.KIKONO_BLOCK.get())
+                .unlockedBy(getHasName(MainBlocks.KIKONO_BLOCK.get()), has(MainBlocks.KIKONO_BLOCK.get()))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.KIKONO_BLOCK.get(), 1)
+                .pattern("KKK")
+                .pattern("KKK")
+                .pattern("KKK")
+                .define('K', MainItems.KIKONO_SHARD.get())
+                .unlockedBy(getHasName(MainItems.KIKONO_SHARD.get()), has(MainItems.KIKONO_SHARD.get()))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, MainItems.ARMOR_CRAFTING_KIT.get(), 1)
+                .requires(Items.RED_WOOL)
+                .requires(Items.SHEARS)
+                .unlockedBy(getHasName(Items.SHEARS), has(Items.SHEARS))
+                .group("dragonminez")
+                .save(pWriter);
+
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, MainItems.KIKONO_STRING.get(), 2)
+                .requires(MainItems.KIKONO_SHARD.get())
+                .requires(MainItems.ARMOR_CRAFTING_KIT.get())
+                .unlockedBy(getHasName(MainItems.KIKONO_SHARD.get()), has(MainItems.KIKONO_SHARD.get()))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, MainItems.KIKONO_CLOTH.get(), 1)
+                .requires(MainItems.KIKONO_STRING.get(), 4)
+                .requires(MainItems.ARMOR_CRAFTING_KIT.get())
+                .unlockedBy(getHasName(MainItems.KIKONO_STRING.get()), has(MainItems.KIKONO_STRING.get()))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU1.get(), 1)
+                .pattern("B#B")
+                .pattern("OBO")
+                .pattern("OBO")
+                .define('B', Items.BLUE_DYE)
+                .define('O', Items.ORANGE_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOTEN.get(), 1)
+                .pattern("B#B")
+                .pattern("OBO")
+                .pattern("ONO")
+                .define('B', Items.BLUE_DYE)
+                .define('O', Items.ORANGE_DYE)
+                .define('N', Items.BLACK_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOHAN1.get(), 1)
+                .pattern("P#P")
+                .pattern("PPP")
+                .pattern("BBB")
+                .define('P', Items.PURPLE_DYE)
+                .define('B', Items.BLUE_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA1.get(), 1)
+                .pattern("Y#Y")
+                .pattern("BWB")
+                .pattern("BYB")
+                .define('Y', Items.YELLOW_DYE)
+                .define('B', Items.BLUE_DYE)
+                .define('W', Items.WHITE_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_PICCOLO.get(), 1)
+                .pattern("P#P")
+                .pattern("PPP")
+                .pattern("RRR")
+                .define('P', Items.PURPLE_DYE)
+                .define('R', Items.RED_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.GREEN_DYE), has(Items.GREEN_DYE))
+                .group("dragonminez")
+                .save(pWriter);
     }
 
     private static final List<ItemLike> Gete = List.of(MainBlocks.GETE_ORE.get());

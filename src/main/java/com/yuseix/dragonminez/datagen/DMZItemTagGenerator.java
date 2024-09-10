@@ -2,12 +2,15 @@ package com.yuseix.dragonminez.datagen;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -39,6 +42,16 @@ public class DMZItemTagGenerator extends ItemTagsProvider {
                 .add(MainBlocks.NAMEK_SACRED_WOOD.get().asItem())
                 .add(MainBlocks.NAMEK_STRIPPED_SACRED_LOG.get().asItem())
                 .add(MainBlocks.NAMEK_STRIPPED_SACRED_WOOD.get().asItem());
+
+        this.tag(ItemTags.TOOLS)
+                .add(MainItems.ARMOR_CRAFTING_KIT.get());
+
+        this.tag(Tags.Items.INGOTS)
+                .add(MainItems.GETE_SCRAP.get())
+                .add(MainItems.GETE_INGOT.get())
+                .add(MainItems.KIKONO_SHARD.get())
+                .add(MainItems.KIKONO_STRING.get())
+                .add(MainItems.KIKONO_CLOTH.get());
 
         this.tag(ItemTags.PLANKS)
                 .add(MainBlocks.NAMEK_AJISSA_PLANKS.get().asItem())

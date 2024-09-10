@@ -173,6 +173,9 @@
   "block.dragonminez.namek_deepslate_emerald": "Namek Deepslate Emerald Ore",
   "block.dragonminez.namek_deepslate_diamond": "Namek Deepslate Diamond Ore",
 
+  "block.dragonminez.time_chamber_portal": "Hyperbolic Time Chamber Portal Block",
+  "block.dragonminez.time_chamber_block": "Hyperbolic Time Chamber Block",
+
   "block.dragonminez.gete_debris_ore": "Gete Debris",
   "block.dragonminez.gete_block": "Gete Block",
   "item.dragonminez.gete_scrap": "Gete Scrap",
@@ -187,6 +190,16 @@
   "block.dragonminez.kikono_block": "Kikono Block",
   "item.dragonminez.kikono_shard": "Kikono Shard",
 
+  "item.dragonminez.armor_crafting_kit": "Armor Crafting Kit",
+  "item.dragonminez.kikono_string": "Kikono String",
+  "item.dragonminez.kikono_cloth": "Kikono Cloth",
+  "item.dragonminez.pattern_goku1": "Goku's Gi Pattern",
+  "item.dragonminez.pattern_goku2": "Goku's Gi Pattern (w/o Weighted Clothes)",
+  "item.dragonminez.pattern_vegeta1": "Vegeta's Saiyan Saga Armor Pattern",
+  "item.dragonminez.pattern_piccolo": "Piccolo's Demon Gi Pattern",
+  "item.dragonminez.pattern_gohan1": "Gohan's Demon Gi Pattern",
+  "item.dragonminez.pattern_goten": "Goten's Gi Pattern",
+
   "block.dragonminez.kikono_armor_station": "Dr. Kikono's Armor Station",
   "item.dragonminez.vegeta_saiyan_armor_chestplate": "Saiyan Armor Chestplate (\u00A7bVegeta\u00A7r)",
   "item.dragonminez.vegeta_saiyan_armor_chestplate.tooltip": "\u00A77Vegeta's Old Armor - Tier 1",
@@ -200,6 +213,7 @@
   "item.dragonminez.goku_armor_leggings.tooltip": "\u00A77Goku's Classic GI - Tier 1",
   "item.dragonminez.goku_armor_boots": "Turtle Hermit GI Boots (\u00A76Goku\u00A7r)",
   "item.dragonminez.goku_armor_boots.tooltip": "\u00A77Goku's Classic GI - Tier 1",
+  "item.dragonminez.piccolo_armor_helmet": "Demon GI Turban (\u00A75Piccolo\u00A7r)",
   "item.dragonminez.piccolo_armor_cape": "Demon GI Chestplate w/ Cape (\u00A75Piccolo\u00A7r)",
   "item.dragonminez.piccolo_armor_cape.tooltip": "\u00A77Piccolo's Classic GI - Tier 1",
   "item.dragonminez.piccolo_armor_chestplate": "Demon GI Chestplate (\u00A75Piccolo\u00A7r)",
