@@ -58,6 +58,8 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.GETE_SCRAP);
         simpleItem(MainItems.GETE_INGOT);
         simpleItem(MainItems.KIKONO_SHARD);
+        simpleItem(MainItems.KIKONO_STRING);
+        simpleItem(MainItems.KIKONO_CLOTH);
 
         //Bloques (MainBlocks)
         blockItem(MainBlocks.NAMEK_BLOCK);
@@ -88,7 +90,6 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DEEPSLATE_EMERALD);
         blockItem(MainBlocks.NAMEK_DEEPSLATE_COPPER);
         blockItem(MainBlocks.GETE_FURNACE);
-        /*blockItem(MainBlocks.KIKONO_ARMOR_STATION);*/
         blockItem(MainBlocks.TIME_CHAMBER_PORTAL);
 
         //Vegetacion

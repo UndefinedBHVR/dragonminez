@@ -69,7 +69,6 @@ public final class MainTabs {
 
                     .title(Component.translatable("itemGroup.dragonminez.ores"))
                     .displayItems((parameters, output) -> {
-                        //Añadir más items a la lista
                         output.accept(MainBlocks.GETE_ORE.get().asItem());
                         output.accept(MainBlocks.GETE_BLOCK.get().asItem());
                         output.accept(MainItems.GETE_SCRAP.get());
@@ -77,7 +76,7 @@ public final class MainTabs {
                         output.accept(MainBlocks.NAMEK_KIKONO_ORE.get().asItem());
                         output.accept(MainBlocks.KIKONO_BLOCK.get().asItem());
                         output.accept(MainItems.KIKONO_SHARD.get());
-                   //     output.accept(MainBlocks.KIKONO_ARMOR_STATION.get());
+                        output.accept(MainBlocks.KIKONO_ARMOR_STATION.get());
                     }).build()
     );
 

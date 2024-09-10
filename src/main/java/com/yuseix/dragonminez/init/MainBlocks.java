@@ -177,18 +177,12 @@ public final class MainBlocks {
      *  Que tenga una GUI propia y que pueda cocinar cosas de una manera diferente, usar una mecánica diferente. */
     public static final RegistryObject<Block> GETE_FURNACE = registerBlock("gete_furnace",
             () -> new GeteFurnaceBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.STONE)
-                    .requiresCorrectToolForDrops()
-                    .strength(3.5F)
-                    .lightLevel(litBlockEmission(13))
-            ));
+                    .mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(3.5F)
+                    .lightLevel(litBlockEmission(13))));
 
-    /* public static final RegistryObject<Block> KIKONO_ARMOR_STATION = registerBlock("kikono_armor_station",
-     *         () -> new KikonoArmorStationBlock(BlockBehaviour.Properties.of()
-     *               .mapColor(MapColor.STONE)
-     *               .requiresCorrectToolForDrops()
-     *               .strength(3.5F)
-     *       )); */
+     public static final RegistryObject<Block> KIKONO_ARMOR_STATION = registerBlock("kikono_armor_station",
+             () -> new KikonoArmorStationBlock(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)
+                   .mapColor(MapColor.STONE).requiresCorrectToolForDrops().noOcclusion()));
 
     //Plantas Namek 1
     public static final RegistryObject<Block> NAMEK_GRASS = registerBlock("namek_grass",

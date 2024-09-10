@@ -1,10 +1,12 @@
 package com.yuseix.dragonminez;
 
+import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -44,6 +46,10 @@ public class DragonMineZ {
         MainFluids.register(modEventBus);
         //Register del commonSetup para las Flores y FlowerPots
         modEventBus.addListener(this::commonSetup);
+        //Register Menús
+        DMZMenuTypes.register(modEventBus);
+        //Register Recipes
+        DMZRecipes.register(modEventBus);
 
 
         MinecraftForge.EVENT_BUS.register(this);

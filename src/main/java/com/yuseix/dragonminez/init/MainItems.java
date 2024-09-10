@@ -12,6 +12,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.rmi.registry.Registry;
+
 @SuppressWarnings("unused")
 public final class MainItems {
 
@@ -128,9 +130,11 @@ public final class MainItems {
     public static final RegistryObject<Item> GETE_SCRAP = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
     public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
     public static final RegistryObject<Item> KIKONO_SHARD = ITEM_REGISTER.register("kikono_shard",
-            () -> new Item(properties
-                    .stacksTo(64)
-            ));
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> KIKONO_STRING = ITEM_REGISTER.register("kikono_string",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> KIKONO_CLOTH = ITEM_REGISTER.register("kikono_cloth",
+            () -> new Item(properties.stacksTo(64)));
 
 
     //DRAGON BALL RADAR (TIERRA)
