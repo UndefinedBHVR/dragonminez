@@ -131,7 +131,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             guiGraphics.pose().popPose();
 
-            guiGraphics.drawString(Minecraft.getInstance().font, String.valueOf(Minecraft.getInstance().player.getHealth()), 150, 20, 0xBB1C2A);
+            guiGraphics.drawString(Minecraft.getInstance().font, String.valueOf(Minecraft.getInstance().player.getHealth()), 150, 16, 0xBB1C2A);
 
         });
 
