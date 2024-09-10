@@ -6,7 +6,6 @@ import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -24,6 +23,13 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
         // NO TOCAR
         this.tag(DMZTags.Blocks.NAMEK_DEEPSLATE_ORE_REPLACEABLES);
         this.tag(DMZTags.Blocks.NAMEK_STONE_ORE_REPLACEABLES);
+
+        this.tag(BlockTags.FROG_PREFER_JUMP_TO)
+                .add(MainBlocks.LOTUS_FLOWER.get());
+        this.tag(BlockTags.INSIDE_STEP_SOUND_BLOCKS)
+                .add(MainBlocks.LOTUS_FLOWER.get());
+        this.tag(BlockTags.CLIMBABLE)
+                .add(MainBlocks.INVISIBLE_LADDER_BLOCK.get());
 
         //Tags para los Bloques
         this.tag(BlockTags.NEEDS_STONE_TOOL)

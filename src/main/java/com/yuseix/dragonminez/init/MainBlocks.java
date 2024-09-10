@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -34,6 +35,9 @@ public final class MainBlocks {
 
     //INICIO DE ITEMS SIN NECESIDADES ESPECIALES **NO** TIENEN SU CLASE EN INIT.BLOCKS.CUSTOM:
     //BLOQUES
+    public static final RegistryObject<Block> INVISIBLE_LADDER_BLOCK = registerBlock("invisible_ladder_block",
+            () -> new ClimbableBlock(BlockBehaviour.Properties.of().noOcclusion().forceSolidOff()
+                    .strength(-1.0F, 3600000.0F).noLootTable()));
     public static final RegistryObject<Block> TIME_CHAMBER_BLOCK = registerBlock("time_chamber_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
@@ -225,7 +229,8 @@ public final class MainBlocks {
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_FERN,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
     public static final RegistryObject<Block> LOTUS_FLOWER = registerBlock("lotus_flower",
-            () -> new NamekWaterlilyBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD)));
+            () -> new WaterlilyBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).instabreak().sound(SoundType.LILY_PAD)
+                    .noOcclusion().pushReaction(PushReaction.DESTROY)));
 
     //Plantas Namek Sacred
     public static final RegistryObject<Block> NAMEK_SACRED_GRASS = registerBlock("namek_sacred_grass",
