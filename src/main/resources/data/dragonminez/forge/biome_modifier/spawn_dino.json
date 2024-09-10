@@ -1,0 +1,12 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:plains"
+  ],
+  "spawners": {
+    "type": "dragonminez:dino",
+    "weight": 30,
+    "minCount": 1,
+    "maxCount": 5
+  }
+}

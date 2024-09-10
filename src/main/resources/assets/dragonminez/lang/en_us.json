@@ -210,6 +210,10 @@
   "item.dragonminez.piccolo_armor_boots.tooltip": "\u00A77Piccolo's Classic GI - Tier 1",
 
   "lines.master_korin.menu": "Hola que tal este es una prueba de texto para el menu waaaa cualquiera ddxdxddxdxdx, pene",
-  "lines.master_korin.kinton": "Give me a Flying Nimbus!",
-  "lines.master_korin.senzu": "I need some Senzu Beans!"
+  "lines.master_korin.kinton": "Flying Nimbus!",
+  "lines.master_korin.nube": "Q tal prro quieres la nube? simon o nelson mandela",
+  "lines.master_korin.senzu": "Senzu Beans",
+  "lines.master_korin.accept": "Accept",
+  "lines.master_korin.decline": "Decline"
+
 }
