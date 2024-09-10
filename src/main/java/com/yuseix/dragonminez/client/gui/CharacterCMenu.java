@@ -2068,17 +2068,17 @@ public class CharacterCMenu extends Screen {
                 case 0:
                     //GENERO TITULO
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
-                    pGuiGraphics.drawString(font, TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD), anchoTexto + 87, alturaTexto - 89, 0xC07FFD);
+                    anchoTexto = 65;
+                    pGuiGraphics.drawString(font, Component.literal("Gender").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xC07FFD);
 
                     switch (cap.getGender()) {
                         case "Male", "male":
-                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_MALE, anchoTexto + 75, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
+                            anchoTexto = 74;
+                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
                             break;
                         case "Female", "female":
-                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_FEMALE, anchoTexto + 81, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
+                            anchoTexto = 68;
+                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
@@ -2091,16 +2091,16 @@ public class CharacterCMenu extends Screen {
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 57, 0xFFCA9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 57, 0xFFCA9B);
 
                     //TIPO DE CUERPO
                     if (cap.getBodytype() == 0) {
-                        anchoTexto = (20 - this.font.width(TranslateManager.H_BODY_TYPE));
-                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.H_BODY_TYPE, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                        anchoTexto = 66;
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 0"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
                     } else if (cap.getBodytype() == 1) {
-                        anchoTexto = (20 - this.font.width(TranslateManager.H_BODY_TYPE2));
-                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.H_BODY_TYPE2, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                        anchoTexto = 66;
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 1"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
 
                     }
 
@@ -2112,8 +2112,8 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //OJOS TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 10, 0xFF9B9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 10, 0xFF9B9B);
 
                     anchoTexto = 63;
                     if (cap.getEyesType() == 0) {
@@ -2133,8 +2133,8 @@ public class CharacterCMenu extends Screen {
                     RenderSystem.disableBlend();
 
                     //HAIR TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 77, alturaTexto + 38, 0x65FC63);
+                    anchoTexto = 72;
+                    pGuiGraphics.drawString(font, Component.literal("Hair").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto + 38, 0x65FC63);
 
                     anchoTexto = 63;
                     if (cap.getHairID() == 0) {
@@ -2150,23 +2150,22 @@ public class CharacterCMenu extends Screen {
                     break;
                 case 1:
                     //GENERO TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
-                    pGuiGraphics.drawString(font, TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD), anchoTexto + 87, alturaTexto - 89, 0xC07FFD);
+                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
+                    anchoTexto = 65;
+                    pGuiGraphics.drawString(font, Component.literal("Gender").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xC07FFD);
 
                     switch (cap.getGender()) {
                         case "Male", "male":
-                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_MALE, anchoTexto + 75, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
+                            anchoTexto = 74;
+                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
                             break;
                         case "Female", "female":
-                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_FEMALE, anchoTexto + 81, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
+                            anchoTexto = 68;
+                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
-
                     //TIPO DE CUERPO
-                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
                     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -2175,18 +2174,19 @@ public class CharacterCMenu extends Screen {
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 57, 0xFFCA9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 57, 0xFFCA9B);
 
                     //TIPO DE CUERPO
                     if (cap.getBodytype() == 0) {
-                        anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE));
-                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                        anchoTexto = 66;
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 0"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
                     } else if (cap.getBodytype() == 1) {
-                        anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE2));
-                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE2, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                        anchoTexto = 66;
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 1"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
 
                     }
+
                     //OJOS TIPO
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
@@ -2195,8 +2195,8 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //OJOS TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 10, 0xFF9B9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 10, 0xFF9B9B);
 
                     anchoTexto = 63;
                     if (cap.getEyesType() == 0) {
@@ -2216,8 +2216,8 @@ public class CharacterCMenu extends Screen {
                     RenderSystem.disableBlend();
 
                     //HAIR TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 77, alturaTexto + 38, 0x65FC63);
+                    anchoTexto = 72;
+                    pGuiGraphics.drawString(font, Component.literal("Hair").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto + 38, 0x65FC63);
 
                     anchoTexto = 63;
                     if (cap.getHairID() == 0) {
@@ -2234,8 +2234,8 @@ public class CharacterCMenu extends Screen {
                 case 2:
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 89, 0xFF9B9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
 
                     anchoTexto = 63;
                     if (cap.getEyesType() == 0) {
@@ -2255,8 +2255,8 @@ public class CharacterCMenu extends Screen {
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 44, 0xFFCA9B);
+                    anchoTexto = 52;
+                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 44, 0xFFCA9B);
 
                     //TIPO DE CUERPO
                     if (cap.getBodytype() == 0) {
@@ -2287,8 +2287,8 @@ public class CharacterCMenu extends Screen {
                 case 3:
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 89, 0xFF9B9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
 
                     anchoTexto = 63;
                     drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto - 74, 0xFFFFFF);
@@ -2301,18 +2301,18 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 46, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 42, 0xFFCA9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 42, 0xFFCA9B);
 
-                    anchoTexto = (20 - this.font.width(TranslateManager.B_BODY_TYPE));
-                    drawStringWithBorder(pGuiGraphics, font, TranslateManager.B_BODY_TYPE, anchoTexto + 106, alturaTexto - 28, 0xFFFFFF);
+                    anchoTexto = 50;
+                    drawStringWithBorder(pGuiGraphics, font, Component.literal("Dr.Gero Style"), anchoTexto, alturaTexto - 28, 0xFFFFFF);
 
                     break;
                 case 4:
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 89, 0xFF9B9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
 
                     anchoTexto = 64;
                     drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto - 74, 0xFFFFFF);
@@ -2325,8 +2325,8 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 46, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 94, alturaTexto - 42, 0xFFCA9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 42, 0xFFCA9B);
 
                     anchoTexto = 64;
                     if(cap.getBodytype() == 0){
@@ -2341,17 +2341,17 @@ public class CharacterCMenu extends Screen {
                 case 5:
                     //GENERO TITULO
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = (20 - this.font.width(TranslateManager.GENDERS));
-                    pGuiGraphics.drawString(font, TranslateManager.GENDERS.withStyle(ChatFormatting.BOLD), anchoTexto + 87, alturaTexto - 89, 0xC07FFD);
+                    anchoTexto = 65;
+                    pGuiGraphics.drawString(font, Component.literal("Gender").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xC07FFD);
 
                     switch (cap.getGender()) {
                         case "Male", "male":
-                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_MALE));
-                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_MALE, anchoTexto + 75, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
+                            anchoTexto = 74;
+                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
                             break;
                         case "Female", "female":
-                            anchoTexto = (20 - this.font.width(TranslateManager.GENDER_FEMALE));
-                            drawStringWithBorder(pGuiGraphics, font, TranslateManager.GENDER_FEMALE, anchoTexto + 81, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
+                            anchoTexto = 68;
+                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
@@ -2364,16 +2364,16 @@ public class CharacterCMenu extends Screen {
                     RenderSystem.disableBlend();
 
                     //CUERPO TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.BODYTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.BODYTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto - 57, 0xFFCA9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 57, 0xFFCA9B);
 
                     //TIPO DE CUERPO
                     if (cap.getBodytype() == 0) {
-                        anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE));
-                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                        anchoTexto = 65;
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
                     } else if (cap.getBodytype() == 1) {
-                        anchoTexto = (20 - this.font.width(TranslateManager.S_BODY_TYPE2));
-                        drawStringWithBorder(pGuiGraphics, font, TranslateManager.S_BODY_TYPE2, anchoTexto + 83, alturaTexto - 40, 0xFFFFFF);
+                        anchoTexto = 65;
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 1"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
 
                     }
 
@@ -2385,8 +2385,8 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //HAIR TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.HAIRTYPES));
-                    pGuiGraphics.drawString(font, TranslateManager.HAIRTYPES.withStyle(ChatFormatting.BOLD), anchoTexto + 77, alturaTexto - 9, 0x65FC63);
+                    anchoTexto = 73;
+                    pGuiGraphics.drawString(font, Component.literal("Hair").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 9, 0x65FC63);
 
                     anchoTexto = 64;
                     if (cap.getHairID() == 0) {
@@ -2407,8 +2407,8 @@ public class CharacterCMenu extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 23, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //OJOS TITULO
-                    anchoTexto = (20 - this.font.width(TranslateManager.EYES));
-                    pGuiGraphics.drawString(font, TranslateManager.EYES.withStyle(ChatFormatting.BOLD), anchoTexto + 95, alturaTexto + 27, 0xFF9B9B);
+                    anchoTexto = 53;
+                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto + 27, 0xFF9B9B);
 
                     anchoTexto = 63;
                     if (cap.getEyesType() == 0) {
@@ -2526,16 +2526,16 @@ public class CharacterCMenu extends Screen {
 
             //CLASE DEL JUGADOR
             alturaTexto = (pGuiGraphics.guiHeight() / 2);
-            anchoTexto = (20 - this.font.width(TranslateManager.CLASS_TYPE));
-            pGuiGraphics.drawString(font, TranslateManager.CLASS_TYPE.withStyle(ChatFormatting.BOLD), anchoTexto + 83, alturaTexto - 89, 0xFF9B9B);
+            anchoTexto = 51;
+            pGuiGraphics.drawString(font, Component.literal("Class Type").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
 
             if(cap.getDmzClass().equals("Warrior")){
-                anchoTexto = (20 - this.font.width(TranslateManager.CLASS_1));
-                drawStringWithBorder(pGuiGraphics, font, TranslateManager.CLASS_1, anchoTexto + 85, alturaTexto - 72, 0xFC4E2B);
+                anchoTexto = 65;
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Warrior"), anchoTexto, alturaTexto - 72, 0xFC4E2B);
 
             } else {
-                anchoTexto = (20 - this.font.width(TranslateManager.CLASS_2));
-                drawStringWithBorder(pGuiGraphics, font, TranslateManager.CLASS_2, anchoTexto + 92, alturaTexto - 72, 0x2BFCFC);
+                anchoTexto = 60;
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Spiritualist"), anchoTexto, alturaTexto - 72, 0x2BFCFC);
 
             }
 
@@ -2547,16 +2547,16 @@ public class CharacterCMenu extends Screen {
             pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 56, 0, 0, 73, 15);
             RenderSystem.disableBlend();
 
-            anchoTexto = (20 - this.font.width(TranslateManager.ALIGNMENT));
-            pGuiGraphics.drawString(font, TranslateManager.ALIGNMENT.withStyle(ChatFormatting.BOLD), anchoTexto + 92, alturaTexto - 52, 0xFFDEDE);
+            anchoTexto = 56;
+            pGuiGraphics.drawString(font, Component.literal("Alignment").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 52, 0xFFDEDE);
 
             if(cap.getDmzAlignment().equals("Good")){
-                anchoTexto = (20 - this.font.width(TranslateManager.ALIGNMENT_GOOD));
-                drawStringWithBorder(pGuiGraphics, font, TranslateManager.ALIGNMENT_GOOD, anchoTexto + 75, alturaTexto - 35, 0x1EFFD9, 0x1E6CFF);
+                anchoTexto = 70;
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Good"), anchoTexto, alturaTexto - 35, 0x1EFFD9, 0x1E6CFF);
 
             } else {
-                anchoTexto = (20 - this.font.width(TranslateManager.ALIGNMENT_EVIL));
-                drawStringWithBorder(pGuiGraphics, font, TranslateManager.ALIGNMENT_EVIL, anchoTexto + 72, alturaTexto - 35, 0xFF3D72,0xF61414);
+                anchoTexto = 74;
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Evil"), anchoTexto, alturaTexto - 35, 0xFF3D72,0xF61414);
 
             }
 
@@ -2569,8 +2569,8 @@ public class CharacterCMenu extends Screen {
             pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 16, 0, 0, 73, 15);
             RenderSystem.disableBlend();
 
-            anchoTexto = (20 - this.font.width(TranslateManager.COLOR_AURA));
-            pGuiGraphics.drawString(font, TranslateManager.COLOR_AURA.withStyle(ChatFormatting.BOLD), anchoTexto + 96, alturaTexto - 12, 0xFFCA9B);
+            anchoTexto = 52;
+            pGuiGraphics.drawString(font, Component.literal("Aura Color").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 12, 0xFFCA9B);
 
         });
 

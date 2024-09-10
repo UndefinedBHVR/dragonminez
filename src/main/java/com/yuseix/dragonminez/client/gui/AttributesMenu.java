@@ -234,9 +234,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorderShadow(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
             if(clase.equals("Warrior")){
-                drawStringWithBorderShadow(graphics, font,TranslateManager.CLASS_1, anchoTexto, alturaTexto + 33, 0xFC4E2B);
+                drawStringWithBorderShadow(graphics, font,Component.literal("Warrior"), anchoTexto, alturaTexto + 33, 0xFC4E2B);
             }else {
-                drawStringWithBorderShadow(graphics, font,TranslateManager.CLASS_2, anchoTexto, alturaTexto + 33, 0x2BFCFC);
+                drawStringWithBorderShadow(graphics, font,Component.literal("Spiritualist"), anchoTexto, alturaTexto + 33, 0x2BFCFC);
             }
 
             //STATS

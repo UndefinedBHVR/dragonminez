@@ -26,7 +26,7 @@ public class FatArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>, A
             case CHEST:
                 pModel.body.xScale = 1.31f;
                 pModel.body.yScale = 1.0f;
-                pModel.body.zScale = 2.27f;
+                pModel.body.zScale = 2.28f;
 
                 break;
             default:
