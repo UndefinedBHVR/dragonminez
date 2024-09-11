@@ -39,7 +39,7 @@ public final class MainBlocks {
             () -> new ClimbableBlock(BlockBehaviour.Properties.of().noOcclusion().forceSolidOff()
                     .strength(-1.0F, 3600000.0F).noLootTable()));
     public static final RegistryObject<Block> TIME_CHAMBER_BLOCK = registerBlock("time_chamber_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
