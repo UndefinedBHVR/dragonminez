@@ -19,11 +19,13 @@ import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class CFirstPage extends Screen {
 
@@ -77,6 +79,7 @@ public class CFirstPage extends Screen {
 
         panoramas(pGuiGraphics, pPartialTick);
         pagina0(pGuiGraphics, this.width, this.height);
+        paginaInfoRazas(pGuiGraphics);
 
 
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -160,6 +163,60 @@ public class CFirstPage extends Screen {
 
         });
     }
+
+    public void paginaInfoRazas(GuiGraphics graphics){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            var raza = cap.getRace();
+
+            if(raza == 0){
+
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.human.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)- 30,0x61C3FE);
+
+                List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.human.description"), 130);
+                for (int i = 0; i < lines.size(); i++) {
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15)  + i * font.lineHeight, 0xFFFFFF);
+                }
+            } else if(raza == 1){
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.saiyan.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0xFEBA3A);
+
+                List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.saiyan.description"), 130);
+                for (int i = 0; i < lines.size(); i++) {
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15)  + i * font.lineHeight, 0xFFFFFF);
+                }
+            } else if(raza == 2){
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.namek.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0x269021);
+
+                List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.namek.description"), 130);
+                for (int i = 0; i < lines.size(); i++) {
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15)  + i * font.lineHeight, 0xFFFFFF);
+                }
+            } else if(raza == 3){
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.bioandroid.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0x69FE90);
+
+                List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.bioandroid.description"), 130);
+                for (int i = 0; i < lines.size(); i++) {
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15) + i * font.lineHeight, 0xFFFFFF);
+                }
+            } else if(raza == 4){
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.colddemon.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0x9415B9);
+
+                List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.colddemon.description"), 130);
+                for (int i = 0; i < lines.size(); i++) {
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15) + i * font.lineHeight, 0xFFFFFF);
+                }
+            } else {
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.majin.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0xE691FF);
+
+                List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.majin.description"), 130);
+                for (int i = 0; i < lines.size(); i++) {
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15) + i * font.lineHeight, 0xFFFFFF);
+                }
+            }
+
+        });
+
+        }
 
     public static void renderEntityInInventoryFollowsAngle(GuiGraphics guiGraphics, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity livingEntity) {
         Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
