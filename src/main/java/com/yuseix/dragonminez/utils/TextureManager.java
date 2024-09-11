@@ -29,7 +29,9 @@ public class TextureManager {
     public static final ResourceLocation SH_IRIS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/iristype1.png");
     public static final ResourceLocation SH_IRIS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/iristype2.png");
     public static final ResourceLocation SH_EYES1_CEJAS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/cejas_eyestype1.png");
-
+    public static final ResourceLocation SH_2_EYES1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/eyestype2.png");
+    public static final ResourceLocation SH_2_IRIS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/2_iristype1.png");
+    public static final ResourceLocation SH_2_IRIS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/2_iristype2.png");
     //NAMEKIANO
     //body1
     public static final ResourceLocation N_BASE_BODY1_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/bodytype1_base1.png");

@@ -316,6 +316,31 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
+            } else if(cap.getEyesType() == 1){
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
             }
 
 
