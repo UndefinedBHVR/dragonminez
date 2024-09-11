@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.client.gui;
+package com.yuseix.dragonminez.client.gui.cc;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -7,8 +7,6 @@ import com.yuseix.dragonminez.client.gui.buttons.ColorButton;
 import com.yuseix.dragonminez.client.gui.buttons.ColorButton2;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
-import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -18,14 +16,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.CubeMap;
-import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
 import org.joml.Matrix4f;
@@ -35,27 +29,22 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharacterCMenu extends Screen {
+public class CCustomizationPage extends Screen {
 
     private int alturaTexto;
     private int anchoTexto;
 
     private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
-    private static final ResourceLocation menu2 = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menumedio.png");
+
     private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menutexto.png");
     private static final ResourceLocation colorCuadrado = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/buttons/characterbuttons.png");
 
-    private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
-    private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/buu_panorama");
-    private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/bio_panorama");
-
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();
 
-    private DMZRightButton botonRazaRight, botonRazaLeft, eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton, gendersLeftButton, hairRigthButton, hairLeftButton, claseRigthButton,claseLeftButton;
+    private DMZRightButton eyesTypeRight, eyesTypeLeft, bodyTypeRightButton, bodyTypeLeftButton, gendersRigthButton, gendersLeftButton, hairRigthButton, hairLeftButton, claseRigthButton,claseLeftButton;
     private DMZRightButton botonAlignmentRight, botonAlignmentLeft;
     private TextButton nextButton, backButton, setColor;
     private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
@@ -64,12 +53,8 @@ public class CharacterCMenu extends Screen {
     private int currentPage = 0;
     private static String partePagina = "";
 
-    private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
-    private final PanoramaRenderer panoramaBuu = new PanoramaRenderer(new CubeMap(PANORAMA_BUU));
-    private final PanoramaRenderer panoramaBio = new PanoramaRenderer(new CubeMap(PANORAMA_BIO));
 
-
-    public CharacterCMenu(Component pTitle) {
+    public CCustomizationPage(Component pTitle) {
         super(pTitle);
 
     }
@@ -82,16 +67,14 @@ public class CharacterCMenu extends Screen {
         int posY = (this.minecraft.getWindow().getGuiScaledHeight()) / 2;
 
         if (currentPage == 0) {
-
-        } else if (currentPage == 1) {
             sliders(posX - 127, posY + 5);
 
             botonesRazaColores(72, posY);
-
-        } else if(currentPage == 2){
+        } else if (currentPage == 1) {
             sliders(posX - 127, posY + 5);
 
             botonAuraColor(72, posY);
+
         }
 
         super.init();
@@ -115,48 +98,20 @@ public class CharacterCMenu extends Screen {
 
         if (currentPage == 0) {
 
-            botonesRazasElegir(ancho, alto + 87);
-
-        } else if (currentPage == 1) {
-
             botonesBodyType(113, alto - 44);
             botonesGeneros(113, alto - 76);
             botonesOjos(113, alto + 3);
             botonesCabellos(113, alto + 3);
-        } else if (currentPage == 2) {
+
+        } else if (currentPage == 1) {
             botonesClases(113, alto - 76);
             botonesAlignment(113,alto - 39);
+
+        } else if (currentPage == 2) {
+
         } else {
 
         }
-
-    }
-
-    public void panoramas(GuiGraphics graphics, float partialtick){
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-            var race = cap.getRace();
-
-            if(race == 0){
-                this.customPanorama.render(partialtick, 1.0f);
-
-            }else if(race == 1){
-                this.customPanorama.render(partialtick, 1.0f);
-
-            }else if(race == 2){
-                this.customPanorama.render(partialtick, 1.0f);
-
-            }else if(race == 3){
-                this.panoramaBio.render(partialtick, 1.0f);
-
-            }else if(race == 4){
-                this.customPanorama.render(partialtick, 1.0f);
-
-            }else {
-                this.panoramaBuu.render(partialtick, 1.0f);
-
-            }
-        });
 
     }
 
@@ -170,13 +125,6 @@ public class CharacterCMenu extends Screen {
         //panoramas(pGuiGraphics, pPartialTick);
 
         if (currentPage == 0) {
-
-            var AlturaGui = this.height;
-            var AnchoGui = this.width;
-
-            pagina0(pGuiGraphics, AnchoGui, AlturaGui);
-
-        } else if (currentPage == 1) {
             for (ColorButton2 button : botonColorDefecto) {
                 button.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
             }
@@ -186,10 +134,14 @@ public class CharacterCMenu extends Screen {
             pagina1Color(pGuiGraphics);
 
 
-        } else if (currentPage == 2) {
+        } else if (currentPage == 1) {
 
             pagina2(pGuiGraphics);
             pagina2Color(pGuiGraphics);
+
+        } else if (currentPage == 2) {
+
+
 
         } else {
 
@@ -216,75 +168,9 @@ public class CharacterCMenu extends Screen {
         this.removeWidget(nextButton);
 
         if (currentPage == 0) {
-            this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
-                currentPage = 1;
-                clearAllButtons();
-                this.removeWidget(nextButton);
-                this.removeWidget(botonRazaLeft);
-                this.removeWidget(botonRazaRight);
-
-                sliders(this.width - 127, ((this.minecraft.getWindow().getGuiScaledHeight()) / 2) + 5);
-                botonesRazaColores(72, this.height / 2);
-
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-                    switch (cap.getRace()) {
-                        case 0:
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-                            break;
-                        case 1:
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-                            break;
-                        case 2:
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 2075172));
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", 12263460));
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", 6595598));
-                            break;
-                        case 3:
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 1603072));
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", 10478369));
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                            break;
-                        case 4:
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16777215));
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor2", 15246079));
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16726441));
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 16711709));
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
-                            break;
-                        case 5:
-                            ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16753919));
-                            ModMessages.sendToServer(new CharacterC2S("eye1Color", 11796480));
-                            ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
-                            ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
-                            break;
-                        default:
-
-                            break;
-                    }
-
-
-                });
-                ModMessages.sendToServer(new CharacterC2S("Gender", 0));
-                ModMessages.sendToServer(new CharacterC2S("auraColor", 8716287));
-
-            }));
-        } else if (currentPage == 1) {
             //BOTON VOLVER
             this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-                currentPage = 0;
+                /*
                 this.removeWidget(sliderR);
                 this.removeWidget(sliderG);
                 this.removeWidget(sliderB);
@@ -306,10 +192,13 @@ public class CharacterCMenu extends Screen {
                 this.removeWidget(auraButtonColor);
                 clearAllButtons();
 
+                 */
                 ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                this.minecraft.setScreen(new CFirstPage());
 
             }));
+
             //BOTON SIGUIENTE
             this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
                 this.removeWidget(sliderR);
@@ -332,20 +221,18 @@ public class CharacterCMenu extends Screen {
                 this.removeWidget(hairLeftButton);
                 this.removeWidget(auraButtonColor);
                 this.removeWidget(nextButton);
-                this.removeWidget(botonRazaLeft);
-                this.removeWidget(botonRazaRight);
                 this.removeWidget(botonAlignmentRight);
                 this.removeWidget(botonAlignmentLeft);
                 clearAllButtons();
-                currentPage = 2;
+                currentPage = 1;
 
                 sliders(this.width - 127, ((this.minecraft.getWindow().getGuiScaledHeight()) / 2) + 5);
                 botonAuraColor(72, this.height / 2);
             }));
-        } else {
+        } else if (currentPage == 1) {
             //BOTON VOLVER
             this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-                currentPage = 1;
+                currentPage = 0;
                 this.removeWidget(sliderR);
                 this.removeWidget(sliderG);
                 this.removeWidget(sliderB);
@@ -390,6 +277,9 @@ public class CharacterCMenu extends Screen {
                 ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
                 this.minecraft.setScreen(null);
             }));
+
+        } else {
+
         }
 
 
@@ -1820,125 +1710,6 @@ public class CharacterCMenu extends Screen {
         });
     }
 
-    public void botonesRazasElegir(int posX, int posY) {
-
-        this.removeWidget(botonRazaRight);
-        this.removeWidget(botonRazaLeft);
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-            if (cap.getRace() == 0) {
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 1));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-                }));
-            } else if (cap.getRace() == 1) {
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 2));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 2075172));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 12263460));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                }));
-
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 0));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-                }));
-            } else if (cap.getRace() == 2) {
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 3));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 1603072));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 10478369));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                }));
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 1));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-                }));
-
-            } else if (cap.getRace() == 3) {
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 4));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16777215));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 15246079));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16726441));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 16711709));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
-                }));
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 2));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 2075172));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 12263460));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                }));
-            } else if (cap.getRace() == 4) {
-
-                this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 5));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16753919));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 11796480));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
-                }));
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 3));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 1603072));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 10478369));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                }));
-            } else {
-                this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("setRace", 4));
-                    this.removeWidget(botonRazaRight);
-                    this.removeWidget(botonRazaLeft);
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16777215));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", 15246079));
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16726441));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 16711709));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
-                }));
-            }
-
-        });
-    }
-
     public void sliders(int sliderX, int posY) {
 
         this.removeWidget(sliderR);
@@ -1970,86 +1741,6 @@ public class CharacterCMenu extends Screen {
             }
         });
         RenderSystem.disableBlend();
-    }
-
-    public void pagina0(GuiGraphics pGuiGraphics, int posX, int posY) {
-
-        RenderSystem.enableBlend();
-
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.depthMask(false);
-
-        pGuiGraphics.blit(texto, (pGuiGraphics.guiWidth() / 2) - 60, (pGuiGraphics.guiHeight() / 2) + 85, 0, 16, 130, 18);
-        pGuiGraphics.blit(texto, (this.width / 2) - 60, 10, 0, 16, 130, 18);
-
-        RenderSystem.disableBlend();
-
-
-        //TITULO
-        alturaTexto = (posY / 2) - 40;
-        anchoTexto = ((posX - this.font.width(TranslateManager.CCreation)) / 2);
-
-        //drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation, anchoTexto, 16, 0xFFFFFF);
-        pGuiGraphics.drawString(font, TranslateManager.CCreation, anchoTexto + 7, 16, 0xFFFFFF, true);
-
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-            var raza = cap.getRace();
-
-            switch (raza) {
-                case 0: //Humano
-                    alturaTexto = (posY / 2) + 90;
-                    anchoTexto = ((posX - this.font.width(TranslateManager.Human)) / 2);
-
-                    pGuiGraphics.drawString(font, TranslateManager.Human, anchoTexto, alturaTexto, 0x31EAFF, true);
-
-                    break;
-                case 1: // Saiyan
-                    alturaTexto = (posY / 2) + 90;
-                    anchoTexto = ((posX - this.font.width(TranslateManager.Saiyan)) / 2);
-
-                    pGuiGraphics.drawString(font, TranslateManager.Saiyan, anchoTexto, alturaTexto, 0xFFBA35, true);
-
-                    break;
-                case 2: // Namek
-                    alturaTexto = (posY / 2) + 90;
-                    anchoTexto = ((posX - this.font.width(TranslateManager.Namek)) / 2);
-
-                    pGuiGraphics.drawString(font, TranslateManager.Namek, anchoTexto, alturaTexto, 0x378942, true);
-
-                    break;
-                case 3: // BioAndroid
-                    alturaTexto = (posY / 2) + 90;
-                    anchoTexto = ((posX - this.font.width(TranslateManager.BioAndroid)) / 2);
-
-                    pGuiGraphics.drawString(font, TranslateManager.BioAndroid, anchoTexto, alturaTexto, 0x72DA58, true);
-
-                    break;
-                case 4: // ColdDemon
-                    alturaTexto = (posY / 2) + 90;
-                    anchoTexto = ((posX - this.font.width(TranslateManager.ColdDemon)) / 2);
-
-                    pGuiGraphics.drawString(font, TranslateManager.ColdDemon, anchoTexto, alturaTexto, 0xAC1BEC, true);
-
-                    break;
-                case 5: // Majin
-                    alturaTexto = (posY / 2) + 90;
-                    anchoTexto = ((posX - this.font.width(TranslateManager.Majin)) / 2);
-
-                    pGuiGraphics.drawString(font, TranslateManager.Majin, anchoTexto, alturaTexto, 0xFE7FF4, true);
-
-                    break;
-                default:
-
-                    break;
-            }
-
-            //LivingEntity dino = new DinoEntity(MainEntity.DINO1.get(), this.minecraft.level);
-            renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, minecraft.player);
-
-
-        });
     }
 
     public void pagina1(GuiGraphics pGuiGraphics) {
