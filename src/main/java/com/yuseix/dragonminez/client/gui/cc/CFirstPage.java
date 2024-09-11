@@ -36,11 +36,17 @@ public class CFirstPage extends Screen {
     private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
     private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/buu_panorama");
     private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/bio_panorama");
+    private static final ResourceLocation PANORAMA_SAIYAN = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/s_panorama");
+    private static final ResourceLocation PANORAMA_NAMEK = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/n_panorama");
+    private static final ResourceLocation PANORAMA_COLD = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/c_panorama");
 
     //Panoramas
     private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
     private final PanoramaRenderer panoramaBuu = new PanoramaRenderer(new CubeMap(PANORAMA_BUU));
     private final PanoramaRenderer panoramaBio = new PanoramaRenderer(new CubeMap(PANORAMA_BIO));
+    private final PanoramaRenderer panoramaSai = new PanoramaRenderer(new CubeMap(PANORAMA_SAIYAN));
+    private final PanoramaRenderer panoramaNam = new PanoramaRenderer(new CubeMap(PANORAMA_NAMEK));
+    private final PanoramaRenderer panoramaCold = new PanoramaRenderer(new CubeMap(PANORAMA_COLD));
 
     private DMZRightButton botonRazaRight, botonRazaLeft;
     private TextButton nextButton;
@@ -398,16 +404,16 @@ public class CFirstPage extends Screen {
                 this.customPanorama.render(partialtick, 1.0f);
 
             }else if(race == 1){
-                this.customPanorama.render(partialtick, 1.0f);
+                this.panoramaSai.render(partialtick, 1.0f);
 
             }else if(race == 2){
-                this.customPanorama.render(partialtick, 1.0f);
+                this.panoramaNam.render(partialtick, 1.0f);
 
             }else if(race == 3){
                 this.panoramaBio.render(partialtick, 1.0f);
 
             }else if(race == 4){
-                this.customPanorama.render(partialtick, 1.0f);
+                this.panoramaCold.render(partialtick, 1.0f);
 
             }else {
                 this.panoramaBuu.render(partialtick, 1.0f);
