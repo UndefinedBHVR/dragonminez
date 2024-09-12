@@ -60,11 +60,11 @@ public class ModDimensions extends NoiseRouterData{
     public static void bootstrapType(BootstapContext<DimensionType> context) {
         context.register(NAMEK_DIM_TYPE, new DimensionType(
                 OptionalLong.of(7500), // fixedTime
-                false, // hasSkylight
+                true, // hasSkylight
                 false, // hasCeiling
                 false, // ultraWarm
-                false, // natural
-                1.0, // coordinateScale
+                true, // natural
+                3.0, // coordinateScale
                 true, // bedWorks
                 true, // respawnAnchorWorks
                 -64, // minY
@@ -72,24 +72,24 @@ public class ModDimensions extends NoiseRouterData{
                 384, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
-                7.0f, // ambientLight
+                0.0f, // ambientLight
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
 
         context.register(TIME_CHAMBER_DIM_TYPE, new DimensionType(
                 OptionalLong.of(7500), // fixedTime
-                false, // hasSkylight
+                true, // hasSkylight
                 false, // hasCeiling
                 false, // ultraWarm
                 false, // natural
                 1.0, // coordinateScale
-                true, // bedWorks
+                false, // bedWorks
                 true, // respawnAnchorWorks
                 0, // minY
                 64, // height
                 64, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
-                7.0f, // ambientLight
+                0.0f, // ambientLight
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
     }
 

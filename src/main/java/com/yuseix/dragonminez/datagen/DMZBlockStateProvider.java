@@ -60,11 +60,6 @@ public class DMZBlockStateProvider extends BlockStateProvider {
 
         //BlockEntities
         blockWithItem(MainBlocks.GETE_FURNACE);
-        /*
-        simpleBlock(MainBlocks.KIKONO_ARMOR_STATION.get(),
-                new ModelFile.UncheckedModelFile(modLoc("block/kikono_armor_station")));
-
-         */
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
