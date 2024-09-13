@@ -1,10 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
-import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
-import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.init.entity.custom.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -39,6 +36,12 @@ public class MainEntity {
                     () -> EntityType.Builder.of(KarinEntity::new, MobCategory.CREATURE)
                             .sized(0.7f, 0.7f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "karin").toString())
+            );
+    public static final RegistryObject<EntityType<DendeEntity>> MASTER_DENDE =
+            ENTITY_TYPES_REGISTER.register("dende",
+                    () -> EntityType.Builder.of(DendeEntity::new, MobCategory.CREATURE)
+                            .sized(1.1f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "dende").toString())
             );
     public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =
             ENTITY_TYPES_REGISTER.register("nube",

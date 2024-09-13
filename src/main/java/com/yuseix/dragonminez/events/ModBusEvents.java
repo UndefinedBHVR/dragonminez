@@ -19,14 +19,8 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
-import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.KarinRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.NubeRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.ShenlongRenderer;
-import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
-import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
-import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.init.entity.client.renderer.*;
+import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -63,6 +57,7 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
+            EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
@@ -130,6 +125,7 @@ public class ModBusEvents {
         event.put(MainEntity.NUBE_VOLADORA.get(), NubeEntity.createAttributes());
         event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
         event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
+        event.put(MainEntity.MASTER_DENDE.get(), DendeEntity.setAttributes());
 
     }
 
