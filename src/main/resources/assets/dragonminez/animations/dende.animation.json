@@ -1,0 +1,26 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.dende.idle": {
+			"loop": true,
+			"bones": {
+				"Head": {
+					"rotation": {
+						"vector": ["Math.cos(query.anim_time * 50 -50) * -2", 0, 0]
+					}
+				},
+				"RightArm": {
+					"rotation": {
+						"vector": ["Math.cos(query.anim_time * 100 +25) * 5", 0, 0]
+					}
+				},
+				"LeftArm": {
+					"rotation": {
+						"vector": ["Math.cos(query.anim_time * 100 +75) * -5", 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

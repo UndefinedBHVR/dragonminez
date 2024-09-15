@@ -1,9 +1,14 @@
 package com.yuseix.dragonminez.world;
 
+import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +18,11 @@ public class DragonBallsCapability {
     public boolean hasDragonBalls = false;
     public List<BlockPos> dragonBallPositions = new ArrayList<>();
 
+
     public boolean hasDragonBalls() {
         return hasDragonBalls;
     }
+
 
     public void setHasDragonBalls(boolean hasDragonBalls) {
         this.hasDragonBalls = hasDragonBalls;
@@ -41,6 +48,7 @@ public class DragonBallsCapability {
         }
         nbt.put("dragonBallPositions", listTag);
 
+
     }
 
     public void loadNBTData(CompoundTag nbt) {
@@ -52,5 +60,9 @@ public class DragonBallsCapability {
             BlockPos pos = NbtUtils.readBlockPos(subCompound);
             dragonBallPositions.add(pos);
         }
+
     }
+
+
+
 }

@@ -25,6 +25,7 @@ import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.StructuresCapability;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -181,8 +182,8 @@ public class ModBusEvents {
 
     @SubscribeEvent
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(DMZStatsCapabilities.class);
         event.register(DragonBallGenProvider.class);
+        event.register(StructuresCapability.class);
     }
 
 }

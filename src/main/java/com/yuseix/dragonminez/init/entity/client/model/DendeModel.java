@@ -24,7 +24,7 @@ public class DendeModel  extends GeoModel<DendeEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(DendeEntity dendeEntity) {
-        return null;
+        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/dende.animation.json");
     }
     @Override
     public void setCustomAnimations(DendeEntity animatable, long instanceId, AnimationState<DendeEntity> animationState) {

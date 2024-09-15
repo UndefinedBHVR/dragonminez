@@ -12,6 +12,9 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.DragonBallsCapability;
+import com.yuseix.dragonminez.world.StructuresCapability;
+import com.yuseix.dragonminez.world.StructuresProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -26,8 +29,10 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.command.ConfigCommand;
@@ -132,6 +137,11 @@ public final class ForgeBusEvents {
         if (event.getObject() instanceof ServerLevel) {
             if (!event.getObject().getCapability(DragonBallGenProvider.CAPABILITY).isPresent())
                 event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "dragon_balls"), new DragonBallGenProvider());
+
+            if (!event.getObject().getCapability(StructuresProvider.CAPABILITY).isPresent())
+                event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "structures"), new StructuresProvider());
+
+
         }
     }
 
@@ -151,6 +161,21 @@ public final class ForgeBusEvents {
             ModMessages.sendToServer(new MenuC2S());
         }
 
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(LevelEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel serverLevel && !serverLevel.isClientSide()) {
+            if (serverLevel.dimension() == Level.OVERWORLD) {
+                // Obtener la capability de DragonBalls (o TorreKamisama en tu caso)
+                LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+
+                // Ejecutar la generación si la Torre aún no ha sido generada
+                capability.ifPresent(torreCap -> {
+                    torreCap.generateStructureIfNeeded(serverLevel);
+                });
+            }
+        }
     }
 
     private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
