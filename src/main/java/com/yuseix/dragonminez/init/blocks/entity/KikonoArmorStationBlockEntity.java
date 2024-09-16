@@ -1,14 +1,15 @@
 package com.yuseix.dragonminez.init.blocks.entity;
 
-import com.mojang.serialization.Decoder;
 import com.yuseix.dragonminez.client.gui.KikonoArmorStationMenu;
 import com.yuseix.dragonminez.init.MainBlockEntities;
-import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.recipes.ArmorStationRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -20,7 +21,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -35,6 +35,13 @@ import java.util.Optional;
 public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(12);
 
+    protected void onContentsChanged(int slot) {
+        setChanged();
+        if(!level.isClientSide()) {
+            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+        }
+    }
+
     private static final int SLOT_1 = 0;
     private static final int SLOT_2 = 1;
     private static final int SLOT_3 = 2;
@@ -44,8 +51,8 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
     private static final int SLOT_7 = 6;
     private static final int SLOT_8 = 7;
     private static final int SLOT_9 = 8;
-    private static final int SLOT_PRESET = 9;
-    private static final int SLOT_ARMOR = 10;
+    private static final int PRESET = 9;
+    private static final int ARMOR = 10;
     private static final int OUTPUT = 11;
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
@@ -138,12 +145,15 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
         if(hasRecipe()) {
             increaseCraftingProgress();
             setChanged(pLevel, pPos, pState);
+            System.out.println("Progress: " + progress); // Metí souts para ver si esto funcionaba con las actualizaciones de los Ticks :p
 
             if(hasProgressFinished()) {
                 craftItem();
                 resetProgress();
+                System.out.println("Crafted item");     // Nota: Esto debería funcionar, pero no toma la receta :v
             } else {
                 resetProgress();
+                System.out.println("Reset progress");
             }
         }
     }
@@ -165,8 +175,8 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
         this.itemHandler.extractItem(SLOT_7, 1, false);
         this.itemHandler.extractItem(SLOT_8, 1, false);
         this.itemHandler.extractItem(SLOT_9, 1, false);
-        this.itemHandler.extractItem(SLOT_PRESET, 1, false);
-        this.itemHandler.extractItem(SLOT_ARMOR, 1, false);
+        this.itemHandler.extractItem(PRESET, 1, false);
+        this.itemHandler.extractItem(ARMOR, 1, false);
 
         this.itemHandler.setStackInSlot(OUTPUT, new ItemStack(result.getItem(),
                 this.itemHandler.getStackInSlot(OUTPUT).getCount() + result.getCount()));
@@ -205,6 +215,17 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
 
-        return this.level.getRecipeManager().getRecipeFor(ArmorStationRecipes.Type.INSTANCE, inventory, this.level);
+        return this.level.getRecipeManager().getRecipeFor(ArmorStationRecipes.Type.INSTANCE, inventory, level);
+    }
+
+    @Nullable
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 }

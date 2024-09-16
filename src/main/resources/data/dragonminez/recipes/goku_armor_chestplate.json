@@ -1,0 +1,41 @@
+{
+  "type": "dragonminez:armor_station",
+  "slot_1": {
+    "item": "minecraft:blue_dye"
+  },
+  "slot_2": {
+    "item": "minecraft:paper"
+  },
+  "slot_3": {
+    "item": "minecraft:blue_dye"
+  },
+  "slot_4": {
+    "item": "minecraft:orange_dye"
+  },
+  "slot_5": {
+    "item": "minecraft:blue_dye"
+  },
+  "slot_6": {
+    "item": "minecraft:orange_dye"
+  },
+  "slot_7": {
+    "item": "minecraft:orange_dye"
+  },
+  "slot_8": {
+    "item": "minecraft:orange_dye"
+  },
+  "slot_9": {
+    "item": "minecraft:orange_dye"
+  },
+  "preset": {
+    "item": "minecraft:paper"
+  },
+  "armor": {
+    "item": "minecraft:iron_chestplate"
+  },
+  "output": {
+    "Count": 1,
+    "item": "dragonminez:goku_armor_chestplate"
+  }
+}
+

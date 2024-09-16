@@ -31,8 +31,19 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
         if(pLevel.isClientSide()) {
             return false;
         }
-
-        return inputItems.get(0).test(pContainer.getItem(0));
+        for (int i = 0; i < 9; i++) {
+            if (!inputItems.get(i).test(pContainer.getItem(i))) {
+                return false;  // Si algún item no coincide, no se cumple la receta
+            }
+        }
+        // Slots separados pa ordenar nama :p
+        if(!inputItems.get(9).test(pContainer.getItem(9))) {
+            return false;  // PRESET_SLOT
+        }
+        if(!inputItems.get(10).test(pContainer.getItem(10))) {
+            return false;  // ARMOR_SLOT
+        }
+        return true;
     }
 
     @Override
@@ -77,12 +88,30 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
         @Override
         public ArmorStationRecipes fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
             ItemStack outputItem = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-            JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
+            JsonArray presetItem = GsonHelper.getAsJsonArray(pSerializedRecipe, "preset");
+            JsonArray armorItem = GsonHelper.getAsJsonArray(pSerializedRecipe, "armor");
+            JsonArray slot1 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_1");
+            JsonArray slot2 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_2");
+            JsonArray slot3 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_3");
+            JsonArray slot4 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_4");
+            JsonArray slot5 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_5");
+            JsonArray slot6 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_6");
+            JsonArray slot7 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_7");
+            JsonArray slot8 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_8");
+            JsonArray slot9 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_9");
             NonNullList<Ingredient> inputs = NonNullList.withSize(11, Ingredient.EMPTY);
 
-            for(int i= 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-            }
+            inputs.set(0, Ingredient.fromJson(slot1));
+            inputs.set(1, Ingredient.fromJson(slot2));
+            inputs.set(2, Ingredient.fromJson(slot3));
+            inputs.set(3, Ingredient.fromJson(slot4));
+            inputs.set(4, Ingredient.fromJson(slot5));
+            inputs.set(5, Ingredient.fromJson(slot6));
+            inputs.set(6, Ingredient.fromJson(slot7));
+            inputs.set(7, Ingredient.fromJson(slot8));
+            inputs.set(8, Ingredient.fromJson(slot9));
+            inputs.set(9, Ingredient.fromJson(presetItem));
+            inputs.set(10, Ingredient.fromJson(armorItem));
 
             return new ArmorStationRecipes(inputs, outputItem, pRecipeId);
         }
