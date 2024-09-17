@@ -177,46 +177,46 @@ public class CFirstPage extends Screen {
 
             if(raza == 0){
 
-                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.human.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)- 30,0x61C3FE);
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.human.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-75,0x61C3FE);
 
                 List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.human.description"), 130);
                 for (int i = 0; i < lines.size(); i++) {
-                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15)  + i * font.lineHeight, 0xFFFFFF);
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 60)  + i * font.lineHeight, 0xFFFFFF);
                 }
             } else if(raza == 1){
-                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.saiyan.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0xFEBA3A);
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.saiyan.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-75,0xFEBA3A);
 
                 List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.saiyan.description"), 130);
                 for (int i = 0; i < lines.size(); i++) {
-                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15)  + i * font.lineHeight, 0xFFFFFF);
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 60)  + i * font.lineHeight, 0xFFFFFF);
                 }
             } else if(raza == 2){
-                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.namek.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0x269021);
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.namek.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-75,0x269021);
 
                 List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.namek.description"), 130);
                 for (int i = 0; i < lines.size(); i++) {
-                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15)  + i * font.lineHeight, 0xFFFFFF);
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 60)  + i * font.lineHeight, 0xFFFFFF);
                 }
             } else if(raza == 3){
-                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.bioandroid.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0x69FE90);
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.bioandroid.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-75,0x69FE90);
 
                 List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.bioandroid.description"), 130);
                 for (int i = 0; i < lines.size(); i++) {
-                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15) + i * font.lineHeight, 0xFFFFFF);
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 60) + i * font.lineHeight, 0xFFFFFF);
                 }
             } else if(raza == 4){
-                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.colddemon.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0x9415B9);
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.colddemon.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-75,0x9415B9);
 
                 List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.colddemon.description"), 130);
                 for (int i = 0; i < lines.size(); i++) {
-                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15) + i * font.lineHeight, 0xFFFFFF);
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 60) + i * font.lineHeight, 0xFFFFFF);
                 }
             } else {
-                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.majin.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-30,0xE691FF);
+                CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.majin.title").withStyle(ChatFormatting.BOLD),10,(this.height/2)-75,0xE691FF);
 
                 List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.majin.description"), 130);
                 for (int i = 0; i < lines.size(); i++) {
-                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 15) + i * font.lineHeight, 0xFFFFFF);
+                    graphics.drawString(font, lines.get(i), 3, ((this.height/2 ) - 60) + i * font.lineHeight, 0xFFFFFF);
                 }
             }
 
