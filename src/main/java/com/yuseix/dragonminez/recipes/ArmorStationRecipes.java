@@ -87,9 +87,6 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
 
         @Override
         public ArmorStationRecipes fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-            ItemStack outputItem = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-            JsonArray presetItem = GsonHelper.getAsJsonArray(pSerializedRecipe, "preset");
-            JsonArray armorItem = GsonHelper.getAsJsonArray(pSerializedRecipe, "armor");
             JsonArray slot1 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_1");
             JsonArray slot2 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_2");
             JsonArray slot3 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_3");
@@ -99,6 +96,9 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
             JsonArray slot7 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_7");
             JsonArray slot8 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_8");
             JsonArray slot9 = GsonHelper.getAsJsonArray(pSerializedRecipe, "slot_9");
+            JsonArray presetItem = GsonHelper.getAsJsonArray(pSerializedRecipe, "preset");
+            JsonArray armorItem = GsonHelper.getAsJsonArray(pSerializedRecipe, "armor");
+            ItemStack outputItem = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
             NonNullList<Ingredient> inputs = NonNullList.withSize(11, Ingredient.EMPTY);
 
             inputs.set(0, Ingredient.fromJson(slot1));
