@@ -25,8 +25,8 @@ public class ArmorPiccoloModel extends HumanoidModel<LivingEntity> {
 	private final ModelPart hat;
 
 	public ArmorPiccoloModel(ModelPart root) {
-        super(root);
-        this.head = root.getChild("head");
+		super(root);
+		this.head = root.getChild("head");
 		this.body = root.getChild("body");
 		this.capa = body.getChild("capa");
 		this.right_arm = root.getChild("right_arm");
@@ -88,6 +88,5 @@ public class ArmorPiccoloModel extends HumanoidModel<LivingEntity> {
 		right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		hat.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-		capa.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }
