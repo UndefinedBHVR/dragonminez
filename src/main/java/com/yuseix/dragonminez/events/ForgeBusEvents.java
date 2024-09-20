@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.gui.cc.ColorPickerScreen;
 import com.yuseix.dragonminez.commands.ResetCharacterCommand;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
@@ -12,9 +13,9 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
-import com.yuseix.dragonminez.world.DragonBallsCapability;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import com.yuseix.dragonminez.world.StructuresProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -159,6 +160,9 @@ public final class ForgeBusEvents {
 
         if (Keys.STATS_MENU.consumeClick()) {
             ModMessages.sendToServer(new MenuC2S());
+        }
+        if(Keys.PANEL_GUI.consumeClick()){
+            Minecraft.getInstance().setScreen(new ColorPickerScreen(""));
         }
 
     }
