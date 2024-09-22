@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -40,10 +41,59 @@ public class ColorPickerScreen extends Screen {
     @Override
     protected void init() {
 
-        this.setColor = (TextButton) this.addRenderableWidget(new TextButton(this.width/2+20, (this.height/2) + 23, Component.literal("SET"), wa -> {
-            ModMessages.sendToServer(new CharacterC2S("BodyColor1", decimalColor));
+        int posX = this.width/2+20;
+
+        switch (tipoColor){
+            case "BodyColor1":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", decimalColor));
+
+                }));
+                break;
+            case "BodyColor2":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", decimalColor));
+
+                }));
+                break;
+            case "BodyColor3":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", decimalColor));
+
+                }));
+                break;
+            case "eye1Color":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", decimalColor));
+
+                }));
+                break;
+            case "eye2Color":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", decimalColor));
+
+                }));
+                break;
+            case "hairColor":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("hairColor", decimalColor));
+
+                }));
+                break;
+            case "auraColor":
+                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", decimalColor));
+
+                }));
+                break;
+        }
+
+        this.backButton = (TextButton) this.addRenderableWidget(new TextButton(this.width/2-110, (this.height/2) + 42, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+
+            this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
         }));
+
 
     }
 
@@ -58,13 +108,13 @@ public class ColorPickerScreen extends Screen {
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, texto);
-        guiGraphics.blit(texto, this.width/2+20, this.height/2-55, 0, 0, 73, 15);
+        guiGraphics.blit(texto, this.width/2+20, this.height/2-61, 0, 0, 73, 15);
         RenderSystem.disableBlend();
         //Texto wa
-        guiGraphics.drawString(font, Component.literal("COLOR").withStyle(ChatFormatting.BOLD), this.width/2+40, this.height/2-51, decimalColor);
+        guiGraphics.drawString(font, Component.literal("COLOR").withStyle(ChatFormatting.BOLD), this.width/2+40, this.height/2-57, decimalColor);
 
         int ColorPickerX = (this.width / 2) - 110;
-        int ColorPickerY = (this.height / 2) - 55;
+        int ColorPickerY = (this.height / 2) - 61;
 
         // Dibuja el cuadro de colores con el brillo ajustado
         for (int x = 0; x < 100; x++) {
@@ -74,7 +124,7 @@ public class ColorPickerScreen extends Screen {
             }
         }
         int SaturationX = (this.width / 2) - 5;
-        int SaturationY = (this.height / 2) - 55;
+        int SaturationY = (this.height / 2) - 61;
         // Dibuja la barra de saturación
         for (int i = 0; i < 100; i++) {
             int brightnessColor = getBrightnessFromPosition(i);
@@ -102,7 +152,7 @@ public class ColorPickerScreen extends Screen {
 
     private void drawColorPreview(GuiGraphics guiGraphics) {
         int PreviewX = (this.width / 2) + 32;
-        int PreviewY = (this.height / 2) - 35;
+        int PreviewY = (this.height / 2) - 42;
         // Dibuja un rectángulo de 50x50 con el color seleccionado
         guiGraphics.fill(PreviewX, PreviewY, PreviewX + 50, PreviewY + 50, selectedColor);
 
@@ -133,7 +183,7 @@ public class ColorPickerScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         int ColorPickerX = (this.width / 2) - 110;
-        int ColorPickerY = (this.height / 2) - 55;
+        int ColorPickerY = (this.height / 2) - 61;
 
         if (mouseX >= ColorPickerX && mouseX <= ColorPickerX + 100 && mouseY >= ColorPickerY && mouseY <= ColorPickerY + 100) {
             int x = (int) (mouseX - ColorPickerX);
@@ -143,7 +193,7 @@ public class ColorPickerScreen extends Screen {
         }
 
         int SaturationX = (this.width / 2) - 5;
-        int SaturationY = (this.height / 2) - 55;
+        int SaturationY = (this.height / 2) - 61;
 
         if (mouseX >= SaturationX && mouseX <= SaturationX + 10 && mouseY >= SaturationY && mouseY <= SaturationY + 100) {
             int i = (int) (mouseY - SaturationY);

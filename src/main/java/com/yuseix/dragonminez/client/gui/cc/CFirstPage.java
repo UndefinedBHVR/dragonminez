@@ -292,6 +292,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
             } else if (cap.getRace() == 1) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
@@ -303,6 +304,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
 
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -313,6 +315,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
             } else if (cap.getRace() == 2) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
@@ -324,6 +327,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 1));
@@ -333,6 +337,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
 
             } else if (cap.getRace() == 3) {
@@ -346,6 +351,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 16711709));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+
                 }));
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 2));
@@ -356,6 +363,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16746150));
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
             } else if (cap.getRace() == 4) {
 
@@ -367,6 +375,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 11796480));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+
                 }));
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 3));
@@ -377,6 +387,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("BodyColor3", 16741888));
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
             } else {
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -389,6 +400,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 16711709));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 }));
             }
 
