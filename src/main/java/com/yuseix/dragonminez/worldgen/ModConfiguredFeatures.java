@@ -48,13 +48,8 @@ public class ModConfiguredFeatures {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_GRASS_KEY = registerKey("namek_patch_grass_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_FLOWERS_KEY = registerKey("namek_flowers_configured");
-
-
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_SACRED_GRASS_KEY = registerKey("namek_patch_sacred_grass_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SACRED_FLOWERS_KEY = registerKey("namek_sacred_flowers_configured");
-
-
-
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AJISSA_TREE_KEY = registerKey("ajissa_tree_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SACRED_TREE_KEY = registerKey("sacred_tree_configured");
@@ -66,7 +61,6 @@ public class ModConfiguredFeatures {
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 
         HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
-
 
         //MC NORMAL
         RuleTest stoneReplaceable = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
@@ -159,7 +153,7 @@ public class ModConfiguredFeatures {
                         BlockStateProvider.simple(MainBlocks.NAMEK_SACRED_GRASS.get().defaultBlockState()
                 )))));
 
-        register(context, NAMEK_FLOWERS_KEY, Feature.FLOWER, new RandomPatchConfiguration(64, 6, 2,
+        register(context, NAMEK_FLOWERS_KEY, Feature.FLOWER, new RandomPatchConfiguration(64, 12, 4,
                 PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
                         new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
 
@@ -173,7 +167,7 @@ public class ModConfiguredFeatures {
                                 .build())
                 ))));
 
-        register(context, NAMEK_SACRED_FLOWERS_KEY, Feature.FLOWER, new RandomPatchConfiguration(64, 6, 2,
+        register(context, NAMEK_SACRED_FLOWERS_KEY, Feature.FLOWER, new RandomPatchConfiguration(64, 12, 4,
                 PlacementUtils.onlyWhenEmpty(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
                         new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
 
@@ -207,7 +201,7 @@ public class ModConfiguredFeatures {
                         List.of(
                                 new WeightedPlacedFeature(
                                         placedFeatures.getOrThrow(ModPlacedFeatures.SACRED_TREE_PLACED), // Árbol sagrado
-                                        0.08F  // Probabilidad de 8%
+                                        0.12F  // Probabilidad de 12%
                                 )
                         ),
                         placedFeatures.getOrThrow(ModPlacedFeatures.AJISSA_TREE_PLACED)  // Árbol ajissa por defecto
@@ -218,7 +212,7 @@ public class ModConfiguredFeatures {
                         List.of(
                                 new WeightedPlacedFeature(
                                         placedFeatures.getOrThrow(ModPlacedFeatures.AJISSA_TREE_PLACED), // Árbol ajissa
-                                        0.08F  // Probabilidad de 8%
+                                        0.12F  // Probabilidad de 12%
                                 )
                         ),
                         placedFeatures.getOrThrow(ModPlacedFeatures.SACRED_TREE_PLACED)  // Árbol sagrado por defecto

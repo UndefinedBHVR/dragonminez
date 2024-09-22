@@ -40,13 +40,10 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_DIAMOND_MIDDLE_ORE_KEY = registerKey("namek_diamond_middle_ore_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_DIAMOND_LARGE_ORE_KEY = registerKey("namek_diamond_large_ore_placed");
 
-
     public static final ResourceKey<PlacedFeature> NAMEK_PATCH_GRASS_PLAIN = registerKey("namek_patch_grass_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_PATCH_SACRED_GRASS_PLAIN = registerKey("namek_patch_sacred_grass_placed");
-
     public static final ResourceKey<PlacedFeature> NAMEK_PLAINS_FLOWERS = registerKey("namek_plains_flowers_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_SACRED_FLOWERS = registerKey("namek_sacred_flowers_placed");
-
 
     public static final ResourceKey<PlacedFeature> AJISSA_TREE_PLACED = registerKey("ajissa_tree_placed");
     public static final ResourceKey<PlacedFeature> SACRED_TREE_PLACED = registerKey("sacred_tree_placed");
@@ -127,7 +124,7 @@ public class ModPlacedFeatures {
         register(context, NAMEK_PLAINS_FLOWERS, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_FLOWERS_KEY),
                 ImmutableList.<PlacementModifier>builder()
                         .add(NoiseThresholdCountPlacement.of(-0.8f, 15, 4)) // Equivalente a "minecraft:noise_threshold_count"
-                        .add(RarityFilter.onAverageOnceEvery(64))
+                        .add(RarityFilter.onAverageOnceEvery(12)) //Menor valor, menor rareza, más frecuencia
                         .add(InSquarePlacement.spread()) // Equivalente a "minecraft:in_square"
                         .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) // Equivalente a "minecraft:heightmap"
                         .add(BiomeFilter.biome()) // Equivalente a "minecraft:biome"
@@ -143,7 +140,7 @@ public class ModPlacedFeatures {
         register(context, NAMEK_SACRED_FLOWERS, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SACRED_FLOWERS_KEY),
                 ImmutableList.<PlacementModifier>builder()
                         .add(NoiseThresholdCountPlacement.of(-0.8f, 15, 4)) // Equivalente a "minecraft:noise_threshold_count"
-                        .add(RarityFilter.onAverageOnceEvery(64))
+                        .add(RarityFilter.onAverageOnceEvery(12)) //Más alto el valor, mayor rareza, menor frecuencia
                         .add(InSquarePlacement.spread()) // Equivalente a "minecraft:in_square"
                         .add(HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)) // Equivalente a "minecraft:heightmap"
                         .add(BiomeFilter.biome()) // Equivalente a "minecraft:biome"
@@ -174,7 +171,7 @@ public class ModPlacedFeatures {
                 );
         register(context, TREES_AJISSA_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREES_AJISSA_KEY),
                 List.of(
-                        PlacementUtils.countExtra(3, 0.1f, 2),  // Controla la cantidad de árboles generados
+                        PlacementUtils.countExtra(1, 0.1f, 2),  // Controla la cantidad de árboles generados
                         InSquarePlacement.spread(),  // Para dispersar los árboles en un área cuadrada
                         SurfaceWaterDepthFilter.forMaxDepth(0),  // Limita la profundidad del agua a 0
                         HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),  // Usa WORLD_SURFACE para generar en la superficie
@@ -183,7 +180,7 @@ public class ModPlacedFeatures {
         );
         register(context, TREES_SACRED_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.TREES_SACRED_KEY),
                 List.of(
-                        PlacementUtils.countExtra(3, 0.1f, 2),  // Controla la cantidad de árboles generados
+                        PlacementUtils.countExtra(1, 0.1f, 2),  // Controla la cantidad de árboles generados
                         InSquarePlacement.spread(),  // Para dispersar los árboles en un área cuadrada
                         SurfaceWaterDepthFilter.forMaxDepth(0),  // Limita la profundidad del agua a 0
                         HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE),  // Usa WORLD_SURFACE para generar en la superficie
