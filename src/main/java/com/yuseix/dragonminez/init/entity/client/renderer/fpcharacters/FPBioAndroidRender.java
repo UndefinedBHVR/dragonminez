@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.client.model.characters.FPBioAndroideModelo;
+import com.yuseix.dragonminez.init.entity.custom.characters.FPBase;
 import com.yuseix.dragonminez.init.entity.custom.characters.FPBioAndroidEntity;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -10,6 +11,7 @@ import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -30,7 +32,7 @@ import net.minecraftforge.eventbus.api.Event;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class FPBioAndroidRender extends LivingEntityRenderer<FPBioAndroidEntity, FPBioAndroideModelo<FPBioAndroidEntity>> {
+public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel<FPBase>> {
 
     private float colorR, colorG, colorB;
 
@@ -40,14 +42,14 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBioAndroidEntity,
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FPBioAndroidEntity fpBioAndroidEntity) {
+    public ResourceLocation getTextureLocation(FPBase fpBioAndroidEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
     }
 
     @Override
-    public void render(FPBioAndroidEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(FPBase pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
 
-        var playermodel = (FPBioAndroideModelo)this.getModel();
+        var playermodel = this.getModel();
 
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
@@ -117,7 +119,7 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBioAndroidEntity,
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(Minecraft.getInstance().player, f5, f8, f7, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -157,9 +159,9 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBioAndroidEntity,
         }
     }
 
-    private void renderBodyType0(FPBioAndroidEntity pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
+    private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-        FPBioAndroideModelo<AbstractClientPlayer> playermodel = (FPBioAndroideModelo)this.getModel();
+        var playermodel = this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -192,9 +194,9 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBioAndroidEntity,
 
     }
 
-    private void renderEyes(FPBioAndroidEntity pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
+    private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-        FPBioAndroideModelo<AbstractClientPlayer> playermodel = (FPBioAndroideModelo)this.getModel();
+        var playermodel = this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
