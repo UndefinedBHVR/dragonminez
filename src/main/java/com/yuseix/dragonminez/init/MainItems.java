@@ -1,10 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.armor.GokuArmorItem;
-import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
-import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
-import com.yuseix.dragonminez.init.armor.VegetaSaiyanArmorItem;
+import com.yuseix.dragonminez.init.armor.*;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -66,6 +63,19 @@ public final class MainItems {
             ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
                             .fireResistant().stacksTo(1)));
+    //VEGETA SAGA NAMEK ARMOR
+    public static final RegistryObject<Item> VEGETA_NAMEK_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("vegeta_namek_armor_chestplate", () -> new VegetaNamekArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> VEGETA_NAMEK_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("vegeta_namek_armor_leggings", () -> new VegetaNamekArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> VEGETA_NAMEK_ARMOR_BOOTS =
+            ITEM_REGISTER.register("vegeta_namek_armor_boots", () -> new VegetaNamekArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
     //GOKU GI
     public static final RegistryObject<Item> GOKU_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("goku_armor_chestplate", () -> new GokuArmorItem
@@ -94,6 +104,19 @@ public final class MainItems {
                             .fireResistant().stacksTo(1)));
     public static final RegistryObject<Item> PICCOLO_ARMOR_BOOTS =
             ITEM_REGISTER.register("piccolo_armor_boots", () -> new PiccoloArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    //DEMON GI (AZUL)
+    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("demon_gi_blue_armor_chestplate", () -> new DemonGiBlueArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("demon_gi_blue_armor_leggings", () -> new DemonGiBlueArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_BOOTS =
+            ITEM_REGISTER.register("demon_gi_blue_armor_boots", () -> new DemonGiBlueArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
                             .fireResistant().stacksTo(1)));
 

@@ -47,12 +47,19 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_BOOTS);
+        armorItem(MainItems.VEGETA_NAMEK_ARMOR_CHESTPLATE);
+        armorItem(MainItems.VEGETA_NAMEK_ARMOR_LEGGINGS);
+        armorItem(MainItems.VEGETA_NAMEK_ARMOR_BOOTS);
         armorItem(MainItems.GOKU_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOKU_ARMOR_LEGGINGS);
         armorItem(MainItems.GOKU_ARMOR_BOOTS);
+        armorItem(MainItems.PICCOLO_ARMOR_HELMET);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE);
         armorItem(MainItems.PICCOLO_ARMOR_LEGGINGS);
         armorItem(MainItems.PICCOLO_ARMOR_BOOTS);
+        armorItem(MainItems.DEMON_GI_BLUE_ARMOR_CHESTPLATE);
+        armorItem(MainItems.DEMON_GI_BLUE_ARMOR_LEGGINGS);
+        armorItem(MainItems.DEMON_GI_BLUE_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);
