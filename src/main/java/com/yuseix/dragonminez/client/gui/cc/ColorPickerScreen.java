@@ -6,10 +6,15 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.CubeMap;
+import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -21,6 +26,22 @@ public class ColorPickerScreen extends Screen {
             "textures/gui/menulargo.png");
     private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menutexto.png");
+    //Textura de los panoramas
+    private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
+    private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/buu_panorama");
+    private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/bio_panorama");
+    private static final ResourceLocation PANORAMA_SAIYAN = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/s_panorama");
+    private static final ResourceLocation PANORAMA_NAMEK = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/n_panorama");
+    private static final ResourceLocation PANORAMA_COLD = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/c_panorama");
+
+    //Panoramas
+    private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
+    private final PanoramaRenderer panoramaBuu = new PanoramaRenderer(new CubeMap(PANORAMA_BUU));
+    private final PanoramaRenderer panoramaBio = new PanoramaRenderer(new CubeMap(PANORAMA_BIO));
+    private final PanoramaRenderer panoramaSai = new PanoramaRenderer(new CubeMap(PANORAMA_SAIYAN));
+    private final PanoramaRenderer panoramaNam = new PanoramaRenderer(new CubeMap(PANORAMA_NAMEK));
+    private final PanoramaRenderer panoramaCold = new PanoramaRenderer(new CubeMap(PANORAMA_COLD));
+
     private int selectedColor = 0xFFFFFFFF; // Color blanco por defecto
     private float brightness = 1.0f; // Nivel de brillo, 1.0 por defecto (máximo brillo)
     private String tipoColor = "";
@@ -99,6 +120,9 @@ public class ColorPickerScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        //Panoramas
+        panoramas(guiGraphics, partialTicks);
+
         //MenuLargo
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -209,4 +233,33 @@ public class ColorPickerScreen extends Screen {
     public boolean isPauseScreen() {
         return false;
     }
+
+    public void panoramas(GuiGraphics graphics, float partialtick){
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            var race = cap.getRace();
+
+            if(race == 0){
+                this.customPanorama.render(partialtick, 1.0f);
+
+            }else if(race == 1){
+                this.panoramaSai.render(partialtick, 1.0f);
+
+            }else if(race == 2){
+                this.panoramaNam.render(partialtick, 1.0f);
+
+            }else if(race == 3){
+                this.panoramaBio.render(partialtick, 1.0f);
+
+            }else if(race == 4){
+                this.panoramaCold.render(partialtick, 1.0f);
+
+            }else {
+                this.panoramaBuu.render(partialtick, 1.0f);
+
+            }
+        });
+
+    }
+
 }

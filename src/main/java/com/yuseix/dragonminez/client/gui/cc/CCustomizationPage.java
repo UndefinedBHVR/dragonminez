@@ -17,6 +17,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.CubeMap;
+import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -34,6 +36,23 @@ public class CCustomizationPage extends Screen {
     private int alturaTexto;
     private int anchoTexto;
 
+    //Textura de los panoramas
+    private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
+    private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/buu_panorama");
+    private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/bio_panorama");
+    private static final ResourceLocation PANORAMA_SAIYAN = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/s_panorama");
+    private static final ResourceLocation PANORAMA_NAMEK = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/n_panorama");
+    private static final ResourceLocation PANORAMA_COLD = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/c_panorama");
+
+    //Panoramas
+    private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
+    private final PanoramaRenderer panoramaBuu = new PanoramaRenderer(new CubeMap(PANORAMA_BUU));
+    private final PanoramaRenderer panoramaBio = new PanoramaRenderer(new CubeMap(PANORAMA_BIO));
+    private final PanoramaRenderer panoramaSai = new PanoramaRenderer(new CubeMap(PANORAMA_SAIYAN));
+    private final PanoramaRenderer panoramaNam = new PanoramaRenderer(new CubeMap(PANORAMA_NAMEK));
+    private final PanoramaRenderer panoramaCold = new PanoramaRenderer(new CubeMap(PANORAMA_COLD));
+
+
     private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
 
@@ -48,7 +67,6 @@ public class CCustomizationPage extends Screen {
     private DMZRightButton botonAlignmentRight, botonAlignmentLeft;
     private TextButton nextButton, backButton;
     private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
-    private int colorR, colorG, colorB;
     private int currentPage = 0;
     private static String partePagina = "";
 
@@ -114,12 +132,12 @@ public class CCustomizationPage extends Screen {
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics);
+        //renderBackground(pGuiGraphics);
 
         var Altura = pGuiGraphics.guiHeight();
         var Ancho = pGuiGraphics.guiWidth();
 
-        //panoramas(pGuiGraphics, pPartialTick);
+        panoramas(pGuiGraphics, pPartialTick);
 
         if (currentPage == 0) {
             for (ColorButton2 button : botonColorDefecto) {
@@ -1396,4 +1414,33 @@ public class CCustomizationPage extends Screen {
         }
         botonColorDefecto.clear();
     }
+
+    public void panoramas(GuiGraphics graphics, float partialtick){
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            var race = cap.getRace();
+
+            if(race == 0){
+                this.customPanorama.render(partialtick, 1.0f);
+
+            }else if(race == 1){
+                this.panoramaSai.render(partialtick, 1.0f);
+
+            }else if(race == 2){
+                this.panoramaNam.render(partialtick, 1.0f);
+
+            }else if(race == 3){
+                this.panoramaBio.render(partialtick, 1.0f);
+
+            }else if(race == 4){
+                this.panoramaCold.render(partialtick, 1.0f);
+
+            }else {
+                this.panoramaBuu.render(partialtick, 1.0f);
+
+            }
+        });
+
+    }
+
 }
