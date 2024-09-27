@@ -4,11 +4,15 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class PlayerHudOverlay implements RenderEntityInv {
@@ -133,7 +137,6 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             guiGraphics.drawString(Minecraft.getInstance().font, String.valueOf(Minecraft.getInstance().player.getHealth()), 150, 16, 0xBB1C2A);
 
-        });
 
 
         double scaleFactor = Minecraft.getInstance().getWindow().getGuiScale();
@@ -144,7 +147,8 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 (int) ((25 * 2) * scaleFactor),
                 (int) ((23 * 2) * scaleFactor));
 
-        RenderEntityInv.renderEntityInInventoryFollowsAngle(guiGraphics, 30, 125, 65, 35.5f, 0, Minecraft.getInstance().player);
+
+        personajesMenu(guiGraphics);
 
         RenderSystem.disableScissor();
 
@@ -152,9 +156,83 @@ public class PlayerHudOverlay implements RenderEntityInv {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, hud);
 
+        });
 
     };
 
 
+    public static void personajesMenu(GuiGraphics pGuiGraphics){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.getRace() == 0){//HUMANO
+                if (cap.getGender().equals("Male")){
+                    LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+
+                    RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+
+                }else {
+                    LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+
+                    RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+                }
+
+            }else if(cap.getRace() == 1){ //SAIYAN
+                if(cap.getBodytype() == 0){
+                    if(Minecraft.getInstance().player.getModelName().equals("default")){
+                        LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+
+                        RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+
+                    }else {
+                        LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+
+                        RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+                    }
+
+                } else {
+                    if (cap.getGender().equals("Male")){
+                        LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+
+                        RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+
+                    }else {
+                        LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+
+                        RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+                    }
+                }
+
+            }else if(cap.getRace() == 2){ //NAMEK
+                LivingEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), Minecraft.getInstance().level);
+
+                RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+
+            }else if(cap.getRace() == 3){ //BIOANDROIDE
+                LivingEntity bioAndroidEntity = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), Minecraft.getInstance().level);
+
+                RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, bioAndroidEntity);
+
+            }else if(cap.getRace() == 4){ //NARCO OSEA ARCO JEJE
+                LivingEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), Minecraft.getInstance().level);
+
+                RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+
+            }else { // MAJIN
+                if (cap.getGender().equals("Male")){
+                    LivingEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), Minecraft.getInstance().level);
+
+                    RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+
+                }else {
+                    LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+
+                    RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
+                }
+            }
+
+
+        });
+
+    }
 
 }

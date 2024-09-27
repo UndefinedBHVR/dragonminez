@@ -19,11 +19,12 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.init.entity.client.model.characters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
+import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.*;
+import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import net.minecraft.client.KeyMapping;
@@ -40,7 +41,6 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -59,6 +59,15 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+            //FAKEPLAYERS
+            EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidRender::new);
+            EntityRenderers.register(MainEntity.FP_DEMONCOLD.get(), (context) -> new FPDemonColdRender(context, new FPDemonColdModel<>(context.bakeLayer(FPDemonColdModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_HUMANSAIYAN.get(), (context) -> new FPHumSaiRender(context, new FPHumanSaiyanModel<>(context.bakeLayer(FPHumanSaiyanModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new FPSlimHSModel<>(context.bakeLayer(FPSlimHSModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
+            EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
+
+
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
@@ -128,6 +137,14 @@ public class ModBusEvents {
         event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
         event.put(MainEntity.MASTER_DENDE.get(), DendeEntity.setAttributes());
 
+        //FAKEPLAYERS
+        event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());
+        event.put(MainEntity.FP_DEMONCOLD.get(), FPDemonColdEntity.setAttributes());
+        event.put(MainEntity.FP_HUMANSAIYAN.get(), FPHumanSaiyanEntity.setAttributes());
+        event.put(MainEntity.FP_SLIMSAIYANHUM.get(), FPSlimEntity.setAttributes());
+        event.put(MainEntity.FP_NAMEK.get(), FPNamekianEntity.setAttributes());
+        event.put(MainEntity.FP_MAJINGORDO.get(), FPMajinGordEntity.setAttributes());
+
     }
 
     @SubscribeEvent
@@ -145,6 +162,16 @@ public class ModBusEvents {
         e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
         e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
         e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
+
+        //FP(FakePlayers)
+        e.registerLayerDefinition(FPBioAndroideModelo.LAYER_LOCATION, FPBioAndroideModelo::createBodyLayer);
+        e.registerLayerDefinition(FPDemonColdModel.LAYER_LOCATION, FPDemonColdModel::createBodyLayer);
+        e.registerLayerDefinition(FPHumanSaiyanModel.LAYER_LOCATION, FPHumanSaiyanModel::createBodyLayer);
+        e.registerLayerDefinition(FPSlimHSModel.LAYER_LOCATION, FPSlimHSModel::createBodyLayer);
+        e.registerLayerDefinition(FPNamekianModel.LAYER_LOCATION, FPNamekianModel::createBodyLayer);
+        e.registerLayerDefinition(FPMajinGordoModel.LAYER_LOCATION, FPMajinGordoModel::createBodyLayer);
+
+
 
         //CABELLOS
         e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
