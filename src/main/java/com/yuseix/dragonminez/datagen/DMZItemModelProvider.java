@@ -50,6 +50,12 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.VEGETA_NAMEK_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_NAMEK_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_NAMEK_ARMOR_BOOTS);
+        armorItem(MainItems.BARDOCK_SUPER_ARMOR_CHESTPLATE);
+        armorItem(MainItems.BARDOCK_SUPER_ARMOR_LEGGINGS);
+        armorItem(MainItems.BARDOCK_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.BARDOCK_DBZ_ARMOR_CHESTPLATE);
+        armorItem(MainItems.BARDOCK_DBZ_ARMOR_LEGGINGS);
+        armorItem(MainItems.BARDOCK_DBZ_ARMOR_BOOTS);
         armorItem(MainItems.GOKU_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOKU_ARMOR_LEGGINGS);
         armorItem(MainItems.GOKU_ARMOR_BOOTS);

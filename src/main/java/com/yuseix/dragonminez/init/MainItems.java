@@ -76,6 +76,32 @@ public final class MainItems {
             ITEM_REGISTER.register("vegeta_namek_armor_boots", () -> new VegetaNamekArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
                             .fireResistant().stacksTo(1)));
+    //BARDOCK SUPER
+    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("bardock_super_armor_chestplate", () -> new BardockSuperArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("bardock_super_armor_leggings", () -> new BardockSuperArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_BOOTS =
+            ITEM_REGISTER.register("bardock_super_armor_boots", () -> new BardockSuperArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    //BARDOCK DBZ
+    public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("bardock_dbz_armor_chestplate", () -> new BardockDBZArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("bardock_dbz_armor_leggings", () -> new BardockDBZArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_BOOTS =
+            ITEM_REGISTER.register("bardock_dbz_armor_boots", () -> new BardockDBZArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                            .fireResistant().stacksTo(1)));
     //GOKU GI
     public static final RegistryObject<Item> GOKU_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("goku_armor_chestplate", () -> new GokuArmorItem
