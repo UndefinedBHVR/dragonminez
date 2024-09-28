@@ -275,15 +275,11 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
                 .add(MainBlocks.POTTED_AMARYLLIS_FLOWER.get())
                 .add(MainBlocks.POTTED_CATHARANTHUS_ROSEUS_FLOWER.get())
                 .add(MainBlocks.POTTED_TRILLIUM_FLOWER.get())
-                .add(MainBlocks.POTTED_NAMEK_FERN.get())
-                .add(MainBlocks.POTTED_AJISSA_SAPLING.get())
                 .add(MainBlocks.POTTED_SACRED_CHRYSANTHEMUM_FLOWER.get())
                 .add(MainBlocks.POTTED_SACRED_MARIGOLD_FLOWER.get())
                 .add(MainBlocks.POTTED_AMARYLLIS_FLOWER.get())
                 .add(MainBlocks.POTTED_CATHARANTHUS_ROSEUS_FLOWER.get())
-                .add(MainBlocks.POTTED_TRILLIUM_FLOWER.get())
-                .add(MainBlocks.POTTED_SACRED_FERN.get())
-                .add(MainBlocks.POTTED_SACRED_SAPLING.get());
+                .add(MainBlocks.POTTED_TRILLIUM_FLOWER.get());
 
         this.tag(BlockTags.SAPLINGS)
                 .add(MainBlocks.NAMEK_SACRED_SAPLING.get())

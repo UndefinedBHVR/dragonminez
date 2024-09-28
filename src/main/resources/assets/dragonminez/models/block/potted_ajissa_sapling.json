@@ -3,7 +3,7 @@
 	"parent": "block/flower_pot_cross",
 	"textures": {
 		"1": "dragonminez:block/pot_sapling",
-		"2": "dragonminez:block/pot_sapling",
+		"2": "dragonminez:block/pot_sapling2",
 		"3": "dragonminez:block/ajissa_sapling_pot",
 		"particle": "dragonminez:block/pot_sapling"
 	},
