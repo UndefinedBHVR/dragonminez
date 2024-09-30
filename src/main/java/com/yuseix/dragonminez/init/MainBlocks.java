@@ -63,7 +63,7 @@ public final class MainBlocks {
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_AJISSA_SAPLING = registerBlock("namek_ajissa_sapling",
             () -> new NamekAjissaSaplingBlock(new NamekAjissaGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
-    public static final RegistryObject<Block> POTTED_AJISSA_SAPLING = registerBlock("potted_ajissa_sapling_flower",
+    public static final RegistryObject<Block> POTTED_AJISSA_SAPLING = registerBlock("potted_ajissa_sapling",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_AJISSA_SAPLING,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
     public static final RegistryObject<Block> NAMEK_AJISSA_WOOD = registerBlock("namek_ajissa_wood",
@@ -98,7 +98,7 @@ public final class MainBlocks {
             () -> new NamekStrippedLogBlock());
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
             () -> new SaplingBlock(new NamekSacredGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
-    public static final RegistryObject<Block> POTTED_SACRED_SAPLING = registerBlock("potted_sacred_sapling_flower",
+    public static final RegistryObject<Block> POTTED_SACRED_SAPLING = registerBlock("potted_sacred_sapling",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_SACRED_SAPLING,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
     public static final RegistryObject<Block> NAMEK_SACRED_WOOD = registerBlock("namek_sacred_wood",
@@ -225,7 +225,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_FERN = registerBlock("namek_fern",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.FERN)
                     .noOcclusion().noCollission()));
-    public static final RegistryObject<Block> POTTED_NAMEK_FERN = registerBlock("potted_namek_fern_flower",
+    public static final RegistryObject<Block> POTTED_NAMEK_FERN = registerBlock("potted_namek_fern",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_FERN,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
     public static final RegistryObject<Block> LOTUS_FLOWER = registerBlock("lotus_flower",
@@ -269,7 +269,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> SACRED_FERN = registerBlock("sacred_fern",
             () -> new NamekPlantsBlock(() -> MobEffects.LUCK, 5, BlockBehaviour.Properties.copy(Blocks.FERN)
                     .noOcclusion().noCollission()));
-    public static final RegistryObject<Block> POTTED_SACRED_FERN = registerBlock("potted_sacred_fern_flower",
+    public static final RegistryObject<Block> POTTED_SACRED_FERN = registerBlock("potted_sacred_fern",
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.SACRED_FERN,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
 
