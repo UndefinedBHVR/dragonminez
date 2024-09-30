@@ -33,35 +33,27 @@ public class TimeChamberPortalBlock extends Block {
                 ServerLevel targetWorld = ((ServerLevel) pPlayer.level()).getServer().getLevel(onTC ? Level.OVERWORLD : ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY);
 
                 if (targetWorld != null && !pPlayer.isPassenger()) {
+                    // Cambiar de dimensión primero
                     pPlayer.changeDimension(targetWorld, new ITeleporter() {
-
                         @Override
                         public Entity placeEntity(Entity entity, ServerLevel current, ServerLevel destination, float yaw, Function<Boolean, Entity> repositionEntity) {
-                            entity = repositionEntity.apply(false);
-
-                            BlockPos pos = new BlockPos((int)entity.getX(), (int)entity.getY(), (int)entity.getZ());
-                            BlockPos finalPos;
-
-                            if (destination.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) {
-                                finalPos = new BlockPos(pos.getX(), 0, pos.getZ());
-                                int y = destination.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, finalPos.getX(), finalPos.getZ());
-                                finalPos = new BlockPos(finalPos.getX(), Math.min(y, 2), finalPos.getZ());
-                            } else {
-                                finalPos = new BlockPos(pos.getX(), 50, pos.getZ());
-                                int i = 0;
-                                while (destination.getBlockState(finalPos).getBlock() != Blocks.AIR &&
-                                        destination.getBlockState(finalPos.above()).getBlock() != Blocks.AIR &&
-                                        !destination.getBlockState(finalPos).canBeReplaced(Fluids.WATER) &&
-                                        !destination.getBlockState(finalPos.above()).canBeReplaced(Fluids.WATER) && i < 30) {
-                                    finalPos = finalPos.above(2);
-                                    i++;
-                                }
-                            }
-
-                            entity.setPos(finalPos.getX(), finalPos.getY(), finalPos.getZ());
-                            return entity;
+                            // Mantener el reposicionamiento estándar
+                            return repositionEntity.apply(false);
                         }
                     });
+
+                    // Asignar la nueva posición después de cambiar de dimensión
+                    BlockPos finalPos;
+                    if (onTC) {
+                        finalPos = new BlockPos(159, 226, 143); // Saliste
+
+                    } else {
+                        finalPos = new BlockPos(61, 5, -63); // Entraste
+
+                    }
+
+                    // Forzar el reposicionamiento después de que el jugador cambie de dimensión
+                    pPlayer.teleportTo(finalPos.getX(), finalPos.getY(), finalPos.getZ());
                 }
             }
 

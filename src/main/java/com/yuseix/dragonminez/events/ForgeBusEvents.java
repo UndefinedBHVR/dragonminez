@@ -15,6 +15,7 @@ import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -170,13 +171,19 @@ public final class ForgeBusEvents {
     @SubscribeEvent
     public void onWorldLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel serverLevel && !serverLevel.isClientSide()) {
-            if (serverLevel.dimension() == Level.OVERWORLD) {
-                // Obtener la capability de DragonBalls (o TorreKamisama en tu caso)
+            if (serverLevel.dimension() == Level.OVERWORLD) { //Dimension de overworld
+                // Obtener la capability
                 LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 
                 // Ejecutar la generación si la Torre aún no ha sido generada
                 capability.ifPresent(torreCap -> {
-                    torreCap.generateStructureIfNeeded(serverLevel);
+                    torreCap.generateKamisamaStructure(serverLevel);
+                });
+            }
+            if(serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY){ //Dimension Habitación del Tiempo
+                LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+                capability.ifPresent(cap -> {
+                    cap.generateHabTiempoStructure(serverLevel);
                 });
             }
         }

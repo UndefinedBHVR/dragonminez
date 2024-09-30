@@ -35,7 +35,7 @@ public class ModDimensions extends NoiseRouterData{
      */
 
     //Namek
-    public static final ResourceKey<Level> NAMEK_DIM_LEVEL__KEY = ResourceKey.create(Registries.DIMENSION,
+    public static final ResourceKey<Level> NAMEK_DIM_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
             new ResourceLocation(DragonMineZ.MOD_ID, "namek"));
     public static final ResourceKey<LevelStem> NAMEK_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
             new ResourceLocation(DragonMineZ.MOD_ID, "namek"));

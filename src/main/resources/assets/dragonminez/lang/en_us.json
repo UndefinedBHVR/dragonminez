@@ -19,6 +19,13 @@
   "entity.dragonminez.karin": "Master Korin",
   "entity.dragonminez.shenlong": "Shenron",
   "entity.dragonminez.dende": "Kami-sama",
+  "entity.dragonminez.fp_bioandroide": "",
+  "entity.dragonminez.fp_demoncold": "",
+  "entity.dragonminez.fp_humansaiyan": "",
+  "entity.dragonminez.fp_majingordo": "",
+  "entity.dragonminez.fp_namek": "",
+  "entity.dragonminez.fp_slim": "",
+
 
   "item.dragonminez.red_capsule": "Capsule (STR)",
   "item.dragonminez.red_capsule.str.use": "+5 Strength",
