@@ -27,11 +27,15 @@ public class DataGenerator {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
+        //Registrar biomas, dimensiones, etc
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));
+
         generator.addProvider(event.includeServer(), new DMZItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeServer(), new DMZBlockStateProvider(packOutput, existingFileHelper));
         DMZBlockTagGenerator blockTagGenerator = generator.addProvider(event.includeServer(),
                 new DMZBlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
+
+
         generator.addProvider(event.includeServer(), new DMZItemTagGenerator(packOutput, lookupProvider,
                 blockTagGenerator.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new DMZRecipeProvider(packOutput));

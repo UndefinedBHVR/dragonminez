@@ -27,12 +27,14 @@ import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -212,5 +214,7 @@ public class ModBusEvents {
         event.register(DragonBallGenProvider.class);
         event.register(StructuresCapability.class);
     }
+
+
 
 }

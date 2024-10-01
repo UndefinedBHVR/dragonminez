@@ -10,12 +10,14 @@ import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -29,6 +31,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -150,7 +153,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             alturaTexto = 19;
-            anchoTexto = ((this.width / 2) - this.font.width(Minecraft.getInstance().player.getName().getString())) + 9;
+            anchoTexto = this.width/2;
 
             var playername = Minecraft.getInstance().player.getName().getString();
             var alignment = playerstats.getDmzAlignment();
@@ -164,37 +167,37 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             alturaTexto = 46;
             if(raza == 0){
 
-                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Human)) + 16;
+                anchoTexto = this.width/2;
 
-                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Human, anchoTexto, alturaTexto, 0x177CFC);
+                drawStringWithBorder(guiGraphics, font, TranslateManager.Human, anchoTexto, alturaTexto, 0x177CFC);
             } else if(raza == 1){
 
-                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Saiyan)) + 18;
+                anchoTexto = this.width/2;
 
-                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Saiyan, anchoTexto, alturaTexto, 0xFCB317);
+                drawStringWithBorder(guiGraphics, font, TranslateManager.Saiyan, anchoTexto, alturaTexto, 0xFCB317);
             } else if(raza == 2){
 
-                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Namek)) + 23;
+                anchoTexto = this.width/2;
 
-                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Namek, anchoTexto, alturaTexto, 0x186814);
+                drawStringWithBorder(guiGraphics, font, TranslateManager.Namek, anchoTexto, alturaTexto, 0x186814);
 
             } else if(raza == 3){
 
-                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.BioAndroid)) + 30;
+                anchoTexto = this.width/2;
 
-                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.BioAndroid, anchoTexto, alturaTexto, 0x7DFF76);
+                drawStringWithBorder(guiGraphics, font, TranslateManager.BioAndroid, anchoTexto, alturaTexto, 0x7DFF76);
 
             } else if(raza == 4){
 
-                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.ColdDemon)) + 30;
+                anchoTexto = this.width/2;
 
-                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.ColdDemon, anchoTexto, alturaTexto, 0x6A31EE);
+                drawStringWithBorder(guiGraphics, font, TranslateManager.ColdDemon, anchoTexto, alturaTexto, 0x6A31EE);
 
             } else {
 
-                anchoTexto = ((this.width / 2) - this.font.width(TranslateManager.Majin)) + 14;
+                anchoTexto = this.width/2;
 
-                drawStringWithBorderShadow(guiGraphics, font, TranslateManager.Majin, anchoTexto, alturaTexto, 0xFF86FD);
+                drawStringWithBorder(guiGraphics, font, TranslateManager.Majin, anchoTexto, alturaTexto, 0xFF86FD);
 
             }
         });
@@ -213,7 +216,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             alturaTexto = (this.height / 2) - 83;
 
             //Information title
-            drawStringWithBorder(graphics, font, Component.literal("INFORMATION"), 45, alturaTexto, 0xFBC51C);
+            drawStringWithBorder(graphics, font, Component.literal("INFORMATION"), 75, alturaTexto, 0xFBC51C);
 
             //Titulos
             anchoTexto = 25;
@@ -226,17 +229,17 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             //VARIABLES:
             //NIVEL
-            anchoTexto = 68;
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
+            anchoTexto = 75;
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
             //TPS
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
             //FORMA
-            drawStringWithBorderShadow(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
+            drawStringWithBorder2(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
             if(clase.equals("Warrior")){
-                drawStringWithBorderShadow(graphics, font,Component.literal("Warrior"), anchoTexto, alturaTexto + 33, 0xFC4E2B);
+                drawStringWithBorder(graphics, font,Component.literal("Warrior"), 90, alturaTexto + 33, 0xFC4E2B);
             }else {
-                drawStringWithBorderShadow(graphics, font,Component.literal("Spiritualist"), anchoTexto, alturaTexto + 33, 0x2BFCFC);
+                drawStringWithBorder(graphics, font,Component.literal("Spiritualist"), 90, alturaTexto + 33, 0x2BFCFC);
             }
 
             //STATS
@@ -249,7 +252,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             //STATS TITLE
             alturaTexto = (this.height / 2) - 16;
-            drawStringWithBorder(graphics, font, Component.literal("STATS"), 58, alturaTexto, 0x68CCFF);
+            drawStringWithBorder(graphics, font, Component.literal("STATS"), 72, alturaTexto, 0x68CCFF);
 
             //Variables stats
             alturaTexto = (this.height / 2) + 2;
@@ -272,13 +275,13 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
             anchoTexto = 70;
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
 
-            drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(cost)), anchoTexto-7, alturaTexto + 64, 0xFFCE41);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(cost)), anchoTexto-7, alturaTexto + 64, 0xFFCE41);
 
         });
 
@@ -287,12 +290,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void menu2info(GuiGraphics graphics){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            var raza = playerstats.getRace();
-
-            int DefensaArmor = Minecraft.getInstance().player.getArmorValue();
-            int DurezaArmor = Mth.floor(Minecraft.getInstance().player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-
-            anchoTexto = (this.width - 103);
+            anchoTexto = (this.width - 75);
             alturaTexto = (this.height / 2) - 83;
 
             //Information title
@@ -315,138 +313,30 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
 
             anchoTexto = (this.width - 55);
-            if(raza == 0){
-                //DamageOutput = (((((Daño MC + (StatSTR/10) * ConfigRaza) * ConfigClase) * Transf) * Porcentaje)
-                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
 
-                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
+            //Datos
+            var strMax = DMZDatos.calcularSTR(playerstats.getRace(), playerstats.getStrength(), 1);
+            var defMax = DMZDatos.calcularDEF(playerstats.getRace(),playerstats.getDefense());
+            var conMax = DMZDatos.calcularCON(playerstats.getRace(), playerstats.getConstitution(), 20);
+            var stmMax = DMZDatos.calcularSTM(playerstats.getRace(), conMax);
+            var KPWMax = playerstats.getKiPower();
+            var enrMax = DMZDatos.calcularENE(playerstats.getRace(), playerstats.getEnergy());
 
-                var vidaMC = 20;
-
-                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON.get()));
-                var stmMax = Math.round(conMax * 0.5);
-                var KPWMax = playerstats.getKiPower();
-                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
-
-                //VARIABLES:
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
-
-            } else if(raza == 1){ //SAIYAN
-                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
-
-                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
-
-                var vidaMC = 20;
-
-                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
-                var stmMax = Math.round(conMax * 0.5);
-                var KPWMax = playerstats.getKiPower();
-                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
-
-                //VARIABLES:
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
-
-            } else if(raza == 2){ //NAMEK
-                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_NAMEK.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
-
-                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_NAMEK.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
-
-                var vidaMC = 20;
-
-                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
-                var stmMax = Math.round(conMax * 0.5);
-                var KPWMax = playerstats.getKiPower();
-                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
-
-                //VARIABLES:
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
-
-            } else if(raza == 3){
-                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_BIO.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
-
-                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
-
-                var vidaMC = 20;
-
-                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
-                var stmMax = Math.round(conMax * 0.5);
-                var KPWMax = playerstats.getKiPower();
-                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
-
-                //VARIABLES:
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
-
-            } else if(raza == 4){
-                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_COLD.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
-
-                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_COLD.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
-
-                var vidaMC = 20;
-
-                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
-                var stmMax = Math.round(conMax * 0.5);
-                var KPWMax = playerstats.getKiPower();
-                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
-
-                //VARIABLES:
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
-
-            } else {
-                var strMax = Math.round(((1 + (playerstats.getStrength() / 10)) * DMCAttrConfig.MULTIPLIER_STR_MAJIN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get());
-
-                var defMax = Math.round(((playerstats.getDefense()/4) * DMCAttrConfig.MULTIPLIER_DEF_MAJIN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25);
-
-                var vidaMC = 20;
-
-                var conMax = Math.round(vidaMC + ((double) playerstats.getConstitution() * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                var stmMax = Math.round(conMax * 0.5);
-                var KPWMax = playerstats.getKiPower();
-                var enrMax = Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
-
-                //VARIABLES:
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-                drawStringWithBorderShadow(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
-
-            }
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
 
-
-
-            drawStringWithBorderShadow(graphics, font, Component.literal("x"+"1.0"), anchoTexto-8, alturaTexto + 80, 0xFCFCFC);
+            drawStringWithBorder2(graphics, font, Component.literal("x"+"1.0"), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
 
 
         });
 
     }
+
 
     public void menuPaneles(GuiGraphics guiGraphics){
         //INFORMACION (Nivel, tps, forma)
@@ -476,6 +366,19 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     }
 
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+        // Calcular la posición centrada
+        int textWidth = font.width(texto);
+        int centeredX = x - (textWidth / 2);
+
+        // Dibujar el texto con el borde
+        guiGraphics.drawString(font, texto, centeredX + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y, ColorTexto);
+    }
+
+    public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
 
         guiGraphics.drawString(font, texto, x + 1, y, ColorBorde);
         guiGraphics.drawString(font, texto, x - 1, y, ColorBorde);
@@ -484,21 +387,12 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         guiGraphics.drawString(font, texto, x, y, ColorTexto);
     }
 
-    public static void drawStringWithBorderShadow(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
-
-        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
-        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
-        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
-        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde, false);
-        guiGraphics.drawString(font, texto, x, y, ColorTexto, false);
-    }
-    public static void drawStringWithBorderShadow(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
-        drawStringWithBorderShadow(guiGraphics, font, texto, x, y, ColorTexto, 0);
-    }
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
         drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
-
+    public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
+    }
     @Override
     public boolean isPauseScreen() {
         return false;
