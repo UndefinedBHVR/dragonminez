@@ -59,11 +59,24 @@ public final class ForgeBusEvents {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
+            // Staff
             "Dev",
+            "Yuseix",
+            "ezShokkoh",
             "MrBrunoh",
             "Toji71",
-            "Yuseix",
-            "ezShokkoh");
+            // Testers
+            "ThiagoHanagaki",
+            "Gabrielololo",
+            "InYourHeart_",
+            "Im_Lu_",
+            "kavu_",
+            "andysito_",
+            "Ducco123",
+            "Rev_zy", //Mazu
+            "ForzakenNeon29",
+            "EsePibe01",
+            "Billufi");
 
 
     /*
