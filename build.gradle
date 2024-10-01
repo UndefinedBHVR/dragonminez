@@ -24,8 +24,6 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-apply plugin: 'com.gradleup.shadow'
-apply plugin: 'java'
 apply plugin: 'org.spongepowered.mixin'
 
 version = mod_version
@@ -107,8 +105,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     //Se usa GeckoLib mediante ShadowJar
-    shade 'software.bernie.geckolib:geckolib-forge-1.20.1:4.4.4'
-    minecraftLibrary 'software.bernie.geckolib:geckolib-forge-1.20.1:4.4.4'
+    shade fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.4.4')
     implementation 'com.eliotlash.mclib:mclib:20'
 
     //Corrección a puntos vulnerables de dependencias en Forge:
@@ -142,7 +139,7 @@ mixin {
     debug.export = true
 }
 
-tasks.named('jar', Jar).configure {
+jar {
     archiveClassifier = 'slim'
     manifest {
         attributes([
@@ -155,16 +152,24 @@ tasks.named('jar', Jar).configure {
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+    from(configurations.shade) {
+        into('lib')
+    }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
     finalizedBy 'reobfJar'
 }
 
 shadowJar {
     archiveClassifier = ''
     configurations = [project.configurations.shade]
-    relocate 'software.bernie.geckolib', 'com.yuseix.dragonminez.geckolib'
+    exclude 'software/bernie/example/**'
+    exclude 'assets/geckolib/**'
+    exclude '**/*.java'
+
+    relocate 'software.bernie.shadowed', 'software.bernie.dragonminez.shadowed' // <- Move the shadowed geckolib shadowed packages. This prevents classpath conflicts in runtime
+    relocate 'software.bernie.geckolib', 'software.bernie.dragonminez.geckolib'
+
     finalizedBy 'reobfShadowJar'
 }
 
@@ -193,3 +198,5 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
+
+jar.finalizedBy('reobfShadowJar')
