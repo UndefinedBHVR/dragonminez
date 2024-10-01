@@ -19,6 +19,7 @@ public class DMZTags {
             return BlockTags.create(new ResourceLocation(DragonMineZ.MOD_ID, name));
         }
     }
+    //No tocar, esto solo hace referencia, no genera nada pq da error xd
     public static class Biomes {
         public static final TagKey<Biome> IS_NAMEKWORLD = tag("is_namekworld");
 
@@ -26,4 +27,6 @@ public class DMZTags {
             return TagKey.create(Registries.BIOME, new ResourceLocation(DragonMineZ.MOD_ID, name));
         }
     }
+
+
 }

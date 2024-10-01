@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.DMCAttrConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -58,35 +59,17 @@ public class SenzuBeanItem extends Item {
                 var con = stats.getConstitution();
                 var energia = stats.getEnergy();
                 var raza = stats.getRace();
-                var VidaTotal = 0.0;
-                var energiaMax = 0;
 
-                if (raza == 0) {
-                    VidaTotal = (float) (vidaMC + ((con) * DMCAttrConfig.MULTIPLIER_CON.get()));
-                    energiaMax = (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
-                } else if (raza == 1) {
-                    VidaTotal = (float) (vidaMC + ((con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
-                    energiaMax = (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
-                } else if (raza == 2) {
-                    VidaTotal = (float) (vidaMC + ((con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
-                    energiaMax = (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
-                } else if (raza == 3) {
-                    VidaTotal = (float) (vidaMC + ((con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
-                    energiaMax = (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
-                } else if (raza == 4) {
-                    VidaTotal = (float) (vidaMC + ((con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
-                    energiaMax = (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
-                } else if (raza == 5) {
-                    VidaTotal = (float) (vidaMC + ((con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                    energiaMax = (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
-                }
+                // Calcular vida total, energía máxima y stamina
+                double VidaTotal = DMZDatos.calcularCON(raza, con, vidaMC);
+                int energiaMax = DMZDatos.calcularENE(raza, energia);
+                int staminaMax = DMZDatos.calcularSTM(raza, (int) VidaTotal);
 
+                // Regenerar vida, stamina y energía
                 pPlayer.heal((float) VidaTotal);
-                stats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                stats.setCurStam(staminaMax);
                 stats.setCurrentEnergy(energiaMax);
             });
-
-            //pPlayer.displayClientMessage(Component.literal("Has sido curado").withStyle(ChatFormatting.GREEN), true);
 
             pPlayer.getFoodData().setFoodLevel(20);
             pPlayer.getFoodData().setSaturation(15.0F);

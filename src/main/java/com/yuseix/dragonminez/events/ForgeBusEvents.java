@@ -175,9 +175,6 @@ public final class ForgeBusEvents {
         if (Keys.STATS_MENU.consumeClick()) {
             ModMessages.sendToServer(new MenuC2S());
         }
-        if(Keys.PANEL_GUI.consumeClick()){
-            Minecraft.getInstance().setScreen(new ColorPickerScreen(""));
-        }
 
     }
 
