@@ -27,8 +27,10 @@ public final class MainTabs {
                         if (!block.getId().getPath().startsWith("namek_")) {
                             if (!block.getId().getPath().startsWith("sacred_")) {
                                 if (!block.getId().getPath().endsWith("_flower")) {
-                                    if (!(block.get() instanceof LiquidBlock)) {
-                                        output.accept(block.get().asItem());
+                                    if (!block.getId().getPath().startsWith("potted_")) {
+                                        if (!(block.get() instanceof LiquidBlock)) {
+                                            output.accept(block.get().asItem());
+                                        }
                                     }
                                 }
                             }

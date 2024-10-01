@@ -19,6 +19,12 @@
   "entity.dragonminez.karin": "Maestro Karin",
   "entity.dragonminez.shenlong": "Shenlong",
   "entity.dragonminez.dende": "Kami",
+  "entity.dragonminez.fp_bioandroide": "",
+  "entity.dragonminez.fp_demoncold": "",
+  "entity.dragonminez.fp_humansaiyan": "",
+  "entity.dragonminez.fp_majingordo": "",
+  "entity.dragonminez.fp_namek": "",
+  "entity.dragonminez.fp_slim": "",
 
   "item.dragonminez.red_capsule": "Cápsula (STR)",
   "item.dragonminez.red_capsule.str.use": "+5 Fuerza",

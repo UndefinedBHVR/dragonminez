@@ -26,7 +26,6 @@
   "entity.dragonminez.fp_namek": "",
   "entity.dragonminez.fp_slim": "",
 
-
   "item.dragonminez.red_capsule": "Capsule (STR)",
   "item.dragonminez.red_capsule.str.use": "+5 Strength",
   "item.dragonminez.red_capsule.tooltip": "\u00A77Gives you \u00A7a+5 STR \u00A77stat points to your attributes.",

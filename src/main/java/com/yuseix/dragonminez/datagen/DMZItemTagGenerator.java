@@ -115,6 +115,5 @@ public class DMZItemTagGenerator extends ItemTagsProvider {
                 .add(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get().asItem())
                 .add(MainBlocks.SACRED_TRILLIUM_FLOWER.get().asItem());
 
-
     }
 }

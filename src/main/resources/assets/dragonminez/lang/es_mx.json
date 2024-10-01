@@ -19,6 +19,12 @@
   "entity.dragonminez.karin": "Maestro Karin",
   "entity.dragonminez.shenlong": "Shen Long",
   "entity.dragonminez.dende": "Kamisama",
+  "entity.dragonminez.fp_bioandroide": "",
+  "entity.dragonminez.fp_demoncold": "",
+  "entity.dragonminez.fp_humansaiyan": "",
+  "entity.dragonminez.fp_majingordo": "",
+  "entity.dragonminez.fp_namek": "",
+  "entity.dragonminez.fp_slim": "",
 
   "item.dragonminez.red_capsule": "Cápsula Hoi-Poi (STR)",
   "item.dragonminez.red_capsule.str.use": "+5 Fuerza",
@@ -49,8 +55,8 @@
   "item.dragonminez.might_tree_fruit.tooltip": "\u00A77Este fruto te dará un aumento de poder temporal.",
   "item.dragonminez.heart_medicine": "Medicamento del Corazón",
   "item.dragonminez.heart_medicine.tooltip": "\u00A77Esta extraña botella dice que ha sido fabricada en el año 2064...",
-  "item.dragonminez.senzu_bean": "Alubia Mágica",
-  "item.dragonminez.senzu_bean.tooltip": "\u00A77Esta mágica alubia te curará completamente.",
+  "item.dragonminez.senzu_bean": "Semilla del Ermitaño",
+  "item.dragonminez.senzu_bean.tooltip": "\u00A77Esta Semilla te curará completamente.",
 
   "item.dragonminez.green_pothala_left": "Pothala Verde (Izquierda)",
   "item.dragonminez.green_pothala_right": "Pothala Verde (Derecha)",
