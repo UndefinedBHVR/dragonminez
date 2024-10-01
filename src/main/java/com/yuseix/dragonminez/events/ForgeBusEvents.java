@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.gui.cc.ColorPickerScreen;
 import com.yuseix.dragonminez.commands.ResetCharacterCommand;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
@@ -12,6 +13,10 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.StructuresCapability;
+import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -26,8 +31,10 @@ import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.command.ConfigCommand;
@@ -52,11 +59,24 @@ public final class ForgeBusEvents {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
+            // Staff
             "Dev",
+            "Yuseix",
+            "ezShokkoh",
             "MrBrunoh",
             "Toji71",
-            "Yuseix",
-            "ezShokkoh");
+            // Testers
+            "ThiagoHanagaki",
+            "Gabrielololo",
+            "InYourHeart_",
+            "Im_Lu_",
+            "kavu_",
+            "andysito_",
+            "Ducco123",
+            "Rev_zy", //Mazu
+            "ForzakenNeon29",
+            "EsePibe01",
+            "Billufi");
 
 
     /*
@@ -132,6 +152,11 @@ public final class ForgeBusEvents {
         if (event.getObject() instanceof ServerLevel) {
             if (!event.getObject().getCapability(DragonBallGenProvider.CAPABILITY).isPresent())
                 event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "dragon_balls"), new DragonBallGenProvider());
+
+            if (!event.getObject().getCapability(StructuresProvider.CAPABILITY).isPresent())
+                event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "structures"), new StructuresProvider());
+
+
         }
     }
 
@@ -151,6 +176,27 @@ public final class ForgeBusEvents {
             ModMessages.sendToServer(new MenuC2S());
         }
 
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(LevelEvent.Load event) {
+        if (event.getLevel() instanceof ServerLevel serverLevel && !serverLevel.isClientSide()) {
+            if (serverLevel.dimension() == Level.OVERWORLD) { //Dimension de overworld
+                // Obtener la capability
+                LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+
+                // Ejecutar la generación si la Torre aún no ha sido generada
+                capability.ifPresent(torreCap -> {
+                    torreCap.generateKamisamaStructure(serverLevel);
+                });
+            }
+            if(serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY){ //Dimension Habitación del Tiempo
+                LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+                capability.ifPresent(cap -> {
+                    cap.generateHabTiempoStructure(serverLevel);
+                });
+            }
+        }
     }
 
     private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {

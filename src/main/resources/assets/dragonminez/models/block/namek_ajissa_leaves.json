@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/leaves",
-  "textures": {
-    "all": "dragonminez:block/namek/ajissa_leaves"
-  }
-}

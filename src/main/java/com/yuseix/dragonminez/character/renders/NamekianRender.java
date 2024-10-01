@@ -147,17 +147,16 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
 
                 if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                 } else if (bodyType == 1) {
                     pPoseStack.translate(0f,0f,0f);
-                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                 }
-                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
             });
 
@@ -180,7 +179,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
     }
 
-    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
 
@@ -195,27 +194,52 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //CEJAS Y COLOR DE CEJAS
                 colorR = (cejascolor >> 16) / 255.0F;
                 colorG = ((cejascolor >> 8) & 0xff) / 255.0f;
                 colorB = (cejascolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+            } else if(cap.getEyesType() == 1){
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cejascolor >> 16) / 255.0F;
+                colorG = ((cejascolor >> 8) & 0xff) / 255.0f;
+                colorB = (cejascolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 
@@ -223,7 +247,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         });
     }
 
-    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
 
@@ -237,25 +261,25 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 2
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 3
             colorR = (bodyColor3 >> 16) / 255.0F;
             colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor3 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY1_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 
     }
 
-    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
 
@@ -270,25 +294,25 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 2
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 3
             colorR = (bodyColor3 >> 16) / 255.0F;
             colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor3 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 4
             colorR = (bodyColor4 >> 16) / 255.0F;
             colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor4 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART4)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_BASE_BODY2_PART4)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 

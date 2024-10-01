@@ -58,6 +58,10 @@ public final class MainBlockEntities {
             BLOCK_ENTITY_TYPES_REGISTER.register("gete_furnace_block_entity", () ->
                     BlockEntityType.Builder.of(GeteFurnaceBlockEntity::new, MainBlocks.GETE_FURNACE.get())
                             .build(null));
+    public static final RegistryObject<BlockEntityType<KikonoArmorStationBlockEntity>> KIKONO_ARMOR_STATION_BE =
+            BLOCK_ENTITY_TYPES_REGISTER.register("kikono_armor_station_be", () ->
+                    BlockEntityType.Builder.of(KikonoArmorStationBlockEntity::new, MainBlocks.KIKONO_ARMOR_STATION.get())
+                            .build(null));
 
 
     public static void register(IEventBus bus) {

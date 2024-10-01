@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "dragonminez:block/namek/namek_deepslate_emerald"
-  }
-}

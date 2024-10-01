@@ -11,42 +11,38 @@ import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
 import com.yuseix.dragonminez.character.models.hair.VegetaHairModel;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
+import com.yuseix.dragonminez.client.gui.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
-import com.yuseix.dragonminez.init.MainBlockEntities;
-import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainFluids;
+import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
-import com.yuseix.dragonminez.init.entity.client.renderer.DinoRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.KarinRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.NubeRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.ShenlongRenderer;
-import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
-import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
-import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
-import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.init.entity.client.model.characters.*;
+import com.yuseix.dragonminez.init.entity.client.renderer.*;
+import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
+import com.yuseix.dragonminez.init.entity.custom.*;
+import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.StructuresCapability;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -54,22 +50,7 @@ import java.lang.reflect.Modifier;
 //Anteriormente llamado ModListener o ClientEvents
 //ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
 //Si un evento tiene "class x implements IMobBusEvent" TIENE que estar acá.
-public final class ModBusEvents {
-
-    @SubscribeEvent
-    public void onCommonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(ModMessages::register);
-    }
-
-    @SubscribeEvent
-    public void onSpawnPlacementRegister(SpawnPlacementRegisterEvent event) {
-        event.register(MainEntity.DINO1.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Animal::checkAnimalSpawnRules,
-                SpawnPlacementRegisterEvent.Operation.REPLACE);
-    }
-
+public class ModBusEvents {
 
     @SubscribeEvent
     public void onClientSetup(FMLClientSetupEvent event) {
@@ -79,6 +60,16 @@ public final class ModBusEvents {
             EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
+            EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+            //FAKEPLAYERS
+            EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidRender::new);
+            EntityRenderers.register(MainEntity.FP_DEMONCOLD.get(), (context) -> new FPDemonColdRender(context, new FPDemonColdModel<>(context.bakeLayer(FPDemonColdModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_HUMANSAIYAN.get(), (context) -> new FPHumSaiRender(context, new FPHumanSaiyanModel<>(context.bakeLayer(FPHumanSaiyanModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new FPSlimHSModel<>(context.bakeLayer(FPSlimHSModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
+            EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
+
+
 
             //BLOQUES
             BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
@@ -90,10 +81,50 @@ public final class ModBusEvents {
             BlockEntityRenderers.register(MainBlockEntities.DBALL6_BLOCK_ENTITY.get(), Dball6BlockRenderer::new);
             BlockEntityRenderers.register(MainBlockEntities.DBALL7_BLOCK_ENTITY.get(), Dball7BlockRenderer::new);
 
-            //ITEMS
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.KIKONO_ARMOR_STATION.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_AJISSA_LOG.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_STRIPPED_AJISSA_LOG.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_SACRED_LOG.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_STRIPPED_SACRED_LOG.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.INVISIBLE_LADDER_BLOCK.get(), RenderType.translucent());
 
+            //MENÚS
+            MenuScreens.register(DMZMenuTypes.KIKONO_ARMOR_STATION_MENU.get(), KikonoArmorStationScreen::new);
+
+            //ITEMS
             ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING.get(), RenderType.translucent());
+
+            //Vegetacion
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.CHRYSANTHEMUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.AMARYLLIS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.MARIGOLD_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.TRILLIUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.LOTUS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_FERN.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.SACRED_AMARYLLIS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.SACRED_MARIGOLD_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.SACRED_TRILLIUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.SACRED_FERN.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_AJISSA_SAPLING.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.NAMEK_SACRED_SAPLING.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_CHRYSANTHEMUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_AMARYLLIS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_MARIGOLD_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_CATHARANTHUS_ROSEUS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_TRILLIUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_NAMEK_FERN.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_CHRYSANTHEMUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_AMARYLLIS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_MARIGOLD_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_CATHARANTHUS_ROSEUS_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_TRILLIUM_FLOWER.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_FERN.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_AJISSA_SAPLING.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(MainBlocks.POTTED_SACRED_SAPLING.get(), RenderType.cutout());
 
             //Outline de las Dragon Balls Helper
             MinecraftForge.EVENT_BUS.addListener(DballOutlineRenderer::renderOutlineDball);
@@ -106,17 +137,21 @@ public final class ModBusEvents {
         event.put(MainEntity.NUBE_VOLADORA.get(), NubeEntity.createAttributes());
         event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
         event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
+        event.put(MainEntity.MASTER_DENDE.get(), DendeEntity.setAttributes());
+
+        //FAKEPLAYERS
+        event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());
+        event.put(MainEntity.FP_DEMONCOLD.get(), FPDemonColdEntity.setAttributes());
+        event.put(MainEntity.FP_HUMANSAIYAN.get(), FPHumanSaiyanEntity.setAttributes());
+        event.put(MainEntity.FP_SLIMSAIYANHUM.get(), FPSlimEntity.setAttributes());
+        event.put(MainEntity.FP_NAMEK.get(), FPNamekianEntity.setAttributes());
+        event.put(MainEntity.FP_MAJINGORDO.get(), FPMajinGordEntity.setAttributes());
 
     }
 
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
         e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
-    }
-
-    @SubscribeEvent
-    public void registerModelLayers(EntityRenderersEvent.AddLayers e) {
-
     }
 
     @SubscribeEvent
@@ -130,6 +165,16 @@ public final class ModBusEvents {
         e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
         e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
 
+        //FP(FakePlayers)
+        e.registerLayerDefinition(FPBioAndroideModelo.LAYER_LOCATION, FPBioAndroideModelo::createBodyLayer);
+        e.registerLayerDefinition(FPDemonColdModel.LAYER_LOCATION, FPDemonColdModel::createBodyLayer);
+        e.registerLayerDefinition(FPHumanSaiyanModel.LAYER_LOCATION, FPHumanSaiyanModel::createBodyLayer);
+        e.registerLayerDefinition(FPSlimHSModel.LAYER_LOCATION, FPSlimHSModel::createBodyLayer);
+        e.registerLayerDefinition(FPNamekianModel.LAYER_LOCATION, FPNamekianModel::createBodyLayer);
+        e.registerLayerDefinition(FPMajinGordoModel.LAYER_LOCATION, FPMajinGordoModel::createBodyLayer);
+
+
+
         //CABELLOS
         e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
         e.registerLayerDefinition(FemHairModel.LAYER_LOCATION,FemHairModel::createBodyLayer);
@@ -138,6 +183,9 @@ public final class ModBusEvents {
 
         //ARMADURAS
         e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
+        e.registerLayerDefinition(ArmorSaiyanModel.LAYER_LOCATION, ArmorSaiyanModel::createBodyLayer);
+        e.registerLayerDefinition(ArmorPiccoloModel.LAYER_LOCATION, ArmorPiccoloModel::createBodyLayer);
+
     }
 
 
@@ -163,8 +211,10 @@ public final class ModBusEvents {
 
     @SubscribeEvent
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(DMZStatsCapabilities.class);
         event.register(DragonBallGenProvider.class);
+        event.register(StructuresCapability.class);
     }
+
+
 
 }

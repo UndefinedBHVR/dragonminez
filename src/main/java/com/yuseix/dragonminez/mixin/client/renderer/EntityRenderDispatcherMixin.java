@@ -32,7 +32,6 @@ import java.util.Map;
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin {
 
-    private Map<String, GeoEntityRenderer> dmzRendererers = ImmutableMap.of();
     private Map<String, LivingEntityRenderer> dmzRendererersV2 = ImmutableMap.of();
 
     @Shadow
@@ -116,24 +115,9 @@ public class EntityRenderDispatcherMixin {
 
     @Inject(at = @At("TAIL"), method = "onResourceManagerReload(Lnet/minecraft/server/packs/resources/ResourceManager;)V", locals = LocalCapture.CAPTURE_FAILHARD)
     public void dmz$reload(ResourceManager resourceManager, CallbackInfo ci, EntityRendererProvider.Context entityrendererprovider$context) {
-        //dmzRendererers = reloadDMZRenderers(entityrendererprovider$context);
         dmzRendererersV2 = reloadDMZRenderersV2(entityrendererprovider$context);
     }
 
-
-    private static Map<String, GeoEntityRenderer> reloadDMZRenderers(EntityRendererProvider.Context ctx) {
-        ImmutableMap.Builder<String, GeoEntityRenderer> builder = ImmutableMap.builder();
-        //HUMANO Y SAIYAJIN
-        builder.put("default", new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("stevehumansaiyanmodel")));
-        builder.put("slim", new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("alexhumansaiyanmodel")));
-        builder.put("default", new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("stevehumansaiyanmodel")));
-        //HUMANO Y SAIYAJIN MODELO FEMENINO (FASE ALPHA)
-        builder.put("fem", new GeoHumanSaiyanRender(ctx, new GeoHumanSaiyanModel("femhumansaiyanmodel")));
-        //BIOANDROIDE BASE
-        builder.put("bioandroid_imperfect", new GeoBioAndroidRender(ctx, new GeoBioAndroidModel()));
-
-        return builder.build();
-    }
     private static Map<String, LivingEntityRenderer> reloadDMZRenderersV2(EntityRendererProvider.Context ctx) {
         ImmutableMap.Builder<String, LivingEntityRenderer> builder = ImmutableMap.builder();
         //HUMANO Y SAIYAJIN

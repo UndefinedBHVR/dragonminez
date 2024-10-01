@@ -19,7 +19,7 @@ public class DMZStatsAttributes {
 
     private String gender = "Male";
 
-    private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor, auraColor;
+    private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor;
 
     private boolean AcceptCharacter = false;
 

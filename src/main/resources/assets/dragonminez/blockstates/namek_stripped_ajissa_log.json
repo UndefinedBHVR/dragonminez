@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "dragonminez:block/namek_stripped_ajissa_log" },
+    "facing=east": { "model": "dragonminez:block/namek_stripped_ajissa_log", "y": 90 },
+    "facing=south": { "model": "dragonminez:block/namek_stripped_ajissa_log", "y": 180 },
+    "facing=west": { "model": "dragonminez:block/namek_stripped_ajissa_log", "y": 270 }
+  }
+}

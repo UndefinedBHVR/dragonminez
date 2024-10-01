@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrassBlock;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import java.util.List;
 import java.util.Optional;
 
-public class NamekGrassBlock extends GrassBlock implements BonemealableBlock {
+public class NamekGrassBlock extends Block implements BonemealableBlock {
 
     public NamekGrassBlock(Properties properties) {
         super(properties);
@@ -33,22 +34,27 @@ public class NamekGrassBlock extends GrassBlock implements BonemealableBlock {
         if (!world.isClientSide) {
             if (!world.isAreaLoaded(pos, 2)) return;
 
-            if (world.getLightEmission(pos.above()) < 4 && world.getBlockState(pos.above()).getLightBlock(world, pos.above()) > 2) {
+            BlockState blockAbove = world.getBlockState(pos.above());
+
+            // Transformar a NAMEK_DIRT si hay un bloque opaco encima o la luz es insuficiente
+            if (blockAbove.getLightBlock(world, pos.above()) > 2 && world.getMaxLocalRawBrightness(pos.above()) < 4) {
                 world.setBlockAndUpdate(pos, MainBlocks.NAMEK_DIRT.get().defaultBlockState());
             } else {
-                if (world.getLightEmission(pos.above()) >= 9) {
+                // Expansión del NAMEK_GRASS_BLOCK a NAMEK_DIRT adyacente si la luz es suficiente
+                if (world.getMaxLocalRawBrightness(pos.above()) >= 9) {
                     for (int i = 0; i < 4; ++i) {
                         BlockPos targetPos = pos.offset(
                                 random.nextInt(3) - 1,
-                                random.nextInt(5) - 3,
+                                random.nextInt(3) - 1,
                                 random.nextInt(3) - 1
                         );
                         BlockState targetState = world.getBlockState(targetPos);
-                        BlockState aboveState = world.getBlockState(targetPos.above());
+                        BlockState aboveTargetState = world.getBlockState(targetPos.above());
 
+                        // Expande a NAMEK_GRASS_BLOCK si el bloque objetivo es NAMEK_DIRT y el bloque superior es aire
                         if (targetState.is(MainBlocks.NAMEK_DIRT.get()) &&
-                                world.getLightEmission(targetPos.above()) >= 4 &&
-                                aboveState.isAir()) {
+                                aboveTargetState.isAir() &&
+                                world.getMaxLocalRawBrightness(targetPos.above()) >= 4) {
                             world.setBlockAndUpdate(targetPos, MainBlocks.NAMEK_GRASS_BLOCK.get().defaultBlockState());
                         }
                     }
@@ -56,6 +62,7 @@ public class NamekGrassBlock extends GrassBlock implements BonemealableBlock {
             }
         }
     }
+
 
     @Override
     public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos pos, BlockState state, boolean isClient) {
@@ -70,8 +77,7 @@ public class NamekGrassBlock extends GrassBlock implements BonemealableBlock {
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos abovePos = pos.above();
-        BlockState grassState = MainBlocks.NAMEK_GRASS_BLOCK.get().defaultBlockState();
-        Optional<Holder.Reference<PlacedFeature>> featureHolder = level.registryAccess().registryOrThrow(Registries.PLACED_FEATURE).getHolder(VegetationPlacements.GRASS_BONEMEAL);
+        BlockState namekGrassState = MainBlocks.NAMEK_GRASS.get().defaultBlockState();
 
         for (int i = 0; i < 128; ++i) {
             BlockPos currentPos = abovePos;
@@ -84,29 +90,13 @@ public class NamekGrassBlock extends GrassBlock implements BonemealableBlock {
             }
 
             BlockState targetState = level.getBlockState(currentPos);
-            if (targetState.is(grassState.getBlock()) && random.nextInt(10) == 0) {
-                ((BonemealableBlock) grassState.getBlock()).performBonemeal(level, random, currentPos, targetState);
-            }
+            BlockState belowState = level.getBlockState(currentPos.below());
 
-            if (targetState.isAir()) {
-                Holder<?> holder;
-                if (random.nextInt(8) == 0) {
-                    List<ConfiguredFeature<?, ?>> flowerFeatures = ((Biome) level.getBiome(currentPos).value()).getGenerationSettings().getFlowerFeatures();
-                    if (flowerFeatures.isEmpty()) {
-                        continue;
-                    }
-
-                    holder = ((RandomPatchConfiguration) ((ConfiguredFeature<?, ?>) flowerFeatures.get(0)).config()).feature();
-                } else {
-                    if (!featureHolder.isPresent()) {
-                        continue;
-                    }
-
-                    holder = featureHolder.get();
-                }
-
-                ((PlacedFeature) holder.value()).place(level, level.getChunkSource().getGenerator(), random, currentPos);
+            // Verifica que el bloque debajo sea NAMEK_GRASS_BLOCK antes de generar NAMEK_GRASS
+            if (targetState.isAir() && belowState.is(MainBlocks.NAMEK_GRASS_BLOCK.get())) {
+                level.setBlockAndUpdate(currentPos, namekGrassState);
             }
         }
     }
+
 }

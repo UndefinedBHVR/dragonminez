@@ -157,9 +157,9 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 if (bodyType == 0) {
 
                     if(pEntity.getModelName().equals("default")){
-                        renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
-                        renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
 
                 } else if (bodyType > 0) {
@@ -168,17 +168,17 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                     //CUERPO CUSTOM 1
                     if (bodyType == 1) {
                         if(genero.equals("Male")){
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         } else {
-                            renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight);
+                            renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
                     }
 
                     //RENDER EYES
                     if(genero.equals("Male")){
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
                 }
 
@@ -277,7 +277,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         }
     }
 
-    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
@@ -292,27 +292,52 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //CEJAS Y COLOR DE CEJAS
                 colorR = (cabellocolor >> 16) / 255.0F;
                 colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
                 colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+            } else if(cap.getEyesType() == 1){
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 
@@ -320,7 +345,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         });
     }
 
-    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
@@ -335,57 +360,82 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //CEJAS Y COLOR DE CEJAS
                 colorR = (cabellocolor >> 16) / 255.0F;
                 colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
                 colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+            } else if(cap.getEyesType() == 1){
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 
 
         });
     }
-    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
     }
-    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
     }
 
-    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
@@ -397,14 +447,14 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
                 colorB = (bodyColor1 & 0xff) / 255.0f;
                 //RENDERIZAR EL CUERPO ENTERO
-                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
 
 
         });
 
     }
-    private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
@@ -416,7 +466,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
                 colorB = (bodyColor1 & 0xff) / 255.0f;
                 //RENDERIZAR EL CUERPO ENTERO
-                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_BODY1_FEM)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
         });
 

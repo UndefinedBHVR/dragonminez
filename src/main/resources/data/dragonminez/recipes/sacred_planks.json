@@ -4,7 +4,7 @@
   "group": "dmz_planks",
   "ingredients": [
     {
-      "item": "dragonminez:namek_sacred_log"
+      "tag": "dragonminez:namek_slog"
     }
   ],
   "result": {

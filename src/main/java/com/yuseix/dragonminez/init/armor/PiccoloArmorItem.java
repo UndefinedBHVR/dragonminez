@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.armor;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.resources.ResourceLocation;
@@ -19,8 +20,8 @@ import java.util.function.Consumer;
 
 public class PiccoloArmorItem extends ArmorItem {
 
-    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/goku_gi_layer1.png").toString();
-    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/goku_gi_layer2.png").toString();
+    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/piccolo_gi_layer1.png").toString();
+    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/piccolo_gi_layer2.png").toString();
 
 
     public PiccoloArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
@@ -45,13 +46,13 @@ public class PiccoloArmorItem extends ArmorItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
 
-            private ArmorBaseModel model;
+            private ArmorPiccoloModel model;
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
                 if(model == null){
-                    model = new ArmorBaseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorBaseModel.LAYER_LOCATION));
+                    model = new ArmorPiccoloModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorPiccoloModel.LAYER_LOCATION));
                 }
                 return model;
 

@@ -145,9 +145,9 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                 int bodyType = cap.getBodytype();
 
                 if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight);
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
-                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight);
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
             });
 
@@ -169,7 +169,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         }
 
     }
-    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         BioAndroideModelo<AbstractClientPlayer> playermodel = (BioAndroideModelo)this.getModel();
 
@@ -183,28 +183,28 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY1)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 2
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY2)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 3
             colorR = (bodyColor3 >> 16) / 255.0F;
             colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor3 & 0xff) / 255.0f;
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY3)), pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
             //RENDERIZAR LA COLA DEL CUERPO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODYCOLA)), pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0f);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODYCOLA)), pPackedLight, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
 
         });
 
     }
 
-    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight){
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
         BioAndroideModelo<AbstractClientPlayer> playermodel = (BioAndroideModelo)this.getModel();
 
@@ -217,14 +217,14 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_EYES)),pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //IRIS DE AMBOS OJOS Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_IRIS)),pPackedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 
@@ -237,7 +237,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
     }
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {
-        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel) this.getModel();
         if (pClientPlayer.isSpectator()) {
             playermodel.setAllVisible(false);
             playermodel.hat.visible = true;

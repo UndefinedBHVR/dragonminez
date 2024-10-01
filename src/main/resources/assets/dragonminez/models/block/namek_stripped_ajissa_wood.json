@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "dragonminez:block/namek_stripped_ajissa_log",
+    "side": "dragonminez:block/namek_stripped_ajissa_log"
+  }
+}

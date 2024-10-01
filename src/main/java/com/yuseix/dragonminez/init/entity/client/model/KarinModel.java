@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.entity.custom.DendeEntity;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +15,7 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class KarinModel extends GeoModel<KarinEntity> {
     @Override
     public ResourceLocation getModelResource(KarinEntity karinEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/karin.geo.json");
+        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/masters/karin.geo.json");
     }
 
     @Override

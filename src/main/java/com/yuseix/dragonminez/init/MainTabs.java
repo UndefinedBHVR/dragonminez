@@ -25,11 +25,19 @@ public final class MainTabs {
                     .title(Component.translatable("itemGroup.dragonminez.blocks"))
                     .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
                         if (!block.getId().getPath().startsWith("namek_")) {
-                            if (!(block.get() instanceof LiquidBlock))
-                                output.accept(block.get().asItem());
+                            if (!block.getId().getPath().startsWith("sacred_")) {
+                                if (!block.getId().getPath().endsWith("_flower")) {
+                                    if (!block.getId().getPath().startsWith("potted_")) {
+                                        if (!(block.get() instanceof LiquidBlock)) {
+                                            output.accept(block.get().asItem());
+                                        }
+                                    }
+                                }
+                            }
                         }
                     })).build()
     );
+
     public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_GRASS_BLOCK.get()))
 
@@ -37,6 +45,14 @@ public final class MainTabs {
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
                         if (item.getId().getPath().startsWith("namek_"))
                             output.accept(item.get().asItem());
+                        if (item.getId().getPath().startsWith("sacred_"))
+                            output.accept(item.get().asItem());
+                        output.accept(MainBlocks.CHRYSANTHEMUM_FLOWER.get().asItem());
+                        output.accept(MainBlocks.AMARYLLIS_FLOWER.get().asItem());
+                        output.accept(MainBlocks.MARIGOLD_FLOWER.get().asItem());
+                        output.accept(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get().asItem());
+                        output.accept(MainBlocks.TRILLIUM_FLOWER.get().asItem());
+                        output.accept(MainBlocks.LOTUS_FLOWER.get().asItem());
                     })).build()
     );
 
@@ -55,11 +71,14 @@ public final class MainTabs {
 
                     .title(Component.translatable("itemGroup.dragonminez.ores"))
                     .displayItems((parameters, output) -> {
-                        //Añadir más items a la lista
                         output.accept(MainBlocks.GETE_ORE.get().asItem());
+                        output.accept(MainBlocks.GETE_BLOCK.get().asItem());
+                        output.accept(MainItems.GETE_SCRAP.get());
                         output.accept(MainBlocks.GETE_FURNACE.get().asItem());
-                        output.accept(MainItems.GETE.get());
+                        output.accept(MainBlocks.NAMEK_KIKONO_ORE.get().asItem());
+                        output.accept(MainBlocks.KIKONO_BLOCK.get().asItem());
                         output.accept(MainItems.KIKONO_SHARD.get());
+                        output.accept(MainBlocks.KIKONO_ARMOR_STATION.get());
                     }).build()
     );
 
