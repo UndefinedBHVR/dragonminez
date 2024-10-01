@@ -176,6 +176,8 @@ public class ModDimensions extends NoiseRouterData{
                 false,
                 false);
 
+    public static final ResourceKey<Level> NAMEK_KEY = ResourceKey.create(Registries.DIMENSION,
+            new ResourceLocation(DragonMineZ.MOD_ID, "namek"));
         context.register(TIME_CHAMBER_NOISE_SETTINGS, time_chamber_noisegen);
     }
 
