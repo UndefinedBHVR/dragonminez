@@ -37,7 +37,7 @@ public class JEIDragonMineZPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(KikonoArmorStationScreen.class, 112, 35, 30, 20,
+        registration.addRecipeClickArea(KikonoArmorStationScreen.class, 112, 35, 23, 20,
                 ArmorStationCategory.ARMOR_STATION_TYPE);
     }
 }

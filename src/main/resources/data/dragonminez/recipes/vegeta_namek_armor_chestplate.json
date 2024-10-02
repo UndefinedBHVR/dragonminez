@@ -43,7 +43,7 @@
   ],
   "preset": [
     {
-      "item": "dragonminez:pattern_goku1"
+      "item": "dragonminez:pattern_vegeta2"
     }
   ],
   "armor": [
@@ -53,7 +53,7 @@
   ],
   "output": {
     "count": 1,
-    "item": "dragonminez:goku_armor_chestplate"
+    "item": "dragonminez:vegeta_namek_armor_chestplate"
   },
   "crafting_time": 400
 }
