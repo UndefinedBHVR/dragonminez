@@ -48,11 +48,11 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_PLAINS_FLOWERS = registerKey("namek_plains_flowers_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_SACRED_FLOWERS = registerKey("namek_sacred_flowers_placed");
 
-    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_UNDERGROUND = PlacementUtils.createKey("namek_lake_lava_underground");
-    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_SURFACE = PlacementUtils.createKey("namek_lake_lava_surface");
+    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_UNDERGROUND = registerKey("namek_lake_lava_underground");
+    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_SURFACE = registerKey("namek_lake_lava_surface");
 
-    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_LAVA = PlacementUtils.createKey("namek_spring_lava");
-    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_WATER = PlacementUtils.createKey("namek_spring_water");
+    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_LAVA = registerKey("namek_spring_lava");
+    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_WATER = registerKey("namek_spring_water");
 
 
     public static final ResourceKey<PlacedFeature> AJISSA_TREE_PLACED = registerKey("ajissa_tree_placed");
@@ -193,17 +193,62 @@ public class ModPlacedFeatures {
         );
 
         //LAKES
-        PlacementUtils.register(context, NAMEK_LAKE_LAVA_UNDERGROUND, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_LAKE_LAVA), new PlacementModifier[]{RarityFilter.onAverageOnceEvery(9), InSquarePlacement.spread(), HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.absolute(0), VerticalAnchor.top())), EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.allOf(BlockPredicate.not(BlockPredicate.ONLY_IN_AIR_PREDICATE), BlockPredicate.insideWorld(new BlockPos(0, -5, 0))), 32), SurfaceRelativeThresholdFilter.of(Heightmap.Types.OCEAN_FLOOR_WG, Integer.MIN_VALUE, -5), BiomeFilter.biome()});
-        PlacementUtils.register(context, NAMEK_LAKE_LAVA_SURFACE, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_LAKE_LAVA), new PlacementModifier[]{RarityFilter.onAverageOnceEvery(200), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome()});
+        //PlacementUtils.register(context, NAMEK_LAKE_LAVA_UNDERGROUND, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_LAKE_LAVA), new PlacementModifier[]{RarityFilter.onAverageOnceEvery(9), InSquarePlacement.spread(), HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.absolute(0), VerticalAnchor.top())), EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.allOf(BlockPredicate.not(BlockPredicate.ONLY_IN_AIR_PREDICATE), BlockPredicate.insideWorld(new BlockPos(0, -5, 0))), 32), SurfaceRelativeThresholdFilter.of(Heightmap.Types.OCEAN_FLOOR_WG, Integer.MIN_VALUE, -5), BiomeFilter.biome()});
+        //PlacementUtils.register(context, NAMEK_LAKE_LAVA_SURFACE, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_LAKE_LAVA), new PlacementModifier[]{RarityFilter.onAverageOnceEvery(200), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome()});
+
+        register(context, NAMEK_LAKE_LAVA_UNDERGROUND,
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_LAKE_LAVA),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(9),
+                        InSquarePlacement.spread(),
+                        HeightRangePlacement.of(UniformHeight.of(VerticalAnchor.absolute(0), VerticalAnchor.top())),
+                        EnvironmentScanPlacement.scanningFor(
+                                Direction.DOWN,
+                                BlockPredicate.allOf(
+                                        BlockPredicate.not(BlockPredicate.ONLY_IN_AIR_PREDICATE),
+                                        BlockPredicate.insideWorld(new BlockPos(0, -5, 0))
+                                ),
+                                32
+                        ),
+                        SurfaceRelativeThresholdFilter.of(Heightmap.Types.OCEAN_FLOOR_WG, Integer.MIN_VALUE, -5),
+                        BiomeFilter.biome()
+                )
+        );
+
+        register(context, NAMEK_LAKE_LAVA_SURFACE,
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_LAKE_LAVA),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(200),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                        BiomeFilter.biome()
+                )
+        );
 
         //Springs (Que será esa wbd)
-        PlacementUtils.register(context, NAMEK_SPRING_LAVA, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SPRING_LAVA), new PlacementModifier[]{CountPlacement.of(20), InSquarePlacement.spread(), HeightRangePlacement.of(VeryBiasedToBottomHeight.of(VerticalAnchor.bottom(), VerticalAnchor.belowTop(8), 8)), BiomeFilter.biome()});
-        PlacementUtils.register(context, NAMEK_SPRING_WATER, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SPRING_WATER), new PlacementModifier[]{CountPlacement.of(25), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(192)), BiomeFilter.biome()});
+        //PlacementUtils.register(context, NAMEK_SPRING_LAVA, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SPRING_LAVA), new PlacementModifier[]{CountPlacement.of(20), InSquarePlacement.spread(), HeightRangePlacement.of(VeryBiasedToBottomHeight.of(VerticalAnchor.bottom(), VerticalAnchor.belowTop(8), 8)), BiomeFilter.biome()});
+        //PlacementUtils.register(context, NAMEK_SPRING_WATER, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SPRING_WATER), new PlacementModifier[]{CountPlacement.of(25), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(192)), BiomeFilter.biome()});
+        register(context, NAMEK_SPRING_LAVA,
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SPRING_LAVA),
+                List.of(
+                        CountPlacement.of(20),
+                        InSquarePlacement.spread(),
+                        HeightRangePlacement.of(VeryBiasedToBottomHeight.of(VerticalAnchor.bottom(), VerticalAnchor.belowTop(8), 8)),
+                        BiomeFilter.biome()
+                )
+        );
+
+        register(context, NAMEK_SPRING_WATER,
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_SPRING_WATER),
+                List.of(
+                        CountPlacement.of(25),
+                        InSquarePlacement.spread(),
+                        HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(192)),
+                        BiomeFilter.biome()
+                )
+        );
 
     }
-
-
-
 
 
 

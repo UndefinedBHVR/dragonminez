@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.worldgen;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -56,10 +57,10 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_SACRED_GRASS_KEY = registerKey("namek_patch_sacred_grass_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SACRED_FLOWERS_KEY = registerKey("namek_sacred_flowers_configured");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_LAKE_LAVA = FeatureUtils.createKey("namek_lake_lava");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_LAKE_LAVA = registerKey("namek_lake_lava");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_LAVA = FeatureUtils.createKey("namek_spring_lava");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_WATER = FeatureUtils.createKey("namek_spring_water");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_LAVA = registerKey("namek_spring_lava");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_WATER = registerKey("namek_spring_water");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AJISSA_TREE_KEY = registerKey("ajissa_tree_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SACRED_TREE_KEY = registerKey("sacred_tree_configured");
@@ -192,11 +193,47 @@ public class ModConfiguredFeatures {
                 ))));
 
         //Lava
-        FeatureUtils.register(context, NAMEK_LAKE_LAVA, Feature.LAKE, new LakeFeature.Configuration(BlockStateProvider.simple(Blocks.LAVA.defaultBlockState()), BlockStateProvider.simple(MainBlocks.NAMEK_STONE.get().defaultBlockState())));
-
+        //FeatureUtils.register(context, NAMEK_LAKE_LAVA, Feature.LAKE, new LakeFeature.Configuration(BlockStateProvider.simple(Blocks.LAVA.defaultBlockState()), BlockStateProvider.simple(MainBlocks.NAMEK_STONE.get().defaultBlockState())));
+        register(context, NAMEK_LAKE_LAVA,
+                Feature.LAKE,
+                new LakeFeature.Configuration(
+                        BlockStateProvider.simple(Blocks.LAVA.defaultBlockState()),
+                        BlockStateProvider.simple(MainBlocks.NAMEK_STONE.get().defaultBlockState())
+                )
+        );
         //SPRINGS
-        FeatureUtils.register(context, NAMEK_SPRING_LAVA, Feature.SPRING, new SpringConfiguration(Fluids.LAVA.defaultFluidState(), true, 4, 1, HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.CALCITE, Blocks.DIRT})));
-        FeatureUtils.register(context, NAMEK_SPRING_WATER, Feature.SPRING, new SpringConfiguration(Fluids.WATER.defaultFluidState(), true, 4, 1, HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.CALCITE, Blocks.DIRT, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW, Blocks.PACKED_ICE})));
+        //FeatureUtils.register(context, NAMEK_SPRING_LAVA, Feature.SPRING, new SpringConfiguration(Fluids.LAVA.defaultFluidState(), true, 4, 1, HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.CALCITE, Blocks.DIRT})));
+        //FeatureUtils.register(context, NAMEK_SPRING_WATER, Feature.SPRING, new SpringConfiguration(Fluids.WATER.defaultFluidState(), true, 4, 1, HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.CALCITE, Blocks.DIRT, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW, Blocks.PACKED_ICE})));
+        // Registro de springs
+        register(context, NAMEK_SPRING_LAVA,
+                Feature.SPRING,
+                new SpringConfiguration(
+                        Fluids.LAVA.defaultFluidState(),
+                        true,
+                        4,
+                        1,
+                        HolderSet.direct(Block::builtInRegistryHolder,
+                                new Block[]{
+                                        MainBlocks.NAMEK_STONE.get()
+                                })
+                )
+        );
+
+        register(context, NAMEK_SPRING_WATER,
+                Feature.SPRING,
+                new SpringConfiguration(
+                        MainFluids.SOURCE_NAMEK.get().defaultFluidState(),
+                        true,
+                        4,
+                        1,
+                        HolderSet.direct(Block::builtInRegistryHolder,
+                                new Block[]{
+                                        MainBlocks.NAMEK_STONE.get(),
+                                        MainBlocks.NAMEK_DEEPSLATE.get(),
+                                        MainBlocks.NAMEK_DIRT.get()
+                                })
+                )
+        );
 
         //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
         register(context, TREES_AJISSA_KEY, Feature.RANDOM_SELECTOR,

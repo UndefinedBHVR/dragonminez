@@ -60,6 +60,7 @@ public class ModBiomes {
         ModBiomes.addNamekCarversAndLakes(biomeBuilder);
         ModBiomes.addNamekSprings(biomeBuilder);
 
+
         //globalOverworldGeneration(biomeBuilder);
         //BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
         //BiomeDefaultFeatures.addForestFlowers(biomeBuilder);
@@ -181,10 +182,12 @@ public class ModBiomes {
         pBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON);
         pBuilder.addFeature(GenerationStep.Decoration.LAKES, ModPlacedFeatures.NAMEK_LAKE_LAVA_UNDERGROUND);
         pBuilder.addFeature(GenerationStep.Decoration.LAKES, ModPlacedFeatures.NAMEK_LAKE_LAVA_SURFACE);
+
     }
     public static void addNamekSprings(BiomeGenerationSettings.Builder pBuilder) {
         pBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, ModPlacedFeatures.NAMEK_SPRING_WATER);
         pBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, ModPlacedFeatures.NAMEK_SPRING_LAVA);
+
     }
 
 }
