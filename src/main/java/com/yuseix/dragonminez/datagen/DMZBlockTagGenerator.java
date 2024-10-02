@@ -20,10 +20,6 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        // NO TOCAR
-        this.tag(DMZTags.Blocks.NAMEK_DEEPSLATE_ORE_REPLACEABLES);
-        this.tag(DMZTags.Blocks.NAMEK_STONE_ORE_REPLACEABLES);
-
         this.tag(BlockTags.FROG_PREFER_JUMP_TO)
                 .add(MainBlocks.LOTUS_FLOWER.get());
         this.tag(BlockTags.INSIDE_STEP_SOUND_BLOCKS)

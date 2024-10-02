@@ -91,6 +91,12 @@ public class ModBusEvents {
             //MENÚS
             MenuScreens.register(DMZMenuTypes.KIKONO_ARMOR_STATION_MENU.get(), KikonoArmorStationScreen::new);
 
+            //LÍQUIDOS
+            ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_NAMEK.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_NAMEK.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING.get(), RenderType.translucent());
+
             //ITEMS
             ItemBlockRenderTypes.setRenderLayer(MainFluids.SOURCE_HEALING.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(MainFluids.FLOWING_HEALING.get(), RenderType.translucent());
