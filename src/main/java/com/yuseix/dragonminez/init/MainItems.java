@@ -180,11 +180,16 @@ public final class MainItems {
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_VEGETA1 = ITEM_REGISTER.register("pattern_vegeta1",
             () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_VEGETA2 = ITEM_REGISTER.register("pattern_vegeta2",
+            () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_PICCOLO = ITEM_REGISTER.register("pattern_piccolo",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_GOHAN1 = ITEM_REGISTER.register("pattern_gohan1",
             () -> new Item(properties.stacksTo(64)));
-
+    public static final RegistryObject<Item> PATTERN_BARDOCK1 = ITEM_REGISTER.register("pattern_bardock1",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_BARDOCK2 = ITEM_REGISTER.register("pattern_bardock2",
+            () -> new Item(properties.stacksTo(64)));
 
 
     //DRAGON BALL RADAR (TIERRA)

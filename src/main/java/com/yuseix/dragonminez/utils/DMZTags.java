@@ -23,6 +23,10 @@ public class DMZTags {
     public static class Biomes {
         public static final TagKey<Biome> IS_NAMEKWORLD = tag("is_namekworld");
 
+    public static class BiomeSacred {
+        public static final TagKey<Biome> IS_SACREDLAND = tag("is_sacredland");
+    }
+
         private static TagKey<Biome> tag(String name) {
             return TagKey.create(Registries.BIOME, new ResourceLocation(DragonMineZ.MOD_ID, name));
         }

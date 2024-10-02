@@ -75,6 +75,9 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_GOKU1);
         patternItem(MainItems.PATTERN_GOHAN1);
         patternItem(MainItems.PATTERN_VEGETA1);
+        patternItem(MainItems.PATTERN_VEGETA2);
+        patternItem(MainItems.PATTERN_BARDOCK1);
+        patternItem(MainItems.PATTERN_BARDOCK2);
         patternItem(MainItems.PATTERN_PICCOLO);
 
         //Minerales

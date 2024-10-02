@@ -2,12 +2,14 @@ package com.yuseix.dragonminez.worldgen;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.utils.DMZTags;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -33,6 +35,8 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_NAMEK_DIAMOND_ORE = registerKey("add_namek_diamond_ore");
     public static final ResourceKey<BiomeModifier> ADD_NAMEK_DIAMOND_MIDDLE_ORE = registerKey("add_namek_diamond_middle_ore");
     public static final ResourceKey<BiomeModifier> ADD_NAMEK_DIAMOND_LARGE_ORE = registerKey("add_namek_diamond_large_ore");
+    public static final ResourceKey<BiomeModifier> ADD_NAMEK_KIKONO_ORE = registerKey("add_namek_kikono_ore");
+    public static final ResourceKey<BiomeModifier> ADD_NAMEK_KIKONO_LARGE_ORE = registerKey("add_namek_kikono_large_ore");
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -112,6 +116,16 @@ public class ModBiomeModifiers {
         context.register(ADD_NAMEK_DIAMOND_LARGE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(DMZTags.Biomes.IS_NAMEKWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_DIAMOND_LARGE_ORE_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        //KIKONO - NAMEK
+        context.register(ADD_NAMEK_KIKONO_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(DMZTags.Biomes.BiomeSacred.IS_SACREDLAND), //Importante poner que es Sacred, para que se genere ahi
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_KIKONO_ORE_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_NAMEK_KIKONO_LARGE_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(DMZTags.Biomes.BiomeSacred.IS_SACREDLAND), //Importante poner que es Sacred, para que se genere ahi
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_KIKONO_ORE_LARGE_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
     }
