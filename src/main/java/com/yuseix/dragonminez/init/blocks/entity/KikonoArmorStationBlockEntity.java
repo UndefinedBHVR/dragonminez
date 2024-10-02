@@ -196,9 +196,9 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
         if(recipe.isEmpty()) {
             return false;
         }
-        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
+        ItemStack result = recipe.get().getResultItem(null);
 
-        return recipe.isPresent() && canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
+        return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
@@ -212,7 +212,7 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
     private Optional<ArmorStationRecipes> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for(int i = 0; i <  itemHandler.getSlots(); i++) {
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
+            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
         return this.level.getRecipeManager().getRecipeFor(ArmorStationRecipes.Type.INSTANCE, inventory, level);
