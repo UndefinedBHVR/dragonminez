@@ -56,10 +56,10 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_SACRED_GRASS_KEY = registerKey("namek_patch_sacred_grass_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SACRED_FLOWERS_KEY = registerKey("namek_sacred_flowers_configured");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_LAKE_LAVA = FeatureUtils.createKey("namek_lake_lava");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_LAKE_LAVA = registerKey("namek_lake_lava");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_LAVA = FeatureUtils.createKey("namek_spring_lava");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_WATER = FeatureUtils.createKey("namek_spring_water");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_LAVA = registerKey("namek_spring_lava");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_WATER = registerKey("namek_spring_water");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AJISSA_TREE_KEY = registerKey("ajissa_tree_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SACRED_TREE_KEY = registerKey("sacred_tree_configured");

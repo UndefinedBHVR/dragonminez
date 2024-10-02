@@ -48,11 +48,11 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> NAMEK_PLAINS_FLOWERS = registerKey("namek_plains_flowers_placed");
     public static final ResourceKey<PlacedFeature> NAMEK_SACRED_FLOWERS = registerKey("namek_sacred_flowers_placed");
 
-    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_UNDERGROUND = PlacementUtils.createKey("namek_lake_lava_underground");
-    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_SURFACE = PlacementUtils.createKey("namek_lake_lava_surface");
+    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_UNDERGROUND = registerKey("namek_lake_lava_underground");
+    public static final ResourceKey<PlacedFeature> NAMEK_LAKE_LAVA_SURFACE = registerKey("namek_lake_lava_surface");
 
-    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_LAVA = PlacementUtils.createKey("namek_spring_lava");
-    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_WATER = PlacementUtils.createKey("namek_spring_water");
+    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_LAVA = registerKey("namek_spring_lava");
+    public static final ResourceKey<PlacedFeature> NAMEK_SPRING_WATER = registerKey("namek_spring_water");
 
 
     public static final ResourceKey<PlacedFeature> AJISSA_TREE_PLACED = registerKey("ajissa_tree_placed");
