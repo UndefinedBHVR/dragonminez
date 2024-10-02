@@ -151,7 +151,7 @@ public class ModDimensions extends NoiseRouterData{
         NoiseGeneratorSettings namek_noisegen = new NoiseGeneratorSettings(
                 namek_noiseSettings,
                 MainBlocks.NAMEK_STONE.get().defaultBlockState(),
-                Blocks.WATER.defaultBlockState(),
+                MainBlocks.NAMEK_WATER_LIQUID.get().defaultBlockState(),
                 NoiseRouterData.overworld(context.lookup(Registries.DENSITY_FUNCTION), context.lookup(Registries.NOISE), false, false),
                 namekSurfaceRules(),
                 List.of(),

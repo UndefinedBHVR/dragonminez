@@ -41,7 +41,7 @@ public final class MainFluids {
     public static final RegistryObject<FluidType> NAMEK_FLUID_TYPE = FLUID_TYPE_REGISTER.register("namek_water_fluid_type",
             () -> new SimpleFluid(
                     0xaef359,
-                    FluidType.Properties.create().lightLevel(5)));
+                    FluidType.Properties.create().lightLevel(5).density(1000).viscosity(1000)));
 
     public static final RegistryObject<FlowingFluid> SOURCE_NAMEK = FLUIDS_REGISTER.register("namek_water_fluid",
             () -> new ForgeFlowingFluid.Source(MainFluids.NAMEK_FLUID_PROPERTIES));
