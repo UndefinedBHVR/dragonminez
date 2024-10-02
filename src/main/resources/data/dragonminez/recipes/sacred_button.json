@@ -4,10 +4,10 @@
   "group": "wooden_button",
   "ingredients": [
     {
-      "item": "dragonminez:sacred_planks"
+      "item": "dragonminez:namek_sacred_planks"
     }
   ],
   "result": {
-    "item": "dragonminez:sacred_button"
+    "item": "dragonminez:namek_sacred_button"
   }
 }

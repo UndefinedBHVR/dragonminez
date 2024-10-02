@@ -4,7 +4,7 @@
   "group": "wooden_slab",
   "key": {
     "#": {
-      "item": "dragonminez:ajissa_planks"
+      "item": "dragonminez:namek_ajissa_planks"
     }
   },
   "pattern": [
@@ -12,7 +12,7 @@
   ],
   "result": {
     "count": 6,
-    "item": "dragonminez:ajissa_slab"
+    "item": "dragonminez:namek_ajissa_slab"
   },
   "show_notification": true
 }

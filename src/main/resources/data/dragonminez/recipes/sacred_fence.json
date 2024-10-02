@@ -7,7 +7,7 @@
       "item": "minecraft:stick"
     },
     "W": {
-      "item": "dragonminez:sacred_planks"
+      "item": "dragonminez:namek_sacred_planks"
     }
   },
   "pattern": [
@@ -16,7 +16,7 @@
   ],
   "result": {
     "count": 3,
-    "item": "dragonminez:sacred_fence"
+    "item": "dragonminez:namek_sacred_fence"
   },
   "show_notification": true
 }

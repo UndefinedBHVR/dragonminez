@@ -34,7 +34,7 @@
     "item": "minecraft:iron_chestplate"
   },
   "output": {
-    "Count": 1,
+    "count": 1,
     "item": "dragonminez:goku_armor_chestplate"
   }
 }
