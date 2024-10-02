@@ -24,7 +24,7 @@ public class ArmorStationCategory implements IRecipeCategory<ArmorStationRecipes
     private final IDrawable icon;
 
     public ArmorStationCategory(IGuiHelper helper) {
-        this.background = helper.createDrawable(TEXTURE, 0, 0, 176, 85);
+        this.background = helper.createDrawable(TEXTURE, 0, 0, 176, 80);
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(MainBlocks.KIKONO_ARMOR_STATION.get()));
     }
 
@@ -60,7 +60,7 @@ public class ArmorStationCategory implements IRecipeCategory<ArmorStationRecipes
         builder.addSlot(RecipeIngredientRole.INPUT, 46, 53).addIngredients(recipe.getIngredients().get(7));
         builder.addSlot(RecipeIngredientRole.INPUT, 64, 53).addIngredients(recipe.getIngredients().get(8));
         builder.addSlot(RecipeIngredientRole.INPUT, 89, 17).addIngredients(recipe.getIngredients().get(9));
-        builder.addSlot(RecipeIngredientRole.INPUT, 145, 35).addIngredients(recipe.getIngredients().get(10));
+        builder.addSlot(RecipeIngredientRole.INPUT, 89, 53).addIngredients(recipe.getIngredients().get(10));
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 141, 35).addItemStack(recipe.getResultItem(null));
     }

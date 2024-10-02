@@ -19,11 +19,18 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
    private final NonNullList<Ingredient> inputItems;
    private final ItemStack outputItem;
    private final ResourceLocation id;
+   private final int craftingTime;
 
-    public ArmorStationRecipes(NonNullList<Ingredient> inputItems, ItemStack outputItem, ResourceLocation id) {
+    public ArmorStationRecipes(NonNullList<Ingredient> inputItems, ItemStack outputItem, ResourceLocation id, int craftingTime) {
         this.inputItems = inputItems;
         this.outputItem = outputItem;
         this.id = id;
+        this.craftingTime = craftingTime; // Añadir tiempo de crafteo en TICKS
+    }
+
+
+    public int getCraftingTime() {
+        return craftingTime;
     }
 
     @Override
@@ -118,7 +125,9 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
             inputs.set(9, Ingredient.fromJson(presetItem));
             inputs.set(10, Ingredient.fromJson(armorItem));
 
-            return new ArmorStationRecipes(inputs, outputItem, pRecipeId);
+            int craftingTime = GsonHelper.getAsInt(pSerializedRecipe, "crafting_time", 200); // Default de 200 ticks/10 segundos
+
+            return new ArmorStationRecipes(inputs, outputItem, pRecipeId, craftingTime);
         }
 
         @Override
@@ -130,7 +139,9 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
             }
 
             ItemStack outputItem = pBuffer.readItem();
-            return new ArmorStationRecipes(inputs, outputItem, pRecipeId);
+            int craftingTime = pBuffer.readInt();
+
+            return new ArmorStationRecipes(inputs, outputItem, pRecipeId, craftingTime);
         }
 
         @Override
@@ -142,6 +153,7 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
             }
 
             pBuffer.writeItemStack(pRecipe.getResultItem(null), false);
+            pBuffer.writeInt(pRecipe.getCraftingTime());
         }
     }
 

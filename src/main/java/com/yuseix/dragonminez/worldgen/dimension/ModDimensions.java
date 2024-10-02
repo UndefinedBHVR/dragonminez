@@ -84,9 +84,9 @@ public class ModDimensions extends NoiseRouterData{
                 1.0, // coordinateScale
                 true, // bedWorks
                 true, // respawnAnchorWorks
-                0, // minY
-                64, // height
-                64, // logicalHeight
+                -16, // minY
+                96, // height
+                96, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
                 0.0f, // ambientLight
@@ -185,7 +185,7 @@ public class ModDimensions extends NoiseRouterData{
         // Densidad constante para bloques sólidos
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
         // Genera una transición abrupta entre terreno sólido y vacío a la altura y = 4
-        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 24, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 62, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
 
         return new NoiseRouter(
                 constantNegative, // barrierNoise: No necesitamos barreras

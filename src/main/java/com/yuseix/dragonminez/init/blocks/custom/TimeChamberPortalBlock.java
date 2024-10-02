@@ -48,7 +48,7 @@ public class TimeChamberPortalBlock extends Block {
                         finalPos = new BlockPos(159, 226, 143); // Saliste
 
                     } else {
-                        finalPos = new BlockPos(61, 15, -63); // Entraste
+                        finalPos = new BlockPos(61, 35, -63); // Entraste
 
                     }
 
