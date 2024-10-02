@@ -82,7 +82,7 @@ public class ModDimensions extends NoiseRouterData{
                 false, // ultraWarm
                 false, // natural
                 1.0, // coordinateScale
-                false, // bedWorks
+                true, // bedWorks
                 true, // respawnAnchorWorks
                 0, // minY
                 64, // height
