@@ -306,7 +306,7 @@ public class CCustomizationPage extends Screen {
                     }));
                     //BOTON COLOR OJO 2
                     this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eyeColor2"));
+                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
                     }));
 
                     this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
@@ -325,7 +325,7 @@ public class CCustomizationPage extends Screen {
                     }));
                     //BOTON COLOR OJO 2
                     this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eyeColor2"));
+                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
                     }));
 
                     this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
@@ -344,7 +344,7 @@ public class CCustomizationPage extends Screen {
                     }));
                     //BOTON COLOR OJO 2
                     this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eyeColor2"));
+                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
                     }));
 
                     this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 18, Component.empty(), button -> {
@@ -391,7 +391,7 @@ public class CCustomizationPage extends Screen {
                     }));
                     //BOTON COLOR OJO 2
                     this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eyeColor2"));
+                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
                     }));
 
                     this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 14, Component.empty(), button -> {

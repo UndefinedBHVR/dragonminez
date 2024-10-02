@@ -185,7 +185,7 @@ public class ModDimensions extends NoiseRouterData{
         // Densidad constante para bloques sólidos
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
         // Genera una transición abrupta entre terreno sólido y vacío a la altura y = 4
-        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 4, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 24, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
 
         return new NoiseRouter(
                 constantNegative, // barrierNoise: No necesitamos barreras
@@ -207,62 +207,70 @@ public class ModDimensions extends NoiseRouterData{
     }
 
     public static SurfaceRules.RuleSource namekSurfaceRules() {
-        // Regla para generar la capa de Bedrock
         SurfaceRules.RuleSource bedrockRule = SurfaceRules.ifTrue(
-                SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(5)),
+                SurfaceRules.verticalGradient(
+                        "bedrock_floor",
+                        VerticalAnchor.aboveBottom(0), // true_at_and_below
+                        VerticalAnchor.aboveBottom(5)  // false_at_and_above
+                ),
                 SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())
         );
 
-        // Regla para aplicar piedra a profundidades mayores (evitando generar tierra en las cuevas)
-        SurfaceRules.RuleSource stoneInCavesRule = SurfaceRules.ifTrue(
-                SurfaceRules.stoneDepthCheck(0, false, 0, CaveSurface.FLOOR), // Se aplica a áreas de cueva
-                SurfaceRules.state(MainBlocks.NAMEK_STONE.get().defaultBlockState()) // Genera piedra en lugar de tierra
-        );
-
-        // Regla para la superficie en los biomas ajissa_plains y namekian_rivers
         SurfaceRules.RuleSource namekSurfaceRule = SurfaceRules.sequence(
+                // Primera condición: Verifica si el bioma es uno de los especificados.
                 SurfaceRules.ifTrue(
                         SurfaceRules.isBiome(ModBiomes.AJISSA_PLAINS, ModBiomes.NAMEKIAN_RIVERS),
                         SurfaceRules.sequence(
+                                // Segunda condición: Verifica si estamos por encima de la superficie preliminar.
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.abovePreliminarySurface(),
                                         SurfaceRules.ifTrue(
+                                                // Tercera condición: Verifica la profundidad de la piedra.
                                                 SurfaceRules.stoneDepthCheck(0, false, 0, CaveSurface.FLOOR),
                                                 SurfaceRules.sequence(
+                                                        // Cuarta condición: Verifica si hay agua en la capa inferior.
                                                         SurfaceRules.ifTrue(
                                                                 SurfaceRules.waterBlockCheck(-1, 0),
+                                                                // Si es verdad, coloca el bloque de pasto de Namek.
                                                                 SurfaceRules.state(MainBlocks.NAMEK_GRASS_BLOCK.get().defaultBlockState())
                                                         ),
+                                                        // Si la capa de agua no está presente, coloca el bloque de tierra de Namek.
                                                         SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
                                                 )
                                         )
                                 ),
+                                // Quinta condición: Verifica la profundidad de la piedra en la capa de suelo con add_surface_depth: true.
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.stoneDepthCheck(0, true, 0, CaveSurface.FLOOR),
+                                        // Si es verdad, coloca el bloque de tierra de Namek.
                                         SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
                                 )
                         )
                 )
         );
 
-        // Regla para el bioma sacred_land
         SurfaceRules.RuleSource sacredLandSurfaceRule = SurfaceRules.sequence(
+                // Verifica si el bioma es "sacred_land"
                 SurfaceRules.ifTrue(
                         SurfaceRules.isBiome(ModBiomes.SACRED_LAND),
                         SurfaceRules.sequence(
+                                // Verifica si estamos por encima de la superficie preliminar
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.abovePreliminarySurface(),
                                         SurfaceRules.ifTrue(
                                                 SurfaceRules.stoneDepthCheck(0, false, 0, CaveSurface.FLOOR),
                                                 SurfaceRules.sequence(
+                                                        // Si hay agua en el nivel 0, coloca el bloque "namek_sacred_grass_block"
                                                         SurfaceRules.ifTrue(
                                                                 SurfaceRules.waterBlockCheck(0, 0),
                                                                 SurfaceRules.state(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get().defaultBlockState())
                                                         ),
+                                                        // Luego coloca el bloque "namek_dirt"
                                                         SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
                                                 )
                                         )
                                 ),
+                                // Verifica la profundidad de la piedra y coloca el bloque "namek_dirt" si la condición es verdadera
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.stoneDepthCheck(0, true, 0, CaveSurface.FLOOR),
                                         SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
@@ -271,19 +279,16 @@ public class ModDimensions extends NoiseRouterData{
                 )
         );
 
-        // Regla para generar deepslate en ciertas profundidades
         SurfaceRules.RuleSource deepslateRule = SurfaceRules.ifTrue(
                 SurfaceRules.verticalGradient("deepslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(8)),
                 SurfaceRules.state(MainBlocks.NAMEK_DEEPSLATE.get().defaultBlockState())
         );
 
-        // Secuencia final de reglas de superficie
         return SurfaceRules.sequence(
-                bedrockRule,            // Capa de bedrock
-                stoneInCavesRule,       // Generar piedra en las cuevas
-                namekSurfaceRule,       // Reglas de superficie para biomas de Namek
-                sacredLandSurfaceRule,  // Reglas de superficie para el bioma Sacred Land
-                deepslateRule           // Regla de deepslate en profundidad
+                bedrockRule,
+                namekSurfaceRule,
+                sacredLandSurfaceRule,
+                deepslateRule
         );
     }
 
