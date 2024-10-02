@@ -151,7 +151,7 @@ public class ModDimensions extends NoiseRouterData{
         NoiseGeneratorSettings namek_noisegen = new NoiseGeneratorSettings(
                 namek_noiseSettings,
                 MainBlocks.NAMEK_STONE.get().defaultBlockState(),
-                MainBlocks.NAMEK_WATER_LIQUID.get().defaultBlockState(),
+                Blocks.WATER.defaultBlockState(),
                 NoiseRouterData.overworld(context.lookup(Registries.DENSITY_FUNCTION), context.lookup(Registries.NOISE), false, false),
                 namekSurfaceRules(),
                 List.of(),
@@ -232,7 +232,7 @@ public class ModDimensions extends NoiseRouterData{
                                         )
                                 ),
                                 SurfaceRules.ifTrue(
-                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2), // A partir de y = 50
+                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2),
                                         SurfaceRules.sequence(
                                                 SurfaceRules.ifTrue(
                                                         SurfaceRules.stoneDepthCheck(0, false, 5, CaveSurface.FLOOR),
@@ -263,7 +263,7 @@ public class ModDimensions extends NoiseRouterData{
                                         )
                                 ),
                                 SurfaceRules.ifTrue(
-                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2), //A partir de la altura 50
+                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2),
                                         SurfaceRules.sequence(
                                                 SurfaceRules.ifTrue(
                                                         SurfaceRules.stoneDepthCheck(0, false, 5, CaveSurface.FLOOR),
@@ -289,5 +289,4 @@ public class ModDimensions extends NoiseRouterData{
                 deepslateRule           // Regla de deepslate en profundidad
         );
     }
-
 }
