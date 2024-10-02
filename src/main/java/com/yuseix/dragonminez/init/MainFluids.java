@@ -22,8 +22,8 @@ public final class MainFluids {
 
     public static final RegistryObject<FluidType> HEALING_FLUID_TYPE = FLUID_TYPE_REGISTER.register("healing_fluid_type",
             () -> new SimpleFluid(
-                    0xe07f38,
-                    FluidType.Properties.create().lightLevel(5)));
+                    0xaef359,
+                    FluidType.Properties.create().lightLevel(5).canDrown(false)));
 
     public static final RegistryObject<FlowingFluid> SOURCE_HEALING = FLUIDS_REGISTER.register("healing_fluid",
             () -> new ForgeFlowingFluid.Source(MainFluids.HEALING_FLUID_PROPERTIES));
