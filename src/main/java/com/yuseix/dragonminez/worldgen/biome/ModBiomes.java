@@ -68,6 +68,7 @@ public class ModBiomes {
         //BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
         //BiomeDefaultFeatures.addExtraGold(biomeBuilder);
 
+
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.TREES_AJISSA_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PATCH_GRASS_PLAIN);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PLAINS_FLOWERS);
@@ -102,6 +103,10 @@ public class ModBiomes {
 
         ModBiomes.addNamekCarversAndLakes(biomeBuilder);
         ModBiomes.addNamekSprings(biomeBuilder);
+
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.NAMEK_KIKONO_ORE_KEY);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.NAMEK_KIKONO_ORE_LARGE_KEY);
+
 
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.TREES_SACRED_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PATCH_SACRED_GRASS_PLAIN);
