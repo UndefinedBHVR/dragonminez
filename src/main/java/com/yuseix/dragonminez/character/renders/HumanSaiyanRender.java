@@ -209,6 +209,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             playermodel.hat.visible = true;
             playermodel.head.visible = true;
         } else {
+
             playermodel.setAllVisible(true);
             playermodel.hat.visible = pClientPlayer.isModelPartShown(PlayerModelPart.HAT);
             playermodel.jacket.visible = pClientPlayer.isModelPartShown(PlayerModelPart.JACKET);

@@ -24,15 +24,25 @@ public class SlimHumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T>
 	private final ModelPart LeftArm;
 	private final ModelPart RightLeg;
 	private final ModelPart LeftLeg;
-
+	private final ModelPart BodyJacket;
+	private final ModelPart RightSleeve;
+	private final ModelPart LeftSleeve;
+	private final ModelPart RightPants;
+	private final ModelPart LeftPants;
 	public SlimHumanSaiyanModel(ModelPart root) {
-        super(root, false);
+        super(root, true);
         this.Head = root.getChild("head");
 		this.Body = root.getChild("body");
 		this.RightArm = root.getChild("right_arm");
 		this.LeftArm = root.getChild("left_arm");
 		this.RightLeg = root.getChild("right_leg");
 		this.LeftLeg = root.getChild("left_leg");
+
+		this.BodyJacket = root.getChild("jacket");
+		this.RightSleeve = root.getChild("right_sleeve");
+		this.LeftSleeve = root.getChild("left_sleeve");
+		this.RightPants = root.getChild("right_pants");
+		this.LeftPants = root.getChild("left_pants");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -56,6 +66,15 @@ public class SlimHumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T>
 
 		PartDefinition LeftLeg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(0, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+
+
+		partdefinition.addOrReplaceChild("left_sleeve", CubeListBuilder.create().texOffs(48, 48).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(5.0F, 2.5F, 0.0F));
+		partdefinition.addOrReplaceChild("right_sleeve", CubeListBuilder.create().texOffs(40, 32).addBox(-2.0F, -2.0F, -2.0F, 3.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-5.0F, 2.5F, 0.0F));
+		partdefinition.addOrReplaceChild("left_pants", CubeListBuilder.create().texOffs(0, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+		partdefinition.addOrReplaceChild("right_pants", CubeListBuilder.create().texOffs(0, 32).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+		partdefinition.addOrReplaceChild("jacket", CubeListBuilder.create().texOffs(16, 32).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.ZERO);
+
+
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}

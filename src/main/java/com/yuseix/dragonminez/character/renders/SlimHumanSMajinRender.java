@@ -64,7 +64,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
     public void render(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         this.setModelProperties(pEntity);
 
-        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+        var playermodel = this.getModel();
 
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
@@ -204,13 +204,16 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {
-        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
+        var playermodel = this.getModel();
+
         if (pClientPlayer.isSpectator()) {
             playermodel.setAllVisible(false);
             playermodel.hat.visible = true;
             playermodel.head.visible = true;
         } else {
+            // Ocultar todas las partes primero
             playermodel.setAllVisible(true);
+
             playermodel.hat.visible = pClientPlayer.isModelPartShown(PlayerModelPart.HAT);
             playermodel.jacket.visible = pClientPlayer.isModelPartShown(PlayerModelPart.JACKET);
             playermodel.leftPants.visible = pClientPlayer.isModelPartShown(PlayerModelPart.LEFT_PANTS_LEG);
@@ -218,8 +221,10 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
             playermodel.leftSleeve.visible = pClientPlayer.isModelPartShown(PlayerModelPart.LEFT_SLEEVE);
             playermodel.rightSleeve.visible = pClientPlayer.isModelPartShown(PlayerModelPart.RIGHT_SLEEVE);
             playermodel.crouching = pClientPlayer.isCrouching();
+
             HumanoidModel.ArmPose humanoidmodel$armpose = getArmPose(pClientPlayer, InteractionHand.MAIN_HAND);
             HumanoidModel.ArmPose humanoidmodel$armpose1 = getArmPose(pClientPlayer, InteractionHand.OFF_HAND);
+
             if (humanoidmodel$armpose.isTwoHanded()) {
                 humanoidmodel$armpose1 = pClientPlayer.getOffhandItem().isEmpty() ? HumanoidModel.ArmPose.EMPTY : HumanoidModel.ArmPose.ITEM;
             }
@@ -232,7 +237,6 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                 playermodel.leftArmPose = humanoidmodel$armpose;
             }
         }
-
     }
 
     private static HumanoidModel.ArmPose getArmPose(AbstractClientPlayer pPlayer, InteractionHand pHand) {
