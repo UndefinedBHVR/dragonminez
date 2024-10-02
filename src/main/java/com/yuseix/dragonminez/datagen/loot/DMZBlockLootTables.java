@@ -86,9 +86,9 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.add(MainBlocks.NAMEK_DIAMOND_ORE.get(),
                 block -> SingleOreDrop(MainBlocks.NAMEK_DIAMOND_ORE.get(), Items.DIAMOND));
         this.add(MainBlocks.NAMEK_GOLD_ORE.get(),
-                block -> SingleOreDrop(MainBlocks.NAMEK_GOLD_ORE.get(), Items.GOLD_INGOT));
+                block -> SingleOreDrop(MainBlocks.NAMEK_GOLD_ORE.get(), Items.RAW_GOLD));
         this.add(MainBlocks.NAMEK_IRON_ORE.get(),
-                block -> SingleOreDrop(MainBlocks.NAMEK_IRON_ORE.get(), Items.IRON_INGOT));
+                block -> SingleOreDrop(MainBlocks.NAMEK_IRON_ORE.get(), Items.RAW_IRON));
         this.add(MainBlocks.NAMEK_LAPIS_ORE.get(),
                 block -> MultiOreDrop(MainBlocks.NAMEK_LAPIS_ORE.get(), Items.LAPIS_LAZULI));
         this.add(MainBlocks.NAMEK_REDSTONE_ORE.get(),
@@ -98,13 +98,13 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.add(MainBlocks.NAMEK_EMERALD_ORE.get(),
                 block -> SingleOreDrop(MainBlocks.NAMEK_EMERALD_ORE.get(), Items.EMERALD));
         this.add(MainBlocks.NAMEK_COPPER_ORE.get(),
-                block -> MultiOreDrop(MainBlocks.NAMEK_COPPER_ORE.get(), Items.COPPER_INGOT));
+                block -> CopperOreDrop(MainBlocks.NAMEK_COPPER_ORE.get(), Items.RAW_COPPER));
         this.add(MainBlocks.NAMEK_DEEPSLATE_DIAMOND.get(),
                 block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_DIAMOND.get(), Items.DIAMOND));
         this.add(MainBlocks.NAMEK_DEEPSLATE_GOLD.get(),
-                block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_GOLD.get(), Items.GOLD_INGOT));
+                block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_GOLD.get(), Items.RAW_GOLD));
         this.add(MainBlocks.NAMEK_DEEPSLATE_IRON.get(),
-                block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_IRON.get(), Items.IRON_INGOT));
+                block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_IRON.get(), Items.RAW_IRON));
         this.add(MainBlocks.NAMEK_DEEPSLATE_LAPIS.get(),
                 block -> MultiOreDrop(MainBlocks.NAMEK_DEEPSLATE_LAPIS.get(), Items.LAPIS_LAZULI));
         this.add(MainBlocks.NAMEK_DEEPSLATE_REDSTONE.get(),
@@ -114,7 +114,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.add(MainBlocks.NAMEK_DEEPSLATE_EMERALD.get(),
                 block -> SingleOreDrop(MainBlocks.NAMEK_DEEPSLATE_EMERALD.get(), Items.EMERALD));
         this.add(MainBlocks.NAMEK_DEEPSLATE_COPPER.get(),
-                block -> MultiOreDrop(MainBlocks.NAMEK_DEEPSLATE_COPPER.get(), Items.COPPER_INGOT));
+                block -> CopperOreDrop(MainBlocks.NAMEK_DEEPSLATE_COPPER.get(), Items.RAW_COPPER));
         this.add(MainBlocks.NAMEK_KIKONO_ORE.get(),
                 block -> SingleOreDrop(MainBlocks.NAMEK_KIKONO_ORE.get(), MainItems.KIKONO_SHARD.get()));
 
@@ -166,6 +166,13 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
                 this.applyExplosionDecay(pBlock,
                         LootItem.lootTableItem(item)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 5.0F)))
+                                .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+    }
+    protected LootTable.Builder CopperOreDrop(Block pBlock, Item item) {
+        return createSilkTouchDispatchTable(pBlock,
+                this.applyExplosionDecay(pBlock,
+                        LootItem.lootTableItem(item)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 6.0F)))
                                 .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
     }
 

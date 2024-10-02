@@ -33,8 +33,8 @@ public class SimpleFluid extends FluidType {
         this.overlayTexture = new ResourceLocation("block/water_overlay");
         this.tintColor = toAlpha(color);
         this.fogColor = new Vector3f((color >> 16 & 0xFF) / 255F, (color >> 8 & 0xFF) / 255F, (color & 0xFF) / 255F);
-        this.fogStart = 1;
-        this.fogEnd = 6;
+        this.fogStart = 24;
+        this.fogEnd = 48;
     }
 
     private int toAlpha(int color) {
