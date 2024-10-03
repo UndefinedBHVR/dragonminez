@@ -25,12 +25,12 @@ public class SlimArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>, 
 
         switch (pSlot) {
             case CHEST:
-                pModel.rightArm.xScale = 0.73f;
+                pModel.rightArm.xScale = 0.75f;
                 pModel.rightArm.yScale = 1.0f;
                 pModel.rightArm.zScale = 1.0f;
                 pModel.rightArm.x += 0.2f;
 
-                pModel.leftArm.xScale = 0.73f;
+                pModel.leftArm.xScale = 0.75f;
                 pModel.leftArm.yScale = 1.0f;
                 pModel.leftArm.zScale = 1.0f;
                 pModel.leftArm.x -= 0.2f;

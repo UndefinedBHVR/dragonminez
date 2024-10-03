@@ -2,10 +2,12 @@ package com.yuseix.dragonminez.datagen;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -20,10 +22,6 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        // NO TOCAR
-        this.tag(DMZTags.Blocks.NAMEK_DEEPSLATE_ORE_REPLACEABLES);
-        this.tag(DMZTags.Blocks.NAMEK_STONE_ORE_REPLACEABLES);
-
         this.tag(BlockTags.FROG_PREFER_JUMP_TO)
                 .add(MainBlocks.LOTUS_FLOWER.get());
         this.tag(BlockTags.INSIDE_STEP_SOUND_BLOCKS)

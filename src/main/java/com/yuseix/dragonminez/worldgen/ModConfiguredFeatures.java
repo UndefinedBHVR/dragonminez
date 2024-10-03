@@ -2,20 +2,25 @@ package com.yuseix.dragonminez.worldgen;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
@@ -26,6 +31,7 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlac
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.List;
 
@@ -46,10 +52,18 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_DIAMOND_ORE_MIDDLE_KEY = registerKey("namek_diamond_ore_middle_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_DIAMOND_ORE_LARGE_KEY = registerKey("namek_diamond_ore_large_configured");
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_KIKONO_ORE_KEY = registerKey("namek_kikono_ore_configured");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_KIKONO_ORE_LARGE_KEY = registerKey("namek_kikono_ore_large_configured");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_GRASS_KEY = registerKey("namek_patch_grass_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_FLOWERS_KEY = registerKey("namek_flowers_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_PATCH_SACRED_GRASS_KEY = registerKey("namek_patch_sacred_grass_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SACRED_FLOWERS_KEY = registerKey("namek_sacred_flowers_configured");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_LAKE_LAVA = registerKey("namek_lake_lava");
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_LAVA = registerKey("namek_spring_lava");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NAMEK_SPRING_WATER = registerKey("namek_spring_water");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> AJISSA_TREE_KEY = registerKey("ajissa_tree_configured");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SACRED_TREE_KEY = registerKey("sacred_tree_configured");
@@ -120,6 +134,9 @@ public class ModConfiguredFeatures {
 
                 OreConfiguration.target(namek_deepslateReplaceables, MainBlocks.NAMEK_DEEPSLATE_DIAMOND.get().defaultBlockState()));
 
+        List<OreConfiguration.TargetBlockState> namek_kikono_ore = List.of(
+                OreConfiguration.target(namek_deepslateReplaceables, MainBlocks.NAMEK_KIKONO_ORE.get().defaultBlockState()));
+
         //Ore
         register(context, NAMEK_COAL_ORE_BURIED_KEY, Feature.ORE, new OreConfiguration(namek_coal_ores, 17, 0.5f));
         register(context, NAMEK_COAL_ORE_NORMAL_KEY, Feature.ORE, new OreConfiguration(namek_coal_ores, 17));
@@ -142,6 +159,9 @@ public class ModConfiguredFeatures {
         register(context, NAMEK_DIAMOND_ORE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 4,0.5f));
         register(context, NAMEK_DIAMOND_ORE_MIDDLE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 8,1.0f));
         register(context, NAMEK_DIAMOND_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 12,0.7f));
+
+        register(context, NAMEK_KIKONO_ORE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 4));
+        register(context, NAMEK_KIKONO_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 8));
 
         //GRASS
         register(context, NAMEK_PATCH_GRASS_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(32, 7, 3,
@@ -181,21 +201,52 @@ public class ModConfiguredFeatures {
                                 .build())
                 ))));
 
-        //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
-        /*
-        register(context, AJISSA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LOG.get()),
-                new StraightTrunkPlacer(4,2,4),
-
-                BlockStateProvider.simple(MainBlocks.NAMEK_AJISSA_LEAVES.get()),
-                new BlobFoliagePlacer(ConstantInt.of(3), ConstantInt.of(2), 3),
-
-                new TwoLayersFeatureSize(1,0,2))
-                .dirt(BlockStateProvider.simple(MainBlocks.NAMEK_GRASS_BLOCK.get()))
-                .build()
+        //Lava
+        //FeatureUtils.register(context, NAMEK_LAKE_LAVA, Feature.LAKE, new LakeFeature.Configuration(BlockStateProvider.simple(Blocks.LAVA.defaultBlockState()), BlockStateProvider.simple(MainBlocks.NAMEK_STONE.get().defaultBlockState())));
+        register(context, NAMEK_LAKE_LAVA,
+                Feature.LAKE,
+                new LakeFeature.Configuration(
+                        BlockStateProvider.simple(Blocks.LAVA.defaultBlockState()),
+                        BlockStateProvider.simple(MainBlocks.NAMEK_STONE.get().defaultBlockState())
+                )
+        );
+        //SPRINGS
+        //FeatureUtils.register(context, NAMEK_SPRING_LAVA, Feature.SPRING, new SpringConfiguration(Fluids.LAVA.defaultFluidState(), true, 4, 1, HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.CALCITE, Blocks.DIRT})));
+        //FeatureUtils.register(context, NAMEK_SPRING_WATER, Feature.SPRING, new SpringConfiguration(Fluids.WATER.defaultFluidState(), true, 4, 1, HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DEEPSLATE, Blocks.TUFF, Blocks.CALCITE, Blocks.DIRT, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW, Blocks.PACKED_ICE})));
+        // Registro de springs
+        register(context, NAMEK_SPRING_LAVA,
+                Feature.SPRING,
+                new SpringConfiguration(
+                        Fluids.LAVA.defaultFluidState(),
+                        true,
+                        4,
+                        1,
+                        HolderSet.direct(Block::builtInRegistryHolder,
+                                new Block[]{
+                                        MainBlocks.NAMEK_STONE.get(),
+                                        MainBlocks.NAMEK_DEEPSLATE.get(),
+                                        MainBlocks.NAMEK_DIRT.get()
+                                })
+                )
         );
 
-         */
+        register(context, NAMEK_SPRING_WATER,
+                Feature.SPRING,
+                new SpringConfiguration(
+                        MainFluids.SOURCE_NAMEK.get().defaultFluidState(),
+                        true,
+                        4,
+                        1,
+                        HolderSet.direct(Block::builtInRegistryHolder,
+                                new Block[]{
+                                        MainBlocks.NAMEK_STONE.get(),
+                                        MainBlocks.NAMEK_DEEPSLATE.get(),
+                                        MainBlocks.NAMEK_DIRT.get()
+                                })
+                )
+        );
+
+        //Ejemplo arbol (aca especificas el tamaño de la madera, hojas y eso)
         register(context, TREES_AJISSA_KEY, Feature.RANDOM_SELECTOR,
                 new RandomFeatureConfiguration(
                         List.of(

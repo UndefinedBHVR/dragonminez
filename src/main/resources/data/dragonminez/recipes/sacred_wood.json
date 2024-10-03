@@ -4,7 +4,7 @@
   "group": "bark",
   "key": {
     "#": {
-      "item": "dragonminez:sacred_log"
+      "item": "dragonminez:namek_sacred_log"
     }
   },
   "pattern": [
@@ -13,7 +13,7 @@
   ],
   "result": {
     "count": 3,
-    "item": "dragonminez:sacred_wood"
+    "item": "dragonminez:namek_sacred_wood"
   },
   "show_notification": true
 }

@@ -82,11 +82,11 @@ public class ModDimensions extends NoiseRouterData{
                 false, // ultraWarm
                 false, // natural
                 1.0, // coordinateScale
-                false, // bedWorks
+                true, // bedWorks
                 true, // respawnAnchorWorks
-                0, // minY
-                64, // height
-                64, // logicalHeight
+                -16, // minY
+                96, // height
+                96, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
                 0.0f, // ambientLight
@@ -151,7 +151,7 @@ public class ModDimensions extends NoiseRouterData{
         NoiseGeneratorSettings namek_noisegen = new NoiseGeneratorSettings(
                 namek_noiseSettings,
                 MainBlocks.NAMEK_STONE.get().defaultBlockState(),
-                Blocks.WATER.defaultBlockState(),
+                MainBlocks.NAMEK_WATER_LIQUID.get().defaultBlockState(),
                 NoiseRouterData.overworld(context.lookup(Registries.DENSITY_FUNCTION), context.lookup(Registries.NOISE), false, false),
                 namekSurfaceRules(),
                 List.of(),
@@ -185,7 +185,7 @@ public class ModDimensions extends NoiseRouterData{
         // Densidad constante para bloques sólidos
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
         // Genera una transición abrupta entre terreno sólido y vacío a la altura y = 4
-        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 4, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(0, 62, 1.0, -1.0); // Cambia el valor de y para ajustar la altura del terreno
 
         return new NoiseRouter(
                 constantNegative, // barrierNoise: No necesitamos barreras
@@ -213,12 +213,6 @@ public class ModDimensions extends NoiseRouterData{
                 SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())
         );
 
-        // Regla para aplicar piedra a profundidades mayores (evitando generar tierra en las cuevas)
-        SurfaceRules.RuleSource stoneInCavesRule = SurfaceRules.ifTrue(
-                SurfaceRules.stoneDepthCheck(0, false, 0, CaveSurface.FLOOR), // Se aplica a áreas de cueva
-                SurfaceRules.state(MainBlocks.NAMEK_STONE.get().defaultBlockState()) // Genera piedra en lugar de tierra
-        );
-
         // Regla para la superficie en los biomas ajissa_plains y namekian_rivers
         SurfaceRules.RuleSource namekSurfaceRule = SurfaceRules.sequence(
                 SurfaceRules.ifTrue(
@@ -238,8 +232,13 @@ public class ModDimensions extends NoiseRouterData{
                                         )
                                 ),
                                 SurfaceRules.ifTrue(
-                                        SurfaceRules.stoneDepthCheck(0, true, 0, CaveSurface.FLOOR),
-                                        SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
+                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2),
+                                        SurfaceRules.sequence(
+                                                SurfaceRules.ifTrue(
+                                                        SurfaceRules.stoneDepthCheck(0, false, 5, CaveSurface.FLOOR),
+                                                        SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
+                                                )
+                                        )
                                 )
                         )
                 )
@@ -264,8 +263,13 @@ public class ModDimensions extends NoiseRouterData{
                                         )
                                 ),
                                 SurfaceRules.ifTrue(
-                                        SurfaceRules.stoneDepthCheck(0, true, 0, CaveSurface.FLOOR),
-                                        SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
+                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2),
+                                        SurfaceRules.sequence(
+                                                SurfaceRules.ifTrue(
+                                                        SurfaceRules.stoneDepthCheck(0, false, 5, CaveSurface.FLOOR),
+                                                        SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
+                                                )
+                                        )
                                 )
                         )
                 )
@@ -280,11 +284,9 @@ public class ModDimensions extends NoiseRouterData{
         // Secuencia final de reglas de superficie
         return SurfaceRules.sequence(
                 bedrockRule,            // Capa de bedrock
-                stoneInCavesRule,       // Generar piedra en las cuevas
                 namekSurfaceRule,       // Reglas de superficie para biomas de Namek
                 sacredLandSurfaceRule,  // Reglas de superficie para el bioma Sacred Land
                 deepslateRule           // Regla de deepslate en profundidad
         );
     }
-
 }

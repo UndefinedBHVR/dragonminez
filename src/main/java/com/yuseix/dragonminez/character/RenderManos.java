@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -14,7 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
+import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -34,16 +35,25 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
     public RenderManos(EntityRendererProvider.Context pContext) {
         super(pContext, new PlayerModel(pContext.bakeLayer(ModelLayers.PLAYER), false), 0.5f);
+        this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
         this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
+        this.addLayer(new ArrowLayer(pContext, this));
+        this.addLayer(new Deadmau5EarsLayer(this));
+        this.addLayer(new CapeLayer(this));
+        this.addLayer(new CustomHeadLayer(this, pContext.getModelSet(), pContext.getItemInHandRenderer()));
+        this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
+        this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
+        this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
+        this.addLayer(new BeeStingerLayer(this));
 
     }
 
     public void renderRightHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel)this.model).rightArm, ((PlayerModel)this.model).rightSleeve);
+        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, this.model.rightArm, this.model.rightSleeve);
     }
 
     public void renderLeftHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel)this.model).leftArm, ((PlayerModel)this.model).leftSleeve);
+        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, this.model.leftArm, this.model.leftSleeve);
     }
 
         @Override
@@ -57,7 +67,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     }
 
     private void renderHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear) {
-        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
         this.setModelProperties(pPlayer);
         playermodel.attackTime = 0.0F;
         playermodel.crouching = false;

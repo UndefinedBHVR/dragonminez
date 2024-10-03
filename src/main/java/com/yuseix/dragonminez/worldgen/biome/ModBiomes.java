@@ -5,6 +5,8 @@ import com.yuseix.dragonminez.worldgen.ModPlacedFeatures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.Carvers;
+import net.minecraft.data.worldgen.placement.MiscOverworldPlacements;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -55,8 +57,9 @@ public class ModBiomes {
                 new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
         //we need to follow the same order as vanilla biomes for the BiomeDefaultFeatures
 
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
+        ModBiomes.addNamekCarversAndLakes(biomeBuilder);
+        ModBiomes.addNamekSprings(biomeBuilder);
+
 
         //globalOverworldGeneration(biomeBuilder);
         //BiomeDefaultFeatures.addMossyStoneBlock(biomeBuilder);
@@ -64,6 +67,7 @@ public class ModBiomes {
         //BiomeDefaultFeatures.addFerns(biomeBuilder);
         //BiomeDefaultFeatures.addDefaultOres(biomeBuilder);
         //BiomeDefaultFeatures.addExtraGold(biomeBuilder);
+
 
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.TREES_AJISSA_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PATCH_GRASS_PLAIN);
@@ -97,8 +101,12 @@ public class ModBiomes {
         BiomeGenerationSettings.Builder biomeBuilder =
                 new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
 
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
+        ModBiomes.addNamekCarversAndLakes(biomeBuilder);
+        ModBiomes.addNamekSprings(biomeBuilder);
+
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.NAMEK_KIKONO_ORE_KEY);
+        biomeBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.NAMEK_KIKONO_ORE_LARGE_KEY);
+
 
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.TREES_SACRED_PLACED);
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.NAMEK_PATCH_SACRED_GRASS_PLAIN);
@@ -128,8 +136,8 @@ public class ModBiomes {
         BiomeGenerationSettings.Builder biomeBuilder =
                 new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
 
-        BiomeDefaultFeatures.addDefaultCarversAndLakes(biomeBuilder);
-        BiomeDefaultFeatures.addDefaultSprings(biomeBuilder);
+        ModBiomes.addNamekCarversAndLakes(biomeBuilder);
+        ModBiomes.addNamekSprings(biomeBuilder);
 
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
@@ -173,5 +181,18 @@ public class ModBiomes {
                 .build();
     }
 
+    public static void addNamekCarversAndLakes(BiomeGenerationSettings.Builder pBuilder) {
+        pBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE);
+        pBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND);
+        pBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON);
+        pBuilder.addFeature(GenerationStep.Decoration.LAKES, ModPlacedFeatures.NAMEK_LAKE_LAVA_UNDERGROUND);
+        pBuilder.addFeature(GenerationStep.Decoration.LAKES, ModPlacedFeatures.NAMEK_LAKE_LAVA_SURFACE);
+
+    }
+    public static void addNamekSprings(BiomeGenerationSettings.Builder pBuilder) {
+        pBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, ModPlacedFeatures.NAMEK_SPRING_WATER);
+        pBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, ModPlacedFeatures.NAMEK_SPRING_LAVA);
+
+    }
 
 }

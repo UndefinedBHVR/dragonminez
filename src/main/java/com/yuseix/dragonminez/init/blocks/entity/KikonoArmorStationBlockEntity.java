@@ -10,6 +10,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -19,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -142,19 +145,21 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        if(hasRecipe()) {
-            increaseCraftingProgress();
-            setChanged(pLevel, pPos, pState);
-            System.out.println("Progress: " + progress); // Metí souts para ver si esto funcionaba con las actualizaciones de los Ticks :p
-
-            if(hasProgressFinished()) {
+        Optional<ArmorStationRecipes> recipe = getCurrentRecipe();
+        if (recipe.isPresent()) {
+            if (this.maxProgress == 0) {
+                this.maxProgress = recipe.get().getCraftingTime();  // Ajusta el tiempo de la receta
+            }
+            if (!hasProgressFinished()) {
+                increaseCraftingProgress();
+                setChanged(pLevel, pPos, pState);
+            } else {
                 craftItem();
                 resetProgress();
-                System.out.println("Crafted item");     // Nota: Esto debería funcionar, pero no toma la receta :v
-            } else {
-                resetProgress();
-                System.out.println("Reset progress");
+                System.out.println("Item crafteado");
             }
+        } else {
+            resetProgress();
         }
     }
 
@@ -165,6 +170,7 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
     private void craftItem() {
         Optional<ArmorStationRecipes> recipe = getCurrentRecipe();
         ItemStack result = recipe.get().getResultItem(null);
+
 
         this.itemHandler.extractItem(SLOT_1, 1, false);
         this.itemHandler.extractItem(SLOT_2, 1, false);
@@ -180,6 +186,12 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
 
         this.itemHandler.setStackInSlot(OUTPUT, new ItemStack(result.getItem(),
                 this.itemHandler.getStackInSlot(OUTPUT).getCount() + result.getCount()));
+
+        if (level != null) {
+            level.playSound(null, this.worldPosition,
+                    SoundEvents.ANVIL_USE,   // Si tienes un sonido personalizado, cámbialo a SoundEvents o tu sonido registrado
+                    SoundSource.BLOCKS, 1.0f, 1.0f);
+        }
     }
 
     private boolean hasProgressFinished() {
@@ -193,13 +205,35 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
     private boolean hasRecipe() {
         Optional<ArmorStationRecipes> recipe = getCurrentRecipe();
 
-        if(recipe.isEmpty()) {
+        if (recipe.isEmpty()) {
             return false;
         }
-        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
+        ItemStack result = recipe.get().getResultItem(null);
 
-        return recipe.isPresent() && canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
+        // Verificar que el output se pueda insertar
+        if (!canInsertAmountIntoOutputSlot(result.getCount()) || !canInsertItemIntoOutputSlot(result.getItem())) {
+            return false;
+        }
+
+        // Validar los slots según la receta
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            ItemStack inputStack = itemHandler.getStackInSlot(i);
+            Ingredient recipeInput = recipe.get().getIngredients().get(i); // Obtener el ingrediente correspondiente
+
+            // Si el slot en la receta es aire, lo ignoramos
+            if (recipeInput.isEmpty()) {
+                continue; // Slot vacío, ignorar
+            }
+
+            // Verificar si el slot en el itemHandler coincide con el ingrediente
+            if (!recipeInput.test(inputStack)) {
+                return false; // La receta no coincide
+            }
+        }
+
+        return true; // La receta es válida
     }
+
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
         return this.itemHandler.getStackInSlot(OUTPUT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT).is(item);
@@ -212,7 +246,7 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
     private Optional<ArmorStationRecipes> getCurrentRecipe() {
         SimpleContainer inventory = new SimpleContainer(this.itemHandler.getSlots());
         for(int i = 0; i <  itemHandler.getSlots(); i++) {
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
+            inventory.setItem(i, this.itemHandler.getStackInSlot(i));
         }
 
         return this.level.getRecipeManager().getRecipeFor(ArmorStationRecipes.Type.INSTANCE, inventory, level);

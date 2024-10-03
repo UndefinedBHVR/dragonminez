@@ -93,7 +93,7 @@ public class StructuresCapability {
     }
     public void generateHabTiempoStructure(ServerLevel level) {
         if (!hasHabTiempo) {
-            BlockPos position = new BlockPos(-9, 2, -70);
+            BlockPos position = new BlockPos(-9, 31, -70);
             spawnHabTiempo(level, position);
 
             // Marcar como generada y guardar la posición

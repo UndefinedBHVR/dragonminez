@@ -4,10 +4,10 @@
   "group": "wooden_button",
   "ingredients": [
     {
-      "item": "dragonminez:ajissa_planks"
+      "item": "dragonminez:namek_ajissa_planks"
     }
   ],
   "result": {
-    "item": "dragonminez:ajissa_button"
+    "item": "dragonminez:namek_ajissa_button"
   }
 }

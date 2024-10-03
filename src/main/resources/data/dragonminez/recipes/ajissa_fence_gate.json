@@ -7,7 +7,7 @@
       "item": "minecraft:stick"
     },
     "W": {
-      "item": "dragonminez:ajissa_planks"
+      "item": "dragonminez:namek_ajissa_planks"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     "#W#"
   ],
   "result": {
-    "item": "dragonminez:ajissa_fence_gate"
+    "item": "dragonminez:namek_ajissa_fence_gate"
   },
   "show_notification": true
 }

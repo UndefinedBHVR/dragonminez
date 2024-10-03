@@ -28,7 +28,6 @@ import java.util.Map;
 public class HeldItemRendererMixin {
 
     @Shadow @Final private EntityRenderDispatcher entityRenderDispatcher;
-    private Map<String, GeoEntityRenderer> dmzRendererers = ImmutableMap.of();
 
     private static RenderManos render;
 
@@ -50,7 +49,6 @@ public class HeldItemRendererMixin {
         renderCustomHand(poseStack, buffer, light, arm, ci);
     }
 
-    // Redirige el método getRenderer para devolver null, evitando el renderizado original
     @Redirect(method = "renderPlayerArm(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IFFLnet/minecraft/world/entity/HumanoidArm;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/EntityRenderDispatcher;getRenderer(Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/client/renderer/entity/EntityRenderer;"))
     private <T extends Entity> EntityRenderer<? super T> dmz$renderPlayerArm(EntityRenderDispatcher instance, T entityrenderer) {
         return null;
@@ -85,4 +83,6 @@ public class HeldItemRendererMixin {
 
         ci.cancel();
     }
+
+
 }

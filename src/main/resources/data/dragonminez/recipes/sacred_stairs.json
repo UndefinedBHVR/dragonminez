@@ -4,7 +4,7 @@
   "group": "wooden_stairs",
   "key": {
     "#": {
-      "item": "dragonminez:sacred_planks"
+      "item": "dragonminez:namek_sacred_planks"
     }
   },
   "pattern": [
@@ -14,7 +14,7 @@
   ],
   "result": {
     "count": 4,
-    "item": "dragonminez:sacred_stairs"
+    "item": "dragonminez:namek_sacred_stairs"
   },
   "show_notification": true
 }
