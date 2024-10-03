@@ -12,6 +12,7 @@ public class DMZStatsAttributes {
     private int defense = 5;
     private int constitution = 5, curBody, curStam, stamina = 15;
 
+
     private int zpoints;
     private int KiPower = 5;
 
@@ -25,6 +26,10 @@ public class DMZStatsAttributes {
 
     private String dmzClass = "Warrior";
     private String dmzAlignment = "Good";
+
+
+
+
     private final Player player;
 
     public DMZStatsAttributes(Player player) {
