@@ -64,9 +64,9 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
             //FAKEPLAYERS
             EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidRender::new);
-            EntityRenderers.register(MainEntity.FP_DEMONCOLD.get(), (context) -> new FPDemonColdRender(context, new FPDemonColdModel<>(context.bakeLayer(FPDemonColdModel.LAYER_LOCATION))));
-            EntityRenderers.register(MainEntity.FP_HUMANSAIYAN.get(), (context) -> new FPHumSaiRender(context, new FPHumanSaiyanModel<>(context.bakeLayer(FPHumanSaiyanModel.LAYER_LOCATION))));
-            EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new FPSlimHSModel<>(context.bakeLayer(FPSlimHSModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_DEMONCOLD.get(), (context) -> new FPDemonColdRender(context, new DemonColdModel<>(context.bakeLayer(DemonColdModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_HUMANSAIYAN.get(), (context) -> new FPHumSaiRender(context, new HumanSaiyanModel<>(context.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
+            EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new SlimHumanSaiyanModel<>(context.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
             EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
             EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
 
@@ -161,15 +161,6 @@ public class ModBusEvents {
         e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
         e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
         e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
-
-        //FP(FakePlayers)
-        e.registerLayerDefinition(FPBioAndroideModelo.LAYER_LOCATION, FPBioAndroideModelo::createBodyLayer);
-        e.registerLayerDefinition(FPDemonColdModel.LAYER_LOCATION, FPDemonColdModel::createBodyLayer);
-        e.registerLayerDefinition(FPHumanSaiyanModel.LAYER_LOCATION, FPHumanSaiyanModel::createBodyLayer);
-        e.registerLayerDefinition(FPSlimHSModel.LAYER_LOCATION, FPSlimHSModel::createBodyLayer);
-        e.registerLayerDefinition(FPNamekianModel.LAYER_LOCATION, FPNamekianModel::createBodyLayer);
-        e.registerLayerDefinition(FPMajinGordoModel.LAYER_LOCATION, FPMajinGordoModel::createBodyLayer);
-
 
 
         //CABELLOS

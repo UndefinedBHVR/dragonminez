@@ -3,10 +3,7 @@ package com.yuseix.dragonminez.client.gui.cc;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.gui.buttons.ColorButton;
-import com.yuseix.dragonminez.client.gui.buttons.ColorButton2;
-import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
-import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.client.gui.buttons.*;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
@@ -18,11 +15,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.CubeMap;
 import net.minecraft.client.renderer.PanoramaRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.widget.ForgeSlider;
@@ -32,6 +31,7 @@ import org.joml.Quaternionf;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CCustomizationPage extends Screen {
 
@@ -70,19 +70,19 @@ public class CCustomizationPage extends Screen {
     private TextButton nextButton, backButton;
     private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
     private int currentPage = 0;
-    private static String partePagina = "";
+
+    private float angleXComponent;
 
 
     public CCustomizationPage(Component pTitle) {
         super(pTitle);
-
+        this.angleXComponent = 0.0f;  // Inicia en 0
     }
 
     @Override
     protected void init() {
 
         //MenuInicio
-        int posX = (this.width);
         int posY = (this.minecraft.getWindow().getGuiScaledHeight()) / 2;
 
         if (currentPage == 0) {
@@ -93,6 +93,21 @@ public class CCustomizationPage extends Screen {
             botonAuraColor(72, posY);
 
         }
+
+        // Botón para aumentar angleXComponent
+        this.addRenderableWidget(new DMZCustomButton(this.width / 2 + 20, this.height - 25, 20, 20, Component.literal("->"), (button) -> {
+            this.angleXComponent += 1.0f; // Incrementa el valor en 5 grados
+        }));
+
+        // Botón para disminuir angleXComponent
+        this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 40, this.height - 25, 20, 20, Component.literal("<-"), (button) -> {
+            this.angleXComponent -= 1.0f; // Decrementa el valor en 5 grados
+        }));
+
+        // Botón para reiniciar angleXComponent a 0
+        this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 10, this.height - 25, 20, 20, Component.literal("0"), (button) -> {
+            this.angleXComponent = 0.0f; // Resetea a 0
+        }));
 
         super.init();
     }
@@ -447,7 +462,6 @@ public class CCustomizationPage extends Screen {
 
             this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
 
-                this.partePagina = "AuraPagina";
             }));
 
             RenderSystem.disableBlend();
@@ -1456,24 +1470,24 @@ public class CCustomizationPage extends Screen {
                     if(Minecraft.getInstance().player.getModelName().equals("default")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
 
                 } else {
                     if (cap.getGender().equals("Male")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
                 }
 
@@ -1482,52 +1496,52 @@ public class CCustomizationPage extends Screen {
                     if(Minecraft.getInstance().player.getModelName().equals("default")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
 
                 } else {
                     if (cap.getGender().equals("Male")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
                 }
 
             }else if(cap.getRace() == 2){ //NAMEK
                 LivingEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
             }else if(cap.getRace() == 3){ //BIOANDROIDE
-                LivingEntity bioAndroidEntity = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
+                LivingEntity avatar = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, bioAndroidEntity);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
             }else if(cap.getRace() == 4){ //NARCO OSEA ARCO JEJE
                 LivingEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
             }else { // MAJIN
                 if (cap.getGender().equals("Male")){
                     LivingEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), this.minecraft.level);
 
-                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                 }else {
                     LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                 }
             }
 

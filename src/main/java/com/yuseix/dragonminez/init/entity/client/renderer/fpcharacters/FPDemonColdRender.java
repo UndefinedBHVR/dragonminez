@@ -53,8 +53,6 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         var playermodel = this.getModel();
 
-        RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
-
         pPoseStack.pushPose();
         pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -121,7 +119,7 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, Minecraft.getInstance().player.tickCount + pPartialTicks, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -160,9 +158,6 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         pPoseStack.popPose();
 
-        if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
-            this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
-        }
 
     }
     private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){

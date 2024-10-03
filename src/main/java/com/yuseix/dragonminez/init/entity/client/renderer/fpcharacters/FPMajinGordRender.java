@@ -6,7 +6,6 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.layer.FatArmorLayer;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
-import com.yuseix.dragonminez.init.entity.client.model.characters.FPMajinGordoModel;
 import com.yuseix.dragonminez.init.entity.custom.characters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -49,7 +48,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
     private float colorR, colorG, colorB;
 
     public FPMajinGordRender(EntityRendererProvider.Context pContext) {
-        super(pContext, new FPMajinGordoModel<>(pContext.bakeLayer(FPMajinGordoModel.LAYER_LOCATION)), 0.5f);
+        super(pContext, new MajinGordoModel<>(pContext.bakeLayer(MajinGordoModel.LAYER_LOCATION)), 0.5f);
 
         this.addLayer(new FatArmorLayer(this,
                 new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
@@ -62,8 +61,6 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
     public void render(FPBase pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
 
         var playermodel = this.getModel();
-
-        RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
         pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
@@ -131,7 +128,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, Minecraft.getInstance().player.tickCount + pPartialTicks, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -180,9 +177,6 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         pPoseStack.popPose();
 
-        if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
-            this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
-        }
 
 
     }

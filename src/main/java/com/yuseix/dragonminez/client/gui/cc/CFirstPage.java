@@ -183,7 +183,6 @@ public class CFirstPage extends Screen {
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
-
                         renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, avatar);
                     }
 
@@ -232,9 +231,9 @@ public class CFirstPage extends Screen {
                 renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, avatar);
 
             }else if(cap.getRace() == 3){ //BIOANDROIDE
-                LivingEntity bioAndroidEntity = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
+                LivingEntity avatar = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, bioAndroidEntity);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, avatar);
 
             }else if(cap.getRace() == 4){ //NARCO OSEA ARCO JEJE
                 LivingEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), this.minecraft.level);
@@ -249,7 +248,6 @@ public class CFirstPage extends Screen {
 
                 }else {
                     LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
-
                     renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, alturaTexto - 10, 70, 0, 0, avatar);
                 }
             }
@@ -313,32 +311,28 @@ public class CFirstPage extends Screen {
 
         }
 
-    public static void renderEntityInInventoryFollowsAngle(GuiGraphics guiGraphics, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity livingEntity) {
+
+
+    public static void renderEntityInInventoryFollowsAngle(GuiGraphics p_282802_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_) {
         Quaternionf quaternionf = (new Quaternionf()).rotateZ(3.1415927F);
         Quaternionf quaternionf1 = (new Quaternionf()).rotateX(angleYComponent * 20.0F * 0.017453292F);
         quaternionf.mul(quaternionf1);
-
-        // Guardar las rotaciones actuales de la entidad
-        float f2 = livingEntity.yBodyRot;
-        float f3 = livingEntity.getYRot();
-        float f4 = livingEntity.getXRot();
-        float f5 = livingEntity.yHeadRotO;
-        float f6 = livingEntity.yHeadRot;
-
-        // Ajustar la rotación del cuerpo y de la cabeza
-        livingEntity.yBodyRot = 180.0F + angleXComponent * 20.0F;
-        livingEntity.yHeadRot = livingEntity.yBodyRot;
-        livingEntity.yHeadRotO = livingEntity.yBodyRot;
-
-        // Renderizar la entidad
-        renderEntityInInv(guiGraphics, x, y, scale, quaternionf, quaternionf1, livingEntity);
-
-        // Restaurar las rotaciones originales de la entidad
-        livingEntity.yBodyRot = f2;
-        livingEntity.setYRot(f3);
-        livingEntity.setXRot(f4);
-        livingEntity.yHeadRotO = f5;
-        livingEntity.yHeadRot = f6;
+        float f2 = p_275689_.yBodyRot;
+        float f3 = p_275689_.getYRot();
+        float f4 = p_275689_.getXRot();
+        float f5 = p_275689_.yHeadRotO;
+        float f6 = p_275689_.yHeadRot;
+        p_275689_.yBodyRot = 180.0F + angleXComponent * 20.0F;
+        p_275689_.setYRot(180.0F + angleXComponent * 40.0F);
+        p_275689_.setXRot(-angleYComponent * 20.0F);
+        p_275689_.yHeadRot = p_275689_.getYRot();
+        p_275689_.yHeadRotO = p_275689_.getYRot();
+        renderEntityInInv(p_282802_, p_275688_, p_275245_, p_275535_, quaternionf, quaternionf1, p_275689_);
+        p_275689_.yBodyRot = f2;
+        p_275689_.setYRot(f3);
+        p_275689_.setXRot(f4);
+        p_275689_.yHeadRotO = f5;
+        p_275689_.yHeadRot = f6;
     }
 
     public static void renderEntityInInv(GuiGraphics pGuiGraphics, int pX, int pY, int pScale, Quaternionf pPose, @Nullable Quaternionf pCameraOrientation, LivingEntity pEntity) {
