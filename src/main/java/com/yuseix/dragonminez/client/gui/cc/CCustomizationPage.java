@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -60,8 +61,6 @@ public class CCustomizationPage extends Screen {
 
     private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menutexto.png");
-    private static final ResourceLocation colorCuadrado = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/buttons/characterbuttons.png");
 
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();
 
@@ -96,12 +95,12 @@ public class CCustomizationPage extends Screen {
 
         // Botón para aumentar angleXComponent
         this.addRenderableWidget(new DMZCustomButton(this.width / 2 + 20, this.height - 25, 20, 20, Component.literal("->"), (button) -> {
-            this.angleXComponent += 1.0f; // Incrementa el valor en 5 grados
+            this.angleXComponent -= 1.0f; // Incrementa el valor en 5 grados
         }));
 
         // Botón para disminuir angleXComponent
         this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 40, this.height - 25, 20, 20, Component.literal("<-"), (button) -> {
-            this.angleXComponent -= 1.0f; // Decrementa el valor en 5 grados
+            this.angleXComponent += 1.0f; // Decrementa el valor en 5 grados
         }));
 
         // Botón para reiniciar angleXComponent a 0
@@ -150,9 +149,6 @@ public class CCustomizationPage extends Screen {
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         //renderBackground(pGuiGraphics);
-
-        var Altura = pGuiGraphics.guiHeight();
-        var Ancho = pGuiGraphics.guiWidth();
 
         panoramas(pGuiGraphics, pPartialTick);
 
@@ -1305,6 +1301,9 @@ public class CCustomizationPage extends Screen {
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
+        //Aca sera la info
+        pGuiGraphics.blit(menu1, this.width - 158, alturaTexto - 110, 0, 0, 148, 222);
+
         RenderSystem.disableBlend();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
@@ -1312,7 +1311,7 @@ public class CCustomizationPage extends Screen {
             //CLASE DEL JUGADOR
             alturaTexto = (pGuiGraphics.guiHeight() / 2);
             anchoTexto = 51;
-            pGuiGraphics.drawString(font, Component.literal("Class Type").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
+            pGuiGraphics.drawString(font, Component.literal("Class Type").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 88, 0xFF9B9B);
 
             if(cap.getDmzClass().equals("Warrior")){
                 anchoTexto = 65;
@@ -1356,6 +1355,74 @@ public class CCustomizationPage extends Screen {
 
             anchoTexto = 52;
             pGuiGraphics.drawString(font, Component.literal("Aura Color").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 12, 0xFFCA9B);
+
+            //INFO FINAL
+            anchoTexto = this.width-118;
+            pGuiGraphics.drawString(font, Component.literal("Information").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 88, 0xfd6644);
+
+            anchoTexto = this.width-137;
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Race:").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 72, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Class:").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 60, 0xFFFFFF);
+
+            anchoTexto = this.width-95;
+            if(cap.getRace() == 0){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.human"), anchoTexto, alturaTexto - 72, 0x31EAFF);
+            } else if(cap.getRace() == 1){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.saiyan"), anchoTexto, alturaTexto - 72, 0xFFBA35);
+            } else if(cap.getRace() == 2){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.namek"), anchoTexto, alturaTexto - 72, 0x378942);
+            } else if(cap.getRace() == 3){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.bioandroid"), anchoTexto, alturaTexto - 72, 0x72DA58);
+            } else if(cap.getRace() == 4){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.colddemon"), anchoTexto, alturaTexto - 72, 0xAC1BEC);
+            } else if(cap.getRace() == 5){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.majin"), anchoTexto, alturaTexto - 72, 0xFE7FF4);
+            }
+
+            anchoTexto = this.width-95;
+
+            if(cap.getDmzClass().equals("Warrior")){
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Warrior"), anchoTexto, alturaTexto - 60, 0xFC4E2B);
+
+            } else {
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Spiritualist"), anchoTexto, alturaTexto - 60, 0x2BFCFC);
+
+            }
+
+            //STATS
+            anchoTexto = this.width-120;
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, texto);
+            pGuiGraphics.blit(texto, anchoTexto - 2, alturaTexto - 44, 0, 0, 73, 15);
+            RenderSystem.disableBlend();
+
+            pGuiGraphics.drawString(font, Component.literal("Initial Stats").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 40, 0x39c3ff);
+
+            //ATRIBUTOS
+            anchoTexto = this.width-139;
+            alturaTexto = (pGuiGraphics.guiHeight() / 2) - 25;
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Defense:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, 0xFFFFFF);
+
+            var strMax = DMZDatos.calcularSTR(cap.getRace(), cap.getStrength(), 1);
+            var defMax = DMZDatos.calcularDEF(cap.getRace(),cap.getDefense());
+            var conMax = DMZDatos.calcularCON(cap.getRace(), cap.getConstitution(), 20);
+            var stmMax = DMZDatos.calcularSTM(cap.getRace(), conMax);
+            var KPWMax = cap.getKiPower();
+            var enrMax = DMZDatos.calcularENE(cap.getRace(), cap.getEnergy());
+
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(strMax)), this.width-67, alturaTexto, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(defMax)), this.width-67, alturaTexto + 12, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(stmMax)), this.width-67, alturaTexto + 24, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(conMax)), this.width-67, alturaTexto + 36, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(KPWMax)), this.width-67, alturaTexto + 48, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(enrMax)), this.width-67, alturaTexto + 60, 0xfdbf26);
+
 
         });
 
