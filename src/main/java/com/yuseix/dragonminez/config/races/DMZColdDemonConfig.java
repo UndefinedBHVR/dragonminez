@@ -24,13 +24,7 @@ public class DMZColdDemonConfig {
     public static final ForgeConfigSpec SPEC;
 
     static {
-        BUILDER.push("Config for Cold Demon Race");
-        BUILDER.pop();
-
-        //ATRIBUTOS DE RAZA
-
-        BUILDER.push("<- RACE ATTRIBUTES ->");
-        BUILDER.pop();
+        BUILDER.comment(" DRAGONMINEZ - COLD DEMON CLASS CONFIG ");
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS ");

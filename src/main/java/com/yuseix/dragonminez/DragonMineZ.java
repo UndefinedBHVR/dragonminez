@@ -3,6 +3,7 @@ package com.yuseix.dragonminez;
 import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.*;
+import com.yuseix.dragonminez.config.races.transformations.*;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
@@ -65,11 +66,20 @@ public class DragonMineZ {
         GeckoLib.initialize();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZGeneralConfig.SPEC, "dragonminez/dragonminez-general.toml");
+
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZHumanConfig.SPEC, "dragonminez/races/human/classes-config.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZSaiyanConfig.SPEC, "dragonminez/races/saiyan/classes-config.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZNamekConfig.SPEC, "dragonminez/races/namek/classes-config.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZBioAndroidConfig.SPEC, "dragonminez/races/bioandroid/classes-config.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZColdDemonConfig.SPEC, "dragonminez/races/colddemon/classes-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZMajinConfig.SPEC, "dragonminez/races/majin/classes-config.toml");
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrHumanConfig.SPEC, "dragonminez/races/human/transformation-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrSaiyanConfig.SPEC, "dragonminez/races/saiyan/transformation-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrNamekConfig.SPEC, "dragonminez/races/namek/transformation-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrBioAndroidConfig.SPEC, "dragonminez/races/bioandroid/transformation-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrColdDemonConfig.SPEC, "dragonminez/races/colddemon/transformation-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrMajinConfig.SPEC, "dragonminez/races/majin/transformation-config.toml");
 
         // Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
         /*

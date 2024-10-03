@@ -24,13 +24,8 @@ public class DMZBioAndroidConfig {
     public static final ForgeConfigSpec SPEC;
 
     static {
-        BUILDER.push("Config for BioAndroid Race");
-        BUILDER.pop();
 
-        //ATRIBUTOS DE RAZA
-
-        BUILDER.push("<- RACE ATTRIBUTES ->");
-        BUILDER.pop();
+        BUILDER.comment(" DRAGONMINEZ - BIOANDROID CLASS CONFIG ");
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS ");

@@ -24,13 +24,7 @@ public class DMZMajinConfig {
     public static final ForgeConfigSpec SPEC;
 
     static {
-        BUILDER.push("Config for Majin Race");
-        BUILDER.pop();
-
-        //ATRIBUTOS DE RAZA
-
-        BUILDER.push("<- RACE ATTRIBUTES ->");
-        BUILDER.pop();
+        BUILDER.comment(" DRAGONMINEZ - MAJIN CLASS CONFIG ");
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS ");

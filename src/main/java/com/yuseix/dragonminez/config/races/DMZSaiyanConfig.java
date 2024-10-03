@@ -24,13 +24,7 @@ public class DMZSaiyanConfig {
     public static final ForgeConfigSpec SPEC;
 
     static {
-        BUILDER.push("Config for Saiyan Race");
-        BUILDER.pop();
-
-        //ATRIBUTOS DE RAZA
-
-        BUILDER.push("<- RACE ATTRIBUTES ->");
-        BUILDER.pop();
+        BUILDER.comment(" DRAGONMINEZ - SAIYAN CLASS CONFIG ");
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS ");

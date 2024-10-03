@@ -24,13 +24,7 @@ public class DMZHumanConfig {
     public static final ForgeConfigSpec SPEC;
 
     static {
-        BUILDER.push("Config for Human Race");
-        BUILDER.pop();
-
-        //ATRIBUTOS DE RAZA
-
-        BUILDER.push("<- RACE ATTRIBUTES ->");
-        BUILDER.pop();
+        BUILDER.comment(" DRAGONMINEZ - HUMAN CLASS CONFIG ");
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS ");

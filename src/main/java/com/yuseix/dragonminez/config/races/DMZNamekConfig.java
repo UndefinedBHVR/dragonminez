@@ -24,13 +24,8 @@ public class DMZNamekConfig {
     public static final ForgeConfigSpec SPEC;
 
     static {
-        BUILDER.push("Config for Namek Race");
-        BUILDER.pop();
 
-        //ATRIBUTOS DE RAZA
-
-        BUILDER.push("<- RACE ATTRIBUTES ->");
-        BUILDER.pop();
+        BUILDER.comment(" DRAGONMINEZ - NAMEK CLASS CONFIG ");
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS ");
