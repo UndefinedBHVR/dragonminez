@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.client.hud;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -36,22 +36,22 @@ public class PlayerHudOverlay implements RenderEntityInv {
             int StaminaMax = 0;
 
             if(playerstats.getRace() == 0){
-                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON.get());
+                maxVIDA = vidaMC + ((double) (con) * DMZGeneralConfig.MULTIPLIER_CON.get());
                 StaminaMax = ((int) Math.round(maxVIDA * 0.5));
             } else if(playerstats.getRace() == 1){
-                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
+                maxVIDA = vidaMC + ((double) (con) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get());
                 StaminaMax = ((int) Math.round(maxVIDA * 0.5));
             } else if(playerstats.getRace() == 2){
-                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
+                maxVIDA = vidaMC + ((double) (con) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get());
                 StaminaMax = ((int) Math.round(maxVIDA * 0.5));
             } else if(playerstats.getRace() == 3){
-                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
+                maxVIDA = vidaMC + ((double) (con) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get());
                 StaminaMax = ((int) Math.round(maxVIDA * 0.5));
             } else if(playerstats.getRace() == 4){
-                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
+                maxVIDA = vidaMC + ((double) (con) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get());
                 StaminaMax = ((int) Math.round(maxVIDA * 0.5));
             } else if(playerstats.getRace() == 5){
-                maxVIDA = vidaMC + ((double) (con) * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
+                maxVIDA = vidaMC + ((double) (con) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get());
                 StaminaMax = ((int) Math.round(maxVIDA * 0.5));
             }
 
@@ -60,17 +60,17 @@ public class PlayerHudOverlay implements RenderEntityInv {
             int energiaMax = 0;
 
             if(playerstats.getRace() == 0){
-                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
             } else if(playerstats.getRace() == 1){
-                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
             } else if(playerstats.getRace() == 2){
-                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
             } else if(playerstats.getRace() == 3){
-                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
             } else if(playerstats.getRace() == 4){
-                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
             } else if(playerstats.getRace() == 5){
-                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
+                energiaMax = ( (int) Math.round(playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
             }
             
             int curEnergia = playerstats.getCurrentEnergy();

@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.stats;
 
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
@@ -114,7 +114,7 @@ public class DMZStatsAttributes {
 
     public void addStrength(int points) {
 
-        if (strength <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (strength <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             strength += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -123,7 +123,7 @@ public class DMZStatsAttributes {
 
     public void addDefense(int points) {
 
-        if (defense <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (defense <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             defense += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -132,7 +132,7 @@ public class DMZStatsAttributes {
 
     public void addCon(int points) {
 
-        if (constitution <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (constitution <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             constitution += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -141,7 +141,7 @@ public class DMZStatsAttributes {
 
     public void addStam(int points) {
 
-        if (stamina <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (stamina <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             stamina += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -150,7 +150,7 @@ public class DMZStatsAttributes {
 
     public void addKipwr(int points) {
 
-        if (KiPower <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (KiPower <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             KiPower += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -159,7 +159,7 @@ public class DMZStatsAttributes {
 
     public void addEnergy(int points) {
 
-        if (energy <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (energy <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             energy += points;
         }
 
@@ -299,8 +299,8 @@ public class DMZStatsAttributes {
 
         this.strength = strength;
 
-        if (this.strength >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.strength = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.strength = strength;
         }
@@ -318,8 +318,8 @@ public class DMZStatsAttributes {
 
         this.defense = defense;
 
-        if (this.defense >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.defense = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.defense = defense;
         }
@@ -335,8 +335,8 @@ public class DMZStatsAttributes {
 
         this.constitution = constitution;
 
-        if (this.constitution >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.constitution = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.constitution = constitution;
         }
@@ -353,8 +353,8 @@ public class DMZStatsAttributes {
 
         this.KiPower = kiPower;
 
-        if (this.KiPower >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            KiPower = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.KiPower = kiPower;
         }
@@ -371,8 +371,8 @@ public class DMZStatsAttributes {
 
         this.energy = energy;
 
-        if (this.energy >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.energy = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.energy = energy;
         }
@@ -390,22 +390,22 @@ public class DMZStatsAttributes {
         var maxEne = 0;
 
         if(races == 0){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40);
 
         } else if(races == 1){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
 
         } else if(races == 2){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
 
         } else if(races == 3){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
 
         } else if(races == 4){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
 
         } else if(races == 5){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
 
         }
 
@@ -435,22 +435,22 @@ public class DMZStatsAttributes {
         var maxEne = 0;
 
         if(races == 0){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40);
 
         } else if(races == 1){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
 
         } else if(races == 2){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
 
         } else if(races == 3){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
 
         } else if(races == 4){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
 
         } else if(races == 5){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+            maxEne = (int) Math.round(energy * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
 
         }
 
@@ -477,22 +477,22 @@ public class DMZStatsAttributes {
         var maxVIDA = 0;
 
         if(races == 0){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 1){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 2){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 3){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 4){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 5){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         }
 
@@ -521,22 +521,22 @@ public class DMZStatsAttributes {
         var maxVIDA = 0;
 
         if(races == 0){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 1){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 2){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 3){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 4){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         } else if(races == 5){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+            maxVIDA = (int) Math.round(20 + ((double) constitution * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
             maxStam = ((int) Math.round(maxVIDA * 0.5));
         }
         if(curStam >= maxStam){
@@ -557,8 +557,8 @@ public class DMZStatsAttributes {
     }
 
     public void setStamina(int stamina) {
-        if (this.stamina >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.stamina = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.stamina >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.stamina = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.stamina = stamina;
         }

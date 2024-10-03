@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.utils;
 
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,27 +12,27 @@ public class DMZDatos {
 
         switch (raza) {
             case 0: // Humano
-                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMZGeneralConfig.MULTIPLIER_STR.get()) * DMZGeneralConfig.MULTIPLIER_WARRIOR.get();
                 break;
 
             case 1: // Saiyan
-                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_SAIYAN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMZGeneralConfig.MULTIPLIER_STR_SAIYAN.get()) * DMZGeneralConfig.MULTIPLIER_WARRIOR.get();
                 break;
 
             case 2: // Namek
-                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_NAMEK.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMZGeneralConfig.MULTIPLIER_STR_NAMEK.get()) * DMZGeneralConfig.MULTIPLIER_WARRIOR.get();
                 break;
 
             case 3: // Bioandroide
-                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_BIO.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMZGeneralConfig.MULTIPLIER_STR_BIO.get()) * DMZGeneralConfig.MULTIPLIER_WARRIOR.get();
                 break;
 
             case 4: // Cold Demon
-                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_COLD.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMZGeneralConfig.MULTIPLIER_STR_COLD.get()) * DMZGeneralConfig.MULTIPLIER_WARRIOR.get();
                 break;
 
             case 5: // Majin
-                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMCAttrConfig.MULTIPLIER_STR_MAJIN.get()) * DMCAttrConfig.MULTIPLIER_WARRIOR.get();
+                maxStr = ((danoJugador + ((double) StatSTR / 10)) * DMZGeneralConfig.MULTIPLIER_STR_MAJIN.get()) * DMZGeneralConfig.MULTIPLIER_WARRIOR.get();
                 break;
 
             default:
@@ -55,27 +55,27 @@ public class DMZDatos {
         // Defensa = (((((StatDEF * ConfigRaza) * Transf) * Porcentaje) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4))) / 2.25)
         switch (raza) {
             case 0: // Humano
-                maxDef = ((StatDEF / 4) * DMCAttrConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = ((StatDEF / 4) * DMZGeneralConfig.MULTIPLIER_DEF.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
                 break;
 
             case 1: // Saiyan
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = (StatDEF * DMZGeneralConfig.MULTIPLIER_DEF_SAIYAN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
                 break;
 
             case 2: // Namek
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_NAMEK.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = (StatDEF * DMZGeneralConfig.MULTIPLIER_DEF_NAMEK.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
                 break;
 
             case 3: // BioAndroide
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = (StatDEF * DMZGeneralConfig.MULTIPLIER_DEF_BIO.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
                 break;
 
             case 4: // ColdDemon
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_COLD.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = (StatDEF * DMZGeneralConfig.MULTIPLIER_DEF_COLD.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
                 break;
 
             case 5: // Majin
-                maxDef = (StatDEF * DMCAttrConfig.MULTIPLIER_DEF_MAJIN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
+                maxDef = (StatDEF * DMZGeneralConfig.MULTIPLIER_DEF_MAJIN.get()) + ((DefensaArmor / 5) + (DefensaArmor - DurezaArmor / 4)) / 2.25;
                 break;
 
             default:
@@ -91,26 +91,26 @@ public class DMZDatos {
 
         switch (raza) {
             case 0: // Humano
-                maxCon = Math.round(vidaMC + ((double) StatCON * DMCAttrConfig.MULTIPLIER_CON.get()));
+                maxCon = Math.round(vidaMC + ((double) StatCON * DMZGeneralConfig.MULTIPLIER_CON.get()));
                 break;
             case 1: // Saiyan
-                maxCon = Math.round(vidaMC + ((double) StatCON * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
+                maxCon = Math.round(vidaMC + ((double) StatCON * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
                 break;
 
             case 2: // Namek
-                maxCon = Math.round(vidaMC + ((double) StatCON * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
+                maxCon = Math.round(vidaMC + ((double) StatCON * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
                 break;
 
             case 3: // Bioandroide
-                maxCon = Math.round(vidaMC + ((double) StatCON * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
+                maxCon = Math.round(vidaMC + ((double) StatCON * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
                 break;
 
             case 4: // Cold Demon
-                maxCon = Math.round(vidaMC + ((double) StatCON * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
+                maxCon = Math.round(vidaMC + ((double) StatCON * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
                 break;
 
             case 5: // Majin
-                maxCon = Math.round(vidaMC + ((double) StatCON * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
+                maxCon = Math.round(vidaMC + ((double) StatCON * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
                 break;
 
             default:
@@ -160,26 +160,26 @@ public class DMZDatos {
 
         switch (raza) {
             case 0: // Humano
-                maxENE = Math.round(StatENE * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
+                maxENE = Math.round(StatENE * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40);
                 break;
             case 1: // Saiyan
-                maxENE = Math.round(StatENE * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
+                maxENE = Math.round(StatENE * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
                 break;
 
             case 2: // Namek
-                maxENE = Math.round(StatENE * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
+                maxENE = Math.round(StatENE * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
                 break;
 
             case 3: // Bioandroide
-                maxENE = Math.round(StatENE * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
+                maxENE = Math.round(StatENE * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
                 break;
 
             case 4: // Cold Demon
-                maxENE = Math.round(StatENE * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
+                maxENE = Math.round(StatENE * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
                 break;
 
             case 5: // Majin
-                maxENE = Math.round(StatENE * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
+                maxENE = Math.round(StatENE * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
                 break;
 
             default:

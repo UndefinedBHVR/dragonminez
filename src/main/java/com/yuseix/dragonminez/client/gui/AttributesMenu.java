@@ -1,17 +1,10 @@
 package com.yuseix.dragonminez.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
-import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -23,21 +16,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class AttributesMenu extends Screen implements RenderEntityInv {
@@ -120,7 +104,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var con = playerstats.getConstitution();
             var kipower = playerstats.getKiPower();
             var energy = playerstats.getEnergy();
-            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get() + 5);
+            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() + 5);
 
             anchoTexto = 17;
             alturaTexto = (this.height / 2) + 2;
@@ -270,7 +254,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var kipowerdefault = playerstats.getKiPower();
             var energydefault = playerstats.getEnergy();
 
-            var cost =  (int) Math.round(((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get());
+            var cost =  (int) Math.round(((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
 
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;

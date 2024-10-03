@@ -1,7 +1,8 @@
 package com.yuseix.dragonminez;
 
 import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.init.*;
@@ -63,7 +64,12 @@ public class DragonMineZ {
 
         GeckoLib.initialize();
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMCAttrConfig.SPEC, "dragonminez-common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZGeneralConfig.SPEC, "dragonminez/dragonminez-general.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZHumanConfig.SPEC, "dragonminez/races/human/classes-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZSaiyanConfig.SPEC, "dragonminez/races/saiyan/classes-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZNamekConfig.SPEC, "dragonminez/races/namek/classes-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZBioAndroidConfig.SPEC, "dragonminez/races/bioandroid/classes-config.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZColdDemonConfig.SPEC, "dragonminez/races/colddemon/classes-config.toml");
 
         // Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
         /*

@@ -1,8 +1,7 @@
 package com.yuseix.dragonminez.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.commands.CommandSourceStack;
@@ -51,22 +50,22 @@ public class ResetCharacterCommand {
                 playerstats.setEnergy(5);
 
                 if (raza == 0) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
+                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get());
                     playerstats.setCurrentEnergy(energiacurrent);
                 } else if (raza == 1) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
+                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                     playerstats.setCurrentEnergy(energiacurrent);
                 } else if (raza == 2) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
+                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                     playerstats.setCurrentEnergy(energiacurrent);
                 } else if (raza == 3) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
+                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                     playerstats.setCurrentEnergy(energiacurrent);
                 } else if (raza == 4) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
+                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                     playerstats.setCurrentEnergy(energiacurrent);
                 } else if (raza == 5) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
+                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
                     playerstats.setCurrentEnergy(energiacurrent);
                 }
 

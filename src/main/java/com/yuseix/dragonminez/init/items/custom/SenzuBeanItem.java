@@ -1,19 +1,16 @@
 package com.yuseix.dragonminez.init.items.custom;
 
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -75,7 +72,7 @@ public class SenzuBeanItem extends Item {
             pPlayer.getFoodData().setSaturation(15.0F);
         }
 
-        var segundos = DMCAttrConfig.SENZU_COOLDOWN.get();
+        var segundos = DMZGeneralConfig.SENZU_COOLDOWN.get();
         var tiempo = segundos * 20;
 
         pPlayer.getCooldowns().addCooldown(this, tiempo); // 200 ticks = 10 segundos

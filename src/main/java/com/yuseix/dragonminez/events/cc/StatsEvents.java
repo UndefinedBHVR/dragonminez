@@ -1,22 +1,16 @@
 package com.yuseix.dragonminez.events.cc;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.init.MainDimensions;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
-import com.yuseix.dragonminez.utils.DMZTags;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -55,7 +49,7 @@ public class StatsEvents {
                 int maxstamina = DMZDatos.calcularSTM(raza, DMZDatos.calcularCON(raza, con, vidaMC));
 
                 // Ajustar la salud máxima del jugador
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get()));
+                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON.get()));
 
                 // Regeneración de stamina
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
@@ -163,7 +157,7 @@ public class StatsEvents {
     private static double getEnergyToRemove(int level) {
         double energyRemovalValue;
 
-        double baseReduction = DMCAttrConfig.MULTIPLIER_FALLDMG.get();
+        double baseReduction = DMZGeneralConfig.MULTIPLIER_FALLDMG.get();
 
         if (level >= 100) {
             // Porcentaje calculado en base a la config (Default 0.03)
