@@ -58,8 +58,8 @@ public class SenzuBeanItem extends Item {
                 var raza = stats.getRace();
 
                 // Calcular vida total, energía máxima y stamina
-                double VidaTotal = DMZDatos.calcularCON(raza, con, vidaMC);
-                int energiaMax = DMZDatos.calcularENE(raza, energia);
+                double VidaTotal = DMZDatos.calcularCON(raza, con, vidaMC, stats.getDmzClass());
+                int energiaMax = DMZDatos.calcularENE(raza, energia, stats.getDmzClass());
                 int staminaMax = DMZDatos.calcularSTM(raza, (int) VidaTotal);
 
                 // Regenerar vida, stamina y energía

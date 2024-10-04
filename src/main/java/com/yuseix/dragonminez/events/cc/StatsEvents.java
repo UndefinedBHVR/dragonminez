@@ -25,6 +25,7 @@ public class StatsEvents {
 
     private static int tickcounter = 0;
     private static int energiacounter = 0;
+    private static int Senzu_countdown = 0;
 
     private static int getEnergyRemovalThreshold(int playerLevel) {
         // Asumiendo que cada nivel te da 0.1 bloques de altura de soporte
@@ -43,13 +44,12 @@ public class StatsEvents {
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
                 var energia = playerstats.getEnergy();
-                var statStr = playerstats.getStrength(); // Obtener fuerza del jugador
 
-                int maxenergia = DMZDatos.calcularENE(raza, energia);
-                int maxstamina = DMZDatos.calcularSTM(raza, DMZDatos.calcularCON(raza, con, vidaMC));
+                int maxenergia = DMZDatos.calcularENE(raza, energia, playerstats.getDmzClass());
+                int maxstamina = DMZDatos.calcularSTM(raza, DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Ajustar la salud máxima del jugador
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON.get()));
+                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Regeneración de stamina
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
@@ -68,8 +68,25 @@ public class StatsEvents {
                         energiacounter = 0;
                     }
                 }
+
+
+
+                //Tiempo para reclamar una senzu
+                if(Senzu_countdown > 0){
+                    Senzu_countdown--;
+                    System.out.println("Tiempo para reclamar una senzu: " + Senzu_countdown);
+                }
+
+                if(Senzu_countdown == 0){
+                    playerstats.setDmzSenzuDaily(0);
+                }
             });
+
+
         }
+
+
+
 
     }
 
@@ -80,20 +97,20 @@ public class StatsEvents {
         // Si el que hace el daño es un jugador
         if (event.getSource().getEntity() instanceof Player atacante) {
             // Obtener las estadísticas del atacante
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(estatsAtacante -> {
-                int raza = estatsAtacante.getRace();
-                int curStamina = estatsAtacante.getCurStam();
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(statsAtacante -> {
+                int raza = statsAtacante.getRace();
+                int curStamina = statsAtacante.getCurStam();
                 float danoDefault = event.getAmount(); // Capturamos el daño original
 
                 // Calcular el daño basado en la fuerza del atacante
-                int maxStr = DMZDatos.calcularSTR(raza, estatsAtacante.getStrength(), danoDefault);
+                int maxStr = DMZDatos.calcularSTR(raza, statsAtacante.getStrength(), danoDefault, statsAtacante.getDmzState(),statsAtacante.getDmzRelease(), statsAtacante.getDmzClass());
                 int staminacost = maxStr / 4;
 
                 if (curStamina >= staminacost) {
                     // Si el atacante tiene suficiente stamina, aplicar el daño basado en la fuerza
                     event.setAmount(maxStr);
                     // Descontar stamina del atacante
-                    estatsAtacante.removeCurStam(staminacost);
+                    statsAtacante.removeCurStam(staminacost);
                 } else {
                     // Daño por defecto si al atacante le falta stamina
                     event.setAmount(danoDefault);
@@ -102,8 +119,8 @@ public class StatsEvents {
 
             // Si la entidad que recibe el daño es un jugador
             if (event.getEntity() instanceof Player objetivo) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(estatsObjetivo -> {
-                    int defObjetivo = DMZDatos.calcularDEF(estatsObjetivo.getRace(), estatsObjetivo.getDefense());
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
+                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(),statsObjetivo.getDmzRelease(),statsObjetivo.getDmzClass());
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
@@ -116,8 +133,8 @@ public class StatsEvents {
         } else {
             // Aquí manejamos el caso donde el atacante no es un jugador
             if (event.getEntity() instanceof Player objetivo) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(estatsObjetivo -> {
-                    int defObjetivo = DMZDatos.calcularDEF(estatsObjetivo.getRace(), estatsObjetivo.getDefense());
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
+                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass());
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
@@ -191,6 +208,9 @@ public class StatsEvents {
 
     }
 
+    public static void setCountdown(int seconds) {
+        Senzu_countdown = seconds * 20;
+    }
 }
 
 

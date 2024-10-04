@@ -299,12 +299,12 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             anchoTexto = (this.width - 55);
 
             //Datos
-            var strMax = DMZDatos.calcularSTR(playerstats.getRace(), playerstats.getStrength(), 1);
-            var defMax = DMZDatos.calcularDEF(playerstats.getRace(),playerstats.getDefense());
-            var conMax = DMZDatos.calcularCON(playerstats.getRace(), playerstats.getConstitution(), 20);
+            var strMax = DMZDatos.calcularSTR(playerstats.getRace(), playerstats.getStrength(), 1, playerstats.getDmzState(),playerstats.getDmzRelease(),playerstats.getDmzClass());
+            var defMax = DMZDatos.calcularDEF(playerstats.getRace(),playerstats.getDefense(), playerstats.getDmzState(),playerstats.getDmzRelease(), playerstats.getDmzClass());
+            var conMax = DMZDatos.calcularCON(playerstats.getRace(), playerstats.getConstitution(), 20, playerstats.getDmzClass());
             var stmMax = DMZDatos.calcularSTM(playerstats.getRace(), conMax);
-            var KPWMax = playerstats.getKiPower();
-            var enrMax = DMZDatos.calcularENE(playerstats.getRace(), playerstats.getEnergy());
+            var KPWMax = DMZDatos.calcularKiPower(playerstats.getRace(), playerstats.getKiPower(), playerstats.getDmzState(), playerstats.getDmzRelease(), playerstats.getDmzClass());
+            var enrMax = DMZDatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
 
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);

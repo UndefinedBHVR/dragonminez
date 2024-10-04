@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.network.C2S;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -42,7 +43,6 @@ public class StatsC2S {
 
                     var vidaMC = 20;
                     var raza = playerstats.getRace();
-                    var VidaTotal = 0.0f;
                     var con = playerstats.getConstitution();
 
                     switch (packet.id) {
@@ -55,25 +55,9 @@ public class StatsC2S {
                         case 2:
                             playerstats.addCon(packet.cantidad);
 
-                            if(raza == 0){
-                                VidaTotal = (float) (vidaMC + (con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 1){
-                                VidaTotal = (float) (vidaMC + (con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 2){
-                                VidaTotal = (float) (vidaMC + (con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 3){
-                                VidaTotal = (float) (vidaMC + (con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 4){
-                                VidaTotal = (float) (vidaMC + (con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 5){
-                                VidaTotal = (float) (vidaMC + (con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            }
+                            var conMax = DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
+
+                            playerstats.setCurStam(DMZDatos.calcularSTM(raza, conMax));
 
                             player.refreshDimensions();
                             break;

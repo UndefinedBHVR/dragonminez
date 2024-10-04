@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class DMZTrSaiyanConfig {
 
     //FORMA BASE
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_BASE_STR;
+    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_BASE;
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
@@ -18,7 +18,7 @@ public class DMZTrSaiyanConfig {
 
         BUILDER.push(" Base Form");
 
-        MULTIPLIER_BASE_STR = BUILDER.comment("Multiplier for Base Form! (Min: 1.0 / Max: 200.0)")
+        MULTIPLIER_BASE = BUILDER.comment("Multiplier for Base Form! (Min: 1.0 / Max: 200.0)")
                 .defineInRange("Multiplier: ", 1.0, 1.0, 200.0);
 
         BUILDER.pop();

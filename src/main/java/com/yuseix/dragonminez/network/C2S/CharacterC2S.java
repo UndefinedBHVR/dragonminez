@@ -103,6 +103,21 @@ public class CharacterC2S {
                                 playerstats.setAcceptCharacter(true);
                             }
                             break;
+                        case "str":
+                            playerstats.setStrength(packet.cantidad);
+                            break;
+                        case "def":
+                            playerstats.setDefense(packet.cantidad);
+                            break;
+                        case "con":
+                            playerstats.setConstitution(packet.cantidad);
+                            break;
+                        case "pwr":
+                            playerstats.setKiPower(packet.cantidad);
+                            break;
+                        case "ene":
+                            playerstats.setEnergy(packet.cantidad);
+                            break;
                         default:
                             System.out.println("Algo salio mal !");
                             break;

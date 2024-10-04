@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -33,20 +34,7 @@ public class DMZStatsCapabilities {
             var con = cap.getConstitution();
             var raza = cap.getRace();
 
-            if(raza == 0){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON.get()));
-            } else if(raza == 1){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-            } else if(raza == 2){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-            } else if(raza == 3){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-            } else if(raza == 4){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-            } else if(raza == 5){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-            }
-
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, 20, cap.getDmzClass()));
         });
 
 
@@ -70,53 +58,13 @@ public class DMZStatsCapabilities {
             var maxVIDA = 0.0;
 
             //VIDAAAAAAA
-            if(raza == 0){
-                maxVIDA = vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
+            maxVIDA = DMZDatos.calcularCON(raza, con, vidaMC,cap.getDmzClass());
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+            event.getEntity().heal((float) maxVIDA);
+            cap.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-            } else if(raza == 1){
-                maxVIDA = vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-
-            } else if(raza == 2){
-                maxVIDA = vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            } else if(raza == 3){
-                maxVIDA = vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_BIO.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            } else if(raza == 4){
-                maxVIDA = vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_COLD.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            } else if(raza == 5){
-                maxVIDA = vidaMC + ((double) con * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            }
             //ENERGIAAA
-            if(raza == 0){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-            } else if(raza == 1){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-            } else if(raza == 2){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-            } else if(raza == 3){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-            } else if(raza == 4){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-            } else if(raza == 5){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-            }
+            cap.setCurrentEnergy(DMZDatos.calcularENE(raza, energia, cap.getDmzClass()));
         });
 
     }

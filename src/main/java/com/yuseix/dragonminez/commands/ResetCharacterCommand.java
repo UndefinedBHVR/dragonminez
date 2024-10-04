@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -44,30 +45,12 @@ public class ResetCharacterCommand {
                 playerstats.setStrength(5);
                 playerstats.setDefense(5);
                 playerstats.setConstitution(5);
-                playerstats.setStamina(5);
-                playerstats.setCurStam(playerstats.getStamina() + 3);
                 playerstats.setKiPower(5);
                 playerstats.setEnergy(5);
 
-                if (raza == 0) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 1) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 2) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 3) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 4) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 5) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                }
+                energiacurrent = DMZDatos.calcularENE(raza, playerstats.getEnergy(), playerstats.getDmzClass());
+                playerstats.setCurrentEnergy(energiacurrent);
+
 
             });
 

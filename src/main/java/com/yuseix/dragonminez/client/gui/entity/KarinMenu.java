@@ -10,13 +10,18 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import com.yuseix.dragonminez.network.C2S.KarinC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -143,12 +148,18 @@ public class KarinMenu extends Screen {
     private void paginaBotones(){
         if(PageButtons == 0) {
             removerBotones();
-            //Dar Senzu
-            this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
-                //ModMessages.sendToServer(new KarinC2S(2));
-                //this.minecraft.setScreen(null);
-                PageOption = "senzu";
-            }));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+                if(cap.getDmzSenzuDaily() == 0){ //Si el Tiempo de espera de la nube voladora es 0
+                    //Dar Senzu
+                    this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
+                        //ModMessages.sendToServer(new KarinC2S(2));
+                        //this.minecraft.setScreen(null);
+                        PageOption = "senzu";
+                    }));
+                }
+            });
+
             //Dar nube voladora
             this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable("lines.master_korin.kinton"), wa -> {
                 //ModMessages.sendToServer(new KarinC2S(1));
@@ -156,11 +167,13 @@ public class KarinMenu extends Screen {
                 PageOption = "kinton";
             }));
 
-
+            /*
             this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right",(this.width / 2) + 120, (this.height - 22), Component.empty(), wa -> {
                 PageButtons = 1;
 
             }));
+
+             */
 
         }else if(PageButtons == 1){
             removerBotones();
@@ -168,7 +181,7 @@ public class KarinMenu extends Screen {
             this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
                 //ModMessages.sendToServer(new KarinC2S(2));
                 //this.minecraft.setScreen(null);
-                PageOption = "senzu";
+                PageOption = "no";
 
             }));
             //Aca deberian estar los otros botones :v
@@ -184,6 +197,7 @@ public class KarinMenu extends Screen {
                 //Aceptar
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.master_korin.accept"), wa -> {
                     ModMessages.sendToServer(new KarinC2S(1));
+
                     this.minecraft.setScreen(null);
 
                 }));
@@ -196,7 +210,11 @@ public class KarinMenu extends Screen {
             case "senzu":
                 //Aceptar
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.master_korin.accept"), wa -> {
-                    ModMessages.sendToServer(new KarinC2S(2));
+
+                    ModMessages.sendToServer(new KarinC2S(2)); //Recibir senzus
+                    ModMessages.sendToServer(new KarinC2S(3)); //Poner tiempo de espera en los datos de jugador
+
+                    StatsEvents.setCountdown(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
                     this.minecraft.setScreen(null);
 
                 }));

@@ -304,46 +304,52 @@ public class CCustomizationPage extends Screen {
                 case "Warrior":
                     switch (raza){
                         case 0: //Humano
-                            cap.setStrength(DMZHumanConfig.INITIAL_STR_WARRIOR.get());
-                            cap.setDefense(DMZHumanConfig.INITIAL_DEF_WARRIOR.get());
-                            cap.setConstitution(DMZHumanConfig.INITIAL_CON_WARRIOR.get());
-                            cap.setKiPower(DMZHumanConfig.INITIAL_KIPWR_WARRIOR.get());
-                            cap.setEnergy(DMZHumanConfig.INITIAL_ENE_WARRIOR.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZHumanConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZHumanConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZHumanConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZHumanConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZHumanConfig.INITIAL_ENE_WARRIOR.get()));
+
                             break;
                         case 1: //Saiyan
-                            cap.setStrength(DMZSaiyanConfig.INITIAL_STR_WARRIOR.get());
-                            cap.setDefense(DMZSaiyanConfig.INITIAL_DEF_WARRIOR.get());
-                            cap.setConstitution(DMZSaiyanConfig.INITIAL_CON_WARRIOR.get());
-                            cap.setKiPower(DMZSaiyanConfig.INITIAL_KIPWR_WARRIOR.get());
-                            cap.setEnergy(DMZSaiyanConfig.INITIAL_ENE_WARRIOR.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZSaiyanConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZSaiyanConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZSaiyanConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZSaiyanConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZSaiyanConfig.INITIAL_ENE_WARRIOR.get()));
+
                             break;
                         case 2: //Namek
-                            cap.setStrength(DMZNamekConfig.INITIAL_STR_WARRIOR.get());
-                            cap.setDefense(DMZNamekConfig.INITIAL_DEF_WARRIOR.get());
-                            cap.setConstitution(DMZNamekConfig.INITIAL_CON_WARRIOR.get());
-                            cap.setKiPower(DMZNamekConfig.INITIAL_KIPWR_WARRIOR.get());
-                            cap.setEnergy(DMZNamekConfig.INITIAL_ENE_WARRIOR.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZNamekConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZNamekConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZNamekConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZNamekConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZNamekConfig.INITIAL_ENE_WARRIOR.get()));
+
                             break;
                         case 3: //BioAndroide
-                            cap.setStrength(DMZBioAndroidConfig.INITIAL_STR_WARRIOR.get());
-                            cap.setDefense(DMZBioAndroidConfig.INITIAL_DEF_WARRIOR.get());
-                            cap.setConstitution(DMZBioAndroidConfig.INITIAL_CON_WARRIOR.get());
-                            cap.setKiPower(DMZBioAndroidConfig.INITIAL_KIPWR_WARRIOR.get());
-                            cap.setEnergy(DMZBioAndroidConfig.INITIAL_ENE_WARRIOR.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZBioAndroidConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZBioAndroidConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZBioAndroidConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZBioAndroidConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZBioAndroidConfig.INITIAL_ENE_WARRIOR.get()));
+
                             break;
                         case 4: //Cold Demon
-                            cap.setStrength(DMZColdDemonConfig.INITIAL_STR_WARRIOR.get());
-                            cap.setDefense(DMZColdDemonConfig.INITIAL_DEF_WARRIOR.get());
-                            cap.setConstitution(DMZColdDemonConfig.INITIAL_CON_WARRIOR.get());
-                            cap.setKiPower(DMZColdDemonConfig.INITIAL_KIPWR_WARRIOR.get());
-                            cap.setEnergy(DMZColdDemonConfig.INITIAL_ENE_WARRIOR.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZColdDemonConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZColdDemonConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZColdDemonConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZColdDemonConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZColdDemonConfig.INITIAL_ENE_WARRIOR.get()));
+
                             break;
                         case 5: //Majin
-                            cap.setStrength(DMZMajinConfig.INITIAL_STR_WARRIOR.get());
-                            cap.setDefense(DMZMajinConfig.INITIAL_DEF_WARRIOR.get());
-                            cap.setConstitution(DMZMajinConfig.INITIAL_CON_WARRIOR.get());
-                            cap.setKiPower(DMZMajinConfig.INITIAL_KIPWR_WARRIOR.get());
-                            cap.setEnergy(DMZMajinConfig.INITIAL_ENE_WARRIOR.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZMajinConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZMajinConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZMajinConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZMajinConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZMajinConfig.INITIAL_ENE_WARRIOR.get()));
+
                             break;
                         default:
                             break;
@@ -352,46 +358,46 @@ public class CCustomizationPage extends Screen {
                 case "Spiritualist":
                     switch (raza){
                         case 0: //Humano
-                            cap.setStrength(DMZHumanConfig.INITIAL_STR_SPIRITUALIST.get());
-                            cap.setDefense(DMZHumanConfig.INITIAL_DEF_SPIRITUALIST.get());
-                            cap.setConstitution(DMZHumanConfig.INITIAL_CON_SPIRITUALIST.get());
-                            cap.setKiPower(DMZHumanConfig.INITIAL_KIPWR_SPIRITUALIST.get());
-                            cap.setEnergy(DMZHumanConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZHumanConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZHumanConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZHumanConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZHumanConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZHumanConfig.INITIAL_ENE_SPIRITUALIST.get()));
                             break;
                         case 1: //Saiyan
-                            cap.setStrength(DMZSaiyanConfig.INITIAL_STR_SPIRITUALIST.get());
-                            cap.setDefense(DMZSaiyanConfig.INITIAL_DEF_SPIRITUALIST.get());
-                            cap.setConstitution(DMZSaiyanConfig.INITIAL_CON_SPIRITUALIST.get());
-                            cap.setKiPower(DMZSaiyanConfig.INITIAL_KIPWR_SPIRITUALIST.get());
-                            cap.setEnergy(DMZSaiyanConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZSaiyanConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZSaiyanConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZSaiyanConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZSaiyanConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZSaiyanConfig.INITIAL_ENE_SPIRITUALIST.get()));
                             break;
                         case 2: //Namek
-                            cap.setStrength(DMZNamekConfig.INITIAL_STR_SPIRITUALIST.get());
-                            cap.setDefense(DMZNamekConfig.INITIAL_DEF_SPIRITUALIST.get());
-                            cap.setConstitution(DMZNamekConfig.INITIAL_CON_SPIRITUALIST.get());
-                            cap.setKiPower(DMZNamekConfig.INITIAL_KIPWR_SPIRITUALIST.get());
-                            cap.setEnergy(DMZNamekConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZNamekConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZNamekConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZNamekConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZNamekConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZNamekConfig.INITIAL_ENE_SPIRITUALIST.get()));
                             break;
                         case 3: //BioAndroide
-                            cap.setStrength(DMZBioAndroidConfig.INITIAL_STR_SPIRITUALIST.get());
-                            cap.setDefense(DMZBioAndroidConfig.INITIAL_DEF_SPIRITUALIST.get());
-                            cap.setConstitution(DMZBioAndroidConfig.INITIAL_CON_SPIRITUALIST.get());
-                            cap.setKiPower(DMZBioAndroidConfig.INITIAL_KIPWR_SPIRITUALIST.get());
-                            cap.setEnergy(DMZBioAndroidConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZBioAndroidConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZBioAndroidConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZBioAndroidConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZBioAndroidConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZBioAndroidConfig.INITIAL_ENE_SPIRITUALIST.get()));
                             break;
                         case 4: //Cold Demon
-                            cap.setStrength(DMZColdDemonConfig.INITIAL_STR_SPIRITUALIST.get());
-                            cap.setDefense(DMZColdDemonConfig.INITIAL_DEF_SPIRITUALIST.get());
-                            cap.setConstitution(DMZColdDemonConfig.INITIAL_CON_SPIRITUALIST.get());
-                            cap.setKiPower(DMZColdDemonConfig.INITIAL_KIPWR_SPIRITUALIST.get());
-                            cap.setEnergy(DMZColdDemonConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZColdDemonConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZColdDemonConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZColdDemonConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZColdDemonConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZColdDemonConfig.INITIAL_ENE_SPIRITUALIST.get()));
                             break;
                         case 5: //Majin
-                            cap.setStrength(DMZMajinConfig.INITIAL_STR_SPIRITUALIST.get());
-                            cap.setDefense(DMZMajinConfig.INITIAL_DEF_SPIRITUALIST.get());
-                            cap.setConstitution(DMZMajinConfig.INITIAL_CON_SPIRITUALIST.get());
-                            cap.setKiPower(DMZMajinConfig.INITIAL_KIPWR_SPIRITUALIST.get());
-                            cap.setEnergy(DMZMajinConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZMajinConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZMajinConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZMajinConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZMajinConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZMajinConfig.INITIAL_ENE_SPIRITUALIST.get()));
                             break;
                         default:
                             break;
@@ -1517,12 +1523,12 @@ public class CCustomizationPage extends Screen {
             drawStringWithBorder(pGuiGraphics,font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xFFFFFF);
             drawStringWithBorder(pGuiGraphics,font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, 0xFFFFFF);
 
-            var strMax = DMZDatos.calcularSTR(cap.getRace(), cap.getStrength(), 1);
-            var defMax = DMZDatos.calcularDEF(cap.getRace(),cap.getDefense());
-            var conMax = DMZDatos.calcularCON(cap.getRace(), cap.getConstitution(), 20);
+            var strMax = DMZDatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass());
+            var defMax = DMZDatos.calcularDEF(cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass());
+            var conMax = DMZDatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
             var stmMax = DMZDatos.calcularSTM(cap.getRace(), conMax);
-            var KPWMax = cap.getKiPower();
-            var enrMax = DMZDatos.calcularENE(cap.getRace(), cap.getEnergy());
+            var KPWMax = DMZDatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass());
+            var enrMax = DMZDatos.calcularENE(cap.getRace(), cap.getEnergy(), cap.getDmzClass());
 
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(strMax)), this.width-67, alturaTexto, 0xfdbf26);
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(defMax)), this.width-67, alturaTexto + 12, 0xfdbf26);

@@ -74,6 +74,17 @@ public class CFirstPage extends Screen {
 
         this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, this.height - 25, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
             this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                if(cap.getRace() == 0){
+                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                }
+            });
+
         }));
 
         }

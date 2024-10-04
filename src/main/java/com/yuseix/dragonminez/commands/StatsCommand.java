@@ -7,6 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -109,25 +110,8 @@ public class StatsCommand {
                     case "constitution":
                         stats.removeConstitution(cantidad);
 
-                        if(raza == 0){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 1){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 2){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 3){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 4){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 5){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        }
+                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
@@ -140,19 +124,7 @@ public class StatsCommand {
                     case "energy":
                         stats.removeEnergy(cantidad);
 
-                        if(stats.getRace() == 0){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-                        } else if(stats.getRace() == 1){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-                        } else if(stats.getRace() == 2){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-                        } else if(stats.getRace() == 3){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-                        } else if(stats.getRace() == 4){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-                        } else if(stats.getRace() == 5){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-                        }
+                        stats.setCurrentEnergy(DMZDatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass()));
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -162,39 +134,10 @@ public class StatsCommand {
                         stats.removeKiPower(cantidad);
                         stats.removeEnergy(cantidad);
 
-                        if(raza == 0){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 1){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 2){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 3){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 4){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 5){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        }
+                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-                        if(stats.getRace() == 0){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-                        } else if(stats.getRace() == 1){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-                        } else if(stats.getRace() == 2){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-                        } else if(stats.getRace() == 3){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-                        } else if(stats.getRace() == 4){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-                        } else if(stats.getRace() == 5){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-                        }
+                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
@@ -231,25 +174,9 @@ public class StatsCommand {
                     case "constitution":
                         stats.addCon(cantidad);
 
-                        if(raza == 0){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 1){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 2){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 3){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 4){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 5){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        }
+                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
@@ -260,19 +187,8 @@ public class StatsCommand {
                         break;
                     case "energy":
                         stats.addEnergy(cantidad);
-                        if(stats.getRace() == 0){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-                        } else if(stats.getRace() == 1){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-                        } else if(stats.getRace() == 2){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-                        } else if(stats.getRace() == 3){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-                        } else if(stats.getRace() == 4){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-                        } else if(stats.getRace() == 5){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-                        }
+
+                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
@@ -283,39 +199,11 @@ public class StatsCommand {
                         stats.addKipwr(cantidad);
                         stats.addEnergy(cantidad);
 
-                        if(raza == 0){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 1){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 2){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 3){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 4){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 5){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        }
+                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-                        if(stats.getRace() == 0){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-                        } else if(stats.getRace() == 1){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-                        } else if(stats.getRace() == 2){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-                        } else if(stats.getRace() == 3){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-                        } else if(stats.getRace() == 4){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-                        } else if(stats.getRace() == 5){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-                        }
+                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
@@ -358,25 +246,9 @@ public class StatsCommand {
 
                         stats.setConstitution(cantidad);
 
-                        if(raza == 0){
-                            maxVIDA = Math.round(vidaMC + ((double) stats.getConstitution() * DMZGeneralConfig.MULTIPLIER_CON.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 1){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 2){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 3){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 4){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 5){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        }
+                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + stats.getConstitution()).withStyle(ChatFormatting.YELLOW));
 
@@ -392,22 +264,8 @@ public class StatsCommand {
 
                         stats.setEnergy(cantidad);
 
-
-                        if(stats.getRace() == 0){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-                        } else if(stats.getRace() == 1){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-                        } else if(stats.getRace() == 2){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-                        } else if(stats.getRace() == 3){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-                        } else if(stats.getRace() == 4){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-                        } else if(stats.getRace() == 5){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-                        }
-
-
+                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+                        
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + stats.getEnergy()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
@@ -419,39 +277,11 @@ public class StatsCommand {
                         stats.setEnergy(cantidad);
 
 
-                        if(raza == 0){
-                            maxVIDA = Math.round(vidaMC + ((double) stats.getConstitution() * DMZGeneralConfig.MULTIPLIER_CON.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 1){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_SAIYAN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 2){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_NAMEK.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 3){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_BIO.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 4){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_COLD.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        } else if(raza == 5){
-                            maxVIDA = Math.round(vidaMC + ((double) (stats.getConstitution()) * DMZGeneralConfig.MULTIPLIER_CON_MAJIN.get()));
-                            stats.setCurStam((int) Math.round(maxVIDA * 0.5));
-                        }
+                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-                        if(stats.getRace() == 0){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY.get() + 40));
-                        } else if(stats.getRace() == 1){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-                        } else if(stats.getRace() == 2){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-                        } else if(stats.getRace() == 3){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-                        } else if(stats.getRace() == 4){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-                        } else if(stats.getRace() == 5){
-                            stats.setCurrentEnergy( (int) Math.round(stats.getEnergy() * DMZGeneralConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-                        }
+                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+
 
                         player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
 

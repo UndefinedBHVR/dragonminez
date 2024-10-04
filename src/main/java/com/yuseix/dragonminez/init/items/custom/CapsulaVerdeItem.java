@@ -45,7 +45,6 @@ public class CapsulaVerdeItem extends Item {
         if (!pLevel.isClientSide) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
                 stats.addCon(5);
-                stats.addStam(5);
             });
 
             pPlayer.displayClientMessage(Component.translatable("item.dragonminez.green_capsule.con.use").withStyle(ChatFormatting.GREEN), true);
