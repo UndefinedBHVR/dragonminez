@@ -32,6 +32,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
     public NubeEntity(EntityType<? extends FlyingMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
+        this.setPersistenceRequired();
 
     }
 
@@ -145,8 +146,6 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
     }
-
-
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

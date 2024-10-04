@@ -9,6 +9,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -32,6 +34,8 @@ public class KarinEntity extends Mob implements GeoEntity {
 
     public KarinEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setPersistenceRequired();
+
     }
 
     public static AttributeSupplier setAttributes() {
@@ -66,6 +70,37 @@ public class KarinEntity extends Mob implements GeoEntity {
 
     }
 
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
+    }
+
+    @Nullable
+    @Override
+    public LivingEntity getControllingPassenger() {
+        return null;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return false;
+    }
+
+    @Override
+    public boolean canCollideWith(Entity entity) {
+        return !(entity instanceof Player); // Evita colisión con jugadores
+    }
+
+    @Override
+    public boolean canBeHitByProjectile() {
+        return false;
+    }
+
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
 
     @Override
     public boolean isPersistenceRequired() {
@@ -75,25 +110,6 @@ public class KarinEntity extends Mob implements GeoEntity {
     @Override
     public void checkDespawn() {
 
-    }
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    @Override
-    public boolean canBeCollidedWith() {
-        return false;
-    }
-
-    @Override
-    public boolean canCollideWith(Entity pEntity) {
-        return false;
-    }
-
-    @Override
-    public boolean canBeHitByProjectile() {
-        return false;
     }
 
     @Override
