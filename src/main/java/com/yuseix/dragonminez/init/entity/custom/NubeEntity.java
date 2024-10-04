@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.utils.Keys;
@@ -60,13 +61,13 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
         if (this.isVehicle() && this.getControllingPassenger() instanceof Player) {
             Player player = (Player) this.getControllingPassenger();
 
-            float flightSpeed = (float) this.getAttributeValue(Attributes.FLYING_SPEED);
+            double flightSpeed = DMZGeneralConfig.KINTON_SPEED.get();
 
-            float strafe = player.xxa * flightSpeed;
-            float forward = player.zza * flightSpeed;
+            float strafe = (float) (player.xxa * flightSpeed);
+            float forward = (float) (player.zza * flightSpeed);
 
             boolean isJumping = Minecraft.getInstance().options.keyJump.isDown();
-            float vertical = isJumping ? flightSpeed : (player.isCrouching() ? -flightSpeed : 0);
+            float vertical = (float) (isJumping ? flightSpeed : (player.isCrouching() ? -flightSpeed : 0));
 
             // Crear vector de movimiento
             Vec3 movement = new Vec3(strafe, vertical, forward);

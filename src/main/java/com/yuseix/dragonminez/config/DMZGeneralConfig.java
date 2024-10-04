@@ -50,10 +50,10 @@ public class DMZGeneralConfig {
                 .defineInRange("Number: ", 5, 1, 10);
 
         SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean")
-                .defineInRange("time: ", 10, 1, 36000);
+                .defineInRange("time: ", 600, 1, 36000);
 
         KINTON_SPEED = BUILDER.comment("Flying Nimbus speed (Min: 1.0 / Max: 30.0)")
-                .defineInRange("Speed: ", 5.0, 1.0, 30.0);
+                .defineInRange("Speed: ", 3.0, 1.0, 30.0);
 
 
         BUILDER.pop();

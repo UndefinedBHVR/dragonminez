@@ -74,7 +74,6 @@ public class StatsEvents {
                 //Tiempo para reclamar una senzu
                 if(Senzu_countdown > 0){
                     Senzu_countdown--;
-                    System.out.println("Tiempo para reclamar una senzu: " + Senzu_countdown);
                 }
 
                 if(Senzu_countdown == 0){
@@ -128,7 +127,6 @@ public class StatsEvents {
             } else {
                 // Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
                     event.setAmount(event.getAmount()); // Aplica tu máximo daño
-                    System.out.println("Dano amount (entidad): " + event.getAmount());
             }
         } else {
             // Aquí manejamos el caso donde el atacante no es un jugador
