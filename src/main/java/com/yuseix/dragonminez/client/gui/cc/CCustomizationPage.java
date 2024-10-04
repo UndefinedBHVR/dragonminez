@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.*;
+import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
@@ -93,17 +94,14 @@ public class CCustomizationPage extends Screen {
 
         }
 
-        // Botón para aumentar angleXComponent
         this.addRenderableWidget(new DMZCustomButton(this.width / 2 + 20, this.height - 25, 20, 20, Component.literal("->"), (button) -> {
             this.angleXComponent -= 1.0f; // Incrementa el valor en 5 grados
         }));
 
-        // Botón para disminuir angleXComponent
         this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 40, this.height - 25, 20, 20, Component.literal("<-"), (button) -> {
             this.angleXComponent += 1.0f; // Decrementa el valor en 5 grados
         }));
 
-        // Botón para reiniciar angleXComponent a 0
         this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 10, this.height - 25, 20, 20, Component.literal("0"), (button) -> {
             this.angleXComponent = 0.0f; // Resetea a 0
         }));
@@ -286,7 +284,11 @@ public class CCustomizationPage extends Screen {
                 clearAllButtons();
 
                 ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                    initialStats(cap.getRace(),cap.getDmzClass());
+                });
                 this.minecraft.setScreen(null);
+
             }));
 
         } else {
@@ -294,6 +296,112 @@ public class CCustomizationPage extends Screen {
         }
 
 
+    }
+    public void initialStats(int raza, String clase){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            switch(clase){
+                case "Warrior":
+                    switch (raza){
+                        case 0: //Humano
+                            cap.setStrength(DMZHumanConfig.INITIAL_STR_WARRIOR.get());
+                            cap.setDefense(DMZHumanConfig.INITIAL_DEF_WARRIOR.get());
+                            cap.setConstitution(DMZHumanConfig.INITIAL_CON_WARRIOR.get());
+                            cap.setKiPower(DMZHumanConfig.INITIAL_KIPWR_WARRIOR.get());
+                            cap.setEnergy(DMZHumanConfig.INITIAL_ENE_WARRIOR.get());
+                            break;
+                        case 1: //Saiyan
+                            cap.setStrength(DMZSaiyanConfig.INITIAL_STR_WARRIOR.get());
+                            cap.setDefense(DMZSaiyanConfig.INITIAL_DEF_WARRIOR.get());
+                            cap.setConstitution(DMZSaiyanConfig.INITIAL_CON_WARRIOR.get());
+                            cap.setKiPower(DMZSaiyanConfig.INITIAL_KIPWR_WARRIOR.get());
+                            cap.setEnergy(DMZSaiyanConfig.INITIAL_ENE_WARRIOR.get());
+                            break;
+                        case 2: //Namek
+                            cap.setStrength(DMZNamekConfig.INITIAL_STR_WARRIOR.get());
+                            cap.setDefense(DMZNamekConfig.INITIAL_DEF_WARRIOR.get());
+                            cap.setConstitution(DMZNamekConfig.INITIAL_CON_WARRIOR.get());
+                            cap.setKiPower(DMZNamekConfig.INITIAL_KIPWR_WARRIOR.get());
+                            cap.setEnergy(DMZNamekConfig.INITIAL_ENE_WARRIOR.get());
+                            break;
+                        case 3: //BioAndroide
+                            cap.setStrength(DMZBioAndroidConfig.INITIAL_STR_WARRIOR.get());
+                            cap.setDefense(DMZBioAndroidConfig.INITIAL_DEF_WARRIOR.get());
+                            cap.setConstitution(DMZBioAndroidConfig.INITIAL_CON_WARRIOR.get());
+                            cap.setKiPower(DMZBioAndroidConfig.INITIAL_KIPWR_WARRIOR.get());
+                            cap.setEnergy(DMZBioAndroidConfig.INITIAL_ENE_WARRIOR.get());
+                            break;
+                        case 4: //Cold Demon
+                            cap.setStrength(DMZColdDemonConfig.INITIAL_STR_WARRIOR.get());
+                            cap.setDefense(DMZColdDemonConfig.INITIAL_DEF_WARRIOR.get());
+                            cap.setConstitution(DMZColdDemonConfig.INITIAL_CON_WARRIOR.get());
+                            cap.setKiPower(DMZColdDemonConfig.INITIAL_KIPWR_WARRIOR.get());
+                            cap.setEnergy(DMZColdDemonConfig.INITIAL_ENE_WARRIOR.get());
+                            break;
+                        case 5: //Majin
+                            cap.setStrength(DMZMajinConfig.INITIAL_STR_WARRIOR.get());
+                            cap.setDefense(DMZMajinConfig.INITIAL_DEF_WARRIOR.get());
+                            cap.setConstitution(DMZMajinConfig.INITIAL_CON_WARRIOR.get());
+                            cap.setKiPower(DMZMajinConfig.INITIAL_KIPWR_WARRIOR.get());
+                            cap.setEnergy(DMZMajinConfig.INITIAL_ENE_WARRIOR.get());
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "Spiritualist":
+                    switch (raza){
+                        case 0: //Humano
+                            cap.setStrength(DMZHumanConfig.INITIAL_STR_SPIRITUALIST.get());
+                            cap.setDefense(DMZHumanConfig.INITIAL_DEF_SPIRITUALIST.get());
+                            cap.setConstitution(DMZHumanConfig.INITIAL_CON_SPIRITUALIST.get());
+                            cap.setKiPower(DMZHumanConfig.INITIAL_KIPWR_SPIRITUALIST.get());
+                            cap.setEnergy(DMZHumanConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            break;
+                        case 1: //Saiyan
+                            cap.setStrength(DMZSaiyanConfig.INITIAL_STR_SPIRITUALIST.get());
+                            cap.setDefense(DMZSaiyanConfig.INITIAL_DEF_SPIRITUALIST.get());
+                            cap.setConstitution(DMZSaiyanConfig.INITIAL_CON_SPIRITUALIST.get());
+                            cap.setKiPower(DMZSaiyanConfig.INITIAL_KIPWR_SPIRITUALIST.get());
+                            cap.setEnergy(DMZSaiyanConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            break;
+                        case 2: //Namek
+                            cap.setStrength(DMZNamekConfig.INITIAL_STR_SPIRITUALIST.get());
+                            cap.setDefense(DMZNamekConfig.INITIAL_DEF_SPIRITUALIST.get());
+                            cap.setConstitution(DMZNamekConfig.INITIAL_CON_SPIRITUALIST.get());
+                            cap.setKiPower(DMZNamekConfig.INITIAL_KIPWR_SPIRITUALIST.get());
+                            cap.setEnergy(DMZNamekConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            break;
+                        case 3: //BioAndroide
+                            cap.setStrength(DMZBioAndroidConfig.INITIAL_STR_SPIRITUALIST.get());
+                            cap.setDefense(DMZBioAndroidConfig.INITIAL_DEF_SPIRITUALIST.get());
+                            cap.setConstitution(DMZBioAndroidConfig.INITIAL_CON_SPIRITUALIST.get());
+                            cap.setKiPower(DMZBioAndroidConfig.INITIAL_KIPWR_SPIRITUALIST.get());
+                            cap.setEnergy(DMZBioAndroidConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            break;
+                        case 4: //Cold Demon
+                            cap.setStrength(DMZColdDemonConfig.INITIAL_STR_SPIRITUALIST.get());
+                            cap.setDefense(DMZColdDemonConfig.INITIAL_DEF_SPIRITUALIST.get());
+                            cap.setConstitution(DMZColdDemonConfig.INITIAL_CON_SPIRITUALIST.get());
+                            cap.setKiPower(DMZColdDemonConfig.INITIAL_KIPWR_SPIRITUALIST.get());
+                            cap.setEnergy(DMZColdDemonConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            break;
+                        case 5: //Majin
+                            cap.setStrength(DMZMajinConfig.INITIAL_STR_SPIRITUALIST.get());
+                            cap.setDefense(DMZMajinConfig.INITIAL_DEF_SPIRITUALIST.get());
+                            cap.setConstitution(DMZMajinConfig.INITIAL_CON_SPIRITUALIST.get());
+                            cap.setKiPower(DMZMajinConfig.INITIAL_KIPWR_SPIRITUALIST.get());
+                            cap.setEnergy(DMZMajinConfig.INITIAL_ENE_SPIRITUALIST.get());
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default: //Poner algo por si spiritualist
+                    break;
+            }
+
+        });
     }
 
     public void botonesRazaColores(int posX, int posY) {
