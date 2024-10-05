@@ -25,8 +25,8 @@ public class PlayerHudOverlay implements RenderEntityInv {
             "textures/gui/hud/hud.png");
 
     private static int displayedRelease = 0; // Valor que se mostrará en pantalla, inicializado en 0
-    private static int animationDurationTicks = 2 * (20); // Duración de la animación en ticks (2 segundos)
-    private static int elapsedTicks = 0; // Ticks transcurridos desde que comenzó la animación
+    private static int releaseUpdateSpeed = 2 * (20); // Velocidad de actualización en ticks
+
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
         assert Minecraft.getInstance().player != null;
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
@@ -151,29 +151,20 @@ public class PlayerHudOverlay implements RenderEntityInv {
     public static void renderPowerReleaseAnimation(GuiGraphics guiGraphics, int porcentaje, int posXPowerRelease) {
         int targetRelease = porcentaje; // El valor objetivo que queremos mostrar
 
-        // Incrementar o disminuir el valor mostrado basado en la duración de la animación
-        if (elapsedTicks < animationDurationTicks) {
-            // Proporción de la animación
-            float deltaTime = (float) elapsedTicks / animationDurationTicks;
-
-            // Calcula el incremento basado en el tiempo transcurrido
-            int increment = (int) ((targetRelease - displayedRelease) * deltaTime);
-
-            // Actualizar el valor mostrado
-            displayedRelease += increment;
-
-            // Asegurarse de no sobrepasar el objetivo
+        // Si el valor mostrado es menor que el objetivo, incrementarlo gradualmente
+        if (displayedRelease < targetRelease) {
+            displayedRelease += releaseUpdateSpeed;
             if (displayedRelease > targetRelease) {
-                displayedRelease = targetRelease;
-            } else if (displayedRelease < targetRelease) {
-                displayedRelease = targetRelease; // Para evitar ir en dirección contraria
+                displayedRelease = targetRelease; // Asegurarse de no sobrepasar el objetivo
             }
+        }
 
-            // Incrementar los ticks transcurridos
-            elapsedTicks++;
-        } else {
-            // Reiniciar el contador cuando la animación completa
-            elapsedTicks = 0;
+        // Si el valor mostrado es mayor que el objetivo, disminuirlo gradualmente
+        if (displayedRelease > targetRelease) {
+            displayedRelease -= releaseUpdateSpeed;
+            if (displayedRelease < targetRelease) {
+                displayedRelease = targetRelease; // Asegurarse de no bajar más del objetivo
+            }
         }
 
         // Renderizar el valor con la animación
