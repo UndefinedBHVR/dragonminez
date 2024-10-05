@@ -46,7 +46,7 @@ public class DMZGeneralConfig {
         SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans")
                 .defineInRange("Seconds: ", 10, 1, 200);
 
-        SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Karin will give")
+        SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Korin will give")
                 .defineInRange("Number: ", 5, 1, 10);
 
         SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean (seconds)")

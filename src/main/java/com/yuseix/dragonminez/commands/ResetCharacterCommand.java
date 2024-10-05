@@ -47,6 +47,7 @@ public class ResetCharacterCommand {
                 playerstats.setConstitution(5);
                 playerstats.setKiPower(5);
                 playerstats.setEnergy(5);
+                playerstats.setZpoints(0);
 
                 energiacurrent = DMZDatos.calcularENE(raza, playerstats.getEnergy(), playerstats.getDmzClass());
                 playerstats.setCurrentEnergy(energiacurrent);

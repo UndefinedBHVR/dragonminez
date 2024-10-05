@@ -39,7 +39,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.05D)
-                .add(Attributes.FLYING_SPEED, 1.8D) // velocidad de vuelo
+                .add(Attributes.FLYING_SPEED, DMZGeneralConfig.KINTON_SPEED.get()) // velocidad de vuelo
                 .build();
     }
 
