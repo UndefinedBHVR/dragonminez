@@ -11,7 +11,7 @@ public class Keys {
 
     public static final KeyMapping KI_CHARGE = new KeyMapping("key.dragonminez.ki_charge",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY);
-    public static final KeyMapping DESCENDING = new KeyMapping("key.dragonminez.action_menu",
+    public static final KeyMapping ACTION_KEY = new KeyMapping("key.dragonminez.action_menu",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_ALT, CATEGORY);
     public static final KeyMapping PANEL_GUI = new KeyMapping("key.dragonminez.panel_gui",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_L, CATEGORY);

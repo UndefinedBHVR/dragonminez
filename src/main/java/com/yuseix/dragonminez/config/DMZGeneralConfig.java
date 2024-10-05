@@ -15,7 +15,6 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_DAILY_COOLDOWN;
-    public static final ForgeConfigSpec.ConfigValue<Double> KINTON_SPEED;
 
 
 
@@ -51,9 +50,6 @@ public class DMZGeneralConfig {
 
         SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean (seconds)")
                 .defineInRange("time: ", 600, 1, 36000);
-
-        KINTON_SPEED = BUILDER.comment("Flying Nimbus speed (Min: 1.0 / Max: 30.0)")
-                .defineInRange("Speed: ", 3.0, 1.0, 30.0);
 
 
         BUILDER.pop();

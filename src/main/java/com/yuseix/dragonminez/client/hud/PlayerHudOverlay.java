@@ -24,8 +24,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
     private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/hud/hud.png");
 
-
-
+    private static int displayedRelease = 0; // Valor que se mostrará en pantalla, inicializado en 0
+    private static int animationDurationTicks = 2 * (20); // Duración de la animación en ticks (2 segundos)
+    private static int elapsedTicks = 0; // Ticks transcurridos desde que comenzó la animación
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
         assert Minecraft.getInstance().player != null;
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
@@ -123,8 +124,8 @@ public class PlayerHudOverlay implements RenderEntityInv {
             var posXPowerRelease = 0;
 
             drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease + 35, 44,0x38fff0);
-            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
-
+            //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
+            renderPowerReleaseAnimation(guiGraphics, playerstats.getDmzRelease(), posXPowerRelease + 115);
 
         double scaleFactor = Minecraft.getInstance().getWindow().getGuiScale();
 
@@ -146,6 +147,40 @@ public class PlayerHudOverlay implements RenderEntityInv {
         });
 
     };
+
+    public static void renderPowerReleaseAnimation(GuiGraphics guiGraphics, int porcentaje, int posXPowerRelease) {
+        int targetRelease = porcentaje; // El valor objetivo que queremos mostrar
+
+        // Incrementar o disminuir el valor mostrado basado en la duración de la animación
+        if (elapsedTicks < animationDurationTicks) {
+            // Proporción de la animación
+            float deltaTime = (float) elapsedTicks / animationDurationTicks;
+
+            // Calcula el incremento basado en el tiempo transcurrido
+            int increment = (int) ((targetRelease - displayedRelease) * deltaTime);
+
+            // Actualizar el valor mostrado
+            displayedRelease += increment;
+
+            // Asegurarse de no sobrepasar el objetivo
+            if (displayedRelease > targetRelease) {
+                displayedRelease = targetRelease;
+            } else if (displayedRelease < targetRelease) {
+                displayedRelease = targetRelease; // Para evitar ir en dirección contraria
+            }
+
+            // Incrementar los ticks transcurridos
+            elapsedTicks++;
+        } else {
+            // Reiniciar el contador cuando la animación completa
+            elapsedTicks = 0;
+        }
+
+        // Renderizar el valor con la animación
+        drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+                Component.empty().append(Component.literal(String.valueOf(displayedRelease))).append(Component.literal("%")),
+                posXPowerRelease, 44, 0xfdbf26);
+    }
 
 
     public static void personajesMenu(GuiGraphics pGuiGraphics){
