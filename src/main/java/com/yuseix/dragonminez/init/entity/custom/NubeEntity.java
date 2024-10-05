@@ -33,7 +33,6 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
         this.setPersistenceRequired();
-
     }
 
     public static AttributeSupplier createAttributes() {
