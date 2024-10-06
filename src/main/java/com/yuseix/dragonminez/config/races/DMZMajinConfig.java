@@ -31,6 +31,9 @@ public class DMZMajinConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> INITIAL_KIPWR_SPIRITUALIST;
     public static final ForgeConfigSpec.ConfigValue<Integer> INITIAL_ENE_SPIRITUALIST;
 
+    //Regeneracion de ki por clase
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_REGEN_WARRIOR;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_REGEN_SPIRITUALIST;
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
@@ -78,6 +81,13 @@ public class DMZMajinConfig {
 
         BUILDER.pop();
 
+        BUILDER.push(" WARRIOR CLASS KI REGENERATION");
+
+        KI_REGEN_WARRIOR = BUILDER.comment("Ki Regeneration for Warrior Class! (Min: 0 / Max: 100)")
+                .defineInRange("Percentage: ", 1, 0, 100);
+
+        BUILDER.pop();
+
         //ESPIRITUALISTA
         BUILDER.push(" SPIRITUALIST CLASS MULTIPLIER");
 
@@ -119,6 +129,12 @@ public class DMZMajinConfig {
 
         BUILDER.pop();
 
+        BUILDER.push(" SPIRITUALIST CLASS KI REGENERATION");
+
+        KI_REGEN_SPIRITUALIST = BUILDER.comment("Ki Regeneration for Spiritualist Class! (Min: 0 / Max: 100)")
+                .defineInRange("Percentage: ", 1, 0, 100);
+
+        BUILDER.pop();
 
         SPEC = BUILDER.build();
     }

@@ -635,6 +635,77 @@ public class DMZDatos {
         return costo;
     }
 
+    public static int calcularKiRegen(int raza, int EnergiaTotal, String clase){
+        int regenki = 0;
 
+        switch (clase){
+            case "Warrior":
+                switch (raza){
+                    case 0:
+                        regenki = EnergiaTotal * (DMZHumanConfig.KI_REGEN_WARRIOR.get()/100);
+                        break;
+                    case 1:
+                        regenki = EnergiaTotal * (DMZSaiyanConfig.KI_REGEN_WARRIOR.get()/100);
+                        break;
+                    case 2:
+                        regenki = EnergiaTotal * (DMZNamekConfig.KI_REGEN_WARRIOR.get()/100);
+                        break;
+                    case 3:
+                        regenki = EnergiaTotal * (DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()/100);
+                        break;
+                    case 4:
+                        regenki = EnergiaTotal * (DMZColdDemonConfig.KI_REGEN_WARRIOR.get()/100);
+                        break;
+                    case 5:
+                        regenki = EnergiaTotal * (DMZMajinConfig.KI_REGEN_WARRIOR.get()/100);
+                        break;
+                    default:
+                        break;
+                }
+
+                break;
+            case "Spiritualist":
+                switch (raza){
+                    case 0:
+                        regenki = EnergiaTotal * (DMZHumanConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        break;
+                    case 1:
+                        regenki = EnergiaTotal * (DMZSaiyanConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        break;
+                    case 2:
+                        regenki = EnergiaTotal * (DMZNamekConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        break;
+                    case 3:
+                        regenki = EnergiaTotal * (DMZBioAndroidConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        break;
+                    case 4:
+                        regenki = EnergiaTotal * (DMZColdDemonConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        break;
+                    case 5:
+                        regenki = EnergiaTotal * (DMZMajinConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        break;
+                    default:
+                        break;
+                }
+                    break;
+        }
+
+        return regenki;
+    }
+
+    public static int calcularCargaKi(int EnergiaTotal, String clase){
+        var porcentaje = 0;
+
+        switch (clase){
+            case "Warrior":
+                porcentaje = (int) (EnergiaTotal * 0.02);
+                break;
+            case "Spiritualist":
+                porcentaje = (int) (EnergiaTotal * 0.04);
+                break;
+        }
+
+        return porcentaje;
+    }
 
 }

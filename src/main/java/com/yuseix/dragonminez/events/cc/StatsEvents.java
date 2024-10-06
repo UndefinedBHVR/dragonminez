@@ -28,7 +28,7 @@ import java.util.Random;
 public class StatsEvents {
 
     private static int tickcounter = 0;
-    private static int energiacounter = 0;
+    private static int energyRegen = 0;
     private static int energiaConsumecounter = 0;
     private static int Senzu_countdown = 0;
 
@@ -49,7 +49,7 @@ public class StatsEvents {
     public static void tick(TickEvent.PlayerTickEvent event) {
         // Regenerar stamina
         if (event.side == LogicalSide.SERVER) {
-            energiacounter++;
+            energyRegen++;
             tickcounter++;
             energiaConsumecounter++;
 
@@ -74,14 +74,15 @@ public class StatsEvents {
                     }
                 }
 
-                // Regeneración de energía
+                // Regeneración de energía Warrior
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energiacounter >= 60 * 5) { // Cada 5 segundos
-                        int regenki = (maxenergia / 20); // Regenerar 10% de la energía máxima
+                    if (energyRegen >= 60 * 5) { // Cada 10 segundos
+                        int regenki = DMZDatos.calcularKiRegen(raza, maxenergia, playerstats.getDmzClass()); // Regenerar 10% de la energía máxima
                         playerstats.addCurEnergy(regenki);
-                        energiacounter = 0;
+                        energyRegen = 0;
                     }
                 }
+
 
                 //Consumo de energia
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
@@ -119,6 +120,7 @@ public class StatsEvents {
                             }
                         } else if (isChargeKiKeyPressed) {
                             // Incrementar el valor de charge si solo KI_CHARGE está presionada
+
                             if (playerstats.getDmzRelease() < 100) {
                                 playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
                                 if (playerstats.getDmzRelease() > 100) {
@@ -126,8 +128,7 @@ public class StatsEvents {
                                 }
                             }
 
-                            int kiEnergycharge = maxenergia / 10; // Ajusta el porcentaje de regeneración
-                            playerstats.addCurEnergy(kiEnergycharge);
+                            playerstats.addCurEnergy(DMZDatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
 
                             generateAura(event.player);
                         }
