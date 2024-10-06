@@ -569,4 +569,72 @@ public class DMZDatos {
         return (int) maxENE;
     }
 
+    public static int calcularKiConsume(int raza, int StatENE, int form){
+        int costo = 0;
+
+        switch (raza){
+            case 0:
+                if(form == 0){
+                    costo = DMZTrHumanConfig.BASE_FORM_KI_COST.get();
+                } else if(form == 1){
+                    costo = DMZTrHumanConfig.FP_FORM_KI_COST.get() + (2 * StatENE); //ESTO VA A CONSUMIR LA FORMA 1 DEL HUMANO
+                } else {
+                    costo = DMZTrHumanConfig.BASE_FORM_KI_COST.get();
+                }
+                break;
+            case 1:
+                if(form == 0){
+                    costo = DMZTrSaiyanConfig.BASE_FORM_KI_COST.get();
+                } else if(form == 1){
+                    costo = DMZTrSaiyanConfig.BASE_FORM_KI_COST.get() + (2 * StatENE); //ESTO VA A CONSUMIR LA FORMA 1 DEL SAIYAN
+                } else {
+                    costo = DMZTrSaiyanConfig.BASE_FORM_KI_COST.get();
+                }
+
+                break;
+            case 2:
+                if(form == 0){
+                    costo = DMZTrNamekConfig.BASE_FORM_KI_COST.get();
+                } else if(form == 1){
+                    costo = DMZTrNamekConfig.BASE_FORM_KI_COST.get() + (2 * StatENE); //ESTO VA A CONSUMIR LA FORMA 1 DEL NAMEK
+                } else {
+                    costo = DMZTrNamekConfig.BASE_FORM_KI_COST.get();
+                }
+                break;
+            case 3:
+                if(form == 0){
+                    costo = DMZTrBioAndroidConfig.BASE_FORM_KI_COST.get();
+                } else if(form == 1){
+                    costo = DMZTrBioAndroidConfig.BASE_FORM_KI_COST.get() + (2 * StatENE); //ESTO VA A CONSUMIR LA FORMA 1 DEL BIO ANDROIDE
+                } else {
+                    costo = DMZTrBioAndroidConfig.BASE_FORM_KI_COST.get();
+                }
+                break;
+            case 4:
+                if(form == 0){
+                    costo = DMZTrColdDemonConfig.BASE_FORM_KI_COST.get();
+                } else if(form == 1){
+                    costo = DMZTrColdDemonConfig.BASE_FORM_KI_COST.get() + (2 * StatENE); //ESTO VA A CONSUMIR LA FORMA 1 DEL COLD DEMON
+                } else {
+                    costo = DMZTrColdDemonConfig.BASE_FORM_KI_COST.get();
+                }
+                break;
+            case 5:
+                if(form == 0){
+                    costo = DMZTrMajinConfig.BASE_FORM_KI_COST.get();
+                } else if(form == 1){
+                    costo = DMZTrMajinConfig.BASE_FORM_KI_COST.get() + (2 * StatENE); //ESTO VA A CONSUMIR LA FORMA 1 DEL MAJIN
+                } else {
+                    costo = DMZTrMajinConfig.BASE_FORM_KI_COST.get();
+                }
+                break;
+            default:
+                break;
+        }
+
+        return costo;
+    }
+
+
+
 }

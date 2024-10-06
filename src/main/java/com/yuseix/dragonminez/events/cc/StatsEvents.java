@@ -7,6 +7,8 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -27,6 +29,7 @@ public class StatsEvents {
 
     private static int tickcounter = 0;
     private static int energiacounter = 0;
+    private static int energiaConsumecounter = 0;
     private static int Senzu_countdown = 0;
 
     private static int chargeTimer = 0; // Aca calculamos el tiempo de espera
@@ -48,6 +51,7 @@ public class StatsEvents {
         if (event.side == LogicalSide.SERVER) {
             energiacounter++;
             tickcounter++;
+            energiaConsumecounter++;
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
                 var vidaMC = 20;
@@ -73,13 +77,20 @@ public class StatsEvents {
                 // Regeneración de energía
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
                     if (energiacounter >= 60 * 5) { // Cada 5 segundos
-                        int regenki = (maxenergia / 10); // Regenerar 10% de la energía máxima
+                        int regenki = (maxenergia / 20); // Regenerar 10% de la energía máxima
                         playerstats.addCurEnergy(regenki);
                         energiacounter = 0;
                     }
                 }
 
-
+                //Consumo de energia
+                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
+                    if (energiaConsumecounter >= 60 * 3) { // Cada 5 segundos
+                        int consumeki = DMZDatos.calcularKiConsume(raza, playerstats.getEnergy(), playerstats.getDmzState());
+                        playerstats.removeCurEnergy(consumeki);
+                        energiaConsumecounter = 0;
+                    }
+                }
 
                 //Tiempo para reclamar una senzu
                 if(Senzu_countdown > 0){
@@ -114,6 +125,11 @@ public class StatsEvents {
                                     playerstats.setDmzRelease(100); // Asegura que no pase de 100
                                 }
                             }
+
+                            int kiEnergycharge = maxenergia / 10; // Ajusta el porcentaje de regeneración
+                            playerstats.addCurEnergy(kiEnergycharge);
+
+                            generateAura(event.player);
                         }
                         // Reiniciar el temporizador después de cada acción
                         chargeTimer = 0;
@@ -129,7 +145,23 @@ public class StatsEvents {
 
     }
 
+    // Método para generar el aura alrededor del jugador
+    private static void generateAura(Player player) {
+        if (!player.level().isClientSide()) {
+            double x = player.getX();
+            double y = player.getY() + 1.0; // Ajustar para que las partículas aparezcan alrededor del jugador
+            double z = player.getZ();
 
+            for (int i = 0; i < 20; i++) { // Número de partículas
+                double offsetX = (Math.random() - 0.5) * 2;
+                double offsetY = Math.random() * 2;
+                double offsetZ = (Math.random() - 0.5) * 2;
+
+                // Crear partículas alrededor del jugador
+                ((ServerLevel) player.level()).sendParticles(ParticleTypes.CLOUD, x + offsetX, y + offsetY, z + offsetZ, 0, 0, 0, 0, 1);
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
