@@ -76,7 +76,7 @@ public class StatsEvents {
 
                 // Regeneración de energía Warrior
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energyRegen >= 60 * 5) { // Cada 10 segundos
+                    if (energyRegen >= 60 * 5) { // Cada 5 segundos
                         int regenki = DMZDatos.calcularKiRegen(raza, maxenergia, playerstats.getDmzClass()); // Regenerar 10% de la energía máxima
                         playerstats.addCurEnergy(regenki);
                         energyRegen = 0;
@@ -86,7 +86,7 @@ public class StatsEvents {
 
                 //Consumo de energia
                 if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energiaConsumecounter >= 60 * 3) { // Cada 5 segundos
+                    if (energiaConsumecounter >= 60 * 3) { // Cada 3 segundos
                         int consumeki = DMZDatos.calcularKiConsume(raza, playerstats.getEnergy(), playerstats.getDmzState());
                         playerstats.removeCurEnergy(consumeki);
                         energiaConsumecounter = 0;

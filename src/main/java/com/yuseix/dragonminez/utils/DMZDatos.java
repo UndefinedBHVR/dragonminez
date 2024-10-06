@@ -398,44 +398,44 @@ public class DMZDatos {
                 switch (raza) {
                     case 0: // Humano
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 1: // Saiyan
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 2: // Namek
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 3: // Bioandroide
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 4: // Cold Demon
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 5: // Majin
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     default:
@@ -447,44 +447,44 @@ public class DMZDatos {
                 switch (raza) {
                     case 0: // Humano
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 1: // Saiyan
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZSaiyanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 2: // Namek
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZNamekConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 3: // Bioandroide
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZBioAndroidConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 4: // Cold Demon
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZColdDemonConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     case 5: // Majin
                         if(Transformation == 0){
-                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         } else {
-                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/2) );
+                            maxPWR = Math.round((StatPWR * DMZMajinConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (PowerRelease/5) );
                         }
                         break;
                     default:
@@ -642,22 +642,22 @@ public class DMZDatos {
             case "Warrior":
                 switch (raza){
                     case 0:
-                        regenki = EnergiaTotal * (DMZHumanConfig.KI_REGEN_WARRIOR.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZHumanConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 1:
-                        regenki = EnergiaTotal * (DMZSaiyanConfig.KI_REGEN_WARRIOR.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZSaiyanConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 2:
-                        regenki = EnergiaTotal * (DMZNamekConfig.KI_REGEN_WARRIOR.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZNamekConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 3:
-                        regenki = EnergiaTotal * (DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 4:
-                        regenki = EnergiaTotal * (DMZColdDemonConfig.KI_REGEN_WARRIOR.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZColdDemonConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 5:
-                        regenki = EnergiaTotal * (DMZMajinConfig.KI_REGEN_WARRIOR.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZMajinConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     default:
                         break;
@@ -667,22 +667,22 @@ public class DMZDatos {
             case "Spiritualist":
                 switch (raza){
                     case 0:
-                        regenki = EnergiaTotal * (DMZHumanConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZHumanConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 1:
-                        regenki = EnergiaTotal * (DMZSaiyanConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZSaiyanConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 2:
-                        regenki = EnergiaTotal * (DMZNamekConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZNamekConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 3:
-                        regenki = EnergiaTotal * (DMZBioAndroidConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZBioAndroidConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 4:
-                        regenki = EnergiaTotal * (DMZColdDemonConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZColdDemonConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 5:
-                        regenki = EnergiaTotal * (DMZMajinConfig.KI_REGEN_SPIRITUALIST.get()/100);
+                        regenki = (int) Math.round ((EnergiaTotal * DMZMajinConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     default:
                         break;
