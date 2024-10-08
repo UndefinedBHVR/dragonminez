@@ -6,11 +6,13 @@ import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -26,6 +28,14 @@ public class StatsEvents {
     private static int tickcounter = 0;
     private static int energiacounter = 0;
     private static int Senzu_countdown = 0;
+
+    private static int chargeTimer = 0; // Aca calculamos el tiempo de espera
+    private static final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
+
+
+    //Teclas
+    private static boolean isChargeKiKeyPressed = false;
+    private static boolean isActionKeyPressed = false;
 
     private static int getEnergyRemovalThreshold(int playerLevel) {
         // Asumiendo que cada nivel te da 0.1 bloques de altura de soporte
@@ -78,6 +88,36 @@ public class StatsEvents {
 
                 if(Senzu_countdown == 0){
                     playerstats.setDmzSenzuDaily(0);
+                }
+
+
+                if (isChargeKiKeyPressed || isActionKeyPressed) {
+                    // Incrementa el temporizador en cada tick
+                    chargeTimer++;
+
+                    // Solo actúa cuando el temporizador ha alcanzado el intervalo definido
+                    //Es decir si llega a x ticks carga osea por defecto un segundo
+                    if (chargeTimer >= CHARGE_INTERVAL) {
+                        if (isChargeKiKeyPressed && isActionKeyPressed) {
+                            // Disminuir el valor de charge si ambas teclas están presionadas
+                            if (playerstats.getDmzRelease() > 0) {
+                                playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
+                                if (playerstats.getDmzRelease() < 0) {
+                                    playerstats.setDmzRelease(0); // Asegura que no baje de 1
+                                }
+                            }
+                        } else if (isChargeKiKeyPressed) {
+                            // Incrementar el valor de charge si solo KI_CHARGE está presionada
+                            if (playerstats.getDmzRelease() < 100) {
+                                playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
+                                if (playerstats.getDmzRelease() > 100) {
+                                    playerstats.setDmzRelease(100); // Asegura que no pase de 100
+                                }
+                            }
+                        }
+                        // Reiniciar el temporizador después de cada acción
+                        chargeTimer = 0;
+                    }
                 }
             });
 
@@ -168,6 +208,16 @@ public class StatsEvents {
         }
 
     }
+
+    @SubscribeEvent
+    public static void onKeyInputEvent(InputEvent.Key event){
+        // Detecta si la tecla KI_CHARGE está presionada o liberada
+        isChargeKiKeyPressed = Keys.KI_CHARGE.isDown();
+
+        // Detecta si la tecla ACTION_KEY está presionada o liberada
+        isActionKeyPressed = Keys.ACTION_KEY.isDown();
+    }
+
 
     private static double getEnergyToRemove(int level) {
         double energyRemovalValue;

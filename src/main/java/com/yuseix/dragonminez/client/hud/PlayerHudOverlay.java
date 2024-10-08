@@ -9,9 +9,12 @@ import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
@@ -20,6 +23,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
     private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/hud/hud.png");
+
+    private static int displayedRelease = 0; // Valor que se mostrará en pantalla, inicializado en 0
+    private static int releaseUpdateSpeed = 2 * (20); // Velocidad de actualización en ticks
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
         assert Minecraft.getInstance().player != null;
@@ -107,9 +113,19 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             guiGraphics.pose().popPose();
 
-            guiGraphics.drawString(Minecraft.getInstance().font, String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())), 150, 16, 0xBB1C2A);
+
+            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 16, 0xfddb1e);
 
 
+            Component porcentaje = Component.empty()
+                    .append(Component.translatable("dmz.hud.powerrelease"))
+                    .append(Component.literal(": "));
+
+            var posXPowerRelease = 0;
+
+            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease + 35, 44,0x38fff0);
+            //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
+            renderPowerReleaseAnimation(guiGraphics, playerstats.getDmzRelease(), posXPowerRelease + 115);
 
         double scaleFactor = Minecraft.getInstance().getWindow().getGuiScale();
 
@@ -131,6 +147,31 @@ public class PlayerHudOverlay implements RenderEntityInv {
         });
 
     };
+
+    public static void renderPowerReleaseAnimation(GuiGraphics guiGraphics, int porcentaje, int posXPowerRelease) {
+        int targetRelease = porcentaje; // El valor objetivo que queremos mostrar
+
+        // Si el valor mostrado es menor que el objetivo, incrementarlo gradualmente
+        if (displayedRelease < targetRelease) {
+            displayedRelease += releaseUpdateSpeed;
+            if (displayedRelease > targetRelease) {
+                displayedRelease = targetRelease; // Asegurarse de no sobrepasar el objetivo
+            }
+        }
+
+        // Si el valor mostrado es mayor que el objetivo, disminuirlo gradualmente
+        if (displayedRelease > targetRelease) {
+            displayedRelease -= releaseUpdateSpeed;
+            if (displayedRelease < targetRelease) {
+                displayedRelease = targetRelease; // Asegurarse de no bajar más del objetivo
+            }
+        }
+
+        // Renderizar el valor con la animación
+        drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+                Component.empty().append(Component.literal(String.valueOf(displayedRelease))).append(Component.literal("%")),
+                posXPowerRelease, 44, 0xfdbf26);
+    }
 
 
     public static void personajesMenu(GuiGraphics pGuiGraphics){
@@ -205,6 +246,19 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
         });
 
+    }
+
+    public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+
+        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y, ColorTexto, false);
+    }
+
+    public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
 
 }
