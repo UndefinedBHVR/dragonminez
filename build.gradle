@@ -150,7 +150,7 @@ mixin {
 }
 
 jar {
-    archiveClassifier = 'slim'
+    archiveClassifier = 'no-gecko'
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
