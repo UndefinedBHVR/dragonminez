@@ -3,6 +3,9 @@ package com.yuseix.dragonminez.events.cc;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.MenuC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
@@ -37,7 +40,6 @@ public class StatsEvents {
 
 
     //Teclas
-    private static boolean isChargeKiKeyPressed = false;
     private static boolean isActionKeyPressed = false;
 
     private static int getEnergyRemovalThreshold(int playerLevel) {
@@ -95,6 +97,7 @@ public class StatsEvents {
 
                 //Tiempo para reclamar una senzu
                 if(Senzu_countdown > 0){
+                    playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
                     Senzu_countdown--;
                 }
 
@@ -103,14 +106,14 @@ public class StatsEvents {
                 }
 
 
-                if (isChargeKiKeyPressed || isActionKeyPressed) {
+                if (playerstats.isAuraOn() || isActionKeyPressed) {
                     // Incrementa el temporizador en cada tick
                     chargeTimer++;
 
                     // Solo actúa cuando el temporizador ha alcanzado el intervalo definido
                     //Es decir si llega a x ticks carga osea por defecto un segundo
                     if (chargeTimer >= CHARGE_INTERVAL) {
-                        if (isChargeKiKeyPressed && isActionKeyPressed) {
+                        if (playerstats.isAuraOn() && isActionKeyPressed) {
                             // Disminuir el valor de charge si ambas teclas están presionadas
                             if (playerstats.getDmzRelease() > 0) {
                                 playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
@@ -118,7 +121,7 @@ public class StatsEvents {
                                     playerstats.setDmzRelease(0); // Asegura que no baje de 1
                                 }
                             }
-                        } else if (isChargeKiKeyPressed) {
+                        } else if (playerstats.isAuraOn()) {
                             // Incrementar el valor de charge si solo KI_CHARGE está presionada
 
                             if (playerstats.getDmzRelease() < 100) {
@@ -226,7 +229,11 @@ public class StatsEvents {
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event){
         // Detecta si la tecla KI_CHARGE está presionada o liberada
-        isChargeKiKeyPressed = Keys.KI_CHARGE.isDown();
+        if (Keys.KI_CHARGE.isDown()) {
+            ModMessages.sendToServer(new CharacterC2S("isAuraOn",1));
+        } else {
+            ModMessages.sendToServer(new CharacterC2S("isAuraOn",0));
+        }
 
         // Detecta si la tecla ACTION_KEY está presionada o liberada
         isActionKeyPressed = Keys.ACTION_KEY.isDown();
@@ -270,13 +277,16 @@ public class StatsEvents {
 
     }
 
-    public static void setCountdown(int seconds) {
-        Senzu_countdown = seconds * 20;
+    // Método para iniciar la cuenta regresiva
+    public static void startSenzuCountdown(Player player, int seconds) {
+        player.getCapability(DMZStatsCapabilities.INSTANCE).ifPresent(playerstats -> {
+            // Convertir segundos a ticks y asignar a Senzu_countdown
+            Senzu_countdown = seconds * 20;
+            playerstats.setDmzSenzuDaily(seconds); // Inicializa el valor en segundos
+        });
     }
 
-    public static boolean isIsChargeKiKeyPressed() {
-        return isChargeKiKeyPressed;
-    }
+
 }
 
 

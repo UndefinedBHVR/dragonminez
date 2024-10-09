@@ -143,6 +143,15 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
+        if (!pEntity.isSpectator()) {
+            Iterator var24 = this.layers.iterator();
+
+            while(var24.hasNext()) {
+                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
+                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
+
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
 
@@ -151,6 +160,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
                 int bodyType = cap.getBodytype();
                 int colorAura = cap.getAuraColor();
                 int transformacion = cap.getDmzState();
+                boolean isAuraOn = cap.isAuraOn();
 
                 switch (transformacion){
                     case 0:
@@ -168,7 +178,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
                         }
 
-                        if(StatsEvents.isIsChargeKiKeyPressed()){
+                        if(isAuraOn){
                             renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
                         }
                         break;
@@ -177,14 +187,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         }
 
-        if (!pEntity.isSpectator()) {
-            Iterator var24 = this.layers.iterator();
 
-            while(var24.hasNext()) {
-                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
-                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
-            }
-        }
 
         pPoseStack.popPose();
 
@@ -386,6 +389,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         //PARTE PARA QUE NO SE VEAN LOS RENDERS DE OTRAS ENTIDADES
 
+
         vertexConsumer = pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.AURA_BASE));
         var transparencia2 = 0.01f;
 
@@ -541,7 +545,6 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
             pPoseStack.popPose();
         }
-
 
 
 

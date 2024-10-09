@@ -150,16 +150,22 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
+        if (!pEntity.isSpectator()) {
+            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
+                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
+
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
                 var raza = cap.getRace();
                 int colorAura = cap.getAuraColor();
                 int transformacion = cap.getDmzState();
+                boolean isAuraOn = cap.isAuraOn();
 
                 switch (transformacion){
                     case 0:
@@ -193,8 +199,9 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                         }
 
-                        renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
-
+                        if(isAuraOn){
+                            renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
+                        }
                         break;
                     case 1:
 
@@ -209,11 +216,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         }
 
-        if (!pEntity.isSpectator()) {
-            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
-                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
-            }
-        }
+
 
         pPoseStack.popPose();
 
@@ -417,6 +420,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         //PARTE PARA QUE NO SE VEAN LOS RENDERS DE OTRAS ENTIDADES
 
+
         vertexConsumer = pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.AURA_BASE));
         var transparencia2 = 0.01f;
 
@@ -572,7 +576,6 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
             pPoseStack.popPose();
         }
-
 
 
 

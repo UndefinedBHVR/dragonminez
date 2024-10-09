@@ -82,6 +82,17 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+                } else if(cap.getRace() == 1){
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+                } else if(cap.getRace() == 2){
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+                } else if(cap.getRace() == 3){
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
+                } else if(cap.getRace() == 4){
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 6226175));
+                } else {
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
                 }
             });
 
@@ -385,6 +396,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+
                 }));
             } else if (cap.getRace() == 1) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
@@ -397,6 +410,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+
                 }));
 
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -408,6 +423,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+
                 }));
             } else if (cap.getRace() == 2) {
                 this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
@@ -420,6 +437,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
+
                 }));
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("setRace", 1));
@@ -430,6 +449,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+
                 }));
 
             } else if (cap.getRace() == 3) {
@@ -444,6 +465,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 6226175));
 
                 }));
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -456,6 +478,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+
                 }));
             } else if (cap.getRace() == 4) {
 
@@ -468,6 +492,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
+
 
                 }));
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -480,6 +506,8 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
+
                 }));
             } else {
                 this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -493,6 +521,7 @@ public class CFirstPage extends Screen {
                     ModMessages.sendToServer(new CharacterC2S("eye2Color", 16711709));
                     ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
                 }));
             }
 

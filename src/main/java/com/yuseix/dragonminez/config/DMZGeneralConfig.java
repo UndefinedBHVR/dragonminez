@@ -49,7 +49,7 @@ public class DMZGeneralConfig {
                 .defineInRange("Number: ", 5, 1, 10);
 
         SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean (seconds)")
-                .defineInRange("time: ", 600, 1, 36000);
+                .defineInRange("time: ", 300, 1, 36000);
 
 
         BUILDER.pop();

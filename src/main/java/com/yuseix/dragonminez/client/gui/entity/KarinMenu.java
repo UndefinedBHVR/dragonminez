@@ -214,7 +214,6 @@ public class KarinMenu extends Screen {
                     ModMessages.sendToServer(new KarinC2S(2)); //Recibir senzus
                     ModMessages.sendToServer(new KarinC2S(3)); //Poner tiempo de espera en los datos de jugador
 
-                    StatsEvents.setCountdown(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
                     this.minecraft.setScreen(null);
 
                 }));

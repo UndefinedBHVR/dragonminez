@@ -103,6 +103,13 @@ public class CharacterC2S {
                                 playerstats.setAcceptCharacter(true);
                             }
                             break;
+                        case "isAuraOn":
+                            if (packet.cantidad == 0) {
+                                playerstats.setAuraOn(false);
+                            } else {
+                                playerstats.setAuraOn(true);
+                            }
+                            break;
                         case "str":
                             playerstats.setStrength(packet.cantidad);
                             break;

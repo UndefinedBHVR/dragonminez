@@ -26,7 +26,7 @@ public class DMZStatsAttributes {
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor;
 
-    private boolean AcceptCharacter = false;
+    private boolean AcceptCharacter = false, isauraOn = false;
 
     private String dmzClass = "Warrior";
     private String dmzAlignment = "Good";
@@ -35,6 +35,14 @@ public class DMZStatsAttributes {
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
+    }
+
+    public boolean isAuraOn() {
+        return isauraOn;
+    }
+
+    public void setAuraOn(boolean auraOn) {
+        isauraOn = auraOn;
     }
 
     public int getDmzSenzuDaily() {
@@ -562,6 +570,7 @@ public class DMZStatsAttributes {
         nbt.putInt("zpoints", zpoints);
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
+        nbt.putBoolean("isAuraOn", isauraOn);
 
         return nbt;
     }
@@ -601,6 +610,7 @@ public class DMZStatsAttributes {
         dmzAlignment = nbt.getString("dmzAlignment");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
+        isauraOn = nbt.getBoolean("isAuraOn");
 
     }
 
