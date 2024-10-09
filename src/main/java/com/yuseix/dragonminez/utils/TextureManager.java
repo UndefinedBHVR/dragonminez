@@ -79,4 +79,7 @@ public class TextureManager {
     public static final ResourceLocation HAIR_COLOR = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/haircolor.png");
     public static final ResourceLocation SAIYAN_COLA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/tailtexture.png");
 
+    //TEXTURA DE AURA
+    public static final ResourceLocation AURA_BASE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/auras/aura.png");
+
 }

@@ -17,61 +17,62 @@ public class DMZDatos {
                 switch (raza) {
                     case 0: // Humano
                         if(transformation == 0){ //FORMA BASE
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) { //FULL POWER
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get()) * (porcentaje/5);
                         } else { //CUALQUIERWA
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 1: // Saiyan
                         if(transformation == 0){ //FORMA BASE
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) { //SUPER SAIYAJIN 1
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else { //OTROS
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 2: // Namek
                         if(transformation == 0){ //FORMA BASE
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) { // FULL POWER
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 3: // Bioandroide
                         if(transformation == 0){ //FORMA IMPERFECTA
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
+
                         } else if (transformation == 1) { //SEMIPERFECTO
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else { //OTROS
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 4: // Cold Demon
                         if(transformation == 0){ //FORMA MINIMA
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) { //SEGUNDA FORMA
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else { //OTROS
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 5: // Majin
                         if(transformation == 0){ //FORMA BASE
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) { //FORMA KID
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else { //OTROS OSEA FORMA SUPER
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
@@ -84,61 +85,61 @@ public class DMZDatos {
                 switch (raza) {
                     case 0: // Humano
                         if(transformation == 0){
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrHumanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 1: // Saiyan
                         if(transformation == 0){
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrSaiyanConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 2: // Namek
                         if(transformation == 0){
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrNamekConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 3: // Bioandroide
                         if(transformation == 0){
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 4: // Cold Demon
                         if(transformation == 0){
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrColdDemonConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
                     case 5: // Majin
                         if(transformation == 0){
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else if (transformation == 1) {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         } else {
-                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/2);
+                            maxStr = (((danoJugador + ((double) StatSTR / 10)) * DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get()) * DMZTrMajinConfig.MULTIPLIER_BASE.get()) * (porcentaje/5);
                         }
                         break;
 
@@ -642,22 +643,22 @@ public class DMZDatos {
             case "Warrior":
                 switch (raza){
                     case 0:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZHumanConfig.KI_REGEN_WARRIOR.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZHumanConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 1:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZSaiyanConfig.KI_REGEN_WARRIOR.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZSaiyanConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 2:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZNamekConfig.KI_REGEN_WARRIOR.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZNamekConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 3:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 4:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZColdDemonConfig.KI_REGEN_WARRIOR.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZColdDemonConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     case 5:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZMajinConfig.KI_REGEN_WARRIOR.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZMajinConfig.KI_REGEN_WARRIOR.get()));
                         break;
                     default:
                         break;
@@ -667,22 +668,22 @@ public class DMZDatos {
             case "Spiritualist":
                 switch (raza){
                     case 0:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZHumanConfig.KI_REGEN_SPIRITUALIST.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZHumanConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 1:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZSaiyanConfig.KI_REGEN_SPIRITUALIST.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZSaiyanConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 2:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZNamekConfig.KI_REGEN_SPIRITUALIST.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZNamekConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 3:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZBioAndroidConfig.KI_REGEN_SPIRITUALIST.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZBioAndroidConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 4:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZColdDemonConfig.KI_REGEN_SPIRITUALIST.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZColdDemonConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     case 5:
-                        regenki = (int) Math.round ((EnergiaTotal * DMZMajinConfig.KI_REGEN_SPIRITUALIST.get()));
+                        regenki = (int) Math.ceil ((EnergiaTotal * DMZMajinConfig.KI_REGEN_SPIRITUALIST.get()));
                         break;
                     default:
                         break;
@@ -698,10 +699,10 @@ public class DMZDatos {
 
         switch (clase){
             case "Warrior":
-                porcentaje = (int) (EnergiaTotal * 0.02);
+                porcentaje = (int) Math.ceil((EnergiaTotal * 0.02));
                 break;
             case "Spiritualist":
-                porcentaje = (int) (EnergiaTotal * 0.04);
+                porcentaje = (int) Math.ceil((EnergiaTotal * 0.04));
                 break;
         }
 

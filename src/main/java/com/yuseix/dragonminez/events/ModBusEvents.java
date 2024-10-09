@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
@@ -29,6 +30,7 @@ import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -62,6 +64,7 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+
             //FAKEPLAYERS
             EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidRender::new);
             EntityRenderers.register(MainEntity.FP_DEMONCOLD.get(), (context) -> new FPDemonColdRender(context, new DemonColdModel<>(context.bakeLayer(DemonColdModel.LAYER_LOCATION))));
@@ -125,6 +128,8 @@ public class ModBusEvents {
 
             //Outline de las Dragon Balls Helper
             MinecraftForge.EVENT_BUS.addListener(DballOutlineRenderer::renderOutlineDball);
+
+
         });
     }
 
@@ -162,6 +167,7 @@ public class ModBusEvents {
         e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
         e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
 
+        e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
 
         //CABELLOS
         e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);

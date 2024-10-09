@@ -193,29 +193,7 @@ public class CCustomizationPage extends Screen {
         if (currentPage == 0) {
             //BOTON VOLVER
             this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-                /*
-                this.removeWidget(sliderR);
-                this.removeWidget(sliderG);
-                this.removeWidget(sliderB);
-                this.removeWidget(eyesButtonColor);
-                this.removeWidget(eyesButtonColor2);
-                this.removeWidget(bodyButtonColor1);
-                this.removeWidget(bodyButtonColor2);
-                this.removeWidget(bodyButtonColor3);
-                this.removeWidget(hairButtonColor);
-                this.removeWidget(setColor);
-                this.removeWidget(eyesTypeLeft);
-                this.removeWidget(eyesTypeRight);
-                this.removeWidget(bodyTypeRightButton);
-                this.removeWidget(bodyTypeLeftButton);
-                this.removeWidget(gendersRigthButton);
-                this.removeWidget(gendersLeftButton);
-                this.removeWidget(hairRigthButton);
-                this.removeWidget(hairLeftButton);
-                this.removeWidget(auraButtonColor);
-                clearAllButtons();
 
-                 */
                 ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                 ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                 this.minecraft.setScreen(new CFirstPage());
@@ -571,6 +549,7 @@ public class CCustomizationPage extends Screen {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
+                Minecraft.getInstance().setScreen(new ColorPickerScreen("auraColor"));
 
             }));
 

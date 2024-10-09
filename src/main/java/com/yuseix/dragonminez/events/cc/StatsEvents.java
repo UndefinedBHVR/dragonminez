@@ -130,7 +130,6 @@ public class StatsEvents {
 
                             playerstats.addCurEnergy(DMZDatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
 
-                            generateAura(event.player);
                         }
                         // Reiniciar el temporizador después de cada acción
                         chargeTimer = 0;
@@ -144,24 +143,6 @@ public class StatsEvents {
 
 
 
-    }
-
-    // Método para generar el aura alrededor del jugador
-    private static void generateAura(Player player) {
-        if (!player.level().isClientSide()) {
-            double x = player.getX();
-            double y = player.getY() + 1.0; // Ajustar para que las partículas aparezcan alrededor del jugador
-            double z = player.getZ();
-
-            for (int i = 0; i < 20; i++) { // Número de partículas
-                double offsetX = (Math.random() - 0.5) * 2;
-                double offsetY = Math.random() * 2;
-                double offsetZ = (Math.random() - 0.5) * 2;
-
-                // Crear partículas alrededor del jugador
-                ((ServerLevel) player.level()).sendParticles(ParticleTypes.CLOUD, x + offsetX, y + offsetY, z + offsetZ, 0, 0, 0, 0, 1);
-            }
-        }
     }
 
     @SubscribeEvent
@@ -291,6 +272,10 @@ public class StatsEvents {
 
     public static void setCountdown(int seconds) {
         Senzu_countdown = seconds * 20;
+    }
+
+    public static boolean isIsChargeKiKeyPressed() {
+        return isChargeKiKeyPressed;
     }
 }
 

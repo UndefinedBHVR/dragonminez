@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.cc.ColorPickerScreen;
@@ -12,11 +13,13 @@ import com.yuseix.dragonminez.network.C2S.MenuC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.shaders.DMZShaders;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import com.yuseix.dragonminez.world.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.capabilities.Capability;
@@ -40,6 +44,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +58,7 @@ public final class ForgeBusEvents {
 
     public static final Capability<DMZStatsCapabilities> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
     });
+
 
     private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 
@@ -200,6 +206,8 @@ public final class ForgeBusEvents {
             }
         }
     }
+
+
 
     private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
 
