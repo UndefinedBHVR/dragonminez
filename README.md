@@ -22,7 +22,7 @@ Para empezar a trabajar en el proyecto/ayudar/etc. sigue los siguientes pasos b�
 
 Las Pull Request son necesarias para todas las contribuciones, cambios, que NO sean realizados por Yuseix (Incluso él
 debería hacerlo también así los otros estamos al tanto de los cambios que ocurren y así no rompemos el código al hacer
-un cambio uno y otro). Asegúrate de usar un branch como el de Bruno para crear uno de estos. De igual forma puedes hacer
+un cambio uno y otro). Asegúrate de usar un branch como el de Yuse para crear uno de estos. De igual forma puedes hacer
 un issue en GitHub si aparece un error.
 
 Asegúrate de subir todo a otro branch que no sea main para evitar que el código se rompa o arruines la vida a Yuseix.
@@ -70,7 +70,6 @@ de [Freesound](https://freesound.org/):
 ## Autores
 
 - **Yuseix** - *Programador y Líder del Proyecto* - [Yuseix](https://github.com/yuseix300)
-- **Bruno** - *Programador* - [MrBrunoh](https://github.com/Bruneitor123)
 - **Niko** - *Programador* - [ezShokkoh](https://github.com/Shokkoh)
 - **Antro** - *Programador* - [Bati2ra](https://github.com/Bati2ra)
 
