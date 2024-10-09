@@ -50,7 +50,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
     private float colorR, colorG, colorB;
 
-    private final AuraModel model; // Tu modelo del aura
+    private final AuraModel model;
 
     public BioAndroidRender(EntityRendererProvider.Context pContext) {
         super(pContext, new BioAndroideModelo<>(pContext.bakeLayer(BioAndroideModelo.LAYER_LOCATION)), 0.5f);
@@ -162,11 +162,12 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
                             renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                            if(StatsEvents.isIsChargeKiKeyPressed()){
-                                renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
-                            }
-
                         }
+
+                        if(StatsEvents.isIsChargeKiKeyPressed()){
+                            renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
+                        }
+
                         break;
                 }
 
