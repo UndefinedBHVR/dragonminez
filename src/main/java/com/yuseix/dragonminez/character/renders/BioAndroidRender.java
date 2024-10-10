@@ -73,7 +73,17 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F); //Tamano Semiperfecto cell
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -167,21 +177,18 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
                 switch (transformacion){
                     case 0:
+                        //Modificar tamano
                         if (bodyType == 0) {
                             renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                             renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
                         }
 
-                        if(isAuraOn){
+                        if(isAuraOn){ //Si el jugador esta activando el Aura
                             renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
                         }
-
                         break;
                 }
-
-
 
             });
 

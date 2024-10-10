@@ -81,7 +81,16 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
