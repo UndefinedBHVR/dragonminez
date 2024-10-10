@@ -19,9 +19,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class ColorPickerScreen extends Screen {
 
+    private static final ResourceLocation IMAGENES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/colores.png");
     private static final ResourceLocation menu = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menulargo.png");
     private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
@@ -51,6 +53,10 @@ public class ColorPickerScreen extends Screen {
     private int ColorG;
     private int ColorB;
     private int decimalColor = 16777215;
+
+    // BufferedImage para almacenar el cuadro de colores y la barra de brillo
+    private BufferedImage colorPickerImage;
+    private BufferedImage brightnessBarImage;
 
     private TextButton backButton, setColor;
 
@@ -144,29 +150,43 @@ public class ColorPickerScreen extends Screen {
         //Texto wa
         guiGraphics.drawString(font, Component.literal("COLOR").withStyle(ChatFormatting.BOLD), this.width/2+40, this.height/2-57, decimalColor);
 
+
         int ColorPickerX = (this.width / 2) - 110;
         int ColorPickerY = (this.height / 2) - 61;
 
-        // Dibuja el cuadro de colores con el brillo ajustado
-        for (int x = 0; x < 100; x++) {
-            for (int y = 0; y < 100; y++) {
-                int color = getColorFromPosition(x, y);
-                guiGraphics.fill(ColorPickerX + x, ColorPickerY + y, ColorPickerX + 1 + x, ColorPickerY + 1 + y, color);
-            }
-        }
+        renderColorPickerImage(guiGraphics, ColorPickerX, ColorPickerY);
+
+
         int SaturationX = (this.width / 2) - 5;
         int SaturationY = (this.height / 2) - 61;
+
         // Dibuja la barra de saturación
-        for (int i = 0; i < 100; i++) {
-            int brightnessColor = getBrightnessFromPosition(i);
-            guiGraphics.fill(SaturationX, SaturationY + i, SaturationX + 10, SaturationY + 1 + i, brightnessColor);
-        }
+        renderBrightnessBarImage(guiGraphics, SaturationX, SaturationY);
+
 
         // Dibuja la vista previa del color seleccionado
         drawColorPreview(guiGraphics);
 
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
     }
+    // Renderiza la imagen del cuadro de colores
+    private void renderColorPickerImage(GuiGraphics guiGraphics, int x, int y) {
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(brightness, brightness, brightness, 1.0f); // Aplica brillo
+        RenderSystem.setShaderTexture(0, IMAGENES);
+        guiGraphics.blit(IMAGENES, x, y, 0, 0, 100, 100); // 100x100 es el tamaño de la imagen
+        RenderSystem.disableBlend();
+    }
+
+    // Renderiza la imagen de la barra de brillo
+    private void renderBrightnessBarImage(GuiGraphics guiGraphics, int x, int y) {
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0f); // Aplica brillo
+        RenderSystem.setShaderTexture(0, IMAGENES);
+        guiGraphics.blit(IMAGENES, x, y, 100, 0, 10, 100); // 10x100 es el tamaño de la barra
+        RenderSystem.disableBlend();
+    }
+
 
     // Método para obtener el color basado en la posición dentro del cuadro de colores
     private int getColorFromPosition(int x, int y) {
@@ -174,11 +194,6 @@ public class ColorPickerScreen extends Screen {
         float saturation = (float) y / 100f;
         // Aplica el brillo actual en el cálculo del color
         return Color.HSBtoRGB(hue, saturation, brightness);
-    }
-
-    private int getBrightnessFromPosition(int i) {
-        float brightnessValue = (float) i / 100f;
-        return Color.HSBtoRGB(0, 0, brightnessValue); // Color en escala de grises
     }
 
     private void drawColorPreview(GuiGraphics guiGraphics) {
