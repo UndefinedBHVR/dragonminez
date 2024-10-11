@@ -28,6 +28,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     private int alturaTexto;
     private int anchoTexto;
+    private int multiplicador = 1;
 
     private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
@@ -41,7 +42,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     private static final ResourceLocation menuraza = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menupequeno.png");
 
-    private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton;
+    private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
 
     public AttributesMenu(Component pGuiScreen) {
         super(pGuiScreen);
@@ -104,32 +105,47 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var con = playerstats.getConstitution();
             var kipower = playerstats.getKiPower();
             var energy = playerstats.getEnergy();
-            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() + 5);
 
             anchoTexto = 17;
             alturaTexto = (this.height / 2) + 2;
+
+            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * multiplicador;
+
+            this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto-3, alturaTexto + 63,Component.empty(), wa -> {
+                if(multiplicador == 1){
+                    multiplicador *= 10;
+                } else if(multiplicador == 10){
+                    multiplicador *= 10;
+                } else if(multiplicador == 100){
+                    multiplicador = 1;
+                }
+            }));
+
             if(tps >= cost){
-                this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto,Component.empty(), wa -> {
+                this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto,Component.empty(), wa -> {
                     ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(0,1));
+                    ModMessages.sendToServer(new StatsC2S(0,1 * multiplicador));
                 }));
-                this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
+                this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
                     ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(1,1));
+                    ModMessages.sendToServer(new StatsC2S(1,1 * multiplicador));
                 }));
-                this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
+                this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
                     ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(2,1));
+                    ModMessages.sendToServer(new StatsC2S(2,1 * multiplicador));
                 }));
-                this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
+                this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
                     ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(3,1));
+                    ModMessages.sendToServer(new StatsC2S(3,1 * multiplicador));
                 }));
-                this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
+                this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
                     ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(4,1));
+                    ModMessages.sendToServer(new StatsC2S(4,1 * multiplicador));
                 }));
             }
+
+
+
         });
     }
 
@@ -254,7 +270,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var kipowerdefault = playerstats.getKiPower();
             var energydefault = playerstats.getEnergy();
 
-            var cost =  (int) Math.round(((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
+            var cost =  (int) Math.round(((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * multiplicador;
 
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
@@ -265,7 +281,14 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
 
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(cost)), anchoTexto-7, alturaTexto + 64, 0xFFCE41);
+            Component Multiplier = Component.empty()
+                    .append(Component.literal(String.valueOf(cost)))
+                    .append(Component.literal(" (x")
+                    .append(Component.literal(String.valueOf(multiplicador)))
+                    .append(Component.literal(".0)"))
+                    );
+
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(cost)), anchoTexto-7, alturaTexto + 64, 0xFFCE41);
 
         });
 

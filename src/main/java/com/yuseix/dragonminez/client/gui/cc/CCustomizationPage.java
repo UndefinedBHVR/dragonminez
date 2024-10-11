@@ -69,6 +69,8 @@ public class CCustomizationPage extends Screen {
     private DMZRightButton botonAlignmentRight, botonAlignmentLeft;
     private TextButton nextButton, backButton;
     private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
+    private CustomButtons igualarButton;
+
     private int currentPage = 0;
 
     private float angleXComponent;
@@ -88,11 +90,14 @@ public class CCustomizationPage extends Screen {
         if (currentPage == 0) {
 
             botonesRazaColores(72, posY);
+
+
         } else if (currentPage == 1) {
 
             botonAuraColor(72, posY);
 
         }
+
 
         this.addRenderableWidget(new DMZCustomButton(this.width / 2 + 20, this.height - 25, 20, 20, Component.literal("->"), (button) -> {
             this.angleXComponent -= 1.0f; // Incrementa el valor en 5 grados
@@ -126,11 +131,11 @@ public class CCustomizationPage extends Screen {
         botonNextBack(ancho, this.height - 25);
 
         if (currentPage == 0) {
-
             botonesBodyType(113, alto - 44);
             botonesGeneros(113, alto - 76);
             botonesOjos(113, alto + 3);
             botonesCabellos(113, alto + 3);
+            botonIgualar();
 
         } else if (currentPage == 1) {
             botonesClases(113, alto - 76);
@@ -178,12 +183,39 @@ public class CCustomizationPage extends Screen {
     }
 
 
-    public static int calcularColor(int r, int g, int b) {
-        //Convertir el numero a decimal
-        int colorDecimal = (r << 16) + (g << 8) + b;
+    private void botonIgualar(){
+        this.removeWidget(igualarButton);
 
-        return colorDecimal;
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            int posX = 72;
+            int posY = (this.height) / 2;
+
+                if (cap.getRace() == 0) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY + 20, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
+                    }));
+                } else if (cap.getRace() == 1) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY + 20, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
+                    }));
+                } else if (cap.getRace() == 2) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY - 61, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
+                    }));
+                } else if (cap.getRace() == 4) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY - 61, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
+                    }));
+                }
+
+        });
+
     }
+
 
     public void botonNextBack(int posX, int posY) {
 
@@ -220,6 +252,7 @@ public class CCustomizationPage extends Screen {
                 this.removeWidget(nextButton);
                 this.removeWidget(botonAlignmentRight);
                 this.removeWidget(botonAlignmentLeft);
+                this.removeWidget(igualarButton);
                 clearAllButtons();
                 currentPage = 1;
 
@@ -248,7 +281,7 @@ public class CCustomizationPage extends Screen {
                 this.removeWidget(claseLeftButton);
                 this.removeWidget(botonAlignmentRight);
                 this.removeWidget(botonAlignmentLeft);
-
+                this.removeWidget(igualarButton);
                 clearAllButtons();
 
                 botonesRazaColores(72, this.height / 2);
@@ -398,6 +431,7 @@ public class CCustomizationPage extends Screen {
         this.removeWidget(bodyButtonColor2);
         this.removeWidget(bodyButtonColor3);
         this.removeWidget(hairButtonColor);
+        this.removeWidget(igualarButton);
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -415,7 +449,6 @@ public class CCustomizationPage extends Screen {
                     this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
                         Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
                     }));
-
 
                     this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
                         Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
