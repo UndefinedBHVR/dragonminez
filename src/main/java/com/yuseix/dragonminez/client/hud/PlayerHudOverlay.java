@@ -57,7 +57,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113);
 
-            int energiatotal = Math.min(((148 * curEnergia) / energiaMax), 148);
+            int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
 
             int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
 
@@ -75,22 +75,25 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     0,
                     190,
                     10);
+            /* TODO: Hacer que las barras de Ki (Vació para el texto "KI" y Lleno para el rellenado) tomen el color del aura.
+                De esa forma, si te transformas y cambia el color de tu aura, también lo hará el HUD del Ki. (Por ejemplo, azul en base y amarillo en SSJ)
+             */
             //Ki vacio
             guiGraphics.blit(hud,
-                    50,
-                    20,
-                    3,
-                    10,
-                    148,
-                    11);
+                    51,
+                    22,
+                    12,
+                    13,
+                    132,
+                    6);
             //Stamina vacio
             guiGraphics.blit(hud,
                     50,
-                    32,
-                    3,
-                    21,
-                    113,
-                    10);
+                    30,
+                    6,
+                    20,
+                    101,
+                    7);
 
             //Transformacion vacio
             guiGraphics.blit(hud,
@@ -113,18 +116,18 @@ public class PlayerHudOverlay implements RenderEntityInv {
             guiGraphics.blit(hud,
                     51,
                     22,
-                    4,
-                    70,
+                    6,
+                    71,
                     energiatotal,
-                    10);
+                    6);
             //Stamina llena
             guiGraphics.blit(hud,
-                    47,
-                    33,
-                    0,
-                    80,
+                    50,
+                    30,
+                    5,
+                    79,
                     staminatotal,
-                    10);
+                    7);
 
             //Transformacion llena
             // NOTA: Reemplazar el 47 por la variable de la TransfActual
@@ -140,7 +143,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             guiGraphics.pose().popPose();
 
 
-            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 16, 0xfddb1e);
+            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 17, 0xfddb1e);
 
 
             Component porcentaje = Component.empty();
