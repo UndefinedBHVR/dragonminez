@@ -16,22 +16,23 @@ public class CustomRenderTypes extends RenderType {
     }
 
     public static final Function<ResourceLocation, RenderType> AURA_WA = Util.memoize((pLocation) ->
-            create("aura_wa", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, CompositeState.builder()
-                    .setShaderState(new ShaderStateShard(DMZShaders::getAuraShader)) // Asume que tienes un método DMZShaders.getAuraShader que devuelve un ShaderInstance
-                    .setTextureState(new TextureStateShard(pLocation, false, false)) // Usas una textura personalizada aquí
+            create("aura_wa", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
+                    .setShaderState(new RenderStateShard.ShaderStateShard(() -> DMZShaders.getAuraShader()))
+                    .setTextureState(new TextureStateShard(pLocation, true, false)) // Usas una textura personalizada aquí
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setCullState(NO_CULL)
                     .setLightmapState(LIGHTMAP)
                     .setOverlayState(OVERLAY)
-                    .createCompositeState(true)
+                    //.setWriteMaskState(COLOR_WRITE)
+                    .createCompositeState(false)
             )
     );
 
-    public static final Function<ResourceLocation, RenderType> GLOW = Util.memoize((pLocation) ->
+    private static final Function<ResourceLocation, RenderType> GLOW = Util.memoize((pLocation) ->
             create("glow", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, false, CompositeState.builder()
                     .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                     .setTextureState(new TextureStateShard(pLocation, false, false))
-                    .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setCullState(NO_CULL)
                     .setLightmapState(LIGHTMAP)
                     .setOverlayState(OVERLAY)
@@ -45,12 +46,25 @@ public class CustomRenderTypes extends RenderType {
                     .setWriteMaskState(COLOR_WRITE)
                     .setOverlayState(OVERLAY)
                     .createCompositeState(false)));
+    private static final Function<ResourceLocation, RenderType> ENERGY2 = Util.memoize((pLocation) ->
+            create("energy2", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
+                    .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
+                    .setTextureState(new TextureStateShard(pLocation, true, false))
+                    .setTransparencyState(RenderStateShard.LIGHTNING_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .setOverlayState(OVERLAY)
+                    .createCompositeState(false)));
     public static RenderType glow(ResourceLocation pLocation) {
         return GLOW.apply(pLocation);
     }
     public static RenderType energy(ResourceLocation pLocation) {
         return ENERGY.apply(pLocation);
     }
+    public static RenderType energy2(ResourceLocation pLocation) {
+        return ENERGY2.apply(pLocation);
+    }
+
     public static RenderType aura(ResourceLocation pLocation) {
         return AURA_WA.apply(pLocation);
     }

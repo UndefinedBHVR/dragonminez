@@ -1,32 +1,18 @@
 {
   "blend": {
     "func": "add",
-    "srcrgb": "srcalpha",
-    "dstrgb": "1-srcalpha"
+    "srcrgb": "one",
+    "dstrgb": "one"
   },
-  "vertex": "minecraft:shaders/program/basic.vert",
-  "fragment": "minecraft:shaders/program/glow.frag",
-  "samplers": [
-    {
-      "name": "DiffuseSampler"
-    }
-  ],
+  "vertex": "dragonminez:aura",
+  "fragment": "dragonminez:aura",
   "attributes": [
     "Position",
-    "UV0"
+    "Color",
+    "TexCoord0",
+    "LightmapUV"
   ],
   "uniforms": [
-    {
-      "name": "ProjMat",
-      "type": "matrix4x4",
-      "count": 16,
-      "values": [
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-      ]
-    },
     {
       "name": "ModelViewMat",
       "type": "matrix4x4",
@@ -39,16 +25,33 @@
       ]
     },
     {
-      "name": "Time",
-      "type": "float",
-      "count": 1,
-      "values": [0.0]
+      "name": "ProjMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+      ]
     },
     {
-      "name": "GlowColor",
+      "name": "ColorModulator",
       "type": "float",
       "count": 4,
-      "values": [1.0, 1.0, 0.0, 1.0]
+      "values": [1.0, 1.0, 1.0, 1.0]
+    },
+    {
+      "name": "textureSampler",
+      "type": "sampler2D",
+      "count": 1,
+      "values": [0]
+    },
+    {
+      "name": "lightmapSampler",
+      "type": "sampler2D",
+      "count": 1,
+      "values": [1]
     }
   ]
 }
