@@ -30,17 +30,19 @@ public class PlayerHudOverlay implements RenderEntityInv {
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
         assert Minecraft.getInstance().player != null;
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
-        int vidarestante = (int) Minecraft.getInstance().player.getHealth();
-
+        int vidarestante = (int) Minecraft.getInstance().player.getHealth(); //I'm feeling lonely, oh I wish I had a lover that could hold me
+        // Now i'm crying in my room, so sceptical of love, but still I want it more, more, MOOOORE
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
             var vidaMC = 20;
             var con = playerstats.getConstitution();
             var maxVIDA = 0.0;
 
-            int vidawa = ((163 * vidarestante) / VidaMaxima);
-            int vida = Math.min(vidawa, 163);
+            int vidawa = ((190 * vidarestante) / VidaMaxima);
+            int vida = Math.min(vidawa, 190);
 
             int StaminaMax = 0;
+
+            int TransfMax = 100;
 
             maxVIDA = DMZDatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
             StaminaMax = DMZDatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
@@ -53,9 +55,11 @@ public class PlayerHudOverlay implements RenderEntityInv {
             
             int curEnergia = playerstats.getCurrentEnergy();
 
-            int staminatotal = Math.min(((83 * curStamina) / StaminaMax), 83);
+            int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113);
 
-            int energiatotal = Math.min(((119 * curEnergia) / energiaMax), 119);
+            int energiatotal = Math.min(((148 * curEnergia) / energiaMax), 148);
+
+            int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -64,51 +68,73 @@ public class PlayerHudOverlay implements RenderEntityInv {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
             //VIDA VACIO
-            guiGraphics.blit(hud, 35,
+            guiGraphics.blit(hud,
+                    40,
                     10,
                     0,
                     0,
-                    191,
+                    190,
                     10);
             //Ki vacio
-            guiGraphics.blit(hud, 45,
-                    21,
-                    6,
-                    11,
-                    133,
-                    6);
+            guiGraphics.blit(hud,
+                    50,
+                    20,
+                    3,
+                    10,
+                    148,
+                    11);
             //Stamina vacio
-            guiGraphics.blit(hud, 45,
-                    28,
-                    0,
-                    18,
-                    100,
-                    7);
+            guiGraphics.blit(hud,
+                    50,
+                    32,
+                    3,
+                    21,
+                    113,
+                    10);
+
+            //Transformacion vacio
+            guiGraphics.blit(hud,
+                    5,
+                    35,
+                    4,
+                    37,
+                    21,
+                    17);
 
             //Vida llena
             guiGraphics.blit(hud,
-                    52,
-                    14,
+                    40,
+                    11,
                     0,
-                    74,
+                    59,
                     vida,
-                    4);
+                    10);
             //Ki Lleno
             guiGraphics.blit(hud,
-                    57,
+                    51,
                     22,
-                    0,
-                    53,
+                    4,
+                    70,
                     energiatotal,
-                    4);
+                    10);
             //Stamina llena
             guiGraphics.blit(hud,
-                    60,
-                    29,
+                    47,
+                    33,
                     0,
-                    61,
+                    80,
                     staminatotal,
-                    5);
+                    10);
+
+            //Transformacion llena
+            // NOTA: Reemplazar el 47 por la variable de la TransfActual
+            guiGraphics.blit(hud,
+                    5,
+                    35,
+                    27,
+                    37,
+                    10,
+                    17);
 
 
             guiGraphics.pose().popPose();
@@ -117,13 +143,13 @@ public class PlayerHudOverlay implements RenderEntityInv {
             guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 16, 0xfddb1e);
 
 
-            Component porcentaje = Component.empty()
-                    .append(Component.translatable("dmz.hud.powerrelease"))
-                    .append(Component.literal(": "));
+            Component porcentaje = Component.empty();
+                   /* .append(Component.translatable("dmz.hud.powerrelease"))
+                    .append(Component.literal(": ")); */
 
-            var posXPowerRelease = 0;
+            var posXPowerRelease = -80;
 
-            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease + 35, 44,0x38fff0);
+            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease, 44,0x38fff0);
             //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
             renderPowerReleaseAnimation(guiGraphics, playerstats.getDmzRelease(), posXPowerRelease + 115);
 
@@ -170,7 +196,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
         // Renderizar el valor con la animación
         drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
                 Component.empty().append(Component.literal(String.valueOf(displayedRelease))).append(Component.literal("%")),
-                posXPowerRelease, 44, 0xfdbf26);
+                posXPowerRelease, 49, 0xfdbf26);
     }
 
 

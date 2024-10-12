@@ -37,10 +37,10 @@ public class StatsCommand {
                                     suggestionsBuilder.suggest("all");
                                     return suggestionsBuilder.buildFuture();
                                 })
-                                .then(Commands.argument("cantidad", IntegerArgumentType.integer())
-                                        .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
+                                .then(Commands.argument("quantity", IntegerArgumentType.integer())
+                                        .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player")))
+                                                .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -57,10 +57,10 @@ public class StatsCommand {
                                     suggestionsBuilder.suggest("all");
                                     return suggestionsBuilder.buildFuture();
                                 })
-                                .then(Commands.argument("cantidad", IntegerArgumentType.integer())
-                                        .executes(commandContext -> addStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
+                                .then(Commands.argument("quantity", IntegerArgumentType.integer())
+                                        .executes(commandContext -> addStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> addStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player")))
+                                                .executes(commandContext -> addStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -76,10 +76,10 @@ public class StatsCommand {
                                     suggestionsBuilder.suggest("all");
                                     return suggestionsBuilder.buildFuture();
                                 })
-                                .then(Commands.argument("cantidad", IntegerArgumentType.integer())
-                                        .executes(commandContext -> removeStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
+                                .then(Commands.argument("quantity", IntegerArgumentType.integer())
+                                        .executes(commandContext -> removeStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> removeStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "cantidad"), EntityArgument.getPlayers(commandContext, "player")))
+                                                .executes(commandContext -> removeStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -100,11 +100,11 @@ public class StatsCommand {
                 switch (stat) {
                     case "strenght":
                         stats.removeStrenght(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Strenght decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
                         stats.removeDefense(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Defense decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
@@ -113,19 +113,19 @@ public class StatsCommand {
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Constitution decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
                         stats.removeKiPower(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " KiPower decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
                         stats.removeEnergy(cantidad);
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass()));
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Energy decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
                         stats.removeStrenght(cantidad);
@@ -139,7 +139,7 @@ public class StatsCommand {
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " All Attributes decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
@@ -164,11 +164,11 @@ public class StatsCommand {
                 switch (stat) {
                     case "strenght":
                         stats.addStrength(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Strenght increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
                         stats.addDefense(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Defense increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
@@ -177,12 +177,12 @@ public class StatsCommand {
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Constitution increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
                         stats.addKipwr(cantidad);
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " KiPower increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
@@ -190,7 +190,7 @@ public class StatsCommand {
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Energy increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
                         stats.addStrength(cantidad);
@@ -205,7 +205,7 @@ public class StatsCommand {
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " All Attributes increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
                         break;
                     default:
                         player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
@@ -233,13 +233,13 @@ public class StatsCommand {
 
                         stats.setStrength(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Strenght now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Strenght now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "defense":
 
                         stats.setDefense(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Defense now is " + stats.getDefense()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Defense now is " + stats.getDefense()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "constitution":
@@ -250,14 +250,14 @@ public class StatsCommand {
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " Constitution now is " + stats.getConstitution()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Constitution now is " + stats.getConstitution()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "kipower":
 
                         stats.setKiPower(cantidad);
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " KiPower now is " + stats.getKiPower()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " KiPower now is " + stats.getKiPower()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     case "energy":
@@ -266,7 +266,7 @@ public class StatsCommand {
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
                         
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " MaxKi now is " + stats.getEnergy()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Energy now is " + stats.getEnergy()).withStyle(ChatFormatting.YELLOW));
                         break;
                     case "all":
 
@@ -283,7 +283,7 @@ public class StatsCommand {
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
 
-                        player.sendSystemMessage(Component.literal("done! " + player.getName().getString() + " all Attributes now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " All Attributes now are " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
 
                         break;
                     default:
