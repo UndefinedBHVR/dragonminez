@@ -51,7 +51,7 @@ public class MainEntity {
     public static final RegistryObject<EntityType<ShenlongEntity>> SHENLONG =
             ENTITY_TYPES_REGISTER.register("shenlong",
                     () -> EntityType.Builder.of(ShenlongEntity::new, MobCategory.AMBIENT)
-                            .sized(2.5f, 4.5f)
+                            .sized(2.5f, 20f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "shenlong").toString())
             );
 

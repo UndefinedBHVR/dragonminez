@@ -38,7 +38,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class,5.0f));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class,35.0f));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
 
     }
