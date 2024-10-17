@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.init.blocks.custom.dballs;
 
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.blocks.entity.Dball1NamekBlockEntity;
+import com.yuseix.dragonminez.init.blocks.entity.Dball7NamekBlockEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,11 +25,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public class Dball1NamekBlock extends BaseEntityBlock {
+public class Dball7NamekBlock extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public Dball1NamekBlock(Properties pProperties) {
+    public Dball7NamekBlock(Properties pProperties) {
         super(pProperties);
     }
 
@@ -39,11 +39,11 @@ public class Dball1NamekBlock extends BaseEntityBlock {
         switch (((Direction) pState.getValue(FACING)).getAxis()) {
             case X:
                 // Ajusta las coordenadas X para centrarlo en el eje X
-                return Dball1NamekBlock.box((16 - 14) / 2.0, 0.0, (16 - 12) / 2.0, (16 + 10) / 2.0, 12.0, (16 + 12) / 2.0);
+                return Dball7NamekBlock.box((16 - 12) / 2.0, 0.0, (16 - 12) / 2.0, (16 + 13) / 2.0, 12.0, (16 + 14) / 2.0);
             case Z:
             default:
                 // Ajusta las coordenadas Z para centrarlo en el eje Z
-                return Dball1NamekBlock.box((16 - 12) / 2.0, 0.0, (16 - 12) / 2.0, (16 + 13) / 2.0, 12.0, (16 + 14) / 2.0);
+                return Dball7NamekBlock.box((16 - 8) / 2.0, 0.0, (16 - 8) / 2.0, (16 + 8) / 2.0, 7.0, (16 + 8) / 2.0);
         }
 
     }
@@ -51,7 +51,7 @@ public class Dball1NamekBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new Dball1NamekBlockEntity(blockPos, blockState);
+        return new Dball7NamekBlockEntity(blockPos, blockState);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Dball1NamekBlock extends BaseEntityBlock {
             }
 
             return InteractionResult.SUCCESS;
-        } // TODO: Reemplazar Shenlong por Porunga cuando esté hecho.
+        }
 
         // Si no están todos los bloques, no hace nada
         return InteractionResult.PASS;
@@ -157,3 +157,4 @@ public class Dball1NamekBlock extends BaseEntityBlock {
 
 
 }
+

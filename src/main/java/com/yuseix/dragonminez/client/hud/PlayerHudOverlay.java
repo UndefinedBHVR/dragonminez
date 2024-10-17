@@ -70,11 +70,11 @@ public class PlayerHudOverlay implements RenderEntityInv {
             //VIDA VACIO
             guiGraphics.blit(hud,
                     40,
-                    10,
+                    8,
                     0,
-                    0,
+                    1,
                     190,
-                    10);
+                    12);
             /* TODO: Hacer que las barras de Ki (Vació para el texto "KI" y Lleno para el rellenado) tomen el color del aura.
                 De esa forma, si te transformas y cambia el color de tu aura, también lo hará el HUD del Ki. (Por ejemplo, azul en base y amarillo en SSJ)
              */
@@ -102,16 +102,16 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     4,
                     37,
                     21,
-                    17);
+                    20);
 
             //Vida llena
             guiGraphics.blit(hud,
                     40,
-                    11,
+                    8,
                     0,
                     59,
                     vida,
-                    10);
+                    12);
             //Ki Lleno
             guiGraphics.blit(hud,
                     51,
@@ -137,7 +137,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     27,
                     37,
                     10,
-                    17);
+                    20);
 
 
             guiGraphics.pose().popPose();

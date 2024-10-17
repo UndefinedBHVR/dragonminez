@@ -7,17 +7,17 @@ import software.bernie.geckolib.model.GeoModel;
 
 public class Dball1NamekBlockModel extends GeoModel<Dball1NamekBlockEntity> {
     @Override
-    public ResourceLocation getModelResource(Dball1NamekBlockEntity dball1BlockEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/dball1.geo.json");
+    public ResourceLocation getModelResource(Dball1NamekBlockEntity dball1NamekBlockEntity) {
+        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/dballnamek1.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(Dball1NamekBlockEntity dball1BlockEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/block/custom/dballblock1.png");
+    public ResourceLocation getTextureResource(Dball1NamekBlockEntity dball1NamekBlockEntity) {
+        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/block/custom/dballnamekblock1.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(Dball1NamekBlockEntity dball1BlockEntity) {
+    public ResourceLocation getAnimationResource(Dball1NamekBlockEntity dball1NamekBlockEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID, "animations/dball1.animation.json");
     }
 }

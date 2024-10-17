@@ -238,6 +238,36 @@ public final class MainItems {
                     .stacksTo(1)
                     .fireResistant()
             ));
+    public static final RegistryObject<Item> DBALL2_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball2_namek",
+            () -> new BlockItem(MainBlocks.DBALL2_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
+    public static final RegistryObject<Item> DBALL3_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball3_namek",
+            () -> new BlockItem(MainBlocks.DBALL3_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
+    public static final RegistryObject<Item> DBALL4_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball4_namek",
+            () -> new BlockItem(MainBlocks.DBALL4_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
+    public static final RegistryObject<Item> DBALL5_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball5_namek",
+            () -> new BlockItem(MainBlocks.DBALL5_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
+    public static final RegistryObject<Item> DBALL6_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball6_namek",
+            () -> new BlockItem(MainBlocks.DBALL6_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
+    public static final RegistryObject<Item> DBALL7_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball7_namek",
+            () -> new BlockItem(MainBlocks.DBALL7_NAMEK_BLOCK.get(), properties
+                    .stacksTo(1)
+                    .fireResistant()
+            ));
 
 
     public static void register(IEventBus bus) {

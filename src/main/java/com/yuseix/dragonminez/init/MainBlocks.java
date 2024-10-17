@@ -323,9 +323,48 @@ public final class MainBlocks {
                     .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
+
+    //DRAGON BALLS - NAMEK
     public static final RegistryObject<Block> DBALL1_NAMEK_BLOCK = BLOCK_REGISTER.register("dball1_namek",
             () -> new Dball1NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
                     .noOcclusion()
+                    .noParticlesOnBreak()
+                    .lightLevel(value -> 15)
+            ));
+    public static final RegistryObject<Block> DBALL2_NAMEK_BLOCK = BLOCK_REGISTER.register("dball2_namek",
+            () -> new Dball2NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .noParticlesOnBreak()
+                    .lightLevel(value -> 15)
+            ));
+    public static final RegistryObject<Block> DBALL3_NAMEK_BLOCK = BLOCK_REGISTER.register("dball3_namek",
+            () -> new Dball3NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .noParticlesOnBreak()
+                    .lightLevel(value -> 15)
+            ));
+    public static final RegistryObject<Block> DBALL4_NAMEK_BLOCK = BLOCK_REGISTER.register("dball4_namek",
+            () -> new Dball4NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .noParticlesOnBreak()
+                    .lightLevel(value -> 15)
+            ));
+    public static final RegistryObject<Block> DBALL5_NAMEK_BLOCK = BLOCK_REGISTER.register("dball5_namek",
+            () -> new Dball5NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .noParticlesOnBreak()
+                    .lightLevel(value -> 15)
+            ));
+    public static final RegistryObject<Block> DBALL6_NAMEK_BLOCK = BLOCK_REGISTER.register("dball6_namek",
+            () -> new Dball6NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .noParticlesOnBreak()
+                    .lightLevel(value -> 15)
+            ));
+    public static final RegistryObject<Block> DBALL7_NAMEK_BLOCK = BLOCK_REGISTER.register("dball7_namek",
+            () -> new Dball7NamekBlock(BlockBehaviour.Properties.copy(Blocks.BAMBOO)
+                    .noOcclusion()
+                    .noParticlesOnBreak()
                     .lightLevel(value -> 15)
             ));
 

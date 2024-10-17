@@ -36,12 +36,12 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.DBALL6_BLOCK.get());
         this.dropSelf(MainBlocks.DBALL7_BLOCK.get());
         this.dropSelf(MainBlocks.DBALL1_NAMEK_BLOCK.get());
-       /*this.dropSelf(MainBlocks.DBALL2_NAMEK_BLOCK.get());
+        this.dropSelf(MainBlocks.DBALL2_NAMEK_BLOCK.get());
         this.dropSelf(MainBlocks.DBALL3_NAMEK_BLOCK.get());
         this.dropSelf(MainBlocks.DBALL4_NAMEK_BLOCK.get());
         this.dropSelf(MainBlocks.DBALL5_NAMEK_BLOCK.get());
         this.dropSelf(MainBlocks.DBALL6_NAMEK_BLOCK.get());
-        this.dropSelf(MainBlocks.DBALL7_NAMEK_BLOCK.get());*/
+        this.dropSelf(MainBlocks.DBALL7_NAMEK_BLOCK.get());
 
         //Maderas + Bloques "dropSelf"
         this.dropSelf(MainBlocks.NAMEK_AJISSA_LOG.get());
