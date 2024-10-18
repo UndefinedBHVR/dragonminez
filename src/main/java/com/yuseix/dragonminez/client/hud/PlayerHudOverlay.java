@@ -61,6 +61,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
 
+            RenderSystem.enableBlend();
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.setShaderTexture(0, hud);
@@ -81,7 +82,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             //Ki vacio
             guiGraphics.blit(hud,
                     51,
-                    22,
+                    20,
                     12,
                     13,
                     132,
@@ -89,7 +90,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             //Stamina vacio
             guiGraphics.blit(hud,
                     50,
-                    30,
+                    27,
                     6,
                     20,
                     101,
@@ -112,7 +113,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     59,
                     vida,
                     12);
+
             //Ki Lleno
+            /*
             guiGraphics.blit(hud,
                     51,
                     22,
@@ -120,10 +123,14 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     71,
                     energiatotal,
                     6);
+
+             */
+
+
             //Stamina llena
             guiGraphics.blit(hud,
                     50,
-                    30,
+                    27,
                     5,
                     79,
                     staminatotal,
@@ -143,7 +150,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             guiGraphics.pose().popPose();
 
 
-            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 17, 0xfddb1e);
+            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xfddb1e);
 
 
             Component porcentaje = Component.empty();
@@ -152,7 +159,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             var posXPowerRelease = -80;
 
-            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease, 44,0x38fff0);
+            //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease, 44,0x38fff0);
             //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
             renderPowerReleaseAnimation(guiGraphics, playerstats.getDmzRelease(), posXPowerRelease + 115);
 
@@ -169,14 +176,73 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
         RenderSystem.disableScissor();
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, hud);
+        RenderSystem.disableBlend();
+
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
+        RenderSystem.enableBlend();
+        renderKiBarColor(guiGraphics, playerstats.getRace(), playerstats.getDmzState(),energiatotal);
+        RenderSystem.disableBlend();
+
+        guiGraphics.pose().popPose();
 
         });
 
     };
 
+    public static void renderKiBarColor(GuiGraphics guiGraphics,int raza, int transformacion, int energiatotal){
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            RenderSystem.enableBlend();
+            
+            var colorAura = cap.getAuraColor();
+
+            float colorR = (colorAura >> 16) / 255.0F;
+            float colorG = ((colorAura >> 8) & 0xff) / 255.0f;
+            float colorB = (colorAura & 0xff) / 255.0f;
+
+            switch (raza){
+                case 0: //humano
+                        RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    break;
+                case 1: //saiyan
+                    //Ejemplo de si esta en X transformacion jijij9i
+                    if(transformacion == 2){
+                        RenderSystem.setShaderColor(0.990f, 0.966f, 0.515f, 1.0f);
+                    } else {
+                        RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    }
+                    break;
+                case 2: //namek
+                    RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    break;
+                case 3: //bio
+                    RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    break;
+                case 4: //cold demon
+                    RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    break;
+                case 5: //majin
+                    RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    break;
+                default: //en caso de que exista otra raza
+                    RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    break;
+            }
+
+            guiGraphics.blit(hud,
+                    51,
+                    20,
+                    6,
+                    71,
+                    energiatotal,
+                    6);
+            RenderSystem.disableBlend();
+
+        });
+
+
+    }
     public static void renderPowerReleaseAnimation(GuiGraphics guiGraphics, int porcentaje, int posXPowerRelease) {
         int targetRelease = porcentaje; // El valor objetivo que queremos mostrar
 
