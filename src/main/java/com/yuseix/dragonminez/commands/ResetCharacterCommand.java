@@ -33,7 +33,13 @@ public class ResetCharacterCommand {
     private static int reiniciarJugador(Collection<ServerPlayer> pPlayers) {
         for (ServerPlayer player : pPlayers) {
 
-            player.sendSystemMessage(Component.literal("The character of " + player.getName().getString() + " has been reset."));
+            player.sendSystemMessage(
+                    Component.translatable("command.dmzrestart.character")
+                            .append(" ")
+                            .append(player.getName())
+                            .append(" ")
+                            .append(Component.translatable("command.dmzrestart.character_restarted"))
+            );
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
