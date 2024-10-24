@@ -100,32 +100,60 @@ public class StatsCommand {
                 switch (stat) {
                     case "strenght":
                         stats.removeStrenght(cantidad);
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Strenght decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.strength")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.decreased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "defense":
                         stats.removeDefense(cantidad);
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Defense decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.defense")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.decreased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "constitution":
                         stats.removeConstitution(cantidad);
 
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
-
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Constitution decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
-
+                        
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.constitution")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.decreased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
+                        
                         break;
                     case "kipower":
                         stats.removeKiPower(cantidad);
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " KiPower decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.kipower")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.decreased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "energy":
                         stats.removeEnergy(cantidad);
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass()));
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Energy decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.energy")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.decreased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "all":
                         stats.removeStrenght(cantidad);
@@ -139,10 +167,16 @@ public class StatsCommand {
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " All Attributes decreased in " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.all")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.decreased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     default:
-                        player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
+                        player.sendSystemMessage(Component.translatable("command.dmzstats.error").withStyle(ChatFormatting.RED));
                         break;
                 }
             });
@@ -164,12 +198,23 @@ public class StatsCommand {
                 switch (stat) {
                     case "strenght":
                         stats.addStrength(cantidad);
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Strenght increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.strength")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.increased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "defense":
                         stats.addDefense(cantidad);
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Defense increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.defense")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.increased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "constitution":
                         stats.addCon(cantidad);
@@ -177,20 +222,36 @@ public class StatsCommand {
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Constitution increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.constitution")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.increased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "kipower":
                         stats.addKipwr(cantidad);
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " KiPower increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.kipower")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.increased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "energy":
                         stats.addEnergy(cantidad);
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Energy increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.energy")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.increased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "all":
                         stats.addStrength(cantidad);
@@ -204,11 +265,16 @@ public class StatsCommand {
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
-
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " All Attributes increased in " + cantidad).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.all")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.increased")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     default:
-                        player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
+                        player.sendSystemMessage(Component.translatable("command.dmzstats.error").withStyle(ChatFormatting.RED));
                         break;
                 }
             });
@@ -232,15 +298,24 @@ public class StatsCommand {
                     case "strenght":
 
                         stats.setStrength(cantidad);
-
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Strenght now is " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.strength")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.nowis")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "defense":
 
                         stats.setDefense(cantidad);
-
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Defense now is " + stats.getDefense()).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.defense")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.nowis")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "constitution":
 
@@ -249,24 +324,39 @@ public class StatsCommand {
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
 
-
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Constitution now is " + stats.getConstitution()).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.constitution")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.nowis")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "kipower":
 
                         stats.setKiPower(cantidad);
 
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " KiPower now is " + stats.getKiPower()).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.kipower")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.nowis")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "energy":
 
                         stats.setEnergy(cantidad);
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
-                        
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " Energy now is " + stats.getEnergy()).withStyle(ChatFormatting.YELLOW));
+
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.energy")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.nowis")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     case "all":
 
@@ -282,12 +372,16 @@ public class StatsCommand {
 
                         stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
-
-                        player.sendSystemMessage(Component.literal("Done! " + player.getName().getString() + " All Attributes now are " + stats.getStrength()).withStyle(ChatFormatting.YELLOW));
-
+                        player.sendSystemMessage(
+                                Component.translatable("command.dmzstats.done").append(" ")
+                                        .append(Component.translatable("command.dmzstats.all")).append(" ")
+                                        .append(player.getName()).append(" ")
+                                        .append(Component.translatable("command.dmzstats.noware")).append(" ")
+                                        .append(String.valueOf(cantidad)).append(Component.literal("."))
+                        );
                         break;
                     default:
-                        player.sendSystemMessage(Component.literal("Error!").withStyle(ChatFormatting.RED));
+                        player.sendSystemMessage(Component.translatable("command.dmzstats.error").withStyle(ChatFormatting.RED));
                         break;
                 }
             });

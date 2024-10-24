@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.cc.ColorPickerScreen;
+import com.yuseix.dragonminez.commands.LocationsCommand;
 import com.yuseix.dragonminez.commands.ResetCharacterCommand;
 import com.yuseix.dragonminez.commands.StatsCommand;
 import com.yuseix.dragonminez.commands.ZPointsCommand;
@@ -169,6 +170,7 @@ public final class ForgeBusEvents {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
         new ResetCharacterCommand(event.getDispatcher());
+        new LocationsCommand(event.getDispatcher(), new StructuresCapability());
 
         ConfigCommand.register(event.getDispatcher());
     }
