@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.events;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.NamekianModel;
@@ -19,12 +21,14 @@ import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
+import com.yuseix.dragonminez.init.blocks.custom.dballs.Dball1Block;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.model.characters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.characters.*;
+import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
@@ -32,15 +36,22 @@ import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -49,6 +60,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 //Anteriormente llamado ModListener o ClientEvents
 //ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
