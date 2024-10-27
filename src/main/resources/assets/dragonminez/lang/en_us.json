@@ -33,6 +33,9 @@
   "sounds.dragonminez.senzu": "Senzu Bean",
 
   "entity.dragonminez.dino": "Dinosaur",
+  "entity.dragonminez.namek_frog": "Namekian Frog",
+  "entity.dragonminez.yellow_frog": "Yellow Namekian Frog",
+  "entity.dragonminez.pink_frog": "Pink Namekian Frog",
   "entity.dragonminez.nube": "Flying Nimbus",
   "entity.dragonminez.karin": "Master Korin",
   "entity.dragonminez.shenlong": "Shenron",
@@ -69,6 +72,8 @@
   "item.dragonminez.comida_dino_raw": "Raw Dino Meat",
   "item.dragonminez.dinotail_cooked": "Cooked Dino Tail",
   "item.dragonminez.dinotail_raw": "Raw Dino Tail",
+  "item.dragonminez.frog_legs_raw": "Raw Frog Legs",
+  "item.dragonminez.frog_legs_cooked": "Cooked Frog Legs",
   "item.dragonminez.might_tree_fruit": "Fruit of the Tree of Might",
   "item.dragonminez.might_tree_fruit.tooltip": "\u00A77This fruit will give you a temporary power boost.",
   "item.dragonminez.heart_medicine": "Heart Medicine",

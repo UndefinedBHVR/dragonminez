@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -41,6 +42,22 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
         oreSmelting(pWriter, Cobre, RecipeCategory.MISC, Items.COPPER_INGOT, 0.7f, 200, "copper_ingot");
         oreBlasting(pWriter, Carbon, RecipeCategory.MISC, Items.COAL, 0.1f, 100, "coal");
         oreSmelting(pWriter, Carbon, RecipeCategory.MISC, Items.COAL, 0.1f, 200, "coal");
+
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
+                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
+                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get()))
+                .group("dragonminez")
+                .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
+                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
+                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get()))
+                .group("dragonminez")
+                .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_smoking"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
+                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
+                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get()))
+                .group("dragonminez")
+                .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_campfire"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, MainItems.KIKONO_SHARD.get(), 9)
                 .requires(MainBlocks.KIKONO_BLOCK.get())

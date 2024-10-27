@@ -42,6 +42,8 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.COMIDA_DINO_COOKED);
         simpleItem(MainItems.DINO_TAIL_RAW);
         simpleItem(MainItems.DINO_TAIL_COOKED);
+        simpleItem(MainItems.FROG_LEGS_RAW);
+        simpleItem(MainItems.FROG_LEGS_COOKED);
 
         //Armaduras
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_CHESTPLATE);

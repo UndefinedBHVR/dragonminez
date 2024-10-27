@@ -33,6 +33,9 @@
   "sounds.dragonminez.senzu": "Semilla del Ermitaño",
 
   "entity.dragonminez.dino": "Dinosaurio",
+  "entity.dragonminez.namek_frog": "Rana Namekuseín",
+  "entity.dragonminez.yellow_frog": "Rana Namekuseín Amarilla",
+  "entity.dragonminez.pink_frog": "Rana Namekuseín Rosa",
   "entity.dragonminez.nube": "Nube Voladora",
   "entity.dragonminez.karin": "Maestro Karin",
   "entity.dragonminez.shenlong": "Shen Long",
@@ -69,6 +72,8 @@
   "item.dragonminez.comida_dino_raw": "Carne de Dino Cruda",
   "item.dragonminez.dinotail_cooked": "Cola de Dino Cocida",
   "item.dragonminez.dinotail_raw": "Cola de Dino Cruda",
+  "item.dragonminez.frog_legs_raw": "Ancas de Rana Crudas",
+  "item.dragonminez.frog_legs_cooked": "Ancas de Rana Cocidas",
   "item.dragonminez.might_tree_fruit": "Fruto del Árbol del Poder",
   "item.dragonminez.might_tree_fruit.tooltip": "\u00A77Este fruto te dará un aumento de poder temporal.",
   "item.dragonminez.heart_medicine": "Medicamento del Corazón",
