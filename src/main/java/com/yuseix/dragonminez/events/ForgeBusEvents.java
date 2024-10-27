@@ -110,11 +110,12 @@ public final class ForgeBusEvents {
     public void onServerStarting(ServerStartingEvent event) {
 
         ServerLevel serverWorld = event.getServer().getLevel(Level.OVERWORLD);
+        ServerLevel namek = event.getServer().getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
         if (serverWorld == null) {
             return;
         }
         // Hacer algo cuando el servidor empiece???
-        LOGGER.info("HOLA SOY DRAGON BLOCK TEST UWU");
+        //LOGGER.info("HOLA SOY DRAGON BLOCK TEST UWU");
 
         if (!serverWorld.isClientSide()) {
             serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {

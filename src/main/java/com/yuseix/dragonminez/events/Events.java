@@ -31,14 +31,14 @@ public class Events {
 
     private static List<BlockPos> closestDballPositions = new ArrayList<>();
     private static long lastUpdateTime = 0;
-    private static final int UPDATE_INTERVAL_TICKS = 20 * 5; // 2 segundos en ticks de Minecraft
+    private static final int UPDATE_INTERVAL_TICKS = 20 * 5; // (20 Ticks * Cant Segundos) = Segundos en Minecraft, default 5.
 
     @SubscribeEvent
     public static void onRenderGameOverlay(RenderGuiOverlayEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
         GuiGraphics gui = event.getGuiGraphics();
-        int radarSize = 121; // Tamaño de la textura del radar 121x146 px
+        int radarSize = 140; // Tamaño de la textura del radar 121x146 px
 
         // Comprobar si el jugador está en el Overworld
         if (!player.level().dimension().equals(Level.OVERWORLD)) {
@@ -53,7 +53,7 @@ public class Events {
             int radarRange = radarItem.getOrCreateTag().getInt(DragonBallRadarItem.NBT_RANGE);
             if (radarRange == 0) {
                 // Establecer un rango por defecto si no hay valor en el NBT
-                radarRange = 100; // Valor por defecto
+                radarRange = 75; // Valor por defecto
             }
 
             // Dibujar el radar en la esquina de la pantalla

@@ -24,12 +24,33 @@ public class MainEntity {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES_REGISTER =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, DragonMineZ.MOD_ID);
 
+    //MOBS / ENTITIES
     public static final RegistryObject<EntityType<DinoEntity>> DINO1 =
             ENTITY_TYPES_REGISTER.register("dino",
                     () -> EntityType.Builder.of(DinoEntity::new, MobCategory.CREATURE)
                             .sized(4.5f, 4.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "dino").toString())
             );
+    public static final RegistryObject<EntityType<NamekFrogEntity>> NAMEK_FROG =
+            ENTITY_TYPES_REGISTER.register("namek_frog",
+                    () -> EntityType.Builder.of(NamekFrogEntity::new, MobCategory.CREATURE)
+                            .sized(0.7f, 0.7f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_frog").toString())
+            );
+    public static final RegistryObject<EntityType<PinkFrogEntity>> PINK_FROG =
+            ENTITY_TYPES_REGISTER.register("pink_frog",
+                    () -> EntityType.Builder.of(PinkFrogEntity::new, MobCategory.CREATURE)
+                            .sized(0.7f, 0.7f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "pink_frog").toString())
+            );
+    public static final RegistryObject<EntityType<YellowFrogEntity>> YELLOW_FROG =
+            ENTITY_TYPES_REGISTER.register("yellow_frog",
+                    () -> EntityType.Builder.of(YellowFrogEntity::new, MobCategory.CREATURE)
+                            .sized(0.7f, 0.7f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "yellow_frog").toString())
+            );
+
+    //NPCS
     public static final RegistryObject<EntityType<KarinEntity>> MASTER_KARIN =
             ENTITY_TYPES_REGISTER.register("karin",
                     () -> EntityType.Builder.of(KarinEntity::new, MobCategory.CREATURE)

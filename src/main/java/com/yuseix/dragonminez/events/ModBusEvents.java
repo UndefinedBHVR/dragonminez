@@ -77,6 +77,9 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+            EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
+            EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);
+            EntityRenderers.register(MainEntity.YELLOW_FROG.get(), YellowFrogRenderer::new);
 
             //FAKEPLAYERS
             EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidRender::new);
@@ -159,6 +162,9 @@ public class ModBusEvents {
         event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
         event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
         event.put(MainEntity.MASTER_DENDE.get(), DendeEntity.setAttributes());
+        event.put(MainEntity.NAMEK_FROG.get(), NamekFrogEntity.setAttributes());
+        event.put(MainEntity.PINK_FROG.get(), PinkFrogEntity.setAttributes());
+        event.put(MainEntity.YELLOW_FROG.get(), YellowFrogEntity.setAttributes());
 
         //FAKEPLAYERS
         event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());

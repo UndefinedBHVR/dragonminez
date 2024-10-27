@@ -29,7 +29,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1000.0D)
+                .add(Attributes.MAX_HEALTH, 5000.0D)
                 .add(Attributes.ATTACK_DAMAGE, 10.5f)
                 .add(Attributes.ATTACK_SPEED, 0.5f)
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();

@@ -2,11 +2,14 @@ package com.yuseix.dragonminez.init.blocks.custom.dballs;
 
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.blocks.entity.Dball1BlockEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -96,6 +99,7 @@ public class Dball1Block extends BaseEntityBlock {
                 ShenlongEntity dragonEntity = new ShenlongEntity(MainEntity.SHENLONG.get(),pLevel);
                 dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
                 pLevel.addFreshEntity(dragonEntity);
+                pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
             }
 
             return InteractionResult.SUCCESS;
@@ -155,6 +159,4 @@ public class Dball1Block extends BaseEntityBlock {
             }
         }
     }
-
-
 }

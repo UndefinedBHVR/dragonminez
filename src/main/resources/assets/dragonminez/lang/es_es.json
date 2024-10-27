@@ -14,6 +14,24 @@
   "block.dragonminez.dball6_namek": "Bola del Dragón de Namek (6 estrellas)",
   "block.dragonminez.dball7_namek": "Bola del Dragón de Namek (7 estrellas)",
 
+  "sounds.dragonminez.punch1": "Golpe",
+  "sounds.dragonminez.punch2": "Golpe",
+  "sounds.dragonminez.punch3": "Golpe",
+  "sounds.dragonminez.punch4": "Golpe",
+  "sounds.dragonminez.punch5": "Golpe",
+  "sounds.dragonminez.punch6": "Golpe",
+  "sounds.dragonminez.critic_punch1": "Golpe Crítico",
+  "sounds.dragonminez.critic_punch2": "Golpe Crítico",
+  "sounds.dragonminez.radar_scan": "Escaneo del Radar",
+  "sounds.dragonminez.dragonradar": "Radar del Dragón",
+  "sounds.dragonminez.froglaugh": "Risa de Rana",
+  "sounds.dragonminez.frogsound1": "Croak",
+  "sounds.dragonminez.frogsound2": "Ribbit",
+  "sounds.dragonminez.frogsound3": "Croac",
+  "sounds.dragonminez.shenron": "Invocación de Shenlong",
+  "sounds.dragonminez.nube": "Nube Kinton",
+  "sounds.dragonminez.senzu": "Alubia Mágica",
+
   "entity.dragonminez.dino": "Dinosaurio",
   "entity.dragonminez.nube": "Nube Kinton",
   "entity.dragonminez.karin": "Maestro Karin",
@@ -279,5 +297,8 @@
   "command.dmzpoints.pointsto": "puntos a",
   "command.dmzpoints.set": "\u00A7bEstableciste \u00A7rlos puntos de %s en %d.",
   "command.dmzpoints.add": "\u00A7aAñadiste",
-  "command.dmzpoints.remove": "\u00A7cRemoviste"
+  "command.dmzpoints.remove": "\u00A7cRemoviste",
+
+  "ui.dmzradar.range": "Rango del Radar",
+  "ui.dmzradar.blocks": "bloques."
 }

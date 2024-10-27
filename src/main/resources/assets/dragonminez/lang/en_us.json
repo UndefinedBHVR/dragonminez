@@ -14,6 +14,24 @@
   "block.dragonminez.dball6_namek": "Namek's Dragon Ball (6 Stars)",
   "block.dragonminez.dball7_namek": "Namek's Dragon Ball (7 Stars)",
 
+  "sounds.dragonminez.punch1": "Punch",
+  "sounds.dragonminez.punch2": "Punch",
+  "sounds.dragonminez.punch3": "Punch",
+  "sounds.dragonminez.punch4": "Punch",
+  "sounds.dragonminez.punch5": "Punch",
+  "sounds.dragonminez.punch6": "Punch",
+  "sounds.dragonminez.critic_punch1": "Critical Punch",
+  "sounds.dragonminez.critic_punch2": "Critical Punch",
+  "sounds.dragonminez.radar_scan": "Radar Scan",
+  "sounds.dragonminez.dragonradar": "Dragon Radar",
+  "sounds.dragonminez.froglaugh": "Frog Laugh",
+  "sounds.dragonminez.frogsound1": "Ribbit",
+  "sounds.dragonminez.frogsound2": "Croak",
+  "sounds.dragonminez.frogsound3": "Rebbet",
+  "sounds.dragonminez.shenron": "Shenron summoning",
+  "sounds.dragonminez.nube": "Flying Nimbus",
+  "sounds.dragonminez.senzu": "Senzu Bean",
+
   "entity.dragonminez.dino": "Dinosaur",
   "entity.dragonminez.nube": "Flying Nimbus",
   "entity.dragonminez.karin": "Master Korin",
@@ -279,5 +297,8 @@
   "command.dmzpoints.pointsto": "points to",
   "command.dmzpoints.set": "You have \u00A7bset \u00A7rthe %s's points to %d.",
   "command.dmzpoints.add": "\u00A7aYou added",
-  "command.dmzpoints.remove": "\u00A7cYou removed"
+  "command.dmzpoints.remove": "\u00A7cYou removed",
+
+  "ui.dmzradar.range": "Radar Range is",
+  "ui.dmzradar.blocks": "blocks."
 }

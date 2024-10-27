@@ -119,7 +119,6 @@ public class ModBiomeModifiers {
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         //KIKONO - NAMEK
-        /*
         context.register(ADD_NAMEK_KIKONO_ORE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(DMZTags.Biomes.IS_SACREDLAND), //Importante poner que es Sacred, para que se genere ahi
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_KIKONO_ORE_KEY)),
@@ -128,7 +127,7 @@ public class ModBiomeModifiers {
                 biomes.getOrThrow(DMZTags.Biomes.IS_SACREDLAND), //Importante poner que es Sacred, para que se genere ahi
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NAMEK_KIKONO_ORE_LARGE_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
-        */
+
 
     }
 

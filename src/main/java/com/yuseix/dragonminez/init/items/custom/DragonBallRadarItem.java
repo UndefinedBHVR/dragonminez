@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 @ParametersAreNonnullByDefault
 public class DragonBallRadarItem extends Item {
 
-    private static final int[] RANGES = {100, 200}; // Diferentes rangos
+    private static final int[] RANGES = {75, 150}; // Diferentes rangos
     public static final String NBT_RANGE = "RadarRange"; // Clave NBT para almacenar el rango
 
     public DragonBallRadarItem() {
@@ -38,6 +38,7 @@ public class DragonBallRadarItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        player.playSound(MainSounds.DRAGONRADAR.get());
 
         // Alternar rango al hacer clic derecho
         if (!world.isClientSide()) {
@@ -45,7 +46,13 @@ public class DragonBallRadarItem extends Item {
             int newRange = RANGES[(indexOf(currentRange) + 1) % RANGES.length]; // Alternar entre los rangos
 
             stack.getOrCreateTag().putInt(NBT_RANGE, newRange);
-            player.displayClientMessage(Component.literal("Rango del radar: " + newRange + " bloques"), true);
+
+            Component message = Component.translatable("ui.dmzradar.range").append(": ")
+                    .append(String.valueOf(newRange)).append(" ")
+                    .append(Component.translatable("ui.dmzradar.blocks"));
+
+
+            player.displayClientMessage(message, true);
         }
 
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());

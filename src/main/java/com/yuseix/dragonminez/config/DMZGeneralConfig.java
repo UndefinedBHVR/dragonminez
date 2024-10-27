@@ -21,8 +21,8 @@ public class DMZGeneralConfig {
     static {
         BUILDER.push("Configs for Attributes of DragonMineZ");
 
-        MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 1000)")
-                .defineInRange("Attributes: ", 500, 100, 1000);
+        MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 10000)")
+                .defineInRange("Attributes: ", 500, 100, 10000);
 
         BUILDER.pop();
 
@@ -42,13 +42,13 @@ public class DMZGeneralConfig {
 
         BUILDER.push("General Configs");
 
-        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans")
+        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 200)")
                 .defineInRange("Seconds: ", 10, 1, 200);
 
-        SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Korin will give")
+        SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Korin will give (Min: 1 / Max: 10)")
                 .defineInRange("Number: ", 5, 1, 10);
 
-        SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean (seconds)")
+        SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean (seconds) (Min: 1 / Max: 36000)")
                 .defineInRange("time: ", 300, 1, 36000);
 
 
