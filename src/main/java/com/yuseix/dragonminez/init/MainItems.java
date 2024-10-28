@@ -149,10 +149,6 @@ public final class MainItems {
                             .fireResistant().stacksTo(1)));
 
     //LÍQUIDOS
-    /*TODO: Texturas Líquido de Curación
-     *    Falta la textura del item de: Líquido de Curación (en un bucket)
-     * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos
-     */
 
     public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",
             () -> new BucketItem(MainFluids.SOURCE_HEALING, properties
@@ -194,8 +190,10 @@ public final class MainItems {
             () -> new Item(properties.stacksTo(64)));
 
 
-    //DRAGON BALL RADAR (TIERRA)
+    //DRAGON BALL RADAR
     public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
+    public static final RegistryObject<Item> NAMEKDBALL_RADAR_ITEM = ITEM_REGISTER.register("namekdball_radar", NamekDragonBallRadarItem::new);
+
     //NUBE VOLADORA
     public static final RegistryObject<Item> NUBE_ITEM = ITEM_REGISTER.register("flying_nimbus", FlyingNimbusItem::new);
 

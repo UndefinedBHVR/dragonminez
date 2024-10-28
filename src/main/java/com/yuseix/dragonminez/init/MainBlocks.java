@@ -157,21 +157,21 @@ public final class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.COPPER_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
 
     //Ores (Default) de Deepslate de Namek
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_DIAMOND = registerBlock("namek_deepslate_diamond",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_DIAMOND = registerBlock("namek_deepslate_diamond_ore",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_DIAMOND_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_GOLD = registerBlock("namek_deepslate_gold",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_GOLD = registerBlock("namek_deepslate_gold_ore",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_GOLD_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_IRON = registerBlock("namek_deepslate_iron",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_IRON = registerBlock("namek_deepslate_iron_ore",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_IRON_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_LAPIS = registerBlock("namek_deepslate_lapis",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_LAPIS = registerBlock("namek_deepslate_lapis_ore",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_LAPIS_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_REDSTONE = registerBlock("namek_deepslate_redstone",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_REDSTONE = registerBlock("namek_deepslate_redstone_ore",
             () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_REDSTONE_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_COAL = registerBlock("namek_deepslate_coal",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_COAL = registerBlock("namek_deepslate_coal_ore",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_COAL_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_EMERALD = registerBlock("namek_deepslate_emerald",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_EMERALD = registerBlock("namek_deepslate_emerald_ore",
             () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_EMERALD_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
-    public static final RegistryObject<Block> NAMEK_DEEPSLATE_COPPER = registerBlock("namek_deepslate_copper",
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_COPPER = registerBlock("namek_deepslate_copper_ore",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_COPPER_ORE).requiresCorrectToolForDrops().strength(3.0F, 6.0F)));
 
     //Bloques Especiales

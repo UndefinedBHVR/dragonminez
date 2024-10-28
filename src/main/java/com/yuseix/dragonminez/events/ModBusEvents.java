@@ -31,6 +31,7 @@ import com.yuseix.dragonminez.init.entity.custom.characters.*;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.KeyMapping;
@@ -231,6 +232,7 @@ public class ModBusEvents {
     @SubscribeEvent
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(DragonBallGenProvider.class);
+        event.register(NamekDragonBallGenProvider.class);
         event.register(StructuresCapability.class);
     }
 

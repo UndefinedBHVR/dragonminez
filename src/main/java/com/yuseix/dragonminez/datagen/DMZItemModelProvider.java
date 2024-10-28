@@ -22,6 +22,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         //Items (MainItems)
         simpleItem(MainItems.DBALL_RADAR_ITEM);
+        simpleItem(MainItems.NAMEKDBALL_RADAR_ITEM);
         simpleItem(MainItems.MIGHT_TREE_FRUIT);
         simpleItem(MainItems.NUBE_ITEM);
         simpleItem(MainItems.SENZU_BEAN);
@@ -35,7 +36,22 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.GREEN_POTHALA_LEFT);
         simpleItem(MainItems.GREEN_POTHALA_RIGHT);
         simpleItem(MainItems.MEDICINA_CORAZON);
+        simpleItem(MainItems.NAMEK_WATER_BUCKET);
         simpleItem(MainItems.HEALING_BUCKET);
+        simpleItem(MainItems.DBALL1_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL2_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL3_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL4_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL5_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL6_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL7_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL1_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL2_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL3_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL4_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL5_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL6_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.DBALL7_NAMEK_BLOCK_ITEM);
 
         //Comidas
         simpleItem(MainItems.COMIDA_DINO_RAW);

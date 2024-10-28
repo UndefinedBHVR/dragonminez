@@ -41,7 +41,7 @@ public final class MainTabs {
     public static final RegistryObject<CreativeModeTab> NAMEK_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_namek_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.NAMEK_GRASS_BLOCK.get()))
 
-                    .title(Component.translatable("itemGroup.dragonminez_namek_tab"))
+                    .title(Component.translatable("itemGroup.dragonminez.namek"))
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
                         if (item.getId().getPath().startsWith("namek_"))
                             output.accept(item.get().asItem());
@@ -61,8 +61,24 @@ public final class MainTabs {
 
                     .title(Component.translatable("itemGroup.dragonminez.items"))
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
-                        if (!(item.get() instanceof BlockItem))
-                            output.accept(item.get().asItem());
+                        if (!(item.get() instanceof BlockItem)) {
+                            if (!item.getId().getPath().contains("_armor_")) {
+                                output.accept(item.get().asItem());
+                            }
+                        }
+                    })).build()
+    );
+
+    public static final RegistryObject<CreativeModeTab> ARMORS_TAB =  CREATIVE_TABS_REGISTER.register("dragonminez_armors_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainItems.BARDOCK_DBZ_ARMOR_CHESTPLATE.get()))
+
+                    .title(Component.translatable("itemGroup.dragonminez.armors"))
+                    .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
+                        if (item.getId().getPath().contains("_armor_")) {
+                            if (!item.getId().getPath().equals("kikono_armor_station")) {
+                                output.accept(item.get().asItem());
+                            }
+                        }
                     })).build()
     );
 
@@ -70,16 +86,19 @@ public final class MainTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.GETE_ORE.get()))
 
                     .title(Component.translatable("itemGroup.dragonminez.ores"))
-                    .displayItems((parameters, output) -> {
-                        output.accept(MainBlocks.GETE_ORE.get().asItem());
-                        output.accept(MainBlocks.GETE_BLOCK.get().asItem());
-                        output.accept(MainItems.GETE_SCRAP.get());
-                        output.accept(MainBlocks.GETE_FURNACE.get().asItem());
-                        output.accept(MainBlocks.NAMEK_KIKONO_ORE.get().asItem());
-                        output.accept(MainBlocks.KIKONO_BLOCK.get().asItem());
-                        output.accept(MainItems.KIKONO_SHARD.get());
-                        output.accept(MainBlocks.KIKONO_ARMOR_STATION.get());
-                    }).build()
+                    .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
+                        if (block.getId().getPath().contains("_ore")) {
+                            output.accept(block.get().asItem());
+                            output.accept(MainBlocks.GETE_FURNACE.get().asItem());
+                            output.accept(MainBlocks.KIKONO_BLOCK.get().asItem());
+                            output.accept(MainBlocks.KIKONO_ARMOR_STATION.get().asItem());
+                            output.accept(MainItems.KIKONO_SHARD.get().asItem());
+                            output.accept(MainItems.KIKONO_CLOTH.get().asItem());
+                            output.accept(MainItems.KIKONO_STRING.get().asItem());
+                            output.accept(MainItems.GETE_INGOT.get().asItem());
+                            output.accept(MainItems.GETE_SCRAP.get().asItem());
+                        }
+                    })).build()
     );
 
     public static void register(IEventBus bus) {

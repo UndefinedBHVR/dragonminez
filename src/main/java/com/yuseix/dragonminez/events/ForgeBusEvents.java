@@ -1,9 +1,7 @@
 package com.yuseix.dragonminez.events;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.gui.cc.ColorPickerScreen;
 import com.yuseix.dragonminez.commands.LocationsCommand;
 import com.yuseix.dragonminez.commands.ResetCharacterCommand;
 import com.yuseix.dragonminez.commands.StatsCommand;
@@ -14,13 +12,8 @@ import com.yuseix.dragonminez.network.C2S.MenuC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.shaders.DMZShaders;
-import com.yuseix.dragonminez.world.DragonBallGenProvider;
-import com.yuseix.dragonminez.world.StructuresCapability;
-import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.capabilities.Capability;
@@ -45,7 +37,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +53,7 @@ public final class ForgeBusEvents {
 
 
     private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
+    private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -110,7 +102,6 @@ public final class ForgeBusEvents {
     public void onServerStarting(ServerStartingEvent event) {
 
         ServerLevel serverWorld = event.getServer().getLevel(Level.OVERWORLD);
-        ServerLevel namek = event.getServer().getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
         if (serverWorld == null) {
             return;
         }
@@ -134,9 +125,7 @@ public final class ForgeBusEvents {
                     dragonBallsCapability.setHasDragonBalls(true);
                 }
             });
-
         }
-
     }
 
     @SubscribeEvent
@@ -158,6 +147,9 @@ public final class ForgeBusEvents {
         if (event.getObject() instanceof ServerLevel) {
             if (!event.getObject().getCapability(DragonBallGenProvider.CAPABILITY).isPresent())
                 event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "dragon_balls"), new DragonBallGenProvider());
+
+            if (!event.getObject().getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent())
+                event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "namek_dragon_balls"), new NamekDragonBallGenProvider());
 
             if (!event.getObject().getCapability(StructuresProvider.CAPABILITY).isPresent())
                 event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "structures"), new StructuresProvider());
@@ -203,6 +195,25 @@ public final class ForgeBusEvents {
                     cap.generateHabTiempoStructure(serverLevel);
                 });
             }
+            if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+                LazyOptional<NamekDragonBallsCapability> namekDragonBallsCapability = serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY);
+                namekDragonBallsCapability.ifPresent(namekDragonBalls -> {
+                    // Verifica si ya se han generado las Dragon Balls
+                    if (!namekDragonBalls.hasNamekDragonBalls()) {
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState());
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
+                        spawnNamekDragonBall(serverLevel, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
+
+                        // Indica que las Dragon Balls de Namek han sido generadas
+                        namekDragonBalls.setNamekDragonBallPositions(namekDragonBallPositions);
+                        namekDragonBalls.setHasNamekDragonBalls(true);
+                    }
+                });
+            }
         }
     }
 
@@ -230,5 +241,27 @@ public final class ForgeBusEvents {
         System.out.println("Dragon Ball spawned at " + pos);
 
         dragonBallPositions.add(pos);
+    }
+
+    private void spawnNamekDragonBall (ServerLevel serverWorld, BlockState namekDragonBall) {
+        //Spawn the dragon balls
+        BlockPos spawnPos = serverWorld.getSharedSpawnPos();
+        Random random = new Random();
+
+        // Generate a random position within a 5k block radius from the spawn
+        int x = spawnPos.getX() + random.nextInt(10000) - 5000;
+        int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+
+        serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
+
+        int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+
+        BlockPos pos = new BlockPos(x, y, z);
+
+        // Place a Dragon Ball block at the generated position
+        serverWorld.setBlock(pos, namekDragonBall, 2);
+        System.out.println("Namekian Dragon Ball spawned at " + pos);
+
+        namekDragonBallPositions.add(pos);
     }
 }

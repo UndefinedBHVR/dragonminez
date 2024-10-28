@@ -125,10 +125,10 @@ public class ModPlacedFeatures {
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-80), VerticalAnchor.absolute(80))));
         //KIKONO - NAMEK
         register(context, NAMEK_KIKONO_ORE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_KIKONO_ORE_KEY),
-                ModOrePlacement.commonOrePlacement(7,
+                ModOrePlacement.commonOrePlacement(8,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-80), VerticalAnchor.absolute(80))));
         register(context, NAMEK_KIKONO_ORE_LARGE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.NAMEK_KIKONO_ORE_LARGE_KEY),
-                ModOrePlacement.commonOrePlacement(9,
+                ModOrePlacement.commonOrePlacement(10,
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(-80), VerticalAnchor.absolute(80))));
 
 
