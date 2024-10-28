@@ -1,7 +1,8 @@
-package com.yuseix.dragonminez.init.entity.client.model;
+package com.yuseix.dragonminez.init.entity.client.model.namek;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.custom.NamekFrogEntity;
+import com.yuseix.dragonminez.init.entity.custom.namek.GinyuFrogEntity;
+import com.yuseix.dragonminez.init.entity.custom.namek.NamekFrogEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import software.bernie.geckolib.constant.DataTickets;
@@ -10,24 +11,24 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class NamekFrogModel extends GeoModel<NamekFrogEntity> {
+public class GinyuFrogModel extends GeoModel<GinyuFrogEntity> {
     @Override
-    public ResourceLocation getModelResource(NamekFrogEntity dinoEntity) {
+    public ResourceLocation getModelResource(GinyuFrogEntity dinoEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID, "geo/namekfrog.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(NamekFrogEntity dinoEntity) {
+    public ResourceLocation getTextureResource(GinyuFrogEntity dinoEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranadefault.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(NamekFrogEntity dinoEntity) {
+    public ResourceLocation getAnimationResource(GinyuFrogEntity dinoEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID, "animations/namekfrog.animation.json");
     }
 
     @Override
-    public void setCustomAnimations(NamekFrogEntity animatable, long instanceId, AnimationState<NamekFrogEntity> animationState) {
+    public void setCustomAnimations(GinyuFrogEntity animatable, long instanceId, AnimationState<GinyuFrogEntity> animationState) {
         CoreGeoBone head = getAnimationProcessor().getBone("head");
 
         if (head != null) {

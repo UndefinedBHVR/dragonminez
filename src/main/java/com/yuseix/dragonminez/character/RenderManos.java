@@ -5,9 +5,11 @@ import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -20,6 +22,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +39,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     public RenderManos(EntityRendererProvider.Context pContext) {
         super(pContext, new PlayerModel(pContext.bakeLayer(ModelLayers.PLAYER), false), 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
-        this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
+        //this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
         this.addLayer(new ArrowLayer(pContext, this));
         this.addLayer(new Deadmau5EarsLayer(this));
         this.addLayer(new CapeLayer(this));
@@ -209,6 +212,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
         });
 
     }
+
 
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {

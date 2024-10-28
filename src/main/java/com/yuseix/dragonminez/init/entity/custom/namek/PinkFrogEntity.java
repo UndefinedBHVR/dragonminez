@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.init.entity.custom;
+package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.MainSounds;
 import net.minecraft.server.level.ServerLevel;
@@ -26,11 +26,11 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class YellowFrogEntity extends Animal implements GeoEntity {
+public class PinkFrogEntity extends Animal implements GeoEntity {
 
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public YellowFrogEntity(EntityType<? extends Animal> pEntityType, Level pLevel) {
+    public PinkFrogEntity(EntityType<? extends Animal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
