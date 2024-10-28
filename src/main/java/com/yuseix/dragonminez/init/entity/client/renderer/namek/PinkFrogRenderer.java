@@ -1,9 +1,9 @@
-package com.yuseix.dragonminez.init.entity.client.renderer;
+package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.client.model.PinkFrogModel;
-import com.yuseix.dragonminez.init.entity.custom.PinkFrogEntity;
+import com.yuseix.dragonminez.init.entity.client.model.namek.PinkFrogModel;
+import com.yuseix.dragonminez.init.entity.custom.namek.PinkFrogEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;

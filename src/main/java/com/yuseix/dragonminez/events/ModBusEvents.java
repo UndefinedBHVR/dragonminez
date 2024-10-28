@@ -1,7 +1,5 @@
 package com.yuseix.dragonminez.events;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.NamekianModel;
@@ -21,38 +19,26 @@ import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
-import com.yuseix.dragonminez.init.blocks.custom.dballs.Dball1Block;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
-import com.yuseix.dragonminez.init.entity.client.model.characters.*;
+import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
+import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.*;
-import com.yuseix.dragonminez.init.entity.custom.characters.*;
-import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
+import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
-import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -60,8 +46,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 //Anteriormente llamado ModListener o ClientEvents
 //ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
@@ -77,9 +61,13 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+
             EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
             EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);
             EntityRenderers.register(MainEntity.YELLOW_FROG.get(), YellowFrogRenderer::new);
+            EntityRenderers.register(MainEntity.GINYU_FROG.get(), GinyuFrogRenderer::new);
+
+            EntityRenderers.register(MainEntity.NAMEKNPC_WARRIOR1.get(), NamekWarrior1Renderer::new);
 
             //FAKEPLAYERS
             EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidRender::new);
@@ -162,9 +150,13 @@ public class ModBusEvents {
         event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
         event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
         event.put(MainEntity.MASTER_DENDE.get(), DendeEntity.setAttributes());
+
         event.put(MainEntity.NAMEK_FROG.get(), NamekFrogEntity.setAttributes());
         event.put(MainEntity.PINK_FROG.get(), PinkFrogEntity.setAttributes());
         event.put(MainEntity.YELLOW_FROG.get(), YellowFrogEntity.setAttributes());
+        event.put(MainEntity.GINYU_FROG.get(), GinyuFrogEntity.setAttributes());
+
+        event.put(MainEntity.NAMEKNPC_WARRIOR1.get(), NamekWarriorEntity.setAttributes());
 
         //FAKEPLAYERS
         event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());
@@ -204,6 +196,9 @@ public class ModBusEvents {
         e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
         e.registerLayerDefinition(ArmorSaiyanModel.LAYER_LOCATION, ArmorSaiyanModel::createBodyLayer);
         e.registerLayerDefinition(ArmorPiccoloModel.LAYER_LOCATION, ArmorPiccoloModel::createBodyLayer);
+
+        //ENTIDADES CUSTOM EN BASE A MODELOS DE JAVA
+        e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
 
     }
 

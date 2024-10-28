@@ -1,17 +1,15 @@
-package com.yuseix.dragonminez.init.entity.custom.characters;
+package com.yuseix.dragonminez.init.entity.custom.fpcharacters;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class FPBase extends LivingEntity {
+public class FPHumanSaiyanEntity extends FPBase {
 
 
-    public FPBase(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPHumanSaiyanEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 

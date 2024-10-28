@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.init.entity.custom;
+package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.MainSounds;
 import net.minecraft.server.level.ServerLevel;

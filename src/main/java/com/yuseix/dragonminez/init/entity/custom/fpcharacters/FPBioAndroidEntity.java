@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.init.entity.custom.characters;
+package com.yuseix.dragonminez.init.entity.custom.fpcharacters;
 
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -6,10 +6,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class FPSlimEntity extends FPBase {
+public class FPBioAndroidEntity extends FPBase {
 
-
-    public FPSlimEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPBioAndroidEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 

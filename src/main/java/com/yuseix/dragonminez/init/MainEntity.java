@@ -2,7 +2,8 @@ package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.*;
-import com.yuseix.dragonminez.init.entity.custom.characters.*;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
+import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -48,6 +49,19 @@ public class MainEntity {
                     () -> EntityType.Builder.of(YellowFrogEntity::new, MobCategory.CREATURE)
                             .sized(0.7f, 0.7f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "yellow_frog").toString())
+            );
+    public static final RegistryObject<EntityType<GinyuFrogEntity>> GINYU_FROG =
+            ENTITY_TYPES_REGISTER.register("ginyu_frog",
+                    () -> EntityType.Builder.of(GinyuFrogEntity::new, MobCategory.CREATURE)
+                            .sized(0.7f, 0.7f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "ginyu_frog").toString())
+            );
+
+    public static final RegistryObject<EntityType<NamekWarriorEntity>> NAMEKNPC_WARRIOR1 =
+            ENTITY_TYPES_REGISTER.register("namek_warrior01",
+                    () -> EntityType.Builder.of(NamekWarriorEntity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_warrior01").toString())
             );
 
     //NPCS

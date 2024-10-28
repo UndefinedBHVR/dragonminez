@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.init.entity.client.model;
+package com.yuseix.dragonminez.init.entity.client.model.namek;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.custom.YellowFrogEntity;
+import com.yuseix.dragonminez.init.entity.custom.namek.PinkFrogEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import software.bernie.geckolib.constant.DataTickets;
@@ -10,24 +10,24 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
-public class YellowFrogModel extends GeoModel<YellowFrogEntity> {
+public class PinkFrogModel extends GeoModel<PinkFrogEntity> {
     @Override
-    public ResourceLocation getModelResource(YellowFrogEntity dinoEntity) {
+    public ResourceLocation getModelResource(PinkFrogEntity dinoEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID, "geo/namekfrog.geo.json");
     }
 
     @Override
-    public ResourceLocation getTextureResource(YellowFrogEntity dinoEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranaamarilla.png");
+    public ResourceLocation getTextureResource(PinkFrogEntity dinoEntity) {
+        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranarosa.png");
     }
 
     @Override
-    public ResourceLocation getAnimationResource(YellowFrogEntity dinoEntity) {
+    public ResourceLocation getAnimationResource(PinkFrogEntity dinoEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID, "animations/namekfrog.animation.json");
     }
 
     @Override
-    public void setCustomAnimations(YellowFrogEntity animatable, long instanceId, AnimationState<YellowFrogEntity> animationState) {
+    public void setCustomAnimations(PinkFrogEntity animatable, long instanceId, AnimationState<PinkFrogEntity> animationState) {
         CoreGeoBone head = getAnimationProcessor().getBone("head");
 
         if (head != null) {
