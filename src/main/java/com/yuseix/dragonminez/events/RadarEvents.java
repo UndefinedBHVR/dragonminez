@@ -1,7 +1,5 @@
 package com.yuseix.dragonminez.events;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
@@ -9,7 +7,6 @@ import com.yuseix.dragonminez.init.items.custom.NamekDragonBallRadarItem;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class Events {
+public class RadarEvents {
     private static final ResourceLocation fondo = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/radar.png");
     private static final ResourceLocation boton = new ResourceLocation(DragonMineZ.MOD_ID,

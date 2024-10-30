@@ -1,7 +1,9 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.entity.goals.DetectEvilTargetGoal;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -9,10 +11,9 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class NamekWarriorEntity extends NamekianEntity {
+public class NamekWarrior02Entity extends NamekianEntity {
 
-
-    public NamekWarriorEntity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
+    public NamekWarrior02Entity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
         this.setPersistenceRequired();

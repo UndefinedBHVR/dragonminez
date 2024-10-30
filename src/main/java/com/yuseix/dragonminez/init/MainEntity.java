@@ -63,6 +63,30 @@ public class MainEntity {
                             .sized(0.8f, 2.1f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_warrior01").toString())
             );
+    public static final RegistryObject<EntityType<NamekWarrior02Entity>> NAMEKNPC_WARRIOR2 =
+            ENTITY_TYPES_REGISTER.register("namek_warrior02",
+                    () -> EntityType.Builder.of(NamekWarrior02Entity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_warrior02").toString())
+            );
+    public static final RegistryObject<EntityType<NamekTraderEntity>> NAMEKNPC_TRADER1 =
+            ENTITY_TYPES_REGISTER.register("namek_trader01",
+                    () -> EntityType.Builder.of(NamekTraderEntity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_trader01").toString())
+            );
+    public static final RegistryObject<EntityType<NamekTrader02Entity>> NAMEKNPC_TRADER2 =
+            ENTITY_TYPES_REGISTER.register("namek_trader02",
+                    () -> EntityType.Builder.of(NamekTrader02Entity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_trader02").toString())
+            );
+    public static final RegistryObject<EntityType<NamekTrader03Entity>> NAMEKNPC_TRADER3 =
+            ENTITY_TYPES_REGISTER.register("namek_trader03",
+                    () -> EntityType.Builder.of(NamekTrader03Entity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_trader03").toString())
+            );
 
     //NPCS
     public static final RegistryObject<EntityType<KarinEntity>> MASTER_KARIN =
