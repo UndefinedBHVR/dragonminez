@@ -174,8 +174,8 @@ public final class MainItems {
     public static final RegistryObject<Item> KIKONO_CLOTH = ITEM_REGISTER.register("kikono_cloth", KikonoClothItem::new);
     public static final RegistryObject<Item> PATTERN_GOKU1 = ITEM_REGISTER.register("pattern_goku1",
             () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_GOTEN = ITEM_REGISTER.register("pattern_goten",
-            () -> new Item(properties.stacksTo(64)));
+   /* public static final RegistryObject<Item> PATTERN_GOTEN = ITEM_REGISTER.register("pattern_goten",
+            () -> new Item(properties.stacksTo(64))); */ // Comentado por ahora hasta que se implemente su armadura.
     public static final RegistryObject<Item> PATTERN_VEGETA1 = ITEM_REGISTER.register("pattern_vegeta1",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_VEGETA2 = ITEM_REGISTER.register("pattern_vegeta2",

@@ -216,7 +216,8 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             null, FrameType.TASK, true, true, false
                     )
                     .addCriterion("piccoloarmor",
-                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.PICCOLO_ARMOR_CHESTPLATE.get(),
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.PICCOLO_ARMOR_HELMET.get(),
+                                    MainItems.PICCOLO_ARMOR_CHESTPLATE.get(),
                                     MainItems.PICCOLO_ARMOR_LEGGINGS.get(),
                                     MainItems.PICCOLO_ARMOR_BOOTS.get())
                     )
