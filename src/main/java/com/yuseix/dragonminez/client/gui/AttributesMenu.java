@@ -57,7 +57,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
 
-
         });
     }
 
@@ -109,7 +108,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             anchoTexto = 17;
             alturaTexto = (this.height / 2) + 2;
 
-            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * multiplicador;
+            var cost =  (int) Math.round(((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * multiplicador) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
 
             this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto-3, alturaTexto + 63,Component.empty(), wa -> {
                 if(multiplicador == 1){
@@ -404,6 +403,5 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public boolean isPauseScreen() {
         return false;
     }
-
 
 }
