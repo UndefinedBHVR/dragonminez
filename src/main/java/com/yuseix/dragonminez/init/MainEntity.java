@@ -87,7 +87,18 @@ public class MainEntity {
                             .sized(0.8f, 2.1f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "namek_trader03").toString())
             );
-
+    public static final RegistryObject<EntityType<FriezaSoldierEntity>> FRIEZA_SOLDIER01 =
+            ENTITY_TYPES_REGISTER.register("soldier01",
+                    () -> EntityType.Builder.of(FriezaSoldierEntity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "soldier01").toString())
+            );
+    public static final RegistryObject<EntityType<MoroSoldierEntity>> MORO_SOLDIER =
+            ENTITY_TYPES_REGISTER.register("moro_soldier",
+                    () -> EntityType.Builder.of(MoroSoldierEntity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "moro_soldier").toString())
+            );
     //NPCS
     public static final RegistryObject<EntityType<KarinEntity>> MASTER_KARIN =
             ENTITY_TYPES_REGISTER.register("karin",

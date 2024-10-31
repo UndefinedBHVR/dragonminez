@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
@@ -38,7 +39,8 @@ public class NamekWarriorEntity extends NamekianEntity {
 
         // Solo ataca si es provocado y es agresivo hacia el jugador
         this.targetSelector.addGoal(1, new DetectEvilTargetGoal(this));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, SoldierEntity.class, true));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
 
     }
 

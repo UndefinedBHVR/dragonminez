@@ -32,6 +32,7 @@ public class NamekTraderEntity extends Villager {
     protected void registerGoals() {
         // Permite que la entidad flote en el agua
         this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
 
         // Camina de manera aleatoria evitando el agua
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
