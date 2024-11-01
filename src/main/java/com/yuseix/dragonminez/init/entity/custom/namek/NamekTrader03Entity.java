@@ -23,14 +23,14 @@ public class NamekTrader03Entity extends Villager {
                 .add(Attributes.MAX_HEALTH, 800.0D)
                 .add(Attributes.ATTACK_DAMAGE, 100.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.22F).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.25F).build();
     }
 
     @Override
     protected void registerGoals() {
         // Permite que la entidad flote en el agua
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new PanicGoal(this, 1.5D));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 2.5D));
         // Camina de manera aleatoria evitando el agua
         this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 

@@ -44,7 +44,7 @@ public class EntityEvents {
 
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                    cap.removeDmzAlignment(5);
+                    cap.removeDmzAlignment(5); //Remover puntos te hace maligno
                 });
 
                 player.sendSystemMessage(Component.literal("Ahora eres maligno"));

@@ -24,9 +24,9 @@ public class NamekWarrior02Entity extends NamekianEntity {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 2000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 500.5f)
+                .add(Attributes.ATTACK_DAMAGE, 750.5D)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
-                .add(Attributes.MOVEMENT_SPEED, 0.22F).build();
+                .add(Attributes.MOVEMENT_SPEED, 0.25F).build();
     }
 
     @Override

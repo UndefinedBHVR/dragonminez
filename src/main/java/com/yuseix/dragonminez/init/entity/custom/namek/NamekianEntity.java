@@ -20,7 +20,7 @@ public class NamekianEntity extends PathfinderMob {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 200.5f)
+                .add(Attributes.ATTACK_DAMAGE, 450.5f)
                 .add(Attributes.ATTACK_SPEED, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.22F).build();
     }
