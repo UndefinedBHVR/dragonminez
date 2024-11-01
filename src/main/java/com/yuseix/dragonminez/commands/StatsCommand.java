@@ -123,7 +123,8 @@ public class StatsCommand {
 
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
-                        
+                        player.heal((float) maxVIDA);
+
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
                                         .append(Component.translatable("command.dmzstats.constitution")).append(" ")
@@ -221,7 +222,7 @@ public class StatsCommand {
 
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
-
+                        player.heal((float) maxVIDA);
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
                                         .append(Component.translatable("command.dmzstats.constitution")).append(" ")
@@ -323,6 +324,7 @@ public class StatsCommand {
 
                         maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        player.heal((float) maxVIDA);
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
