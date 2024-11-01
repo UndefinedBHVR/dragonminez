@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.custom.namek;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -52,6 +53,12 @@ public class SoldierEntity extends Mob {
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 
+    }
+
+
+    @Override
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
+        return false;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -40,6 +41,10 @@ public class NamekianEntity extends PathfinderMob {
         return true;
     }
 
+    @Override
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, DamageSource pSource) {
+        return false;
+    }
     @Override
     public void checkDespawn() {
     }
