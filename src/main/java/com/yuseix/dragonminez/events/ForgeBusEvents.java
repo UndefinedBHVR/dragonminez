@@ -2,10 +2,7 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.commands.LocationsCommand;
-import com.yuseix.dragonminez.commands.ResetCharacterCommand;
-import com.yuseix.dragonminez.commands.StatsCommand;
-import com.yuseix.dragonminez.commands.ZPointsCommand;
+import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.network.C2S.MenuC2S;
@@ -163,6 +160,7 @@ public final class ForgeBusEvents {
         new ZPointsCommand(event.getDispatcher());
         new StatsCommand(event.getDispatcher());
         new ResetCharacterCommand(event.getDispatcher());
+        new AlignmentCommand(event.getDispatcher());
         new LocationsCommand(event.getDispatcher(), new StructuresCapability());
 
         ConfigCommand.register(event.getDispatcher());

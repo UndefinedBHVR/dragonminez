@@ -145,6 +145,8 @@ public class MoroSoldierEntity extends SoldierEntity implements GeoEntity, Range
                 this.setNoGravity(false);
 
             }
+        } else {
+            this.setNoGravity(false);
         }
 
 

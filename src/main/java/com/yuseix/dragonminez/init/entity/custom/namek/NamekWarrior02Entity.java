@@ -74,6 +74,8 @@ public class NamekWarrior02Entity extends NamekianEntity {
                 this.setNoGravity(false);
 
             }
+        } else {
+            this.setNoGravity(false);
         }
 
     }

@@ -142,6 +142,8 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
                 this.setNoGravity(false);
 
             }
+        } else {
+            this.setNoGravity(false);
         }
 
 
