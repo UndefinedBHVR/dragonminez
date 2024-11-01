@@ -44,7 +44,7 @@ public class EntityEvents {
 
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                    cap.setDmzAlignment("Evil");
+                    cap.removeDmzAlignment(5);
                 });
 
                 player.sendSystemMessage(Component.literal("Ahora eres maligno"));

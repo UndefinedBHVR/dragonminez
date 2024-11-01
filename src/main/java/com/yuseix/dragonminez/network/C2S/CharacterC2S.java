@@ -55,11 +55,7 @@ public class CharacterC2S {
                             }
                             break;
                         case "dmzAlignment":
-                            if (packet.cantidad == 0) {
-                                playerstats.setDmzAlignment("Good");
-                            } else {
-                                playerstats.setDmzAlignment("Evil");
-                            }
+                            playerstats.setDmzAlignment(packet.cantidad);
                             break;
                         case "BodyType":
                             playerstats.setBodytype(packet.cantidad);

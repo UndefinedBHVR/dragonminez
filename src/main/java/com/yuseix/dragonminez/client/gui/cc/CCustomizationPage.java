@@ -860,15 +860,26 @@ public class CCustomizationPage extends Screen {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            if(cap.getDmzAlignment().equals("Good")){
+            if(cap.getDmzAlignment() > 50){
                 this.botonAlignmentRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 1));
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 50));
                     this.removeWidget(botonAlignmentRight);
                     this.removeWidget(botonAlignmentLeft);
                 }));
-            }else {
+            }else if(cap.getDmzAlignment() == 50){
                 this.botonAlignmentLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 100));
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                }));
+                this.botonAlignmentRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 0));
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                }));
+            } else {
+                this.botonAlignmentLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 50));
                     this.removeWidget(botonAlignmentRight);
                     this.removeWidget(botonAlignmentLeft);
                 }));
@@ -1456,18 +1467,20 @@ public class CCustomizationPage extends Screen {
             anchoTexto = 56;
             pGuiGraphics.drawString(font, Component.literal("Alignment").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 52, 0xFFDEDE);
 
-            if(cap.getDmzAlignment().equals("Good")){
+            if(cap.getDmzAlignment() > 50){
                 anchoTexto = 70;
                 drawStringWithBorder(pGuiGraphics, font, Component.literal("Good"), anchoTexto, alturaTexto - 35, 0x1EFFD9, 0x1E6CFF);
 
+            } else if (cap.getDmzAlignment() == 50){
+                anchoTexto = 67;
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Neutral"), anchoTexto, alturaTexto - 35, 0xeaa8fe,0x561f66);
+
             } else {
                 anchoTexto = 74;
-                drawStringWithBorder(pGuiGraphics, font, Component.literal("Evil"), anchoTexto, alturaTexto - 35, 0xFF3D72,0xF61414);
-
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Evil"), anchoTexto, alturaTexto - 35, 0xFF3D72, 0xF61414);
             }
 
-
-            //COLOR DE KI
+                //COLOR DE KI
             anchoTexto = 47;
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);

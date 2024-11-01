@@ -158,8 +158,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var alignment = playerstats.getDmzAlignment();
             var raza = playerstats.getRace();
 
-            if(alignment.equals("Good")){
+            if(alignment > 50){
                 drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x63FFFF);
+            }else if(alignment == 50){
+                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xeaa8fe);
             }else {
                 drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFA5252);
             }
