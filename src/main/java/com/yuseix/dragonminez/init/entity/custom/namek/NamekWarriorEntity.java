@@ -43,6 +43,37 @@ public class NamekWarriorEntity extends NamekianEntity {
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
 
     }
+    @Override
+    public void tick() {
+        super.tick();
 
+        LivingEntity target = this.getTarget();
+        if (target != null) {
+            double heightDifference = target.getY() - this.getY();
+
+            // Si el jugador está muy alto, activa el modo de vuelo
+            if (heightDifference > 1.5) {
+                this.setNoGravity(true);
+
+                // Mantén la misma posición horizontal que el jugador
+                double targetX = target.getX();
+                double targetY = target.getY()-1.5; // Ajusta esto según la altura deseada
+                double targetZ = target.getZ();
+
+                // Configura la posición deseada en el aire con control de altura
+                this.getMoveControl().setWantedPosition(targetX, targetY, targetZ, 1.0);
+
+                // Aplica movimiento vertical para flotar
+                double verticalSpeed = 0.01; // Ajusta este valor para que el movimiento sea más suave
+                this.setDeltaMovement(this.getDeltaMovement().add(0, verticalSpeed, 0));
+
+            } else {
+                // Si el jugador no está tan alto, mantén a la entidad en el suelo
+                this.setNoGravity(false);
+
+            }
+        }
+
+    }
 
 }
