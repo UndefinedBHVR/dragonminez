@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
+import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -14,7 +15,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.InputEvent;
@@ -51,6 +54,19 @@ public class EntityEvents {
 
             }
         }
+        //Aca es para ganar puntos de bondad xxx claro pe tilin
+        if(event.getEntity() instanceof SoldierEntity || event.getEntity() instanceof Monster){
+
+            if(event.getSource().getEntity() instanceof Player){
+                Player player = (Player) event.getSource().getEntity();
+
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                    cap.addDmzAlignment(5); //Remover puntos te hace maligno
+                });
+
+            }
+        }
+
     }
 
 }
