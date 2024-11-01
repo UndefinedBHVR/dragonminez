@@ -35,6 +35,8 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
 
     public FriezaSoldierEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setPersistenceRequired();
+
     }
 
     public static AttributeSupplier setAttributes() {

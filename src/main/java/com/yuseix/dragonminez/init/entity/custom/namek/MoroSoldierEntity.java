@@ -38,6 +38,8 @@ public class MoroSoldierEntity extends SoldierEntity implements GeoEntity, Range
 
     public MoroSoldierEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.setPersistenceRequired();
+
     }
 
     public static AttributeSupplier setAttributes() {

@@ -30,6 +30,9 @@ public class SoldierEntity extends Mob {
 
     public SoldierEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+
+        this.setPersistenceRequired();
+
     }
 
     public static AttributeSupplier setAttributes() {
@@ -51,5 +54,8 @@ public class SoldierEntity extends Mob {
 
     }
 
-
+    @Override
+    public boolean isPersistenceRequired() {
+        return true;
+    }
 }
