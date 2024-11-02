@@ -1467,11 +1467,11 @@ public class CCustomizationPage extends Screen {
             anchoTexto = 56;
             pGuiGraphics.drawString(font, Component.literal("Alignment").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 52, 0xFFDEDE);
 
-            if(cap.getDmzAlignment() > 50){
+            if(cap.getDmzAlignment() > 60){
                 anchoTexto = 70;
                 drawStringWithBorder(pGuiGraphics, font, Component.literal("Good"), anchoTexto, alturaTexto - 35, 0x1EFFD9, 0x1E6CFF);
 
-            } else if (cap.getDmzAlignment() == 50){
+            } else if (cap.getDmzAlignment() > 40){
                 anchoTexto = 67;
                 drawStringWithBorder(pGuiGraphics, font, Component.literal("Neutral"), anchoTexto, alturaTexto - 35, 0xeaa8fe,0x561f66);
 

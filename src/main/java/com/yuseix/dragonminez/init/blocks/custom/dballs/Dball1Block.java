@@ -96,7 +96,12 @@ public class Dball1Block extends BaseEntityBlock {
             removeAllDballBlocks(pLevel, pPos);
 
             if (!pLevel.isClientSide) {
+                ServerLevel serverLevel = (ServerLevel) pLevel;
+                long currentTime = pLevel.getDayTime();
+                serverLevel.setDayTime(16000);
+
                 ShenlongEntity dragonEntity = new ShenlongEntity(MainEntity.SHENLONG.get(),pLevel);
+                dragonEntity.setInvokingTime(currentTime);
                 dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
                 pLevel.addFreshEntity(dragonEntity);
                 pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);

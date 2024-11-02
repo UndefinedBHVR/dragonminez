@@ -60,6 +60,12 @@ public class ModMessages {
                 .encoder(KarinC2S::toBytes)
                 .consumerMainThread(KarinC2S::handle)
                 .add();
+        net.messageBuilder(ShenlongC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ShenlongC2S::new)
+                .encoder(ShenlongC2S::toBytes)
+                .consumerMainThread(ShenlongC2S::handle)
+                .add();
+
         net.messageBuilder(InvocarAuraC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(InvocarAuraC2S::new)
                 .encoder(InvocarAuraC2S::toBytes)

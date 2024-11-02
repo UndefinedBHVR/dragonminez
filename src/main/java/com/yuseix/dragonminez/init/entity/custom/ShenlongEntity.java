@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.client.gui.entity.KarinMenu;
+import com.yuseix.dragonminez.client.gui.entity.ShenlongMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,6 +23,7 @@ import software.bernie.geckolib.core.animation.AnimatableManager;
 
 public class ShenlongEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    private long invokingTime;
 
     public ShenlongEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -29,7 +31,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 5000.0D)
+                .add(Attributes.MAX_HEALTH, 25000.0D)
                 .add(Attributes.ATTACK_DAMAGE, 10.5f)
                 .add(Attributes.ATTACK_SPEED, 0.5f)
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
@@ -46,11 +48,19 @@ public class ShenlongEntity extends Mob implements GeoEntity {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (this.level().isClientSide) {
-            //Minecraft.getInstance().setScreen(new KarinMenu());
+            Minecraft.getInstance().setScreen(new ShenlongMenu());
 
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
+    }
+
+    public void setInvokingTime(long time) {
+        this.invokingTime = time;
+    }
+
+    public long getInvokingTime() {
+        return invokingTime;
     }
 
     @Override
