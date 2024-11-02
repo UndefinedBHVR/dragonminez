@@ -17,11 +17,11 @@ import java.util.function.Supplier;
 public enum ModArmorMaterials implements ArmorMaterial {
 
     KIKONO("kikono", 37, (EnumMap) Util.make(new EnumMap(ArmorItem.Type.class), (p_266655_) -> {
-        p_266655_.put(ArmorItem.Type.BOOTS, 3);
-        p_266655_.put(ArmorItem.Type.LEGGINGS, 6);
-        p_266655_.put(ArmorItem.Type.CHESTPLATE, 8);
-        p_266655_.put(ArmorItem.Type.HELMET, 3);
-    }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 2.2F, 0.1F, () -> {
+        p_266655_.put(ArmorItem.Type.BOOTS, 16);
+        p_266655_.put(ArmorItem.Type.LEGGINGS, 26);
+        p_266655_.put(ArmorItem.Type.CHESTPLATE, 35);
+        p_266655_.put(ArmorItem.Type.HELMET, 8);
+    }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 5F, 0.1F, () -> {
         return Ingredient.of(new ItemLike[]{MainItems.KIKONO_SHARD.get()});
     });
 
