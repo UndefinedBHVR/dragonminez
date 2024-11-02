@@ -210,7 +210,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                         }
 
                         if(isAuraOn){
-                            renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
+                            //renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
                         }
                         break;
                     case 1:

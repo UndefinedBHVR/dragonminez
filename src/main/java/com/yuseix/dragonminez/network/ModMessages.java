@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.network;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.C2S.*;
+import com.yuseix.dragonminez.network.S2C.InvocarAuraS2C;
 import com.yuseix.dragonminez.network.S2C.MenuS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.ZPointsS2C;
@@ -59,7 +60,11 @@ public class ModMessages {
                 .encoder(KarinC2S::toBytes)
                 .consumerMainThread(KarinC2S::handle)
                 .add();
-
+        net.messageBuilder(InvocarAuraC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(InvocarAuraC2S::new)
+                .encoder(InvocarAuraC2S::toBytes)
+                .consumerMainThread(InvocarAuraC2S::handle)
+                .add();
         //ENVIAR DATOS AL CLIENTE
         net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ZPointsS2C::new)
@@ -75,6 +80,11 @@ public class ModMessages {
                 .decoder(MenuS2C::new)
                 .encoder(MenuS2C::toBytes)
                 .consumerMainThread(MenuS2C::handle)
+                .add();
+        net.messageBuilder(InvocarAuraS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(InvocarAuraS2C::new)
+                .encoder(InvocarAuraS2C::toBytes)
+                .consumerMainThread(InvocarAuraS2C::handle)
                 .add();
     }
 

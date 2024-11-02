@@ -187,7 +187,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                         }
 
                         if(isAuraOn){ //Si el jugador esta activando el Aura
-                            renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.15F, colorAura);
+                            //renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.15F, colorAura);
                         }
                         break;
                 }

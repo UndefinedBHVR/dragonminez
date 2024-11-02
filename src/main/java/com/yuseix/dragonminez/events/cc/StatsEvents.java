@@ -3,7 +3,9 @@ package com.yuseix.dragonminez.events.cc;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.InvocarAuraC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -12,17 +14,21 @@ import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.Random;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class StatsEvents {
@@ -135,15 +141,14 @@ public class StatsEvents {
                         chargeTimer = 0;
                     }
                 }
+
             });
 
 
         }
 
-
-
-
     }
+
 
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
@@ -229,14 +234,28 @@ public class StatsEvents {
         // Detecta si la tecla KI_CHARGE está presionada o liberada
         if (Keys.KI_CHARGE.isDown()) {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn",1));
+            ModMessages.sendToServer(new InvocarAuraC2S());
+
         } else {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn",0));
+            ModMessages.sendToServer(new InvocarAuraC2S());
         }
 
         // Detecta si la tecla ACTION_KEY está presionada o liberada
         isActionKeyPressed = Keys.ACTION_KEY.isDown();
     }
 
+    @SubscribeEvent
+    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            UUID playerId = player.getUUID();
+            AuraEntity aura = InvocarAuraC2S.playerAuraMap.remove(playerId); // Elimina el aura del mapa
+
+            if (aura != null) {
+                aura.remove(Entity.RemovalReason.DISCARDED); // Remueve el aura del mundo si aún existe
+            }
+        }
+    }
 
     private static double getEnergyToRemove(int level) {
         double energyRemovalValue;

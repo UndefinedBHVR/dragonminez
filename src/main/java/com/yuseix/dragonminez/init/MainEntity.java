@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Animal;
@@ -129,40 +130,47 @@ public class MainEntity {
     //FAKEPLAYERS
     public static final RegistryObject<EntityType<FPBioAndroidEntity>> FP_BIOANDROIDE =
             ENTITY_TYPES_REGISTER.register("fp_bioandroide",
-                    () -> EntityType.Builder.of(FPBioAndroidEntity::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(FPBioAndroidEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_bioandroide").toString())
             );
     public static final RegistryObject<EntityType<FPDemonColdEntity>> FP_DEMONCOLD =
             ENTITY_TYPES_REGISTER.register("fp_demoncold",
-                    () -> EntityType.Builder.of(FPDemonColdEntity::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(FPDemonColdEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_demoncold").toString())
             );
     public static final RegistryObject<EntityType<FPHumanSaiyanEntity>> FP_HUMANSAIYAN =
             ENTITY_TYPES_REGISTER.register("fp_humansaiyan",
-                    () -> EntityType.Builder.of(FPHumanSaiyanEntity::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(FPHumanSaiyanEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_humansaiyan").toString())
             );
     public static final RegistryObject<EntityType<FPMajinGordEntity>> FP_MAJINGORDO =
             ENTITY_TYPES_REGISTER.register("fp_majingordo",
-                    () -> EntityType.Builder.of(FPMajinGordEntity::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(FPMajinGordEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_majingordo").toString())
             );
     public static final RegistryObject<EntityType<FPNamekianEntity>> FP_NAMEK =
             ENTITY_TYPES_REGISTER.register("fp_namek",
-                    () -> EntityType.Builder.of(FPNamekianEntity::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(FPNamekianEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_namek").toString())
             );
     public static final RegistryObject<EntityType<FPSlimEntity>> FP_SLIMSAIYANHUM =
             ENTITY_TYPES_REGISTER.register("fp_slim",
-                    () -> EntityType.Builder.of(FPSlimEntity::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(FPSlimEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_slim").toString())
             );
+    public static final RegistryObject<EntityType<AuraEntity>> AURA =
+            ENTITY_TYPES_REGISTER.register("aura",
+                    () -> EntityType.Builder.of(AuraEntity::new, MobCategory.MISC)
+                            .sized(1.0f, 1.0f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "aura").toString())
+            );
+
     @SubscribeEvent
     public static void registerSpawnPlacements(SpawnPlacementRegisterEvent e) {
         e.register(MainEntity.DINO1.get(),

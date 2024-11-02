@@ -83,6 +83,7 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new SlimHumanSaiyanModel<>(context.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
             EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
             EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
+            EntityRenderers.register(MainEntity.AURA.get(), AuraRenderer::new);
 
 
 
@@ -179,6 +180,7 @@ public class ModBusEvents {
         event.put(MainEntity.FP_SLIMSAIYANHUM.get(), FPSlimEntity.setAttributes());
         event.put(MainEntity.FP_NAMEK.get(), FPNamekianEntity.setAttributes());
         event.put(MainEntity.FP_MAJINGORDO.get(), FPMajinGordEntity.setAttributes());
+        event.put(MainEntity.AURA.get(), AuraEntity.setAttributes());
 
     }
 

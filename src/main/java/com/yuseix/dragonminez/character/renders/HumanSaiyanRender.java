@@ -212,7 +212,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                         }
 
                         if(isAuraOn){
-                            renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
+                            //renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
                         }
                         break;
                 }

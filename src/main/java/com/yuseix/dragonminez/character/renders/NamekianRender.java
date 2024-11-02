@@ -190,7 +190,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
                         renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                         if(isAuraOn){
-                            renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
+                            //renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.10F, colorAura);
                         }
                         break;
 
