@@ -195,21 +195,21 @@ public class KarinMenu extends Screen {
         switch (PageOption){
             case "kinton":
                 //Aceptar
-                this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.master_korin.accept"), wa -> {
+                this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.menu.accept"), wa -> {
                     ModMessages.sendToServer(new KarinC2S(1));
 
                     this.minecraft.setScreen(null);
 
                 }));
                 //Rechazar
-                this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),Component.translatable("lines.master_korin.decline"), wa -> {
+                this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),Component.translatable("lines.menu.decline"), wa -> {
                     this.minecraft.setScreen(null);
                 }));
                 break;
 
             case "senzu":
                 //Aceptar
-                this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.master_korin.accept"), wa -> {
+                this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),Component.translatable("lines.menu.accept"), wa -> {
 
                     ModMessages.sendToServer(new KarinC2S(2)); //Recibir senzus
                     ModMessages.sendToServer(new KarinC2S(3)); //Poner tiempo de espera en los datos de jugador
@@ -218,7 +218,7 @@ public class KarinMenu extends Screen {
 
                 }));
                 //Rechazar
-                this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),Component.translatable("lines.master_korin.decline"), wa -> {
+                this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),Component.translatable("lines.menu.decline"), wa -> {
                     this.minecraft.setScreen(null);
                 }));
                 break;

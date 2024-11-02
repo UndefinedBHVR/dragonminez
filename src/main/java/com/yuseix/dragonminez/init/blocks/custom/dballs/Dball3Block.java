@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.init.blocks.entity.Dball3BlockEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -94,7 +95,12 @@ public class Dball3Block extends BaseEntityBlock {
             removeAllDballBlocks(pLevel, pPos);
 
             if (!pLevel.isClientSide) {
+                ServerLevel serverLevel = (ServerLevel) pLevel;
+                long currentTime = pLevel.getDayTime();
+                serverLevel.setDayTime(16000);
+
                 ShenlongEntity dragonEntity = new ShenlongEntity(MainEntity.SHENLONG.get(),pLevel);
+                dragonEntity.setInvokingTime(currentTime);
                 dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
                 pLevel.addFreshEntity(dragonEntity);
                 pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);

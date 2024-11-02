@@ -15,6 +15,8 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_DAILY_COOLDOWN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_SHENRON_WISH;
+    public static final ForgeConfigSpec.ConfigValue<Integer> CAPSULE_SHENRON_WISH;
 
 
 
@@ -42,8 +44,8 @@ public class DMZGeneralConfig {
 
         BUILDER.push("General Configs");
 
-        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 200)")
-                .defineInRange("Seconds: ", 10, 1, 200);
+        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 64)")
+                .defineInRange("Seconds: ", 10, 1, 64);
 
         SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Korin will give (Min: 1 / Max: 10)")
                 .defineInRange("Number: ", 5, 1, 10);
@@ -53,6 +55,14 @@ public class DMZGeneralConfig {
 
 
         BUILDER.pop();
+
+        BUILDER.push("Shenron / Porunga Wishes");
+
+        SENZU_SHENRON_WISH = BUILDER.comment("Number of Senzu Beans Shenron will give (Min: 1 / Max: 64)")
+                .defineInRange("Number: ", 5, 1, 64);
+
+        CAPSULE_SHENRON_WISH = BUILDER.comment("Number of Capsules Shenron will give (Min: 1 / Max: 64)")
+                .defineInRange("Number: ", 3, 1, 64);
 
         SPEC = BUILDER.build();
     }

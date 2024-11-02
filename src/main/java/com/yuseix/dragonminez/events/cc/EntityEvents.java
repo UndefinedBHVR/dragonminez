@@ -50,7 +50,7 @@ public class EntityEvents {
                     cap.removeDmzAlignment(5); //Remover puntos te hace maligno
                 });
 
-                player.sendSystemMessage(Component.literal("Ahora eres maligno"));
+                player.displayClientMessage(Component.translatable("lines.alignment.evil"), true);
 
             }
         }

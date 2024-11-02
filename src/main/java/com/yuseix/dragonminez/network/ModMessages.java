@@ -59,6 +59,11 @@ public class ModMessages {
                 .encoder(KarinC2S::toBytes)
                 .consumerMainThread(KarinC2S::handle)
                 .add();
+        net.messageBuilder(ShenlongC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(ShenlongC2S::new)
+                .encoder(ShenlongC2S::toBytes)
+                .consumerMainThread(ShenlongC2S::handle)
+                .add();
 
         //ENVIAR DATOS AL CLIENTE
         net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)

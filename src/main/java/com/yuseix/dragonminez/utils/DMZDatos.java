@@ -291,26 +291,26 @@ public class DMZDatos {
             case "Warrior":
                 switch (raza) {
                     case 0: // Humano
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZHumanConfig.MULTIPLIER_CON_WARRIOR.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZHumanConfig.MULTIPLIER_CON_WARRIOR.get()));
                         break;
                     case 1: // Saiyan
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZSaiyanConfig.MULTIPLIER_CON_WARRIOR.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZSaiyanConfig.MULTIPLIER_CON_WARRIOR.get()));
                         break;
 
                     case 2: // Namek
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZNamekConfig.MULTIPLIER_CON_WARRIOR.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZNamekConfig.MULTIPLIER_CON_WARRIOR.get()));
                         break;
 
                     case 3: // Bioandroide
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZBioAndroidConfig.MULTIPLIER_CON_WARRIOR.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZBioAndroidConfig.MULTIPLIER_CON_WARRIOR.get()));
                         break;
 
                     case 4: // Cold Demon
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZColdDemonConfig.MULTIPLIER_CON_WARRIOR.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZColdDemonConfig.MULTIPLIER_CON_WARRIOR.get()));
                         break;
 
                     case 5: // Majin
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZMajinConfig.MULTIPLIER_CON_WARRIOR.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZMajinConfig.MULTIPLIER_CON_WARRIOR.get()));
                         break;
 
                     default:
@@ -321,26 +321,26 @@ public class DMZDatos {
             case "Spiritualist":
                 switch (raza) {
                     case 0: // Humano
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZHumanConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZHumanConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
                         break;
                     case 1: // Saiyan
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZSaiyanConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZSaiyanConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
                         break;
 
                     case 2: // Namek
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZNamekConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZNamekConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
                         break;
 
                     case 3: // Bioandroide
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZBioAndroidConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZBioAndroidConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
                         break;
 
                     case 4: // Cold Demon
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZColdDemonConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZColdDemonConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
                         break;
 
                     case 5: // Majin
-                        maxCon = Math.round(vidaMC + ((double) StatCON * DMZMajinConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
+                        maxCon = Math.round(vidaMC + (1.2 * (double) StatCON * DMZMajinConfig.MULTIPLIER_CON_SPIRITUALIST.get()));
                         break;
 
                     default:
