@@ -52,6 +52,11 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.DBALL5_NAMEK_BLOCK_ITEM);
         simpleItem(MainItems.DBALL6_NAMEK_BLOCK_ITEM);
         simpleItem(MainItems.DBALL7_NAMEK_BLOCK_ITEM);
+        simpleItem(MainItems.RADAR_PIECE);
+        simpleItem(MainItems.T1_RADAR_CHIP);
+        simpleItem(MainItems.T2_RADAR_CHIP);
+        simpleItem(MainItems.T1_RADAR_CPU);
+        simpleItem(MainItems.T2_RADAR_CPU);
 
         //Comidas
         simpleItem(MainItems.COMIDA_DINO_RAW);

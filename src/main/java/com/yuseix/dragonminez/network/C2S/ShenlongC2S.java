@@ -44,7 +44,7 @@ public class ShenlongC2S {
                     case 4 -> player.getInventory().add(new ItemStack(MainItems.CAPSULA_AZUL.get(), DMZGeneralConfig.CAPSULE_SHENRON_WISH.get()));
                     case 5 -> player.getInventory().add(new ItemStack(MainItems.CAPSULA_ANARANJADA.get(), DMZGeneralConfig.CAPSULE_SHENRON_WISH.get()));
                     case 6 -> player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_SHENRON_WISH.get()));
-                    case 7 -> player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get()));
+                    case 7 -> player.getInventory().add(new ItemStack(MainItems.T2_RADAR_CPU.get()));
                 }
 
                 // Despawnear la entidad Shenlong en el mundo del jugador

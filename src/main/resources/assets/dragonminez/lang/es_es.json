@@ -93,6 +93,11 @@
   "item.dragonminez.namekdball_radar.tooltip": "\u00A77¡Busquemos las Bolas del Dragón de Namek!",
   "item.dragonminez.healing_liquid_bucket": "Cubeta de Líquido Curativo",
   "item.dragonminez.namek_water_bucket": "Cubeta de Agua de Namek",
+  "item.dragonminez.radar_piece": "Pieza de Radar",
+  "item.dragonminez.t1_radar_chip": "Chip de Radar (Tierra)",
+  "item.dragonminez.t2_radar_chip": "Chip de Radar (Namek)",
+  "item.dragonminez.t1_radar_cpu": "CPU de Radar (Tierra)",
+  "item.dragonminez.t2_radar_cpu": "CPU de Radar (Namek)",
 
   "itemGroup.dragonminez.blocks": "Bloques DMZ",
   "itemGroup.dragonminez.items": "Objetos DMZ",

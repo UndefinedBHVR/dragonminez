@@ -93,6 +93,11 @@
   "item.dragonminez.namekdball_radar.tooltip": "\u00A77¡Busquemos las Esferas del Dragón de Namekuseín!",
   "item.dragonminez.healing_liquid_bucket": "Cubo de Líquido Curativo",
   "item.dragonminez.namek_water_bucket": "Cubo de Agua de Namekuseín",
+  "item.dragonminez.radar_piece": "Pieza de Radar",
+  "item.dragonminez.t1_radar_chip": "Chip de Radar (Tierra)",
+  "item.dragonminez.t2_radar_chip": "Chip de Radar (Namekuseín)",
+  "item.dragonminez.t1_radar_cpu": "CPU de Radar (Tierra)",
+  "item.dragonminez.t2_radar_cpu": "CPU de Radar (Namekuseín)",
 
   "itemGroup.dragonminez.blocks": "Bloques DMZ",
   "itemGroup.dragonminez.items": "Objetos DMZ",
