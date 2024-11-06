@@ -27,7 +27,12 @@ public class PlayerHudOverlay implements RenderEntityInv {
     private static int releaseUpdateSpeed = 2 * (20); // Velocidad de actualización en ticks
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
-        assert Minecraft.getInstance().player != null;
+
+        if (Minecraft.getInstance().options.renderDebug) {
+            // Si la pantalla de depuración F3 está activada, no renderizar el HUD
+            return;
+        }
+
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
         int vidarestante = (int) Minecraft.getInstance().player.getHealth(); //I'm feeling lonely, oh I wish I had a lover that could hold me
         // Now i'm crying in my room, so sceptical of love, but still I want it more, more, MOOOORE
@@ -75,9 +80,6 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     1,
                     190,
                     12);
-            /* TODO: Hacer que las barras de Ki (Vació para el texto "KI" y Lleno para el rellenado) tomen el color del aura.
-                De esa forma, si te transformas y cambia el color de tu aura, también lo hará el HUD del Ki. (Por ejemplo, azul en base y amarillo en SSJ)
-             */
             //Ki vacio
             guiGraphics.blit(hud,
                     51,

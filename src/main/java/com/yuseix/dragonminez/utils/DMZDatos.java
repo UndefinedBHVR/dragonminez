@@ -693,6 +693,32 @@ public class DMZDatos {
 
         return regenki;
     }
+    public static int calcularMulti(int raza, int transformacion){
+        var total = 0;
+
+        switch (raza){
+            case 0:
+                if(transformacion == 0){
+                }
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            default:
+                break;
+        }
+
+        return total;
+
+
+    }
 
     public static int calcularCargaKi(int EnergiaTotal, String clase){
         var porcentaje = 0;
