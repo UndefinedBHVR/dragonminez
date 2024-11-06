@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.character.models.hair;
 
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -267,17 +269,38 @@ public class VegetaHairModel extends HumanoidModel<AbstractClientPlayer> {
 		//super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 		float random = (float) Math.random();
 
-		this.hair7.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.02F);
-		this.hair12.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.035f)*0.02F);
-		this.hair1.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.02F);
-		this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.035f)*0.02F);
-		this.hair8.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.02F);
-		this.hair9.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.02F);
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-		this.hair26.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.035f)*-0.02F);
-		this.hair29.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.035f)*-0.02F);
-		this.hair28.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.035f)*-0.02F);
+			var auraOn = cap.isAuraOn();
 
+			if(auraOn){
+				var cargaVelocidad = 0.22f;
+				this.hair7.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.hair12.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.hair1.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.hair8.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.hair9.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+
+				this.hair26.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
+				this.hair29.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
+				this.hair28.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
+			} else {
+				float velocidad = 0.035f;
+
+				this.hair7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.hair12.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.hair1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.hair8.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.hair9.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+
+				this.hair26.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
+				this.hair29.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
+				this.hair28.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
+			}
+
+		});
 	}
 
 	@Override

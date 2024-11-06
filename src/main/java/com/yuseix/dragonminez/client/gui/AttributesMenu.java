@@ -106,7 +106,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var energy = playerstats.getEnergy();
 
             anchoTexto = 17;
-            alturaTexto = (this.height / 2) + 2;
+            alturaTexto = (this.height / 2) + 1;
 
             int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
             var baseCost =  (int) Math.round(((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
@@ -270,14 +270,12 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             //VARIABLES:
             //NIVEL
-            anchoTexto = 75;
+            anchoTexto = 70;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
             //TPS
-            if (TPS < 99999999) {
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
-            } else {
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto+3, alturaTexto + 11, 0xFFE593);
-            }
+
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
+
             //FORMA
             drawStringWithBorder2(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
@@ -307,7 +305,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             graphics.drawString(font, Component.literal("CON:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xD71432);
             graphics.drawString(font, Component.literal("PWR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, 0xD71432);
             graphics.drawString(font, Component.literal("ENE:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xD71432);
-            graphics.drawString(font, Component.literal("TPC:").withStyle(ChatFormatting.BOLD),anchoTexto - 7, alturaTexto + 64, 0x2BFFE2);
+            graphics.drawString(font, Component.literal("TPC:").withStyle(ChatFormatting.BOLD),anchoTexto - 4, alturaTexto + 64, 0x2BFFE2);
 
             var strdefault = playerstats.getStrength();
             var defdefault = playerstats.getDefense();
@@ -322,11 +320,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
             anchoTexto = 70;
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
 
             Component Multiplier = Component.empty()
                     .append(Component.literal(String.valueOf(finalCost)))
@@ -334,7 +332,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                     .append(Component.literal(String.valueOf(multiplicador)))
                     .append(Component.literal(".0)"))
                     );
-
+            anchoTexto = 65;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(finalCost)), anchoTexto, alturaTexto + 64, 0xFFCE41);
             drawStringWithBorder2(graphics, font, Component.literal("x" + multiplicador), anchoTexto -7, alturaTexto + 76, 0x2BFFE2);
 
@@ -435,18 +433,18 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
 
-        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde);
-        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde);
-        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde);
-        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde);
-        guiGraphics.drawString(font, texto, x, y, ColorTexto);
+        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y, ColorTexto, false);
     }
 
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
         drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
     public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
-        drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
+        drawStringWithBorder2(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
     @Override
     public boolean isPauseScreen() {

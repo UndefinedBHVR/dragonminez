@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.character.models.hair;
 
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -265,23 +267,54 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 		//super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 		float random = (float) Math.random();
 
-		this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
-		this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*0.02F);
-		this.pelo3.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
-		//this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
-		//this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
 
-		this.pelo15.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
-		this.pelo14.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
-		this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
-		this.pelo6.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
-		this.pelo10.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*0.01F);
 
-		this.pelo16.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*-0.01F);
-		this.pelo17.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*-0.01F);
-		this.pelo18.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*-0.01F);
-		this.pelo21.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*-0.01F);
-		this.pelo22.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.03f)*-0.01F);
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+			var auraOn = cap.isAuraOn();
+
+			if(auraOn){
+				var cargaVelocidad = 0.35f;
+				this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.pelo3.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
+				//this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+				//this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+
+				this.pelo15.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.01F);
+				this.pelo14.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.01F);
+				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.01F);
+				this.pelo6.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.01F);
+				this.pelo10.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.01F);
+
+				this.pelo16.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.01F);
+				this.pelo17.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.01F);
+				this.pelo18.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.01F);
+				this.pelo21.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.01F);
+				this.pelo22.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.01F);
+
+			} else {
+				float velocidad = 0.04f;
+				this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.pelo3.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
+				//this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+				//this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*0.04f)*-0.02F);
+
+				this.pelo15.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.01F);
+				this.pelo14.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.01F);
+				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.01F);
+				this.pelo6.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.01F);
+				this.pelo10.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.01F);
+
+				this.pelo16.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.01F);
+				this.pelo17.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.01F);
+				this.pelo18.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.01F);
+				this.pelo21.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.01F);
+				this.pelo22.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.01F);
+			}
+
+		});
 
 	}
 
