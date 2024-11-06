@@ -193,6 +193,16 @@ public final class MainItems {
     //DRAGON BALL RADAR
     public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
     public static final RegistryObject<Item> NAMEKDBALL_RADAR_ITEM = ITEM_REGISTER.register("namekdball_radar", NamekDragonBallRadarItem::new);
+    public static final RegistryObject<Item> RADAR_PIECE = ITEM_REGISTER.register("radar_piece",
+            () -> new Item(properties.stacksTo(16)));
+    public static final RegistryObject<Item> T1_RADAR_CHIP = ITEM_REGISTER.register("t1_radar_chip",
+            () -> new Item(properties.stacksTo(16)));
+    public static final RegistryObject<Item> T1_RADAR_CPU = ITEM_REGISTER.register("t1_radar_cpu",
+            () -> new Item(properties.stacksTo(16)));
+    public static final RegistryObject<Item> T2_RADAR_CHIP = ITEM_REGISTER.register("t2_radar_chip",
+            () -> new Item(properties.stacksTo(16)));
+    public static final RegistryObject<Item> T2_RADAR_CPU = ITEM_REGISTER.register("t2_radar_cpu",
+            () -> new Item(properties.stacksTo(16)));
 
     //NUBE VOLADORA
     public static final RegistryObject<Item> NUBE_ITEM = ITEM_REGISTER.register("flying_nimbus", FlyingNimbusItem::new);

@@ -61,7 +61,7 @@ public class EntityEvents {
                 Player player = (Player) event.getSource().getEntity();
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                    cap.addDmzAlignment(5); //Remover puntos te hace maligno
+                    cap.addDmzAlignment(2); //Remover puntos te hace maligno
                 });
 
             }

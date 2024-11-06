@@ -44,28 +44,43 @@ public class StatsC2S {
                     var vidaMC = 20;
                     var raza = playerstats.getRace();
                     var con = playerstats.getConstitution();
+                    int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                    int incrementoStats = packet.cantidad;
 
                     switch (packet.id) {
                         case 0:
-                            playerstats.addStrength(packet.cantidad);
+                            if (playerstats.getStrength() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getStrength();
+                            }
+                            playerstats.addStrength(incrementoStats);
                             break;
                         case 1:
-                            playerstats.addDefense(packet.cantidad);
+                            if (playerstats.getDefense() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getDefense();
+                            }
+                            playerstats.addDefense(incrementoStats);
                             break;
                         case 2:
-                            playerstats.addCon(packet.cantidad);
+                            if (playerstats.getConstitution() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getConstitution();
+                            }
+                            playerstats.addCon(incrementoStats);
 
                             var conMax = DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
-
                             playerstats.setCurStam(DMZDatos.calcularSTM(raza, conMax));
-
                             player.refreshDimensions();
                             break;
                         case 3:
-                            playerstats.addKipwr(packet.cantidad);
+                            if (playerstats.getKiPower() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getKiPower();
+                            }
+                            playerstats.addKipwr(incrementoStats);
                             break;
                         case 4:
-                            playerstats.addEnergy(packet.cantidad);
+                            if (playerstats.getEnergy() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getEnergy();
+                            }
+                            playerstats.addEnergy(incrementoStats);
                             break;
                         default:
                             System.out.println("Algo salio mal !");

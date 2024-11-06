@@ -24,7 +24,7 @@ public class DMZGeneralConfig {
         BUILDER.push("Configs for Attributes of DragonMineZ");
 
         MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 10000)")
-                .defineInRange("Attributes: ", 500, 100, 10000);
+                .defineInRange("Attributes: ", 1000, 100, 10000);
 
         BUILDER.pop();
 
