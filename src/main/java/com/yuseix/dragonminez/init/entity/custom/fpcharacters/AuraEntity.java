@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class AuraEntity extends Mob{
@@ -26,7 +27,8 @@ public class AuraEntity extends Mob{
 
     private static final EntityDataAccessor<Float> TRANSPARENCIA = SynchedEntityData.defineId(AuraEntity.class, EntityDataSerializers.FLOAT);
 
-    private UUID ownerUUID;
+    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(AuraEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+
 
     public AuraEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -37,6 +39,7 @@ public class AuraEntity extends Mob{
         this.entityData.define(RAZA, 0); // RAZA por defecto
         this.entityData.define(TIPO_AURA, 0); // Tipo de Ki
         this.entityData.define(TRANSPARENCIA, 0.15f); // Transparencia por defecto
+        this.entityData.define(OWNER_UUID, Optional.empty());
 
     }
 
@@ -76,20 +79,43 @@ public class AuraEntity extends Mob{
         this.entityData.set(TRANSPARENCIA, transparencia);
     }
 
+    public void setOwnerUUID(UUID uuid) {
+        this.entityData.set(OWNER_UUID, Optional.of(uuid));
+    }
+
+    public Player getOwner() {
+        Optional<UUID> uuidOptional = this.entityData.get(OWNER_UUID);
+        if (uuidOptional.isPresent() && this.level() instanceof ServerLevel) {
+            return ((ServerLevel) this.level()).getPlayerByUUID(uuidOptional.get());
+        }
+        return null;
+    }
+
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
     }
 
-    public void setOwnerUUID(UUID ownerUUID) {
-        this.ownerUUID = ownerUUID;
-    }
+
 
     @Override
     public void tick() {
         super.tick();
+        Player owner = getOwner();
+        if (owner != null) {
+            double targetX = owner.getX();
+            double targetY = owner.getY();
+            double targetZ = owner.getZ();
 
+            // Usa interpolación para acercar la posición de la aura al jugador
+            double lerpFactor = 1.0; // Aumenta el factor para que sea más rápido; valores cercanos a 1.0 hacen que el movimiento sea casi instantáneo
+            double newX = this.getX() + (targetX - this.getX()) * lerpFactor;
+            double newY = this.getY() + (targetY - this.getY()) * lerpFactor;
+            double newZ = this.getZ() + (targetZ - this.getZ()) * lerpFactor;
+
+            this.setPos(newX, newY, newZ);
+        }
     }
 
     @Override
