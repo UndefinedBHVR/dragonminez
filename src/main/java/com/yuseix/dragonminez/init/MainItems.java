@@ -54,69 +54,69 @@ public final class MainItems {
     //ARMADURAS
     //VEGETA SAGA SAIYAJIN ARMADURA
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new VegetaSaiyanArmorItem
+            ITEM_REGISTER.register("vegeta_saiyan_armor_chestplate", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"vegeta_saiyan_armor"));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new VegetaSaiyanArmorItem
+            ITEM_REGISTER.register("vegeta_saiyan_armor_leggings", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"vegeta_saiyan_armor"));
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_BOOTS =
-            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new VegetaSaiyanArmorItem
+            ITEM_REGISTER.register("vegeta_saiyan_armor_boots", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"vegeta_saiyan_armor"));
     //VEGETA SAGA NAMEK ARMOR
     public static final RegistryObject<Item> VEGETA_NAMEK_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("vegeta_namek_armor_chestplate", () -> new VegetaNamekArmorItem
+            ITEM_REGISTER.register("vegeta_namek_armor_chestplate", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1), "vegetanamek_armor"));
     public static final RegistryObject<Item> VEGETA_NAMEK_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("vegeta_namek_armor_leggings", () -> new VegetaNamekArmorItem
+            ITEM_REGISTER.register("vegeta_namek_armor_leggings", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"vegetanamek_armor"));
     public static final RegistryObject<Item> VEGETA_NAMEK_ARMOR_BOOTS =
-            ITEM_REGISTER.register("vegeta_namek_armor_boots", () -> new VegetaNamekArmorItem
+            ITEM_REGISTER.register("vegeta_namek_armor_boots", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"vegetanamek_armor"));
     //BARDOCK SUPER
     public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("bardock_super_armor_chestplate", () -> new BardockSuperArmorItem
+            ITEM_REGISTER.register("bardock_super_armor_chestplate", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"bardockdbs"));
     public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("bardock_super_armor_leggings", () -> new BardockSuperArmorItem
+            ITEM_REGISTER.register("bardock_super_armor_leggings", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"bardockdbs"));
     public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_BOOTS =
-            ITEM_REGISTER.register("bardock_super_armor_boots", () -> new BardockSuperArmorItem
+            ITEM_REGISTER.register("bardock_super_armor_boots", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"bardockdbs"));
     //BARDOCK DBZ
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("bardock_dbz_armor_chestplate", () -> new BardockDBZArmorItem
+            ITEM_REGISTER.register("bardock_dbz_armor_chestplate", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"bardock_armor"));
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("bardock_dbz_armor_leggings", () -> new BardockDBZArmorItem
+            ITEM_REGISTER.register("bardock_dbz_armor_leggings", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"bardock_armor"));
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_BOOTS =
-            ITEM_REGISTER.register("bardock_dbz_armor_boots", () -> new BardockDBZArmorItem
+            ITEM_REGISTER.register("bardock_dbz_armor_boots", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"bardock_armor"));
     //GOKU GI
     public static final RegistryObject<Item> GOKU_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("goku_armor_chestplate", () -> new GokuArmorItem
+            ITEM_REGISTER.register("goku_armor_chestplate", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1), "goku_gi"));
     public static final RegistryObject<Item> GOKU_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("goku_armor_leggings", () -> new GokuArmorItem
+            ITEM_REGISTER.register("goku_armor_leggings", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1), "goku_gi"));
     public static final RegistryObject<Item> GOKU_ARMOR_BOOTS =
-            ITEM_REGISTER.register("goku_armor_boots", () -> new GokuArmorItem
+            ITEM_REGISTER.register("goku_armor_boots", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1), "goku_gi"));
     //PICCOLO
     public static final RegistryObject<Item> PICCOLO_ARMOR_HELMET =
             ITEM_REGISTER.register("piccolo_armor_helmet", () -> new PiccoloArmorItem //TURBANTE
@@ -136,17 +136,17 @@ public final class MainItems {
                             .fireResistant().stacksTo(1)));
     //DEMON GI (AZUL)
     public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("demon_gi_blue_armor_chestplate", () -> new DemonGiBlueArmorItem
+            ITEM_REGISTER.register("demon_gi_blue_armor_chestplate", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"demon_gi_gohan"));
     public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("demon_gi_blue_armor_leggings", () -> new DemonGiBlueArmorItem
+            ITEM_REGISTER.register("demon_gi_blue_armor_leggings", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"demon_gi_gohan"));
     public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_BOOTS =
-            ITEM_REGISTER.register("demon_gi_blue_armor_boots", () -> new DemonGiBlueArmorItem
+            ITEM_REGISTER.register("demon_gi_blue_armor_boots", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1)));
+                            .fireResistant().stacksTo(1),"demon_gi_gohan"));
 
     //LÍQUIDOS
 

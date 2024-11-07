@@ -2,9 +2,9 @@ package com.yuseix.dragonminez.init.armor;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,27 +17,30 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class DemonGiBlueArmorItem extends ArmorItem {
+public class SaiyanArmorItem extends ArmorItem {
 
-    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/demon_gi_gohan_layer1.png").toString();
-    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/demon_gi_gohan_layer2.png").toString();
+    private final String itemId;
 
-
-    public DemonGiBlueArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
+    public SaiyanArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId) {
         super(pMaterial, pType, pProperties);
+        this.itemId = itemId; // ID del item
+
     }
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+
+        String texturePath = DragonMineZ.MOD_ID + ":textures/armor/saiyans/" + itemId;
+
         switch (slot) {
             case HEAD:
-                return LAYER1;
+                return texturePath + "_layer1.png";
             case LEGS:
-                return LAYER2;
+                return texturePath + "_layer2.png";
             case FEET:
-                return LAYER1;
+                return texturePath + "_layer1.png";
             default:
-                return LAYER1;
+                return texturePath + "_layer1.png";
         }
     }
 
@@ -45,13 +48,13 @@ public class DemonGiBlueArmorItem extends ArmorItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
 
-            private ArmorBaseModel model;
+            private ArmorSaiyanModel model;
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
                 if(model == null){
-                    model = new ArmorBaseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorBaseModel.LAYER_LOCATION));
+                    model = new ArmorSaiyanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorSaiyanModel.LAYER_LOCATION));
                 }
                 return model;
 

@@ -4,7 +4,6 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,27 +16,30 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class GokuArmorItem extends ArmorItem {
+public class DbzArmorItem extends ArmorItem {
 
-    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/goku_gi_layer1.png").toString();
-    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/goku_gi_layer2.png").toString();
+    private final String itemId;
 
-
-    public GokuArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {
+    public DbzArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId) {
         super(pMaterial, pType, pProperties);
+        this.itemId = itemId; // ID del item
+
     }
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+
+        String texturePath = DragonMineZ.MOD_ID + ":textures/armor/" + itemId;
+
         switch (slot) {
             case HEAD:
-                return LAYER1;
+                return texturePath + "_layer1.png";
             case LEGS:
-                return LAYER2;
+                return texturePath + "_layer2.png";
             case FEET:
-                return LAYER1;
+                return texturePath + "_layer1.png";
             default:
-                return LAYER1;
+                return texturePath + "_layer1.png";
         }
     }
 
