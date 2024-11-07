@@ -52,11 +52,11 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     }
 
     public void renderRightHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, this.model.rightArm, this.model.rightSleeve);
+        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel)this.model).rightArm, ((PlayerModel)this.model).rightSleeve);
     }
 
     public void renderLeftHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, this.model.leftArm, this.model.leftSleeve);
+        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, ((PlayerModel)this.model).leftArm, ((PlayerModel)this.model).leftSleeve);
     }
 
         @Override
@@ -70,7 +70,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     }
 
     private void renderHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear) {
-        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel) this.getModel();
         this.setModelProperties(pPlayer);
         playermodel.attackTime = 0.0F;
         playermodel.crouching = false;
@@ -158,7 +158,9 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
             }
 
         });
-}
+        pRendererArmwear.xRot = 0.0F;
+
+    }
     private void DEMONCOLD_ARMS(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, ModelPart pRendererArm){
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {

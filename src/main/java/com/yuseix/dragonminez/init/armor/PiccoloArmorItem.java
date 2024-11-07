@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -54,6 +55,7 @@ public class PiccoloArmorItem extends ArmorItem {
                 if(model == null){
                     model = new ArmorPiccoloModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorPiccoloModel.LAYER_LOCATION));
                 }
+
                 return model;
 
             }
