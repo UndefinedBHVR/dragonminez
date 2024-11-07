@@ -8,11 +8,12 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ArmorPiccoloModel extends HumanoidModel<LivingEntity> {
+public class ArmorPiccoloModel extends HumanoidModel<AbstractClientPlayer> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "armors"), "piccolo");
 	private final ModelPart head;
@@ -64,19 +65,8 @@ public class ArmorPiccoloModel extends HumanoidModel<LivingEntity> {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(AbstractClientPlayer pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
-
-		if (pLimbSwingAmount > 0.1F) { // Ajusta el umbral según sea necesario
-			float swingSpeed = 0.6662F; // Ajusta la velocidad del balanceo
-			float swingAmount = 0.1F; // Ajusta la cantidad de balanceo
-			this.capa.xRot = Mth.cos(pLimbSwing * swingSpeed) * swingAmount * pLimbSwingAmount;
-			this.capa.zRot = Mth.sin(pLimbSwing * swingSpeed * 0.5F) * swingAmount * pLimbSwingAmount;
-		} else {
-			// Restablece la rotación de la capa cuando el jugador está quieto
-			this.capa.xRot = 0.0F;
-			this.capa.zRot = 0.0F;
-		}
 	}
 
 	@Override

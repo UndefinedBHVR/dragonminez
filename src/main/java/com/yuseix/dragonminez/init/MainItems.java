@@ -140,7 +140,7 @@ public final class MainItems {
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
                             .fireResistant().stacksTo(1)));
     public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("piccolo_armor_cape", () -> new DbzArmorItem
+            ITEM_REGISTER.register("piccolo_armor_chestplate", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
                             .fireResistant().stacksTo(1), "demon_gi"));
     public static final RegistryObject<Item> PICCOLO_ARMOR_LEGGINGS =
