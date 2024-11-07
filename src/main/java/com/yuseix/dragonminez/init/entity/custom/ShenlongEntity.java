@@ -17,9 +17,11 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
 
 public class ShenlongEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -65,9 +67,17 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
 
     }
 
+    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
+
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.shenlong.idle", Animation.LoopType.LOOP));
+
+        return PlayState.CONTINUE;
+
+    }
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;

@@ -24,7 +24,7 @@ public class ShenlongModel extends GeoModel<ShenlongEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(ShenlongEntity shenlongEntity) {
-        return null;
+        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/shenlong.animation.json");
     }
 
     @Override
