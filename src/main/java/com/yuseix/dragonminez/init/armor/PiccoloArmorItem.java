@@ -20,8 +20,8 @@ import java.util.function.Consumer;
 
 public class PiccoloArmorItem extends ArmorItem {
 
-    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/piccolo_gi_layer1.png").toString();
-    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/dbz/piccolo_gi_layer2.png").toString();
+    private static final String LAYER1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/piccolo_gi_layer1.png").toString();
+    private static final String LAYER2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/piccolo_gi_layer2.png").toString();
 
 
     public PiccoloArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties) {

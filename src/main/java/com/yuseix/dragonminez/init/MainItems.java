@@ -82,15 +82,15 @@ public final class MainItems {
     public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("bardock_super_armor_chestplate", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1),"bardockdbs"));
+                            .fireResistant().stacksTo(1),"bardockdbs_armor"));
     public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_LEGGINGS =
             ITEM_REGISTER.register("bardock_super_armor_leggings", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1),"bardockdbs"));
+                            .fireResistant().stacksTo(1),"bardockdbs_armor"));
     public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_BOOTS =
             ITEM_REGISTER.register("bardock_super_armor_boots", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1),"bardockdbs"));
+                            .fireResistant().stacksTo(1),"bardockdbs_armor"));
     //BARDOCK DBZ
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("bardock_dbz_armor_chestplate", () -> new SaiyanArmorItem
