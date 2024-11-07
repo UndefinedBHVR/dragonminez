@@ -13,10 +13,7 @@ import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
-import com.yuseix.dragonminez.init.MainEntity;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -210,14 +207,14 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
             Advancement piccoloarmor = Advancement.Builder.advancement()
                     .parent(armorStation)
                     .display(
-                            MainItems.PICCOLO_ARMOR_CHESTPLATE.get(),
+                            MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE.get(),
                             Component.translatable("advancements.dragonminez.piccoloarmor.title"),
                             Component.translatable("advancements.dragonminez.piccoloarmor.description"),
                             null, FrameType.TASK, true, true, false
                     )
                     .addCriterion("piccoloarmor",
                             InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.PICCOLO_ARMOR_HELMET.get(),
-                                    MainItems.PICCOLO_ARMOR_CHESTPLATE.get(),
+                                    MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE.get(),
                                     MainItems.PICCOLO_ARMOR_LEGGINGS.get(),
                                     MainItems.PICCOLO_ARMOR_BOOTS.get())
                     )

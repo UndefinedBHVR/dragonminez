@@ -83,7 +83,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOKU_ARMOR_LEGGINGS);
         armorItem(MainItems.GOKU_ARMOR_BOOTS);
         armorItem(MainItems.PICCOLO_ARMOR_HELMET);
-        armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE);
+        armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE);
         armorItem(MainItems.PICCOLO_ARMOR_LEGGINGS);
         armorItem(MainItems.PICCOLO_ARMOR_BOOTS);
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_CHESTPLATE);
