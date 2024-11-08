@@ -21,9 +21,11 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
+import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBlastModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
+import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiBlastRenderer;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
@@ -84,6 +86,7 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
             EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
             EntityRenderers.register(MainEntity.AURA.get(), AuraRenderer::new);
+            EntityRenderers.register(MainEntity.KI_BLAST.get(), KiBlastRenderer::new);
 
 
 
@@ -201,6 +204,7 @@ public class ModBusEvents {
         e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
 
         e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
+        e.registerLayerDefinition(KiBlastModel.LAYER_LOCATION, KiBlastModel::createBodyLayer);
 
         //CABELLOS
         e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);

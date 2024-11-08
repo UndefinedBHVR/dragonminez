@@ -55,6 +55,15 @@ public class CustomRenderTypes extends RenderType {
                     .setWriteMaskState(COLOR_WRITE)
                     .setOverlayState(OVERLAY)
                     .createCompositeState(false)));
+    private static final Function<ResourceLocation, RenderType> KI = Util.memoize((pLocation) ->
+            create("ki", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
+                    .setShaderState(RENDERTYPE_ENTITY_CUTOUT_SHADER)
+                    .setTextureState(new TextureStateShard(pLocation, true, false))
+                    .setTransparencyState(RenderStateShard.LIGHTNING_TRANSPARENCY)
+                    .setCullState(RenderStateShard.CULL)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .setOverlayState(OVERLAY)
+                    .createCompositeState(false)));
     public static RenderType glow(ResourceLocation pLocation) {
         return GLOW.apply(pLocation);
     }
@@ -64,7 +73,9 @@ public class CustomRenderTypes extends RenderType {
     public static RenderType energy2(ResourceLocation pLocation) {
         return ENERGY2.apply(pLocation);
     }
-
+    public static RenderType ki(ResourceLocation pLocation) {
+        return KI.apply(pLocation);
+    }
     public static RenderType aura(ResourceLocation pLocation) {
         return AURA_WA.apply(pLocation);
     }

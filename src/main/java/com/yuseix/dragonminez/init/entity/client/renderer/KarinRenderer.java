@@ -18,7 +18,7 @@ public class KarinRenderer extends GeoEntityRenderer<KarinEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(KarinEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/karin_master.png");
+        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/karin_master.png");
     }
 
 }

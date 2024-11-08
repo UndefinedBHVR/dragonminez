@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBlastProyectil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -169,6 +170,12 @@ public class MainEntity {
                     () -> EntityType.Builder.of(AuraEntity::new, MobCategory.MISC)
                             .sized(1.0f, 1.0f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "aura").toString())
+            );
+    public static final RegistryObject<EntityType<KiBlastProyectil>> KI_BLAST =
+            ENTITY_TYPES_REGISTER.register("ki_blast",
+                    () -> EntityType.Builder.of(KiBlastProyectil::new, MobCategory.MISC)
+                            .sized(1.0f, 1.0f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_blast").toString())
             );
 
     @SubscribeEvent
