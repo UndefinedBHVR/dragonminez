@@ -32,7 +32,7 @@ public class KiBlastRenderer extends EntityRenderer<KiBlastProyectil> {
         pPoseStack.scale(5.0f,5.0f,5.0f);
 
 
-        // Ajusta la rotación para que apunte en la dirección de movimiento
+        // Ajusta la rotación para que apunte en la dirección de movimiento (no recomendable)
         //pPoseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         //pPoseStack.mulPose(Axis.XP.rotationDegrees(180));
 

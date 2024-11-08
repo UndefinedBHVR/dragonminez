@@ -693,32 +693,318 @@ public class DMZDatos {
 
         return regenki;
     }
-    public static int calcularMulti(int raza, int transformacion){
-        var total = 0;
+    public static double calcularMultiTotal(int raza, int transformacion){
+        var multiStr = 0.0;
+        var multiDef = 0.0;
+        var multiKiPower = 0.0;
+        var total = 0.0;
 
         switch (raza){
             case 0:
-                if(transformacion == 0){
+                if(transformacion == 0){ //Base
+                    multiStr = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                }else if (transformacion == 1){ //Full Power
+                    multiStr = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
+                    multiDef = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
+                    multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                } else { //En caso de que se use una transformacion no registrada
+                    multiStr = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrHumanConfig.MULTIPLIER_BASE.get();
                 }
                 break;
             case 1:
+                if(transformacion == 0){ //Base
+                    multiStr = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                }else if (transformacion == 1){ //Ozaru
+                    multiStr = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                } else { //En caso de que se use una transformacion no registrada
+                    multiStr = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                }
                 break;
             case 2:
+                if(transformacion == 0){ //Base
+                    multiStr = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                }else if (transformacion == 1){ //Full Power
+                    multiStr = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                } else { //En caso de que se use una transformacion no registrada
+                    multiStr = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                }
                 break;
             case 3:
+                if(transformacion == 0){ //Base
+                    multiStr = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                }else if (transformacion == 1){ //SemiPerfecto
+                    multiStr = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                } else { //En caso de que se use una transformacion no registrada
+                    multiStr = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                }
                 break;
             case 4:
+                if(transformacion == 0){ //Base
+                    multiStr = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                }else if (transformacion == 1){ //Segunda forma
+                    multiStr = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                } else { //En caso de que se use una transformacion no registrada
+                    multiStr = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                }
                 break;
             case 5:
+                if(transformacion == 0){ //Base
+                    multiStr = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                }else if (transformacion == 1){ //Evil o kid no se
+                    multiStr = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                } else { //En caso de que se use una transformacion no registrada
+                    multiStr = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                    multiDef = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                    multiKiPower = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                }
                 break;
             default:
                 break;
         }
 
+        total = multiStr + multiDef + multiKiPower;
+
         return total;
 
 
     }
+
+    public static double calcularMultiStat(int raza, int transformacion, String stat){
+        var multiStat = 0.0;
+        var total = 0.0;
+
+        switch (raza){
+            case 0: //Humano
+                switch (stat){
+                    case "STR":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
+                        } else {
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "DEF":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
+                        } else {
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "KIPOWER":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                        } else {
+                            multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                }
+                break;
+            case 1: //Saiyajin
+                switch (stat){
+                    case "STR":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //OZARU
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "DEF":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //OZARU
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "KIPOWER":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //OZARU
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                }
+                break;
+            case 2: //namek
+                switch (stat){
+                    case "STR":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP o giganten ns
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "DEF":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP o giganten ns
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "KIPOWER":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP o giganten ns
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                }
+                break;
+            case 3: //bioandroide
+                switch (stat){
+                    case "STR":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP o giganten ns
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "DEF":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP o giganten ns
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "KIPOWER":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //FP o giganten ns
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                }
+                break;
+            case 4:
+                switch (stat){
+                    case "STR":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //segunda forma
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "DEF":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //segunda forma
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "KIPOWER":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //segunda forma
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                }
+                break;
+            case 5: //majin
+                switch (stat){
+                    case "STR":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //evil o kid
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "DEF":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //evil o kid
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                    case "KIPOWER":
+                        if(transformacion == 0){ //Base
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        } else if(transformacion == 1){ //evil o kid
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        } else {
+                            multiStat = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        }
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+
+        //Aca sacamos el resultado total
+        total = multiStat; //Aca podemos agregar mas variables por ejemplo kaioken, majin, fruto, etc.
+
+
+        return total;
+
+
+    }
+
 
     public static int calcularCargaKi(int EnergiaTotal, String clase){
         var porcentaje = 0;
