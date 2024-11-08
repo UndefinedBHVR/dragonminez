@@ -102,8 +102,6 @@ public final class ForgeBusEvents {
         if (serverWorld == null) {
             return;
         }
-        // Hacer algo cuando el servidor empiece???
-        //LOGGER.info("HOLA SOY DRAGON BLOCK TEST UWU");
 
         if (!serverWorld.isClientSide()) {
             serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {

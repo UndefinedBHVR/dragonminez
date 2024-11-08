@@ -76,8 +76,10 @@
   "item.dragonminez.frog_legs_cooked": "Cooked Frog Legs",
   "item.dragonminez.might_tree_fruit": "Fruit of the Tree of Might",
   "item.dragonminez.might_tree_fruit.tooltip": "\u00A77This fruit will give you a temporary power boost.",
+    "item.dragonminez.might_tree_fruit.use": "You feel a surge of \u00A7cpower\u00A7r...",
   "item.dragonminez.heart_medicine": "Heart Medicine",
   "item.dragonminez.heart_medicine.tooltip": "\u00A77This strange bottle says it's been manufactured on the year 2064...",
+  "item.dragonminez.heart_medicine.use": "You feel your \u00A7cheart \u00A7rstronger...",
   "item.dragonminez.senzu_bean": "Senzu Bean",
   "item.dragonminez.senzu_bean.tooltip": "\u00A77This magical bean will heal you completely.",
 
@@ -236,7 +238,7 @@
   "item.dragonminez.kikono_string": "Kikono String",
   "item.dragonminez.kikono_cloth": "Kikono Cloth",
   "item.dragonminez.pattern_goku1": "Goku's Gi Pattern",
-  "item.dragonminez.pattern_goku2": "Goku's Gi Pattern (w/o Weighted Clothes)",
+  "item.dragonminez.pattern_goku2": "Goku's Gi Pattern (King Kai)",
   "item.dragonminez.pattern_vegeta1": "Vegeta's Saiyan Saga Armor Pattern",
   "item.dragonminez.pattern_vegeta2": "Vegeta's Namek Saga Armor Pattern",
   "item.dragonminez.pattern_bardock1": "Bardock's Armor Pattern DBZ",
@@ -269,10 +271,13 @@
   "item.dragonminez.demon_gi_blue_armor_chestplate": "Demon GI Chestplate (\u00A73Gohan\u00A7r)",
   "item.dragonminez.demon_gi_blue_armor_leggings": "Demon GI Leggings (\u00A73Gohan\u00A7r)",
   "item.dragonminez.demon_gi_blue_armor_boots": "Demon GI Boots (\u00A73Gohan\u00A7r)",
+  "item.dragonminez.goku_kaito_armor_chestplate": "Turle Hermit GI Armor Chestplate (\u00A7bKing Kai\u00A7r)",
+  "item.dragonminez.goku_kaito_armor_leggings": "Turle Hermit GI Armor Leggings (\u00A7bKing Kai\u00A7r)",
+  "item.dragonminez.goku_kaito_armor_boots": "Turle Hermit GI Armor Boots (\u00A7bKing Kai\u00A7r)",
 
   "lines.menu.accept": "Accept",
   "lines.menu.decline": "Decline",
-  "lines.alignment.evil": "You became a little more evil.",
+  "lines.alignment.evil": "You became a little more \u00A7cevil\u00A7r.",
   "lines.master_korin.menu": "Hmm... I see you’ve made it up to my tower. Not many do. What are you looking for, young one?",
   "lines.master_korin.kinton": "Flying Nimbus!",
   "lines.master_korin.nube": "Hrm... I see, you want the famous Flying Nimbus. I can give it to you, only if you prove you have a pure heart.",
@@ -292,7 +297,7 @@
   "lines.shenron.wish.capene": "Blue Capsules",
   "lines.shenron.wish.capkipw": "Orange Capsules",
   "lines.shenron.wish.senzu": "Senzu Beans",
-  "lines.shenron.wish.radar": "Radar Piece",
+  "lines.shenron.wish.radar": "Radar CPU",
 
   "command.dmzlocate.wrong_dimension": "You can't teleport to a Structure that is in another dimension.",
   "command.dmzlocate.unkwnown_location": "Unknown Location.",
@@ -365,6 +370,6 @@
   "advancements.dragonminez.gokuarmor.description": "Craft the Turtle Hermit GI of Goku.",
   "advancements.dragonminez.piccoloarmor.title": "The Demon King",
   "advancements.dragonminez.piccoloarmor.description": "Craft the Demon GI of Piccolo.",
-  "advancements.dragonminez.demongiblue.title": "Son Gohan, the Hybrid-Saiyan",
-  "advancements.dragonminez.demongiblue.description": "Craft the Demon GI of Gohan."
+  "advancements.dragonminez.demonbluegiarmor.title": "Son Gohan, the Hybrid-Saiyan",
+  "advancements.dragonminez.demonbluegiarmor.description": "Craft the Demon GI of Gohan."
 }

@@ -162,7 +162,7 @@ public class StatsEvents {
 
                 // Calcular el daño basado en la fuerza del atacante
                 int maxStr = DMZDatos.calcularSTR(raza, statsAtacante.getStrength(), danoDefault, statsAtacante.getDmzState(),statsAtacante.getDmzRelease(), statsAtacante.getDmzClass());
-                int staminacost = maxStr / 4;
+                int staminacost = maxStr / 12;
 
                 if (curStamina >= staminacost) {
                     // Si el atacante tiene suficiente stamina, aplicar el daño basado en la fuerza

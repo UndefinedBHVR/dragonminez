@@ -84,11 +84,15 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOKU_ARMOR_BOOTS);
         armorItem(MainItems.PICCOLO_ARMOR_HELMET);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE);
+        armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE);
         armorItem(MainItems.PICCOLO_ARMOR_LEGGINGS);
         armorItem(MainItems.PICCOLO_ARMOR_BOOTS);
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_CHESTPLATE);
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_LEGGINGS);
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_BOOTS);
+        armorItem(MainItems.GOKU_KAITO_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GOKU_KAITO_ARMOR_LEGGINGS);
+        armorItem(MainItems.GOKU_KAITO_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);
@@ -96,6 +100,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.ARMOR_CRAFTING_KIT);
         patternItem(MainItems.PATTERN_GOTEN);
         patternItem(MainItems.PATTERN_GOKU1);
+        patternItem(MainItems.PATTERN_GOKU2);
         patternItem(MainItems.PATTERN_GOHAN1);
         patternItem(MainItems.PATTERN_VEGETA1);
         patternItem(MainItems.PATTERN_VEGETA2);

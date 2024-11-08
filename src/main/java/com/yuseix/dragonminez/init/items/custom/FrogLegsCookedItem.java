@@ -1,19 +1,26 @@
 package com.yuseix.dragonminez.init.items.custom;
 
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class FrogLegsCookedItem extends Item {
+    private static final double HP_RESTORE_PERCENTAGE = 0.07; // 7%
+    private static final double KI_RESTORE_PERCENTAGE = 0.04; // 4%
+    private static final int HUNGER = 5;
+    private static final float SATURATION = 6;
     public FrogLegsCookedItem() {
         super(new Properties().food(
                 new FoodProperties.Builder()
-                        .nutrition(2)
-                        .saturationMod(0.3F)
-
-                        //Dale pana que haga algo la comida che
+                        .nutrition(HUNGER)
+                        .saturationMod(SATURATION)
                         .build()
         ));
     }
@@ -23,4 +30,22 @@ public class FrogLegsCookedItem extends Item {
         return Component.translatable("item.dragonminez.frog_legs_cooked");
     }
 
+    // Curación Vida/Ki
+    @Override
+    public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
+        if (!pLevel.isClientSide && pLivingEntity instanceof ServerPlayer player) {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+                int maxHp = stats.getMaxHealth();
+                int curarVida = (int) (maxHp * HP_RESTORE_PERCENTAGE);
+                int maxKi = stats.getMaxEnergy();
+                int curarKi = (int) (maxKi * KI_RESTORE_PERCENTAGE);
+
+                player.heal(curarVida);
+                stats.addCurEnergy(curarKi);
+            });
+            player.getFoodData().eat(HUNGER, SATURATION);
+        }
+        pStack.shrink(1);
+        return pStack;
+    }
 }

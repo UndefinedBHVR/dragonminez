@@ -451,6 +451,14 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public int getMaxHealth() {
+        return DMZDatos.calcularCON(races, constitution, 20, dmzClass);
+    }
+
+    public int getMaxEnergy() {
+        return DMZDatos.calcularENE(races, energy, dmzClass);
+    }
+
     public int getCurStam() {
 
         return curStam;

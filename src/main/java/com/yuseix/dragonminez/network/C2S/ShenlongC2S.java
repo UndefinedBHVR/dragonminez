@@ -55,6 +55,7 @@ public class ShenlongC2S {
                         serverLevel.setDayTime(shenlong.getInvokingTime()); // Restaura el tiempo original
                     }
                     entity.discard();
+
                 });
             }
         });

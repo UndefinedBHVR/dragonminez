@@ -2,7 +2,11 @@ package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.client.gui.entity.KarinMenu;
 import com.yuseix.dragonminez.client.gui.entity.ShenlongMenu;
+import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -16,12 +20,18 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ShenlongEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -49,6 +59,15 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+                boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+
+                if (hasDragonBalls) {
+                    dragonBallsCapability.setHasDragonBalls(false);
+                }
+            });
+        }
         if (this.level().isClientSide) {
             Minecraft.getInstance().setScreen(new ShenlongMenu());
 
@@ -96,6 +115,55 @@ public class ShenlongEntity extends Mob implements GeoEntity {
     @Override
     public boolean canBeHitByProjectile() {
         return false;
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        if (!this.level().isClientSide && reason == RemovalReason.DISCARDED) {
+            onDespawn();
+        }
+        super.remove(reason);
+    }
+
+    private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
+    private void onDespawn() {
+        if (this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+                boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+
+                if (!hasDragonBalls) {
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
+                    spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
+
+                    dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
+                    dragonBallsCapability.setHasDragonBalls(true);
+                }
+            });
+        }
+    }
+    private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+        BlockPos spawnPos = serverWorld.getSharedSpawnPos();
+        Random random = new Random();
+
+        int x = spawnPos.getX() + random.nextInt(10000) - 5000;
+        int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+
+        serverWorld.getChunk(x >> 4, z >> 4);
+
+
+        int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+
+        BlockPos pos = new BlockPos(x, y, z);
+
+        serverWorld.setBlock(pos, dragonBall, 2);
+        System.out.println("Dragon Ball spawned at " + pos);
+
+        dragonBallPositions.add(pos);
     }
 
 }

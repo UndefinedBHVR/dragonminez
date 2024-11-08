@@ -36,8 +36,6 @@ public class DMZStatsCapabilities {
 
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, 20, cap.getDmzClass()));
         });
-
-
         }
 
     @SubscribeEvent

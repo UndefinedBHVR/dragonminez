@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.config.races.transformations.*;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -250,7 +251,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var TPS = playerstats.getZpoints();
 
             var nivel = (playerstats.getStrength() + playerstats.getDefense() + playerstats.getConstitution()
-                    + playerstats.getKiPower() + playerstats.getEnergy()) / 7;
+                    + playerstats.getKiPower() + playerstats.getEnergy()) / 5;
 
             var clase = playerstats.getDmzClass();
 
@@ -326,6 +327,17 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
 
+            //Multiplicadores per Stat
+            anchoTexto = 100;
+            var color = 0xD71432;
+            int raza = playerstats.getRace(); int forma = playerstats.getDmzState(); // boolean kaioken = playerstats.getDmzKaioken();
+            /* boolean majin = playerstats.getDmzMajin(); boolean fruto = playerstats.getDmzFruto() */
+            if (multSTRTotal > 1) { graphics.drawString(font, Component.literal("x" + multSTRTotal),anchoTexto, alturaTexto, color); }
+            if (multDEFtotal > 1) { graphics.drawString(font, Component.literal("x" + multDEFtotal),anchoTexto, alturaTexto + 12, color); }
+            if (multPWRTotal > 1) { graphics.drawString(font, Component.literal("x" + multPWRTotal),anchoTexto, alturaTexto + 36, color); }
+
+
+
             Component Multiplier = Component.empty()
                     .append(Component.literal(String.valueOf(finalCost)))
                     .append(Component.literal(" (x")
@@ -334,7 +346,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                     );
             anchoTexto = 65;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(finalCost)), anchoTexto, alturaTexto + 64, 0xFFCE41);
-            drawStringWithBorder2(graphics, font, Component.literal("x" + multiplicador), anchoTexto -7, alturaTexto + 76, 0x2BFFE2);
+            drawStringWithBorder2(graphics, font, Component.literal("x" + multiplicador), anchoTexto, alturaTexto + 76, 0x2BFFE2);
 
         });
 
@@ -377,19 +389,195 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
-
-            drawStringWithBorder2(graphics, font, Component.literal("x"+"1.0"), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
-
-
+            drawStringWithBorder2(graphics, font, Component.literal("x"+multTotal), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
         });
-
     }
 
+    public double multSTRTotal, multDEFtotal, multPWRTotal, multTotal;
+
+    public static double calcularMulti(int raza, int forma, String stat, boolean kaioken, boolean majin, boolean fruto) {
+        double multSTR = 0, multDEF = 0, multPWR = 0;
+        double multSTRTotal = 0, multDEFTotal = 0, multPWRTotal = 0;
+        double multTotal = 1, multKaioken = 0, multFruto = 0, multMajin = 0, multForma = 0;
+
+        switch(raza) {
+            case 0: // Humano
+                switch(stat) {
+                    case "STR":
+                        if (forma == 0) {
+                            multForma = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        } else if (forma == 1) {
+                            multForma = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
+                        }
+                        multSTR = multForma;
+                        break;
+                    case "DEF":
+                        if (forma == 0) {
+                            multForma = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        } else if (forma == 1) {
+                            multForma = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
+                        }
+                        multDEF = multForma;
+                        break;
+                    case "PWR":
+                        if (forma == 0) {
+                            multForma = DMZTrHumanConfig.MULTIPLIER_BASE.get();
+                        } else if (forma == 1) {
+                            multForma = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                        }
+                        multPWR = multForma;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 1: // Saiyan
+                switch(stat) {
+                    case "STR":
+                        if (forma == 0) {
+                            multForma = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        }
+                        multSTR = multForma;
+                        break;
+                    case "DEF":
+                        if (forma == 0) {
+                            multForma = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        }
+                        multDEF = multForma;
+                        break;
+                    case "PWR":
+                        if (forma == 0) {
+                            multForma = DMZTrSaiyanConfig.MULTIPLIER_BASE.get();
+                        }
+                        multPWR = multForma;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 2: // Namek
+                switch(stat) {
+                    case "STR":
+                        if (forma == 0) {
+                            multForma = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        }
+                        multSTR = multForma;
+                        break;
+                    case "DEF":
+                        if (forma == 0) {
+                            multForma = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        }
+                        multDEF = multForma;
+                        break;
+                    case "PWR":
+                        if (forma == 0) {
+                            multForma = DMZTrNamekConfig.MULTIPLIER_BASE.get();
+                        }
+                        multPWR = multForma;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 3: // Bio-Android
+                switch(stat) {
+                    case "STR":
+                        if (forma == 0) {
+                            multForma = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        }
+                        multSTR = multForma;
+                        break;
+                    case "DEF":
+                        if (forma == 0) {
+                            multForma = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        }
+                        multDEF = multForma;
+                        break;
+                    case "PWR":
+                        if (forma == 0) {
+                            multForma = DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
+                        }
+                        multPWR = multForma;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 4: // Cold Demon
+                switch(stat) {
+                    case "STR":
+                        if (forma == 0) {
+                            multForma = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        }
+                        multSTR = multForma;
+                        break;
+                    case "DEF":
+                        if (forma == 0) {
+                            multForma = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        }
+                        multDEF = multForma;
+                        break;
+                    case "PWR":
+                        if (forma == 0) {
+                            multForma = DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
+                        }
+                        multPWR = multForma;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 5: // Majin
+                switch(stat) {
+                    case "STR":
+                        if (forma == 0) {
+                            multForma = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        }
+                        multSTR = multForma;
+                        break;
+                    case "DEF":
+                        if (forma == 0) {
+                            multForma = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        }
+                        multDEF = multForma;
+                        break;
+                    case "PWR":
+                        if (forma == 0) {
+                            multForma = DMZTrMajinConfig.MULTIPLIER_BASE.get();
+                        }
+                        multPWR = multForma;
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (kaioken) {
+            multKaioken = 1;
+        }
+        if (majin) {
+            multMajin = 1;
+        }
+        if (fruto) {
+            multFruto = DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get();
+        }
+
+        multSTRTotal = multSTR + multKaioken + multMajin + multFruto;
+        multDEFTotal = multDEF + multKaioken + multMajin + multFruto;
+        multPWRTotal = multPWR + multKaioken + multMajin + multFruto;
+
+        multTotal = multSTRTotal + multDEFTotal + multPWRTotal;
+
+        return multTotal;
+    }
 
     public void menuPaneles(GuiGraphics guiGraphics){
         //INFORMACION (Nivel, tps, forma)

@@ -76,8 +76,10 @@
   "item.dragonminez.frog_legs_cooked": "Ancas de Rana Cocidas",
   "item.dragonminez.might_tree_fruit": "Fruto del Árbol del Poder",
   "item.dragonminez.might_tree_fruit.tooltip": "\u00A77Este fruto te dará un aumento de poder temporal.",
+  "item.dragonminez.might_tree_fruit.use": "Sientes una oleada de \u00A7cpoder\u00A7r...",
   "item.dragonminez.heart_medicine": "Medicamento del Corazón",
   "item.dragonminez.heart_medicine.tooltip": "\u00A77Esta extraña botella dice que ha sido fabricada en el año 2064...",
+  "item.dragonminez.heart_medicine.use": "Sientes tu \u00A7ccorazón \u00A7rmás fuerte...",
   "item.dragonminez.senzu_bean": "Semilla del Ermitaño",
   "item.dragonminez.senzu_bean.tooltip": "\u00A77Esta Semilla te curará completamente.",
 
@@ -236,7 +238,7 @@
   "item.dragonminez.kikono_string": "Hilo de Kikono",
   "item.dragonminez.kikono_cloth": "Tela de Kikono",
   "item.dragonminez.pattern_goku1": "Patrón del GI de la Escuela Tortuga (Goku)",
-  "item.dragonminez.pattern_goku2": "Patrón del GI de la Escuela Tortuga (Goku) (sin Ropa Pesada)",
+  "item.dragonminez.pattern_goku2": "Patrón del GI de la Escuela Tortuga (Goku) (Kaiosama)",
   "item.dragonminez.pattern_vegeta1": "Patrón de Armadura Saiyajín (Vegeta) (Saiyajín)",
   "item.dragonminez.pattern_vegeta2": "Patrón de Armadura Saiyajín (Vegeta) (Namek)",
   "item.dragonminez.pattern_bardock1": "Patrón de Armadura Saiyajín (Bardock) (DBZ)",
@@ -269,10 +271,13 @@
   "item.dragonminez.demon_gi_blue_armor_chestplate": "Torso del GI de Demonio (\u00A73Gohan\u00A7r)",
   "item.dragonminez.demon_gi_blue_armor_leggings": "Pantalones del GI de Demonio (\u00A73Gohan\u00A7r)",
   "item.dragonminez.demon_gi_blue_armor_boots": "Botas del GI de Demonio (\u00A73Gohan\u00A7r)",
+  "item.dragonminez.goku_kaito_armor_chestplate": "Pechera del GI de la Escuela Tortuga (\u00A7bKaiosama\u00A7r)",
+  "item.dragonminez.goku_kaito_armor_leggings": "Pantalones del GI de la Escuela Tortuga (\u00A7bKaiosama\u00A7r)",
+  "item.dragonminez.goku_kaito_armor_boots": "Botas del GI de la Escuela Tortuga (\u00A7bKaiosama\u00A7r)",
 
   "lines.menu.accept": "Aceptar",
   "lines.menu.decline": "Rechazar",
-  "lines.alignment.evil": "Te has vuelto un poco más malvado.",
+  "lines.alignment.evil": "Te has vuelto un poco más \u00A7cmalvado\u00A7r.",
   "lines.master_korin.menu": "Hmm... veo que lograste llegar hasta mi torre. No muchos lo consiguen. ¿Qué es lo que buscas, joven?",
   "lines.master_korin.kinton": "Nube Voladora!",
   "lines.master_korin.nube": "Hrm... Veo que quieres la Nube Voladora, puedo dártela si demuestras ser puro de corazón.",
@@ -292,7 +297,7 @@
   "lines.shenron.wish.capene": "Cápsulas Azules",
   "lines.shenron.wish.capkipw": "Cápsulas Naranjas",
   "lines.shenron.wish.senzu": "Semillas del Ermitaño",
-  "lines.shenron.wish.radar": "Pieza de Radar",
+  "lines.shenron.wish.radar": "CPU de Radar",
 
   "command.dmzlocate.wrong_dimension": "No puedes teletransportarte a una Estructura que se encuentra en otra dimensión.",
   "command.dmzlocate.unkwnown_location": "Ubicación desconocida.",
@@ -365,6 +370,6 @@
   "advancements.dragonminez.gokuarmor.description": "Crea el Gi de Escuela Tortuga de Goku.",
   "advancements.dragonminez.piccoloarmor.title": "El Rey Demonio",
   "advancements.dragonminez.piccoloarmor.description": "Crea el Gi Demoníaco de Piccolo.",
-  "advancements.dragonminez.demongiblue.title": "Son Gohan, el Saiyajín Híbrido",
-  "advancements.dragonminez.demongiblue.description": "Crea el Gi Demoníaco de Gohan."
+  "advancements.dragonminez.demonbluegiarmor.title": "Son Gohan, el Saiyajín Híbrido",
+  "advancements.dragonminez.demonbluegiarmor.description": "Crea el Gi Demoníaco de Gohan."
 }
