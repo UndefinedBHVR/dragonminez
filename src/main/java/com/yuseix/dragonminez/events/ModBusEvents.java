@@ -63,6 +63,7 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
+            EntityRenderers.register(MainEntity.PORUNGA.get(), PorungaRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
 
             EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
@@ -160,6 +161,7 @@ public class ModBusEvents {
         event.put(MainEntity.NUBE_VOLADORA.get(), NubeEntity.createAttributes());
         event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
         event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
+        event.put(MainEntity.PORUNGA.get(), PorungaEntity.setAttributes());
         event.put(MainEntity.MASTER_DENDE.get(), DendeEntity.setAttributes());
 
         event.put(MainEntity.NAMEK_FROG.get(), NamekFrogEntity.setAttributes());

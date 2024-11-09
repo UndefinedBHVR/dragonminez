@@ -125,7 +125,12 @@ public class MainEntity {
                             .sized(2.5f, 20f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "shenlong").toString())
             );
-
+    public static final RegistryObject<EntityType<PorungaEntity>> PORUNGA =
+            ENTITY_TYPES_REGISTER.register("porunga",
+                    () -> EntityType.Builder.of(PorungaEntity::new, MobCategory.AMBIENT)
+                            .sized(2.5f, 20f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "porunga").toString())
+            );
 
     //FAKEPLAYERS
     public static final RegistryObject<EntityType<FPBioAndroidEntity>> FP_BIOANDROIDE =
