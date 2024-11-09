@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,8 +19,8 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -177,13 +179,37 @@ public class MoroSoldierEntity extends SoldierEntity implements GeoEntity, Range
         LivingEntity target = this.getTarget();
         if (target == null) return;
 
+        // Calcula la dirección hacia el objetivo
         double dx = target.getX() - this.getX();
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        LargeFireball fireball = new LargeFireball(this.level(), this, dx, dy, dz, 1);
-        fireball.setPos(this.getX(), this.getEyeY(), this.getZ());
-        this.level().addFreshEntity(fireball);
+        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_BLAST.get(), this.level());
+
+        //Aplicar el owner normal para que diga que te mato el
+        kiBlast.setOwner(this);
+
+        //Aplicar el owner uuid custom q hice para que no danes a tu equipo
+        kiBlast.setOwnerUUID(this.getUUID());
+
+        //Color de esfera de adentro
+        kiBlast.setColor(16749996);
+        //Color de borde
+        kiBlast.setColorBorde(16713484);
+
+        kiBlast.setVelocidad(0.5f);
+
+
+        kiBlast.setDamage(100.0F);
+
+        // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador
+        kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());
+
+        // Configura la dirección del movimiento del proyectil hacia el objetivo
+        kiBlast.shoot(dx, dy, dz, kiBlast.getVelocidad(), 0); // `1.0F` es la velocidad; ajusta según sea necesario
+
+        // Añade el proyectil al mundo
+        this.level().addFreshEntity(kiBlast);
     }
 
 }

@@ -13,15 +13,14 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
-public class KiBlastModel<T extends Entity> extends EntityModel<T> {
+public class KiBallModel<T extends Entity> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "tech"), "ki_blast");
 	private final ModelPart bone;
 	private final ModelPart esfera;
 
-	public KiBlastModel(ModelPart root) {
+	public KiBallModel(ModelPart root) {
 		this.bone = root.getChild("bone");
 		this.esfera = this.bone.getChild("esfera");
 	}

@@ -4,9 +4,8 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiBlastProyectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Animal;
@@ -171,11 +170,11 @@ public class MainEntity {
                             .sized(1.0f, 1.0f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "aura").toString())
             );
-    public static final RegistryObject<EntityType<KiBlastProyectil>> KI_BLAST =
-            ENTITY_TYPES_REGISTER.register("ki_blast",
-                    () -> EntityType.Builder.of(KiBlastProyectil::new, MobCategory.MISC)
-                            .sized(1.0f, 1.0f)
-                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_blast").toString())
+    public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_BLAST =
+            ENTITY_TYPES_REGISTER.register("ki_smallball",
+                    () -> EntityType.Builder.of(KiSmallBallProjectil::new, MobCategory.MISC)
+                            .sized(0.7f, 0.7f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_smallball").toString())
             );
 
     @SubscribeEvent

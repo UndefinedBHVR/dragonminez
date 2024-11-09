@@ -3,8 +3,12 @@ package com.yuseix.dragonminez.init.entity.custom;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.init.entity.custom.namek.MoroSoldierEntity;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,13 +34,14 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
         this.setPersistenceRequired();
+
     }
 
     public static AttributeSupplier createAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.05D)
-                .add(Attributes.FLYING_SPEED, 2.5D) // velocidad de vuelo
+                .add(Attributes.FLYING_SPEED, 2.8D) // velocidad de vuelo
                 .build();
     }
 
