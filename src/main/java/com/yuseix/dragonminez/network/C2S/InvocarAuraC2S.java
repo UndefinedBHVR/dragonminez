@@ -52,7 +52,6 @@ public class InvocarAuraC2S {
                             aura = new AuraEntity(MainEntity.AURA.get(), player.level());
 
                             aura.setOwnerUUID(player.getUUID());
-                            System.out.println("Asiganmos el uuid del jugador a la entidad");
                             aura.setRaza(cap.getRace());
                             aura.setTransformation(cap.getDmzState());
 

@@ -77,12 +77,13 @@ public class HeldItemRendererMixin {
 
         if (arm == HumanoidArm.RIGHT) {
             render.renderRightHand(poseStack, buffer, light, player);
-        } else {
+        } else if (arm == HumanoidArm.LEFT){
             render.renderLeftHand(poseStack, buffer, light, player);
+        } else {
+            render.renderRightHand(poseStack, buffer, light, player);
         }
 
         ci.cancel();
     }
-
 
 }

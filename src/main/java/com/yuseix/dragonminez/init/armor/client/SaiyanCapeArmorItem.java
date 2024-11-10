@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.init.armor;
+package com.yuseix.dragonminez.init.armor.client;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.world.entity.Entity;
@@ -16,12 +16,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public class DbzArmorItem extends ArmorItem {
+public class SaiyanCapeArmorItem extends ArmorItem {
 
     private final String itemId;
     private final boolean isDamageOn;
 
-    public DbzArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn) {
+
+    public SaiyanCapeArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn) {
         super(pMaterial, pType, pProperties);
         this.itemId = itemId; // ID del item
         this.isDamageOn = isDamageOn;
@@ -62,7 +63,6 @@ public class DbzArmorItem extends ArmorItem {
                 default:
                     return texturePath + "_layer1.png";
             }
-
         }
 
     }
@@ -71,13 +71,13 @@ public class DbzArmorItem extends ArmorItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
 
-            private ArmorBaseModel model;
+            private ArmorSaiyanModel model;
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
                 if(model == null){
-                    model = new ArmorBaseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorBaseModel.LAYER_LOCATION));
+                    model = new ArmorSaiyanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorSaiyanModel.LAYER_LOCATION));
                 }
                 return model;
 
@@ -92,4 +92,5 @@ public class DbzArmorItem extends ArmorItem {
     public boolean isDamageOn() {
         return isDamageOn;
     }
+
 }

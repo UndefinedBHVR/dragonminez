@@ -20,11 +20,12 @@ import java.util.function.Consumer;
 public class SaiyanArmorItem extends ArmorItem {
 
     private final String itemId;
+    private final boolean isDamageOn;
 
-    public SaiyanArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId) {
+    public SaiyanArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn) {
         super(pMaterial, pType, pProperties);
         this.itemId = itemId; // ID del item
-
+        this.isDamageOn = isDamageOn;
     }
 
     @Override
@@ -32,15 +33,36 @@ public class SaiyanArmorItem extends ArmorItem {
 
         String texturePath = DragonMineZ.MOD_ID + ":textures/armor/saiyans/" + itemId;
 
-        switch (slot) {
-            case HEAD:
-                return texturePath + "_layer1.png";
-            case LEGS:
-                return texturePath + "_layer2.png";
-            case FEET:
-                return texturePath + "_layer1.png";
-            default:
-                return texturePath + "_layer1.png";
+        if(isDamageOn()){
+            int maxDamage = stack.getMaxDamage();
+            int currentDamage = stack.getDamageValue();
+
+            // Determinamos si la armadura está dañada (menos de la mitad de durabilidad)
+            boolean isDamaged = currentDamage > maxDamage / 2;
+
+            // Retornamos las texturas dependiendo del daño
+            switch (slot) {
+                case HEAD:
+                    return texturePath + (isDamaged ? "_damaged_layer1.png" : "_layer1.png");
+                case LEGS:
+                    return texturePath + (isDamaged ? "_damaged_layer2.png" : "_layer2.png");
+                case FEET:
+                    return texturePath + (isDamaged ? "_damaged_layer1.png" : "_layer1.png");
+                default:
+                    return texturePath + (isDamaged ? "_damaged_layer1.png" : "_layer1.png");
+            }
+        } else {
+            switch (slot) {
+                case HEAD:
+                    return texturePath + "_layer1.png";
+                case LEGS:
+                    return texturePath + "_layer2.png";
+                case FEET:
+                    return texturePath + "_layer1.png";
+                default:
+                    return texturePath + "_layer1.png";
+            }
+
         }
     }
 
@@ -61,4 +83,13 @@ public class SaiyanArmorItem extends ArmorItem {
             }
         });
     }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public boolean isDamageOn() {
+        return isDamageOn;
+    }
+
 }
