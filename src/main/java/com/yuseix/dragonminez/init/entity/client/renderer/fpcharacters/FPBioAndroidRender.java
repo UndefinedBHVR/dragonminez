@@ -128,11 +128,27 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
+                int transformacion = cap.getDmzState();
+                boolean isMajinOn = cap.getDMZPermaEffect("majin");
 
-                if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                switch (transformacion){
+                    case 0:
+                        if (bodyType == 0) {
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+
+                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                        if(isMajinOn){
+                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+
+                        break;
+                    case 1:
+                        break;
                 }
-                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+
 
             });
 
@@ -213,6 +229,33 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
         });
     }
 
+    private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
+
+        BioAndroideModelo<AbstractClientPlayer> playermodel = (BioAndroideModelo)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin No la renderizamos porque el casco lo tapa XD
+                /*
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                 */
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                if(cap.getDmzState() == 0){
+
+                }
+                //DELINEADO
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+            }
+
+        });
+    }
 
 
 

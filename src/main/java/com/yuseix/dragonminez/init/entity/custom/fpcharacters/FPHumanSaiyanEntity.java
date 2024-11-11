@@ -1,16 +1,22 @@
 package com.yuseix.dragonminez.init.entity.custom.fpcharacters;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import java.util.Optional;
+import java.util.UUID;
+
 public class FPHumanSaiyanEntity extends FPBase {
 
-
-    public FPHumanSaiyanEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPHumanSaiyanEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+
     }
 
     public static AttributeSupplier setAttributes() {
@@ -22,22 +28,8 @@ public class FPHumanSaiyanEntity extends FPBase {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return null;
-    }
-
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot equipmentSlot) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
-
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return null;
+    public void tick() {
+        super.tick();
+        this.discard();
     }
 }

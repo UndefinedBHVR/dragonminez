@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 
 public class FPBioAndroidEntity extends FPBase {
 
-    public FPBioAndroidEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPBioAndroidEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -21,22 +21,9 @@ public class FPBioAndroidEntity extends FPBase {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return null;
-    }
+    public void tick() {
+        super.tick();
+        this.discard();
 
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot equipmentSlot) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
-
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return null;
     }
 }

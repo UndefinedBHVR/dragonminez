@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.layer.SlimArmorLayer;
+import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -133,6 +134,7 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
                 var raza = cap.getRace();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if(raza == 0 || raza == 1){
                     if (bodyType == 0) {
@@ -141,6 +143,9 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
                             renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
+                        if(isMajinOn){
+                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
                     } else if (bodyType > 0) {
                         pPoseStack.translate(0f,0f,0f);
 
@@ -153,6 +158,10 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
                         renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
+                        if(isMajinOn){
+                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+
                     }
                 } else {
 
@@ -162,6 +171,9 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
                     renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
+                    if(isMajinOn){
+                        renderMajinMarcaMajinRace(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                    }
 
                 }
 
@@ -182,6 +194,61 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
         pPoseStack.popPose();
 
 
+    }
+
+    private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
+        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
+
+        var playermodel = this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                //Comprobamos que solo sea humano o saiyajin para que solo renderice a esa raza
+                if(cap.getRace() == 0 || cap.getRace() == 1){
+                    if(cap.getBodytype() > 0){
+                        if(cap.getEyesType() == 0){
+
+                            //DELINEADO
+                            pPoseStack.translate(0f,0f,-0.002f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                        } else if(cap.getEyesType() == 1){
+                            //DELINEADO
+                            pPoseStack.translate(0f,0f,-0.002f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                        }
+                    }
+                }
+
+
+
+            }
+
+        });
+    }
+    private void renderMajinMarcaMajinRace(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var playermodel = this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+            }
+
+        });
     }
 
 

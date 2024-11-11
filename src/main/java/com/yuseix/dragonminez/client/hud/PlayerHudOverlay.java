@@ -271,16 +271,21 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
 
     public static void personajesMenu(GuiGraphics pGuiGraphics){
+
+        var player = Minecraft.getInstance().player;
+
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             if(cap.getRace() == 0){//HUMANO
                 if (cap.getGender().equals("Male")){
-                    LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+                    FPHumanSaiyanEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+                    avatar.setOwnerUUID(player.getUUID());
 
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
                 }else {
-                    LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                    FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                    avatar.setOwnerUUID(player.getUUID());
 
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                 }
@@ -288,52 +293,61 @@ public class PlayerHudOverlay implements RenderEntityInv {
             }else if(cap.getRace() == 1){ //SAIYAN
                 if(cap.getBodytype() == 0){
                     if(Minecraft.getInstance().player.getModelName().equals("default")){
-                        LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+                        FPHumanSaiyanEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+                        avatar.setOwnerUUID(player.getUUID());
 
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
                     }else {
-                        LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                        FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                        avatar.setOwnerUUID(player.getUUID());
 
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                     }
 
                 } else {
                     if (cap.getGender().equals("Male")){
-                        LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+                        FPHumanSaiyanEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
+                        avatar.setOwnerUUID(player.getUUID());
 
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
                     }else {
-                        LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                        FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                        avatar.setOwnerUUID(player.getUUID());
 
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                     }
                 }
 
             }else if(cap.getRace() == 2){ //NAMEK
-                LivingEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), Minecraft.getInstance().level);
+                FPNamekianEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), Minecraft.getInstance().level);
+                avatar.setOwnerUUID(player.getUUID());
 
                 RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
             }else if(cap.getRace() == 3){ //BIOANDROIDE
-                LivingEntity bioAndroidEntity = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), Minecraft.getInstance().level);
+                FPBioAndroidEntity avatar = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), Minecraft.getInstance().level);
+                avatar.setOwnerUUID(player.getUUID());
 
-                RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, bioAndroidEntity);
+                RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
             }else if(cap.getRace() == 4){ //NARCO OSEA ARCO JEJE
-                LivingEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), Minecraft.getInstance().level);
+                FPDemonColdEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), Minecraft.getInstance().level);
+                avatar.setOwnerUUID(player.getUUID());
 
                 RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
             }else { // MAJIN
                 if (cap.getGender().equals("Male")){
-                    LivingEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), Minecraft.getInstance().level);
+                    FPMajinGordEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), Minecraft.getInstance().level);
+                    avatar.setOwnerUUID(player.getUUID());
 
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
 
                 }else {
-                    LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                    FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
+                    avatar.setOwnerUUID(player.getUUID());
 
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                 }

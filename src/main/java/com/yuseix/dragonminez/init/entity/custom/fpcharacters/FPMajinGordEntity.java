@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 public class FPMajinGordEntity extends FPBase {
 
 
-    public FPMajinGordEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPMajinGordEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -22,22 +22,9 @@ public class FPMajinGordEntity extends FPBase {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return null;
-    }
+    public void tick() {
+        super.tick();
 
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot equipmentSlot) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
-
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return null;
+        this.discard();
     }
 }

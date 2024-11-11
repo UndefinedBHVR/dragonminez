@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 public class FPDemonColdEntity extends FPBase {
 
 
-    public FPDemonColdEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPDemonColdEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -22,22 +22,8 @@ public class FPDemonColdEntity extends FPBase {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return null;
-    }
-
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot equipmentSlot) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
-
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return null;
+    public void tick() {
+        super.tick();
+        this.discard();
     }
 }

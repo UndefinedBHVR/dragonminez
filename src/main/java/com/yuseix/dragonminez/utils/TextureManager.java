@@ -82,4 +82,8 @@ public class TextureManager {
     //TEXTURA DE AURA
     public static final ResourceLocation AURA_BASE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/auras/aura.png");
 
+
+    public static final ResourceLocation MAJINMARCA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majinmarca.png");
+    public static final ResourceLocation MAJINMARCA_RM = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majinmarca_rm.png");
+
 }

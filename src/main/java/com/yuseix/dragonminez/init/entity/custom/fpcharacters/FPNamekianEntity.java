@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 public class FPNamekianEntity extends FPBase {
 
 
-    public FPNamekianEntity(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+    public FPNamekianEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
 
@@ -22,22 +22,9 @@ public class FPNamekianEntity extends FPBase {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
-        return null;
-    }
+    public void tick() {
+        super.tick();
 
-    @Override
-    public ItemStack getItemBySlot(EquipmentSlot equipmentSlot) {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    public void setItemSlot(EquipmentSlot equipmentSlot, ItemStack itemStack) {
-
-    }
-
-    @Override
-    public HumanoidArm getMainArm() {
-        return null;
+        this.discard();
     }
 }

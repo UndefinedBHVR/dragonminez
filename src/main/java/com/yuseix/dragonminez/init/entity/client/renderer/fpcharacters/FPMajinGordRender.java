@@ -130,24 +130,41 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
+                var transf = cap.getDmzState();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                if (bodyType == 0) {
+                switch (transf){
+                    case 0:
 
-                        if(genero.equals("Male")){
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else {
-                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        if (bodyType == 0) {
+
+                            if(genero.equals("Male")){
+                                renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            } else {
+                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+
+                            //RENDER EYES
+                            if(genero.equals("Male")){
+                                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            } else {
+                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+                            if(isMajinOn){
+                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
                         }
 
-
-                    //RENDER EYES
-                    if(genero.equals("Male")){
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    } else {
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    }
+                        break;
+                    case 1:
+                        break;
 
                 }
+
+
 
             });
 
@@ -168,6 +185,21 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
     }
 
+    private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var playermodel = this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA_RM)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+            }
+
+        });
+    }
     private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var playermodel = this.getModel();

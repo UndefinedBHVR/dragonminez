@@ -127,6 +127,7 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
                     renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -136,6 +137,10 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
                 }
                 renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                if(isMajinOn){
+                    renderMarcaMajin(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
 
             });
 
@@ -155,7 +160,38 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
 
     }
+    private void renderMarcaMajin(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
+        var playermodel = this.getModel();
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                if(cap.getEyesType() == 0){
+
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.002f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                } else if(cap.getEyesType() == 1){
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.002f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                }
+            }
+
+
+
+
+        });
+    }
     private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var playermodel = this.getModel();

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.models.AuraModel;
+import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -174,11 +175,10 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                 int colorAura = cap.getAuraColor();
                 int transformacion = cap.getDmzState();
                 boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (transformacion){
                     case 0:
-                        //Modificar tamano
-
 
                         if (bodyType == 0) {
                             renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -186,11 +186,13 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                             renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
-                        if(isAuraOn){ //Si el jugador esta activando el Aura
-                            //renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, 0.15F, colorAura);
-                        }
+
+
                         break;
                 }
+
+                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
 
             });
 
@@ -978,6 +980,35 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         });
     }
+
+    private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
+
+        BioAndroideModelo<AbstractClientPlayer> playermodel = (BioAndroideModelo)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin No la renderizamos porque el casco lo tapa XD
+                /*
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                 */
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                if(cap.getDmzState() == 0){
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.002f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                }
+
+            }
+
+        });
+    }
+
 
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {

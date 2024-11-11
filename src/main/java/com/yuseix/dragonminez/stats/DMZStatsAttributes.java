@@ -630,12 +630,12 @@ public class DMZStatsAttributes {
     }
 
 
-    public Integer getDMZTemporalEffect(String permanentEffect) {
-        return DMZTemporalEffects.get(permanentEffect);
+    public Integer getDMZTemporalEffect(String temporaleffect) {
+        return DMZTemporalEffects.get(temporaleffect);
     }
 
-    public boolean hasDMZTemporalEffect(String permanentEffect) {
-        return DMZTemporalEffects.containsKey(permanentEffect);
+    public boolean hasDMZTemporalEffect(String temporaleffect) {
+        return DMZTemporalEffects.containsKey(temporaleffect);
     }
 
     public void setDMZTemporalEffect(String permanentEffect, int seconds) {
