@@ -5,7 +5,14 @@ import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DMZStatsAttributes {
+
+    private final Map<String, Integer> DMZSkills = new HashMap<>();
+    private final Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
+    private final Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
     private int races;
     private int hairID, bodytype, eyesType;
@@ -560,6 +567,90 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    // Métodos para gestionar las habilidades
+    public void addSkill(String skillName, int level) {
+        DMZSkills.put(skillName, level);
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public Integer getSkillLevel(String skillName) {
+        return DMZSkills.get(skillName);
+    }
+
+    public boolean hasSkill(String skillName) {
+        return DMZSkills.containsKey(skillName);
+    }
+
+    public void setSkillLevel(String skillName, int newLevel) {
+        if (DMZSkills.containsKey(skillName)) {
+            DMZSkills.put(skillName, newLevel);
+        }
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void removeSkill(String skillName) {
+        if (DMZSkills.containsKey(skillName)) {
+            DMZSkills.remove(skillName);
+            DMZStatsCapabilities.syncStats(player);
+        }
+    }
+
+    // Métodos para gestionar los estados permanentes wa
+    public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
+        DMZPermanentEffects.put(permanentEffect, isActive);
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public Boolean getDMZPermaEffect(String permanentEffect) {
+        return DMZPermanentEffects.get(permanentEffect);
+    }
+
+    public boolean hasDMZPermaEffect(String permanentEffect) {
+        return DMZPermanentEffects.containsKey(permanentEffect);
+    }
+
+    public void setDMZPermanentEffect(String permanentEffect, boolean isActive) {
+        if (DMZPermanentEffects.containsKey(permanentEffect)) {
+            DMZPermanentEffects.put(permanentEffect, isActive);
+        }
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void removePermanentEffect(String permanentEffect) {
+        if (DMZPermanentEffects.containsKey(permanentEffect)) {
+            DMZPermanentEffects.remove(permanentEffect);
+            DMZStatsCapabilities.syncStats(player);
+        }
+    }
+
+    // Métodos para gestionar los estados temporales wa
+    public void addDMZTemporalEffect(String temporalEffect, int seconds) {
+        DMZTemporalEffects.put(temporalEffect, seconds);
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+
+    public Integer getDMZTemporalEffect(String permanentEffect) {
+        return DMZTemporalEffects.get(permanentEffect);
+    }
+
+    public boolean hasDMZTemporalEffect(String permanentEffect) {
+        return DMZTemporalEffects.containsKey(permanentEffect);
+    }
+
+    public void setDMZTemporalEffect(String permanentEffect, int seconds) {
+        if (DMZTemporalEffects.containsKey(permanentEffect)) {
+            DMZTemporalEffects.put(permanentEffect, seconds);
+        }
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void removeTemporalEffect(String temporalEffect) {
+        if (DMZTemporalEffects.containsKey(temporalEffect)) {
+            DMZTemporalEffects.remove(temporalEffect);
+            DMZStatsCapabilities.syncStats(player);
+        }
+    }
 
     public CompoundTag saveNBTData() {
 
@@ -598,6 +689,24 @@ public class DMZStatsAttributes {
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("isAuraOn", isauraOn);
+
+        CompoundTag skillsTag = new CompoundTag();
+        for (Map.Entry<String, Integer> entry : DMZSkills.entrySet()) {
+            skillsTag.putInt(entry.getKey(), entry.getValue());
+        }
+        nbt.put("DMZSkills", skillsTag);
+
+        CompoundTag permanentEffectsTag = new CompoundTag();
+        for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
+            permanentEffectsTag.putBoolean(entry.getKey(), entry.getValue());
+        }
+        nbt.put("DMZPermanentEffects", permanentEffectsTag);
+
+        CompoundTag temporalEffectTag = new CompoundTag();
+        for (Map.Entry<String, Integer> entry : DMZTemporalEffects.entrySet()) {
+            temporalEffectTag.putInt(entry.getKey(), entry.getValue());
+        }
+        nbt.put("DMZTemporalEffects", temporalEffectTag);
 
         return nbt;
     }
@@ -638,6 +747,25 @@ public class DMZStatsAttributes {
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         isauraOn = nbt.getBoolean("isAuraOn");
+
+        CompoundTag skillsTag = nbt.getCompound("DMZSkills");
+        for (String skillName : skillsTag.getAllKeys()) {
+            int level = skillsTag.getInt(skillName);
+            DMZSkills.put(skillName, level);
+        }
+
+        CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
+        for (String effectName : permanentEffects.getAllKeys()) {
+            boolean isActive = permanentEffects.getBoolean(effectName);
+            DMZPermanentEffects.put(effectName, isActive);
+        }
+
+        CompoundTag temporalEffectsTag = nbt.getCompound("DMZTemporalEffects");
+        for (String effectName : temporalEffectsTag.getAllKeys()) {
+            int seconds = temporalEffectsTag.getInt(effectName);
+            DMZSkills.put(effectName, seconds);
+        }
+
 
     }
 

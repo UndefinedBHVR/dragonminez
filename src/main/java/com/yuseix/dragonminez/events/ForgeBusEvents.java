@@ -160,6 +160,8 @@ public final class ForgeBusEvents {
         new ResetCharacterCommand(event.getDispatcher());
         new AlignmentCommand(event.getDispatcher());
         new LocationsCommand(event.getDispatcher(), new StructuresCapability());
+        new DMZPermaEffectsCommand(event.getDispatcher());
+        new DMZTempEffectsCommand(event.getDispatcher());
 
         ConfigCommand.register(event.getDispatcher());
     }
