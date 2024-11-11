@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.namek.MoroSoldierEntity;
@@ -89,7 +88,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
                 super.travel(pTravelVector);
             }
 
-            if (Keys.ACTION_KEY.isDown()) {
+            if (Keys.DESCEND_KEY.isDown()) {
                 //Velocidad de descenso cuando se presiona la tecla
                 double descentSpeed = -0.2;
                 Vec3 descentMovement = new Vec3(0, descentSpeed, 0);
