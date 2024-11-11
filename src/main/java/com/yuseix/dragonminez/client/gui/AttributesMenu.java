@@ -337,10 +337,18 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             o si quieres lo puedes borrar, como se vea mas ordenado.
 
             */
-            graphics.drawString(font, Component.literal("x" + DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "STR")),anchoTexto, alturaTexto, color);
-            graphics.drawString(font, Component.literal("x" + DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "DEF")),anchoTexto, alturaTexto + 12, color);
-            graphics.drawString(font, Component.literal("x" + DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "KIPOWER")),anchoTexto, alturaTexto + 36, color);
-
+            var STR = DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "STR");
+            var DEF = DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "DEF");
+            var KIPOWER = DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "KIPOWER");
+            if (STR > 1) {
+                graphics.drawString(font, Component.literal("x" + STR),anchoTexto, alturaTexto, color);
+            }
+            if (DEF > 1) {
+                graphics.drawString(font, Component.literal("x" + DEF),anchoTexto, alturaTexto + 12, color);
+            }
+            if (KIPOWER > 1) {
+                graphics.drawString(font, Component.literal("x" + KIPOWER),anchoTexto, alturaTexto + 36, color);
+            }
 
 
             Component Multiplier = Component.empty()
@@ -399,7 +407,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
-            drawStringWithBorder2(graphics, font, Component.literal("x"+DMZDatos.calcularMultiTotal(playerstats.getRace(), playerstats.getDmzState())), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
+            var MultiTotal = DMZDatos.calcularMultiTotal(playerstats.getRace(), playerstats.getDmzState());
+
+            drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
         });
     }
 

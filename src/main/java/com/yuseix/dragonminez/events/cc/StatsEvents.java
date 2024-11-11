@@ -241,8 +241,8 @@ public class StatsEvents {
             ModMessages.sendToServer(new InvocarAuraC2S());
         }
 
-        // Detecta si la tecla ACTION_KEY está presionada o liberada
-        isActionKeyPressed = Keys.ACTION_KEY.isDown();
+        // Detecta si la tecla DESCEND_KEY está presionada o liberada
+        isActionKeyPressed = Keys.DESCEND_KEY.isDown();
     }
 
     @SubscribeEvent

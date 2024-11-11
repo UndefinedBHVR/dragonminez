@@ -698,6 +698,7 @@ public class DMZDatos {
         var multiDef = 0.0;
         var multiKiPower = 0.0;
         var total = 0.0;
+        var multiFruto = DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get();
 
         switch (raza){
             case 0:
@@ -794,7 +795,7 @@ public class DMZDatos {
                 break;
         }
 
-        total = multiStr + multiDef + multiKiPower;
+        total = (multiStr + multiDef + multiKiPower) / 3; // Promedio, pq si se tiene x1 STR, x1 DEF y x1 PWR, debería ser x1 en Total y no x3
 
         return total;
 
@@ -997,7 +998,7 @@ public class DMZDatos {
         }
 
         //Aca sacamos el resultado total
-        total = multiStat; //Aca podemos agregar mas variables por ejemplo kaioken, majin, fruto, etc.
+        total = multiStat;
 
 
         return total;
