@@ -22,7 +22,7 @@ public class MightTreeFruitItem extends Item {
     private static final int HUNGER = 2;
     private static final float SATURATION = 20;
     public MightTreeFruitItem() {
-        super(new Properties().food(
+        super(new Properties().stacksTo(1).food(
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)

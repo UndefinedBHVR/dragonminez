@@ -18,7 +18,7 @@ public class ComidaDinoCookedItem extends Item {
     private static final float SATURATION = 12.8F;
 
     public ComidaDinoCookedItem() {
-        super(new Properties().food(
+        super(new Properties().stacksTo(32).food(
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)

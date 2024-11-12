@@ -17,7 +17,7 @@ public class ComidaDinoRawItem extends Item {
     private static final int HUNGER = 4;
     private static final float SATURATION = 6F;
     public ComidaDinoRawItem() {
-        super(new Item.Properties().food(
+        super(new Item.Properties().stacksTo(32).food(
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)

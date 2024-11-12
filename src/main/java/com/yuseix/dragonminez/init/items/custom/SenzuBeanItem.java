@@ -24,7 +24,7 @@ import java.util.List;
 public class SenzuBeanItem extends Item {
     public SenzuBeanItem() {
         super(new Properties()
-                .stacksTo(10)
+                .stacksTo(8)
         );
     }
 

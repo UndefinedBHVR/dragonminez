@@ -17,7 +17,7 @@ public class DinoTailCookedItem extends Item {
     private static final int HUNGER = 4;
     private static final float SATURATION = 6F;
     public DinoTailCookedItem() {
-        super(new Properties().food(
+        super(new Properties().stacksTo(16).food(
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .meat()
