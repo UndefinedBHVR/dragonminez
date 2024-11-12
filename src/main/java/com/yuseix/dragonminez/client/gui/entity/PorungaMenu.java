@@ -10,8 +10,8 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
-import com.yuseix.dragonminez.network.C2S.ShenlongC2S;
+import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
+import com.yuseix.dragonminez.network.C2S.PorungaC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,9 +22,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.Collections;
 import java.util.List;
 
-public class ShenlongMenu extends Screen {
+public class PorungaMenu extends Screen {
 
     private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/texto.png");
@@ -35,64 +36,88 @@ public class ShenlongMenu extends Screen {
 
     private String PageOption = "";
     private int PageButtons;
+    public int wishesCount = 0;
 
-    public ShenlongMenu() {
-        super(Component.literal("shenlongwa"));
+    public PorungaMenu(int wishesCount) {
+        super(Component.literal("porungawa"));
+        this.wishesCount = wishesCount;
     }
 
     @Override
-    protected void init() {
-        super.init();
+    protected void init() {super.init();}
+
+    private void menuInicio(){
+        PageOption = "";
+        PageButtons = 0;
     }
+
+    private void acceptButtonPressed() {
+        if (wishesCount < 2) {
+            wishesCount++;
+            menuInicio();
+        } else {
+            wishesCount++;
+            closeMenu();
+        }
+    }
+
+    private void rejectButtonPressed() {menuInicio();}
+
+    private void closeMenu() {this.minecraft.setScreen(null);}
 
     @Override
     public void tick() {
         super.tick();
-
         paginaBotones();
         PaginaOpciones();
-        
     }
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-
         int centerX = (this.width / 2);
         int centerY = (this.height);
 
-        LivingEntity shenlongEntity = new ShenlongEntity(MainEntity.SHENLONG.get(), this.minecraft.level);
-
+        LivingEntity porungaEntity = new PorungaEntity(MainEntity.PORUNGA.get(), this.minecraft.level);
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, textoCuadro);
-
-
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-
         buffer.vertex(centerX-140, centerY + 250, 0.0D).uv(0.0F, 1.0F).endVertex();
         buffer.vertex(centerX+140, centerY + 250, 0.0D).uv(1.0F, 1.0F).endVertex();
         buffer.vertex(centerX+140, centerY-90, 0.0D).uv(1.0F, 0.0F).endVertex();
         buffer.vertex(centerX-140, centerY-90, 0.0D).uv(0.0F, 0.0F).endVertex();
         Tesselator.getInstance().end();
-
         RenderSystem.disableBlend();
 
-
-
         //NOMBRE DE LA ENTIDAD
-        pGuiGraphics.drawString(font, Component.literal(shenlongEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX-120, centerY-88, 0xFFFFFF);
+        pGuiGraphics.drawString(font, Component.literal(porungaEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX-120, centerY-88, 0xFFFFFF);
 
         // TEXTO QUE DIRÁ LA ENTIDAD
         switch (PageOption) {
             case "" -> {
-                List<FormattedCharSequence> lines = font.split(Component.translatable("lines.shenron.menu"), 250);
-                for (int i = 0; i < lines.size(); i++) {
-                    pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+                switch (wishesCount) {
+                    case 0 -> {
+                        List<FormattedCharSequence> lines = font.split(Component.translatable("lines.porunga.menu"), 250);
+                        for (int i = 0; i < lines.size(); i++) {
+                            pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+                        }
+                    }
+                    case 1 -> {
+                        List<FormattedCharSequence> lines = font.split(Component.translatable("lines.porunga.menu_sec"), 250);
+                        for (int i = 0; i < lines.size(); i++) {
+                            pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+                        }
+                    }
+                    case 2 -> {
+                        List<FormattedCharSequence> lines = font.split(Component.translatable("lines.porunga.menu_trd"), 250);
+                        for (int i = 0; i < lines.size(); i++) {
+                            pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+                        }
+                    }
                 }
             }
             case "capstr" -> {
@@ -126,13 +151,13 @@ public class ShenlongMenu extends Screen {
                 }
             }
             case "senzu" -> {
-                List<FormattedCharSequence> lines = font.split(Component.translatable("lines.shenron.senzu"), 250);
+                List<FormattedCharSequence> lines = font.split(Component.translatable("lines.porunga.senzu"), 250);
                 for (int i = 0; i < lines.size(); i++) {
                     pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
                 }
             }
-            case "radar" -> {
-                List<FormattedCharSequence> lines = font.split(Component.translatable("lines.shenron.radar"), 250);
+            case "gete" -> {
+                List<FormattedCharSequence> lines = font.split(Component.translatable("lines.porunga.gete"), 250);
                 for (int i = 0; i < lines.size(); i++) {
                     pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
                 }
@@ -144,9 +169,7 @@ public class ShenlongMenu extends Screen {
     }
 
     @Override
-    public boolean isPauseScreen() {
-        return false;
-    }
+    public boolean isPauseScreen() {return false;}
 
     private void removerBotones(){
         removeWidget(this.capSTR);
@@ -235,8 +258,8 @@ public class ShenlongMenu extends Screen {
                 }));
                 // Radar
                 this.radar = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
-                        Component.translatable("lines.shenron.wish.radar"), wa -> {
-                    PageOption = "radar";
+                        Component.translatable("lines.porunga.wish.gete"), wa -> {
+                    PageOption = "gete";
                 }));
             }
         }
@@ -249,15 +272,26 @@ public class ShenlongMenu extends Screen {
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(1)); //Recibir capsula STR
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(1, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(1, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(1, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height - 47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
                 break;
 
@@ -266,15 +300,26 @@ public class ShenlongMenu extends Screen {
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(2)); //Recibir capsula DEF
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(2, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(2, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(2, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height - 47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
                 break;
 
@@ -283,15 +328,26 @@ public class ShenlongMenu extends Screen {
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(3)); //Recibir capsula CON
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(3, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(3, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(3, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height - 47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
                 break;
 
@@ -300,15 +356,26 @@ public class ShenlongMenu extends Screen {
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(4)); //Recibir capsula ENE
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(4, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(4, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(4, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height - 47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
                 break;
 
@@ -317,15 +384,26 @@ public class ShenlongMenu extends Screen {
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(5)); //Recibir capsula KI PW
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(5, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(5, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(5, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height - 47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
                 break;
 
@@ -334,32 +412,54 @@ public class ShenlongMenu extends Screen {
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(6)); //Recibir senzus
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(6, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(6, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(6, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
                 break;
 
-            case "radar":
+            case "gete":
                 //Aceptar
                 this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)-5, (this.height-47),
                         Component.translatable("lines.menu.accept"), wa -> {
 
-                    ModMessages.sendToServer(new ShenlongC2S(7)); //Recibir pieza radar
-
-                    this.minecraft.setScreen(null);
+                    switch (wishesCount) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new PorungaC2S(7, 1)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new PorungaC2S(7, 2)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                        case 2 -> {
+                            ModMessages.sendToServer(new PorungaC2S(7, 3)); //Recibir capsula STR
+                            acceptButtonPressed();
+                        }
+                    }
 
                 }));
                 //Rechazar
                 this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width/2)+60, (this.height-47),
                         Component.translatable("lines.menu.decline"), wa -> {
-                    this.minecraft.setScreen(null);
+                    rejectButtonPressed();
                 }));
 
             default:

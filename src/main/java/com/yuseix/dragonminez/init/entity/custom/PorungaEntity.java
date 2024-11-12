@@ -1,8 +1,9 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.client.gui.entity.PorungaMenu;
 import com.yuseix.dragonminez.client.gui.entity.ShenlongMenu;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -34,6 +35,7 @@ import java.util.Random;
 public class PorungaEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private long invokingTime;
+    private Player owner;
 
     public PorungaEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -47,6 +49,14 @@ public class PorungaEntity extends Mob implements GeoEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
     }
 
+    public void setOwner(Player player) {
+        this.owner = player;
+    }
+
+    public Player getOwner() {
+        return this.owner;
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
@@ -57,19 +67,20 @@ public class PorungaEntity extends Mob implements GeoEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.level() instanceof ServerLevel serverWorld) {
-            serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-                boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+        if (getOwner() == player) {
+            if (this.level() instanceof ServerLevel serverWorld) {
+                serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+                    boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
 
-                if (hasDragonBalls) {
-                    dragonBallsCapability.setHasDragonBalls(false);
-                }
-            });
-        }
-        if (this.level().isClientSide) {
-            Minecraft.getInstance().setScreen(new ShenlongMenu());
-
-            return InteractionResult.SUCCESS;
+                    if (hasNamekDragonBalls) {
+                        namekDragonBallsCapability.setHasNamekDragonBalls(false);
+                    }
+                });
+            }
+            if (this.level().isClientSide) {
+                Minecraft.getInstance().setScreen(new PorungaMenu(0));
+                return InteractionResult.SUCCESS;
+            }
         }
         return super.mobInteract(player, hand);
     }
@@ -123,28 +134,28 @@ public class PorungaEntity extends Mob implements GeoEntity {
         super.remove(reason);
     }
 
-    private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
+    private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
     private void onDespawn() {
         if (this.level() instanceof ServerLevel serverWorld) {
-            serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-                boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+            serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+                boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
 
-                if (!hasDragonBalls) {
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
-                    spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
+                if (!hasNamekDragonBalls) {
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState());
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
+                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
 
-                    dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
-                    dragonBallsCapability.setHasDragonBalls(true);
+                    namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
+                    namekDragonBallsCapability.setHasNamekDragonBalls(true);
                 }
             });
         }
     }
-    private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+    private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
         BlockPos spawnPos = serverWorld.getSharedSpawnPos();
         Random random = new Random();
 
@@ -159,9 +170,9 @@ public class PorungaEntity extends Mob implements GeoEntity {
         BlockPos pos = new BlockPos(x, y, z);
 
         serverWorld.setBlock(pos, dragonBall, 2);
-        System.out.println("Dragon Ball spawned at " + pos);
+        System.out.println("Namekian Dragon Ball spawned at " + pos);
 
-        dragonBallPositions.add(pos);
+        namekDragonBallPositions.add(pos);
     }
 
 }

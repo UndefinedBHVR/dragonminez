@@ -37,6 +37,11 @@ public class DMZPermaEffectsCommand {
                                         Collections.singleton(commandContext.getSource().getPlayerOrException()),
                                         StringArgumentType.getString(commandContext, "effect"))
                                 )
+                                .then(Commands.argument("player", EntityArgument.players())
+                                        .executes(commandContext -> givePermaEffect(
+                                                EntityArgument.getPlayers(commandContext, "player"),
+                                                StringArgumentType.getString(commandContext, "effect"))
+                                        ))
                         )
                 )
                 .then(Commands.literal("take")
@@ -52,11 +57,22 @@ public class DMZPermaEffectsCommand {
                                         Collections.singleton(commandContext.getSource().getPlayerOrException()),
                                         StringArgumentType.getString(commandContext, "effect"))
                                 )
+                                .then(Commands.argument("player", EntityArgument.players())
+                                        .executes(commandContext -> takePermaEffect(
+                                                EntityArgument.getPlayers(commandContext, "player"),
+                                                StringArgumentType.getString(commandContext, "effect"))
+                                        )
+                                )
                         )
                         .then(Commands.literal("all")
                                 .executes(commandContext -> takeAllPermaEffects(
                                         Collections.singleton(commandContext.getSource().getPlayerOrException())
                                 ))
+                                .then(Commands.argument("player", EntityArgument.players())
+                                        .executes(commandContext -> takeAllPermaEffects(
+                                                EntityArgument.getPlayers(commandContext, "player"))
+                                        )
+                                )
                         )
                 )
         );

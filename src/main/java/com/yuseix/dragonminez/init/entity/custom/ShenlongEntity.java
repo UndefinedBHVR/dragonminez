@@ -36,6 +36,7 @@ import java.util.Random;
 public class ShenlongEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private long invokingTime;
+    private Player owner;
 
     public ShenlongEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -49,6 +50,14 @@ public class ShenlongEntity extends Mob implements GeoEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
     }
 
+    public void setOwner(Player player) {
+        this.owner = player;
+    }
+
+    public Player getOwner() {
+        return this.owner;
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
@@ -59,19 +68,21 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.level() instanceof ServerLevel serverWorld) {
-            serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-                boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+        if (getOwner() == player) {
+            if (this.level() instanceof ServerLevel serverWorld) {
+                serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+                    boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
 
-                if (hasDragonBalls) {
-                    dragonBallsCapability.setHasDragonBalls(false);
-                }
-            });
-        }
-        if (this.level().isClientSide) {
-            Minecraft.getInstance().setScreen(new ShenlongMenu());
+                    if (hasDragonBalls) {
+                        dragonBallsCapability.setHasDragonBalls(false);
+                    }
+                });
+            }
+            if (this.level().isClientSide) {
+                Minecraft.getInstance().setScreen(new ShenlongMenu());
 
-            return InteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
+            }
         }
         return super.mobInteract(player, hand);
     }

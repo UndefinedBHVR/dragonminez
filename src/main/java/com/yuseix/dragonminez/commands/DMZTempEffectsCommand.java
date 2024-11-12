@@ -39,6 +39,13 @@ public class DMZTempEffectsCommand {
                                                 StringArgumentType.getString(commandContext, "effect"),
                                                 IntegerArgumentType.getInteger(commandContext, "seconds"))
                                         )
+                                        .then(Commands.argument("player", EntityArgument.players())
+                                                .executes(commandContext -> giveTempEffect(
+                                                        EntityArgument.getPlayers(commandContext, "player"),
+                                                        StringArgumentType.getString(commandContext, "effect"),
+                                                        IntegerArgumentType.getInteger(commandContext, "seconds"))
+                                                )
+                                        )
                                 )
                         )
                 )
@@ -55,11 +62,22 @@ public class DMZTempEffectsCommand {
                                         Collections.singleton(commandContext.getSource().getPlayerOrException()),
                                         StringArgumentType.getString(commandContext, "effect"))
                                 )
+                                .then(Commands.argument("player", EntityArgument.players())
+                                        .executes(commandContext -> takeTempEffect(
+                                                EntityArgument.getPlayers(commandContext, "player"),
+                                                StringArgumentType.getString(commandContext, "effect"))
+                                        )
+                                )
                         )
                         .then(Commands.literal("all")
                                 .executes(commandContext -> takeAllTempEffects(
                                         Collections.singleton(commandContext.getSource().getPlayerOrException())
                                 ))
+                                .then(Commands.argument("player", EntityArgument.players())
+                                        .executes(commandContext -> takeAllTempEffects(
+                                                EntityArgument.getPlayers(commandContext, "player")
+                                        ))
+                                )
                         )
                 )
         );
@@ -76,7 +94,6 @@ public class DMZTempEffectsCommand {
             }
             return 0; // No ejecuta la acción
         }
-
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName).append(" ")
                     .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s")));
@@ -96,6 +113,7 @@ public class DMZTempEffectsCommand {
             }
             return 0; // No ejecuta la acción
         }
+
 
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName));

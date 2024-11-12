@@ -2,10 +2,15 @@ package com.yuseix.dragonminez.init.blocks.custom.dballs;
 
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.blocks.entity.Dball1NamekBlockEntity;
+import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -87,20 +92,29 @@ public class Dball1NamekBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (areAllDballBlocksNearby(pLevel, pPos)) {
-            // Elimina los bloques
-            removeAllDballBlocks(pLevel, pPos);
+        if (pLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+            if (areAllDballBlocksNearby(pLevel, pPos)) {
+                // Elimina los bloques
+                removeAllDballBlocks(pLevel, pPos);
 
-            if (!pLevel.isClientSide) {
-                ShenlongEntity dragonEntity = new ShenlongEntity(MainEntity.SHENLONG.get(),pLevel);
-                dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
-                pLevel.addFreshEntity(dragonEntity);
+                if (!pLevel.isClientSide) {
+                    ServerLevel serverLevel = (ServerLevel) pLevel;
+                    long currentTime = pLevel.getDayTime();
+                    serverLevel.setDayTime(16000);
+
+                    PorungaEntity dragonEntity = new PorungaEntity(MainEntity.PORUNGA.get(),pLevel);
+                    dragonEntity.setOwner(pPlayer);
+                    dragonEntity.setInvokingTime(currentTime);
+                    dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
+                    pLevel.addFreshEntity(dragonEntity);
+                    pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                }
+
+                return InteractionResult.SUCCESS;
             }
+        }
 
-            return InteractionResult.SUCCESS;
-        } // TODO: Reemplazar Shenlong por Porunga cuando esté hecho.
-
-        // Si no están todos los bloques, no hace nada
+        // Si no están todos los bloques o no estamos en Namek, no hace nada
         return InteractionResult.PASS;
     }
 
