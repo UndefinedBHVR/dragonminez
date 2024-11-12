@@ -180,6 +180,18 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .group("dragonminez")
                 .save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU2.get(), 1)
+                .pattern("B#B")
+                .pattern("OBO")
+                .pattern("ONO")
+                .define('B', Items.BLUE_DYE)
+                .define('O', Items.ORANGE_DYE)
+                .define('N', Items.BLACK_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOTEN.get(), 1)
                 .pattern("B#B")
                 .pattern("OBO")

@@ -28,8 +28,10 @@ public final class MainTabs {
                             if (!block.getId().getPath().startsWith("sacred_")) {
                                 if (!block.getId().getPath().endsWith("_flower")) {
                                     if (!block.getId().getPath().startsWith("potted_")) {
-                                        if (!(block.get() instanceof LiquidBlock)) {
-                                            output.accept(block.get().asItem());
+                                        if (!(block.getId().getPath().contains("gete"))) {
+                                            if (!(block.get() instanceof LiquidBlock)) {
+                                                output.accept(block.get().asItem());
+                                            }
                                         }
                                     }
                                 }
@@ -89,7 +91,6 @@ public final class MainTabs {
                     .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
                         if (block.getId().getPath().contains("_ore")) {
                             output.accept(block.get().asItem());
-                            output.accept(MainBlocks.GETE_FURNACE.get().asItem());
                             output.accept(MainBlocks.KIKONO_BLOCK.get().asItem());
                             output.accept(MainBlocks.KIKONO_ARMOR_STATION.get().asItem());
                             output.accept(MainItems.KIKONO_SHARD.get().asItem());

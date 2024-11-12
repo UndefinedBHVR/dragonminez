@@ -73,25 +73,39 @@ public class NamekSacredGrassBlock extends Block implements BonemealableBlock {
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
         BlockPos abovePos = pos.above();
-        BlockState namekGrassState = MainBlocks.NAMEK_SACRED_GRASS.get().defaultBlockState();
 
         for (int i = 0; i < 128; ++i) {
-            BlockPos currentPos = abovePos;
+            BlockPos targetPos = abovePos.offset(
+                    random.nextInt(3) - 1,
+                    (random.nextInt(3) - 1) * random.nextInt(3) / 2,
+                    random.nextInt(3) - 1
+            );
 
-            for (int j = 0; j < i / 16; ++j) {
-                currentPos = currentPos.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                if (!level.getBlockState(currentPos.below()).is(this) || level.getBlockState(currentPos).isCollisionShapeFullBlock(level, currentPos)) {
-                    continue;
+            if (level.getBlockState(targetPos).isAir() && level.getBlockState(targetPos.below()).is(this)) {
+                if (random.nextFloat() < 0.7F) {
+                    level.setBlock(targetPos, MainBlocks.NAMEK_SACRED_GRASS.get().defaultBlockState(), 3);
+                }
+                else if (random.nextFloat() < 0.9F) {
+                    level.setBlock(targetPos, MainBlocks.SACRED_FERN.get().defaultBlockState(), 3);
+                }
+                else {
+                    BlockState flower = pickRandomFlower(random);
+                    if (flower != null) {
+                        level.setBlock(targetPos, flower, 3);
+                    }
                 }
             }
-
-            BlockState targetState = level.getBlockState(currentPos);
-            BlockState belowState = level.getBlockState(currentPos.below());
-
-            // Verifica que el bloque debajo sea NAMEK_GRASS_BLOCK antes de generar NAMEK_GRASS
-            if (targetState.isAir() && belowState.is(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get())) {
-                level.setBlockAndUpdate(currentPos, namekGrassState);
-            }
         }
+    }
+
+    private BlockState pickRandomFlower(RandomSource random) {
+        BlockState[] flowers = {
+                MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER.get().defaultBlockState(),
+                MainBlocks.SACRED_AMARYLLIS_FLOWER.get().defaultBlockState(),
+                MainBlocks.SACRED_MARIGOLD_FLOWER.get().defaultBlockState(),
+                MainBlocks.SACRED_TRILLIUM_FLOWER.get().defaultBlockState(),
+                MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER.get().defaultBlockState()
+        };
+        return flowers[random.nextInt(flowers.length)];
     }
 }

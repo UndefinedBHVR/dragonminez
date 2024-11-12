@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.mojang.brigadier.context.CommandContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -17,7 +18,7 @@ import java.util.Set;
 public class DMZTempEffectsCommand {
 
     // Lista de efectos temporales válidos
-    private static final Set<String> VALID_TEMP_EFFECTS = Set.of("fruta");
+    private static final Set<String> VALID_TEMP_EFFECTS = Set.of("mightfruit");
 
     public DMZTempEffectsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
@@ -70,13 +71,15 @@ public class DMZTempEffectsCommand {
         if (!VALID_TEMP_EFFECTS.contains(effectName)) {
             // Si el efecto no es válido, muestra un mensaje de error
             for (ServerPlayer player : players) {
-                player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.invalid_effect", effectName));
+                player.sendSystemMessage(Component.translatable("command.dmzeffects.invalid_effect").append(effectName).append("\n")
+                        .append(Component.translatable("command.dmzeffects.valid_effects").append(String.join(", ", VALID_TEMP_EFFECTS))));
             }
             return 0; // No ejecuta la acción
         }
 
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.give.temporary", effectName, seconds + "s"));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName).append(" ")
+                    .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s")));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZTemporalEffect(effectName, seconds));
         }
         return players.size();
@@ -88,13 +91,14 @@ public class DMZTempEffectsCommand {
         if (!VALID_TEMP_EFFECTS.contains(effectName)) {
             // Si el efecto no es válido, muestra un mensaje de error
             for (ServerPlayer player : players) {
-                player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.invalid_effect", effectName));
+                player.sendSystemMessage(Component.translatable("command.dmzeffects.invalid_effect").append(effectName).append("\n")
+                        .append(Component.translatable("command.dmzeffects.valid_effects").append(String.join(", ", VALID_TEMP_EFFECTS))));
             }
             return 0; // No ejecuta la acción
         }
 
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take", effectName));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeTemporalEffect(effectName));
         }
         return players.size();
