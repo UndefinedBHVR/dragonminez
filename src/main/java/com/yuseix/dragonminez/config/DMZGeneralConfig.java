@@ -20,8 +20,12 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_DAILY_COOLDOWN;
+
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_SHENRON_WISH;
     public static final ForgeConfigSpec.ConfigValue<Integer> CAPSULE_SHENRON_WISH;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_PORUNGA_WISH;
+    public static final ForgeConfigSpec.ConfigValue<Integer> CAPSULE_PORUNGA_WISH;
+    public static final ForgeConfigSpec.ConfigValue<Integer> GETE_PORUNGA_WISH;
 
 
 
@@ -32,8 +36,8 @@ public class DMZGeneralConfig {
                 .defineInRange("Attributes: ", 1000, 100, 10000);
 
         OVERRIDE_MAX_ATTRIBUTES = BUILDER.comment("Allow Override Max Attributes! (Default: true)")
-                .comment("If set to false, the max attributes will always be the same.")
-                .comment("If set to true, the max attributes can be overriden with a Multiplier. (Ex: Transformations)")
+                .comment("If set to false, the max attributes will always be the same." +
+                         "\nIf set to true, the max attributes can be overriden with a Multiplier. (Ex: Transformations)")
                 .define("Override: ", true);
 
         BUILDER.pop();
@@ -79,11 +83,20 @@ public class DMZGeneralConfig {
 
         BUILDER.push("Shenron / Porunga Wishes");
 
-        SENZU_SHENRON_WISH = BUILDER.comment("Number of Senzu Beans Shenron will give (Min: 1 / Max: 64 / Default: 5)")
-                .defineInRange("Number of Senzus: ", 5, 1, 64);
+        SENZU_SHENRON_WISH = BUILDER.comment("Number of Senzu Beans Shenron will give (Min: 1 / Max: 64 / Default: 4)")
+                .defineInRange("[Shenron] Number of Senzus: ", 4, 1, 64);
 
-        CAPSULE_SHENRON_WISH = BUILDER.comment("Number of Capsules Shenron will give (Min: 1 / Max: 64 / Default: 3)")
-                .defineInRange("Number of Capsules: ", 3, 1, 64);
+        CAPSULE_SHENRON_WISH = BUILDER.comment("Number of Capsules Shenron will give (Min: 1 / Max: 64 / Default: 2)")
+                .defineInRange("[Shenron] Number of Capsules: ", 2, 1, 64);
+
+        SENZU_PORUNGA_WISH = BUILDER.comment("Number of Senzu Beans Porunga will give (Min: 1 / Max: 64 / Default: 8)")
+                .defineInRange("[Porunga] Number of Senzus: ", 8, 1, 64);
+
+        CAPSULE_PORUNGA_WISH = BUILDER.comment("Number of Capsules Porunga will give (Min: 1 / Max: 64 / Default: 3)")
+                .defineInRange("[Porunga] Number of Capsules: ", 3, 1, 64);
+
+        GETE_PORUNGA_WISH = BUILDER.comment("Number of Gete Scraps Porunga will give (Min: 1 / Max: 64 / Default: 3)")
+                .defineInRange("[Porunga] Number of Gete Scraps: ", 3, 1, 64);
 
         SPEC = BUILDER.build();
     }

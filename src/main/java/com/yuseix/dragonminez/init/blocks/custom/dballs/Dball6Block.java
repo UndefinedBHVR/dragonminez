@@ -90,26 +90,29 @@ public class Dball6Block extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (areAllDballBlocksNearby(pLevel, pPos)) {
-            // Elimina los bloques
-            removeAllDballBlocks(pLevel, pPos);
+        if (pLevel.dimension() == Level.OVERWORLD) {
+            if (areAllDballBlocksNearby(pLevel, pPos)) {
+                // Elimina los bloques
+                removeAllDballBlocks(pLevel, pPos);
 
-            if (!pLevel.isClientSide) {
-                ServerLevel serverLevel = (ServerLevel) pLevel;
-                long currentTime = pLevel.getDayTime();
-                serverLevel.setDayTime(16000);
+                if (!pLevel.isClientSide) {
+                    ServerLevel serverLevel = (ServerLevel) pLevel;
+                    long currentTime = pLevel.getDayTime();
+                    serverLevel.setDayTime(16000);
 
-                ShenlongEntity dragonEntity = new ShenlongEntity(MainEntity.SHENLONG.get(),pLevel);
-                dragonEntity.setInvokingTime(currentTime);
-                dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
-                pLevel.addFreshEntity(dragonEntity);
-                pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                    ShenlongEntity dragonEntity = new ShenlongEntity(MainEntity.SHENLONG.get(),pLevel);
+                    dragonEntity.setOwner(pPlayer);
+                    dragonEntity.setInvokingTime(currentTime);
+                    dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
+                    pLevel.addFreshEntity(dragonEntity);
+                    pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                }
+
+                return InteractionResult.SUCCESS;
             }
-
-            return InteractionResult.SUCCESS;
         }
 
-        // Si no están todos los bloques, no hace nada
+        // Si no están todos los bloques o no está en el Overworld, no hace nada
         return InteractionResult.PASS;
     }
 

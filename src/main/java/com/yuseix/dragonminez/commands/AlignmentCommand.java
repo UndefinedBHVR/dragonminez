@@ -20,8 +20,8 @@ public class AlignmentCommand {
         dispatcher.register(Commands.literal("dmzalignment")
                 .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                 .then(Commands.literal("set")
-                        .then(Commands.argument("points", IntegerArgumentType.integer()).
-                                executes(commandContext -> setPuntos(
+                        .then(Commands.argument("points", IntegerArgumentType.integer())
+                                .executes(commandContext -> setPuntos(
                                         Collections.singleton(commandContext.getSource().getPlayerOrException()),
                                         IntegerArgumentType.getInteger(commandContext, "points")))
                                 .then(Commands.argument("player", EntityArgument.players())
@@ -32,8 +32,8 @@ public class AlignmentCommand {
 
                         ))
                 .then(Commands.literal("add")
-                        .then(Commands.argument("points", IntegerArgumentType.integer()).
-                                executes(commandContext -> darPuntos(
+                        .then(Commands.argument("points", IntegerArgumentType.integer())
+                                .executes(commandContext -> darPuntos(
                                         Collections.singleton(commandContext.getSource().getPlayerOrException()),
                                         IntegerArgumentType.getInteger(commandContext, "points")))
                                 .then(Commands.argument("player", EntityArgument.players())
@@ -44,8 +44,8 @@ public class AlignmentCommand {
 
                         ))
                 .then(Commands.literal("remove")
-                        .then(Commands.argument("points", IntegerArgumentType.integer()).
-                                executes(commandContext -> removePuntos(
+                        .then(Commands.argument("points", IntegerArgumentType.integer())
+                                .executes(commandContext -> removePuntos(
                                         Collections.singleton(commandContext.getSource().getPlayerOrException()),
                                         IntegerArgumentType.getInteger(commandContext, "points")))
                                 .then(Commands.argument("player", EntityArgument.players())
