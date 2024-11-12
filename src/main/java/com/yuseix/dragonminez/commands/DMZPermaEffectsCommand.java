@@ -95,7 +95,7 @@ public class DMZPermaEffectsCommand {
 
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName));
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removePermanentEffect(effectName));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removePermanentEffect(effectName)); //playerstats.setDMZPermanentEffect(effectName, false)
         }
         return players.size();
     }

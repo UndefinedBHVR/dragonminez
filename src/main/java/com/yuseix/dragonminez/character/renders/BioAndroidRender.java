@@ -45,6 +45,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Iterator;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
@@ -171,6 +172,13 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
+                Map<String, Boolean> updatedEffects = cap.getDMZPermanentEffects();
+
+                updatedEffects.forEach((effect, isActive) -> {
+                    // Aquí puedes hacer lo que necesites con cada efecto
+                    updatedEffects.put(effect, isActive); // Esto asegura que se actualiza el mapa en cada tick
+                });
+
                 int bodyType = cap.getBodytype();
                 int colorAura = cap.getAuraColor();
                 int transformacion = cap.getDmzState();
@@ -191,7 +199,9 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                         break;
                 }
 
-                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                if(cap.getDMZPermaEffect("majin")){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
 
 
             });
@@ -989,22 +999,14 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            if(cap.hasDMZPermaEffect("majin")){
-                //Renderizamos la marca majin No la renderizamos porque el casco lo tapa XD
-                /*
-                pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
-
-                 */
-                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
-                if(cap.getDmzState() == 0){
+            if(cap.getDmzState() == 0){
                     //DELINEADO
-                    pPoseStack.translate(0f,0f,-0.002f);
+                pPoseStack.translate(0f,0f,-0.0012f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                }
-
             }
+
+
 
         });
     }

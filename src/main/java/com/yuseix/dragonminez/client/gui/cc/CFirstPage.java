@@ -137,6 +137,7 @@ public class CFirstPage extends Screen {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
+
             var raza = cap.getRace();
 
             switch (raza) {

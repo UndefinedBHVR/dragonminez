@@ -230,7 +230,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
                 if(cap.getDmzState() == 0){
                     //DELINEADO
-                    pPoseStack.translate(0f,0f,-0.002f);
+                    pPoseStack.translate(0f,0f,-0.0011f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 }

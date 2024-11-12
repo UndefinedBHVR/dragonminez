@@ -2,10 +2,7 @@ package com.yuseix.dragonminez.network;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.C2S.*;
-import com.yuseix.dragonminez.network.S2C.InvocarAuraS2C;
-import com.yuseix.dragonminez.network.S2C.MenuS2C;
-import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
-import com.yuseix.dragonminez.network.S2C.ZPointsS2C;
+import com.yuseix.dragonminez.network.S2C.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -91,6 +88,21 @@ public class ModMessages {
                 .decoder(InvocarAuraS2C::new)
                 .encoder(InvocarAuraS2C::toBytes)
                 .consumerMainThread(InvocarAuraS2C::handle)
+                .add();
+        net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(DMZPermanentEffectsSyncS2C::toBytes)
+                .decoder(DMZPermanentEffectsSyncS2C::new)
+                .consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
+                .add();
+        net.messageBuilder(DMZTempEffectsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(DMZTempEffectsS2C::toBytes)
+                .decoder(DMZTempEffectsS2C::new)
+                .consumerMainThread(DMZTempEffectsS2C::handle)
+                .add();
+        net.messageBuilder(DMZSkillsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(DMZSkillsS2C::toBytes)
+                .decoder(DMZSkillsS2C::new)
+                .consumerMainThread(DMZSkillsS2C::handle)
                 .add();
     }
 

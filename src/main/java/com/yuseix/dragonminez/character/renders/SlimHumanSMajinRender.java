@@ -416,12 +416,12 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                         if(cap.getEyesType() == 0){
 
                             //DELINEADO
-                            pPoseStack.translate(0f,0f,-0.002f);
+                            pPoseStack.translate(0f,0f,-0.0011f);
                             playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                         } else if(cap.getEyesType() == 1){
                             //DELINEADO
-                            pPoseStack.translate(0f,0f,-0.002f);
+                            pPoseStack.translate(0f,0f,-0.0011f);
                             playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                         }

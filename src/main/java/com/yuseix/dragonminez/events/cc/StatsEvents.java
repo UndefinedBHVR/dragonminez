@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -54,6 +55,7 @@ public class StatsEvents {
     public static void tick(TickEvent.PlayerTickEvent event) {
         // Regenerar stamina
         if (event.side == LogicalSide.SERVER) {
+
             energyRegen++;
             tickcounter++;
             energiaConsumecounter++;
@@ -142,6 +144,8 @@ public class StatsEvents {
                     }
                 }
 
+
+                updateDMZPermanentEffects((ServerPlayer) event.player);
             });
 
 
@@ -149,6 +153,27 @@ public class StatsEvents {
 
     }
 
+    private static void updateDMZPermanentEffects(ServerPlayer player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerStats -> {
+            // Obtén el mapa actual de efectos permanentes
+            Map<String, Boolean> permanentEffects = playerStats.getDMZPermanentEffects();
+
+            // Aquí puedes realizar la actualización. Por ejemplo, si deseas verificar o refrescar cada efecto
+            for (Map.Entry<String, Boolean> entry : permanentEffects.entrySet()) {
+                String effectName = entry.getKey();
+                Boolean effectState = entry.getValue();
+
+                // Realiza cualquier lógica adicional que necesites, si el estado cambia
+                if (effectState == null) {
+                    // Asegúrate de manejar efectos nulos
+                    permanentEffects.put(effectName, false); // o algún valor predeterminado
+                }
+            }
+
+            // Asegúrate de sincronizar los datos después de la actualización
+            DMZStatsCapabilities.syncStats(player);  // Sincronizamos para asegurarnos de que el cliente reciba los cambios
+        });
+    }
 
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
