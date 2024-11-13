@@ -11,13 +11,13 @@ jobs:
       - uses: gradle/actions/wrapper-validation@v3
       
       - name: Set up JDK 17 Temurin
-        uses: actions/setup-java@v4.2.1
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       - name: Cache
-        uses: actions/cache@v4.0.2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -30,5 +30,17 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+        
       - name: Build with Gradle
+        if: contains(github.event.head_commit.message, '.java')
         run: ./gradlew build
+        
+      - name: PMD report
+        uses: pmd/pmd-github-action@v2
+        with:
+          sourcePath: 'src/main/java/com/yuseix/dragonminez'
+          rulesets: '.github/workflows/pmd/quickstart.xml'
+          analyzeModifiedFilesOnly: true
+      - name: PMD Violations Check
+        if: steps.pmd.outputs.violations != 0
+        run: exit 1
