@@ -65,6 +65,7 @@ public class ModBusEvents {
             EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
             EntityRenderers.register(MainEntity.PORUNGA.get(), PorungaRenderer::new);
             EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+            EntityRenderers.register(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanRenderer::new);
 
             EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
             EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);
@@ -177,6 +178,7 @@ public class ModBusEvents {
 
         event.put(MainEntity.FRIEZA_SOLDIER01.get(), FriezaSoldierEntity.setAttributes());
         event.put(MainEntity.MORO_SOLDIER.get(), MoroSoldierEntity.setAttributes());
+        event.put(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanEntity.setAttributes());
 
         //FAKEPLAYERS
         event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());

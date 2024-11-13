@@ -100,6 +100,12 @@ public class MainEntity {
                             .sized(0.8f, 2.1f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "moro_soldier").toString())
             );
+    public static final RegistryObject<EntityType<NaveSaiyanEntity>> NAVE_SAIYAN =
+            ENTITY_TYPES_REGISTER.register("nave_saiyan",
+                    () -> EntityType.Builder.of(NaveSaiyanEntity::new, MobCategory.CREATURE)
+                            .sized(1.3f, 1.8f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "nave_saiyan").toString())
+            );
     //NPCS
     public static final RegistryObject<EntityType<KarinEntity>> MASTER_KARIN =
             ENTITY_TYPES_REGISTER.register("karin",
