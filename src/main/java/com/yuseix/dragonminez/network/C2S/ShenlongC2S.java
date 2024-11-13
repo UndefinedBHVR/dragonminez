@@ -53,7 +53,6 @@ public class ShenlongC2S {
                     if (entity instanceof ShenlongEntity shenlong) {
                         ServerLevel serverLevel = (ServerLevel) player.level();
                         serverLevel.setDayTime(shenlong.getInvokingTime()); // Restaura el tiempo original
-
                         shenlong.setDeseos(0);
                     }
 

@@ -103,8 +103,9 @@ public class Dball4NamekBlock extends BaseEntityBlock {
                     serverLevel.setDayTime(16000);
 
                     PorungaEntity dragonEntity = new PorungaEntity(MainEntity.PORUNGA.get(),pLevel);
-                    dragonEntity.setOwner(pPlayer);
+                    dragonEntity.setOwnerName(pPlayer.getName().getString());
                     dragonEntity.setInvokingTime(currentTime);
+                    dragonEntity.setDeseos(3);
                     dragonEntity.moveTo(pPos.getX() + 0.5, pPos.getY(), pPos.getZ() + 0.5, 0.0F, 0.0F);
                     pLevel.addFreshEntity(dragonEntity);
                     pLevel.playSound(null, pPos, MainSounds.SHENRON.get(), SoundSource.AMBIENT, 1.0F, 1.0F);

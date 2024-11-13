@@ -6,6 +6,9 @@ import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,10 +38,16 @@ import java.util.Random;
 public class PorungaEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private long invokingTime;
-    private Player owner;
+
+    private int tiempo = 20*5; //Tiempo de desaparicion despues de que los deseos sean 0 (20 ticks = 1 segundo)
+    private static final EntityDataAccessor<String> OWNER_NAME = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Integer> DESEOS = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.INT);
 
     public PorungaEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+
+        this.entityData.define(OWNER_NAME, "");
+        this.entityData.define(DESEOS, 0); // deseos
     }
 
     public static AttributeSupplier setAttributes() {
@@ -49,12 +58,18 @@ public class PorungaEntity extends Mob implements GeoEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
     }
 
-    public void setOwner(Player player) {
-        this.owner = player;
+    public void setOwnerName(String name) {
+        this.entityData.set(OWNER_NAME, name);
     }
 
-    public Player getOwner() {
-        return this.owner;
+    public String getOwnerName() {return this.entityData.get(OWNER_NAME);}
+
+    public int getDeseos() {
+        return this.entityData.get(DESEOS);
+    }
+
+    public void setDeseos(int deseos) {
+        this.entityData.set(DESEOS, deseos);
     }
 
     @Override
@@ -67,20 +82,25 @@ public class PorungaEntity extends Mob implements GeoEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (getOwner() == player) {
-            if (this.level() instanceof ServerLevel serverWorld) {
-                serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
-                    boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
+        if (this.level() instanceof ServerLevel serverWorld) {
+            serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+                boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
 
-                    if (hasNamekDragonBalls) {
-                        namekDragonBallsCapability.setHasNamekDragonBalls(false);
-                    }
-                });
+                if (hasNamekDragonBalls) {
+                    namekDragonBallsCapability.setHasNamekDragonBalls(false);
+                }
+            });
+        }
+        if (this.level().isClientSide) {
+            // Verifica que el UUID de esta entidad coincida con el del jugador
+            if (this.getOwnerName().equals(player.getName().getString())) {
+                System.out.println("Nombre coincide con el del jugador");
+
+                if (getDeseos() > 0) {
+                    Minecraft.getInstance().setScreen(new PorungaMenu(0));
+                }
             }
-            if (this.level().isClientSide) {
-                Minecraft.getInstance().setScreen(new PorungaMenu(0));
-                return InteractionResult.SUCCESS;
-            }
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
@@ -97,6 +117,22 @@ public class PorungaEntity extends Mob implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
 
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        //System.out.println("[P] Deseos del Jugador: " + getDeseos());
+        //System.out.println("[P] Nombre del jugador: " + getOwnerName());
+
+
+        if(this.getDeseos() == 0){
+            tiempo--;
+        }
+
+        if(tiempo == 0){
+            this.discard();
+        }
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
