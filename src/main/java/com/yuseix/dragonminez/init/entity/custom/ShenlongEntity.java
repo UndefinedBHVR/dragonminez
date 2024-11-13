@@ -86,17 +86,17 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-            if (this.level() instanceof ServerLevel serverWorld) {
+        if (this.level() instanceof ServerLevel serverWorld) {
 
-                serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-                    boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+            serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+                boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
 
-                    if (hasDragonBalls) {
-                        dragonBallsCapability.setHasDragonBalls(false);
-                    }
-                });
+                if (hasDragonBalls) {
+                    dragonBallsCapability.setHasDragonBalls(false);
+                }
+            });
 
-            }
+        }
 
         if (this.level().isClientSide) {
             // Verifica que el UUID de esta entidad coincida con el del jugador
@@ -130,8 +130,8 @@ public class ShenlongEntity extends Mob implements GeoEntity {
     @Override
     public void tick() {
         super.tick();
-        System.out.println("Deseos del Jugador: " + getDeseos());
-       System.out.println("Nombre del jugador: " + getOwnerName());
+       //System.out.println("[S] Deseos del Jugador: " + getDeseos());
+       //System.out.println("[S] Nombre del jugador: " + getOwnerName());
 
 
         if(this.getDeseos() == 0){

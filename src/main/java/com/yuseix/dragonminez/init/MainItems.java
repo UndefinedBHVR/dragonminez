@@ -34,20 +34,20 @@ public final class MainItems {
     public static final RegistryObject<Item> FROG_LEGS_COOKED = ITEM_REGISTER.register("frog_legs_cooked", FrogLegsCookedItem::new);
 
     //POTHALAS
-    public static final RegistryObject<Item> POTHALA_RIGHT =
-            ITEM_REGISTER.register("pothala_right", () -> new Item(properties
-                    .stacksTo(1)
-                    .fireResistant()));
     public static final RegistryObject<Item> POTHALA_LEFT =
             ITEM_REGISTER.register("pothala_left", () -> new Item(properties
                     .stacksTo(1)
                     .fireResistant()));
-    public static final RegistryObject<Item> GREEN_POTHALA_RIGHT =
-            ITEM_REGISTER.register("green_pothala_right", () -> new Item(properties
+    public static final RegistryObject<Item> POTHALA_RIGHT =
+            ITEM_REGISTER.register("pothala_right", () -> new Item(properties
                     .stacksTo(1)
                     .fireResistant()));
     public static final RegistryObject<Item> GREEN_POTHALA_LEFT =
             ITEM_REGISTER.register("green_pothala_left", () -> new Item(properties
+                    .stacksTo(1)
+                    .fireResistant()));
+    public static final RegistryObject<Item> GREEN_POTHALA_RIGHT =
+            ITEM_REGISTER.register("green_pothala_right", () -> new Item(properties
                     .stacksTo(1)
                     .fireResistant()));
 
@@ -184,31 +184,6 @@ public final class MainItems {
     public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
     public static final RegistryObject<Item> KIKONO_SHARD = ITEM_REGISTER.register("kikono_shard", KikonoShardItem::new);
 
-    //ARMOR STATION/ARMOR CRAFTING PATTERNS
-    public static final RegistryObject<Item> ARMOR_CRAFTING_KIT = ITEM_REGISTER.register("armor_crafting_kit",
-            () -> new ArmorCraftingKitItem(properties.stacksTo(1)));
-    public static final RegistryObject<Item> KIKONO_STRING = ITEM_REGISTER.register("kikono_string", KikonoStringItem::new);
-    public static final RegistryObject<Item> KIKONO_CLOTH = ITEM_REGISTER.register("kikono_cloth", KikonoClothItem::new);
-    public static final RegistryObject<Item> PATTERN_GOKU1 = ITEM_REGISTER.register("pattern_goku1",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_GOKU2 = ITEM_REGISTER.register("pattern_goku2",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_GOTEN = ITEM_REGISTER.register("pattern_goten",
-             () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_VEGETA1 = ITEM_REGISTER.register("pattern_vegeta1",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_VEGETA2 = ITEM_REGISTER.register("pattern_vegeta2",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_PICCOLO = ITEM_REGISTER.register("pattern_piccolo",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_GOHAN1 = ITEM_REGISTER.register("pattern_gohan1",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_BARDOCK1 = ITEM_REGISTER.register("pattern_bardock1",
-            () -> new Item(properties.stacksTo(64)));
-    public static final RegistryObject<Item> PATTERN_BARDOCK2 = ITEM_REGISTER.register("pattern_bardock2",
-            () -> new Item(properties.stacksTo(64)));
-
-
     //DRAGON BALL RADAR
     public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
     public static final RegistryObject<Item> NAMEKDBALL_RADAR_ITEM = ITEM_REGISTER.register("namekdball_radar", NamekDragonBallRadarItem::new);
@@ -223,8 +198,9 @@ public final class MainItems {
     public static final RegistryObject<Item> T2_RADAR_CPU = ITEM_REGISTER.register("t2_radar_cpu",
             () -> new Item(properties.stacksTo(16)));
 
-    //NUBE VOLADORA
+    //ENTIDADES (VEHÍCULOS)
     public static final RegistryObject<Item> NUBE_ITEM = ITEM_REGISTER.register("flying_nimbus", FlyingNimbusItem::new);
+    public static final RegistryObject<Item> NAVE_SAIYAN_ITEM = ITEM_REGISTER.register("saiyan_ship", SaiyanShipItem::new);
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
@@ -298,6 +274,29 @@ public final class MainItems {
                     .fireResistant()
             ));
 
+    //ARMOR STATION/ARMOR CRAFTING PATTERNS
+    public static final RegistryObject<Item> ARMOR_CRAFTING_KIT = ITEM_REGISTER.register("armor_crafting_kit",
+            () -> new ArmorCraftingKitItem(properties.stacksTo(1)));
+    public static final RegistryObject<Item> KIKONO_STRING = ITEM_REGISTER.register("kikono_string", KikonoStringItem::new);
+    public static final RegistryObject<Item> KIKONO_CLOTH = ITEM_REGISTER.register("kikono_cloth", KikonoClothItem::new);
+    public static final RegistryObject<Item> PATTERN_GOKU1 = ITEM_REGISTER.register("pattern_goku1",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_GOKU2 = ITEM_REGISTER.register("pattern_goku2",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_GOTEN = ITEM_REGISTER.register("pattern_goten",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_VEGETA1 = ITEM_REGISTER.register("pattern_vegeta1",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_VEGETA2 = ITEM_REGISTER.register("pattern_vegeta2",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_PICCOLO = ITEM_REGISTER.register("pattern_piccolo",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_GOHAN1 = ITEM_REGISTER.register("pattern_gohan1",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_BARDOCK1 = ITEM_REGISTER.register("pattern_bardock1",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_BARDOCK2 = ITEM_REGISTER.register("pattern_bardock2",
+            () -> new Item(properties.stacksTo(64)));
 
     public static void register(IEventBus bus) {
         ITEM_REGISTER.register(bus);

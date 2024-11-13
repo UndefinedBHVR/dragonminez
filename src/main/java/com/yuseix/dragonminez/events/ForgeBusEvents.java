@@ -54,6 +54,8 @@ public final class ForgeBusEvents {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    // Recordar comentar esto antes de Buildear una versión Pública.
+    // y Descomentar para el buildeo de versiones de Testing.
     private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
             // Staff
             "Dev",
@@ -69,7 +71,9 @@ public final class ForgeBusEvents {
             "kavu_",
             "andysito_",
             "Ducco123",
-            "Rev_zy"//Mazu
+            "Rev_zy", //Mazu
+            "grillo78",
+            "TheWildBoss"
             );
 
 

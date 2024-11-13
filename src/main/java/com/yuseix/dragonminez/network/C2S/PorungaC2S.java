@@ -48,16 +48,20 @@ public class PorungaC2S {
                 }
 
                 // Despawnear la entidad Porunga en el mundo del jugador
-                if (packet.wishCount == 3) {
-                    player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
-                            entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {
-                        if (entity instanceof PorungaEntity porunga) {
-                            ServerLevel serverLevel = (ServerLevel) player.level();
-                            serverLevel.setDayTime(porunga.getInvokingTime()); // Restaura el tiempo original
-                        }
-                        entity.discard();
-                    });
-                }
+                player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+                        entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {
+                            if (entity instanceof PorungaEntity porunga) {
+                                ServerLevel serverLevel = (ServerLevel) player.level();
+                                serverLevel.setDayTime(porunga.getInvokingTime()); // Restaura el tiempo original
+
+                                switch (packet.wishCount) {
+                                    case 0 -> porunga.setDeseos(3);
+                                    case 1 -> porunga.setDeseos(2);
+                                    case 2 -> porunga.setDeseos(1);
+                                    case 3 -> porunga.setDeseos(0);
+                                }
+                            }
+                        });
             }
         });
         context.setPacketHandled(true);
