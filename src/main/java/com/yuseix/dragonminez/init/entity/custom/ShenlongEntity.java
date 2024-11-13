@@ -3,10 +3,16 @@ package com.yuseix.dragonminez.init.entity.custom;
 import com.yuseix.dragonminez.client.gui.entity.KarinMenu;
 import com.yuseix.dragonminez.client.gui.entity.ShenlongMenu;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,17 +35,22 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class ShenlongEntity extends Mob implements GeoEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private long invokingTime;
-    private Player owner;
+
+    private int tiempo = 20*5; //Tiempo de desaparicion despues de que los deseos sean 0 (20 ticks = 1 segundo)
+    private static final EntityDataAccessor<String> OWNER_NAME = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Integer> DESEOS = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.INT);
 
     public ShenlongEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+
+        this.entityData.define(OWNER_NAME, "");
+        this.entityData.define(DESEOS, 0); // deseos
+
     }
 
     public static AttributeSupplier setAttributes() {
@@ -50,14 +61,21 @@ public class ShenlongEntity extends Mob implements GeoEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
     }
 
-    public void setOwner(Player player) {
-        this.owner = player;
+    public void setOwnerName(String name) {
+        this.entityData.set(OWNER_NAME, name);
     }
 
-    public Player getOwner() {
-        return this.owner;
+    public String getOwnerName() {
+        return this.entityData.get(OWNER_NAME);
     }
 
+    public int getDeseos() {
+        return this.entityData.get(DESEOS);
+    }
+
+    public void setDeseos(int deseos) {
+        this.entityData.set(DESEOS, deseos);
+    }
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
@@ -68,8 +86,8 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (getOwner() == player) {
             if (this.level() instanceof ServerLevel serverWorld) {
+
                 serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
                     boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
 
@@ -77,13 +95,21 @@ public class ShenlongEntity extends Mob implements GeoEntity {
                         dragonBallsCapability.setHasDragonBalls(false);
                     }
                 });
-            }
-            if (this.level().isClientSide) {
-                Minecraft.getInstance().setScreen(new ShenlongMenu());
 
-                return InteractionResult.SUCCESS;
             }
+
+        if (this.level().isClientSide) {
+            // Verifica que el UUID de esta entidad coincida con el del jugador
+            if (this.getOwnerName().equals(player.getName().getString())) {
+                System.out.println("Nombre coincide con el del jugador");
+
+                if (getDeseos() > 0) {
+                    Minecraft.getInstance().setScreen(new ShenlongMenu());
+                }
+            }
+            return InteractionResult.SUCCESS;
         }
+
         return super.mobInteract(player, hand);
     }
 
@@ -99,6 +125,22 @@ public class ShenlongEntity extends Mob implements GeoEntity {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
 
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        System.out.println("Deseos del Jugador: " + getDeseos());
+       System.out.println("Nombre del jugador: " + getOwnerName());
+
+
+        if(this.getDeseos() == 0){
+            tiempo--;
+        }
+
+        if(tiempo == 0){
+            this.discard();
+        }
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
