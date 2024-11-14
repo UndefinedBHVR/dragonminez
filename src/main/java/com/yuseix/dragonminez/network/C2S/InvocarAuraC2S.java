@@ -52,6 +52,7 @@ public class InvocarAuraC2S {
                             aura = new AuraEntity(MainEntity.AURA.get(), player.level());
 
                             aura.setOwnerUUID(player.getUUID());
+                            System.out.println("UUID del owner establecido en AuraEntity: " + player.getUUID());
                             aura.setRaza(cap.getRace());
                             aura.setTransformation(cap.getDmzState());
 
@@ -125,7 +126,7 @@ public class InvocarAuraC2S {
                             aura.setPos(player.getX(), player.getY(), player.getZ());
                             playerAuraMap.put(playerId, aura);
                         }
-                        //aura.setPos(player.getX(), player.getY(), player.getZ());
+                        aura.setPos(player.getX(), player.getY(), player.getZ());
 
                         float transparency = playerId.equals(player.getUUID()) && isInFirstPersonView(player) ? 0.05F : 0.15F;
                         ModMessages.sendToPlayer(new InvocarAuraS2C(playerId, transparency), player);

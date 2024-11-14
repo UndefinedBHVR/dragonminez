@@ -85,9 +85,11 @@ public class AuraEntity extends Mob{
 
     public Player getOwner() {
         Optional<UUID> uuidOptional = this.entityData.get(OWNER_UUID);
-        if (uuidOptional.isPresent() && this.level() instanceof ServerLevel) {
-            return ((ServerLevel) this.level()).getPlayerByUUID(uuidOptional.get());
+        if (uuidOptional.isPresent() && this.level() instanceof ServerLevel serverLevel) {
+            System.out.println("Obteniendo owner en ServerLevel con UUID: " + uuidOptional.get());
+            return serverLevel.getPlayerByUUID(uuidOptional.get());
         }
+        System.out.println("UUID del owner está vacío o el nivel no es ServerLevel: " + this.level());
         return null;
     }
 
@@ -102,20 +104,28 @@ public class AuraEntity extends Mob{
     @Override
     public void tick() {
         super.tick();
-        Player owner = getOwner();
-        if (owner != null) {
-            double targetX = owner.getX();
-            double targetY = owner.getY();
-            double targetZ = owner.getZ();
 
-            // Usa interpolación para acercar la posición de la aura al jugador
-            double lerpFactor = 1.0; // Aumenta el factor para que sea más rápido; valores cercanos a 1.0 hacen que el movimiento sea casi instantáneo
-            double newX = this.getX() + (targetX - this.getX()) * lerpFactor;
-            double newY = this.getY() + (targetY - this.getY()) * lerpFactor;
-            double newZ = this.getZ() + (targetZ - this.getZ()) * lerpFactor;
+        if (!level().isClientSide) { // Solo en el servidor
+            Player owner = getOwner();
 
-            this.setPos(newX, newY, newZ);
+            if (owner != null) {
+                // Lógica para seguir al jugador
+                double targetX = owner.getX();
+                double targetY = owner.getY();
+                double targetZ = owner.getZ();
+
+                double lerpFactor = 1.0;
+                double newX = this.getX() + (targetX - this.getX()) * lerpFactor;
+                double newY = this.getY() + (targetY - this.getY()) * lerpFactor;
+                double newZ = this.getZ() + (targetZ - this.getZ()) * lerpFactor;
+
+                this.setPos(newX, newY, newZ);
+            } else {
+                this.discard();
+            }
         }
+
+
     }
 
     @Override
