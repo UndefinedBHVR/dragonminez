@@ -73,7 +73,11 @@ public final class ForgeBusEvents {
             "Ducco123",
             "Rev_zy", //Mazu
             "grillo78",
-            "TheWildBoss"
+            "TheWildBoss",
+            "EsePibe01",
+            "Pokimons123",
+            "bbysixty",
+            "Onashi"
             );
 
 

@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.items.custom;
 
 import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -35,8 +36,7 @@ public class SaiyanShipItem extends Item {
 
         // Verificar si el jugador y el mundo no son nulos
         if (player != null && level != null) {
-            // TODO: Reemplazar por la Nave Saiyan
-            NubeEntity nave = new NubeEntity(MainEntity.NUBE_VOLADORA.get(), level); // Usa el tipo de entidad de la Nave
+            NaveSaiyanEntity nave = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), level); // Usa el tipo de entidad de la Nave
 
             nave.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 
