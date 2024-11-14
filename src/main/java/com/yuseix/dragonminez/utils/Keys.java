@@ -12,9 +12,9 @@ public class Keys {
     public static final KeyMapping KI_CHARGE = new KeyMapping("key.dragonminez.ki_charge",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY);
     public static final KeyMapping DESCEND_KEY = new KeyMapping("key.dragonminez.descend_key",
-            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_ALT, CATEGORY);
-    //public static final KeyMapping PANEL_GUI = new KeyMapping("key.dragonminez.panel_gui",
-    //        KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_L, CATEGORY);
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, CATEGORY);
+    public static final KeyMapping PANEL_GUI = new KeyMapping("key.dragonminez.panel_gui",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_H, CATEGORY);
     public static final KeyMapping STATS_MENU = new KeyMapping("key.dragonminez.menu_stats",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
 

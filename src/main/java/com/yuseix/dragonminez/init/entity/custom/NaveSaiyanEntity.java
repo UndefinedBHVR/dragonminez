@@ -1,8 +1,10 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.client.gui.spacepod.TierOneScreen;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldierEntity;
 import com.yuseix.dragonminez.utils.Keys;
+import net.minecraft.advancements.critereon.DamageSourcePredicate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -10,12 +12,14 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -57,7 +61,9 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!this.level().isClientSide) { // Solo ejecuta en el servidor
             if (!isOpen()) { // Abre la nave al interactuar (Ahora esta cerrada)
-                setOpenNave(true);
+                if (!player.isPassenger()) {
+                    setOpenNave(true);
+                };
             } else { // Si la nave está abierta, el jugador se puede montar y cierra la nave
                 setOpenNave(false);
                 if (!player.isPassenger()) {
@@ -88,6 +94,10 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                 upward = -0.3f;
             } else if (!this.onGround()) { //Descenso lento
                 upward = -0.01f;
+            }
+
+            if (Keys.PANEL_GUI.consumeClick()) {
+                Minecraft.getInstance().setScreen(new TierOneScreen());
             }
 
             Vec3 cameraDirection = player.getLookAngle().normalize();
@@ -126,6 +136,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
         }
         return null;  // Devuelve null si no hay ningún jugador controlando la nave
     }
+
     @Override
     protected void positionRider(Entity pPassenger, MoveFunction pCallback) {
         // Verifica que el pasajero sea un jugador
@@ -168,12 +179,20 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
         if (pSource.getEntity() instanceof Player) {
             if (!this.level().isClientSide) {
                 //Aca poner el item que va a dropear
-                this.spawnAtLocation(MainItems.NUBE_ITEM.get());
+                this.spawnAtLocation(MainItems.NAVE_SAIYAN_ITEM.get());
                 this.remove(RemovalReason.KILLED);
             }
             return true;
         }
         return super.hurt(pSource, pAmount);
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource pSource) {
+        if ("drown".equals(pSource.getMsgId())) {
+            return true;
+        }
+        return super.isInvulnerableTo(pSource);
     }
 
     @Override

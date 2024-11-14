@@ -67,6 +67,11 @@ public class ModMessages {
                 .encoder(PorungaC2S::toBytes)
                 .consumerMainThread(PorungaC2S::handle)
                 .add();
+        net.messageBuilder(SpacePodC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SpacePodC2S::decode)
+                .encoder(SpacePodC2S::encode)
+                .consumerMainThread(SpacePodC2S::handle)
+                .add();
 
         net.messageBuilder(InvocarAuraC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(InvocarAuraC2S::new)

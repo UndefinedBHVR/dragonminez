@@ -352,8 +352,13 @@
 
   "ui.dmzradar.range": "Rango del Radar",
   "ui.dmzradar.blocks": "bloques.",
+  "ui.dmz.spacepod.travel": "Viajar",
+  "ui.dmz.spacepod.overworld": "La Tierra",
+  "ui.dmz.spacepod.namek": "Planeta Namek",
+  "ui.dmz.spacepod.overworld.description": "El planeta Tierra es un mundo vibrante lleno de vida, desde humanos hasta animales, todos viviendo juntos en armonía. Es hogar de las místicas Bolas del Dragón. Entre las maravillas que encontrarás están la sagrada Torre de Karin, y la legendaria Kame House, donde el Maestro Mutenroi entrena a los luchadores más fuertes del mundo.",
+  "ui.dmz.spacepod.namek.description": "Namek es un planeta sereno y místico, hogar de los sabios Namekianos y de las místicas Bolas del Dragón. Sus verdes y exuberantes llanuras y sus imponentes árboles ofrecen una escapatoria tranquila, mientras que sus antiguas cavernas esconden secretos poderosos. El planeta es un lugar de paz, donde los guerreros más fuertes buscan desbloquear su potencial oculto.",
 
-  "advancements.dragonminez.root.title": "DragonMine Z",
+"advancements.dragonminez.root.title": "DragonMine Z",
   "advancements.dragonminez.root.description": "¡Gracias por descargar el Mod, esperamos lo disfrutes!",
   "advancements.dragonminez.kamilookout.title": "La Atalaya de Kami",
   "advancements.dragonminez.kamilookout.description": "Llega a la Torre de Karin y la Atalaya de Kami.",

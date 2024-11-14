@@ -35,7 +35,6 @@ public class MenuS2C {
                 } else {
                     //Si el jugador aun no creo su personaje
                     Minecraft.getInstance().setScreen(new CFirstPage());
-
                 }
             });
         });

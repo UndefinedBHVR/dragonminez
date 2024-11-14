@@ -229,8 +229,7 @@ public final class MainBlocks {
             () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), MainBlocks.NAMEK_FERN,
                     BlockBehaviour.Properties.copy(Blocks.POTTED_FERN).noOcclusion()));
     public static final RegistryObject<Block> LOTUS_FLOWER = registerBlock("lotus_flower",
-            () -> new NamekWaterlilyBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).instabreak().sound(SoundType.LILY_PAD)
-                    .noOcclusion().pushReaction(PushReaction.DESTROY)));
+            () -> new NamekWaterlilyBlock(BlockBehaviour.Properties.copy(Blocks.LILY_PAD)));
 
     //Plantas Namek Sacred
     public static final RegistryObject<Block> NAMEK_SACRED_GRASS = registerBlock("namek_sacred_grass",

@@ -352,8 +352,13 @@
 
   "ui.dmzradar.range": "Radar Range is",
   "ui.dmzradar.blocks": "blocks.",
+  "ui.dmz.spacepod.travel": "Travel",
+  "ui.dmz.spacepod.overworld": "The Earth",
+  "ui.dmz.spacepod.namek": "Planet Namek",
+  "ui.dmz.spacepod.overworld.description": "The planet Earth is a vibrant world teeming with diverse life forms, from humans to animals, all living together in harmony. It's home to the mystical Dragon Balls. Among the many wonders you'll find are the sacred Korin Tower, and the legendary Kame House, where Master Roshi trains the strongest fighters in the world.",
+  "ui.dmz.spacepod.namek.description": "Namek is a serene and mystical planet, home to the wise Namekians and the mystical Dragon Balls. Its lush, green plains and towering trees offer a tranquil escape, while its ancient caves hide powerful secrets. The planet is a place of peace where the strongest warriors seek to unlock their hidden potential.",
 
-  "advancements.dragonminez.root.title": "DragonMine Z",
+"advancements.dragonminez.root.title": "DragonMine Z",
   "advancements.dragonminez.root.description": "Thank you for downloading the Mod, hope you enjoy it!",
   "advancements.dragonminez.kamilookout.title": "Kami's Lookout",
   "advancements.dragonminez.kamilookout.description": "Reach the Korin's Tower and Kami's Lookout.",

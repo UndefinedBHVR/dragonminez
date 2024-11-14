@@ -132,6 +132,14 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
         return super.hurt(pSource, pAmount);
     }
 
+    @Override
+    public boolean isInvulnerableTo(DamageSource pSource) {
+        if ("drown".equals(pSource.getMsgId())) {
+            return true;
+        }
+        return super.isInvulnerableTo(pSource);
+    }
+
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
