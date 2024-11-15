@@ -312,23 +312,55 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var condefault = playerstats.getConstitution();
             var kipowerdefault = playerstats.getKiPower();
             var energydefault = playerstats.getEnergy();
+            var raza = playerstats.getRace();
+            var transf = playerstats.getDmzState();
+
+            //Efectos
+            var majinOn = playerstats.hasDMZPermaEffect("majin");
+            var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
 
             var baseCost =  (int) Math.round((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
             var multCost = (int) Math.round((strdefault + defdefault + condefault + kipowerdefault + energydefault) /  2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
             int finalCost = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
 
+            var strcompleta = DMZDatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
+            var defcompleta = DMZDatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
+            var pwrcompleta = DMZDatos.calcularPWRCompleta(raza, transf, kipowerdefault, majinOn, frutaOn);
+
+            var STRMulti = DMZDatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn);
+            var DEFMulti = DMZDatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn);
+            var KIPOWERMulti = DMZDatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn);
+
+            var isMultiOn = majinOn || frutaOn || transf > 0;
+            var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
+
+
+            //WA
+            Component STRReal = Component.empty()
+                    .append(Component.literal(String.valueOf(strcompleta)))
+                    .append(Component.literal(" x")
+                            .append(Component.literal(String.valueOf(STRMulti)))
+                    );
+            Component DEFReal = Component.empty()
+                    .append(Component.literal(String.valueOf(defcompleta)))
+                    .append(Component.literal(" x")
+                            .append(Component.literal(String.valueOf(DEFMulti)))
+                    );
+            Component PWRReal = Component.empty()
+                    .append(Component.literal(String.valueOf(pwrcompleta)))
+                    .append(Component.literal(" x")
+                            .append(Component.literal(String.valueOf(KIPOWERMulti)))
+                    );
+
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
             anchoTexto = 70;
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
+            drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder2(graphics, font, PWRReal, anchoTexto, alturaTexto + 36, colorEnForma);
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
 
-            //Multiplicadores per Stat
-            anchoTexto = 100;
-            var color = 0xD71432;
             /*
 
             Aca cuando tengamos el majin, arbol este activado o kaioken deberiamos poner un
@@ -337,19 +369,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             o si quieres lo puedes borrar, como se vea mas ordenado.
 
             */
-            var STR = DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "STR");
-            var DEF = DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "DEF");
-            var KIPOWER = DMZDatos.calcularMultiStat(playerstats.getRace(), playerstats.getDmzState(), "KIPOWER");
-            if (STR > 1) {
-                graphics.drawString(font, Component.literal("x" + STR),anchoTexto, alturaTexto, color);
-            }
-            if (DEF > 1) {
-                graphics.drawString(font, Component.literal("x" + DEF),anchoTexto, alturaTexto + 12, color);
-            }
-            if (KIPOWER > 1) {
-                graphics.drawString(font, Component.literal("x" + KIPOWER),anchoTexto, alturaTexto + 36, color);
-            }
-
 
             Component Multiplier = Component.empty()
                     .append(Component.literal(String.valueOf(finalCost)))
@@ -392,24 +411,41 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             anchoTexto = (this.width - 55);
 
+            //Efectos
+            var majinOn = playerstats.hasDMZPermaEffect("majin");
+            var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
+
             //Datos
-            var strMax = DMZDatos.calcularSTR(playerstats.getRace(), playerstats.getStrength(), 1, playerstats.getDmzState(),playerstats.getDmzRelease(),playerstats.getDmzClass());
-            var defMax = DMZDatos.calcularDEF(playerstats.getRace(),playerstats.getDefense(), playerstats.getDmzState(),playerstats.getDmzRelease(), playerstats.getDmzClass());
-            var conMax = DMZDatos.calcularCON(playerstats.getRace(), playerstats.getConstitution(), 20, playerstats.getDmzClass());
-            var stmMax = DMZDatos.calcularSTM(playerstats.getRace(), conMax);
-            var KPWMax = DMZDatos.calcularKiPower(playerstats.getRace(), playerstats.getKiPower(), playerstats.getDmzState(), playerstats.getDmzRelease(), playerstats.getDmzClass());
-            var enrMax = DMZDatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
+            var raza = playerstats.getRace();
+            var str = playerstats.getStrength();
+            var def = playerstats.getDefense();
+            var con = playerstats.getConstitution();
+            var kpw = playerstats.getKiPower();
+            var enr = playerstats.getEnergy();
 
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+            var clase = playerstats.getDmzClass();
+            var transf = playerstats.getDmzState();
+            var release = playerstats.getDmzRelease();
 
-            var MultiTotal = DMZDatos.calcularMultiTotal(playerstats.getRace(), playerstats.getDmzState());
+            var strMax = DMZDatos.calcularSTR(raza, str, 1, transf,release,clase, majinOn, frutaOn);
+            var defMax = DMZDatos.calcularDEF(raza,def, transf,release, clase, majinOn, frutaOn);
+            var conMax = DMZDatos.calcularCON(raza, con, 20, clase);
+            var stmMax = DMZDatos.calcularSTM(raza, conMax);
+            var KPWMax = DMZDatos.calcularKiPower(raza, kpw, transf, release, clase, majinOn, frutaOn);
+            var enrMax = DMZDatos.calcularENE(raza, enr, clase);
 
-            drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
+            var colorEnForma = majinOn || frutaOn || transf > 0 ? 0xfebc0d : 0xFFD7AB;
+
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 24, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 36, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, colorEnForma);
+
+            var MultiTotal = DMZDatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
+
+            drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, colorEnForma);
         });
     }
 

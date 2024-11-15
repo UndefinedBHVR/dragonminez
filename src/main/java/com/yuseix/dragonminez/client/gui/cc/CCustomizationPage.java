@@ -1544,11 +1544,14 @@ public class CCustomizationPage extends Screen {
             drawStringWithBorder(pGuiGraphics,font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xFFFFFF);
             drawStringWithBorder(pGuiGraphics,font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, 0xFFFFFF);
 
-            var strMax = DMZDatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass());
-            var defMax = DMZDatos.calcularDEF(cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass());
+            var majinOn = cap.hasDMZPermaEffect("majin");
+            var fruta = cap.hasDMZTemporalEffect("mightfruit");
+
+            var strMax = DMZDatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var defMax = DMZDatos.calcularDEF(cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
             var conMax = DMZDatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
             var stmMax = DMZDatos.calcularSTM(cap.getRace(), conMax);
-            var KPWMax = DMZDatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass());
+            var KPWMax = DMZDatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
             var enrMax = DMZDatos.calcularENE(cap.getRace(), cap.getEnergy(), cap.getDmzClass());
 
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(strMax)), this.width-67, alturaTexto, 0xfdbf26);

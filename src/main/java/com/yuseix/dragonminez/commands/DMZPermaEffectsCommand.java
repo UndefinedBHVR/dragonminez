@@ -18,7 +18,7 @@ import java.util.Set;
 public class DMZPermaEffectsCommand {
 
     // Lista de efectos permanentes válidos
-    private static final Set<String> VALID_PERMA_EFFECTS = Set.of("majin", "mightfruit");
+    private static final Set<String> VALID_PERMA_EFFECTS = Set.of("majin");
 
     public DMZPermaEffectsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 

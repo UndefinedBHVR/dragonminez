@@ -180,20 +180,25 @@ public class StatsEvents {
         // Si el que hace el daño es un jugador
         if (event.getSource().getEntity() instanceof Player atacante) {
             // Obtener las estadísticas del atacante
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(statsAtacante -> {
-                int raza = statsAtacante.getRace();
-                int curStamina = statsAtacante.getCurStam();
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(cap -> {
+                int raza = cap.getRace();
+                int curStamina = cap.getCurStam();
+                var majinOn = cap.hasDMZPermaEffect("majin");
+                var mightfruitOn = cap.hasDMZTemporalEffect("mightfruit");
+
                 float danoDefault = event.getAmount(); // Capturamos el daño original
 
                 // Calcular el daño basado en la fuerza del atacante
-                int maxStr = DMZDatos.calcularSTR(raza, statsAtacante.getStrength(), danoDefault, statsAtacante.getDmzState(),statsAtacante.getDmzRelease(), statsAtacante.getDmzClass());
+                int maxStr = DMZDatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
+                        cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+
                 int staminacost = maxStr / 12;
 
                 if (curStamina >= staminacost) {
                     // Si el atacante tiene suficiente stamina, aplicar el daño basado en la fuerza
                     event.setAmount(maxStr);
                     // Descontar stamina del atacante
-                    statsAtacante.removeCurStam(staminacost);
+                    cap.removeCurStam(staminacost);
                     sonidosGolpes(atacante);
                 } else {
                     // Daño por defecto si al atacante le falta stamina
@@ -204,7 +209,10 @@ public class StatsEvents {
             // Si la entidad que recibe el daño es un jugador
             if (event.getEntity() instanceof Player objetivo) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(),statsObjetivo.getDmzRelease(),statsObjetivo.getDmzClass());
+                    var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
+                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
+
+                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(),statsObjetivo.getDmzRelease(),statsObjetivo.getDmzClass(), majinOn, fruta);
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
@@ -217,7 +225,13 @@ public class StatsEvents {
             // Aquí manejamos el caso donde el atacante no es un jugador
             if (event.getEntity() instanceof Player objetivo) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass());
+                    var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
+                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
+
+                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(),
+                            statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(),
+                            statsObjetivo.getDmzClass(), majinOn, fruta);
+                    
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño

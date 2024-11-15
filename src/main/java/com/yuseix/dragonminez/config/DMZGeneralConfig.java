@@ -16,6 +16,7 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_GAIN;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_HTC;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_TREE_MIGHT;
+    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_MAJIN;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
@@ -41,8 +42,6 @@ public class DMZGeneralConfig {
                 .define("Override: ", true);
 
         BUILDER.pop();
-
-        //ATRIBUTOS DE RAZA
 
         BUILDER.push("ZPoints Configs");
 
@@ -76,7 +75,9 @@ public class DMZGeneralConfig {
         SENZU_DAILY_COOLDOWN = BUILDER.comment("Wait time to claim the next Senzu Bean (seconds) (Min: 1 / Max: 36000 / Default: 300)")
                 .defineInRange("Time: ", 300, 1, 36000);
         MULTIPLIER_TREE_MIGHT = BUILDER.comment("Multiplier for the Fruit of the Tree of Might (Min: 1.0 / Max: 20.0 / Default: 1.3)")
-                .defineInRange("Value: ", 1.3, 1.0, 20.0);
+                .defineInRange("MightFruit Multiplier: ", 1.3, 1.0, 20.0);
+        MULTIPLIER_MAJIN = BUILDER.comment("Multiplier for the Majin (Min: 1.0 / Max: 20.0 / Default: 1.5)")
+                .defineInRange("Majin Multiplier: ", 1.5, 1.0, 20.0);
 
 
         BUILDER.pop();

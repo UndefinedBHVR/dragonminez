@@ -15,7 +15,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 import java.util.Map;
@@ -24,6 +23,8 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
     private static final ResourceLocation efectos = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/hud/efectosperma.png");
+    private static final ResourceLocation efectostemp = new ResourceLocation(DragonMineZ.MOD_ID,
+            "textures/gui/hud/efectostemp.png");
     private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/hud/hud.png");
 
@@ -157,6 +158,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().scale(0.85f,0.85f,0.85f);
             renderPermanentEffects(guiGraphics);
+            renderTempEffects(guiGraphics);
             guiGraphics.pose().popPose();
 
             guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xfddb1e);
@@ -289,7 +291,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             for (Map.Entry<String, Boolean> entry : cap.getDMZPermanentEffects().entrySet()) {
                 if (entry.getValue()) {
                     // Obtén las coordenadas de la textura para el efecto actual
-                    int[] textureCoords = getTextureCoordinates(entry.getKey());
+                    int[] textureCoords = getTextureCoordinatesPermaEffects(entry.getKey());
                     if (textureCoords != null) {
                         // Dibuja la sección específica de la textura usando GuiGraphics
                         guiGraphics.blit(efectos, x, y, textureCoords[0], textureCoords[1], textureSize, textureSize);
@@ -300,12 +302,37 @@ public class PlayerHudOverlay implements RenderEntityInv {
         });
 
     }
+    private static void renderTempEffects(GuiGraphics guiGraphics) {
 
-    private static int[] getTextureCoordinates(String effectName) {
-        switch (effectName) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            int x = 71; // Posición inicial en X
+            int y = 72; // Posición inicial en Y
+            int textureSize = 20; // Tamaño de cada efecto en la textura
+
+            for (Map.Entry<String, Integer> entry : cap.getDMZTemporalEffects().entrySet()) {
+                    // Obtén las coordenadas de la textura para el efecto actual
+                    int[] textureCoords = getTextureCoordinatesTempEffects(entry.getKey());
+                    if (textureCoords != null) {
+                        // Dibuja la sección específica de la textura usando GuiGraphics
+                        guiGraphics.blit(efectostemp, x, y, textureCoords[0], textureCoords[1], textureSize, textureSize);
+                        x += textureSize+2; // Incrementa para la siguiente textura
+                    }
+            }
+        });
+
+    }
+
+    private static int[] getTextureCoordinatesPermaEffects(String permaeffectName) {
+        switch (permaeffectName) {
             case "majin": return new int[] {0, 0};       // Coordenadas de la textura
-            case "mightfruit": return new int[] {20, 0};
-            case "kaioken": return new int[] {40, 0};
+            case "kaioken": return new int[] {20, 0};
+            case "turbo": return new int[] {40, 0};
+            default: return null;
+        }
+    }
+    private static int[] getTextureCoordinatesTempEffects(String tempeffectName) {
+        switch (tempeffectName) {
+            case "mightfruit": return new int[] {0, 0};       // Coordenadas de la textura
             default: return null;
         }
     }

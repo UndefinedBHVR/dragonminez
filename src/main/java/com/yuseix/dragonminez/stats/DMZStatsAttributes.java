@@ -629,6 +629,7 @@ public class DMZStatsAttributes {
     public Map<String, Boolean> getDMZPermanentEffects() {
         return DMZPermanentEffects;
     }
+
     public boolean hasDMZPermaEffect(String permanentEffect) {
         return DMZPermanentEffects.containsKey(permanentEffect);
     }
