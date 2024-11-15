@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -144,8 +145,9 @@ public class StatsEvents {
                     }
                 }
 
+                updateTemporaryEffects(event.player);
 
-                updateDMZPermanentEffects((ServerPlayer) event.player);
+
             });
 
 
@@ -153,25 +155,18 @@ public class StatsEvents {
 
     }
 
-    private static void updateDMZPermanentEffects(ServerPlayer player) {
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerStats -> {
-            // Obtén el mapa actual de efectos permanentes
-            Map<String, Boolean> permanentEffects = playerStats.getDMZPermanentEffects();
-
-            // Aquí puedes realizar la actualización. Por ejemplo, si deseas verificar o refrescar cada efecto
-            for (Map.Entry<String, Boolean> entry : permanentEffects.entrySet()) {
-                String effectName = entry.getKey();
-                Boolean effectState = entry.getValue();
-
-                // Realiza cualquier lógica adicional que necesites, si el estado cambia
-                if (effectState == null) {
-                    // Asegúrate de manejar efectos nulos
-                    permanentEffects.put(effectName, false); // o algún valor predeterminado
+    private static void updateTemporaryEffects(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+            Iterator<Map.Entry<String, Integer>> iterator = playerstats.getDMZTemporalEffects().entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, Integer> entry = iterator.next();
+                int timeLeft = entry.getValue() - 1;  // Reducir en 1 tick cada vez
+                if (timeLeft <= 0) {
+                    playerstats.removeTemporalEffect(entry.getKey());  // Usa el método para eliminar el efecto
+                } else {
+                    entry.setValue(timeLeft);  // Actualiza el tiempo restante
                 }
             }
-
-            // Asegúrate de sincronizar los datos después de la actualización
-            DMZStatsCapabilities.syncStats(player);  // Sincronizamos para asegurarnos de que el cliente reciba los cambios
         });
     }
 

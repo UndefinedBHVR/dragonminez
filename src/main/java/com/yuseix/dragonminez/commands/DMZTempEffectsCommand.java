@@ -94,10 +94,13 @@ public class DMZTempEffectsCommand {
             }
             return 0; // No ejecuta la acción
         }
+
+        int newSeconds = seconds * 20;
+
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName).append(" ")
                     .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s")));
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZTemporalEffect(effectName, seconds));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZTemporalEffect(effectName, newSeconds));
         }
         return players.size();
     }
@@ -113,7 +116,6 @@ public class DMZTempEffectsCommand {
             }
             return 0; // No ejecuta la acción
         }
-
 
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName));
