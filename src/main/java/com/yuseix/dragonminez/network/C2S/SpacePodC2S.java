@@ -37,6 +37,7 @@ public class SpacePodC2S {
             if (ctx.get().getSender() != null) {
                 var player = ctx.get().getSender();
                 ServerLevel targetWorld = player.server.getLevel(msg.targetDimension);
+                // TODO: Hacer que teletransporte también a la Entidad de la Nave, y preferentemente, al jugador montado en la Nave para evitar muertes de caída.
                 if (targetWorld != null && player.level() != targetWorld) {
                     player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
             }

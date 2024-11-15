@@ -1,25 +1,25 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
-import com.yuseix.dragonminez.client.gui.spacepod.TierOneScreen;
 import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldierEntity;
+import com.yuseix.dragonminez.network.C2S.PlanetSelectionC2S;
+import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.utils.Keys;
-import net.minecraft.advancements.critereon.DamageSourcePredicate;
+import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.phys.Vec3;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -29,11 +29,16 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 
+import static com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay.isKaioAvailable;
+
 public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
     private static final EntityDataAccessor<Boolean> IS_OPEN = SynchedEntityData.defineId(NaveSaiyanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final RawAnimation ANIM_ABIERTO = RawAnimation.begin().then("animation.navesaiyan.open", Animation.LoopType.HOLD_ON_LAST_FRAME);
     private static final RawAnimation ANIM_CERRADO = RawAnimation.begin().then("animation.navesaiyan.close", Animation.LoopType.HOLD_ON_LAST_FRAME);
+    private int teleportHoldTime = 0;  // Contador delay
+    private static final int REQUIRED_HOLD_TIME = 20*5;
+    private int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
@@ -80,6 +85,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
     public void travel(Vec3 travelVector) {
         LivingEntity controllingPassenger = this.getControllingPassenger();
 
+
         if (controllingPassenger instanceof Player player) {
             this.setNoGravity(true);  // Desactiva la gravedad para volar
 
@@ -96,9 +102,71 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                 upward = -0.01f;
             }
 
-            if (Keys.PANEL_GUI.consumeClick()) {
-                Minecraft.getInstance().setScreen(new TierOneScreen());
+            // Actualiza la selección de planeta y envía al servidor cuando cambian las flechas de dirección
+            if (Keys.SELECT_DOWN.consumeClick()) {
+                switch (planetaObjetivo) {
+                    case 0 -> {
+                        planetaObjetivo = 1;
+                    }
+                    case 1 -> {
+                        planetaObjetivo = isKaioAvailable() ? 2 : 0;
+                    }
+                    case 2 -> {
+                        planetaObjetivo = 0;
+                    }
+                }
+                ModMessages.sendToServer(new PlanetSelectionC2S(planetaObjetivo));
+                System.out.println("Planeta objetivo: ABAJO " + planetaObjetivo);
             }
+
+            if (Keys.SELECT_UP.consumeClick()) {
+                switch (planetaObjetivo) {
+                    case 0 -> {
+                        planetaObjetivo = isKaioAvailable() ? 2 : 1;
+                    }
+                    case 1 -> {
+                        planetaObjetivo = 0;
+                    }
+                    case 2 -> {
+                        planetaObjetivo = 1;
+                    }
+                }
+                ModMessages.sendToServer(new PlanetSelectionC2S(planetaObjetivo));
+                System.out.println("Planeta objetivo: ARRIBA " + planetaObjetivo);
+            }
+
+            if (Keys.FUNCTION.consumeClick()) {
+                player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport"), true);
+            }
+            if (Keys.FUNCTION.isDown()) {
+                teleportHoldTime++;
+                if (teleportHoldTime >= REQUIRED_HOLD_TIME) {
+
+                    switch (planetaObjetivo) {
+                        case 0 -> {
+                            ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
+                            player.displayClientMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"), true);
+                        }
+                        case 1 -> {
+                            ModMessages.sendToServer(new SpacePodC2S(ModDimensions.NAMEK_DIM_LEVEL_KEY));
+                            player.displayClientMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"), true);
+                        }
+                        case 2 -> {
+                            if (isKaioAvailable()) {
+                                ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
+                                player.displayClientMessage(Component.literal("Has llegado a la Tierra"), true);
+                            } else {
+                                System.out.println("Kaio no disponible");  // Confirmación de la condición
+                            }
+                        }
+                        default -> System.out.println("Error: planetaObjetivo desconocido");
+                    }
+                    teleportHoldTime = 0;  // Reiniciar el contador tras el teletransporte
+                }
+            } else {
+                teleportHoldTime = 0;  // Reiniciar si el botón no está presionado
+            }
+
 
             Vec3 cameraDirection = player.getLookAngle().normalize();
 

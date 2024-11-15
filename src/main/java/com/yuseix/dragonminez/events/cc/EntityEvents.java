@@ -88,8 +88,8 @@ public class EntityEvents {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
                 cap.addZpoints(finalTps);
 
-               /* Testing
-               if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
+               // Testing
+              /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
                     else {player.sendSystemMessage(Component.literal("TPS: " + finalTps)); } */
             });

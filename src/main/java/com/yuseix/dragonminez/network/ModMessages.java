@@ -72,6 +72,11 @@ public class ModMessages {
                 .encoder(SpacePodC2S::encode)
                 .consumerMainThread(SpacePodC2S::handle)
                 .add();
+        net.messageBuilder(PlanetSelectionC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(PlanetSelectionC2S::decode)
+                .encoder(PlanetSelectionC2S::encode)
+                .consumerMainThread(PlanetSelectionC2S::handle)
+                .add();
 
         net.messageBuilder(InvocarAuraC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(InvocarAuraC2S::new)
@@ -113,6 +118,16 @@ public class ModMessages {
                 .encoder(DMZSkillsS2C::toBytes)
                 .decoder(DMZSkillsS2C::new)
                 .consumerMainThread(DMZSkillsS2C::handle)
+                .add();
+        net.messageBuilder(KaioPlanetUnlockS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(KaioPlanetUnlockS2C::encode)
+                .decoder(KaioPlanetUnlockS2C::decode)
+                .consumerMainThread(KaioPlanetUnlockS2C::handle)
+                .add();
+        net.messageBuilder(UpdatePlanetSelectionS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(UpdatePlanetSelectionS2C::encode)
+                .decoder(UpdatePlanetSelectionS2C::decode)
+                .consumerMainThread(UpdatePlanetSelectionS2C::handle)
                 .add();
     }
 
