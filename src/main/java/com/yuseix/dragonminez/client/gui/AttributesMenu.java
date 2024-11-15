@@ -355,20 +355,21 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
             anchoTexto = 70;
-            drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
-            drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorder2(graphics, font, PWRReal, anchoTexto, alturaTexto + 36, colorEnForma);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
 
-            /*
+            if(isMultiOn){ //Si alguna forma, estado esta activo.
+                drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
+                drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, PWRReal, anchoTexto, alturaTexto + 36, colorEnForma);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+            } else {
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+            }
 
-            Aca cuando tengamos el majin, arbol este activado o kaioken deberiamos poner un
-            if(majin || arbol || kaioken || transformado)  <- como esto
-             para que cargue el multiplicador al lado de la stat, por el momento lo dejaremos asi nada mas
-            o si quieres lo puedes borrar, como se vea mas ordenado.
-
-            */
 
             Component Multiplier = Component.empty()
                     .append(Component.literal(String.valueOf(finalCost)))
