@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = "dragonminez", value = Dist.CLIENT)
 public class TitleUtils {
-    private static final String title = "DragonMine Z - Release v1.0.0";
+    private static final String title = "DragonMine Z - Release v1.1.0.0";
 
     @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {

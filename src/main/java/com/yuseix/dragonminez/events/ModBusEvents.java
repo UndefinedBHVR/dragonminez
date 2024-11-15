@@ -15,6 +15,7 @@ import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
 import com.yuseix.dragonminez.client.gui.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
@@ -194,6 +195,7 @@ public class ModBusEvents {
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
         e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
+        e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
     }
 
     @SubscribeEvent

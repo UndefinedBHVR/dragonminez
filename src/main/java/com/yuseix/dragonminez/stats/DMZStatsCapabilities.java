@@ -5,13 +5,14 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.utils.DMZDatos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,8 +21,7 @@ import net.minecraftforge.network.PacketDistributor;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class DMZStatsCapabilities {
 
-    public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
-    });
+    public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 
     @SubscribeEvent
     public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
@@ -71,7 +71,6 @@ public class DMZStatsCapabilities {
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(DMZStatsAttributes.class);
     }
-
 
     @SubscribeEvent
     public void onPlayerCloned(PlayerEvent.Clone event) {

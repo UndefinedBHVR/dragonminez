@@ -78,11 +78,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         //Paneles del menu
         menuPaneles(graphics);
 
-        menu0info(graphics);
-
         menu1info(graphics);
 
         menu2info(graphics);
+
+        menu0info(graphics);
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
 
 
