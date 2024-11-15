@@ -20,7 +20,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GohanDBSHairModel extends HumanoidModel<AbstractClientPlayer> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "hairs"), "gohandbs");	private final ModelPart Gohandbshair;
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "hairs"), "gohandbs");
+	private final ModelPart Gohandbshair;
 	private final ModelPart hair1;
 	private final ModelPart hair2;
 	private final ModelPart hair3;

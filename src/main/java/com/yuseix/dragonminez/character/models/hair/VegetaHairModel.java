@@ -19,87 +19,92 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class VegetaHairModel extends HumanoidModel<AbstractClientPlayer> {
-    // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "hairs"), "vegeta");	private final ModelPart Vegetahair;
-    private final ModelPart hair1;
-    private final ModelPart hair2;
-    private final ModelPart hair3;
-    private final ModelPart hair4;
-    private final ModelPart hair5;
-    private final ModelPart hair6;
-    private final ModelPart hair7;
-    private final ModelPart hair8;
-    private final ModelPart hair9;
-    private final ModelPart hair10;
-    private final ModelPart hair11;
-    private final ModelPart hair12;
-    private final ModelPart hair13;
-    private final ModelPart hair14;
-    private final ModelPart hair15;
-    private final ModelPart hair16;
-    private final ModelPart hair17;
-    private final ModelPart hair18;
-    private final ModelPart hair19;
-    private final ModelPart hair20;
-    private final ModelPart hair21;
-    private final ModelPart hair22;
-    private final ModelPart hair23;
-    private final ModelPart hair24;
-    private final ModelPart hair25;
-    private final ModelPart hair26;
-    private final ModelPart hair27;
-    private final ModelPart hair28;
-    private final ModelPart hair29;
-    private final ModelPart hair30;
-    private final ModelPart hair31;
-    private final ModelPart hair32;
-    private final ModelPart hair33;
-    private final ModelPart hair34;
-    private final ModelPart hair35;
-    private final ModelPart hair36;
-    private final ModelPart hair37;
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "hairs"), "vegeta");
+	private final ModelPart Vegetahair;
+	private final ModelPart hair1;
+	private final ModelPart hair2;
+	private final ModelPart hair3;
+	private final ModelPart hair4;
+	private final ModelPart hair5;
+	private final ModelPart hair6;
+	private final ModelPart hair7;
+	private final ModelPart hair8;
+	private final ModelPart hair9;
+	private final ModelPart hair10;
+	private final ModelPart hair11;
+	private final ModelPart hair12;
+	private final ModelPart hair13;
+	private final ModelPart hair14;
+	private final ModelPart hair15;
+	private final ModelPart hair16;
+	private final ModelPart hair17;
+	private final ModelPart hair18;
+	private final ModelPart hair19;
+	private final ModelPart hair20;
+	private final ModelPart hair21;
+	private final ModelPart hair22;
+	private final ModelPart hair23;
+	private final ModelPart hair24;
+	private final ModelPart hair25;
+	private final ModelPart hair26;
+	private final ModelPart hair27;
+	private final ModelPart hair28;
+	private final ModelPart hair29;
+	private final ModelPart hair30;
+	private final ModelPart hair31;
+	private final ModelPart hair32;
+	private final ModelPart hair33;
+	private final ModelPart hair34;
+	private final ModelPart hair35;
+	private final ModelPart hair36;
+	private final ModelPart hair37;
+	private final ModelPart hair38;
+	private final ModelPart hair39;
 
-    public VegetaHairModel(ModelPart root) {
+	public VegetaHairModel(ModelPart root) {
         super(root);
         this.Vegetahair = root.getChild("Vegetahair");
-        this.hair1 = Vegetahair.getChild("hair1");
-        this.hair2 = Vegetahair.getChild("hair2");
-        this.hair3 = Vegetahair.getChild("hair3");
-        this.hair4 = Vegetahair.getChild("hair4");
-        this.hair5 = Vegetahair.getChild("hair5");
-        this.hair6 = Vegetahair.getChild("hair6");
-        this.hair7 = Vegetahair.getChild("hair7");
-        this.hair8 = Vegetahair.getChild("hair8");
-        this.hair9 = Vegetahair.getChild("hair9");
-        this.hair10 = Vegetahair.getChild("hair10");
-        this.hair11 = Vegetahair.getChild("hair11");
-        this.hair12 = Vegetahair.getChild("hair12");
-        this.hair13 = Vegetahair.getChild("hair13");
-        this.hair14 = Vegetahair.getChild("hair14");
-        this.hair15 = Vegetahair.getChild("hair15");
-        this.hair16 = Vegetahair.getChild("hair16");
-        this.hair17 = Vegetahair.getChild("hair17");
-        this.hair18 = Vegetahair.getChild("hair18");
-        this.hair19 = Vegetahair.getChild("hair19");
-        this.hair20 = Vegetahair.getChild("hair20");
-        this.hair21 = Vegetahair.getChild("hair21");
-        this.hair22 = Vegetahair.getChild("hair22");
-        this.hair23 = Vegetahair.getChild("hair23");
-        this.hair24 = Vegetahair.getChild("hair24");
-        this.hair25 = Vegetahair.getChild("hair25");
-        this.hair26 = Vegetahair.getChild("hair26");
-        this.hair27 = Vegetahair.getChild("hair27");
-        this.hair28 = Vegetahair.getChild("hair28");
-        this.hair29 = Vegetahair.getChild("hair29");
-        this.hair30 = Vegetahair.getChild("hair30");
-        this.hair31 = Vegetahair.getChild("hair31");
-        this.hair32 = Vegetahair.getChild("hair32");
-        this.hair33 = Vegetahair.getChild("hair33");
-        this.hair34 = Vegetahair.getChild("hair34");
-        this.hair35 = Vegetahair.getChild("hair35");
-        this.hair36 = Vegetahair.getChild("hair36");
-        this.hair37 = Vegetahair.getChild("hair37");
-    }
+		this.hair1 = this.Vegetahair.getChild("hair1");
+		this.hair2 = this.Vegetahair.getChild("hair2");
+		this.hair3 = this.Vegetahair.getChild("hair3");
+		this.hair4 = this.Vegetahair.getChild("hair4");
+		this.hair5 = this.Vegetahair.getChild("hair5");
+		this.hair6 = this.Vegetahair.getChild("hair6");
+		this.hair7 = this.Vegetahair.getChild("hair7");
+		this.hair8 = this.Vegetahair.getChild("hair8");
+		this.hair9 = this.Vegetahair.getChild("hair9");
+		this.hair10 = this.Vegetahair.getChild("hair10");
+		this.hair11 = this.Vegetahair.getChild("hair11");
+		this.hair12 = this.Vegetahair.getChild("hair12");
+		this.hair13 = this.Vegetahair.getChild("hair13");
+		this.hair14 = this.Vegetahair.getChild("hair14");
+		this.hair15 = this.Vegetahair.getChild("hair15");
+		this.hair16 = this.Vegetahair.getChild("hair16");
+		this.hair17 = this.Vegetahair.getChild("hair17");
+		this.hair18 = this.Vegetahair.getChild("hair18");
+		this.hair19 = this.Vegetahair.getChild("hair19");
+		this.hair20 = this.Vegetahair.getChild("hair20");
+		this.hair21 = this.Vegetahair.getChild("hair21");
+		this.hair22 = this.Vegetahair.getChild("hair22");
+		this.hair23 = this.Vegetahair.getChild("hair23");
+		this.hair24 = this.Vegetahair.getChild("hair24");
+		this.hair25 = this.Vegetahair.getChild("hair25");
+		this.hair26 = this.Vegetahair.getChild("hair26");
+		this.hair27 = this.Vegetahair.getChild("hair27");
+		this.hair28 = this.Vegetahair.getChild("hair28");
+		this.hair29 = this.Vegetahair.getChild("hair29");
+		this.hair30 = this.Vegetahair.getChild("hair30");
+		this.hair31 = this.Vegetahair.getChild("hair31");
+		this.hair32 = this.Vegetahair.getChild("hair32");
+		this.hair33 = this.Vegetahair.getChild("hair33");
+		this.hair34 = this.Vegetahair.getChild("hair34");
+		this.hair35 = this.Vegetahair.getChild("hair35");
+		this.hair36 = this.Vegetahair.getChild("hair36");
+		this.hair37 = this.Vegetahair.getChild("hair37");
+		this.hair38 = this.Vegetahair.getChild("hair38");
+		this.hair39 = this.Vegetahair.getChild("hair39");
+	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = HumanoidModel.createMesh(CubeDeformation.NONE,0.0f);
@@ -261,6 +266,18 @@ public class VegetaHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		PartDefinition cube_r40 = hair37.addOrReplaceChild("cube_r40", CubeListBuilder.create().texOffs(34, 45).addBox(-3.4F, -3.1F, -1.25F, 2.4F, 3.7F, 2.25F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.25F, 0.3F, 0.1745F, 0.0F, 0.0F));
 
+		PartDefinition hair38 = Vegetahair.addOrReplaceChild("hair38", CubeListBuilder.create(), PartPose.offsetAndRotation(-3.0F, -3.75F, -1.5F, -0.0341F, 0.1264F, -0.264F));
+
+		PartDefinition cube_r41 = hair38.addOrReplaceChild("cube_r41", CubeListBuilder.create().texOffs(0, 34).addBox(-0.5F, -3.1F, -0.8F, 3.0F, 3.2F, 3.3F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.3F, -7.1F, 1.15F, 0.0F, 0.2182F, 2.0508F));
+
+		PartDefinition cube_r42 = hair38.addOrReplaceChild("cube_r42", CubeListBuilder.create().texOffs(16, 21).addBox(-1.8F, -3.5F, -1.0F, 3.8F, 3.5F, 3.5F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.8F, -2.35F, 0.65F, 0.0F, 0.0F, 0.1309F));
+
+		PartDefinition hair39 = Vegetahair.addOrReplaceChild("hair39", CubeListBuilder.create(), PartPose.offsetAndRotation(6.0F, -3.75F, -2.9F, 0.0F, 0.0F, 0.1745F));
+
+		PartDefinition cube_r43 = hair39.addOrReplaceChild("cube_r43", CubeListBuilder.create().texOffs(44, 31).addBox(-1.25F, -2.0F, -1.0F, 3.05F, 3.75F, 2.5F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.05F, -5.1F, 2.45F, -0.2618F, 0.0F, -0.4363F));
+
+		PartDefinition cube_r44 = hair39.addOrReplaceChild("cube_r44", CubeListBuilder.create().texOffs(44, 31).addBox(-1.25F, -2.0F, -1.0F, 3.45F, 3.25F, 2.5F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.05F, -3.6F, 2.0F, -0.0873F, 0.0F, -0.0873F));
+
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
@@ -273,31 +290,31 @@ public class VegetaHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 			var auraOn = cap.isAuraOn();
 
-			if(auraOn){
+			if (auraOn) {
 				var cargaVelocidad = 0.22f;
-				this.hair7.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
-				this.hair12.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
-				this.hair1.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
-				this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
-				this.hair8.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
-				this.hair9.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.02F);
+				this.hair7.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * 0.02F);
+				this.hair12.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * 0.02F);
+				this.hair1.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * 0.02F);
+				this.hair4.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * 0.02F);
+				this.hair8.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * 0.02F);
+				this.hair9.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * 0.02F);
 
-				this.hair26.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
-				this.hair29.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
-				this.hair28.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.02F);
+				this.hair26.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * -0.02F);
+				this.hair29.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * -0.02F);
+				this.hair28.zRot = (float) (Math.cos((pEntity.tickCount + random) * cargaVelocidad) * -0.02F);
 			} else {
 				float velocidad = 0.035f;
 
-				this.hair7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
-				this.hair12.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
-				this.hair1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
-				this.hair4.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
-				this.hair8.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
-				this.hair9.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.02F);
+				this.hair7.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * 0.02F);
+				this.hair12.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * 0.02F);
+				this.hair1.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * 0.02F);
+				this.hair4.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * 0.02F);
+				this.hair8.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * 0.02F);
+				this.hair9.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * 0.02F);
 
-				this.hair26.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
-				this.hair29.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
-				this.hair28.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.02F);
+				this.hair26.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * -0.02F);
+				this.hair29.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * -0.02F);
+				this.hair28.zRot = (float) (Math.cos((pEntity.tickCount + random) * velocidad) * -0.02F);
 			}
 
 		});
