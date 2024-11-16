@@ -78,16 +78,16 @@
     ]
   },
   "frogsound2": {
-      "subtitle": "sounds.dragonminez.frogsound2",
-      "sounds": [
+    "subtitle": "sounds.dragonminez.frogsound2",
+    "sounds": [
       "dragonminez:frogsound2"
-      ]
+    ]
   },
   "frogsound3": {
-      "subtitle": "sounds.dragonminez.frogsound3",
-      "sounds": [
+    "subtitle": "sounds.dragonminez.frogsound3",
+    "sounds": [
       "dragonminez:frogsound3"
-      ]
+    ]
   },
   "shenron": {
     "subtitle": "sounds.dragonminez.shenron",
@@ -102,9 +102,15 @@
     ]
   },
   "senzu": {
-  "subtitle": "sounds.dragonminez.senzu",
-  "sounds": [
-    "dragonminez:senzu"
-  ]
+    "subtitle": "sounds.dragonminez.senzu",
+    "sounds": [
+      "dragonminez:senzu"
+    ]
+  },
+  "menu_music": {
+    "subtitle": "sounds.dragonminez.menu_music",
+    "sounds": [
+      "dragonminez:menu_music"
+    ]
   }
 }

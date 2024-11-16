@@ -7,6 +7,8 @@
     "AccessorRangedAttribute"
   ],
   "client": [
+    "SoundManagerMixin",
+    "TitleScreenMixin",
     "client.renderer.EntityRenderDispatcherMixin",
     "client.renderer.HeldItemRendererMixin"
   ],

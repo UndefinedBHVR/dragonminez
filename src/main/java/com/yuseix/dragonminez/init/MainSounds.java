@@ -34,6 +34,8 @@ public final class MainSounds {
     public static final RegistryObject<SoundEvent> FROG3 = registerSoundEvent("frogsound3");
     public static final RegistryObject<SoundEvent> FROG_LAUGH = registerSoundEvent("froglaugh");
 
+    public static final RegistryObject<SoundEvent> MENU_MUSIC = registerSoundEvent("menu_music");
+
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
 
