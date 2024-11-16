@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -102,12 +102,12 @@ public class StatsEvents {
                 }
 
                 //Tiempo para reclamar una senzu
-                if(Senzu_countdown > 0){
+                if (Senzu_countdown > 0) {
                     playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
                     Senzu_countdown--;
                 }
 
-                if(Senzu_countdown == 0){
+                if (Senzu_countdown == 0) {
                     playerstats.setDmzSenzuDaily(0);
                 }
 
@@ -207,14 +207,14 @@ public class StatsEvents {
                     var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
                     var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
 
-                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(),statsObjetivo.getDmzRelease(),statsObjetivo.getDmzClass(), majinOn, fruta);
+                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), majinOn, fruta);
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
                 });
             } else {
                 // Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
-                    event.setAmount(event.getAmount()); // Aplica tu máximo daño
+                event.setAmount(event.getAmount()); // Aplica tu máximo daño
             }
         } else {
             // Aquí manejamos el caso donde el atacante no es un jugador
@@ -226,7 +226,7 @@ public class StatsEvents {
                     int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(),
                             statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(),
                             statsObjetivo.getDmzClass(), majinOn, fruta);
-                    
+
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
@@ -264,19 +264,23 @@ public class StatsEvents {
     }
 
     @SubscribeEvent
-    public static void onKeyInputEvent(InputEvent.Key event){
-        // Detecta si la tecla KI_CHARGE está presionada o liberada
-        if (Keys.KI_CHARGE.isDown()) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn",1));
-            ModMessages.sendToServer(new InvocarAuraC2S());
+    public static void onKeyInputEvent(InputEvent.Key event) {
+        Player player = Minecraft.getInstance().player;
+        if (player != null) {
 
-        } else {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn",0));
-            ModMessages.sendToServer(new InvocarAuraC2S());
+            // Detecta si la tecla KI_CHARGE está presionada o liberada
+            if (Keys.KI_CHARGE.isDown()) {
+                ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+                ModMessages.sendToServer(new InvocarAuraC2S());
+
+            } else {
+                ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+                ModMessages.sendToServer(new InvocarAuraC2S());
+            }
+
+            // Detecta si la tecla DESCEND_KEY está presionada o liberada
+            isActionKeyPressed = Keys.DESCEND_KEY.isDown();
         }
-
-        // Detecta si la tecla DESCEND_KEY está presionada o liberada
-        isActionKeyPressed = Keys.DESCEND_KEY.isDown();
     }
 
     @SubscribeEvent
