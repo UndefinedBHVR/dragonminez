@@ -54,6 +54,8 @@ public class DragonMineZ {
         DMZMenuTypes.register(modEventBus);
         //Register Recipes
         DMZRecipes.register(modEventBus);
+        //Register Particulas
+        MainParticles.register(modEventBus);
 
 
         MinecraftForge.EVENT_BUS.register(this);

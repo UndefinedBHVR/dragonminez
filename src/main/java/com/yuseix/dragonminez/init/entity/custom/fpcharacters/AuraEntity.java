@@ -86,10 +86,10 @@ public class AuraEntity extends Mob{
     public Player getOwner() {
         Optional<UUID> uuidOptional = this.entityData.get(OWNER_UUID);
         if (uuidOptional.isPresent() && this.level() instanceof ServerLevel serverLevel) {
-            System.out.println("Obteniendo owner en ServerLevel con UUID: " + uuidOptional.get());
+            //System.out.println("Obteniendo owner en ServerLevel con UUID: " + uuidOptional.get());
             return serverLevel.getPlayerByUUID(uuidOptional.get());
         }
-        System.out.println("UUID del owner está vacío o el nivel no es ServerLevel: " + this.level());
+        //System.out.println("UUID del owner está vacío o el nivel no es ServerLevel: " + this.level());
         return null;
     }
 

@@ -41,7 +41,7 @@ public class KiBallModel<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void setupAnim(T t, float v, float v1, float v2, float v3, float v4) {
-		System.out.println("Si se esta llamando");
+		//System.out.println("Si se esta llamando");
 	}
 
 	@Override
