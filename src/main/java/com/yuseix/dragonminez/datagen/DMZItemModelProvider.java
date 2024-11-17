@@ -74,6 +74,15 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.VEGETA_NAMEK_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_NAMEK_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_NAMEK_ARMOR_BOOTS);
+        armorItem(MainItems.VEGETA_Z_ARMOR_CHESTPLATE);
+        armorItem(MainItems.VEGETA_Z_ARMOR_LEGGINGS);
+        armorItem(MainItems.VEGETA_Z_ARMOR_BOOTS);
+        armorItem(MainItems.VEGETA_BUU_ARMOR_CHESTPLATE);
+        armorItem(MainItems.VEGETA_BUU_ARMOR_LEGGINGS);
+        armorItem(MainItems.VEGETA_BUU_ARMOR_BOOTS);
+        armorItem(MainItems.VEGETA_SUPER_ARMOR_CHESTPLATE);
+        armorItem(MainItems.VEGETA_SUPER_ARMOR_LEGGINGS);
+        armorItem(MainItems.VEGETA_SUPER_ARMOR_BOOTS);
         armorItem(MainItems.BARDOCK_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.BARDOCK_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.BARDOCK_SUPER_ARMOR_BOOTS);
@@ -83,6 +92,12 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOKU_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOKU_ARMOR_LEGGINGS);
         armorItem(MainItems.GOKU_ARMOR_BOOTS);
+        armorItem(MainItems.GOKU_KAITO_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GOKU_KAITO_ARMOR_LEGGINGS);
+        armorItem(MainItems.GOKU_KAITO_ARMOR_BOOTS);
+        armorItem(MainItems.GOKU_SUPER_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GOKU_SUPER_ARMOR_LEGGINGS);
+        armorItem(MainItems.GOKU_SUPER_ARMOR_BOOTS);
         armorItem(MainItems.PICCOLO_ARMOR_HELMET);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE);
@@ -91,23 +106,32 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_CHESTPLATE);
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_LEGGINGS);
         armorItem(MainItems.DEMON_GI_BLUE_ARMOR_BOOTS);
-        armorItem(MainItems.GOKU_KAITO_ARMOR_CHESTPLATE);
-        armorItem(MainItems.GOKU_KAITO_ARMOR_LEGGINGS);
-        armorItem(MainItems.GOKU_KAITO_ARMOR_BOOTS);
+        armorItem(MainItems.TURLES_ARMOR_CHESTPLATE);
+        armorItem(MainItems.TURLES_ARMOR_LEGGINGS);
+        armorItem(MainItems.TURLES_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);
         simpleItem(MainItems.KIKONO_CLOTH);
         simpleItem(MainItems.ARMOR_CRAFTING_KIT);
+        simpleItem(MainItems.SHINTANI_BLUE_DYE);
+        simpleItem(MainItems.SHINTANI_ORANGE_DYE);
         patternItem(MainItems.PATTERN_GOTEN);
         patternItem(MainItems.PATTERN_GOKU1);
         patternItem(MainItems.PATTERN_GOKU2);
+        patternItem(MainItems.PATTERN_GOKU_SUPER);
         patternItem(MainItems.PATTERN_GOHAN1);
         patternItem(MainItems.PATTERN_VEGETA1);
         patternItem(MainItems.PATTERN_VEGETA2);
+        patternItem(MainItems.PATTERN_VEGETA_SUPER);
+        patternItem(MainItems.PATTERN_VEGETA_BUU);
+        patternItem(MainItems.PATTERN_VEGETA_Z);
         patternItem(MainItems.PATTERN_BARDOCK1);
         patternItem(MainItems.PATTERN_BARDOCK2);
         patternItem(MainItems.PATTERN_PICCOLO);
+        patternItem(MainItems.PATTERN_TURLES);
+        patternItem(MainItems.PATTERN_TIEN);
+        patternItem(MainItems.PATTERN_TRUNKS_Z);
 
         //Minerales
         simpleItem(MainItems.GETE_SCRAP);
@@ -146,17 +170,17 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.TIME_CHAMBER_PORTAL);
 
         //Vegetacion
-        blockItem(MainBlocks.CHRYSANTHEMUM_FLOWER);
-        blockItem(MainBlocks.AMARYLLIS_FLOWER);
-        blockItem(MainBlocks.MARIGOLD_FLOWER);
-        blockItem(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER);
-        blockItem(MainBlocks.TRILLIUM_FLOWER);
+        blockAsItem(MainBlocks.CHRYSANTHEMUM_FLOWER);
+        blockAsItem(MainBlocks.AMARYLLIS_FLOWER);
+        blockAsItem(MainBlocks.MARIGOLD_FLOWER);
+        blockAsItem(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER);
+        blockAsItem(MainBlocks.TRILLIUM_FLOWER);
         blockItem(MainBlocks.NAMEK_FERN);
-        blockItem(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER);
-        blockItem(MainBlocks.SACRED_AMARYLLIS_FLOWER);
-        blockItem(MainBlocks.SACRED_MARIGOLD_FLOWER);
-        blockItem(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER);
-        blockItem(MainBlocks.SACRED_TRILLIUM_FLOWER);
+        blockAsItem(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER);
+        blockAsItem(MainBlocks.SACRED_AMARYLLIS_FLOWER);
+        blockAsItem(MainBlocks.SACRED_MARIGOLD_FLOWER);
+        blockAsItem(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER);
+        blockAsItem(MainBlocks.SACRED_TRILLIUM_FLOWER);
         blockItem(MainBlocks.SACRED_FERN);
     }
 
@@ -179,6 +203,11 @@ public class DMZItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(DragonMineZ.MOD_ID, "block/" + item.getId().getPath()));
+    }
+    private ItemModelBuilder blockAsItem(RegistryObject<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(DragonMineZ.MOD_ID, "item/" + item.getId().getPath()));
     }
     public void simpleBlockItem(RegistryObject<Block> block) {
         this.withExistingParent(DragonMineZ.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),

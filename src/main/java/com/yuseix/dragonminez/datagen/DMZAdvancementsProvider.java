@@ -234,6 +234,67 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.DEMON_GI_BLUE_ARMOR_BOOTS.get())
                     )
                     .save(consumer, "dragonminez:demonbluegiarmor");
+
+            Advancement turlesarmor = Advancement.Builder.advancement()
+                    .parent(armorStation)
+                    .display(
+                            MainItems.TURLES_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.turlesarmor.title"),
+                            Component.translatable("advancements.dragonminez.turlesarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    )
+                    .addCriterion("turlesarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.TURLES_ARMOR_CHESTPLATE.get(),
+                                    MainItems.TURLES_ARMOR_LEGGINGS.get(),
+                                    MainItems.TURLES_ARMOR_BOOTS.get())
+                    )
+                    .save(consumer, "dragonminez:turlesarmor");
+
+            /*
+            Advancement tienarmor = Advancement.Builder.advancement()
+                    .parent(armorStation)
+                    .display(
+                            MainItems.TIEN_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.tienarmor.title"),
+                            Component.translatable("advancements.dragonminez.tienarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    )
+                    .addCriterion("tienarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.TIEN_ARMOR_CHESTPLATE.get(),
+                                    MainItems.TIEN_ARMOR_LEGGINGS.get(),
+                                    MainItems.TIEN_ARMOR_BOOTS.get())
+                    )
+                    .save(consumer, "dragonminez:tienarmor");
+
+            Advancement trunksarmor = Advancement.Builder.advancement()
+                    .parent(armorStation)
+                    .display(
+                            MainItems.TRUNKS_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.trunksarmor.title"),
+                            Component.translatable("advancements.dragonminez.trunksarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    )
+                    .addCriterion("trunksarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.TRUNKS_Z_ARMOR_CHESTPLATE.get(),
+                                    MainItems.TRUNKS_Z_ARMOR_LEGGINGS.get(),
+                                    MainItems.TRUNKS_Z_ARMOR_BOOTS.get())
+                    )
+                    .save(consumer, "dragonminez:trunksarmor");
+
+            Advancement gotenarmor = Advancement.Builder.advancement()
+                    .parent(armorStation)
+                    .display(
+                            MainItems.GOTEN_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gotenarmor.title"),
+                            Component.translatable("advancements.dragonminez.gotenarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    )
+                    .addCriterion("gotenarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GOTEN_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GOTEN_ARMOR_LEGGINGS.get(),
+                                    MainItems.GOTEN_ARMOR_BOOTS.get())
+                    )
+                    .save(consumer, "dragonminez:gotenarmor"); */
         }
     }
 }

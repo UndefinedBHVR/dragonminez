@@ -91,6 +91,19 @@ public final class MainItems {
             ITEM_REGISTER.register("vegeta_z_armor_boots", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
                             .fireResistant().stacksTo(1),"vegetaz_armor", false));
+    //VEGETA ROPA ENTRENAMIENTO - SAGA BUU
+    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("vegeta_buu_armor_chestplate", () -> new DbzArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                            .fireResistant().stacksTo(1), "vegetabuu", false));
+    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("vegeta_buu_armor_leggings", () -> new DbzArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                            .fireResistant().stacksTo(1),"vegetabuu", false));
+    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_BOOTS =
+            ITEM_REGISTER.register("vegeta_buu_armor_boots", () -> new DbzArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                            .fireResistant().stacksTo(1),"vegetabuu", false));
     //VEGETA ARMADURA DE SUPER
     public static final RegistryObject<Item> VEGETA_SUPER_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("vegeta_super_armor_chestplate", () -> new DbzArmorItem
@@ -104,32 +117,6 @@ public final class MainItems {
             ITEM_REGISTER.register("vegeta_super_armor_boots", () -> new DbzArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
                             .fireResistant().stacksTo(1),"vegetasuper", false));
-    //VEGETA ROPA ENTRENAMIENTO
-    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("vegeta_buu_armor_chestplate", () -> new DbzArmorItem
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1), "vegetabuu", false));
-    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("vegeta_buu_armor_leggings", () -> new DbzArmorItem
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1),"vegetabuu", false));
-    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_BOOTS =
-            ITEM_REGISTER.register("vegeta_buu_armor_boots", () -> new DbzArmorItem
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1),"vegetabuu", false));
-    //BARDOCK SUPER
-    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_CHESTPLATE =
-            ITEM_REGISTER.register("bardock_super_armor_chestplate", () -> new SaiyanArmorItem
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
-                            .fireResistant().stacksTo(1),"bardockdbs_armor", false));
-    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("bardock_super_armor_leggings", () -> new SaiyanArmorItem
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
-                            .fireResistant().stacksTo(1),"bardockdbs_armor", false));
-    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_BOOTS =
-            ITEM_REGISTER.register("bardock_super_armor_boots", () -> new SaiyanArmorItem
-                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
-                            .fireResistant().stacksTo(1),"bardockdbs_armor", false));
     //BARDOCK DBZ
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("bardock_dbz_armor_chestplate", () -> new SaiyanArmorItem
@@ -143,6 +130,19 @@ public final class MainItems {
             ITEM_REGISTER.register("bardock_dbz_armor_boots", () -> new SaiyanArmorItem
                     (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
                             .fireResistant().stacksTo(1),"bardock_armor", false));
+    //BARDOCK SUPER
+    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_CHESTPLATE =
+            ITEM_REGISTER.register("bardock_super_armor_chestplate", () -> new SaiyanArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties()
+                            .fireResistant().stacksTo(1),"bardockdbs_armor", false));
+    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_LEGGINGS =
+            ITEM_REGISTER.register("bardock_super_armor_leggings", () -> new SaiyanArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS, new Item.Properties()
+                            .fireResistant().stacksTo(1),"bardockdbs_armor", false));
+    public static final RegistryObject<Item> BARDOCK_SUPER_ARMOR_BOOTS =
+            ITEM_REGISTER.register("bardock_super_armor_boots", () -> new SaiyanArmorItem
+                    (ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS, new Item.Properties()
+                            .fireResistant().stacksTo(1),"bardockdbs_armor", false));
     //TURLES
     public static final RegistryObject<Item> TURLES_ARMOR_CHESTPLATE =
             ITEM_REGISTER.register("turles_armor_chestplate", () -> new SaiyanArmorItem
@@ -245,9 +245,12 @@ public final class MainItems {
             ));
 
     //MINERALES
-    public static final RegistryObject<Item> GETE_SCRAP = ITEM_REGISTER.register("gete_scrap", GeteScrapItem::new);
-    public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot", GeteIngotItem::new);
-    public static final RegistryObject<Item> KIKONO_SHARD = ITEM_REGISTER.register("kikono_shard", KikonoShardItem::new);
+    public static final RegistryObject<Item> GETE_SCRAP = ITEM_REGISTER.register("gete_scrap",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> GETE_INGOT = ITEM_REGISTER.register("gete_ingot",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> KIKONO_SHARD = ITEM_REGISTER.register("kikono_shard",
+            () -> new Item(properties.stacksTo(64)));
 
     //DRAGON BALL RADAR
     public static final RegistryObject<Item> DBALL_RADAR_ITEM = ITEM_REGISTER.register("dball_radar", DragonBallRadarItem::new);
@@ -342,17 +345,31 @@ public final class MainItems {
     //ARMOR STATION/ARMOR CRAFTING PATTERNS
     public static final RegistryObject<Item> ARMOR_CRAFTING_KIT = ITEM_REGISTER.register("armor_crafting_kit",
             () -> new ArmorCraftingKitItem(properties.stacksTo(1)));
-    public static final RegistryObject<Item> KIKONO_STRING = ITEM_REGISTER.register("kikono_string", KikonoStringItem::new);
-    public static final RegistryObject<Item> KIKONO_CLOTH = ITEM_REGISTER.register("kikono_cloth", KikonoClothItem::new);
+    public static final RegistryObject<Item> KIKONO_STRING = ITEM_REGISTER.register("kikono_string",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> KIKONO_CLOTH = ITEM_REGISTER.register("kikono_cloth",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> SHINTANI_BLUE_DYE = ITEM_REGISTER.register("shintani_blue_dye",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> SHINTANI_ORANGE_DYE = ITEM_REGISTER.register("shintani_orange_dye",
+            () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_GOKU1 = ITEM_REGISTER.register("pattern_goku1",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_GOKU2 = ITEM_REGISTER.register("pattern_goku2",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_GOKU_SUPER = ITEM_REGISTER.register("pattern_goku_super",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_GOTEN = ITEM_REGISTER.register("pattern_goten",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_VEGETA1 = ITEM_REGISTER.register("pattern_vegeta1",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_VEGETA2 = ITEM_REGISTER.register("pattern_vegeta2",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_VEGETA_Z = ITEM_REGISTER.register("pattern_vegeta_z",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_VEGETA_BUU = ITEM_REGISTER.register("pattern_vegeta_buu",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_VEGETA_SUPER = ITEM_REGISTER.register("pattern_vegeta_super",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_PICCOLO = ITEM_REGISTER.register("pattern_piccolo",
             () -> new Item(properties.stacksTo(64)));
@@ -361,6 +378,12 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_BARDOCK1 = ITEM_REGISTER.register("pattern_bardock1",
             () -> new Item(properties.stacksTo(64)));
     public static final RegistryObject<Item> PATTERN_BARDOCK2 = ITEM_REGISTER.register("pattern_bardock2",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_TURLES = ITEM_REGISTER.register("pattern_turles",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_TIEN = ITEM_REGISTER.register("pattern_tien",
+            () -> new Item(properties.stacksTo(64)));
+    public static final RegistryObject<Item> PATTERN_TRUNKS_Z = ITEM_REGISTER.register("pattern_trunks_z",
             () -> new Item(properties.stacksTo(64)));
 
     public static void register(IEventBus bus) {
