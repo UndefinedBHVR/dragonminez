@@ -4,6 +4,8 @@
   <img src="./.github/docs/dmzbanner.png" alt="DMZ Banner" width="90%" />
 </div>
 
+## About
+
 DragonMine Z es un mod de [Minecraft](https://www.minecraft.net/en-us) basado
 en [Dragon Ball](https://en.dragon-ball-official.com/)
 y desarrollado en la versión **1.20.1**.
