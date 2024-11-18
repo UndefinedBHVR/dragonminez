@@ -30,7 +30,8 @@ public final class MainTabs {
                                     if (!block.getId().getPath().startsWith("potted_")) {
                                         if (!(block.getId().getPath().contains("gete"))) {
                                             if (!(block.get() instanceof LiquidBlock)) {
-                                                output.accept(block.get().asItem());
+                                                if (!block.getId().getPath().contains("invisible"))
+                                                    output.accept(block.get().asItem());
                                             }
                                         }
                                     }
@@ -45,16 +46,14 @@ public final class MainTabs {
 
                     .title(Component.translatable("itemGroup.dragonminez.namek"))
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
-                        if (item.getId().getPath().startsWith("namek_"))
-                            output.accept(item.get().asItem());
-                        if (item.getId().getPath().startsWith("sacred_"))
-                            output.accept(item.get().asItem());
-                        output.accept(MainBlocks.CHRYSANTHEMUM_FLOWER.get().asItem());
-                        output.accept(MainBlocks.AMARYLLIS_FLOWER.get().asItem());
-                        output.accept(MainBlocks.MARIGOLD_FLOWER.get().asItem());
-                        output.accept(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER.get().asItem());
-                        output.accept(MainBlocks.TRILLIUM_FLOWER.get().asItem());
-                        output.accept(MainBlocks.LOTUS_FLOWER.get().asItem());
+                        if (!item.getId().getPath().contains("bucket")) {
+                            if (item.getId().getPath().startsWith("namek_"))
+                                output.accept(item.get().asItem());
+                            if (item.getId().getPath().startsWith("sacred_") && (!item.getId().getPath().endsWith("_flower")))
+                                output.accept(item.get().asItem());
+                            if (item.getId().getPath().endsWith("_flower") && (!item.getId().getPath().startsWith("potted_") && (!item.getId().getPath().contains("lotus"))))
+                                output.accept(item.get().asItem());
+                        }
                     })).build()
     );
 
@@ -88,17 +87,13 @@ public final class MainTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.GETE_ORE.get()))
 
                     .title(Component.translatable("itemGroup.dragonminez.ores"))
-                    .displayItems((parameters, output) -> MainBlocks.BLOCK_REGISTER.getEntries().forEach((block) -> {
-                        if (block.getId().getPath().contains("_ore")) {
-                            output.accept(block.get().asItem());
-                            output.accept(MainBlocks.KIKONO_BLOCK.get().asItem());
-                            output.accept(MainBlocks.KIKONO_ARMOR_STATION.get().asItem());
-                            output.accept(MainItems.KIKONO_SHARD.get().asItem());
-                            output.accept(MainItems.KIKONO_CLOTH.get().asItem());
-                            output.accept(MainItems.KIKONO_STRING.get().asItem());
-                            output.accept(MainItems.GETE_INGOT.get().asItem());
-                            output.accept(MainItems.GETE_SCRAP.get().asItem());
-                        }
+                    .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
+                        if (item.getId().getPath().contains("_ore"))
+                            output.accept(item.get());
+                        if (item.getId().getPath().contains("gete") && (!item.getId().getPath().contains("furnace")))
+                            output.accept(item.get());
+                        if (item.getId().getPath().contains("kikono"))
+                            output.accept(item.get());
                     })).build()
     );
 

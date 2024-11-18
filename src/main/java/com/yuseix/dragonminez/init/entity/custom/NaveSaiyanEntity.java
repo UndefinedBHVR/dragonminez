@@ -84,7 +84,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
     @Override
     public void travel(Vec3 travelVector) {
         LivingEntity controllingPassenger = this.getControllingPassenger();
-
+        float upward = 0.0f; // Movimiento vertical
 
         if (controllingPassenger instanceof Player player) {
             this.setNoGravity(true);  // Desactiva la gravedad para volar
@@ -92,14 +92,13 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
             // Movimiento hacia adelante y lateral (según la cámara del jugador)
             float forward = player.zza;  // Movimiento hacia adelante y atrás (W/S)
             float strafe = player.xxa;   // Movimiento lateral (izquierda/derecha - A/D)
-            float upward = 0.0f;
 
             if (Minecraft.getInstance().options.keyJump.isDown()) {
                 upward = 0.3f;
             } else if (Keys.DESCEND_KEY.isDown()) {
                 upward = -0.3f;
             } else if (!this.onGround()) { //Descenso lento
-                upward = -0.01f;
+                upward = -0.00f;
             }
 
             // Actualiza la selección de planeta y envía al servidor cuando cambian las flechas de dirección
@@ -116,7 +115,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                     }
                 }
                 ModMessages.sendToServer(new PlanetSelectionC2S(planetaObjetivo));
-                System.out.println("Planeta objetivo: ABAJO " + planetaObjetivo);
+                //System.out.println("Planeta objetivo: ABAJO " + planetaObjetivo);
             }
 
             if (Keys.SELECT_UP.consumeClick()) {
@@ -132,7 +131,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                     }
                 }
                 ModMessages.sendToServer(new PlanetSelectionC2S(planetaObjetivo));
-                System.out.println("Planeta objetivo: ARRIBA " + planetaObjetivo);
+                //System.out.println("Planeta objetivo: ARRIBA " + planetaObjetivo);
             }
 
             if (Keys.FUNCTION.consumeClick()) {
@@ -156,10 +155,9 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                                 ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
                                 player.displayClientMessage(Component.literal("Has llegado a la Tierra"), true);
                             } else {
-                                System.out.println("Kaio no disponible");  // Confirmación de la condición
+                                //System.out.println("Kaio no disponible");
                             }
                         }
-                        default -> System.out.println("Error: planetaObjetivo desconocido");
                     }
                     teleportHoldTime = 0;  // Reiniciar el contador tras el teletransporte
                 }

@@ -50,7 +50,7 @@ public class ZPointsC2S {
                             playerstats.setZpoints(packet.cantidad);
                             break;
                         default:
-                            System.out.println("Algo salio mal !");
+                            //System.out.println("Algo salio mal !");
                             break;
                     }
 

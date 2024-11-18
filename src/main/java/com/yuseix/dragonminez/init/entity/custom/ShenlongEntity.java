@@ -101,7 +101,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
         if (this.level().isClientSide) {
             // Verifica que el UUID de esta entidad coincida con el del jugador
             if (this.getOwnerName().equals(player.getName().getString())) {
-                System.out.println("Nombre coincide con el del jugador");
+                //System.out.println("Nombre coincide con el del jugador");
 
                 if (getDeseos() > 0) {
                     Minecraft.getInstance().setScreen(new ShenlongMenu());

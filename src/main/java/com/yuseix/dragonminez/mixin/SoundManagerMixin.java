@@ -20,7 +20,7 @@ public class SoundManagerMixin {
         // Compare the sound instance's location with the default menu music location
         if (pSound.getLocation().equals(MENU_MUSIC_RESOURCE)) {
             ci.cancel();
-            System.out.println("Musica default MC cancelada");
+            //System.out.println("Musica default MC cancelada");
         }
     }
 }

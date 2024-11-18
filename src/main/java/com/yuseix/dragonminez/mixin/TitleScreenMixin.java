@@ -30,7 +30,7 @@ public class TitleScreenMixin {
             dragonminez$hasPlayedMusic = true;
 
             soundManager.play(SimpleSoundInstance.forMusic(MainSounds.MENU_MUSIC.get()));
-            System.out.println("Music Custom del Menu ha iniciado!");
+            //System.out.println("Music Custom del Menu ha iniciado!");
         }
     }
 

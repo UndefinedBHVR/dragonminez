@@ -156,7 +156,7 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
             } else {
                 craftItem();
                 resetProgress();
-                System.out.println("Item crafteado");
+                //System.out.println("Item crafteado");
             }
         } else {
             resetProgress();
@@ -189,7 +189,7 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
 
         if (level != null) {
             level.playSound(null, this.worldPosition,
-                    SoundEvents.ANVIL_USE,   // Si tienes un sonido personalizado, cámbialo a SoundEvents o tu sonido registrado
+                    SoundEvents.ANVIL_USE,
                     SoundSource.BLOCKS, 1.0f, 1.0f);
         }
     }

@@ -169,6 +169,22 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .group("dragonminez")
                 .save(pWriter);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, MainItems.SHINTANI_BLUE_DYE.get(), 2)
+                .requires(Items.BLUE_DYE)
+                .requires(Items.CYAN_DYE)
+                .requires(Items.WHITE_DYE)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, MainItems.SHINTANI_ORANGE_DYE.get(), 1)
+                .requires(Items.ORANGE_DYE)
+                .requires(Items.RED_DYE)
+                .requires(Items.YELLOW_DYE)
+                .unlockedBy(getHasName(Items.ORANGE_DYE), has(Items.ORANGE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU1.get(), 1)
                 .pattern("B#B")
                 .pattern("OBO")
@@ -189,6 +205,18 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('N', Items.BLACK_DYE)
                 .define('#', Items.PAPER)
                 .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU_SUPER.get(), 1)
+                .pattern("B#B")
+                .pattern("OBO")
+                .pattern("OWO")
+                .define('B', MainItems.SHINTANI_BLUE_DYE.get())
+                .define('O', MainItems.SHINTANI_ORANGE_DYE.get())
+                .define('W', Items.WHITE_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(MainItems.SHINTANI_BLUE_DYE.get()), has(MainItems.SHINTANI_BLUE_DYE.get()))
                 .group("dragonminez")
                 .save(pWriter);
 
@@ -239,6 +267,40 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .group("dragonminez")
                 .save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA_SUPER.get(), 1)
+                .pattern("O#O")
+                .pattern("BWB")
+                .pattern("BOB")
+                .define('B', MainItems.SHINTANI_BLUE_DYE.get())
+                .define('O', MainItems.SHINTANI_ORANGE_DYE.get())
+                .define('W', Items.WHITE_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(MainItems.SHINTANI_BLUE_DYE.get()), has(MainItems.SHINTANI_BLUE_DYE.get()))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA_BUU.get(), 1)
+                .pattern("B#B")
+                .pattern("BBB")
+                .pattern("BBB")
+                .define('B', MainItems.SHINTANI_BLUE_DYE.get())
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(MainItems.SHINTANI_BLUE_DYE.get()), has(MainItems.SHINTANI_BLUE_DYE.get()))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA_Z.get(), 1)
+                .pattern("Y#Y")
+                .pattern("BWB")
+                .pattern("BYB")
+                .define('B', Items.BLUE_DYE)
+                .define('W', Items.WHITE_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BARDOCK1.get(), 1)
                 .pattern("G#G")
                 .pattern("BBB")
@@ -270,7 +332,42 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('P', Items.PURPLE_DYE)
                 .define('R', Items.RED_DYE)
                 .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.PURPLE_DYE), has(Items.PURPLE_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TURLES.get(), 1)
+                .pattern("B#B")
+                .pattern("NNN")
+                .pattern("BBB")
+                .define('B', Items.BLUE_DYE)
+                .define('N', Items.BLACK_DYE)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLACK_DYE), has(Items.BLACK_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TIEN.get(), 1)
+                .pattern(" #G")
+                .pattern("GGG")
+                .pattern("RRR")
+                .define('G', Items.GREEN_DYE)
+                .define('R', Items.RED_DYE)
+                .define('#', Items.PAPER)
                 .unlockedBy(getHasName(Items.GREEN_DYE), has(Items.GREEN_DYE))
+                .group("dragonminez")
+                .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TRUNKS_Z.get(), 1)
+                .pattern("B#B")
+                .pattern("NSN")
+                .pattern("NYN")
+                .define('B', Items.BLUE_DYE)
+                .define('N', Items.BLACK_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('S', Items.IRON_SWORD)
+                .define('#', Items.PAPER)
+                .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
                 .group("dragonminez")
                 .save(pWriter);
 

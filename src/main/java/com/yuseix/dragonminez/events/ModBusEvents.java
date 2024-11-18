@@ -30,11 +30,14 @@ import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallR
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
+import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
+import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -43,6 +46,7 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -245,7 +249,7 @@ public class ModBusEvents {
                 }
             }
         } catch (IllegalAccessException e) {
-            System.out.println("Error al intentar registrar una tecla! " + e.getMessage());
+            //System.out.println("Error al intentar registrar una tecla! " + e.getMessage());
         }
     }
 
@@ -256,4 +260,9 @@ public class ModBusEvents {
         event.register(StructuresCapability.class);
     }
 
+    @SubscribeEvent
+    public static void registerParticles(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(MainParticles.AJISSA_LEAVES_PARTICLE.get(), AjissaLeavesParticle.Provider::new);
+        event.registerSpriteSet(MainParticles.SACRED_LEAVES_PARTICLE.get(), SacredLeavesParticle.Provider::new);
+    }
 }
