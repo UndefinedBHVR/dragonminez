@@ -133,6 +133,9 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.TRUNKS_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.TRUNKS_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.TRUNKS_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.TRUNKS_KID_ARMOR_CHESTPLATE);
+        armorItem(MainItems.TRUNKS_KID_ARMOR_LEGGINGS);
+        armorItem(MainItems.TRUNKS_KID_ARMOR_BOOTS);
         armorItem(MainItems.BROLY_Z_ARMOR_CHESTPLATE);
         armorItem(MainItems.BROLY_Z_ARMOR_LEGGINGS);
         armorItem(MainItems.BROLY_Z_ARMOR_BOOTS);
@@ -162,6 +165,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_GOKU_GT);
         patternItem(MainItems.PATTERN_GOTEN);
         patternItem(MainItems.PATTERN_GOTEN_SUPER);
+        patternItem(MainItems.PATTERN_GOHAN_SUPER);
         patternItem(MainItems.PATTERN_VEGETA1);
         patternItem(MainItems.PATTERN_VEGETA2);
         patternItem(MainItems.PATTERN_VEGETA_Z);
@@ -175,6 +179,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_TIEN);
         patternItem(MainItems.PATTERN_TRUNKS_Z);
         patternItem(MainItems.PATTERN_TRUNKS_SUPER);
+        patternItem(MainItems.PATTERN_TRUNKS_KID);
         patternItem(MainItems.PATTERN_BROLY_Z);
         patternItem(MainItems.PATTERN_BROLY_SUPER);
         patternItem(MainItems.PATTERN_SHIN);

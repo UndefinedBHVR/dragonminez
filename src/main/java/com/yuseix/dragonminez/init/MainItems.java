@@ -110,9 +110,9 @@ public final class MainItems {
             ITEM_REGISTER.register("piccolo_armor_boots", () -> new PiccoloArmorItem(ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS,
                     new Item.Properties().fireResistant().stacksTo(1)));
     //DEMON GI (AZUL)
-    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_CHESTPLATE = armorItem("demon_gi_blue_armor_chestplate", ArmorItem.Type.CHESTPLATE, "demon_gi_blue", false);
-    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_LEGGINGS = armorItem("demon_gi_blue_armor_leggings", ArmorItem.Type.LEGGINGS, "demon_gi_blue", false);
-    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_BOOTS = armorItem("demon_gi_blue_armor_boots", ArmorItem.Type.BOOTS, "demon_gi_blue", false);
+    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_CHESTPLATE = armorItem("demon_gi_blue_armor_chestplate", ArmorItem.Type.CHESTPLATE, "demon_gi_gohan", false);
+    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_LEGGINGS = armorItem("demon_gi_blue_armor_leggings", ArmorItem.Type.LEGGINGS, "demon_gi_gohan", false);
+    public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_BOOTS = armorItem("demon_gi_blue_armor_boots", ArmorItem.Type.BOOTS, "demon_gi_gohan", false);
     //BARDOCK DBZ
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_CHESTPLATE = saiyArItem("bardock_dbz_armor_chestplate", ArmorItem.Type.CHESTPLATE, "bardock_armor", false);
     public static final RegistryObject<Item> BARDOCK_DBZ_ARMOR_LEGGINGS = saiyArItem("bardock_dbz_armor_leggings", ArmorItem.Type.LEGGINGS, "bardock_armor", false);
@@ -206,6 +206,7 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_GOKU_GT = regItem("pattern_goku_gt");
     public static final RegistryObject<Item> PATTERN_GOTEN = regItem("pattern_goten");
     public static final RegistryObject<Item> PATTERN_GOTEN_SUPER = regItem("pattern_goten_super");
+    public static final RegistryObject<Item> PATTERN_GOHAN_SUPER = regItem("pattern_gohan_super");
     public static final RegistryObject<Item> PATTERN_VEGETA1 = regItem("pattern_vegeta1");
     public static final RegistryObject<Item> PATTERN_VEGETA2 = regItem("pattern_vegeta2");
     public static final RegistryObject<Item> PATTERN_VEGETA_Z = regItem("pattern_vegeta_z");
@@ -219,6 +220,7 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_TIEN = regItem("pattern_tien");
     public static final RegistryObject<Item> PATTERN_TRUNKS_Z = regItem("pattern_trunks_z");
     public static final RegistryObject<Item> PATTERN_TRUNKS_SUPER = regItem("pattern_trunks_super");
+    public static final RegistryObject<Item> PATTERN_TRUNKS_KID = regItem("pattern_trunks_kid");
     public static final RegistryObject<Item> PATTERN_BROLY_Z = regItem("pattern_broly_z");
     public static final RegistryObject<Item> PATTERN_BROLY_SUPER = regItem("pattern_broly_super");
     public static final RegistryObject<Item> PATTERN_SHIN = regItem("pattern_shin");
