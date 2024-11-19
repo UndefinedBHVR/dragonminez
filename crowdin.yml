@@ -1,0 +1,10 @@
+"project_id": "dragonminez"
+"api_token": "${CROWDIN_PERSONAL_TOKEN}"
+"base_path": "/src/main/resources/assets/dragonminez/lang/"
+"files":
+  - source: "/en_us.json"
+    translation: "/%locale%.json"
+    languages_mapping:
+      locale:
+        es: es_es
+        es-419: es_mx
