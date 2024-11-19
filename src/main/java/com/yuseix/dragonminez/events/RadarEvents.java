@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
@@ -7,6 +8,7 @@ import com.yuseix.dragonminez.init.items.custom.NamekDragonBallRadarItem;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -56,6 +58,10 @@ public class RadarEvents {
                 // Dibujar el radar en la esquina de la pantalla
                 int centerX = mc.getWindow().getGuiScaledWidth() - radarSize - 10;
                 int centerY = mc.getWindow().getGuiScaledHeight() - radarSize - 10;
+
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                RenderSystem.setShaderTexture(0, fondo);
                 gui.blit(fondo, centerX, centerY, 0, 0, 121, 146); // Dibujar el fondo del radar
 
                 // Actualizar solo cada 2 segundos (40 ticks)
@@ -104,6 +110,10 @@ public class RadarEvents {
                 // Dibujar el radar en la esquina de la pantalla
                 int centerX = mc.getWindow().getGuiScaledWidth() - radarSize - 10;
                 int centerY = mc.getWindow().getGuiScaledHeight() - radarSize - 10;
+
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                RenderSystem.setShaderTexture(0, fondo);
                 gui.blit(fondo, centerX, centerY, 0, 0, 121, 146); // Dibujar el fondo del radar
 
                 // Actualizar solo cada 2 segundos (40 ticks)

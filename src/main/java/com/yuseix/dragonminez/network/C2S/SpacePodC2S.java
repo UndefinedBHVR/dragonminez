@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.network.C2S;
 
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -37,11 +39,19 @@ public class SpacePodC2S {
             if (ctx.get().getSender() != null) {
                 var player = ctx.get().getSender();
                 ServerLevel targetWorld = player.server.getLevel(msg.targetDimension);
-                // TODO: Hacer que teletransporte también a la Entidad de la Nave, y preferentemente, al jugador montado en la Nave para evitar muertes de caída.
+
                 if (targetWorld != null && player.level() != targetWorld) {
                     player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+
+                    NaveSaiyanEntity naveEntity = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), targetWorld);
+                    naveEntity.setPos(player.getX(), player.getY(), player.getZ());
+
+                    targetWorld.addFreshEntity(naveEntity);
+
+                    player.startRiding(naveEntity, true);
+                }
             }
-        }});
+        });
         ctx.get().setPacketHandled(true);
     }
 }
