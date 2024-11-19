@@ -43,7 +43,7 @@
   ],
   "preset": [
     {
-      "item": "dragonminez:pattern_goten"
+      "item": "dragonminez:pattern_goku_kid"
     }
   ],
   "armor": [
@@ -53,7 +53,7 @@
   ],
   "output": {
     "count": 1,
-    "item": "dragonminez:goten_armor_chestplate"
+    "item": "dragonminez:goku_kid_armor_chestplate"
   },
   "crafting_time": 400
 }

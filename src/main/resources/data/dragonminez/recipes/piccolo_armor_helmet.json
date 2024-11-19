@@ -5,7 +5,11 @@
       "item": "dragonminez:kikono_cloth"
     }
   ],
-  "slot_2": [],
+  "slot_2": [
+    {
+      "item": "dragonminez:kikono_string"
+    }
+  ],
   "slot_3": [
     {
       "item": "dragonminez:kikono_cloth"
@@ -43,17 +47,17 @@
   ],
   "preset": [
     {
-      "item": "dragonminez:pattern_goten"
+      "item": "dragonminez:pattern_piccolo"
     }
   ],
   "armor": [
     {
-      "item": "minecraft:iron_chestplate"
+      "item": "minecraft:iron_helmet"
     }
   ],
   "output": {
     "count": 1,
-    "item": "dragonminez:goten_armor_chestplate"
+    "item": "dragonminez:piccolo_armor_helmet"
   },
   "crafting_time": 400
 }
