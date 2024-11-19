@@ -1,9 +1,9 @@
 name: Crowdin Check & Sync
 
-on:
-  push:
-    branches:
-      - main
+on: [ push ]
+#  push:
+#    branches:
+#      - main
 
 jobs:
   sync-and-validate:
@@ -24,7 +24,7 @@ jobs:
           pull_request_body: 'New Crowdin translations by [Crowdin GH Action](https://github.com/crowdin/github-action)'
           pull_request_base_branch_name: 'main'
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 

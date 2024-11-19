@@ -8,6 +8,6 @@ jobs:
       - name: "Run todo-to-issue Action"
         uses: "alstr/todo-to-issue-action@v5.1.3"
         with:
-          TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLOSE_ISSUES: true
           AUTO_P: true
