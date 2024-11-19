@@ -1,5 +1,5 @@
-"project_id": "dragonminez"
-"api_token": "${CROWDIN_PERSONAL_TOKEN}"
+"project_id": "${{ secrets.CROWDIN_PROJECT_ID }}"
+"api_token": "${{ secrets.CROWDIN_PERSONAL_TOKEN }}"
 "base_path": "/src/main/resources/assets/dragonminez/lang/"
 "files":
   - source: "/en_us.json"
