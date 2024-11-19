@@ -7,12 +7,7 @@
 ## About
 
 DragonMine Z es un mod de [Minecraft](https://www.minecraft.net/en-us) basado
-en [Dragon Ball](https://en.dragon-ball-official.com/)
-y desarrollado en la versión **1.20.1**.
-Está inspirado por otros mods
-como [Dragon Block
-C](https://www.curseforge.com/minecraft/mc-mods/jingames-dragon-block-c)
-y otras creaciones de [Jin Ryuu](https://main.jingames.net/about-me/).
+en [Dragon Ball](https://en.dragon-ball-official.com/) y desarrollado en la versión **1.20.1**.
 
 ### Contribuciones
 
