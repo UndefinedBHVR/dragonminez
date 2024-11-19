@@ -91,7 +91,8 @@ public class DMZPermaEffectsCommand {
         }
 
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName)
+                    .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZPermanentEffect(effectName, true));
         }
         return players.size();
@@ -110,7 +111,8 @@ public class DMZPermaEffectsCommand {
         }
 
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName)
+                    .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removePermanentEffect(effectName)); //playerstats.setDMZPermanentEffect(effectName, false)
         }
         return players.size();
@@ -119,7 +121,8 @@ public class DMZPermaEffectsCommand {
     // Comando para quitar todos los efectos permanentes
     private static int takeAllPermaEffects(Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.perma.take.all"));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.perma.take.all")
+                    .append(Component.translatable("command.dmz.to")).append(player.getName()));;
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
                 for (String effectName : VALID_PERMA_EFFECTS) {
                     playerstats.removePermanentEffect(effectName);
