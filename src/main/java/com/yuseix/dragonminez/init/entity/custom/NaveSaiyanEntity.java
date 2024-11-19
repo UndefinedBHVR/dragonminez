@@ -85,6 +85,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
     public void travel(Vec3 travelVector) {
         LivingEntity controllingPassenger = this.getControllingPassenger();
         float upward = 0.0f; // Movimiento vertical
+        var entityNave = this;
 
         if (controllingPassenger instanceof Player player) {
             this.setNoGravity(true);  // Desactiva la gravedad para volar
@@ -145,15 +146,18 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                         case 0 -> {
                             ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
                             player.displayClientMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"), true);
+                            entityNave.discard();
                         }
                         case 1 -> {
                             ModMessages.sendToServer(new SpacePodC2S(ModDimensions.NAMEK_DIM_LEVEL_KEY));
                             player.displayClientMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"), true);
+                            entityNave.discard();
                         }
                         case 2 -> {
                             if (isKaioAvailable()) {
                                 ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
                                 player.displayClientMessage(Component.literal("Has llegado a la Tierra"), true);
+                                entityNave.discard();
                             } else {
                                 //System.out.println("Kaio no disponible");
                             }

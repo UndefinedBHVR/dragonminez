@@ -437,6 +437,7 @@
   "command.dmzeffects.take": "Has \u00A7cremovido \u00A7rel efecto ",
   "command.dmzeffects.perma.take.all": "Has \u00A7cremovido \u00A7rtodos los efectos permanentes.",
   "command.dmzeffects.temp.take.all": "Has \u00A7cremovido \u00A7rtodos los efectos temporales.",
+  "command.dmz.to": "a ",
 
   "ui.dmzradar.range": "Rango del Radar",
   "ui.dmzradar.blocks": "bloques.",

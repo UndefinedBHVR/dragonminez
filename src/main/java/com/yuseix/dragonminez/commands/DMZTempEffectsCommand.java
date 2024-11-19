@@ -99,7 +99,8 @@ public class DMZTempEffectsCommand {
 
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName).append(" ")
-                    .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s")));
+                    .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s"))
+                    .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZTemporalEffect(effectName, newSeconds));
         }
         return players.size();
@@ -118,7 +119,8 @@ public class DMZTempEffectsCommand {
         }
 
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName)
+                    .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeTemporalEffect(effectName));
         }
         return players.size();
@@ -127,7 +129,8 @@ public class DMZTempEffectsCommand {
     // Comando para quitar todos los efectos temporales
     private static int takeAllTempEffects(Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
-            player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take.all"));
+            player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take.all")
+                    .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
                 for (String effectName : VALID_TEMP_EFFECTS) {
                     playerstats.removeTemporalEffect(effectName);
