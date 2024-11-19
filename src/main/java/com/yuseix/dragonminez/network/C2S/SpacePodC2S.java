@@ -39,8 +39,8 @@ public class SpacePodC2S {
             if (ctx.get().getSender() != null) {
                 var player = ctx.get().getSender();
                 ServerLevel targetWorld = player.server.getLevel(msg.targetDimension);
-
                 if (targetWorld != null && player.level() != targetWorld) {
+
                     player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
 
                     NaveSaiyanEntity naveEntity = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), targetWorld);
@@ -48,10 +48,9 @@ public class SpacePodC2S {
 
                     targetWorld.addFreshEntity(naveEntity);
 
-                    player.startRiding(naveEntity, true);
-                }
+                    player.startRiding(naveEntity);
             }
-        });
+        }});
         ctx.get().setPacketHandled(true);
     }
 }
