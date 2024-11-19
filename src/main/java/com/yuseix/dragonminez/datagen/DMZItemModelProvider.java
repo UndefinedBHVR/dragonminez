@@ -89,6 +89,9 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOTEN_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOTEN_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.GOTEN_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.GOHAN_SUPER_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GOHAN_SUPER_ARMOR_LEGGINGS);
+        armorItem(MainItems.GOHAN_SUPER_ARMOR_BOOTS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_BOOTS);

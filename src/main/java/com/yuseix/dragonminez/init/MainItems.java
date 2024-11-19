@@ -68,9 +68,13 @@ public final class MainItems {
     public static final RegistryObject<Item> GOTEN_ARMOR_LEGGINGS = armorItem("goten_armor_leggings", ArmorItem.Type.LEGGINGS, "goten_gi", false);
     public static final RegistryObject<Item> GOTEN_ARMOR_BOOTS = armorItem("goten_armor_boots", ArmorItem.Type.BOOTS, "goten_gi", false);
     // GOTEN TEEN (SUPER)
-    public static final RegistryObject<Item> GOTEN_SUPER_ARMOR_CHESTPLATE = armorItem("goten_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "goten_super", false);
-    public static final RegistryObject<Item> GOTEN_SUPER_ARMOR_LEGGINGS = armorItem("goten_super_armor_leggings", ArmorItem.Type.LEGGINGS, "goten_super", false);
-    public static final RegistryObject<Item> GOTEN_SUPER_ARMOR_BOOTS = armorItem("goten_super_armor_boots", ArmorItem.Type.BOOTS, "goten_super", false);
+    public static final RegistryObject<Item> GOTEN_SUPER_ARMOR_CHESTPLATE = armorItem("goten_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "goten_dbs", false);
+    public static final RegistryObject<Item> GOTEN_SUPER_ARMOR_LEGGINGS = armorItem("goten_super_armor_leggings", ArmorItem.Type.LEGGINGS, "goten_dbs", false);
+    public static final RegistryObject<Item> GOTEN_SUPER_ARMOR_BOOTS = armorItem("goten_super_armor_boots", ArmorItem.Type.BOOTS, "goten_dbs", false);
+    // GOHAN GI (SUPER)
+    public static final RegistryObject<Item> GOHAN_SUPER_ARMOR_CHESTPLATE = armorItem("gohan_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "gohan_dbs", false);
+    public static final RegistryObject<Item> GOHAN_SUPER_ARMOR_LEGGINGS = armorItem("gohan_super_armor_leggings", ArmorItem.Type.LEGGINGS, "gohan_dbs", false);
+    public static final RegistryObject<Item> GOHAN_SUPER_ARMOR_BOOTS = armorItem("gohan_super_armor_boots", ArmorItem.Type.BOOTS, "gohan_dbs", false);
     //VEGETA SAGA SAIYAJIN ARMADURA
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE = saiyArItem("vegeta_saiyan_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegeta_saiyan_armor", true);
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS = saiyArItem("vegeta_saiyan_armor_leggings", ArmorItem.Type.LEGGINGS, "vegeta_saiyan_armor", true);
@@ -130,29 +134,33 @@ public final class MainItems {
     public static final RegistryObject<Item> TRUNKS_Z_ARMOR_LEGGINGS = armorItem("trunks_z_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_z_armor", false);
     public static final RegistryObject<Item> TRUNKS_Z_ARMOR_BOOTS = armorItem("trunks_z_armor_boots", ArmorItem.Type.BOOTS, "trunks_z_armor", false);
     //TRUNKS SUPER
-    public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_CHESTPLATE = armorItem("trunks_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "trunks_super", false);
-    public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_LEGGINGS = armorItem("trunks_super_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_super", false);
-    public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_BOOTS = armorItem("trunks_super_armor_boots", ArmorItem.Type.BOOTS, "trunks_super", false);
+    public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_CHESTPLATE = armorItem("trunks_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "trunks_dbs", false);
+    public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_LEGGINGS = armorItem("trunks_super_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_dbs", false);
+    public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_BOOTS = armorItem("trunks_super_armor_boots", ArmorItem.Type.BOOTS, "trunks_dbs", false);
+    //TRUNKS KID DBZ
+    public static final RegistryObject<Item> TRUNKS_KID_ARMOR_CHESTPLATE = armorItem("trunks_kid_armor_chestplate", ArmorItem.Type.CHESTPLATE, "trunks_gi", false);
+    public static final RegistryObject<Item> TRUNKS_KID_ARMOR_LEGGINGS = armorItem("trunks_kid_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_gi", false);
+    public static final RegistryObject<Item> TRUNKS_KID_ARMOR_BOOTS = armorItem("trunks_kid_armor_boots", ArmorItem.Type.BOOTS, "trunks_gi", false);
     // BROLY Z
-    public static final RegistryObject<Item> BROLY_Z_ARMOR_CHESTPLATE = armorItem("broly_z_armor_chestplate", ArmorItem.Type.CHESTPLATE, "broly_z_armor", false);
-    public static final RegistryObject<Item> BROLY_Z_ARMOR_LEGGINGS = armorItem("broly_z_armor_leggings", ArmorItem.Type.LEGGINGS, "broly_z_armor", false);
-    public static final RegistryObject<Item> BROLY_Z_ARMOR_BOOTS = armorItem("broly_z_armor_boots", ArmorItem.Type.BOOTS, "broly_z_armor", false);
+    public static final RegistryObject<Item> BROLY_Z_ARMOR_CHESTPLATE = armorItem("broly_z_armor_chestplate", ArmorItem.Type.CHESTPLATE, "broly_dbz", false);
+    public static final RegistryObject<Item> BROLY_Z_ARMOR_LEGGINGS = armorItem("broly_z_armor_leggings", ArmorItem.Type.LEGGINGS, "broly_dbz", false);
+    public static final RegistryObject<Item> BROLY_Z_ARMOR_BOOTS = armorItem("broly_z_armor_boots", ArmorItem.Type.BOOTS, "broly_dbz", false);
     // BROLY SUPER
-    public static final RegistryObject<Item> BROLY_SUPER_ARMOR_CHESTPLATE = armorItem("broly_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "broly_super", false);
-    public static final RegistryObject<Item> BROLY_SUPER_ARMOR_LEGGINGS = armorItem("broly_super_armor_leggings", ArmorItem.Type.LEGGINGS, "broly_super", false);
-    public static final RegistryObject<Item> BROLY_SUPER_ARMOR_BOOTS = armorItem("broly_super_armor_boots", ArmorItem.Type.BOOTS, "broly_super", false);
+    public static final RegistryObject<Item> BROLY_SUPER_ARMOR_CHESTPLATE = saiyArItem("broly_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "broly_dbs", false);
+    public static final RegistryObject<Item> BROLY_SUPER_ARMOR_LEGGINGS = saiyArItem("broly_super_armor_leggings", ArmorItem.Type.LEGGINGS, "broly_dbs", false);
+    public static final RegistryObject<Item> BROLY_SUPER_ARMOR_BOOTS = saiyArItem("broly_super_armor_boots", ArmorItem.Type.BOOTS, "broly_dbs", false);
     // SHIN
-    public static final RegistryObject<Item> SHIN_ARMOR_CHESTPLATE = armorItem("shin_armor_chestplate", ArmorItem.Type.CHESTPLATE, "shin_armor", false);
-    public static final RegistryObject<Item> SHIN_ARMOR_LEGGINGS = armorItem("shin_armor_leggings", ArmorItem.Type.LEGGINGS, "shin_armor", false);
-    public static final RegistryObject<Item> SHIN_ARMOR_BOOTS = armorItem("shin_armor_boots", ArmorItem.Type.BOOTS, "shin_armor", false);
+    public static final RegistryObject<Item> SHIN_ARMOR_CHESTPLATE = armorItem("shin_armor_chestplate", ArmorItem.Type.CHESTPLATE, "kaioshin", false);
+    public static final RegistryObject<Item> SHIN_ARMOR_LEGGINGS = armorItem("shin_armor_leggings", ArmorItem.Type.LEGGINGS, "kaioshin", false);
+    public static final RegistryObject<Item> SHIN_ARMOR_BOOTS = armorItem("shin_armor_boots", ArmorItem.Type.BOOTS, "kaioshin", false);
     // TROPAS DEL ORGULLO
-    public static final RegistryObject<Item> PRIDE_TROOPS_ARMOR_CHESTPLATE = armorItem("pride_troops_armor_chestplate", ArmorItem.Type.CHESTPLATE, "pride_troops_armor", false);
-    public static final RegistryObject<Item> PRIDE_TROOPS_ARMOR_LEGGINGS = armorItem("pride_troops_armor_leggings", ArmorItem.Type.LEGGINGS, "pride_troops_armor", false);
-    public static final RegistryObject<Item> PRIDE_TROOPS_ARMOR_BOOTS = armorItem("pride_troops_armor_boots", ArmorItem.Type.BOOTS, "pride_troops_armor", false);
+    public static final RegistryObject<Item> PRIDE_TROOPS_ARMOR_CHESTPLATE = armorItem("pride_troops_armor_chestplate", ArmorItem.Type.CHESTPLATE, "pride_troper", false);
+    public static final RegistryObject<Item> PRIDE_TROOPS_ARMOR_LEGGINGS = armorItem("pride_troops_armor_leggings", ArmorItem.Type.LEGGINGS, "pride_troper", false);
+    public static final RegistryObject<Item> PRIDE_TROOPS_ARMOR_BOOTS = armorItem("pride_troops_armor_boots", ArmorItem.Type.BOOTS, "pride_troper", false);
     // HIT
-    public static final RegistryObject<Item> HIT_ARMOR_CHESTPLATE = armorItem("hit_armor_chestplate", ArmorItem.Type.CHESTPLATE, "hit_armor", false);
-    public static final RegistryObject<Item> HIT_ARMOR_LEGGINGS = armorItem("hit_armor_leggings", ArmorItem.Type.LEGGINGS, "hit_armor", false);
-    public static final RegistryObject<Item> HIT_ARMOR_BOOTS = armorItem("hit_armor_boots", ArmorItem.Type.BOOTS, "hit_armor", false);
+    public static final RegistryObject<Item> HIT_ARMOR_CHESTPLATE = armorItem("hit_armor_chestplate", ArmorItem.Type.CHESTPLATE, "hit", false);
+    public static final RegistryObject<Item> HIT_ARMOR_LEGGINGS = armorItem("hit_armor_leggings", ArmorItem.Type.LEGGINGS, "hit", false);
+    public static final RegistryObject<Item> HIT_ARMOR_BOOTS = armorItem("hit_armor_boots", ArmorItem.Type.BOOTS, "hit", false);
 
     //LÍQUIDOS
     public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",
