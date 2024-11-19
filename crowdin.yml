@@ -10,9 +10,9 @@
     "translation": "%locale_with_underscore%.yml",
     "languages_mapping" : {
       "locale_with_underscore" : {
-        "en_US" : "en_us",
-        "es_ES" : "es_es",
-        "es_MX": "es_mx"
+        "en-US" : "en_us",
+        "es-ES" : "es_es",
+        "es-MX": "es_mx"
       }
     }
   }
