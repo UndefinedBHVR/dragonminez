@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.InvocarAuraC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
@@ -106,45 +107,15 @@ public class StatsEvents {
                     playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
                     Senzu_countdown--;
                 }
-
                 if (Senzu_countdown == 0) {
                     playerstats.setDmzSenzuDaily(0);
                 }
 
+                //Aca manejamos la carga de aura
+                manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
 
-                if (playerstats.isAuraOn() || isActionKeyPressed) {
-                    // Incrementa el temporizador en cada tick
-                    chargeTimer++;
 
-                    // Solo actúa cuando el temporizador ha alcanzado el intervalo definido
-                    //Es decir si llega a x ticks carga osea por defecto un segundo
-                    if (chargeTimer >= CHARGE_INTERVAL) {
-                        if (playerstats.isAuraOn() && isActionKeyPressed) {
-                            // Disminuir el valor de charge si ambas teclas están presionadas
-                            if (playerstats.getDmzRelease() > 0) {
-                                playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
-                                if (playerstats.getDmzRelease() < 0) {
-                                    playerstats.setDmzRelease(0); // Asegura que no baje de 1
-                                }
-                            }
-                        } else if (playerstats.isAuraOn()) {
-                            // Incrementar el valor de charge si solo KI_CHARGE está presionada
-
-                            if (playerstats.getDmzRelease() < 100) {
-                                playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
-                                if (playerstats.getDmzRelease() > 100) {
-                                    playerstats.setDmzRelease(100); // Asegura que no pase de 100
-                                }
-                            }
-
-                            playerstats.addCurEnergy(DMZDatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
-
-                        }
-                        // Reiniciar el temporizador después de cada acción
-                        chargeTimer = 0;
-                    }
-                }
-
+                //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(event.player);
 
 
@@ -154,7 +125,32 @@ public class StatsEvents {
         }
 
     }
+    private static void manejarCargaDeAura(DMZStatsAttributes playerstats, boolean isActionKeyPressed, int maxenergia) {
+        // Incrementa el temporizador en cada tick
+        chargeTimer++;
 
+        if (chargeTimer >= CHARGE_INTERVAL) {
+            if (playerstats.isAuraOn() && isActionKeyPressed) {
+                if (playerstats.getDmzRelease() > 0) {
+                    playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
+                    if (playerstats.getDmzRelease() < 0) {
+                        playerstats.setDmzRelease(0);
+                    }
+                }
+            } else if (playerstats.isAuraOn()) {
+                if (playerstats.getDmzRelease() < 50) {
+                    playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
+                    if (playerstats.getDmzRelease() > 50) {
+                        playerstats.setDmzRelease(50);
+                    }
+                }
+
+                playerstats.addCurEnergy(DMZDatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
+            }
+
+            chargeTimer = 0;
+        }
+    }
     private static void updateTemporaryEffects(Player player) {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
             Iterator<Map.Entry<String, Integer>> iterator = playerstats.getDMZTemporalEffects().entrySet().iterator();
