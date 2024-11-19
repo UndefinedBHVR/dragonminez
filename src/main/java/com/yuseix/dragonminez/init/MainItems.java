@@ -88,9 +88,9 @@ public final class MainItems {
     public static final RegistryObject<Item> VEGETA_Z_ARMOR_LEGGINGS = armorItem("vegeta_z_armor_leggings", ArmorItem.Type.LEGGINGS, "vegetaz_armor", false);
     public static final RegistryObject<Item> VEGETA_Z_ARMOR_BOOTS = armorItem("vegeta_z_armor_boots", ArmorItem.Type.BOOTS, "vegetaz_armor", false);
     //VEGETA ROPA ENTRENAMIENTO - SAGA BUU
-    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_CHESTPLATE = armorItem("vegeta_buu_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegetabuu_armor", false);
-    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_LEGGINGS = armorItem("vegeta_buu_armor_leggings", ArmorItem.Type.LEGGINGS, "vegetabuu_armor", false);
-    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_BOOTS = armorItem("vegeta_buu_armor_boots", ArmorItem.Type.BOOTS, "vegetabuu_armor", false);
+    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_CHESTPLATE = armorItem("vegeta_buu_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegetabuu", false);
+    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_LEGGINGS = armorItem("vegeta_buu_armor_leggings", ArmorItem.Type.LEGGINGS, "vegetabuu", false);
+    public static final RegistryObject<Item> VEGETA_BUU_ARMOR_BOOTS = armorItem("vegeta_buu_armor_boots", ArmorItem.Type.BOOTS, "vegetabuu", false);
     //VEGETA ARMADURA DE SUPER
     public static final RegistryObject<Item> VEGETA_SUPER_ARMOR_CHESTPLATE = armorItem("vegeta_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegetasuper", false);
     public static final RegistryObject<Item> VEGETA_SUPER_ARMOR_LEGGINGS = armorItem("vegeta_super_armor_leggings", ArmorItem.Type.LEGGINGS, "vegetasuper", false);
@@ -126,13 +126,13 @@ public final class MainItems {
     public static final RegistryObject<Item> TURLES_ARMOR_LEGGINGS = saiyArItem("turles_armor_leggings", ArmorItem.Type.LEGGINGS, "turles_armor", false);
     public static final RegistryObject<Item> TURLES_ARMOR_BOOTS = saiyArItem("turles_armor_boots", ArmorItem.Type.BOOTS, "turles_armor", false);
     //TIEN
-    public static final RegistryObject<Item> TIEN_ARMOR_CHESTPLATE = armorItem("tien_armor_chestplate", ArmorItem.Type.CHESTPLATE, "tien_armor", false);
-    public static final RegistryObject<Item> TIEN_ARMOR_LEGGINGS = armorItem("tien_armor_leggings", ArmorItem.Type.LEGGINGS, "tien_armor", false);
-    public static final RegistryObject<Item> TIEN_ARMOR_BOOTS = armorItem("tien_armor_boots", ArmorItem.Type.BOOTS, "tien_armor", false);
+    public static final RegistryObject<Item> TIEN_ARMOR_CHESTPLATE = armorItem("tien_armor_chestplate", ArmorItem.Type.CHESTPLATE, "tenshinhan_armor", false);
+    public static final RegistryObject<Item> TIEN_ARMOR_LEGGINGS = armorItem("tien_armor_leggings", ArmorItem.Type.LEGGINGS, "tenshinhan_armor", false);
+    public static final RegistryObject<Item> TIEN_ARMOR_BOOTS = armorItem("tien_armor_boots", ArmorItem.Type.BOOTS, "tenshinhan_armor", false);
     //TRUNKS Z
-    public static final RegistryObject<Item> TRUNKS_Z_ARMOR_CHESTPLATE = armorItem("trunks_z_armor_chestplate", ArmorItem.Type.CHESTPLATE, "trunks_z_armor", false);
-    public static final RegistryObject<Item> TRUNKS_Z_ARMOR_LEGGINGS = armorItem("trunks_z_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_z_armor", false);
-    public static final RegistryObject<Item> TRUNKS_Z_ARMOR_BOOTS = armorItem("trunks_z_armor_boots", ArmorItem.Type.BOOTS, "trunks_z_armor", false);
+    public static final RegistryObject<Item> TRUNKS_Z_ARMOR_CHESTPLATE = armorItem("trunks_z_armor_chestplate", ArmorItem.Type.CHESTPLATE, "trunks_armor", false);
+    public static final RegistryObject<Item> TRUNKS_Z_ARMOR_LEGGINGS = armorItem("trunks_z_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_armor", false);
+    public static final RegistryObject<Item> TRUNKS_Z_ARMOR_BOOTS = armorItem("trunks_z_armor_boots", ArmorItem.Type.BOOTS, "trunks_armor", false);
     //TRUNKS SUPER
     public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_CHESTPLATE = armorItem("trunks_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "trunks_dbs", false);
     public static final RegistryObject<Item> TRUNKS_SUPER_ARMOR_LEGGINGS = armorItem("trunks_super_armor_leggings", ArmorItem.Type.LEGGINGS, "trunks_dbs", false);
