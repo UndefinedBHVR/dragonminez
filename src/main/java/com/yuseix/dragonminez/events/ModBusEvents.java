@@ -30,6 +30,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallR
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
+import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
 import com.yuseix.dragonminez.utils.Keys;
@@ -229,6 +230,9 @@ public class ModBusEvents {
 
         //ENTIDADES CUSTOM EN BASE A MODELOS DE JAVA
         e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
+
+        //Armas en espalda
+        e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
 
     }
 

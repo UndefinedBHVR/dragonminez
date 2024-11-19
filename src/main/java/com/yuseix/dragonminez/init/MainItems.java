@@ -42,6 +42,12 @@ public final class MainItems {
     public static final RegistryObject<Item> GREEN_POTHALA_RIGHT =
             ITEM_REGISTER.register("green_pothala_right", () -> new Item(properties.stacksTo(1).fireResistant()));
 
+    //ARMAS
+    //BACULO SAGRADO
+    public static final RegistryObject<Item> BACULO_SAGRADO =
+            ITEM_REGISTER.register("baculo_item", () -> new Item(properties.stacksTo(1).fireResistant()));
+
+
     //ARMADURAS
     // GOKU NIÑO
     public static final RegistryObject<Item> GOKU_KID_ARMOR_CHESTPLATE = armorItem("goku_kid_armor_chestplate", ArmorItem.Type.CHESTPLATE, "goku_kid", false);
