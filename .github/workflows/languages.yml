@@ -8,7 +8,7 @@ on: [ push ]
 permissions: write-all
 
 jobs:
-  sync-and-validate:
+  crowdin-sync-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
