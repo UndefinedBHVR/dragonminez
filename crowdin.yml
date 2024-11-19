@@ -1,6 +1,6 @@
 "project_id_env": "CROWDIN_PROJECT_ID"
 "api_token_env": "CROWDIN_PERSONAL_TOKEN"
-"base_path": "/src/main/resources/assets/dragonminez/lang/"
+"base_path": "./src/main/resources/assets/dragonminez/lang/"
 
 "preserve_hierarchy": true
 
