@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.character.layer.HairsLayer;
 import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
@@ -61,6 +62,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
+        this.addLayer(new ArmasLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 
