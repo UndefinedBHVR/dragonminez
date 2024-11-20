@@ -1,6 +1,8 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.entity.goals.DetectEvilTargetGoal;
+import com.yuseix.dragonminez.init.entity.goals.VillageAlertSystem;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -17,8 +19,8 @@ public class NamekWarrior02Entity extends NamekianEntity {
 
     public NamekWarrior02Entity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-
         this.setPersistenceRequired();
+        VillageAlertSystem.registerWarrior(this);
 
     }
 
@@ -80,5 +82,23 @@ public class NamekWarrior02Entity extends NamekianEntity {
 
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        boolean isHurt = super.hurt(source, amount);
+
+        if (isHurt && source.getEntity() instanceof Player) {
+            Player player = (Player) source.getEntity();
+            VillageAlertSystem.alertAll(player); // Alertar a todos los guerreros
+        }
+
+        return isHurt;
+    }
+
+
+    @Override
+    public void remove(RemovalReason reason) {
+        super.remove(reason);
+        VillageAlertSystem.unregisterWarrior(this);
+    }
 
 }

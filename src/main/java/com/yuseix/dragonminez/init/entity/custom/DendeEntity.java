@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.client.gui.entity.DendeMenu;
 import com.yuseix.dragonminez.client.gui.entity.KarinMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
@@ -50,7 +51,7 @@ public class DendeEntity extends Mob implements GeoEntity {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (this.level().isClientSide) {
             // Abre la GUI en el lado del cliente
-            //Minecraft.getInstance().setScreen(new KarinMenu());
+            Minecraft.getInstance().setScreen(new DendeMenu());
 
             return InteractionResult.SUCCESS;
         }
