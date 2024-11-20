@@ -1,12 +1,14 @@
 name: Crowdin Check & Sync
 
-on: [ push ]
-#  push:
-#    branches:
-#      - main
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: write-all
 
 jobs:
-  sync-and-validate:
+  crowdin-sync-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,10 +20,10 @@ jobs:
           upload_sources: true
           upload_translations: false
           download_translations: true
-          localization_branch_name: l10n_crowdin_translations
+          localization_branch_name: crowdin_translations
           create_pull_request: true
           pull_request_title: 'New Crowdin Translations'
-          pull_request_body: 'New Crowdin translations by [Crowdin GH Action](https://github.com/crowdin/github-action)'
+          pull_request_body: 'Added translations from Crowdin, ref to pull request: #${{ github.event.number }}'
           pull_request_base_branch_name: 'main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

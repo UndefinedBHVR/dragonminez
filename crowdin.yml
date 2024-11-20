@@ -1,10 +1,19 @@
-"project_id": "dragonminez"
-"api_token": "${CROWDIN_PERSONAL_TOKEN}"
-"base_path": "/src/main/resources/assets/dragonminez/lang/"
-"files":
-  - source: "/en_us.json"
-    translation: "/%locale%.json"
-    languages_mapping:
-      locale:
-        es: es_es
-        es-419: es_mx
+"project_id_env": "CROWDIN_PROJECT_ID"
+"api_token_env": "CROWDIN_PERSONAL_TOKEN"
+"base_path": "./src/main/resources/assets/dragonminez/lang/"
+
+"preserve_hierarchy": true
+
+"files": [
+  {
+    "source": "en_us.json",
+    "translation": "%locale_with_underscore%.json",
+    "languages_mapping" : {
+      "locale_with_underscore" : {
+        "en-US" : "en_us",
+        "es-ES" : "es_es",
+        "es-MX": "es_mx"
+      }
+    }
+  }
+]
