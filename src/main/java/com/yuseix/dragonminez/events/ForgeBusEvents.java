@@ -28,6 +28,7 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -54,8 +55,6 @@ public final class ForgeBusEvents {
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    // Recordar comentar esto antes de Buildear una versión Pública.
-    // y Descomentar para el buildeo de versiones de Testing.
     private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
             // Staff
             "Dev",
@@ -80,8 +79,8 @@ public final class ForgeBusEvents {
             "Onashi"
             );
 
-
-    /*
+    // Recordar comentar esto antes de Buildear una versión Pública.
+    // y Descomentar para el buildeo de versiones de Testing.
     @SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
@@ -93,7 +92,7 @@ public final class ForgeBusEvents {
             throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
         }
     }
-    */
+
 
     @SubscribeEvent
     //Cancela el renderizado de la barra de vida
