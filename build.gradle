@@ -177,8 +177,8 @@ shadowJar {
     exclude 'assets/geckolib/**'
     exclude '**/*.java'
 
-    relocate 'software.bernie.shadowed', 'com.yuseix.relocated.software.bernie.shadowed' // <- Move the shadowed geckolib shadowed packages. This prevents classpath conflicts in runtime
-    relocate 'software.bernie.geckolib', 'com.yuseix.relocated.software.bernie.geckolib'
+    relocate 'software.bernie.shadowed', 'com.yuseix.dragonminez.relocated.software.bernie.shadowed' // <- Move the shadowed geckolib shadowed packages. This prevents classpath conflicts in runtime
+    relocate 'software.bernie.geckolib', 'com.yuseix.dragonminez.relocated.software.bernie.geckolib'
 
     finalizedBy 'reobfShadowJar'
 }
