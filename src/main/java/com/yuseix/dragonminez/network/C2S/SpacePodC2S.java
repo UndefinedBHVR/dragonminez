@@ -38,16 +38,23 @@ public class SpacePodC2S {
         ctx.get().enqueueWork(() -> {
             if (ctx.get().getSender() != null) {
                 var player = ctx.get().getSender();
+                ServerLevel currentWorld = (ServerLevel) player.level();
                 ServerLevel targetWorld = player.server.getLevel(msg.targetDimension);
                 if (targetWorld != null && player.level() != targetWorld) {
+                    var entities = currentWorld.getEntitiesOfClass(NaveSaiyanEntity.class, player.getBoundingBox().inflate(50.0D));
+
+                    for (NaveSaiyanEntity nave : entities) {
+                        if (nave.getControllingPassenger() == player) {
+                            nave.discard();
+                            break;
+                        }
+                    }
 
                     player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
 
                     NaveSaiyanEntity naveEntity = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), targetWorld);
                     naveEntity.setPos(player.getX(), player.getY(), player.getZ());
-
                     targetWorld.addFreshEntity(naveEntity);
-
                     player.startRiding(naveEntity);
             }
         }});

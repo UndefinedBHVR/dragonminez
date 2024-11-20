@@ -17,15 +17,21 @@ public class DMZGenericAttributes {
     public static void onLoadComplete(FMLLoadCompleteEvent event) {
         Attribute armorAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("minecraft:generic.armor"));
         Attribute armorToughnessAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("minecraft:generic.armor_toughness"));
+        Attribute maxHealth = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("minecraft:generic.max_health"));
 
         if (armorAttribute instanceof RangedAttribute) {
             AccessorRangedAttribute accessor = (AccessorRangedAttribute) armorAttribute;
-            accessor.setMaxValue(300.0);
+            accessor.setMaxValue(30000.0);
         }
 
         if (armorToughnessAttribute instanceof RangedAttribute) {
             AccessorRangedAttribute accessor = (AccessorRangedAttribute) armorToughnessAttribute;
-            accessor.setMaxValue(300.0);
+            accessor.setMaxValue(30000.0);
+        }
+
+        if (maxHealth instanceof RangedAttribute) {
+            AccessorRangedAttribute accessor = (AccessorRangedAttribute) maxHealth;
+            accessor.setMaxValue(10000000.0);
         }
     }
 }
