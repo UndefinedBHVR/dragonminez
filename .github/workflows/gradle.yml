@@ -1,6 +1,12 @@
 name: Java CI
 
-on: [ push, pull_request ]
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
 jobs:
   gradle-build:
@@ -40,3 +46,10 @@ jobs:
       - name: PMD Violations Check
         if: steps.pmd.outputs.violations != 0
         run: exit 1
+        #############################
+#        Quitar comentario cuando el repositorio sea público y hacer setup de GitHub Advanced Security
+        #############################
+#      - name: Upload SARIF file
+#        uses: github/codeql-action/upload-sarif@v3
+#        with:
+#          sarif_file: pmd-report.sarif

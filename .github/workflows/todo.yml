@@ -1,5 +1,9 @@
 name: "TO-DO Workflow"
-on: [ push, pull_request ]
+on:
+  push:
+    branches-ignore:
+      - main
+
 jobs:
   todo-to-issue:
     runs-on: "ubuntu-latest"
