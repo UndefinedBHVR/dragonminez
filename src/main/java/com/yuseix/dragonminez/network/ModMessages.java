@@ -57,6 +57,11 @@ public class ModMessages {
                 .encoder(KarinC2S::toBytes)
                 .consumerMainThread(KarinC2S::handle)
                 .add();
+        net.messageBuilder(DendeC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(DendeC2S::new)
+                .encoder(DendeC2S::toBytes)
+                .consumerMainThread(DendeC2S::handle)
+                .add();
         net.messageBuilder(ShenlongC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(ShenlongC2S::new)
                 .encoder(ShenlongC2S::toBytes)
