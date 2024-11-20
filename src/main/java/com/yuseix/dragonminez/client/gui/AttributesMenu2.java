@@ -4,8 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
-import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
-import com.yuseix.dragonminez.client.gui.cc.CCustomizationPage;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -26,29 +24,20 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class AttributesMenu extends Screen implements RenderEntityInv {
+public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
     private int alturaTexto;
     private int anchoTexto;
     private int multiplicadorTP = 1;
 
-    private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menugrande.png");
+    private static final ResourceLocation menucentro = new ResourceLocation(DragonMineZ.MOD_ID,
+            "textures/gui/menulargo2.png");
 
-    private static final ResourceLocation cuadronegro = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menutexto.png");
-    private static final ResourceLocation menugrande = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menugrande.png");
-    private static final ResourceLocation menumedio = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menumedio.png");
-    private static final ResourceLocation menuraza = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menupequeno.png");
 
     private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
-    private DMZGuiButtons newMenuBoton;
 
-    public AttributesMenu(Component pGuiScreen) {
-        super(pGuiScreen);
+    public AttributesMenu2() {
+        super(Component.empty());
     }
 
 
@@ -56,11 +45,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void init() {
 
         super.init();
-
-        this.newMenuBoton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(0,this.height-20,"libro",Component.empty(),wa -> {
-            this.minecraft.setScreen(new AttributesMenu2());
-
-        }));
 
     }
 
@@ -109,8 +93,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var kipower = playerstats.getKiPower();
             var energy = playerstats.getEnergy();
 
-            anchoTexto = 17;
-            alturaTexto = (this.height / 2) + 1;
+            anchoTexto = (this.width/2)-110;
+            alturaTexto = (this.height / 2) -15;
 
             int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
             var baseCost =  (int) Math.round(((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
@@ -195,8 +179,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void menu0info(GuiGraphics guiGraphics){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            alturaTexto = 19;
-            anchoTexto = this.width/2;
+            alturaTexto = (this.height / 2) - 65;
+            anchoTexto = (this.width/2)+50;
 
             var playername = Minecraft.getInstance().player.getName().getString();
             var alignment = playerstats.getDmzAlignment();
@@ -209,38 +193,29 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             }else {
                 drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFA5252);
             }
-            alturaTexto = 46;
-            if(raza == 0){
+            alturaTexto = (this.height / 2) - 54;
 
-                anchoTexto = this.width/2;
+            anchoTexto = (this.width/2)+50;
+
+            if(raza == 0){
 
                 drawStringWithBorder(guiGraphics, font, TranslateManager.Human, anchoTexto, alturaTexto, 0x177CFC);
             } else if(raza == 1){
 
-                anchoTexto = this.width/2;
-
                 drawStringWithBorder(guiGraphics, font, TranslateManager.Saiyan, anchoTexto, alturaTexto, 0xFCB317);
             } else if(raza == 2){
-
-                anchoTexto = this.width/2;
 
                 drawStringWithBorder(guiGraphics, font, TranslateManager.Namek, anchoTexto, alturaTexto, 0x186814);
 
             } else if(raza == 3){
 
-                anchoTexto = this.width/2;
-
                 drawStringWithBorder(guiGraphics, font, TranslateManager.BioAndroid, anchoTexto, alturaTexto, 0x7DFF76);
 
             } else if(raza == 4){
 
-                anchoTexto = this.width/2;
-
                 drawStringWithBorder(guiGraphics, font, TranslateManager.ColdDemon, anchoTexto, alturaTexto, 0x6A31EE);
 
             } else {
-
-                anchoTexto = this.width/2;
 
                 drawStringWithBorder(guiGraphics, font, TranslateManager.Majin, anchoTexto, alturaTexto, 0xFF86FD);
 
@@ -258,14 +233,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             var clase = playerstats.getDmzClass();
 
-            alturaTexto = (this.height / 2) - 83;
-
-            //Information title
-            drawStringWithBorder(graphics, font, Component.literal("INFORMATION"), 75, alturaTexto, 0xFBC51C);
-
             //Titulos
-            anchoTexto = 25;
-            alturaTexto = (this.height / 2) - 67;
+            anchoTexto = (this.width/2)-110;
+            alturaTexto = (this.height / 2) - 64;
 
             graphics.drawString(font, Component.literal("Lvl:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xD7FEF5);
             graphics.drawString(font, Component.literal("TPs:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 11, 0xD7FEF5);
@@ -274,7 +244,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             //VARIABLES:
             //NIVEL
-            anchoTexto = 70;
+            anchoTexto = (this.width/2)-72;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
             //TPS
 
@@ -284,26 +254,14 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder2(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
             if(clase.equals("Warrior")){
-                drawStringWithBorder(graphics, font,Component.literal("Warrior"), 90, alturaTexto + 33, 0xFC4E2B);
+                drawStringWithBorder2(graphics, font,Component.literal("Warrior"), anchoTexto, alturaTexto + 33, 0xFC4E2B);
             }else {
-                drawStringWithBorder(graphics, font,Component.literal("Spiritualist"), 90, alturaTexto + 33, 0x2BFCFC);
+                drawStringWithBorder2(graphics, font,Component.literal("Spiritualist"), anchoTexto, alturaTexto + 33, 0x2BFCFC);
             }
 
-            //STATS
-            alturaTexto = (this.height / 2) - 20;
-            anchoTexto = 37;
-            RenderSystem.enableBlend();
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            graphics.blit(cuadronegro, anchoTexto, alturaTexto, 0, 0, 73, 15);
-            RenderSystem.disableBlend();
-
-            //STATS TITLE
-            alturaTexto = (this.height / 2) - 16;
-            drawStringWithBorder(graphics, font, Component.literal("STATS"), 72, alturaTexto, 0x68CCFF);
-
             //Variables stats
-            alturaTexto = (this.height / 2) + 2;
-            anchoTexto = 32;
+            alturaTexto = (this.height / 2) -14;
+            anchoTexto = (this.width/2)-95;
             graphics.drawString(font, Component.literal("STR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xD71432);
             graphics.drawString(font, Component.literal("DEF:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, 0xD71432);
             graphics.drawString(font, Component.literal("CON:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xD71432);
@@ -357,8 +315,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                     );
 
             //STATS CAPABILITY
-            alturaTexto = (this.height / 2) + 2;
-            anchoTexto = 70;
+            alturaTexto = (this.height / 2) -14;
+            anchoTexto = (this.width/2)-65;
 
             if(isMultiOn){ //Si alguna forma, estado esta activo.
                 drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
@@ -374,14 +332,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
             }
 
-
-            Component Multiplier = Component.empty()
-                    .append(Component.literal(String.valueOf(finalCost)))
-                    .append(Component.literal(" (x")
-                    .append(Component.literal(String.valueOf(multiplicadorTP)))
-                    .append(Component.literal(".0)"))
-                    );
-            anchoTexto = 65;
+            anchoTexto = (this.width/2)-65;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(finalCost)), anchoTexto, alturaTexto + 64, 0xFFCE41);
             drawStringWithBorder2(graphics, font, Component.literal("x" + multiplicadorTP), anchoTexto, alturaTexto + 76, 0x2BFFE2);
 
@@ -392,15 +343,15 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void menu2info(GuiGraphics graphics){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
-            anchoTexto = (this.width - 75);
-            alturaTexto = (this.height / 2) - 83;
+            anchoTexto = (this.width/2+2);
+            alturaTexto = (this.height / 2) -37;
 
             //Information title
-            drawStringWithBorder(graphics, font, Component.literal("STATISTICS"), anchoTexto, alturaTexto, 0xF91E64);
+            drawStringWithBorder2(graphics, font, Component.literal("STATISTICS"), anchoTexto, alturaTexto, 0xF91E64);
 
             //Titulos
-            anchoTexto = (this.width - 127);
-            alturaTexto = (this.height / 2) - 64;
+            anchoTexto = (this.width/2+2);
+            alturaTexto = (this.height / 2) -25;
 
             var color = 0xFBA16A;
 
@@ -414,7 +365,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             graphics.drawString(font, Component.literal("Multiplier:").withStyle(ChatFormatting.BOLD),anchoTexto - 3, alturaTexto + 80, 0xC51D1D);
 
 
-            anchoTexto = (this.width - 55);
+            anchoTexto = (this.width/2+75);
 
             //Efectos
             var majinOn = playerstats.hasDMZPermaEffect("majin");
@@ -455,28 +406,12 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     }
 
     public void menuPaneles(GuiGraphics guiGraphics){
-        //INFORMACION (Nivel, tps, forma)
-        alturaTexto = (this.height / 2) - 105;
-        anchoTexto = 2;
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        guiGraphics.blit(menugrande, anchoTexto, alturaTexto, 0, 0, 146, 219);
-        RenderSystem.disableBlend();
-
-        //NOMBRE JUGADOR
-        alturaTexto = 5;
-        anchoTexto = (this.width/2) - 71;
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        guiGraphics.blit(menuraza, anchoTexto, alturaTexto, 0, 93, 145, 60);
-        RenderSystem.disableBlend();
-
         //INFO GENERAL (Fuerza maxima, energia maxima, stamina, etc)
-        alturaTexto = (this.height / 2) - 105;
-        anchoTexto = (this.width - 148);
+        alturaTexto = (this.height - 168)/2;
+        anchoTexto = (this.width - 250)/2;
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        guiGraphics.blit(menugrande, anchoTexto, alturaTexto, 0, 0, 146, 219);
+        guiGraphics.blit(menucentro, anchoTexto, alturaTexto, 0, 0, 250, 168);
         RenderSystem.disableBlend();
 
     }
