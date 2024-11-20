@@ -54,6 +54,7 @@ public class InvocarAuraC2S {
                             aura.setOwnerUUID(player.getUUID());
                             aura.setRaza(cap.getRace());
                             aura.setTransformation(cap.getDmzState());
+                            aura.setPos(player.getX(), player.getY(), player.getZ());
 
                             var auraBase = cap.getAuraColor();
 
@@ -121,11 +122,9 @@ public class InvocarAuraC2S {
                                 default:
                                     break;
                             }
-                            player.level().addFreshEntity(aura);
-                            aura.setPos(player.getX(), player.getY(), player.getZ());
                             playerAuraMap.put(playerId, aura);
+                            player.level().addFreshEntity(aura);
                         }
-                        aura.setPos(player.getX(), player.getY(), player.getZ());
 
                         float transparency = playerId.equals(player.getUUID()) && isInFirstPersonView(player) ? 0.05F : 0.15F;
                         ModMessages.sendToPlayer(new InvocarAuraS2C(playerId, transparency), player);
