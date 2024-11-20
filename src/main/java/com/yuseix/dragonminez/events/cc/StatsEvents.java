@@ -44,14 +44,8 @@ public class StatsEvents {
     private static int chargeTimer = 0; // Aca calculamos el tiempo de espera
     private static final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
 
-
     //Teclas
     private static boolean isActionKeyPressed = false;
-
-    private static int getEnergyRemovalThreshold(int playerLevel) {
-        // Asumiendo que cada nivel te da 0.1 bloques de altura de soporte
-        return (int) (0.1 * (playerLevel - 100) + 10);
-    }
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
@@ -234,29 +228,33 @@ public class StatsEvents {
 
     @SubscribeEvent
     public static void livingFallEvent(LivingFallEvent event) {
-        float realDistance = event.getDistance();
+        float fallDistance = event.getDistance();
 
         if (event.getEntity() instanceof ServerPlayer player) {
-            if (realDistance > 4.5f) {
+            if (fallDistance > 3.0f) {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-                    int level = (stats.getStrength() +
-                            stats.getDefense() +
-                            stats.getConstitution() +
-                            stats.getKiPower() +
-                            stats.getEnergy()) / 5;
 
-                    double energyToRemove = getEnergyToRemove(level);
+                    int maxEnergy = DMZDatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
 
-                    // Checar si la distancia de caída es menor al soporte que puedes tener por x nivel
-                    if ((int) realDistance <= getEnergyRemovalThreshold(level) /* && stats.getCurrentEnergy() >= energyToRemove */) {
-                        stats.removeCurEnergy((int) Math.round(energyToRemove));
+                    // drenaje de config
+                    int baseEnergyDrain = (int) Math.ceil(maxEnergy * DMZGeneralConfig.MULTIPLIER_FALLDMG.get());
+
+                    // Incrementar el drenaje por altura
+                    int extraEnergyDrain = (int) ((fallDistance - 4.5f) * baseEnergyDrain / 4.5f);
+
+                    int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
+
+                    System.out.println("Se va a drenar al jugador la siguiente cantidad de energia: " + totalEnergyDrain);
+
+                    // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
+                    if (stats.getCurrentEnergy() >= totalEnergyDrain) {
+                        stats.removeCurEnergy(totalEnergyDrain);
                         event.setCanceled(true);
-                    } //else hacer algo si te haces más daño de ki del que puedes soportar
+                    }
                 });
             }
         }
-
     }
 
     @SubscribeEvent
@@ -290,24 +288,6 @@ public class StatsEvents {
             }
         }
     }
-
-    private static double getEnergyToRemove(int level) {
-        double energyRemovalValue;
-
-        double baseReduction = DMZGeneralConfig.MULTIPLIER_FALLDMG.get();
-
-        if (level >= 100) {
-            // Porcentaje calculado en base a la config (Default 0.03)
-            energyRemovalValue = level * baseReduction;
-
-        } else {
-            energyRemovalValue = 0; // Niveles menores a 100 no reciben daño de ki
-        }
-
-        // Devuelve el valor actual de energía sacada
-        return energyRemovalValue;
-    }
-
 
     private static void sonidosGolpes(Player player) {
 

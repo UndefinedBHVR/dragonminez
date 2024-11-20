@@ -103,18 +103,14 @@ public class AuraEntity extends Mob{
 
     @Override
     public void tick() {
-        super.tick();
-
         if (!level().isClientSide) { // Solo en el servidor
-            Player owner = getOwner();
-
-            if (owner != null) {
+            if (this.getOwner() != null) {
                 // Lógica para seguir al jugador
-                double targetX = owner.getX();
-                double targetY = owner.getY();
-                double targetZ = owner.getZ();
+                double targetX = this.getOwner().getX();
+                double targetY = this.getOwner().getY();
+                double targetZ = this.getOwner().getZ();
 
-                double lerpFactor = 1.0;
+                double lerpFactor = 0.9;
                 double newX = this.getX() + (targetX - this.getX()) * lerpFactor;
                 double newY = this.getY() + (targetY - this.getY()) * lerpFactor;
                 double newZ = this.getZ() + (targetZ - this.getZ()) * lerpFactor;
@@ -125,7 +121,7 @@ public class AuraEntity extends Mob{
             }
         }
 
-
+        super.tick();
     }
 
     @Override
