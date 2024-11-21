@@ -94,13 +94,7 @@ public final class ForgeBusEvents {
     }*/
 
 
-    @SubscribeEvent
-    //Cancela el renderizado de la barra de vida
-    public void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
-        if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
-            event.setCanceled(true);
-        }
-    }
+
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
