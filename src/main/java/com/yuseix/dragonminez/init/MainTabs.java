@@ -15,7 +15,6 @@ import net.minecraftforge.registries.RegistryObject;
 public final class MainTabs {
 
     //Creative Mode Tabs
-    //TODO: Separar las pestañas en más pestañas y crear checks para que no se muestren dos veces accidentalmente
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS_REGISTER =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, DragonMineZ.MOD_ID);
 
