@@ -100,7 +100,19 @@ public class ForgeBusEvents {
     }*/
 
 
+    @SubscribeEvent
+    public static void onKeyInput(InputEvent.Key event) {
+        if (Keys.STATS_MENU.consumeClick()) {
+            ModMessages.sendToServer(new MenuC2S());
+        }
+    }
 
+    @SubscribeEvent
+    public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
+        if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
+            event.setCanceled(true);
+        }
+    }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
