@@ -81,7 +81,7 @@ public final class ForgeBusEvents {
 
     // Recordar comentar esto antes de Buildear una versión Pública.
     // y Descomentar para el buildeo de versiones de Testing.
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
 
@@ -91,7 +91,7 @@ public final class ForgeBusEvents {
             LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
             throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
         }
-    }
+    }*/
 
 
     @SubscribeEvent

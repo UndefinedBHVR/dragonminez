@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.items.custom;
 
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,6 +52,10 @@ public class MightTreeFruitItem extends Item {
 
                 player.heal(curarVida);
                 stats.addCurEnergy(curarKi);
+
+                // Aplicar efecto temporal del fruto
+                int duracionTicks = 20 * 60; // Ticks * Segundos
+                stats.addDMZTemporalEffect("mightfruit", duracionTicks);
             });
             player.getFoodData().eat(HUNGER, SATURATION);
             player.displayClientMessage(Component.translatable("item.dragonminez.might_tree_fruit.use"), true);

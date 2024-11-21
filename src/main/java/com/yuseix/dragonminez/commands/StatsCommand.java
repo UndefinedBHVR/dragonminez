@@ -99,6 +99,8 @@ public class StatsCommand {
                 int cantidadFinal = 0;
                 if (cantidad > DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
                     cantidadFinal = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                } else {
+                    cantidadFinal = cantidad;
                 }
 
                 switch (stat) {
@@ -201,6 +203,8 @@ public class StatsCommand {
                 int cantidadFinal = 0;
                 if (cantidad > DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
                     cantidadFinal = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                } else {
+                    cantidadFinal = cantidad;
                 }
 
                 switch (stat) {
@@ -304,6 +308,8 @@ public class StatsCommand {
                 int cantidadFinal = 0;
                 if (cantidad > DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
                     cantidadFinal = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                } else {
+                    cantidadFinal = cantidad;
                 }
 
                 switch (stat) {

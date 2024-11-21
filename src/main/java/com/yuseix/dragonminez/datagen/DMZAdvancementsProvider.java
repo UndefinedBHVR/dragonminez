@@ -314,8 +314,8 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                     .parent(patternsuper)
                     .display(
                             MainItems.PRIDE_TROOPS_ARMOR_CHESTPLATE.get(),
-                            Component.translatable("advancements.dragonminez.pridetrooparmor.title"),
-                            Component.translatable("advancements.dragonminez.pridetrooparmor.description"),
+                            Component.translatable("advancements.dragonminez.pridetroopsarmor.title"),
+                            Component.translatable("advancements.dragonminez.pridetroopsarmor.description"),
                             null, FrameType.TASK, true, true, false
                     ).addCriterion("pridetrooparmor",
                             InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.PRIDE_TROOPS_ARMOR_CHESTPLATE.get(),

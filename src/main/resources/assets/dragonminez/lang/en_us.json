@@ -443,8 +443,8 @@
   "command.dmzeffects.give": "You have \u00A7agiven \u00A7rthe effect ",
   "command.dmzeffects.duration": "with a duration of ",
   "command.dmzeffects.take": "You have \u00A7cremoved \u00A7rthe effect ",
-  "command.dmzeffects.perma.take.all": "You have \u00A7cremoved \u00A7rall the permanent effects.",
-  "command.dmzeffects.temp.take.all": "You have \u00A7cremoved \u00A7rall the temporary effects.",
+  "command.dmzeffects.perma.take.all": "You have \u00A7cremoved \u00A7rall the permanent effects ",
+  "command.dmzeffects.temp.take.all": "You have \u00A7cremoved \u00A7rall the temporary effects ",
   "command.dmz.to": "to ",
 
   "ui.dmzradar.range": "Radar Range is",
