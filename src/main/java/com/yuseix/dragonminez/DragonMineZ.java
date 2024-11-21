@@ -66,7 +66,7 @@ public class DragonMineZ {
         //Registramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend, conocido como ModEvents)
         MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
         //Se registran los eventos de las Capabilities de las Stats
-        MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
+        //MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
         MinecraftForge.EVENT_BUS.register(GenAttRegistry.class);
         MinecraftForge.EVENT_BUS.register(DMZGenericAttributes.class);

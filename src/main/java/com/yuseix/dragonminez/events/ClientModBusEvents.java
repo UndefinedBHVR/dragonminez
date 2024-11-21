@@ -70,8 +70,6 @@ public class ClientModBusEvents {
 			}
 		}
 
-
-
 	}
 
 	@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -118,7 +116,7 @@ public class ClientModBusEvents {
 		}
 
 		@SubscribeEvent
-		public static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
+		public static void registerModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions e) {
 			//RAZAS
 			e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
 			e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
@@ -151,13 +149,4 @@ public class ClientModBusEvents {
 
 
 	}
-
-
-
-
-
-
-
-
-
 }
