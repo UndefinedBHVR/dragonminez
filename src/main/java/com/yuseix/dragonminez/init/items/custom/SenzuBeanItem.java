@@ -10,11 +10,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,62 +23,70 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SenzuBeanItem extends Item {
-    public SenzuBeanItem() {
-        super(new Properties()
-                .stacksTo(8)
-        );
-    }
+	public SenzuBeanItem() {
+		super(new Properties()
+				.stacksTo(8)
+		);
+	}
 
-    @Override
-    public @NotNull Component getName(@NotNull ItemStack pStack) {
-        return Component.translatable("item.dragonminez.senzu_bean");
-    }
+	@Override
+	public @NotNull Component getName(@NotNull ItemStack pStack) {
+		return Component.translatable("item.dragonminez.senzu_bean");
+	}
 
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.dragonminez.senzu_bean.tooltip").withStyle(ChatFormatting.GRAY));
-    }
+	@Override
+	public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+		pTooltipComponents.add(Component.translatable("item.dragonminez.senzu_bean.tooltip").withStyle(ChatFormatting.GRAY));
+	}
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
-        // Verifica si el jugador tiene un cooldown activo en el item
-        if (pPlayer.getCooldowns().isOnCooldown(this)) {
-            pPlayer.displayClientMessage(Component.literal("Senzu Bean is on Cooldown!").withStyle(ChatFormatting.RED), true);
-            return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
-        }
+	@Override
+	public UseAnim getUseAnimation(ItemStack pStack) {
+		return UseAnim.BLOCK;
+	}
 
-        ItemStack senzu = pPlayer.getItemInHand(pUsedHand);
-        pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), MainSounds.SENZU_BEAN.get(), SoundSource.NEUTRAL, 1.5F, 1.0F);
+	@Override
+	public int getUseDuration(ItemStack pStack) {
+		return 32;
+	}
 
-        if (!pLevel.isClientSide) {
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
+	@Override
+	public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
+		if (pPlayer.getCooldowns().isOnCooldown(this)) {
+			return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+		}
+		pPlayer.startUsingItem(pUsedHand);
+		return InteractionResultHolder.consume(pPlayer.getItemInHand(pUsedHand));
+	}
 
-                var vidaMC = 20;
-                var con = stats.getConstitution();
-                var energia = stats.getEnergy();
-                var raza = stats.getRace();
+	@Override
+	public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int timeLeft) {
+		if (!(pLivingEntity instanceof Player player) || pLevel.isClientSide) return;
 
-                // Calcular vida total, energía máxima y stamina
-                double VidaTotal = DMZDatos.calcularCON(raza, con, vidaMC, stats.getDmzClass());
-                int energiaMax = DMZDatos.calcularENE(raza, energia, stats.getDmzClass());
-                int staminaMax = DMZDatos.calcularSTM(raza, (int) VidaTotal);
+		pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), MainSounds.SENZU_BEAN.get(), SoundSource.NEUTRAL, 1.5F, 1.0F);
 
-                // Regenerar vida, stamina y energía
-                pPlayer.heal((float) VidaTotal);
-                stats.setCurStam(staminaMax);
-                stats.setCurrentEnergy(energiaMax);
-            });
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+			var vidaMC = 20;
+			var con = stats.getConstitution();
+			var energia = stats.getEnergy();
+			var raza = stats.getRace();
 
-            pPlayer.getFoodData().setFoodLevel(20);
-            pPlayer.getFoodData().setSaturation(15.0F);
-        }
+			double VidaTotal = DMZDatos.calcularCON(raza, con, vidaMC, stats.getDmzClass());
+			int energiaMax = DMZDatos.calcularENE(raza, energia, stats.getDmzClass());
+			int staminaMax = DMZDatos.calcularSTM(raza, (int) VidaTotal);
 
-        var segundos = DMZGeneralConfig.SENZU_COOLDOWN.get();
-        var tiempo = segundos * 20;
+			player.heal((float) VidaTotal);
+			stats.setCurStam(staminaMax);
+			stats.setCurrentEnergy(energiaMax);
+		});
 
-        pPlayer.getCooldowns().addCooldown(this, tiempo); // 200 ticks = 10 segundos
+		player.getFoodData().setFoodLevel(20);
+		player.getFoodData().setSaturation(15.0F);
 
-        senzu.shrink(1);
-        return InteractionResultHolder.sidedSuccess(senzu, pLevel.isClientSide());
-    }
+		var segundos = DMZGeneralConfig.SENZU_COOLDOWN.get();
+		var tiempo = segundos * 20;
+
+		player.getCooldowns().addCooldown(this, tiempo);
+
+		pStack.shrink(1);
+	}
 }
