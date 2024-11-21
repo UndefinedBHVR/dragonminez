@@ -1,8 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
-import com.yuseix.dragonminez.client.gui.entity.PorungaMenu;
-import com.yuseix.dragonminez.client.gui.entity.ShenlongMenu;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -36,179 +35,184 @@ import java.util.List;
 import java.util.Random;
 
 public class PorungaEntity extends Mob implements GeoEntity {
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private long invokingTime;
+	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+	private long invokingTime;
 
-    private int tiempo = 20*5; //Tiempo de desaparicion despues de que los deseos sean 0 (20 ticks = 1 segundo)
-    private static final EntityDataAccessor<String> OWNER_NAME = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.STRING);
-    private static final EntityDataAccessor<Integer> DESEOS = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.INT);
+	private int tiempo = 20 * 5; //Tiempo de desaparicion despues de que los deseos sean 0 (20 ticks = 1 segundo)
+	private static final EntityDataAccessor<String> OWNER_NAME = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<Integer> DESEOS = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.INT);
 
-    public PorungaEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+	public PorungaEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
+		super(pEntityType, pLevel);
 
-        this.entityData.define(OWNER_NAME, "");
-        this.entityData.define(DESEOS, 0); // deseos
-    }
+		this.entityData.define(OWNER_NAME, "");
+		this.entityData.define(DESEOS, 0); // deseos
+	}
 
-    public static AttributeSupplier setAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 25000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 10.5f)
-                .add(Attributes.ATTACK_SPEED, 0.5f)
-                .add(Attributes.MOVEMENT_SPEED, 0.18F).build();
-    }
+	public static AttributeSupplier setAttributes() {
+		return Mob.createMobAttributes()
+				.add(Attributes.MAX_HEALTH, 25000.0D)
+				.add(Attributes.ATTACK_DAMAGE, 10.5f)
+				.add(Attributes.ATTACK_SPEED, 0.5f)
+				.add(Attributes.MOVEMENT_SPEED, 0.18F).build();
+	}
 
-    public void setOwnerName(String name) {
-        this.entityData.set(OWNER_NAME, name);
-    }
+	public void setOwnerName(String name) {
+		this.entityData.set(OWNER_NAME, name);
+	}
 
-    public String getOwnerName() {return this.entityData.get(OWNER_NAME);}
+	public String getOwnerName() {
+		return this.entityData.get(OWNER_NAME);
+	}
 
-    public int getDeseos() {
-        return this.entityData.get(DESEOS);
-    }
+	public int getDeseos() {
+		return this.entityData.get(DESEOS);
+	}
 
-    public void setDeseos(int deseos) {
-        this.entityData.set(DESEOS, deseos);
-    }
+	public void setDeseos(int deseos) {
+		this.entityData.set(DESEOS, deseos);
+	}
 
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class,35.0f));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+	@Override
+	protected void registerGoals() {
+		this.goalSelector.addGoal(1, new FloatGoal(this));
+		this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 35.0f));
+		this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
 
-    }
+	}
 
-    @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if (this.level() instanceof ServerLevel serverWorld) {
-            serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
-                boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
+	@Override
+	public InteractionResult mobInteract(Player player, InteractionHand hand) {
+		if (this.level() instanceof ServerLevel serverWorld) {
+			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
 
-                if (hasNamekDragonBalls) {
-                    namekDragonBallsCapability.setHasNamekDragonBalls(false);
-                }
-            });
-        }
-        if (this.level().isClientSide) {
-            // Verifica que el UUID de esta entidad coincida con el del jugador
-            if (this.getOwnerName().equals(player.getName().getString())) {
-                //System.out.println("Nombre coincide con el del jugador");
+				if (hasNamekDragonBalls) {
+					namekDragonBallsCapability.setHasNamekDragonBalls(false);
+				}
+			});
+		}
+		if (this.level().isClientSide) {
+			// Verifica que el UUID de esta entidad coincida con el del jugador
+			if (this.getOwnerName().equals(player.getName().getString())) {
+				//System.out.println("Nombre coincide con el del jugador");
 
-                if (getDeseos() > 0) {
-                    Minecraft.getInstance().setScreen(new PorungaMenu(0));
-                }
-            }
-            return InteractionResult.SUCCESS;
-        }
-        return super.mobInteract(player, hand);
-    }
+				if (getDeseos() > 0) {
+					Minecraft.getInstance().setScreen(new PorungaMenu(0));
+				}
+			}
+			return InteractionResult.SUCCESS;
+		}
+		return super.mobInteract(player, hand);
+	}
 
-    public void setInvokingTime(long time) {
-        this.invokingTime = time;
-    }
+	public void setInvokingTime(long time) {
+		this.invokingTime = time;
+	}
 
-    public long getInvokingTime() {
-        return invokingTime;
-    }
+	public long getInvokingTime() {
+		return invokingTime;
+	}
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+	@Override
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+		controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
 
-    }
+	}
 
-    @Override
-    public void tick() {
-        super.tick();
-        //System.out.println("[P] Deseos del Jugador: " + getDeseos());
-        //System.out.println("[P] Nombre del jugador: " + getOwnerName());
-
-
-        if(this.getDeseos() == 0){
-            tiempo--;
-        }
-
-        if(tiempo == 0){
-            this.discard();
-        }
-    }
-
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.porunga.idle", Animation.LoopType.LOOP));
-
-        return PlayState.CONTINUE;
-
-    }
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
-
-    @Override
-    public boolean canBeCollidedWith() {
-        return false;
-    }
-
-    @Override
-    public boolean canCollideWith(Entity pEntity) {
-        return false;
-    }
-
-    @Override
-    public boolean canBeHitByProjectile() {
-        return false;
-    }
-
-    @Override
-    public void remove(RemovalReason reason) {
-        if (!this.level().isClientSide && reason == RemovalReason.DISCARDED) {
-            onDespawn();
-        }
-        super.remove(reason);
-    }
-
-    private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
-    private void onDespawn() {
-        if (this.level() instanceof ServerLevel serverWorld) {
-            serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
-                boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
-
-                if (!hasNamekDragonBalls) {
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState());
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
-                    spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
-
-                    namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
-                    namekDragonBallsCapability.setHasNamekDragonBalls(true);
-                }
-            });
-        }
-    }
-    private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
-        BlockPos spawnPos = serverWorld.getSharedSpawnPos();
-        Random random = new Random();
-
-        int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-        int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
-
-        serverWorld.getChunk(x >> 4, z >> 4);
+	@Override
+	public void tick() {
+		super.tick();
+		//System.out.println("[P] Deseos del Jugador: " + getDeseos());
+		//System.out.println("[P] Nombre del jugador: " + getOwnerName());
 
 
-        int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+		if (this.getDeseos() == 0) {
+			tiempo--;
+		}
 
-        BlockPos pos = new BlockPos(x, y, z);
+		if (tiempo == 0) {
+			this.discard();
+		}
+	}
 
-        serverWorld.setBlock(pos, dragonBall, 2);
-        System.out.println("Namekian Dragon Ball spawned at " + pos);
+	private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
 
-        namekDragonBallPositions.add(pos);
-    }
+		tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.porunga.idle", Animation.LoopType.LOOP));
+
+		return PlayState.CONTINUE;
+
+	}
+
+	@Override
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
+		return cache;
+	}
+
+	@Override
+	public boolean canBeCollidedWith() {
+		return false;
+	}
+
+	@Override
+	public boolean canCollideWith(Entity pEntity) {
+		return false;
+	}
+
+	@Override
+	public boolean canBeHitByProjectile() {
+		return false;
+	}
+
+	@Override
+	public void remove(RemovalReason reason) {
+		if (!this.level().isClientSide && reason == RemovalReason.DISCARDED) {
+			onDespawn();
+		}
+		super.remove(reason);
+	}
+
+	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
+
+	private void onDespawn() {
+		if (this.level() instanceof ServerLevel serverWorld) {
+			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
+
+				if (!hasNamekDragonBalls) {
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
+
+					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
+					namekDragonBallsCapability.setHasNamekDragonBalls(true);
+				}
+			});
+		}
+	}
+
+	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
+		Random random = new Random();
+
+		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
+		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+
+		serverWorld.getChunk(x >> 4, z >> 4);
+
+
+		int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+
+		BlockPos pos = new BlockPos(x, y, z);
+
+		serverWorld.setBlock(pos, dragonBall, 2);
+		System.out.println("Namekian Dragon Ball spawned at " + pos);
+
+		namekDragonBallPositions.add(pos);
+	}
 
 }
