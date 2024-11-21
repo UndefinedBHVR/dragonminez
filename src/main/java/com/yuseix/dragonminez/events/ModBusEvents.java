@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
@@ -26,21 +27,19 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-//Anteriormente llamado ModListener o ClientEvents
-//ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
-//Si un evento tiene "class x implements IMobBusEvent" TIENE que estar acá.
-//Adicionalmente, estos eventos son aquellos que son lanzados al inicio del juego.
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBusEvents {
-
 
     @SubscribeEvent
     public void entityAttributeEvent(EntityAttributeCreationEvent event) {
@@ -77,25 +76,7 @@ public class ModBusEvents {
 
     }
 
-    @SubscribeEvent
-    public void onKeyRegister(RegisterKeyMappingsEvent event) {
-        /*
-        Usa reflection para registrar todas las teclas de la clase Keys, utilicé esto para no tener que registrar cada tecla manualmente
-        También porque los fields son static
-         */
-        try {
-            Field[] fields = Keys.class.getDeclaredFields();
 
-            for (Field field : fields) {
-                if (Modifier.isStatic(field.getModifiers()) && field.getType() == KeyMapping.class) {
-                    KeyMapping keyMapping = (KeyMapping) field.get(null);
-                    event.register(keyMapping);
-                }
-            }
-        } catch (IllegalAccessException e) {
-            //System.out.println("Error al intentar registrar una tecla! " + e.getMessage());
-        }
-    }
 
     @SubscribeEvent
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
