@@ -60,9 +60,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBusEvents {
-
 
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
