@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -40,12 +41,39 @@ public class CapsulaAzulItem extends Item {
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
         if (!pLevel.isClientSide) {
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> stats.addEnergy(5));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
+                int energy = stats.getEnergy();
+                int maxEnergy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
-            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.blue_capsule.ene.use").withStyle(ChatFormatting.GREEN), true);
+                if (energy < maxEnergy) {
+                    int increment = 5;
+
+                    // Si la diferencia entre la energía actual y el máximo es menor que 5, ajusta el incremento.
+                    if (maxEnergy - energy < 5) {
+                        increment = maxEnergy - energy;
+                    }
+
+                    stats.addEnergy(increment);
+
+                    pPlayer.displayClientMessage(
+                            Component.literal("+")
+                                    .append(String.valueOf(increment) + " ")
+                                    .append(Component.translatable("item.dragonminez.blue_capsule.ene.use"))
+                                    .withStyle(ChatFormatting.GREEN),
+                            true
+                    );
+                } else {
+                    pPlayer.displayClientMessage(
+                            Component.translatable("item.dragonminez.blue_capsule.ene.full")
+                                    .withStyle(ChatFormatting.GREEN),
+                            true
+                    );
+                }
+            });
+
+            capsula.shrink(1);
         }
-
-        capsula.shrink(1);
         return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
     }
+
 }

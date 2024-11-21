@@ -464,6 +464,10 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public int getCon() {
+        return constitution;
+    }
+
     public int getMaxHealth() {
         return DMZDatos.calcularCON(races, constitution, 20, dmzClass);
     }
