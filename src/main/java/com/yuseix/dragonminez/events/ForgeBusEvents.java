@@ -168,15 +168,6 @@ public final class ForgeBusEvents {
     }
 
     @SubscribeEvent
-    public void onKeyInput(InputEvent.Key event) {
-
-        if (Keys.STATS_MENU.consumeClick()) {
-            ModMessages.sendToServer(new MenuC2S());
-        }
-
-    }
-
-    @SubscribeEvent
     public void onWorldLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel serverLevel && !serverLevel.isClientSide()) {
             if (serverLevel.dimension() == Level.OVERWORLD) { //Dimension de overworld

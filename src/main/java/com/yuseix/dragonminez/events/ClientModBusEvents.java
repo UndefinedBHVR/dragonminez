@@ -34,6 +34,8 @@ import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallR
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
+import com.yuseix.dragonminez.network.C2S.MenuC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -59,6 +61,15 @@ import java.lang.reflect.Modifier;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModBusEvents {
+
+    @SubscribeEvent
+    public void onKeyInput(InputEvent.Key event) {
+
+        if (Keys.STATS_MENU.consumeClick()) {
+            ModMessages.sendToServer(new MenuC2S());
+        }
+
+    }
 
     @SubscribeEvent
     public void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
