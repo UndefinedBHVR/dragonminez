@@ -68,6 +68,14 @@ public class EntityEvents {
                 });
             }
         }
+
+        // Eliminar la marca majin
+        if(event.getEntity() instanceof Player){
+            Player player = (Player) event.getEntity();
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                cap.removePermanentEffect("majin");
+            });
+        }
     }
 
     @SubscribeEvent
