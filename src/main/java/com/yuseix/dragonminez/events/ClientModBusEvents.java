@@ -70,10 +70,6 @@ public class ClientModBusEvents {
 			}
 		}
 
-	}
-
-	@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class ClientModBusEvents2 {
 
 		@SubscribeEvent
 		public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
@@ -81,6 +77,13 @@ public class ClientModBusEvents {
 				event.setCanceled(true);
 			}
 		}
+
+	}
+
+	@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+	public static class ClientModBusEvents2 {
+
+
 
 		@SubscribeEvent
 		public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
