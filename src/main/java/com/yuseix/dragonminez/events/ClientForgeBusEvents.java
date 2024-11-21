@@ -45,9 +45,6 @@ public class ClientForgeBusEvents {
         }
     }
 
-
-
-
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {

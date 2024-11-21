@@ -37,6 +37,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.slf4j.Logger;
 
@@ -49,7 +50,8 @@ import java.util.Random;
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
 //Si una clase extiende "Event" se considera un evento del bus de Forge y TIENE que estar acá.
 //O también si es parte del paquete "net.minecraftforge.eventbus.api"
-public final class ForgeBusEvents {
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+public class ForgeBusEvents {
 
     public static final Capability<DMZStatsCapabilities> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
     });
@@ -105,12 +107,11 @@ public final class ForgeBusEvents {
     }
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
-
         if (Keys.STATS_MENU.consumeClick()) {
             ModMessages.sendToServer(new MenuC2S());
         }
-
     }
+
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 

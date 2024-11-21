@@ -263,11 +263,6 @@ public class StatsEvents {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event) {
-        Player player = Minecraft.getInstance().player;
-
-
-        if (player != null) {
-
             // Variable para almacenar el estado previo de la tecla KI_CHARGE
             boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
             // Detecta si la tecla KI_CHARGE está presionada o liberada y solo envía el paquete si cambia el estado
@@ -284,7 +279,7 @@ public class StatsEvents {
 
             // Detecta si la tecla DESCEND_KEY está presionada o liberada
             isActionKeyPressed = Keys.DESCEND_KEY.isDown();
-        }
+
     }
 
     @SubscribeEvent
