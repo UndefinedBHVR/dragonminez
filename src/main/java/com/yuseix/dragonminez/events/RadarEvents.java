@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD,  value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE,  value = Dist.CLIENT)
 public class RadarEvents {
     private static final ResourceLocation fondo = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/radar.png");
