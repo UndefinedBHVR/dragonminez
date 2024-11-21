@@ -19,6 +19,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -33,7 +35,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class StatsEvents {
 
     private static int tickcounter = 0;
@@ -46,6 +48,7 @@ public class StatsEvents {
 
     //Teclas
     private static boolean isActionKeyPressed = false;
+    private static boolean previousKiChargeState = false;
 
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
@@ -257,11 +260,11 @@ public class StatsEvents {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event) {
         Player player = Minecraft.getInstance().player;
 
-        boolean previousKiChargeState = false;
 
         if (player != null) {
 
