@@ -34,6 +34,8 @@ import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallR
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
+import com.yuseix.dragonminez.utils.Keys;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -43,10 +45,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 //Anteriormente llamado ModListener o ClientEvents
 //ACTUALMENTE LOS ModBusEvents son eventos que se ejecutan en el bus IModBusEvent
@@ -198,6 +204,26 @@ public class ClientModBusEvents {
             MinecraftForge.EVENT_BUS.addListener(DballOutlineRenderer::renderOutlineDball);*/
 
         });
+    }
+
+    @SubscribeEvent
+    public void onKeyRegister(RegisterKeyMappingsEvent event) {
+        /*
+        Usa reflection para registrar todas las teclas de la clase Keys, utilicé esto para no tener que registrar cada tecla manualmente
+        También porque los fields son static
+         */
+        try {
+            Field[] fields = Keys.class.getDeclaredFields();
+
+            for (Field field : fields) {
+                if (Modifier.isStatic(field.getModifiers()) && field.getType() == KeyMapping.class) {
+                    KeyMapping keyMapping = (KeyMapping) field.get(null);
+                    event.register(keyMapping);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            //System.out.println("Error al intentar registrar una tecla! " + e.getMessage());
+        }
     }
 
 
