@@ -11,7 +11,7 @@ public class KarinEntityMenuType extends AbstractContainerMenu {
 	public KarinEntityMenuType(int pContainerId, Inventory inventory) {
 		super(MainMenus.KARIN_ENTITY_MENU.get(), pContainerId);
 	}
-	
+
 
 	@Override
 	public ItemStack quickMoveStack(Player player, int i) {
@@ -20,6 +20,7 @@ public class KarinEntityMenuType extends AbstractContainerMenu {
 
 	@Override
 	public boolean stillValid(Player player) {
-		return false;
+		return true;
 	}
+
 }

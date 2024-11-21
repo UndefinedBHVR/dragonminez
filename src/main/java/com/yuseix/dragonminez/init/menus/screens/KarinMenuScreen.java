@@ -75,6 +75,10 @@ public class KarinMenuScreen extends AbstractContainerScreen<KarinEntityMenuType
 	@Override
 	protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
 
+	}
+
+	@Override
+	public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float delta) {
 		int centerX = (this.width / 2);
 		int centerY = (this.height);
 
@@ -125,17 +129,7 @@ public class KarinMenuScreen extends AbstractContainerScreen<KarinEntityMenuType
 				}
 			}
 		}
-
-		//Botones
-		super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-
-
-	}
-
-	@Override
-	public void render(@NotNull GuiGraphics guiGraphics, int pMouseX, int pMouseY, float delta) {
-		renderBackground(guiGraphics);
-		super.render(guiGraphics, pMouseX, pMouseY, delta);
+		super.render(pGuiGraphics, pMouseX, pMouseY, delta);
 	}
 
 	@Override
