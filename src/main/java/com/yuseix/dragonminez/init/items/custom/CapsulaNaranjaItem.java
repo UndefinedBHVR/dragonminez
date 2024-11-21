@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -38,17 +39,37 @@ public class CapsulaNaranjaItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         ItemStack capsula = pPlayer.getItemInHand(pUsedHand);
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
         if (!pLevel.isClientSide) {
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> stats.addKipwr(5));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
+                int kipwr = stats.getKiPower();
+                int maxKipwr = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
-            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.orange_capsule.pow.use").withStyle(ChatFormatting.GREEN), true);
+                if (kipwr < maxKipwr) {
+                    int increment = Math.min(5, maxKipwr - kipwr);
+                    stats.addKipwr(increment);
+
+                    pPlayer.displayClientMessage(
+                            Component.literal("+")
+                                    .append(String.valueOf(increment) + " ")
+                                    .append(Component.translatable("item.dragonminez.orange_capsule.pow.use"))
+                                    .withStyle(ChatFormatting.GREEN),
+                            true
+                    );
+                    capsula.shrink(1);
+                } else {
+                    pPlayer.displayClientMessage(
+                            Component.translatable("item.dragonminez.orange_capsule.pow.full")
+                                    .withStyle(ChatFormatting.RED),
+                            true
+                    );
+                }
+            });
         }
-
-        capsula.shrink(1);
         return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
     }
+
 }

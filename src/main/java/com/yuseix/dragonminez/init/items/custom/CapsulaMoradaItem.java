@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -42,12 +43,32 @@ public class CapsulaMoradaItem extends Item {
         pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
         if (!pLevel.isClientSide) {
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> stats.addDefense(5));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
+                int defense = stats.getDefense(); // Defensa actual
+                int maxDefense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get(); // Máximo permitido
 
-            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.purple_capsule.def.use").withStyle(ChatFormatting.GREEN), true);
+                if (defense < maxDefense) {
+                    int increment = Math.min(5, maxDefense - defense); // Ajusta el incremento
+                    stats.addDefense(increment);
+
+                    pPlayer.displayClientMessage(
+                            Component.literal("+")
+                                    .append(String.valueOf(increment) + " ")
+                                    .append(Component.translatable("item.dragonminez.purple_capsule.def.use"))
+                                    .withStyle(ChatFormatting.GREEN),
+                            true
+                    );
+                    capsula.shrink(1);
+                } else {
+                    pPlayer.displayClientMessage(
+                            Component.translatable("item.dragonminez.purple_capsule.def.full")
+                                    .withStyle(ChatFormatting.GREEN),
+                            true
+                    );
+                }
+            });
         }
-
-        capsula.shrink(1);
         return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
     }
+
 }
