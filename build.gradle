@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.7.38'
     }
 }
 
@@ -20,7 +20,7 @@ plugins {
     id 'com.gradleup.shadow' version '8.3.2'
     id 'java'
     // SpongePowered para GeckoLib
-    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'org.spongepowered.mixin' version '0.7.38'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
@@ -106,7 +106,7 @@ configurations {
 dependencies {
     // Minecraft + Mixin
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
     //Se usa GeckoLib mediante ShadowJar
     shade fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.4.4')
@@ -114,9 +114,9 @@ dependencies {
 
     //Corrección a puntos vulnerables de dependencias en Forge:
     implementation 'com.google.guava:guava:33.0.0-jre'
-    implementation 'io.netty:netty-codec:4.1.94.Final'
-    implementation 'io.netty:netty-handler:4.1.94.Final'
-    implementation 'org.apache.commons:commons-compress:1.26.0'
+    implementation 'io.netty:netty-codec:4.1.100.Final'
+    implementation 'io.netty:netty-handler:4.1.100.Final'
+    implementation 'org.apache.commons:commons-compress:1.27.1'
 
     // Just Enough Items (JEI)
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
