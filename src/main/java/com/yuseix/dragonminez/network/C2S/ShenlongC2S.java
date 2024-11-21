@@ -51,8 +51,6 @@ public class ShenlongC2S {
                 player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
                         entity.getType() == MainEntity.SHENLONG.get()).forEach(entity -> {
                     if (entity instanceof ShenlongEntity shenlong) {
-                        ServerLevel serverLevel = (ServerLevel) player.level();
-                        serverLevel.setDayTime(shenlong.getInvokingTime()); // Restaura el tiempo original
                         shenlong.setDeseos(0);
                     }
 

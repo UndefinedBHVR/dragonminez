@@ -181,6 +181,8 @@ public class ShenlongEntity extends Mob implements GeoEntity {
     private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
     private void onDespawn() {
         if (this.level() instanceof ServerLevel serverWorld) {
+
+            serverWorld.setDayTime(getInvokingTime());
             serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
                 boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
 
