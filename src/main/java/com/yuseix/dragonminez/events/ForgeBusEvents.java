@@ -50,7 +50,6 @@ import java.util.Random;
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
 //Si una clase extiende "Event" se considera un evento del bus de Forge y TIENE que estar acá.
 //O también si es parte del paquete "net.minecraftforge.eventbus.api"
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeBusEvents {
 
     public static final Capability<DMZStatsCapabilities> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
@@ -100,17 +99,8 @@ public class ForgeBusEvents {
         }
     }*/
 
-    @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
-        e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
-        e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
-    }
-    @SubscribeEvent
-    public static void onKeyInput(InputEvent.Key event) {
-        if (Keys.STATS_MENU.consumeClick()) {
-            ModMessages.sendToServer(new MenuC2S());
-        }
-    }
+
+
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
