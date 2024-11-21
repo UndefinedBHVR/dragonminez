@@ -6,13 +6,26 @@ import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
 import com.yuseix.dragonminez.client.gui.KikonoArmorStationScreen;
-import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
-import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainParticles;
+import com.yuseix.dragonminez.init.MainMenus;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.character.models.hair.FemHairModel;
+import com.yuseix.dragonminez.character.models.hair.GohanDBSHairModel;
+import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
+import com.yuseix.dragonminez.character.models.hair.VegetaHairModel;
+import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
+import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
+import com.yuseix.dragonminez.init.MainParticles;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
+import com.yuseix.dragonminez.init.MainMenus;
+import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
+import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
@@ -23,6 +36,8 @@ import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
 import com.yuseix.dragonminez.utils.Keys;
+import com.yuseix.dragonminez.init.menus.screens.KarinMenuScreen;
+import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
@@ -113,7 +128,8 @@ public class ModBusEvents {
 			ItemBlockRenderTypes.setRenderLayer(MainBlocks.INVISIBLE_LADDER_BLOCK.get(), RenderType.translucent());
 
 			//MENÚS
-			MenuScreens.register(DMZMenuTypes.KIKONO_ARMOR_STATION_MENU.get(), KikonoArmorStationScreen::new);
+			MenuScreens.register(MainMenus.KIKONO_ARMOR_STATION_MENU.get(), KikonoArmorStationScreen::new);
+			MenuScreens.register(MainMenus.KARIN_ENTITY_MENU.get(), KarinMenuScreen::new);
 
 			//Vegetacion
 			ItemBlockRenderTypes.setRenderLayer(MainBlocks.CHRYSANTHEMUM_FLOWER.get(), RenderType.cutout());
