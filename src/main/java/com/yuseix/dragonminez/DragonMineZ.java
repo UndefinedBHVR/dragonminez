@@ -57,6 +57,7 @@ public class DragonMineZ {
         //Register Particulas
         MainParticles.register(modEventBus);
 
+        //        MinecraftForge.EVENT_BUS.register(ClientModBusEvents.class);
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -66,6 +67,7 @@ public class DragonMineZ {
         MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
         //Se registran los eventos de las Capabilities de las Stats
         MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
+
         MinecraftForge.EVENT_BUS.register(GenAttRegistry.class);
         MinecraftForge.EVENT_BUS.register(DMZGenericAttributes.class);
 
