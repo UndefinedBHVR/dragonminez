@@ -1,12 +1,11 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
-import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.client.gui.DMZMenuTypes;
+import com.yuseix.dragonminez.client.gui.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.init.MainBlockEntities;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
@@ -34,7 +33,6 @@ import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallR
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
-import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
 import com.yuseix.dragonminez.utils.Keys;
@@ -49,7 +47,6 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -62,7 +59,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBusEvents {
+
+	@SubscribeEvent
+	public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
+		e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
+		e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
+	}
 
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event) {
@@ -165,7 +169,6 @@ public class ModBusEvents {
 		});
 	}
 
-
 	@SubscribeEvent
 	public void entityAttributeEvent(EntityAttributeCreationEvent event) {
 		event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
@@ -200,48 +203,11 @@ public class ModBusEvents {
 		event.put(MainEntity.AURA.get(), AuraEntity.setAttributes());
 
 	}
-	@SubscribeEvent
-	public static void registerModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions e) {
-		//RAZAS
-		e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
-		e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
-		e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
-		e.registerLayerDefinition(BioAndroideModelo.LAYER_LOCATION, BioAndroideModelo::createBodyLayer);
-		e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
-		e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
-		e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
-
-		e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
-		e.registerLayerDefinition(KiBallModel.LAYER_LOCATION, KiBallModel::createBodyLayer);
-
-		//CABELLOS
-		e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION, GokuHairModel::createBodyLayer);
-		e.registerLayerDefinition(FemHairModel.LAYER_LOCATION, FemHairModel::createBodyLayer);
-		e.registerLayerDefinition(VegetaHairModel.LAYER_LOCATION, VegetaHairModel::createBodyLayer);
-		e.registerLayerDefinition(GohanDBSHairModel.LAYER_LOCATION, GohanDBSHairModel::createBodyLayer);
-
-		//ARMADURAS
-		e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
-		e.registerLayerDefinition(ArmorSaiyanModel.LAYER_LOCATION, ArmorSaiyanModel::createBodyLayer);
-		e.registerLayerDefinition(ArmorPiccoloModel.LAYER_LOCATION, ArmorPiccoloModel::createBodyLayer);
-
-		//ENTIDADES CUSTOM EN BASE A MODELOS DE JAVA
-		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
-
-		//Armas en espalda
-		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
-	}
-
 
 	@SubscribeEvent
 	public static void registerParticles(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(MainParticles.AJISSA_LEAVES_PARTICLE.get(), AjissaLeavesParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.SACRED_LEAVES_PARTICLE.get(), SacredLeavesParticle.Provider::new);
-	}
-	@SubscribeEvent
-	public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
-		e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
-		e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
 	}
 
 	@SubscribeEvent
