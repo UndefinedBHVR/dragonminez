@@ -50,7 +50,6 @@ public class DendeEntity extends Mob implements GeoEntity {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (this.level().isClientSide) {
-            // Abre la GUI en el lado del cliente
             Minecraft.getInstance().setScreen(new DendeMenu());
 
             return InteractionResult.SUCCESS;

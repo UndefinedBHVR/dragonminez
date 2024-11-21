@@ -37,6 +37,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientForgeBusEvents {
 
+
     @SubscribeEvent
     public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
         if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
@@ -44,20 +45,9 @@ public class ClientForgeBusEvents {
         }
     }
 
-    @SubscribeEvent
-    public static void onKeyInput(InputEvent.Key event) {
 
-        if (Keys.STATS_MENU.consumeClick()) {
-            ModMessages.sendToServer(new MenuC2S());
-        }
 
-    }
 
-    @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
-        e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
-        e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
-    }
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {

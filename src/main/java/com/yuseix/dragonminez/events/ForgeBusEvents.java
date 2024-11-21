@@ -2,6 +2,8 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.utils.Keys;
@@ -22,6 +24,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.capabilities.Capability;
@@ -95,7 +98,19 @@ public final class ForgeBusEvents {
         }
     }*/
 
+    @SubscribeEvent
+    public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
+        e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
+        e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
+    }
+    @SubscribeEvent
+    public static void onKeyInput(InputEvent.Key event) {
 
+        if (Keys.STATS_MENU.consumeClick()) {
+            ModMessages.sendToServer(new MenuC2S());
+        }
+
+    }
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 
