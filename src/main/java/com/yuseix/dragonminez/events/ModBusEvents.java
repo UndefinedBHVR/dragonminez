@@ -203,39 +203,6 @@ public class ModBusEvents {
         e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
     }
 
-    @SubscribeEvent
-    public void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions e) {
-        //RAZAS
-        e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
-        e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
-        e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
-        e.registerLayerDefinition(BioAndroideModelo.LAYER_LOCATION, BioAndroideModelo::createBodyLayer);
-        e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
-        e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
-        e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
-
-        e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
-        e.registerLayerDefinition(KiBallModel.LAYER_LOCATION, KiBallModel::createBodyLayer);
-
-        //CABELLOS
-        e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION,GokuHairModel::createBodyLayer);
-        e.registerLayerDefinition(FemHairModel.LAYER_LOCATION,FemHairModel::createBodyLayer);
-        e.registerLayerDefinition(VegetaHairModel.LAYER_LOCATION,VegetaHairModel::createBodyLayer);
-        e.registerLayerDefinition(GohanDBSHairModel.LAYER_LOCATION,GohanDBSHairModel::createBodyLayer);
-
-        //ARMADURAS
-        e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
-        e.registerLayerDefinition(ArmorSaiyanModel.LAYER_LOCATION, ArmorSaiyanModel::createBodyLayer);
-        e.registerLayerDefinition(ArmorPiccoloModel.LAYER_LOCATION, ArmorPiccoloModel::createBodyLayer);
-
-        //ENTIDADES CUSTOM EN BASE A MODELOS DE JAVA
-        e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
-
-        //Armas en espalda
-        e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
-
-    }
-
 
     @SubscribeEvent
     public void onKeyRegister(RegisterKeyMappingsEvent event) {
