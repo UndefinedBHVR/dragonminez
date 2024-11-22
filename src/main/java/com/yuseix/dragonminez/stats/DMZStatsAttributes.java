@@ -451,6 +451,8 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
+        dmzdatos = new DMZDatos2();
+
         var maxEne = 0;
 
         maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
