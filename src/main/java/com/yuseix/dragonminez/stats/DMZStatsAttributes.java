@@ -21,7 +21,7 @@ public class DMZStatsAttributes {
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
-    DMZDatos2 dmzdatos = new DMZDatos2();
+    private static final DMZDatos2 dmzdatos = new DMZDatos2();
 
     private int races;
     private int hairID, bodytype, eyesType;
