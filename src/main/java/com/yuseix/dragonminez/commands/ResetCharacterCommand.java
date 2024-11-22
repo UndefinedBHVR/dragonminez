@@ -1,10 +1,9 @@
 package com.yuseix.dragonminez.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -33,7 +32,7 @@ public class ResetCharacterCommand {
     private static int reiniciarJugador(Collection<ServerPlayer> pPlayers) {
         for (ServerPlayer player : pPlayers) {
 
-            DMZDatos2 dmzdatos = new DMZDatos2();
+            DMZDatos dmzdatos = new DMZDatos();
 
             player.sendSystemMessage(
                     Component.translatable("command.dmzrestart.character")

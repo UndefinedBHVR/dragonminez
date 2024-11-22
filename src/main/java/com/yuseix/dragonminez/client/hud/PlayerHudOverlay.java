@@ -7,7 +7,7 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -34,7 +34,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
 
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
         if (Minecraft.getInstance().options.renderDebug) {
             // Si la pantalla de depuración F3 está activada, no renderizar el HUD

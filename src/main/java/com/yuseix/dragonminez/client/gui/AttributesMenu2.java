@@ -10,7 +10,7 @@ import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
 
     private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
-    private DMZDatos2 dmzdatos = new DMZDatos2();
+    private DMZDatos dmzdatos = new DMZDatos();
 
     public AttributesMenu2() {
         super(Component.empty());

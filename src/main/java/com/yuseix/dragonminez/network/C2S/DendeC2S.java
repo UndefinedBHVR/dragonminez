@@ -1,16 +1,12 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
-import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -51,7 +47,7 @@ public class DendeC2S {
     }
 
     public static void resetPlayerStats(ServerPlayer player, DMZStatsAttributes playerstats) {
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
         player.displayClientMessage(Component.translatable("lines.dende.reset.success"), true);
         var race = playerstats.getRace();
@@ -70,7 +66,7 @@ public class DendeC2S {
     }
 
     private static void healPlayer(ServerPlayer player, DMZStatsAttributes playerstats) {
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
         player.displayClientMessage(Component.translatable("lines.dende.heal.success"), true);
 
