@@ -71,7 +71,7 @@ public class StatsEvents {
             // Modificar los datos de la capacidad
             int maximaEnergy = dmzdatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(),playerStats.getDmzClass());
 
-            playerStats.addCurEnergy(5);
+            //playerStats.addCurEnergy(5);
 
             // Mensaje de depuración para confirmar
             System.out.println("Tu maximo de energia es: " + maximaEnergy);
