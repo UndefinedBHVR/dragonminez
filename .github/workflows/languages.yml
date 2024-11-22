@@ -1,9 +1,11 @@
 name: Crowdin Check & Sync
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+    paths:
+      - src/main/resources/assets/dragonminez/lang/en_us.json
 
 permissions: write-all
 
