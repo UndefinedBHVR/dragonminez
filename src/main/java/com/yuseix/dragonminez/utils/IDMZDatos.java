@@ -1,12 +1,14 @@
 package com.yuseix.dragonminez.utils;
 
+import net.minecraft.world.entity.player.Player;
+
 public interface IDMZDatos {
 
     int calcularSTR(int raza, int StatSTR, float danoJugador, int transformation, int porcentaje, String clase,
                                   boolean majinOn, boolean mightfruit);
 
-    int calcularDEF(int raza, int StatDEF, int Transformation, int powerRelease, String clase, boolean majinOn,
-                                  boolean mightfruit);
+    int calcularDEF(Player player, int raza, int StatDEF, int Transformation, int powerRelease, String clase, boolean majinOn,
+                    boolean mightfruit);
     int calcularCON(int raza, int StatCON, float vidaMC, String clase);
 
     int calcularSTM(int raza, int maxCON);
