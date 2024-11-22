@@ -42,37 +42,41 @@ public class CapsulaAzulItem extends Item {
 
 		if (!pLevel.isClientSide) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-				int energy = stats.getEnergy();
-				int maxEnergy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+				boolean isDmzUser = stats.isAcceptCharacter();
+				if (isDmzUser) {
+					int energy = stats.getEnergy();
+					int maxEnergy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
-				if (energy < maxEnergy) {
-					int increment = 5;
+					if (energy < maxEnergy) {
+						int increment = 5;
 
-					// Si la diferencia entre la energía actual y el máximo es menor que 5, ajusta el incremento.
-					if (maxEnergy - energy < 5) {
-						increment = maxEnergy - energy;
+						// Si la diferencia entre la energía actual y el máximo es menor que 5, ajusta el incremento.
+						if (maxEnergy - energy < 5) {
+							increment = maxEnergy - energy;
+						}
+
+						stats.addEnergy(increment);
+
+						pPlayer.displayClientMessage(
+								Component.literal("+")
+										.append(String.valueOf(increment) + " ")
+										.append(Component.translatable("item.dragonminez.blue_capsule.ene.use"))
+										.withStyle(ChatFormatting.GREEN),
+								true
+						);
+						capsula.shrink(1);
+					} else {
+						pPlayer.displayClientMessage(
+								Component.translatable("item.dragonminez.blue_capsule.ene.full")
+										.withStyle(ChatFormatting.RED),
+								true);
 					}
-
-					stats.addEnergy(increment);
-
-					pPlayer.displayClientMessage(
-							Component.literal("+")
-									.append(String.valueOf(increment) + " ")
-									.append(Component.translatable("item.dragonminez.blue_capsule.ene.use"))
-									.withStyle(ChatFormatting.GREEN),
-							true
-					);
-					capsula.shrink(1);
-				} else {
-					pPlayer.displayClientMessage(
-							Component.translatable("item.dragonminez.blue_capsule.ene.full")
-									.withStyle(ChatFormatting.RED),
-							true
-					);
 				}
 			});
+			return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
 		}
-		return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
+		pPlayer.displayClientMessage(Component.translatable("error.dmz.createcharacter").withStyle(ChatFormatting.RED), true);
+		return InteractionResultHolder.fail(capsula);
 	}
 
 }

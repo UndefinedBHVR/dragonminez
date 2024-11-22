@@ -45,31 +45,36 @@ public class CapsulaVerdeItem extends Item {
 
         if (!pLevel.isClientSide) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-                int con = stats.getConstitution();
-                int maxCon = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                boolean isDmzUser = stats.isAcceptCharacter();
+                if (isDmzUser) {
+                    int con = stats.getConstitution();
+                    int maxCon = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
-                if (con < maxCon) {
-                    int increment = Math.min(5, maxCon - con);
-                    stats.addCon(increment);
+                    if (con < maxCon) {
+                        int increment = Math.min(5, maxCon - con);
+                        stats.addCon(increment);
 
-                    pPlayer.displayClientMessage(
-                            Component.literal("+")
-                                    .append(String.valueOf(increment) + " ")
-                                    .append(Component.translatable("item.dragonminez.green_capsule.con.use"))
-                                    .withStyle(ChatFormatting.GREEN),
-                            true
-                    );
-                    capsula.shrink(1);
-                } else {
-                    pPlayer.displayClientMessage(
-                            Component.translatable("item.dragonminez.green_capsule.con.full")
-                                    .withStyle(ChatFormatting.RED),
-                            true
-                    );
+                        pPlayer.displayClientMessage(
+                                Component.literal("+")
+                                        .append(String.valueOf(increment) + " ")
+                                        .append(Component.translatable("item.dragonminez.green_capsule.con.use"))
+                                        .withStyle(ChatFormatting.GREEN),
+                                true
+                        );
+                        capsula.shrink(1);
+                    } else {
+                        pPlayer.displayClientMessage(
+                                Component.translatable("item.dragonminez.green_capsule.con.full")
+                                        .withStyle(ChatFormatting.RED),
+                                true
+                        );
+                    }
                 }
             });
+            return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
         }
-        return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
+        pPlayer.displayClientMessage(Component.translatable("error.dmz.createcharacter").withStyle(ChatFormatting.RED), true);
+        return InteractionResultHolder.fail(capsula);
     }
 
 }

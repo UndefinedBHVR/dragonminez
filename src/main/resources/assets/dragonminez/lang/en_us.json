@@ -82,6 +82,7 @@
   "item.dragonminez.blue_capsule.ene.full": "You have reached the maximum amount of ENE.",
   "item.dragonminez.blue_capsule.tooltip": "\u00A77Gives you \u00A7a+5 ENE \u00A77stat points.",
   "item.dragonminez.blue_capsule.tooltip2": "\u00A77This capsule is used to increase your energy.",
+  "error.dmz.createcharacter": "You must create your charactert first.",
 
   "item.dragonminez.comida_dino_cooked": "Cooked Dino Meat",
   "item.dragonminez.comida_dino_raw": "Raw Dino Meat",
@@ -91,7 +92,7 @@
   "item.dragonminez.frog_legs_cooked": "Cooked Frog Legs",
   "item.dragonminez.might_tree_fruit": "Fruit of the Tree of Might",
   "item.dragonminez.might_tree_fruit.tooltip": "\u00A77This fruit will give you a temporary power boost.",
-    "item.dragonminez.might_tree_fruit.use": "You feel a surge of \u00A7cpower\u00A7r...",
+  "item.dragonminez.might_tree_fruit.use": "You feel a surge of \u00A7cpower\u00A7r...",
   "item.dragonminez.heart_medicine": "Heart Medicine",
   "item.dragonminez.heart_medicine.tooltip": "\u00A77This strange bottle says it's been manufactured on the year 2064...",
   "item.dragonminez.heart_medicine.use": "You feel your \u00A7cheart \u00A7rstronger...",

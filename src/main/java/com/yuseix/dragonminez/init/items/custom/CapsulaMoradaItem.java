@@ -38,37 +38,41 @@ public class CapsulaMoradaItem extends Item {
 	}
 
 	@Override
-	public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+	public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
 		ItemStack capsula = pPlayer.getItemInHand(pUsedHand);
 		pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
 		if (!pLevel.isClientSide) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-				int defense = stats.getDefense(); // Defensa actual
-				int maxDefense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get(); // Máximo permitido
+				boolean isDmzUser = stats.isAcceptCharacter();
+				if (isDmzUser) {
+					int defense = stats.getDefense(); // Defensa actual
+					int maxDefense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get(); // Máximo permitido
 
-				if (defense < maxDefense) {
-					int increment = Math.min(5, maxDefense - defense); // Ajusta el incremento
-					stats.addDefense(increment);
+					if (defense < maxDefense) {
+						int increment = Math.min(5, maxDefense - defense); // Ajusta el incremento
+						stats.addDefense(increment);
 
-					pPlayer.displayClientMessage(
-							Component.literal("+")
-									.append(String.valueOf(increment) + " ")
-									.append(Component.translatable("item.dragonminez.purple_capsule.def.use"))
-									.withStyle(ChatFormatting.GREEN),
-							true
-					);
-					capsula.shrink(1);
-				} else {
-					pPlayer.displayClientMessage(
-							Component.translatable("item.dragonminez.purple_capsule.def.full")
-									.withStyle(ChatFormatting.RED),
-							true
-					);
+						pPlayer.displayClientMessage(
+								Component.literal("+")
+										.append(String.valueOf(increment) + " ")
+										.append(Component.translatable("item.dragonminez.purple_capsule.def.use"))
+										.withStyle(ChatFormatting.GREEN),
+								true
+						);
+						capsula.shrink(1);
+					} else {
+						pPlayer.displayClientMessage(
+								Component.translatable("item.dragonminez.purple_capsule.def.full")
+										.withStyle(ChatFormatting.RED),
+								true
+						);
+					}
 				}
 			});
+			return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
 		}
-		return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
+		pPlayer.displayClientMessage(Component.translatable("error.dmz.createcharacter").withStyle(ChatFormatting.RED), true);
+		return InteractionResultHolder.fail(capsula);
 	}
-
 }

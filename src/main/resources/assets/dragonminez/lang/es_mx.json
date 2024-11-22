@@ -82,6 +82,7 @@
   "item.dragonminez.blue_capsule.ene.full": "Ya has alcanzado la cantidad máxima de ENE.",
   "item.dragonminez.blue_capsule.tooltip": "\u00A77Incrementa \u00A7a+5 ENE \u00A77en tus atributos.",
   "item.dragonminez.blue_capsule.tooltip2": "\u00A77Esta cápsula se usa para incrementar tu energía.",
+  "error.dmz.createcharacter": "Debes crear un personaje primero.",
 
   "item.dragonminez.comida_dino_cooked": "Carne de Dino Cocida",
   "item.dragonminez.comida_dino_raw": "Carne de Dino Cruda",
