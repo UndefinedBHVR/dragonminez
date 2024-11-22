@@ -55,6 +55,7 @@ public class StatsEvents {
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer serverPlayer) {
     DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
 
+        playerstats.addCurEnergy(5);
 
         System.out.println("Prueba funcionando");
         });
