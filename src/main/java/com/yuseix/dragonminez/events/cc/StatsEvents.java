@@ -59,19 +59,20 @@ public class StatsEvents {
         }
 
         Player player = event.player;
-        DMZDatos2 dmzdatos = new DMZDatos2();
 
         // Verificar que el jugador es un ServerPlayer
         if (!(player instanceof ServerPlayer serverPlayer)) {
             return;
         }
 
+        DMZDatos2 dmzdatos = new DMZDatos2();
+
         // Acceder a la capability
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerStats -> {
             // Modificar los datos de la capacidad
             int maximaEnergy = dmzdatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(),playerStats.getDmzClass());
 
-            //playerStats.addCurEnergy(5);
+            playerStats.addCurEnergy(5);
 
             // Mensaje de depuración para confirmar
             System.out.println("Tu maximo de energia es: " + maximaEnergy);

@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
@@ -22,6 +21,7 @@ public class DMZStatsAttributes {
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
+    private DMZDatos2 dmzdatos = new DMZDatos2();
 
     private int races;
     private int hairID, bodytype, eyesType;
@@ -451,20 +451,20 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
-//        var maxEne = 0;
-//
-//        maxEne = calcularENE(races, energy, dmzClass);
-//
-//        if(currentEnergy >= maxEne){
-//            this.currentEnergy = maxEne;
-//        } else {
-//            this.currentEnergy += currentEnergy;
-//
-//            if(this.currentEnergy > maxEne){
-//                this.currentEnergy = maxEne;
-//            }
-//        }
-        this.currentEnergy += currentEnergy;
+        var maxEne = 0;
+
+        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
+
+        if(currentEnergy >= maxEne){
+            this.currentEnergy = maxEne;
+        } else {
+            this.currentEnergy += currentEnergy;
+
+            if(this.currentEnergy > maxEne){
+                this.currentEnergy = maxEne;
+            }
+        }
+
 
         DMZStatsCapabilities.syncStats(player);
     }
@@ -820,77 +820,5 @@ public class DMZStatsAttributes {
 
     }
 
-
-    private int calcularENE(int raza, int StatENE, String clase) {
-        double maxENE = 0;
-
-        switch (clase){
-            case "Warrior":
-                switch (raza) {
-                    case 0: // Humano
-                        maxENE = Math.round(StatENE * DMZHumanConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
-                        break;
-                    case 1: // Saiyan
-                        maxENE = Math.round(StatENE * DMZSaiyanConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
-                        break;
-
-                    case 2: // Namek
-                        maxENE = Math.round(StatENE * DMZNamekConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
-                        break;
-
-                    case 3: // Bioandroide
-                        maxENE = Math.round(StatENE * DMZBioAndroidConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
-                        break;
-
-                    case 4: // Cold Demon
-                        maxENE = Math.round(StatENE * DMZColdDemonConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
-                        break;
-
-                    case 5: // Majin
-                        maxENE = Math.round(StatENE * DMZMajinConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
-                        break;
-
-                    default:
-                        // Manejar el caso en que la raza no sea válida
-                        break;
-                }
-                break;
-            case "Spiritualist":
-                switch (raza) {
-                    case 0: // Humano
-                        maxENE = Math.round(StatENE * DMZHumanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
-                        break;
-                    case 1: // Saiyan
-                        maxENE = Math.round(StatENE * DMZSaiyanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
-                        break;
-
-                    case 2: // Namek
-                        maxENE = Math.round(StatENE * DMZNamekConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
-                        break;
-
-                    case 3: // Bioandroide
-                        maxENE = Math.round(StatENE * DMZBioAndroidConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
-                        break;
-
-                    case 4: // Cold Demon
-                        maxENE = Math.round(StatENE * DMZColdDemonConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
-                        break;
-
-                    case 5: // Majin
-                        maxENE = Math.round(StatENE * DMZMajinConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
-                        break;
-
-                    default:
-                        // Manejar el caso en que la raza no sea válida
-                        break;
-                }
-                break;
-            default:
-                break;
-        }
-
-
-        return (int) maxENE;
-    }
 
 }
