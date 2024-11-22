@@ -622,7 +622,8 @@ public class DMZStatsAttributes {
         DMZPermanentEffects.put(permanentEffect, isActive);
         DMZStatsCapabilities.syncStats(player);
 
-        DMZStatsCapabilities.syncPermanentEffects(player);
+        ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
+                new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
 
     }
 
@@ -642,11 +643,9 @@ public class DMZStatsAttributes {
         if (DMZPermanentEffects.containsKey(permanentEffect)) {
             DMZPermanentEffects.put(permanentEffect, isActive);
 
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
-
             DMZStatsCapabilities.syncStats(player);
-            DMZStatsCapabilities.syncPermanentEffects(player);
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
+                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
 
         }
     }
@@ -656,7 +655,8 @@ public class DMZStatsAttributes {
             DMZPermanentEffects.remove(permanentEffect);
 
             DMZStatsCapabilities.syncStats(player);
-            DMZStatsCapabilities.syncPermanentEffects(player);
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
+                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
         }
 
     }

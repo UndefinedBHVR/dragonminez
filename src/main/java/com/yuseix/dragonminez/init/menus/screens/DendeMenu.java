@@ -132,7 +132,7 @@ public class DendeMenu extends Screen {
 				PageOption = "reset";
 			}));
 
-			this.reset = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
+			this.heal = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
 					Component.translatable("lines.dende.option.heal"), wa -> {
 				PageOption = "heal";
 			}));
