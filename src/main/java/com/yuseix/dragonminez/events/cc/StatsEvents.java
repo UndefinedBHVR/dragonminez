@@ -52,8 +52,8 @@ public class StatsEvents {
 
     @SubscribeEvent
     public static void tick2(TickEvent.PlayerTickEvent event){
-        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer serverPlayer) {
-    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
+        if (event.side == LogicalSide.SERVER) {
+    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
 
         playerstats.addCurEnergy(5);
 
