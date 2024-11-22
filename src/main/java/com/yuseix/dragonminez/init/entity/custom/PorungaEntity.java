@@ -84,31 +84,16 @@ public class PorungaEntity extends Mob implements GeoEntity {
 
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (this.level() instanceof ServerLevel serverWorld) {
-			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
-				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
-					namekDragonBallsCapability.setHasNamekDragonBalls(false);
-				}
-			});
-		}
-
-		if (this.level().isClientSide) {
-			onPlayerMobInteract(player, hand);
-		}
-
-		return super.mobInteract(player, hand);
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	private void onPlayerMobInteract(Player player, InteractionHand hand) {
-		// Lógica del lado cliente
 		if (this.getOwnerName().equals(player.getName().getString())) {
 			if (getDeseos() > 0 && Minecraft.getInstance().player.equals(player)) {
 				Minecraft.getInstance().setScreen(new PorungaMenu(0));
 			}
 		}
+
+		return super.mobInteract(player, hand);
 	}
 
 
@@ -131,6 +116,14 @@ public class PorungaEntity extends Mob implements GeoEntity {
 		super.tick();
 		//System.out.println("[P] Deseos del Jugador: " + getDeseos());
 		//System.out.println("[P] Nombre del jugador: " + getOwnerName());
+
+		if (this.level() instanceof ServerLevel serverWorld) {
+			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
+					namekDragonBallsCapability.setHasNamekDragonBalls(false);
+				}
+			});
+		}
 
 
 		if (this.getDeseos() == 0) {

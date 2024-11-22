@@ -22,12 +22,17 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
@@ -135,8 +140,20 @@ public class EntityEvents {
 			ItemStack armorStack = entity.getItemBySlot(slot);
 
 			if (armorStack.getItem() instanceof ArmorItem) {
-				int damageToArmor = 1;
-				armorStack.hurtAndBreak(damageToArmor, entity, (e) -> e.broadcastBreakEvent(slot));
+				int unbreakingLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, entity);
+
+				if (unbreakingLevel > 0) {
+					// Usar un número aleatorio para verificar si el daño se aplica
+					Random rand = new Random();
+					// La probabilidad es 1/(unbreakingLevel + 1) de que no se aplique el daño
+					if (rand.nextInt(unbreakingLevel + 1) != 0) {
+						// Si el número aleatorio no es 0, aplicar el daño
+						armorStack.hurtAndBreak(1, entity, (e) -> e.broadcastBreakEvent(slot));
+					}
+				} else {
+					// Si no tiene el encantamiento, aplicar el daño directamente
+					armorStack.hurtAndBreak(1, entity, (e) -> e.broadcastBreakEvent(slot));
+				}
 			}
 		}
 	}
@@ -165,7 +182,6 @@ public class EntityEvents {
 			long currentTime = player.level().getGameTime(); // Tiempo actual en ticks
 			long lastHealTime = lastHealingTime.getOrDefault(player, 0L);
 
-			// Solo aplicar curación ha pasado el tiempo
 			if (currentTime - lastHealTime >= HEAL_TICKS) {
 				funcLiqCurativo(player);
 				lastHealingTime.put(player, currentTime); // Actualizar el último tiempo de curación
