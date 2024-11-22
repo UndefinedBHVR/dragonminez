@@ -50,7 +50,13 @@ public class SpacePodC2S {
                         }
                     }
 
-                    player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                    if (player.getY() < 0 ) {
+                        player.teleportTo(targetWorld, player.getX(), player.getY()+120, player.getZ(), player.getYRot(), player.getXRot());
+                    } else if (player.getY() > 0 && player.getY() < 60) {
+                        player.teleportTo(targetWorld, player.getX(), player.getY()+60, player.getZ(), player.getYRot(), player.getXRot());
+                    } else {
+                        player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                    }
 
                     NaveSaiyanEntity naveEntity = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), targetWorld);
                     naveEntity.setPos(player.getX(), player.getY(), player.getZ());
