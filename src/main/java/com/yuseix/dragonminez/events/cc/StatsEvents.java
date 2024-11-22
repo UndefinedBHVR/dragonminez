@@ -75,6 +75,8 @@ public class StatsEvents {
 
             // Mensaje de depuración para confirmar
             System.out.println("Tu maximo de energia es: " + maximaEnergy);
+            System.out.println("Tu energia actual es: " + playerStats.getCurrentEnergy());
+
         });
     }
 

@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
 import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
 import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +20,8 @@ public class DMZStatsAttributes {
     private Map<String, Integer> DMZSkills = new HashMap<>();
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
+
+    DMZDatos2 dmzdatos = new DMZDatos2();
 
     private int races;
     private int hairID, bodytype, eyesType;
@@ -448,21 +451,20 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
-//        var maxEne = 0;
-//
-//        maxEne = DMZDatos.calcularENE(races, energy, dmzClass);
-//
-//        if(currentEnergy >= maxEne){
-//            this.currentEnergy = maxEne;
-//        } else {
-//            this.currentEnergy += currentEnergy;
-//
-//            if(this.currentEnergy > maxEne){
-//                this.currentEnergy = maxEne;
-//            }
-//        }
+        var maxEne = 0;
 
-        this.currentEnergy += currentEnergy;
+        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
+
+        if(currentEnergy >= maxEne){
+            this.currentEnergy = maxEne;
+        } else {
+            this.currentEnergy += currentEnergy;
+
+            if(this.currentEnergy > maxEne){
+                this.currentEnergy = maxEne;
+            }
+        }
+
 
         DMZStatsCapabilities.syncStats(player);
     }
