@@ -3,6 +3,9 @@ package com.yuseix.dragonminez.events.cc;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainFluids;
+import com.yuseix.dragonminez.init.armor.DbzArmorItem;
+import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
+import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -10,10 +13,15 @@ import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -114,6 +122,22 @@ public class EntityEvents {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
                     else {player.sendSystemMessage(Component.literal("TPS: " + finalTps)); } */
 			});
+		}
+
+		// Reducir durabilidad armadura de 1 en 1 xd
+		LivingEntity entity = event.getEntity();
+
+		// No verifico que sea un jugador para que funcione en zombies, npcs, etc que utilice armaduras y no se les haga instabreak
+
+		for (EquipmentSlot slot : EquipmentSlot.values()) {
+			if (slot.getType() == EquipmentSlot.Type.ARMOR) continue;
+
+			ItemStack armorStack = entity.getItemBySlot(slot);
+
+			if (armorStack.getItem() instanceof ArmorItem) {
+				int damageToArmor = 1;
+				armorStack.hurtAndBreak(damageToArmor, entity, (e) -> e.broadcastBreakEvent(slot));
+			}
 		}
 	}
 

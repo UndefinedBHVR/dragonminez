@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -94,6 +95,9 @@ public class DMZPermaEffectsCommand {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName)
                     .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZPermanentEffect(effectName, true));
+            if (effectName.equals("majin")) {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setDmzAlignment(0));
+            }
         }
         return players.size();
     }
