@@ -7,7 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -91,7 +91,7 @@ public class StatsCommand {
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            DMZDatos2 dmzdatos = new DMZDatos2();
+            DMZDatos dmzdatos = new DMZDatos();
 
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
@@ -198,7 +198,7 @@ public class StatsCommand {
     private int addStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            DMZDatos2 dmzdatos = new DMZDatos2();
+            DMZDatos dmzdatos = new DMZDatos();
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
@@ -304,7 +304,7 @@ public class StatsCommand {
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
-            DMZDatos2 dmzdatos = new DMZDatos2();
+            DMZDatos dmzdatos = new DMZDatos();
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 

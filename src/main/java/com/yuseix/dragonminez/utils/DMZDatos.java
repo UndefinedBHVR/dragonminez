@@ -3,12 +3,11 @@ package com.yuseix.dragonminez.utils;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.config.races.transformations.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 
-public class DMZDatos2 implements IDMZDatos{
+public class DMZDatos implements IDMZDatos{
 
     @Override
     public int calcularSTR(int raza, int StatSTR, float danoJugador, int transformation, int porcentaje, String clase, boolean majinOn, boolean mightfruit) {

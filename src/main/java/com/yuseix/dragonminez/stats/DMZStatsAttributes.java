@@ -5,7 +5,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
 import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class DMZStatsAttributes {
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
-    private DMZDatos2 dmzdatos = new DMZDatos2();
+    private DMZDatos dmzdatos = new DMZDatos();
 
     private int races;
     private int hairID, bodytype, eyesType;

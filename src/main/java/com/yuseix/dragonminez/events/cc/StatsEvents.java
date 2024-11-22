@@ -10,9 +10,8 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -64,7 +63,7 @@ public class StatsEvents {
             return;
         }
 
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
             energyRegen++;
             tickcounter++;
@@ -137,7 +136,7 @@ public class StatsEvents {
         // Incrementa el temporizador en cada tick
         chargeTimer++;
 
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
         if (chargeTimer >= CHARGE_INTERVAL) {
             if (playerstats.isAuraOn() && isActionKeyPressed) {
@@ -179,7 +178,7 @@ public class StatsEvents {
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
 
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
         // Si el que hace el daño es un jugador
         if (event.getSource().getEntity() instanceof Player atacante) {
@@ -249,7 +248,7 @@ public class StatsEvents {
     public static void livingFallEvent(LivingFallEvent event) {
         float fallDistance = event.getDistance();
 
-        DMZDatos2 dmzdatos = new DMZDatos2();
+        DMZDatos dmzdatos = new DMZDatos();
 
         if (event.getEntity() instanceof ServerPlayer player) {
             if (fallDistance > 3.0f) {

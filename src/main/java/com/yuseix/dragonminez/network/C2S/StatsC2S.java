@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.network.C2S;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -36,7 +36,7 @@ public class StatsC2S {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
 
-            DMZDatos2 dmzdatos = new DMZDatos2();
+            DMZDatos dmzdatos = new DMZDatos();
 
             ServerPlayer player = ctx.get().getSender();
 

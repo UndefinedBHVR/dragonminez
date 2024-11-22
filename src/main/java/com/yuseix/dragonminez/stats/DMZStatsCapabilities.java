@@ -1,19 +1,13 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
-import com.yuseix.dragonminez.utils.DMZDatos2;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.*;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +16,7 @@ import net.minecraftforge.network.PacketDistributor;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class DMZStatsCapabilities {
 
-    private DMZDatos2 dmzdatos = new DMZDatos2();
+    private DMZDatos dmzdatos = new DMZDatos();
 
     public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 

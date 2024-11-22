@@ -5,14 +5,13 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
-import com.yuseix.dragonminez.client.gui.cc.CCustomizationPage;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos2;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -47,7 +46,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
     private DMZGuiButtons newMenuBoton;
 
-    private DMZDatos2 dmzdatos = new DMZDatos2();
+    private DMZDatos dmzdatos = new DMZDatos();
 
     public AttributesMenu(Component pGuiScreen) {
         super(pGuiScreen);
