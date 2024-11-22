@@ -54,7 +54,7 @@ public class ClientPacketHandler {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleMenuPacket(boolean openCharacterMenu) {
+	public static void handleMenuPacket(boolean openCharacterMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
 		if (openCharacterMenu) {
 			Minecraft.getInstance().setScreen(
 					new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm"))

@@ -27,7 +27,7 @@ public class MenuS2C {
 	public void handle(Supplier<NetworkEvent.Context> ctxSupplier) {
 		ctxSupplier.get().enqueueWork(() -> {
 			DistExecutor.unsafeRunWhenOn(
-					Dist.CLIENT, () -> () -> ClientPacketHandler.handleMenuPacket(openCharacterMenu)
+					Dist.CLIENT, () -> () -> ClientPacketHandler.handleMenuPacket(openCharacterMenu, ctxSupplier)
 			);
 		});
 		ctxSupplier.get().setPacketHandled(true);
