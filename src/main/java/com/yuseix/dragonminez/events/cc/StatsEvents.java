@@ -51,17 +51,27 @@ public class StatsEvents {
     private static boolean previousKiChargeState = false;
 
     @SubscribeEvent
-    public static void tick2(TickEvent.PlayerTickEvent event){
-        if (event.side == LogicalSide.SERVER) {
-    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
-
-        playerstats.addCurEnergy(5);
-
-        System.out.println("Prueba funcionando");
-        });
-
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        // Verificar que estamos en el servidor y en la fase final
+        if (event.side != LogicalSide.SERVER || event.phase != TickEvent.Phase.END) {
+            return;
         }
 
+        Player player = event.player;
+
+        // Verificar que el jugador es un ServerPlayer
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+
+        // Acceder a la capability
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerStats -> {
+            // Modificar los datos de la capacidad
+            playerStats.addCurEnergy(5);
+
+            // Mensaje de depuración para confirmar
+            System.out.println("Energía actualizada: " + playerStats.getEnergy());
+        });
     }
 //    @SubscribeEvent
 //    public static void tick(TickEvent.PlayerTickEvent event) {
