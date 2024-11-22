@@ -53,13 +53,13 @@ public class StatsEvents {
     @SubscribeEvent
     public static void tick(TickEvent.PlayerTickEvent event) {
         // Regenerar stamina
-        if (event.side == LogicalSide.SERVER) {
+        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer serverPlayer) {
 
             energyRegen++;
             tickcounter++;
             energiaConsumecounter++;
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.player).ifPresent(playerstats -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
                 var vidaMC = 20;
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
@@ -69,7 +69,7 @@ public class StatsEvents {
                 int maxstamina = DMZDatos.calcularSTM(raza, DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Ajustar la salud máxima del jugador
-                event.player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Regeneración de stamina
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
@@ -109,11 +109,11 @@ public class StatsEvents {
                 }
 
                 //Aca manejamos la carga de aura
-                manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
+                //manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
 
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
-                updateTemporaryEffects(event.player);
+                //updateTemporaryEffects(event.player);
 
 
             });
