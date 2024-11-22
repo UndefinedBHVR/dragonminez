@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
@@ -95,8 +96,13 @@ public class DMZStatsCapabilities {
 
         var tracked = event.getTarget();
         if (tracked instanceof ServerPlayer trackedplayer) {
-            DMZStatsProvider.getCap(INSTANCE, tracked).ifPresent(cap -> ModMessages.sendToPlayer(
-                    new StatsSyncS2C(trackedplayer), serverplayer));
+            DMZStatsProvider.getCap(INSTANCE, tracked).ifPresent(cap -> {
+                ModMessages.sendToPlayer(new StatsSyncS2C(trackedplayer), serverplayer);
+
+                ModMessages.sendToPlayer(new DMZPermanentEffectsSyncS2C(cap.getDMZPermanentEffects()), serverplayer);
+
+            });
+
         }
     }
 
