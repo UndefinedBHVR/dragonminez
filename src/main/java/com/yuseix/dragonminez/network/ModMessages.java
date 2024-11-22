@@ -101,17 +101,19 @@ public class ModMessages {
                 .encoder(StatsSyncS2C::toBytes)
                 .consumerMainThread(StatsSyncS2C::handle)
                 .add();
+        net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(DMZPermanentEffectsSyncS2C::toBytes)
+                .decoder(DMZPermanentEffectsSyncS2C::new)
+                .consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
+                .add();
+
         if (Dist.CLIENT.equals(FMLLoader.getDist())) {
             net.messageBuilder(MenuS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                     .decoder(MenuS2C::new)
                     .encoder(MenuS2C::toBytes)
                     .consumerMainThread(MenuS2C::handle)
                     .add();
-            net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                    .encoder(DMZPermanentEffectsSyncS2C::toBytes)
-                    .decoder(DMZPermanentEffectsSyncS2C::new)
-                    .consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
-                    .add();
+
             net.messageBuilder(DMZTempEffectsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                     .encoder(DMZTempEffectsS2C::toBytes)
                     .decoder(DMZTempEffectsS2C::new)
