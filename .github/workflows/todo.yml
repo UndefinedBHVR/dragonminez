@@ -6,6 +6,7 @@ on:
     paths:
       - src/main/java/com/yuseix/dragonminez/**
 
+on: [ push, pull_request ]
 jobs:
   todo-to-issue:
     runs-on: "ubuntu-latest"
