@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.stats;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.core.Direction;
@@ -28,6 +29,8 @@ public class DMZStatsCapabilities {
     @SubscribeEvent
     public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         syncStats(event.getEntity());
+        syncPermanentEffects(event.getEntity());
+
         event.getEntity().refreshDimensions();
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
@@ -43,11 +46,14 @@ public class DMZStatsCapabilities {
     @SubscribeEvent
     public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         syncStats(event.getEntity());
+        syncPermanentEffects(event.getEntity());
+
     }
 
     @SubscribeEvent
     public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         syncStats(event.getEntity());
+        syncPermanentEffects(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
@@ -90,18 +96,30 @@ public class DMZStatsCapabilities {
 
     @SubscribeEvent
     public static void onTrack(PlayerEvent.StartTracking event) {
-        var trackingplayer = event.getEntity();
-        if (!(trackingplayer instanceof ServerPlayer serverplayer)) return;
+        var trackingPlayer = event.getEntity();
+        if (!(trackingPlayer instanceof ServerPlayer serverPlayer)) return;
 
         var tracked = event.getTarget();
-        if (tracked instanceof ServerPlayer trackedplayer) {
-            DMZStatsProvider.getCap(INSTANCE, tracked).ifPresent(cap -> ModMessages.sendToPlayer(
-                    new StatsSyncS2C(trackedplayer), serverplayer));
+        if (tracked instanceof ServerPlayer trackedPlayer) {
+            DMZStatsProvider.getCap(INSTANCE, tracked).ifPresent(cap -> {
+                // Enviar estadísticas generales
+                ModMessages.sendToPlayer(new StatsSyncS2C(trackedPlayer), serverPlayer);
+
+                // Enviar efectos permanentes
+                ModMessages.sendToPlayer(new DMZPermanentEffectsSyncS2C(cap.getDMZPermanentEffects()), serverPlayer);
+            });
         }
     }
 
     public static void syncStats(Player player) {
         ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));
+
     }
 
+    public static void syncPermanentEffects(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                    new DMZPermanentEffectsSyncS2C(cap.getDMZPermanentEffects()));
+        });
+    }
 }

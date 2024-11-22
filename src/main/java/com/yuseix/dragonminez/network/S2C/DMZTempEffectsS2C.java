@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.network.S2C;
 
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -40,7 +41,7 @@ public class DMZTempEffectsS2C {
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             // Obtener la capacidad del jugador en el cliente y actualizar los efectos permanentes
-            var player = net.minecraft.client.Minecraft.getInstance().player;
+            var player = Minecraft.getInstance().player;
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
                     cap.getDMZTemporalEffects().clear(); // Limpiar efectos actuales

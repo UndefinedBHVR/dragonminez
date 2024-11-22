@@ -2,7 +2,12 @@ package com.yuseix.dragonminez.network.S2C;
 
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
@@ -10,44 +15,50 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class DMZPermanentEffectsSyncS2C {
-    private final Map<String, Boolean> permanentEffects;
+    private final Map<String, Boolean> effects;
 
-    public DMZPermanentEffectsSyncS2C(Map<String, Boolean> permanentEffects) {
-        this.permanentEffects = permanentEffects;
+    // Constructor para enviar datos
+    public DMZPermanentEffectsSyncS2C(Map<String, Boolean> effects) {
+        this.effects = new HashMap<>(effects); // Copia los datos
     }
 
-    // Constructor para recibir los datos del buffer
+    // Constructor para recibir datos
     public DMZPermanentEffectsSyncS2C(FriendlyByteBuf buf) {
         int size = buf.readInt();
-        this.permanentEffects = new HashMap<>();
+        effects = new HashMap<>();
         for (int i = 0; i < size; i++) {
-            String effect = buf.readUtf();
-            boolean isActive = buf.readBoolean();
-            permanentEffects.put(effect, isActive);
+            String key = buf.readUtf(); // Lee el nombre del efecto
+            boolean value = buf.readBoolean(); // Lee el estado (true/false)
+            effects.put(key, value);
         }
     }
 
-    // Método para escribir los datos al buffer
+    // Escribe los datos en el buffer
     public void toBytes(FriendlyByteBuf buf) {
-        buf.writeInt(permanentEffects.size());
-        for (Map.Entry<String, Boolean> entry : permanentEffects.entrySet()) {
+        buf.writeInt(effects.size());
+        for (Map.Entry<String, Boolean> entry : effects.entrySet()) {
             buf.writeUtf(entry.getKey());
             buf.writeBoolean(entry.getValue());
         }
     }
 
-    // Método para procesar el paquete en el lado del cliente
-    public void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            // Obtener la capacidad del jugador en el cliente y actualizar los efectos permanentes
-            var player = net.minecraft.client.Minecraft.getInstance().player;
-            if (player != null) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                    cap.getDMZPermanentEffects().clear(); // Limpiar efectos actuales
-                    cap.getDMZPermanentEffects().putAll(permanentEffects); // Actualizar efectos
-                });
-            }
+    // Manejo del packet
+    public void handle(Supplier<NetworkEvent.Context> ctxSupplier) {
+        ctxSupplier.get().enqueueWork(() -> {
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(effects));
         });
-        context.get().setPacketHandled(true);
+        ctxSupplier.get().setPacketHandled(true);
+    }
+
+    // Lógica en el cliente
+    @OnlyIn(Dist.CLIENT)
+    private static void handleClient(Map<String, Boolean> effects) {
+        Player player = Minecraft.getInstance().player;
+        if (player != null) {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                cap.getDMZPermanentEffects().clear(); // Limpia los datos existentes
+                cap.getDMZPermanentEffects().putAll(effects); // Añade los nuevos valores
+                });
+        }
     }
 }

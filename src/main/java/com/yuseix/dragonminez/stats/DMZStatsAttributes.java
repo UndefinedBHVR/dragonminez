@@ -622,8 +622,8 @@ public class DMZStatsAttributes {
         DMZPermanentEffects.put(permanentEffect, isActive);
         DMZStatsCapabilities.syncStats(player);
 
-        ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+        DMZStatsCapabilities.syncPermanentEffects(player);
+
     }
 
     public Boolean getDMZPermaEffect(String permanentEffect) {
@@ -641,20 +641,22 @@ public class DMZStatsAttributes {
     public void setDMZPermanentEffect(String permanentEffect, boolean isActive) {
         if (DMZPermanentEffects.containsKey(permanentEffect)) {
             DMZPermanentEffects.put(permanentEffect, isActive);
-            DMZStatsCapabilities.syncStats(player);
 
             ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
                     new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+
+            DMZStatsCapabilities.syncStats(player);
+            DMZStatsCapabilities.syncPermanentEffects(player);
+
         }
     }
 
     public void removePermanentEffect(String permanentEffect) {
         if (DMZPermanentEffects.containsKey(permanentEffect)) {
             DMZPermanentEffects.remove(permanentEffect);
-            DMZStatsCapabilities.syncStats(player);
 
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+            DMZStatsCapabilities.syncStats(player);
+            DMZStatsCapabilities.syncPermanentEffects(player);
         }
 
     }
@@ -666,10 +668,12 @@ public class DMZStatsAttributes {
 
     public void addDMZTemporalEffect(String temporalEffect, int seconds) {
         DMZTemporalEffects.put(temporalEffect, seconds);
-        DMZStatsCapabilities.syncStats(player);
 
         ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
                 new DMZTempEffectsS2C(DMZTemporalEffects));
+
+        DMZStatsCapabilities.syncStats(player);
+
     }
 
 
@@ -685,20 +689,24 @@ public class DMZStatsAttributes {
         if (DMZTemporalEffects.containsKey(permanentEffect)) {
             DMZTemporalEffects.put(permanentEffect, seconds);
 
-            DMZStatsCapabilities.syncStats(player);
 
             ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
                     new DMZTempEffectsS2C(DMZTemporalEffects));
+
+            DMZStatsCapabilities.syncStats(player);
+
         }
     }
 
     public void removeTemporalEffect(String temporalEffect) {
         if (DMZTemporalEffects.containsKey(temporalEffect)) {
             DMZTemporalEffects.remove(temporalEffect);
-            DMZStatsCapabilities.syncStats(player);
 
             ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
                     new DMZTempEffectsS2C(DMZTemporalEffects));
+
+            DMZStatsCapabilities.syncStats(player);
+
         }
     }
 

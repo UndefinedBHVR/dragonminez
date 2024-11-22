@@ -124,7 +124,7 @@ public class StatsEvents {
 
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
-                updateTemporaryEffects(event.player);
+                updateTemporaryEffects(serverPlayer);
 
 
             });
