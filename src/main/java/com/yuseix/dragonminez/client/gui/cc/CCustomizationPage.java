@@ -214,96 +214,94 @@ public class CCustomizationPage extends Screen {
 
 
     public void botonNextBack(int posX, int posY) {
+        if (this.minecraft.level.isClientSide()) {
+            this.removeWidget(backButton);
+            this.removeWidget(nextButton);
 
-        this.removeWidget(backButton);
-        this.removeWidget(nextButton);
+            if (currentPage == 0) {
+                //BOTON VOLVER
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
 
-        if (currentPage == 0) {
-            //BOTON VOLVER
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                    this.minecraft.setScreen(new CFirstPage());
 
-                ModMessages.sendToServer(new CharacterC2S("hairID", 0));
-                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                this.minecraft.setScreen(new CFirstPage());
+                }));
 
-            }));
+                //BOTON SIGUIENTE
+                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+                    this.removeWidget(eyesButtonColor);
+                    this.removeWidget(eyesButtonColor2);
+                    this.removeWidget(bodyButtonColor1);
+                    this.removeWidget(bodyButtonColor2);
+                    this.removeWidget(bodyButtonColor3);
+                    this.removeWidget(hairButtonColor);
+                    this.removeWidget(eyesTypeLeft);
+                    this.removeWidget(eyesTypeRight);
+                    this.removeWidget(bodyTypeRightButton);
+                    this.removeWidget(bodyTypeLeftButton);
+                    this.removeWidget(gendersRigthButton);
+                    this.removeWidget(gendersLeftButton);
+                    this.removeWidget(hairRigthButton);
+                    this.removeWidget(hairLeftButton);
+                    this.removeWidget(auraButtonColor);
+                    this.removeWidget(nextButton);
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                    this.removeWidget(igualarButton);
+                    clearAllButtons();
+                    currentPage = 1;
 
-            //BOTON SIGUIENTE
-            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
-                this.removeWidget(eyesButtonColor);
-                this.removeWidget(eyesButtonColor2);
-                this.removeWidget(bodyButtonColor1);
-                this.removeWidget(bodyButtonColor2);
-                this.removeWidget(bodyButtonColor3);
-                this.removeWidget(hairButtonColor);
-                this.removeWidget(eyesTypeLeft);
-                this.removeWidget(eyesTypeRight);
-                this.removeWidget(bodyTypeRightButton);
-                this.removeWidget(bodyTypeLeftButton);
-                this.removeWidget(gendersRigthButton);
-                this.removeWidget(gendersLeftButton);
-                this.removeWidget(hairRigthButton);
-                this.removeWidget(hairLeftButton);
-                this.removeWidget(auraButtonColor);
-                this.removeWidget(nextButton);
-                this.removeWidget(botonAlignmentRight);
-                this.removeWidget(botonAlignmentLeft);
-                this.removeWidget(igualarButton);
-                clearAllButtons();
-                currentPage = 1;
+                    botonAuraColor(72, this.height / 2);
+                }));
+            } else if (currentPage == 1) {
+                //BOTON VOLVER
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                    currentPage = 0;
+                    this.removeWidget(eyesButtonColor);
+                    this.removeWidget(eyesButtonColor2);
+                    this.removeWidget(bodyButtonColor1);
+                    this.removeWidget(bodyButtonColor2);
+                    this.removeWidget(bodyButtonColor3);
+                    this.removeWidget(hairButtonColor);
+                    this.removeWidget(eyesTypeLeft);
+                    this.removeWidget(eyesTypeRight);
+                    this.removeWidget(bodyTypeRightButton);
+                    this.removeWidget(bodyTypeLeftButton);
+                    this.removeWidget(gendersRigthButton);
+                    this.removeWidget(gendersLeftButton);
+                    this.removeWidget(hairRigthButton);
+                    this.removeWidget(hairLeftButton);
+                    this.removeWidget(auraButtonColor);
+                    this.removeWidget(claseRigthButton);
+                    this.removeWidget(claseLeftButton);
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                    this.removeWidget(igualarButton);
+                    clearAllButtons();
 
-                botonAuraColor(72, this.height / 2);
-            }));
-        } else if (currentPage == 1) {
-            //BOTON VOLVER
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-                currentPage = 0;
-                this.removeWidget(eyesButtonColor);
-                this.removeWidget(eyesButtonColor2);
-                this.removeWidget(bodyButtonColor1);
-                this.removeWidget(bodyButtonColor2);
-                this.removeWidget(bodyButtonColor3);
-                this.removeWidget(hairButtonColor);
-                this.removeWidget(eyesTypeLeft);
-                this.removeWidget(eyesTypeRight);
-                this.removeWidget(bodyTypeRightButton);
-                this.removeWidget(bodyTypeLeftButton);
-                this.removeWidget(gendersRigthButton);
-                this.removeWidget(gendersLeftButton);
-                this.removeWidget(hairRigthButton);
-                this.removeWidget(hairLeftButton);
-                this.removeWidget(auraButtonColor);
-                this.removeWidget(claseRigthButton);
-                this.removeWidget(claseLeftButton);
-                this.removeWidget(botonAlignmentRight);
-                this.removeWidget(botonAlignmentLeft);
-                this.removeWidget(igualarButton);
-                clearAllButtons();
+                    botonesRazaColores(72, this.height / 2);
 
-                botonesRazaColores(72, this.height / 2);
+                }));
 
-            }));
+                //BOTON CONFIRMAR
+                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.literal("Confirm").withStyle(ChatFormatting.BOLD), button -> {
+                    this.removeWidget(auraButtonColor);
+                    this.removeWidget(nextButton);
+                    clearAllButtons();
 
-            //BOTON CONFIRMAR
-            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.literal("Confirm").withStyle(ChatFormatting.BOLD), button -> {
-                this.removeWidget(auraButtonColor);
-                this.removeWidget(nextButton);
-                clearAllButtons();
+                    ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
+                    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                        initialStats(cap.getRace(),cap.getDmzClass());
+                    });
+                    this.minecraft.setScreen(null);
 
-                ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-                    initialStats(cap.getRace(),cap.getDmzClass());
-                });
-                this.minecraft.setScreen(null);
+                }));
 
-            }));
-
-        } else {
-
+            } else {}
         }
-
-
     }
+
     public void initialStats(int raza, String clase){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -418,173 +416,176 @@ public class CCustomizationPage extends Screen {
     }
 
     public void botonesRazaColores(int posX, int posY) {
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        if (this.minecraft.level.isClientSide()) {
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        this.removeWidget(eyesButtonColor);
-        this.removeWidget(eyesButtonColor2);
-        this.removeWidget(bodyButtonColor1);
-        this.removeWidget(bodyButtonColor2);
-        this.removeWidget(bodyButtonColor3);
-        this.removeWidget(hairButtonColor);
-        this.removeWidget(igualarButton);
+            this.removeWidget(eyesButtonColor);
+            this.removeWidget(eyesButtonColor2);
+            this.removeWidget(bodyButtonColor1);
+            this.removeWidget(bodyButtonColor2);
+            this.removeWidget(bodyButtonColor3);
+            this.removeWidget(hairButtonColor);
+            this.removeWidget(igualarButton);
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            switch (cap.getRace()) {
-                case 0:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
+                switch (cap.getRace()) {
+                    case 0:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
 
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
 
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
-                    break;
-                case 1:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 1:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
 
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
-                    break;
-                case 2:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
-                    }));
-
-                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
-                    }));
-
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
-                    break;
-                case 3:
-
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 25, posY - 17, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX, posY - 17, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
-                    }));
-
-                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 25, posY - 17, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
-                    }));
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
 
 
-                    break;
-                case 4:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 2:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
 
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
 
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
-                    }));
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
+                        }));
 
-                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
-                    }));
+                        this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
+                        }));
 
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
-                    break;
-                case 5:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY + 57, Component.empty(), button -> {
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 3:
 
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
 
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 30, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 25, posY - 17, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
 
-                    break;
-                default:
-                    break;
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX, posY - 17, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
+                        }));
 
-            }
+                        this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 25, posY - 17, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
+                        }));
 
-        });
-        RenderSystem.disableBlend();
+
+                        break;
+                    case 4:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
+                        }));
+
+                        this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
+                        }));
+
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 5:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY + 57, Component.empty(), button -> {
+
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 30, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        break;
+                    default:
+                        break;
+
+                }
+
+            });
+            RenderSystem.disableBlend();
+        }
     }
 
     public void botonAuraColor(int posX, int posY) {
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        if (this.minecraft.level.isClientSide()) {
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        this.removeWidget(eyesButtonColor);
-        this.removeWidget(eyesButtonColor2);
-        this.removeWidget(bodyButtonColor1);
-        this.removeWidget(bodyButtonColor2);
-        this.removeWidget(bodyButtonColor3);
-        this.removeWidget(hairButtonColor);
-        this.removeWidget(auraButtonColor);
+            this.removeWidget(eyesButtonColor);
+            this.removeWidget(eyesButtonColor2);
+            this.removeWidget(bodyButtonColor1);
+            this.removeWidget(bodyButtonColor2);
+            this.removeWidget(bodyButtonColor3);
+            this.removeWidget(hairButtonColor);
+            this.removeWidget(auraButtonColor);
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
-                Minecraft.getInstance().setScreen(new ColorPickerScreen("auraColor"));
+                this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
+                    Minecraft.getInstance().setScreen(new ColorPickerScreen("auraColor"));
 
-            }));
+                }));
 
-            RenderSystem.disableBlend();
-        });
-
+                RenderSystem.disableBlend();
+            });
+        }
     }
 
     public void botonesCabellos(int posX, int posY) {

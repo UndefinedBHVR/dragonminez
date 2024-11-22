@@ -243,127 +243,129 @@ public class ShenlongMenu extends Screen {
 	}
 
 	public void PaginaOpciones() {
-		switch (PageOption) {
-			case "capstr":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+		if (this.minecraft.level.isClientSide()) {
+			switch (PageOption) {
+				case "capstr":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(1)); //Recibir capsula STR
+						ModMessages.sendToServer(new ShenlongC2S(1)); //Recibir capsula STR
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-			case "capdef":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+				case "capdef":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(2)); //Recibir capsula DEF
+						ModMessages.sendToServer(new ShenlongC2S(2)); //Recibir capsula DEF
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-			case "capcon":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+				case "capcon":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(3)); //Recibir capsula CON
+						ModMessages.sendToServer(new ShenlongC2S(3)); //Recibir capsula CON
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-			case "capene":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+				case "capene":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(4)); //Recibir capsula ENE
+						ModMessages.sendToServer(new ShenlongC2S(4)); //Recibir capsula ENE
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-			case "capkipw":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+				case "capkipw":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(5)); //Recibir capsula KI PW
+						ModMessages.sendToServer(new ShenlongC2S(5)); //Recibir capsula KI PW
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-			case "senzu":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+				case "senzu":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(6)); //Recibir senzus
+						ModMessages.sendToServer(new ShenlongC2S(6)); //Recibir senzus
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-			case "radar":
-				//Aceptar
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
-						Component.translatable("lines.menu.accept"), wa -> {
+				case "radar":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
 
-					ModMessages.sendToServer(new ShenlongC2S(7)); //Recibir pieza radar
+						ModMessages.sendToServer(new ShenlongC2S(7)); //Recibir pieza radar
 
-					this.minecraft.setScreen(null);
+						this.minecraft.setScreen(null);
 
-				}));
-				//Rechazar
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
-						Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
 
-			default:
-				break;
+				default:
+					break;
+			}
 		}
 	}
 }

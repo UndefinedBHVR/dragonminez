@@ -7,6 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -28,17 +29,19 @@ public class MenuS2C {
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                if (openCharacterMenu) {
-                    //Si el jugador ya creo su personaje
-                    Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
-                } else {
-                    //Si el jugador aun no creo su personaje
-                    Minecraft.getInstance().setScreen(new CFirstPage());
-                }
-            });
+            // Solo en el cliente
+            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+                    if (openCharacterMenu) {
+                        Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+                    } else {
+                        Minecraft.getInstance().setScreen(new CFirstPage());
+                    }
+                });
+            }
         });
         return true;
     }
+
 
 }

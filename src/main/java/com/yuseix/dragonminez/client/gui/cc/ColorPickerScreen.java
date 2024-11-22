@@ -67,68 +67,68 @@ public class ColorPickerScreen extends Screen {
 
     @Override
     protected void init() {
+        if (this.minecraft.level.isClientSide()) {
 
-        int posX = this.width/2+20;
+            int posX = this.width/2+20;
 
-        switch (tipoColor){
-            case "BodyColor1":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+            switch (tipoColor){
+                case "BodyColor1":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("BodyColor1", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
-            case "BodyColor2":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor2", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+                    }));
+                    break;
+                case "BodyColor2":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("BodyColor2", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
-            case "BodyColor3":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor3", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+                    }));
+                    break;
+                case "BodyColor3":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("BodyColor3", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
-            case "eye1Color":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+                    }));
+                    break;
+                case "eye1Color":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye1Color", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
-            case "eye2Color":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+                    }));
+                    break;
+                case "eye2Color":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
-            case "hairColor":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+                    }));
+                    break;
+                case "hairColor":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("hairColor", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
-            case "auraColor":
-                this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", decimalColor));
-                    this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+                    }));
+                    break;
+                case "auraColor":
+                    this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", decimalColor));
+                        this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-                }));
-                break;
+                    }));
+                    break;
+            }
+
+            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(this.width/2-110, (this.height/2) + 42, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+
+                this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+
+            }));
         }
-
-        this.backButton = (TextButton) this.addRenderableWidget(new TextButton(this.width/2-110, (this.height/2) + 42, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-
-            this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
-        }));
-
-
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -94,21 +97,28 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 				}
 			});
 
+			if (this.level().isClientSide) {
+				onPlayerMobInteract(player, hand);
+			}
 		}
 
+		return super.mobInteract(player, hand);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private void onPlayerMobInteract(Player player, InteractionHand hand) {
 		if (this.level().isClientSide) {
 			// Verifica que el UUID de esta entidad coincida con el del jugador
 			if (this.getOwnerName().equals(player.getName().getString())) {
 				//System.out.println("Nombre coincide con el del jugador");
 
 				if (getDeseos() > 0) {
-					Minecraft.getInstance().setScreen(new ShenlongMenu());
+					if (Minecraft.getInstance().player.equals(player)) {
+						Minecraft.getInstance().setScreen(new ShenlongMenu());
+					}
 				}
 			}
-			return InteractionResult.SUCCESS;
 		}
-
-		return super.mobInteract(player, hand);
 	}
 
 	public void setInvokingTime(long time) {

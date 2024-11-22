@@ -67,7 +67,9 @@ public class PorungaMenu extends Screen {
 	}
 
 	private void closeMenu() {
-		this.minecraft.setScreen(null);
+		if (this.minecraft.level.isClientSide()) {
+			this.minecraft.setScreen(null);
+		}
 	}
 
 	@Override

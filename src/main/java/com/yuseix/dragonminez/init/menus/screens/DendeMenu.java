@@ -145,31 +145,34 @@ public class DendeMenu extends Screen {
 	}
 
 	public void PaginaOpciones() {
-		switch (PageOption) {
-			case "reset":
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-					ModMessages.sendToServer(new DendeC2S(1));
-					this.minecraft.setScreen(null);
+		if (this.minecraft.level.isClientSide()) {
 
-				}));
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+			switch (PageOption) {
+				case "reset":
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
+						ModMessages.sendToServer(new DendeC2S(1));
+						this.minecraft.setScreen(null);
 
-			case "heal":
-				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-					ModMessages.sendToServer(new DendeC2S(2));
-					this.minecraft.setScreen(null);
+					}));
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
-				}));
-				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
-					this.minecraft.setScreen(null);
-				}));
-				break;
+				case "heal":
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
+						ModMessages.sendToServer(new DendeC2S(2));
+						this.minecraft.setScreen(null);
 
-			default:
-				break;
+					}));
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
 }

@@ -19,6 +19,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -51,6 +53,7 @@ public class KarinEntity extends Mob implements GeoEntity, MenuProvider {
 
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {

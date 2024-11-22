@@ -54,15 +54,17 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     @Override
     public void init() {
-
         super.init();
 
-        this.newMenuBoton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(0,this.height-20,"libro",Component.empty(),wa -> {
-            this.minecraft.setScreen(new AttributesMenu2());
-
-        }));
-
+        // Asegurarse de que el código de la UI solo se ejecute en el cliente
+        if (this.minecraft.level.isClientSide) {
+            this.newMenuBoton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(0, this.height - 20, "libro", Component.empty(), wa -> {
+                // Cambiar la pantalla solo en el cliente
+                this.minecraft.setScreen(new AttributesMenu2());
+            }));
+        }
     }
+
 
     @Override
     public void tick() {

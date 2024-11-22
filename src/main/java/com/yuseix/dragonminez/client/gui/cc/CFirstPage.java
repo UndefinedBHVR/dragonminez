@@ -69,35 +69,37 @@ public class CFirstPage extends Screen {
     public void tick() {
         super.tick();
 
-        botonesRazasElegir(this.width/2,(this.height/2) + 87);
+        // Verifica si estamos en el lado cliente
+        if (this.minecraft.level.isClientSide) {
+            botonesRazasElegir(this.width / 2, (this.height / 2) + 87);
 
-        this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, this.height - 25, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
-            this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
+            this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, this.height - 25, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+                this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-                if(cap.getRace() == 0){
-                    ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
-                    ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-                } else if(cap.getRace() == 1){
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-                } else if(cap.getRace() == 2){
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-                } else if(cap.getRace() == 3){
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
-                } else if(cap.getRace() == 4){
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", 6226175));
-                } else {
-                    ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
-                }
-            });
-
-        }));
-
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                    if (cap.getRace() == 0) {
+                        ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
+                        ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
+                        ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
+                        ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+                    } else if (cap.getRace() == 1) {
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+                    } else if (cap.getRace() == 2) {
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
+                    } else if (cap.getRace() == 3) {
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
+                    } else if (cap.getRace() == 4) {
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", 6226175));
+                    } else {
+                        ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
+                    }
+                });
+            }));
         }
+    }
+
 
     @Override
     public boolean isPauseScreen() {

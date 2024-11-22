@@ -6,6 +6,8 @@ import com.yuseix.dragonminez.network.S2C.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -99,30 +101,32 @@ public class ModMessages {
                 .encoder(StatsSyncS2C::toBytes)
                 .consumerMainThread(StatsSyncS2C::handle)
                 .add();
-        net.messageBuilder(MenuS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(MenuS2C::new)
-                .encoder(MenuS2C::toBytes)
-                .consumerMainThread(MenuS2C::handle)
-                .add();
+        if (Dist.CLIENT.equals(FMLLoader.getDist())) {
+            net.messageBuilder(MenuS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                    .decoder(MenuS2C::new)
+                    .encoder(MenuS2C::toBytes)
+                    .consumerMainThread(MenuS2C::handle)
+                    .add();
+            net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                    .encoder(DMZPermanentEffectsSyncS2C::toBytes)
+                    .decoder(DMZPermanentEffectsSyncS2C::new)
+                    .consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
+                    .add();
+            net.messageBuilder(DMZTempEffectsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                    .encoder(DMZTempEffectsS2C::toBytes)
+                    .decoder(DMZTempEffectsS2C::new)
+                    .consumerMainThread(DMZTempEffectsS2C::handle)
+                    .add();
+            net.messageBuilder(DMZSkillsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                    .encoder(DMZSkillsS2C::toBytes)
+                    .decoder(DMZSkillsS2C::new)
+                    .consumerMainThread(DMZSkillsS2C::handle)
+                    .add();
+        }
         net.messageBuilder(InvocarAuraS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(InvocarAuraS2C::new)
                 .encoder(InvocarAuraS2C::toBytes)
                 .consumerMainThread(InvocarAuraS2C::handle)
-                .add();
-        net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(DMZPermanentEffectsSyncS2C::toBytes)
-                .decoder(DMZPermanentEffectsSyncS2C::new)
-                .consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
-                .add();
-        net.messageBuilder(DMZTempEffectsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(DMZTempEffectsS2C::toBytes)
-                .decoder(DMZTempEffectsS2C::new)
-                .consumerMainThread(DMZTempEffectsS2C::handle)
-                .add();
-        net.messageBuilder(DMZSkillsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(DMZSkillsS2C::toBytes)
-                .decoder(DMZSkillsS2C::new)
-                .consumerMainThread(DMZSkillsS2C::handle)
                 .add();
         net.messageBuilder(KaioPlanetUnlockS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .encoder(KaioPlanetUnlockS2C::encode)

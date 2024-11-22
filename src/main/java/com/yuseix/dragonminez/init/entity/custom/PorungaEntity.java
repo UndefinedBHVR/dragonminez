@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.menus.screens.DendeMenu;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -85,26 +88,29 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (this.level() instanceof ServerLevel serverWorld) {
 			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
-				boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
-
-				if (hasNamekDragonBalls) {
+				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
 					namekDragonBallsCapability.setHasNamekDragonBalls(false);
 				}
 			});
 		}
-		if (this.level().isClientSide) {
-			// Verifica que el UUID de esta entidad coincida con el del jugador
-			if (this.getOwnerName().equals(player.getName().getString())) {
-				//System.out.println("Nombre coincide con el del jugador");
 
-				if (getDeseos() > 0) {
-					Minecraft.getInstance().setScreen(new PorungaMenu(0));
-				}
-			}
-			return InteractionResult.SUCCESS;
+		if (this.level().isClientSide) {
+			onPlayerMobInteract(player, hand);
 		}
+
 		return super.mobInteract(player, hand);
 	}
+
+	@OnlyIn(Dist.CLIENT)
+	private void onPlayerMobInteract(Player player, InteractionHand hand) {
+		// Lógica del lado cliente
+		if (this.getOwnerName().equals(player.getName().getString())) {
+			if (getDeseos() > 0 && Minecraft.getInstance().player.equals(player)) {
+				Minecraft.getInstance().setScreen(new PorungaMenu(0));
+			}
+		}
+	}
+
 
 	public void setInvokingTime(long time) {
 		this.invokingTime = time;
