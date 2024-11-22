@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
@@ -58,6 +59,7 @@ public class StatsEvents {
         }
 
         Player player = event.player;
+        DMZDatos2 dmzdatos = new DMZDatos2();
 
         // Verificar que el jugador es un ServerPlayer
         if (!(player instanceof ServerPlayer serverPlayer)) {
@@ -67,12 +69,15 @@ public class StatsEvents {
         // Acceder a la capability
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerStats -> {
             // Modificar los datos de la capacidad
+            int maximaEnergy = dmzdatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(),playerStats.getDmzClass());
+
             playerStats.addCurEnergy(5);
 
             // Mensaje de depuración para confirmar
-            System.out.println("Energía actualizada: " + playerStats.getEnergy());
+            System.out.println("Tu maximo de energia es: " + maximaEnergy);
         });
     }
+
 //    @SubscribeEvent
 //    public static void tick(TickEvent.PlayerTickEvent event) {
 //        // Regenerar stamina
