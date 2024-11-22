@@ -85,28 +85,9 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (this.level() instanceof ServerLevel serverWorld) {
-
-			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-				boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
-
-				if (hasDragonBalls) {
-					dragonBallsCapability.setHasDragonBalls(false);
-				}
-			});
-
-			if (this.level().isClientSide) {
-				onPlayerMobInteract(player, hand);
-			}
-		}
-
-		return super.mobInteract(player, hand);
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	private void onPlayerMobInteract(Player player, InteractionHand hand) {
 		if (this.level().isClientSide) {
 			// Verifica que el UUID de esta entidad coincida con el del jugador
 			if (this.getOwnerName().equals(player.getName().getString())) {
@@ -119,6 +100,8 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 				}
 			}
 		}
+
+		return super.mobInteract(player, hand);
 	}
 
 	public void setInvokingTime(long time) {
@@ -138,8 +121,17 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		//System.out.println("[S] Deseos del Jugador: " + getDeseos());
-		//System.out.println("[S] Nombre del jugador: " + getOwnerName());
+
+		if (this.level() instanceof ServerLevel serverWorld) {
+
+			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+				boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
+
+				if (hasDragonBalls) {
+					dragonBallsCapability.setHasDragonBalls(false);
+				}
+			});
+		}
 
 
 		if (this.getDeseos() == 0) {
