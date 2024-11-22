@@ -3,6 +3,8 @@ on:
   push:
     branches-ignore:
       - main
+    paths:
+      - src/main/java/com/yuseix/dragonminez/**
 
 jobs:
   todo-to-issue:
