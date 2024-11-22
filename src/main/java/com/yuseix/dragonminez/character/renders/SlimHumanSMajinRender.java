@@ -1,15 +1,21 @@
 package com.yuseix.dragonminez.character.renders;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.character.layer.SlimArmorLayer;
 import com.yuseix.dragonminez.character.layer.HairsLayer;
+import com.yuseix.dragonminez.character.models.AuraModel;
+import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -44,6 +50,7 @@ import net.minecraftforge.eventbus.api.Event;
 public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
+    private final AuraModel model;
 
     public SlimHumanSMajinRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
         super(pContext,model, 0.5f);
@@ -54,6 +61,10 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
+
     }
 
     @Override
@@ -69,7 +80,17 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -142,56 +163,81 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
+        if (!pEntity.isSpectator()) {
+            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
+                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
+
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
                 var raza = cap.getRace();
+                int colorAura = cap.getAuraColor();
+                int transformacion = cap.getDmzState();
+                boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                if(raza == 0 || raza == 1){
-                    if (bodyType == 0) {
-                        if(pEntity.getModelName().equals("default")){
+                switch (transformacion){
+                    case 0:
+                        if(raza == 0 || raza == 1){
+                            if (bodyType == 0) {
+                                if(pEntity.getModelName().equals("default")){
+                                } else {
+                                    renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                }
+
+                            } else if (bodyType > 0) {
+                                pPoseStack.translate(0f,0f,0f);
+
+                                //CUERPO CUSTOM 1
+                                if (bodyType == 1) {
+                                    renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                }
+
+                                //RENDER EYES
+
+                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                            }
+
+                            if(isMajinOn){
+                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
                         } else {
-                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                            if (bodyType == 0) {
+                                renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+                            renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                            if(isMajinOn){
+                                renderMajinMarcaMajinRace(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
                         }
 
-                    } else if (bodyType > 0) {
-                        pPoseStack.translate(0f,0f,0f);
 
-                        //CUERPO CUSTOM 1
-                        if (bodyType == 1) {
-                            renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
+                        break;
+                    case 1:
 
-                        //RENDER EYES
-
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                    }
-                } else {
-
-                    if (bodyType == 0) {
-                        renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    }
-
-                    renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-
+                        break;
                 }
+
+
+
 
 
             });
 
         }
 
-        if (!pEntity.isSpectator()) {
-            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
-                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
-            }
-        }
+
 
         pPoseStack.popPose();
 
@@ -350,6 +396,61 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         });
     }
+
+    private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
+        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
+
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                //Comprobamos que solo sea humano o saiyajin para que solo renderice a esa raza
+                if(cap.getRace() == 0 || cap.getRace() == 1){
+                    if(cap.getBodytype() > 0){
+                        if(cap.getEyesType() == 0){
+
+                            //DELINEADO
+                            pPoseStack.translate(0f,0f,-0.0011f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                        } else if(cap.getEyesType() == 1){
+                            //DELINEADO
+                            pPoseStack.translate(0f,0f,-0.0011f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                        }
+                    }
+                }
+
+
+
+            }
+
+        });
+    }
+    private void renderMajinMarcaMajinRace(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+        var playermodel = this.getModel();
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+            }
+
+        });
+    }
+
+
     private void renderMAJINFEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();

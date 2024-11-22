@@ -1,13 +1,19 @@
 package com.yuseix.dragonminez.character;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.init.armor.DbzArmorItem;
+import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
+import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -19,7 +25,9 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -49,11 +57,11 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     }
 
     public void renderRightHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, this.model.rightArm, this.model.rightSleeve);
+        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, (this.model).rightArm, (this.model).rightSleeve);
     }
 
     public void renderLeftHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
-        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, this.model.leftArm, this.model.leftSleeve);
+        this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, (this.model).leftArm, (this.model).leftSleeve);
     }
 
         @Override
@@ -67,7 +75,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     }
 
     private void renderHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer, ModelPart pRendererArm, ModelPart pRendererArmwear) {
-        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel) this.getModel();
         this.setModelProperties(pPlayer);
         playermodel.attackTime = 0.0F;
         playermodel.crouching = false;
@@ -154,8 +162,15 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
                     break;
             }
 
+            armadurasRender(pPlayer, pPoseStack, pBuffer, pCombinedLight,pRendererArm);
+
         });
-}
+
+
+
+        pRendererArmwear.xRot = 0.0F;
+
+    }
     private void DEMONCOLD_ARMS(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, ModelPart pRendererArm){
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
@@ -209,6 +224,48 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
         });
 
     }
+
+    private void armadurasRender(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, ModelPart pRendererArm){
+
+        pPoseStack.pushPose();
+
+        pPoseStack.scale(1.01f,1.01f,1.01f);
+        //pPoseStack.translate(0.015f,0.0f,0.0f);
+        var chestplate = pEntity.getItemBySlot(EquipmentSlot.CHEST);
+
+        // Obtener la durabilidad de la armadura
+        int maxDamage = chestplate.getMaxDamage();
+        int currentDamage = chestplate.getDamageValue();
+
+        // Comprobar si la durabilidad es menor que la mitad de la durabilidad máxima
+        boolean isDamaged = currentDamage > maxDamage / 2;
+
+        if(chestplate.getItem() instanceof DbzArmorItem armorItem){
+
+            var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_layer1.png");
+            var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_damaged_layer1.png");
+
+            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
+
+        } else if(chestplate.getItem() instanceof SaiyanArmorItem armorItem){
+
+            var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/saiyans/" + armorItem.getItemId() + "_layer1.png");
+            var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/saiyans/" + armorItem.getItemId() + "_damaged_layer1.png");
+
+            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
+
+        } if(chestplate.getItem() instanceof SaiyanCapeArmorItem armorItem){
+
+            var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_layer1.png");
+            var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_damaged_layer1.png");
+
+            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
+
+        }
+
+        pPoseStack.popPose();
+    }
+
 
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {

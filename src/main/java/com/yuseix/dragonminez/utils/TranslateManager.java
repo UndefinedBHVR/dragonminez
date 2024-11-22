@@ -23,5 +23,8 @@ public class TranslateManager {
     //COLOR MENU TITULO
     public static MutableComponent COLOR_MENU = (Component.translatable("dmz.ccreation.color_menu"));
 
+    //Travel Button
+    public static MutableComponent TRAVEL = (Component.translatable("ui.dmz.spacepod.travel"));
+
 
 }

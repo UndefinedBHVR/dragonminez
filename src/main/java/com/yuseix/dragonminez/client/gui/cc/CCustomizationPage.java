@@ -3,16 +3,15 @@ package com.yuseix.dragonminez.client.gui.cc;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.gui.buttons.ColorButton;
-import com.yuseix.dragonminez.client.gui.buttons.ColorButton2;
-import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
-import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.client.gui.buttons.*;
+import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.characters.*;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -25,7 +24,6 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.client.gui.widget.ForgeSlider;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
@@ -60,8 +58,6 @@ public class CCustomizationPage extends Screen {
 
     private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menutexto.png");
-    private static final ResourceLocation colorCuadrado = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/buttons/characterbuttons.png");
 
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();
 
@@ -69,30 +65,49 @@ public class CCustomizationPage extends Screen {
     private DMZRightButton botonAlignmentRight, botonAlignmentLeft;
     private TextButton nextButton, backButton;
     private ColorButton eyesButtonColor, eyesButtonColor2, bodyButtonColor1, bodyButtonColor2, bodyButtonColor3, hairButtonColor, auraButtonColor;
+    private CustomButtons igualarButton;
+
     private int currentPage = 0;
-    private static String partePagina = "";
+
+    private float angleXComponent;
+
+    private DMZDatos2 dmzdatos = new DMZDatos2();
 
 
     public CCustomizationPage(Component pTitle) {
         super(pTitle);
-
+        this.angleXComponent = 0.0f;  // Inicia en 0
     }
 
     @Override
     protected void init() {
 
         //MenuInicio
-        int posX = (this.width);
         int posY = (this.minecraft.getWindow().getGuiScaledHeight()) / 2;
 
         if (currentPage == 0) {
 
             botonesRazaColores(72, posY);
+
+
         } else if (currentPage == 1) {
 
             botonAuraColor(72, posY);
 
         }
+
+
+        this.addRenderableWidget(new DMZCustomButton(this.width / 2 + 20, this.height - 25, 20, 20, Component.literal("->"), (button) -> {
+            this.angleXComponent -= 1.0f; // Incrementa el valor en 5 grados
+        }));
+
+        this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 40, this.height - 25, 20, 20, Component.literal("<-"), (button) -> {
+            this.angleXComponent += 1.0f; // Decrementa el valor en 5 grados
+        }));
+
+        this.addRenderableWidget(new DMZCustomButton(this.width / 2 - 10, this.height - 25, 20, 20, Component.literal("0"), (button) -> {
+            this.angleXComponent = 0.0f; // Resetea a 0
+        }));
 
         super.init();
     }
@@ -114,11 +129,11 @@ public class CCustomizationPage extends Screen {
         botonNextBack(ancho, this.height - 25);
 
         if (currentPage == 0) {
-
             botonesBodyType(113, alto - 44);
             botonesGeneros(113, alto - 76);
             botonesOjos(113, alto + 3);
             botonesCabellos(113, alto + 3);
+            botonIgualar();
 
         } else if (currentPage == 1) {
             botonesClases(113, alto - 76);
@@ -135,9 +150,6 @@ public class CCustomizationPage extends Screen {
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         //renderBackground(pGuiGraphics);
-
-        var Altura = pGuiGraphics.guiHeight();
-        var Ancho = pGuiGraphics.guiWidth();
 
         panoramas(pGuiGraphics, pPartialTick);
 
@@ -169,290 +181,413 @@ public class CCustomizationPage extends Screen {
     }
 
 
-    public static int calcularColor(int r, int g, int b) {
-        //Convertir el numero a decimal
-        int colorDecimal = (r << 16) + (g << 8) + b;
-
-        return colorDecimal;
-    }
-
-    public void botonNextBack(int posX, int posY) {
-
-        this.removeWidget(backButton);
-        this.removeWidget(nextButton);
-
-        if (currentPage == 0) {
-            //BOTON VOLVER
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-                /*
-                this.removeWidget(sliderR);
-                this.removeWidget(sliderG);
-                this.removeWidget(sliderB);
-                this.removeWidget(eyesButtonColor);
-                this.removeWidget(eyesButtonColor2);
-                this.removeWidget(bodyButtonColor1);
-                this.removeWidget(bodyButtonColor2);
-                this.removeWidget(bodyButtonColor3);
-                this.removeWidget(hairButtonColor);
-                this.removeWidget(setColor);
-                this.removeWidget(eyesTypeLeft);
-                this.removeWidget(eyesTypeRight);
-                this.removeWidget(bodyTypeRightButton);
-                this.removeWidget(bodyTypeLeftButton);
-                this.removeWidget(gendersRigthButton);
-                this.removeWidget(gendersLeftButton);
-                this.removeWidget(hairRigthButton);
-                this.removeWidget(hairLeftButton);
-                this.removeWidget(auraButtonColor);
-                clearAllButtons();
-
-                 */
-                ModMessages.sendToServer(new CharacterC2S("hairID", 0));
-                ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                this.minecraft.setScreen(new CFirstPage());
-
-            }));
-
-            //BOTON SIGUIENTE
-            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
-                this.removeWidget(eyesButtonColor);
-                this.removeWidget(eyesButtonColor2);
-                this.removeWidget(bodyButtonColor1);
-                this.removeWidget(bodyButtonColor2);
-                this.removeWidget(bodyButtonColor3);
-                this.removeWidget(hairButtonColor);
-                this.removeWidget(eyesTypeLeft);
-                this.removeWidget(eyesTypeRight);
-                this.removeWidget(bodyTypeRightButton);
-                this.removeWidget(bodyTypeLeftButton);
-                this.removeWidget(gendersRigthButton);
-                this.removeWidget(gendersLeftButton);
-                this.removeWidget(hairRigthButton);
-                this.removeWidget(hairLeftButton);
-                this.removeWidget(auraButtonColor);
-                this.removeWidget(nextButton);
-                this.removeWidget(botonAlignmentRight);
-                this.removeWidget(botonAlignmentLeft);
-                clearAllButtons();
-                currentPage = 1;
-
-                botonAuraColor(72, this.height / 2);
-            }));
-        } else if (currentPage == 1) {
-            //BOTON VOLVER
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-                currentPage = 0;
-                this.removeWidget(eyesButtonColor);
-                this.removeWidget(eyesButtonColor2);
-                this.removeWidget(bodyButtonColor1);
-                this.removeWidget(bodyButtonColor2);
-                this.removeWidget(bodyButtonColor3);
-                this.removeWidget(hairButtonColor);
-                this.removeWidget(eyesTypeLeft);
-                this.removeWidget(eyesTypeRight);
-                this.removeWidget(bodyTypeRightButton);
-                this.removeWidget(bodyTypeLeftButton);
-                this.removeWidget(gendersRigthButton);
-                this.removeWidget(gendersLeftButton);
-                this.removeWidget(hairRigthButton);
-                this.removeWidget(hairLeftButton);
-                this.removeWidget(auraButtonColor);
-                this.removeWidget(claseRigthButton);
-                this.removeWidget(claseLeftButton);
-                this.removeWidget(botonAlignmentRight);
-                this.removeWidget(botonAlignmentLeft);
-
-                clearAllButtons();
-
-                botonesRazaColores(72, this.height / 2);
-
-            }));
-
-            //BOTON CONFIRMAR
-            this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.literal("Confirm").withStyle(ChatFormatting.BOLD), button -> {
-                this.removeWidget(auraButtonColor);
-                this.removeWidget(nextButton);
-                clearAllButtons();
-
-                ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
-                this.minecraft.setScreen(null);
-            }));
-
-        } else {
-
-        }
-
-
-    }
-
-    public void botonesRazaColores(int posX, int posY) {
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-        this.removeWidget(eyesButtonColor);
-        this.removeWidget(eyesButtonColor2);
-        this.removeWidget(bodyButtonColor1);
-        this.removeWidget(bodyButtonColor2);
-        this.removeWidget(bodyButtonColor3);
-        this.removeWidget(hairButtonColor);
+    private void botonIgualar(){
+        this.removeWidget(igualarButton);
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            int posX = 72;
+            int posY = (this.height) / 2;
 
-            switch (cap.getRace()) {
-                case 0:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                if (cap.getRace() == 0) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY + 20, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
                     }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                } else if (cap.getRace() == 1) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY + 20, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
                     }));
+                } else if (cap.getRace() == 2) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY - 61, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
+                    }));
+                } else if (cap.getRace() == 4) {
+                    //Boton para igualar los ojos
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY - 61, Component.empty(), button -> {
+                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
+                    }));
+                }
 
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
+        });
+
+    }
 
 
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
+    public void botonNextBack(int posX, int posY) {
+        if (this.minecraft.level.isClientSide()) {
+            this.removeWidget(backButton);
+            this.removeWidget(nextButton);
+
+            if (currentPage == 0) {
+                //BOTON VOLVER
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                    this.minecraft.setScreen(new CFirstPage());
+
+                }));
+
+                //BOTON SIGUIENTE
+                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+                    this.removeWidget(eyesButtonColor);
+                    this.removeWidget(eyesButtonColor2);
+                    this.removeWidget(bodyButtonColor1);
+                    this.removeWidget(bodyButtonColor2);
+                    this.removeWidget(bodyButtonColor3);
+                    this.removeWidget(hairButtonColor);
+                    this.removeWidget(eyesTypeLeft);
+                    this.removeWidget(eyesTypeRight);
+                    this.removeWidget(bodyTypeRightButton);
+                    this.removeWidget(bodyTypeLeftButton);
+                    this.removeWidget(gendersRigthButton);
+                    this.removeWidget(gendersLeftButton);
+                    this.removeWidget(hairRigthButton);
+                    this.removeWidget(hairLeftButton);
+                    this.removeWidget(auraButtonColor);
+                    this.removeWidget(nextButton);
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                    this.removeWidget(igualarButton);
+                    clearAllButtons();
+                    currentPage = 1;
+
+                    botonAuraColor(72, this.height / 2);
+                }));
+            } else if (currentPage == 1) {
+                //BOTON VOLVER
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                    currentPage = 0;
+                    this.removeWidget(eyesButtonColor);
+                    this.removeWidget(eyesButtonColor2);
+                    this.removeWidget(bodyButtonColor1);
+                    this.removeWidget(bodyButtonColor2);
+                    this.removeWidget(bodyButtonColor3);
+                    this.removeWidget(hairButtonColor);
+                    this.removeWidget(eyesTypeLeft);
+                    this.removeWidget(eyesTypeRight);
+                    this.removeWidget(bodyTypeRightButton);
+                    this.removeWidget(bodyTypeLeftButton);
+                    this.removeWidget(gendersRigthButton);
+                    this.removeWidget(gendersLeftButton);
+                    this.removeWidget(hairRigthButton);
+                    this.removeWidget(hairLeftButton);
+                    this.removeWidget(auraButtonColor);
+                    this.removeWidget(claseRigthButton);
+                    this.removeWidget(claseLeftButton);
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                    this.removeWidget(igualarButton);
+                    clearAllButtons();
+
+                    botonesRazaColores(72, this.height / 2);
+
+                }));
+
+                //BOTON CONFIRMAR
+                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.literal("Confirm").withStyle(ChatFormatting.BOLD), button -> {
+                    this.removeWidget(auraButtonColor);
+                    this.removeWidget(nextButton);
+                    clearAllButtons();
+
+                    ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
+                    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+                        initialStats(cap.getRace(),cap.getDmzClass());
+                    });
+                    this.minecraft.setScreen(null);
+
+                }));
+
+            } else {}
+        }
+    }
+
+    public void initialStats(int raza, String clase){
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            switch(clase){
+                case "Warrior":
+                    switch (raza){
+                        case 0: //Humano
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZHumanConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZHumanConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZHumanConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZHumanConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZHumanConfig.INITIAL_ENE_WARRIOR.get()));
+
+                            break;
+                        case 1: //Saiyan
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZSaiyanConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZSaiyanConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZSaiyanConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZSaiyanConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZSaiyanConfig.INITIAL_ENE_WARRIOR.get()));
+
+                            break;
+                        case 2: //Namek
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZNamekConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZNamekConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZNamekConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZNamekConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZNamekConfig.INITIAL_ENE_WARRIOR.get()));
+
+                            break;
+                        case 3: //BioAndroide
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZBioAndroidConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZBioAndroidConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZBioAndroidConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZBioAndroidConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZBioAndroidConfig.INITIAL_ENE_WARRIOR.get()));
+
+                            break;
+                        case 4: //Cold Demon
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZColdDemonConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZColdDemonConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZColdDemonConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZColdDemonConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZColdDemonConfig.INITIAL_ENE_WARRIOR.get()));
+
+                            break;
+                        case 5: //Majin
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZMajinConfig.INITIAL_STR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZMajinConfig.INITIAL_DEF_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZMajinConfig.INITIAL_CON_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZMajinConfig.INITIAL_KIPWR_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZMajinConfig.INITIAL_ENE_WARRIOR.get()));
+
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case 1:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
+                case "Spiritualist":
+                    switch (raza){
+                        case 0: //Humano
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZHumanConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZHumanConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZHumanConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZHumanConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZHumanConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            break;
+                        case 1: //Saiyan
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZSaiyanConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZSaiyanConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZSaiyanConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZSaiyanConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZSaiyanConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            break;
+                        case 2: //Namek
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZNamekConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZNamekConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZNamekConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZNamekConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZNamekConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            break;
+                        case 3: //BioAndroide
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZBioAndroidConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZBioAndroidConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZBioAndroidConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZBioAndroidConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZBioAndroidConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            break;
+                        case 4: //Cold Demon
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZColdDemonConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZColdDemonConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZColdDemonConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZColdDemonConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZColdDemonConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            break;
+                        case 5: //Majin
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZMajinConfig.INITIAL_STR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZMajinConfig.INITIAL_DEF_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZMajinConfig.INITIAL_CON_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZMajinConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZMajinConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case 2:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
-                    }));
-
-                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
-                    }));
-
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 18, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
+                default: //Poner algo por si spiritualist
                     break;
-                case 3:
-
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 25, posY - 17, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX, posY - 17, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
-                    }));
-
-                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 25, posY - 17, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
-                    }));
-
-
-                    break;
-                case 4:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-                    //BOTON COLOR OJO 2
-                    this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-                    this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
-                    }));
-
-                    this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
-                    }));
-
-                    this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 14, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                    }));
-                    break;
-                case 5:
-                    //BOTON COLOR OJO 1
-                    this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY + 57, Component.empty(), button -> {
-
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                    }));
-
-                    this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 30, Component.empty(), button -> {
-                        Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                    }));
-
-                    break;
-                default:
-                    break;
-
             }
 
         });
-        RenderSystem.disableBlend();
+    }
+
+    public void botonesRazaColores(int posX, int posY) {
+        if (this.minecraft.level.isClientSide()) {
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+            this.removeWidget(eyesButtonColor);
+            this.removeWidget(eyesButtonColor2);
+            this.removeWidget(bodyButtonColor1);
+            this.removeWidget(bodyButtonColor2);
+            this.removeWidget(bodyButtonColor3);
+            this.removeWidget(hairButtonColor);
+            this.removeWidget(igualarButton);
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+                switch (cap.getRace()) {
+                    case 0:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 1:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 2:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
+                        }));
+
+                        this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
+                        }));
+
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 3:
+
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 25, posY - 17, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX, posY - 17, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
+                        }));
+
+                        this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 25, posY - 17, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
+                        }));
+
+
+                        break;
+                    case 4:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+                        //BOTON COLOR OJO 2
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX - 33, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX - 11, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
+                        }));
+
+                        this.bodyButtonColor3 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor3", posX + 11, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor3"));
+                        }));
+
+                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX + 33, posY - 14, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
+                        }));
+                        break;
+                    case 5:
+                        //BOTON COLOR OJO 1
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY + 57, Component.empty(), button -> {
+
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
+                        }));
+
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 30, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+
+                        break;
+                    default:
+                        break;
+
+                }
+
+            });
+            RenderSystem.disableBlend();
+        }
     }
 
     public void botonAuraColor(int posX, int posY) {
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        if (this.minecraft.level.isClientSide()) {
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-        this.removeWidget(eyesButtonColor);
-        this.removeWidget(eyesButtonColor2);
-        this.removeWidget(bodyButtonColor1);
-        this.removeWidget(bodyButtonColor2);
-        this.removeWidget(bodyButtonColor3);
-        this.removeWidget(hairButtonColor);
-        this.removeWidget(auraButtonColor);
+            this.removeWidget(eyesButtonColor);
+            this.removeWidget(eyesButtonColor2);
+            this.removeWidget(bodyButtonColor1);
+            this.removeWidget(bodyButtonColor2);
+            this.removeWidget(bodyButtonColor3);
+            this.removeWidget(hairButtonColor);
+            this.removeWidget(auraButtonColor);
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
+                this.auraButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("auraColor", posX, posY + 3, Component.empty(), button -> {
+                    Minecraft.getInstance().setScreen(new ColorPickerScreen("auraColor"));
 
-                this.partePagina = "AuraPagina";
-            }));
+                }));
 
-            RenderSystem.disableBlend();
-        });
-
+                RenderSystem.disableBlend();
+            });
+        }
     }
 
     public void botonesCabellos(int posX, int posY) {
@@ -728,15 +863,26 @@ public class CCustomizationPage extends Screen {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
-            if(cap.getDmzAlignment().equals("Good")){
+            if(cap.getDmzAlignment() > 50){
                 this.botonAlignmentRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 1));
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 50));
                     this.removeWidget(botonAlignmentRight);
                     this.removeWidget(botonAlignmentLeft);
                 }));
-            }else {
+            }else if(cap.getDmzAlignment() == 50){
                 this.botonAlignmentLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 100));
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                }));
+                this.botonAlignmentRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                     ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 0));
+                    this.removeWidget(botonAlignmentRight);
+                    this.removeWidget(botonAlignmentLeft);
+                }));
+            } else {
+                this.botonAlignmentLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                    ModMessages.sendToServer(new CharacterC2S("dmzAlignment", 50));
                     this.removeWidget(botonAlignmentRight);
                     this.removeWidget(botonAlignmentLeft);
                 }));
@@ -1291,6 +1437,9 @@ public class CCustomizationPage extends Screen {
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         pGuiGraphics.blit(menu1, anchoTexto, alturaTexto - 110, 0, 0, 148, 222);
+        //Aca sera la info
+        pGuiGraphics.blit(menu1, this.width - 158, alturaTexto - 110, 0, 0, 148, 222);
+
         RenderSystem.disableBlend();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
@@ -1298,7 +1447,7 @@ public class CCustomizationPage extends Screen {
             //CLASE DEL JUGADOR
             alturaTexto = (pGuiGraphics.guiHeight() / 2);
             anchoTexto = 51;
-            pGuiGraphics.drawString(font, Component.literal("Class Type").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
+            pGuiGraphics.drawString(font, Component.literal("Class Type").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 88, 0xFF9B9B);
 
             if(cap.getDmzClass().equals("Warrior")){
                 anchoTexto = 65;
@@ -1321,18 +1470,20 @@ public class CCustomizationPage extends Screen {
             anchoTexto = 56;
             pGuiGraphics.drawString(font, Component.literal("Alignment").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 52, 0xFFDEDE);
 
-            if(cap.getDmzAlignment().equals("Good")){
+            if(cap.getDmzAlignment() > 60){
                 anchoTexto = 70;
                 drawStringWithBorder(pGuiGraphics, font, Component.literal("Good"), anchoTexto, alturaTexto - 35, 0x1EFFD9, 0x1E6CFF);
 
+            } else if (cap.getDmzAlignment() > 40){
+                anchoTexto = 67;
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Neutral"), anchoTexto, alturaTexto - 35, 0xeaa8fe,0x561f66);
+
             } else {
                 anchoTexto = 74;
-                drawStringWithBorder(pGuiGraphics, font, Component.literal("Evil"), anchoTexto, alturaTexto - 35, 0xFF3D72,0xF61414);
-
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Evil"), anchoTexto, alturaTexto - 35, 0xFF3D72, 0xF61414);
             }
 
-
-            //COLOR DE KI
+                //COLOR DE KI
             anchoTexto = 47;
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1342,6 +1493,77 @@ public class CCustomizationPage extends Screen {
 
             anchoTexto = 52;
             pGuiGraphics.drawString(font, Component.literal("Aura Color").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 12, 0xFFCA9B);
+
+            //INFO FINAL
+            anchoTexto = this.width-118;
+            pGuiGraphics.drawString(font, Component.literal("Information").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 88, 0xfd6644);
+
+            anchoTexto = this.width-137;
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Race:").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 72, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Class:").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 60, 0xFFFFFF);
+
+            anchoTexto = this.width-95;
+            if(cap.getRace() == 0){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.human"), anchoTexto, alturaTexto - 72, 0x31EAFF);
+            } else if(cap.getRace() == 1){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.saiyan"), anchoTexto, alturaTexto - 72, 0xFFBA35);
+            } else if(cap.getRace() == 2){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.namek"), anchoTexto, alturaTexto - 72, 0x378942);
+            } else if(cap.getRace() == 3){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.bioandroid"), anchoTexto, alturaTexto - 72, 0x72DA58);
+            } else if(cap.getRace() == 4){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.colddemon"), anchoTexto, alturaTexto - 72, 0xAC1BEC);
+            } else if(cap.getRace() == 5){
+                drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.races.name.majin"), anchoTexto, alturaTexto - 72, 0xFE7FF4);
+            }
+
+            anchoTexto = this.width-95;
+
+            if(cap.getDmzClass().equals("Warrior")){
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Warrior"), anchoTexto, alturaTexto - 60, 0xFC4E2B);
+
+            } else {
+                drawStringWithBorder(pGuiGraphics, font, Component.literal("Spiritualist"), anchoTexto, alturaTexto - 60, 0x2BFCFC);
+
+            }
+
+            //STATS
+            anchoTexto = this.width-120;
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, texto);
+            pGuiGraphics.blit(texto, anchoTexto - 2, alturaTexto - 44, 0, 0, 73, 15);
+            RenderSystem.disableBlend();
+
+            pGuiGraphics.drawString(font, Component.literal("Initial Stats").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 40, 0x39c3ff);
+
+            //ATRIBUTOS
+            anchoTexto = this.width-139;
+            alturaTexto = (pGuiGraphics.guiHeight() / 2) - 25;
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Defense:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xFFFFFF);
+            drawStringWithBorder(pGuiGraphics,font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, 0xFFFFFF);
+
+            var majinOn = cap.hasDMZPermaEffect("majin");
+            var fruta = cap.hasDMZTemporalEffect("mightfruit");
+
+            var strMax = dmzdatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var defMax = dmzdatos.calcularDEF(minecraft.player,cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var conMax = dmzdatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
+            var stmMax = dmzdatos.calcularSTM(cap.getRace(), conMax);
+            var KPWMax = dmzdatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var enrMax = dmzdatos.calcularENE(cap.getRace(), cap.getEnergy(), cap.getDmzClass());
+
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(strMax)), this.width-67, alturaTexto, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(defMax)), this.width-67, alturaTexto + 12, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(stmMax)), this.width-67, alturaTexto + 24, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(conMax)), this.width-67, alturaTexto + 36, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(KPWMax)), this.width-67, alturaTexto + 48, 0xfdbf26);
+            drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(enrMax)), this.width-67, alturaTexto + 60, 0xfdbf26);
+
 
         });
 
@@ -1456,24 +1678,24 @@ public class CCustomizationPage extends Screen {
                     if(Minecraft.getInstance().player.getModelName().equals("default")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
 
                 } else {
                     if (cap.getGender().equals("Male")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
                 }
 
@@ -1482,52 +1704,52 @@ public class CCustomizationPage extends Screen {
                     if(Minecraft.getInstance().player.getModelName().equals("default")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
 
                 } else {
                     if (cap.getGender().equals("Male")){
                         LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                     }else {
                         LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                        renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                     }
                 }
 
             }else if(cap.getRace() == 2){ //NAMEK
                 LivingEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
             }else if(cap.getRace() == 3){ //BIOANDROIDE
-                LivingEntity bioAndroidEntity = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
+                LivingEntity avatar = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, bioAndroidEntity);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
             }else if(cap.getRace() == 4){ //NARCO OSEA ARCO JEJE
                 LivingEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), this.minecraft.level);
 
-                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
             }else { // MAJIN
                 if (cap.getGender().equals("Male")){
                     LivingEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), this.minecraft.level);
 
-                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
 
                 }else {
                     LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 
-                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, 0, 0, avatar);
+                    renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width/2, this.height/2 + 80, 82, angleXComponent, 0, avatar);
                 }
             }
 

@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ColorButton extends Button {
 
+
     private String tipo = "";
 
     private static final ResourceLocation botones = new ResourceLocation(DragonMineZ.MOD_ID,

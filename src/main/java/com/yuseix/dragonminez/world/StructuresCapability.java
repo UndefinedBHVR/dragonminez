@@ -36,11 +36,11 @@ public class StructuresCapability {
     }
 
     public BlockPos getTorreKamisamaPosition() {
-        return torreKamisamaPosition;
+        return torreKamisamaPosition != null ? torreKamisamaPosition : new BlockPos(100, 45, 100);
     }
 
     public BlockPos getHabTiempoPos() {
-        return habTiempoPos;
+        return habTiempoPos != null ? habTiempoPos : new BlockPos(-9, 31, -70);
     }
 
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {

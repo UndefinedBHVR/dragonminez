@@ -63,7 +63,10 @@ public class ZPointsCommand {
     private static int setPuntos(Collection<ServerPlayer> pPlayers, int puntos) {
         for (ServerPlayer player : pPlayers) {
 
-            player.sendSystemMessage(Component.literal("Has dado " + puntos + " puntos a " + player.getName().getString()));
+            player.sendSystemMessage(
+                    Component.translatable("command.dmzpoints.set", player.getName(), puntos)
+            );
+
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setZpoints(puntos));
 
@@ -74,7 +77,11 @@ public class ZPointsCommand {
     private static int darPuntos(Collection<ServerPlayer> pPlayers, int puntos) {
         for (ServerPlayer player : pPlayers) {
 
-            player.sendSystemMessage(Component.literal("Has añadido " + puntos + " puntos a " + player.getName().getString()));
+            player.sendSystemMessage(
+                    Component.translatable("command.dmzpoints.add").append(" ")
+                            .append(Component.literal(String.valueOf(puntos))).append(" ")
+                            .append(Component.translatable("command.dmzpoints.pointsto")).append(" ")
+                            .append(player.getName()).append(Component.literal(".")));
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addZpoints(puntos));
 
@@ -85,7 +92,11 @@ public class ZPointsCommand {
     private static int removePuntos(Collection<ServerPlayer> pPlayers, int puntos) {
         for (ServerPlayer player : pPlayers) {
 
-            player.sendSystemMessage(Component.literal("Has removido " + puntos + " puntos a " + player.getName().getString()));
+            player.sendSystemMessage(
+                    Component.translatable("command.dmzpoints.remove").append(" ")
+                            .append(Component.literal(String.valueOf(puntos))).append(" ")
+                            .append(Component.translatable("command.dmzpoints.pointsto")).append(" ")
+                            .append(player.getName()).append(Component.literal(".")));
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeZpoints(puntos));
 

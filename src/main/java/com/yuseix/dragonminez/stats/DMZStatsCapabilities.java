@@ -1,17 +1,18 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
+import com.yuseix.dragonminez.utils.DMZDatos2;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,12 +22,14 @@ import net.minecraftforge.network.PacketDistributor;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class DMZStatsCapabilities {
 
-    public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
-    });
+    private DMZDatos2 dmzdatos = new DMZDatos2();
+
+    public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 
     @SubscribeEvent
     public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         syncStats(event.getEntity());
+
         event.getEntity().refreshDimensions();
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
@@ -35,28 +38,14 @@ public class DMZStatsCapabilities {
             var con = cap.getConstitution();
             var raza = cap.getRace();
 
-            if(raza == 0){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get()));
-            } else if(raza == 1){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
-            } else if(raza == 2){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
-            } else if(raza == 3){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
-            } else if(raza == 4){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
-            } else if(raza == 5){
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-            }
-
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, 20, cap.getDmzClass()));
         });
-
-
         }
 
     @SubscribeEvent
     public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         syncStats(event.getEntity());
+
     }
 
     @SubscribeEvent
@@ -72,53 +61,13 @@ public class DMZStatsCapabilities {
             var maxVIDA = 0.0;
 
             //VIDAAAAAAA
-            if(raza == 0){
-                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
+            maxVIDA = dmzdatos.calcularCON(raza, con, vidaMC,cap.getDmzClass());
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
+            event.getEntity().heal((float) maxVIDA);
+            cap.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
 
-            } else if(raza == 1){
-                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-
-            } else if(raza == 2){
-                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            } else if(raza == 3){
-                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_BIO.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            } else if(raza == 4){
-                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_COLD.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            } else if(raza == 5){
-                maxVIDA = vidaMC + ((double) con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get());
-                event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
-                event.getEntity().heal((float) maxVIDA);
-                cap.setCurStam((int) Math.round(maxVIDA * 0.5));
-            }
             //ENERGIAAA
-            if(raza == 0){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40));
-            } else if(raza == 1){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40));
-            } else if(raza == 2){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40));
-            } else if(raza == 3){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40));
-            } else if(raza == 4){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40));
-            } else if(raza == 5){
-                cap.setCurrentEnergy( (int) Math.round(energia * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40));
-            }
+            cap.setCurrentEnergy(dmzdatos.calcularENE(raza, energia, cap.getDmzClass()));
         });
 
     }
@@ -127,7 +76,6 @@ public class DMZStatsCapabilities {
     public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(DMZStatsAttributes.class);
     }
-
 
     @SubscribeEvent
     public void onPlayerCloned(PlayerEvent.Clone event) {
@@ -157,6 +105,7 @@ public class DMZStatsCapabilities {
 
     public static void syncStats(Player player) {
         ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));
+
     }
 
 }

@@ -55,11 +55,7 @@ public class CharacterC2S {
                             }
                             break;
                         case "dmzAlignment":
-                            if (packet.cantidad == 0) {
-                                playerstats.setDmzAlignment("Good");
-                            } else {
-                                playerstats.setDmzAlignment("Evil");
-                            }
+                            playerstats.setDmzAlignment(packet.cantidad);
                             break;
                         case "BodyType":
                             playerstats.setBodytype(packet.cantidad);
@@ -103,8 +99,30 @@ public class CharacterC2S {
                                 playerstats.setAcceptCharacter(true);
                             }
                             break;
+                        case "isAuraOn":
+                            if (packet.cantidad == 0) {
+                                playerstats.setAuraOn(false);
+                            } else {
+                                playerstats.setAuraOn(true);
+                            }
+                            break;
+                        case "str":
+                            playerstats.setStrength(packet.cantidad);
+                            break;
+                        case "def":
+                            playerstats.setDefense(packet.cantidad);
+                            break;
+                        case "con":
+                            playerstats.setConstitution(packet.cantidad);
+                            break;
+                        case "pwr":
+                            playerstats.setKiPower(packet.cantidad);
+                            break;
+                        case "ene":
+                            playerstats.setEnergy(packet.cantidad);
+                            break;
                         default:
-                            System.out.println("Algo salio mal !");
+                            //System.out.println("Algo salio mal !");
                             break;
                     }
 

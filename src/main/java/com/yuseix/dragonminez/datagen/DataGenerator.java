@@ -40,6 +40,7 @@ public class DataGenerator {
                 blockTagGenerator.contentsGetter(), existingFileHelper));
         generator.addProvider(event.includeServer(), new DMZRecipeProvider(packOutput));
         generator.addProvider(event.includeServer(), DMZLootTableProvider.create(packOutput));
+        generator.addProvider(event.includeServer(), new DMZAdvancementsProvider(packOutput, lookupProvider));
 
     }
 

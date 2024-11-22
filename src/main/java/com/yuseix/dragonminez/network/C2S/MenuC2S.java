@@ -12,35 +12,33 @@ import java.util.function.Supplier;
 
 public class MenuC2S {
 
-    public MenuC2S() {
-    }
+	public MenuC2S() {
+	}
 
-    public MenuC2S(FriendlyByteBuf buf) {
+	public MenuC2S(FriendlyByteBuf buf) {
 
-    }
+	}
 
-    public void toBytes(FriendlyByteBuf buf) {
+	public void toBytes(FriendlyByteBuf buf) {
 
-    }
+	}
 
-    public static void handle(MenuC2S packet, Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context = ctx.get();
-        context.enqueueWork(() -> {
+	public static void handle(MenuC2S packet, Supplier<NetworkEvent.Context> ctx) {
+		NetworkEvent.Context context = ctx.get();
+		context.enqueueWork(() -> {
 
-            ServerPlayer player = ctx.get().getSender();
+			ServerPlayer player = ctx.get().getSender();
 
-            if (player != null) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+			if (player != null) {
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
-                    boolean isDmzUser = playerstats.isAcceptCharacter();
+					boolean isDmzUser = playerstats.isAcceptCharacter();
 
-                        ModMessages.sendToPlayer(new MenuS2C(isDmzUser), player);
+					ModMessages.sendToPlayer(new MenuS2C(isDmzUser), player);
+				});
+			}
 
-
-                });
-            }
-
-        });
-        context.setPacketHandled(true);
-    }
+		});
+		context.setPacketHandled(true);
+	}
 }

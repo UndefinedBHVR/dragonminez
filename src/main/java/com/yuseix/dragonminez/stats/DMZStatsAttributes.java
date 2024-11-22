@@ -1,16 +1,36 @@
 package com.yuseix.dragonminez.stats;
 
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
+import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.network.PacketDistributor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DMZStatsAttributes {
+
+    private Map<String, Integer> DMZSkills = new HashMap<>();
+    private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
+    private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
+
+    private DMZDatos2 dmzdatos = new DMZDatos2();
 
     private int races;
     private int hairID, bodytype, eyesType;
     private int strength = 5;
     private int defense = 5;
-    private int constitution = 5, curBody, curStam, stamina = 15;
+    private int constitution = 5, curStam;
+
+    private int dmzRelease = 5;
+    private int dmzState = 0;
+    private int dmzSenzuDaily = 0;
 
     private int zpoints;
     private int KiPower = 5;
@@ -19,23 +39,58 @@ public class DMZStatsAttributes {
 
     private String gender = "Male";
 
-    private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor;
+    private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
 
-    private boolean AcceptCharacter = false;
+    private boolean AcceptCharacter = false, isauraOn = false;
 
     private String dmzClass = "Warrior";
-    private String dmzAlignment = "Good";
+    private int dmzAlignment = 100;
+
     private final Player player;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
     }
 
+    public boolean isAuraOn() {
+        return isauraOn;
+    }
+
+    public void setAuraOn(boolean auraOn) {
+        isauraOn = auraOn;
+    }
+
+    public int getDmzSenzuDaily() {
+        return dmzSenzuDaily;
+    }
+
+    public void setDmzSenzuDaily(int dmzSenzuDaily) {
+        this.dmzSenzuDaily = dmzSenzuDaily;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public int getDmzRelease() {
+        return dmzRelease;
+    }
+    public void setDmzRelease(int dmzRelease) {
+        this.dmzRelease = dmzRelease;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public int getDmzState() {
+        return dmzState;
+    }
+
+    public void setDmzState(int dmzState) {
+        this.dmzState = dmzState;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public String getDmzClass() {
         return dmzClass;
     }
 
-    public String getDmzAlignment() {
+    public int getDmzAlignment() {
         return dmzAlignment;
     }
 
@@ -114,7 +169,7 @@ public class DMZStatsAttributes {
 
     public void addStrength(int points) {
 
-        if (strength <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (strength <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             strength += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -123,7 +178,7 @@ public class DMZStatsAttributes {
 
     public void addDefense(int points) {
 
-        if (defense <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (defense <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             defense += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -132,25 +187,17 @@ public class DMZStatsAttributes {
 
     public void addCon(int points) {
 
-        if (constitution <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (constitution <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             constitution += points;
         }
         DMZStatsCapabilities.syncStats(player);
 
     }
 
-    public void addStam(int points) {
-
-        if (stamina <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            stamina += points;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
 
     public void addKipwr(int points) {
 
-        if (KiPower <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (KiPower <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             KiPower += points;
         }
         DMZStatsCapabilities.syncStats(player);
@@ -159,7 +206,7 @@ public class DMZStatsAttributes {
 
     public void addEnergy(int points) {
 
-        if (energy <= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
+        if (energy <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
             energy += points;
         }
 
@@ -189,8 +236,8 @@ public class DMZStatsAttributes {
 
         this.strength -= points;
 
-        if (this.strength < 3) {
-            this.strength = 3;
+        if (this.strength < 1) {
+            this.strength = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -200,8 +247,8 @@ public class DMZStatsAttributes {
 
         this.defense -= points;
 
-        if (this.defense < 3) {
-            this.defense = 3;
+        if (this.defense < 1) {
+            this.defense = 1;
         }
         DMZStatsCapabilities.syncStats(player);
     }
@@ -210,8 +257,8 @@ public class DMZStatsAttributes {
 
         this.constitution -= points;
 
-        if (this.constitution < 3) {
-            this.constitution = 3;
+        if (this.constitution < 1) {
+            this.constitution = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -221,8 +268,8 @@ public class DMZStatsAttributes {
 
         this.KiPower -= points;
 
-        if (this.KiPower < 3) {
-            this.KiPower = 3;
+        if (this.KiPower < 1) {
+            this.KiPower = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -233,25 +280,14 @@ public class DMZStatsAttributes {
 
         this.energy -= points;
 
-        if (this.energy < 3) {
-            this.energy = 3;
+        if (this.energy < 1) {
+            this.energy = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
 
     }
 
-    public void removeStamina(int points) {
-
-        this.stamina -= points;
-
-        if (this.stamina < 3) {
-            this.stamina = 3;
-        }
-        
-        DMZStatsCapabilities.syncStats(player);
-
-    }
 
     public int getRace() {
         return races;
@@ -299,8 +335,8 @@ public class DMZStatsAttributes {
 
         this.strength = strength;
 
-        if (this.strength >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.strength = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.strength = strength;
         }
@@ -318,8 +354,8 @@ public class DMZStatsAttributes {
 
         this.defense = defense;
 
-        if (this.defense >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.defense = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.defense = defense;
         }
@@ -335,8 +371,8 @@ public class DMZStatsAttributes {
 
         this.constitution = constitution;
 
-        if (this.constitution >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.constitution = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.constitution = constitution;
         }
@@ -353,8 +389,8 @@ public class DMZStatsAttributes {
 
         this.KiPower = kiPower;
 
-        if (this.KiPower >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            KiPower = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.KiPower = kiPower;
         }
@@ -371,8 +407,8 @@ public class DMZStatsAttributes {
 
         this.energy = energy;
 
-        if (this.energy >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.energy = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
+        if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
+            this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
         } else {
             this.energy = energy;
         }
@@ -389,25 +425,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        if(races == 0){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
-
-        } else if(races == 1){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
-
-        } else if(races == 2){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
-
-        } else if(races == 3){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
-
-        } else if(races == 4){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
-
-        } else if(races == 5){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
-
-        }
+        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -434,25 +452,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        if(races == 0){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY.get() + 40);
-
-        } else if(races == 1){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get() + 40);
-
-        } else if(races == 2){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_NAMEK.get() + 40);
-
-        } else if(races == 3){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_BIO.get() + 40);
-
-        } else if(races == 4){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_COLD.get() + 40);
-
-        } else if(races == 5){
-            maxEne = (int) Math.round(energy * DMCAttrConfig.MULTIPLIER_ENERGY_MAJIN.get() + 40);
-
-        }
+        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -463,7 +463,17 @@ public class DMZStatsAttributes {
                 this.currentEnergy = maxEne;
             }
         }
+
+
         DMZStatsCapabilities.syncStats(player);
+    }
+
+    public int getMaxHealth() {
+        return dmzdatos.calcularCON(races, constitution, 20, dmzClass);
+    }
+
+    public int getMaxEnergy() {
+        return dmzdatos.calcularENE(races, energy, dmzClass);
     }
 
     public int getCurStam() {
@@ -476,25 +486,9 @@ public class DMZStatsAttributes {
         var maxStam = 0;
         var maxVIDA = 0;
 
-        if(races == 0){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 1){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 2){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 3){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 4){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 5){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        }
+
+        maxVIDA = dmzdatos.calcularCON(races, constitution, 20, dmzClass);
+        maxStam = dmzdatos.calcularSTM(races, maxVIDA);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;
@@ -520,25 +514,9 @@ public class DMZStatsAttributes {
         var maxStam = 0;
         var maxVIDA = 0;
 
-        if(races == 0){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 1){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_SAIYAN.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 2){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_NAMEK.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 3){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_BIO.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 4){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_COLD.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        } else if(races == 5){
-            maxVIDA = (int) Math.round(20 + ((double) constitution * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-            maxStam = ((int) Math.round(maxVIDA * 0.5));
-        }
+        maxVIDA = dmzdatos.calcularCON(races, constitution, 20, dmzClass);
+        maxStam = dmzdatos.calcularSTM(races, maxVIDA);
+
         if(curStam >= maxStam){
             this.curStam = maxStam;
         } else {
@@ -549,19 +527,6 @@ public class DMZStatsAttributes {
             }
         }
 
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(int stamina) {
-        if (this.stamina >= DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.stamina = DMCAttrConfig.MAX_ATTRIBUTE_VALUE.get();
-        } else {
-            this.stamina = stamina;
-        }
         DMZStatsCapabilities.syncStats(player);
     }
 
@@ -588,9 +553,161 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
-    public void setDmzAlignment(String dmzAlignment) {
-        this.dmzAlignment = dmzAlignment;
+    public void setDmzAlignment(int points) {
+        if (points >= 100) {
+            this.dmzAlignment = 100; // Máximo 100
+        } else {
+            this.dmzAlignment = points;
+        }
+
         DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void removeDmzAlignment(int puntos) {
+        this.dmzAlignment -= puntos; // Resta 'puntos' a 'dmzAlignment'
+
+        if (this.dmzAlignment < 0) {
+            this.dmzAlignment = 0; // Limita el valor a un mínimo de 0
+        }
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public void addDmzAlignment(int points) {
+        dmzAlignment = Math.min(dmzAlignment + points, 100); // Esto limita el máximo a 100
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    // Métodos para gestionar las habilidades
+    public Map<String, Integer> getDMZSkills() {
+        return DMZSkills;
+    }
+    public void addSkill(String skillName, int level) {
+        DMZSkills.put(skillName, level);
+        DMZStatsCapabilities.syncStats(player);
+
+        ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                new DMZSkillsS2C(DMZSkills));
+    }
+
+    public Integer getSkillLevel(String skillName) {
+        return DMZSkills.getOrDefault(skillName, 0);
+    }
+
+    public boolean hasSkill(String skillName) {
+        return DMZSkills.containsKey(skillName);
+    }
+
+    public void setSkillLevel(String skillName, int newLevel) {
+        if (DMZSkills.containsKey(skillName)) {
+            DMZSkills.put(skillName, newLevel);
+            DMZStatsCapabilities.syncStats(player);
+
+            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                    new DMZSkillsS2C(DMZSkills));
+        }
+    }
+
+    public void removeSkill(String skillName) {
+        if (DMZSkills.containsKey(skillName)) {
+            DMZSkills.remove(skillName);
+            DMZStatsCapabilities.syncStats(player);
+
+            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                    new DMZSkillsS2C(DMZSkills));
+        }
+    }
+
+    // Métodos para gestionar los estados permanentes wa
+    public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
+        DMZPermanentEffects.put(permanentEffect, isActive);
+        DMZStatsCapabilities.syncStats(player);
+
+        ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
+                new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+
+    }
+
+    public Boolean getDMZPermaEffect(String permanentEffect) {
+        return DMZPermanentEffects.getOrDefault(permanentEffect, false);
+    }
+
+    public Map<String, Boolean> getDMZPermanentEffects() {
+        return DMZPermanentEffects;
+    }
+
+    public boolean hasDMZPermaEffect(String permanentEffect) {
+        return DMZPermanentEffects.containsKey(permanentEffect);
+    }
+
+    public void setDMZPermanentEffect(String permanentEffect, boolean isActive) {
+        if (DMZPermanentEffects.containsKey(permanentEffect)) {
+            DMZPermanentEffects.put(permanentEffect, isActive);
+
+            DMZStatsCapabilities.syncStats(player);
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
+                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+
+        }
+    }
+
+    public void removePermanentEffect(String permanentEffect) {
+        if (DMZPermanentEffects.containsKey(permanentEffect)) {
+            DMZPermanentEffects.remove(permanentEffect);
+
+            DMZStatsCapabilities.syncStats(player);
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
+                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+        }
+
+    }
+
+    // Métodos para gestionar los estados temporales wa
+    public Map<String, Integer> getDMZTemporalEffects() {
+        return DMZTemporalEffects;
+    }
+
+    public void addDMZTemporalEffect(String temporalEffect, int seconds) {
+        DMZTemporalEffects.put(temporalEffect, seconds);
+
+        ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                new DMZTempEffectsS2C(DMZTemporalEffects));
+
+        DMZStatsCapabilities.syncStats(player);
+
+    }
+
+
+    public Integer getDMZTemporalEffect(String temporaleffect) {
+        return DMZTemporalEffects.getOrDefault(temporaleffect, 0);
+    }
+
+    public boolean hasDMZTemporalEffect(String temporaleffect) {
+        return DMZTemporalEffects.containsKey(temporaleffect);
+    }
+
+    public void setDMZTemporalEffect(String permanentEffect, int seconds) {
+        if (DMZTemporalEffects.containsKey(permanentEffect)) {
+            DMZTemporalEffects.put(permanentEffect, seconds);
+
+
+            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                    new DMZTempEffectsS2C(DMZTemporalEffects));
+
+            DMZStatsCapabilities.syncStats(player);
+
+        }
+    }
+
+    public void removeTemporalEffect(String temporalEffect) {
+        if (DMZTemporalEffects.containsKey(temporalEffect)) {
+            DMZTemporalEffects.remove(temporalEffect);
+
+            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+                    new DMZTempEffectsS2C(DMZTemporalEffects));
+
+            DMZStatsCapabilities.syncStats(player);
+
+        }
     }
 
     public CompoundTag saveNBTData() {
@@ -608,11 +725,11 @@ public class DMZStatsAttributes {
         nbt.putInt("constitution", constitution);
         nbt.putInt("kiPower", KiPower);
         nbt.putInt("energy", energy);
-        nbt.putInt("stamina", stamina);
 
         nbt.putInt("currentEnergy", currentEnergy);
-        nbt.putInt("currentBody", curBody);
         nbt.putInt("currentStamina", curStam);
+        nbt.putInt("dmzState", dmzState);
+        nbt.putInt("dmzRelease", dmzRelease);
 
         nbt.putInt("bodyColor", bodyColor);
         nbt.putInt("bodyColor2", bodyColor2);
@@ -621,13 +738,33 @@ public class DMZStatsAttributes {
         nbt.putInt("eye1Color", eye1Color);
         nbt.putInt("eye2Color", eye2Color);
         nbt.putInt("auraColor", auraColor);
+        nbt.putInt("dmzAlignment",dmzAlignment);
 
         nbt.putString("gender", gender);
         nbt.putString("dmzClass", dmzClass);
-        nbt.putString("dmzAlignment",dmzAlignment);
 
         nbt.putInt("zpoints", zpoints);
+        nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
+        nbt.putBoolean("isAuraOn", isauraOn);
+
+        CompoundTag skillsTag = new CompoundTag();
+        for (Map.Entry<String, Integer> entry : DMZSkills.entrySet()) {
+            skillsTag.putInt(entry.getKey(), entry.getValue());
+        }
+        nbt.put("DMZSkills", skillsTag);
+
+        CompoundTag permanentEffectsTag = new CompoundTag();
+        for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
+            permanentEffectsTag.putBoolean(entry.getKey(), entry.getValue());
+        }
+        nbt.put("DMZPermanentEffects", permanentEffectsTag);
+
+        CompoundTag temporalEffectTag = new CompoundTag();
+        for (Map.Entry<String, Integer> entry : DMZTemporalEffects.entrySet()) {
+            temporalEffectTag.putInt(entry.getKey(), entry.getValue());
+        }
+        nbt.put("DMZTemporalEffects", temporalEffectTag);
 
         return nbt;
     }
@@ -645,12 +782,14 @@ public class DMZStatsAttributes {
         constitution = nbt.getInt("constitution");
         KiPower = nbt.getInt("kiPower");
         energy = nbt.getInt("energy");
-        stamina = nbt.getInt("stamina");
 
         zpoints = nbt.getInt("zpoints");
+        dmzSenzuDaily = nbt.getInt("dmzSenzuDaily");
+
         currentEnergy = nbt.getInt("currentEnergy");
-        curBody = nbt.getInt("currentBody");
         curStam = nbt.getInt("currentStamina");
+        dmzState = nbt.getInt("dmzState");
+        dmzRelease = nbt.getInt("dmzRelease");
 
         bodyColor = nbt.getInt("bodyColor");
         bodyColor2 = nbt.getInt("bodyColor2");
@@ -662,9 +801,29 @@ public class DMZStatsAttributes {
 
         gender = nbt.getString("gender");
         dmzClass = nbt.getString("dmzClass");
-        dmzAlignment = nbt.getString("dmzAlignment");
+        dmzAlignment = nbt.getInt("dmzAlignment");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
+        isauraOn = nbt.getBoolean("isAuraOn");
+
+        CompoundTag skillsTag = nbt.getCompound("DMZSkills");
+        for (String skillName : skillsTag.getAllKeys()) {
+            int level = skillsTag.getInt(skillName);
+            DMZSkills.put(skillName, level);
+        }
+
+        CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
+        for (String effectName : permanentEffects.getAllKeys()) {
+            boolean isActive = permanentEffects.getBoolean(effectName);
+            DMZPermanentEffects.put(effectName, isActive);
+        }
+
+        CompoundTag temporalEffectsTag = nbt.getCompound("DMZTemporalEffects");
+        for (String effectName : temporalEffectsTag.getAllKeys()) {
+            int seconds = temporalEffectsTag.getInt(effectName);
+            DMZSkills.put(effectName, seconds);
+        }
+
 
     }
 

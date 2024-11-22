@@ -1,20 +1,16 @@
 package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.layer.FatArmorLayer;
-import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
-import com.yuseix.dragonminez.init.entity.client.model.characters.FPMajinGordoModel;
-import com.yuseix.dragonminez.init.entity.custom.characters.FPBase;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -26,20 +22,10 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.player.PlayerModelPart;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderNameTagEvent;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Iterator;
 
@@ -49,7 +35,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
     private float colorR, colorG, colorB;
 
     public FPMajinGordRender(EntityRendererProvider.Context pContext) {
-        super(pContext, new FPMajinGordoModel<>(pContext.bakeLayer(FPMajinGordoModel.LAYER_LOCATION)), 0.5f);
+        super(pContext, new MajinGordoModel<>(pContext.bakeLayer(MajinGordoModel.LAYER_LOCATION)), 0.5f);
 
         this.addLayer(new FatArmorLayer(this,
                 new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
@@ -62,8 +48,6 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
     public void render(FPBase pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
 
         var playermodel = this.getModel();
-
-        RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
         pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
@@ -131,7 +115,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, Minecraft.getInstance().player.tickCount + pPartialTicks, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -146,24 +130,41 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
+                var transf = cap.getDmzState();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                if (bodyType == 0) {
+                switch (transf){
+                    case 0:
 
-                        if(genero.equals("Male")){
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else {
-                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        if (bodyType == 0) {
+
+                            if(genero.equals("Male")){
+                                renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            } else {
+                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+
+                            //RENDER EYES
+                            if(genero.equals("Male")){
+                                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            } else {
+                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+                            if(isMajinOn){
+                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
                         }
 
-
-                    //RENDER EYES
-                    if(genero.equals("Male")){
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    } else {
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    }
+                        break;
+                    case 1:
+                        break;
 
                 }
+
+
 
             });
 
@@ -180,13 +181,25 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         pPoseStack.popPose();
 
-        if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
-            this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
-        }
 
 
     }
 
+    private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var playermodel = this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA_RM)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+            }
+
+        });
+    }
     private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var playermodel = this.getModel();

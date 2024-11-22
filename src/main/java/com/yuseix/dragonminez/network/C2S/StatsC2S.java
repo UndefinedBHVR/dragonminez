@@ -1,11 +1,11 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -36,56 +36,57 @@ public class StatsC2S {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
 
+            DMZDatos2 dmzdatos = new DMZDatos2();
+
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
+
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
                     var vidaMC = 20;
                     var raza = playerstats.getRace();
-                    var VidaTotal = 0.0f;
                     var con = playerstats.getConstitution();
+                    int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                    int incrementoStats = packet.cantidad;
 
                     switch (packet.id) {
                         case 0:
-                            playerstats.addStrength(packet.cantidad);
+                            if (playerstats.getStrength() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getStrength();
+                            }
+                            playerstats.addStrength(incrementoStats);
                             break;
                         case 1:
-                            playerstats.addDefense(packet.cantidad);
+                            if (playerstats.getDefense() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getDefense();
+                            }
+                            playerstats.addDefense(incrementoStats);
                             break;
                         case 2:
-                            playerstats.addCon(packet.cantidad);
-
-                            if(raza == 0){
-                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 1){
-                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 2){
-                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 3){
-                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 4){
-                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
-                            } else if(raza == 5){
-                                VidaTotal = (float) (vidaMC + (con * DMCAttrConfig.MULTIPLIER_CON_MAJIN.get()));
-                                playerstats.setCurStam((int) Math.round(VidaTotal * 0.5));
+                            if (playerstats.getConstitution() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getConstitution();
                             }
+                            playerstats.addCon(incrementoStats);
 
+                            var conMax = dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
+                            playerstats.setCurStam(dmzdatos.calcularSTM(raza, conMax));
                             player.refreshDimensions();
                             break;
                         case 3:
-                            playerstats.addKipwr(packet.cantidad);
+                            if (playerstats.getKiPower() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getKiPower();
+                            }
+                            playerstats.addKipwr(incrementoStats);
                             break;
                         case 4:
-                            playerstats.addEnergy(packet.cantidad);
+                            if (playerstats.getEnergy() + packet.cantidad > maxStats) {
+                                incrementoStats = maxStats - playerstats.getEnergy();
+                            }
+                            playerstats.addEnergy(incrementoStats);
                             break;
                         default:
-                            System.out.println("Algo salio mal !");
+                            //System.out.println("Algo salio mal !");
                             break;
                     }
 

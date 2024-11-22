@@ -3,9 +3,13 @@
   "package": "com.yuseix.dragonminez.mixin",
   "refmap": "mixins.dragonminez.refmap.json",
   "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
   "mixins": [
+    "AccessorRangedAttribute"
   ],
   "client": [
+    "SoundManagerMixin",
+    "TitleScreenMixin",
     "client.renderer.EntityRenderDispatcherMixin",
     "client.renderer.HeldItemRendererMixin"
   ],

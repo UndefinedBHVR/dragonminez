@@ -1,7 +1,14 @@
 name: "TO-DO Workflow"
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - src/main/java/com/yuseix/dragonminez/**
+
 on: [ push, pull_request ]
 jobs:
-  build:
+  todo-to-issue:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@master"

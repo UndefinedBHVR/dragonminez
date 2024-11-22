@@ -52,6 +52,30 @@ public final class MainBlockEntities {
             BLOCK_ENTITY_TYPES_REGISTER.register("dball1_namek_block_entity", () ->
                     BlockEntityType.Builder.of(Dball1NamekBlockEntity::new, MainBlocks.DBALL1_NAMEK_BLOCK.get())
                             .build(null));
+    public static final RegistryObject<BlockEntityType<Dball2NamekBlockEntity>> DBALL2_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball2_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball2NamekBlockEntity::new, MainBlocks.DBALL2_NAMEK_BLOCK.get())
+                            .build(null));
+    public static final RegistryObject<BlockEntityType<Dball3NamekBlockEntity>> DBALL3_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball3_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball3NamekBlockEntity::new, MainBlocks.DBALL3_NAMEK_BLOCK.get())
+                            .build(null));
+    public static final RegistryObject<BlockEntityType<Dball4NamekBlockEntity>> DBALL4_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball4_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball4NamekBlockEntity::new, MainBlocks.DBALL4_NAMEK_BLOCK.get())
+                            .build(null));
+    public static final RegistryObject<BlockEntityType<Dball5NamekBlockEntity>> DBALL5_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball5_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball5NamekBlockEntity::new, MainBlocks.DBALL5_NAMEK_BLOCK.get())
+                            .build(null));
+    public static final RegistryObject<BlockEntityType<Dball6NamekBlockEntity>> DBALL6_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball6_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball6NamekBlockEntity::new, MainBlocks.DBALL6_NAMEK_BLOCK.get())
+                            .build(null));
+    public static final RegistryObject<BlockEntityType<Dball7NamekBlockEntity>> DBALL7_NAMEK_BLOCK_ENTITY =
+            BLOCK_ENTITY_TYPES_REGISTER.register("dball7_namek_block_entity", () ->
+                    BlockEntityType.Builder.of(Dball7NamekBlockEntity::new, MainBlocks.DBALL7_NAMEK_BLOCK.get())
+                            .build(null));
 
     //ORES (por ahora solo el Horno)
     public static final RegistryObject<BlockEntityType<GeteFurnaceBlockEntity>> GETE_FURNACE_BLOCK_ENTITY =

@@ -1,80 +1,55 @@
-# DragonMine Z
+# DragonMine Z 🌟
 
-DragonMine Z es un mod para Minecraft realizado en la versión 1.20.1 por fanáticos del juego.
+<div align="center">
+  <img src="./.github/docs/dmzbanner.png" alt="DMZ Banner" width="90%" />
+</div>
 
-## Instalación en Windows
+## About
 
-Para empezar a trabajar en el proyecto/ayudar/etc. sigue los siguientes pasos básicos:
+DragonMine Z is a [Minecraft](https://www.minecraft.net/en-us) mod based on
+[Dragon Ball](https://en.dragon-ball-official.com/) and developed in version **1.20.1**.
 
-1. Usa Minecraft Forge 1.20.1 (Cualquier sub-versión está bien, recomendamos el
-   de [nosotros](https://github.com/yuseix300/dragonminez/releases/tag/v0.1.0-alpha)
-2. Usa el IDE [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) Community
-3. Descarga el [OpenJDK de Adoptium](https://adoptium.net/temurin/releases/?version=17&os=windows) (Oracle nos puede
-   meter demanda, así que este es mejor)
-4. Inicia sesión en Git usando el IDE de IntnelliJ, autoriza tu usuario y permite acceso a tu cuenta para así tener
-   acceso a este repositorio.
-5. Usando git de IntelliJ, clona el repo del link: ``https://github.com/yuseix300/dragonminez.git`` y abre el workplace,
-   de preferencia trabaja en un branch aparte y realiza commits constantemente para ver lo que haces (asi ninguno se
-   emputa)
-6. Abre el repositorio en IntelliJ, empieza a configurar.
+### Contributing
 
-## Contribuciones
+Would you like to help? Cool! Check out the [contribution guide](CONTRIBUTING.md) to start.
 
-Las Pull Request son necesarias para todas las contribuciones, cambios, que NO sean realizados por Yuseix (Incluso él
-debería hacerlo también así los otros estamos al tanto de los cambios que ocurren y así no rompemos el código al hacer
-un cambio uno y otro). Asegúrate de usar un branch como el de Bruno para crear uno de estos. De igual forma puedes hacer
-un issue en GitHub si aparece un error.
+### 🌍 Translations
 
-Asegúrate de subir todo a otro branch que no sea main para evitar que el código se rompa o arruines la vida a Yuseix.
+- [Instrucciones en Español](./README_ES.md)
 
-## Uso de GitHub Copilot
+## 🚀 Features
 
-A continuación se muestran algunas ayudas para GitHub Copilot al momento de auto-completar código, estas deben ser
-SIEMPRE sugeridas por Copilot y/o al momento de crear un TODO para las GitHub Actions.
-Para usar esto, usar periódicamente estas labels para que Copilot pueda aprender de ellas.
+- **Sagas**: Relive the Dragon Ball Z and Super sagas.
+- **Transformations**: Transform into Super Saiyan, Super Saiyan Blue, Ultra Instinct and more.
+- **Skills**: Learn skills such as Kamehameha, Genkidama and more.
+- **Missions**: Complete missions to earn rewards.
+- **NPCs**: Interact with characters from the series.
+- **Worlds**: Explore the world of Dragon Ball.
+- **Items**: Find unique and powerful items.
+- **Customization**: Create your own character and customize it!
 
-### **Labels Posibles:**
+## 🎯 Use of Third Parties
 
-    Estado: Ayuda Requerida
-    Estado: Completado
-    Estado: Descartado
-    Estado: Disponible
-    Estado: Pendiente
-    Estado: Trabajandolo
+### Sounds
 
-    Priodidad: Media
-    Priodidad: Alta
-    Priodidad: Baja
-    Priodidad: Crítica
+Some sounds are used from the [Zapsplat](https://www.zapsplat.com/) and [Freesound](https://www.zapsplat.com/) pages:
 
-    Tipo: Animaciones
-    Tipo: Bug
-    Tipo: Comandos
-    Tipo: GUI
-    Tipo: Modelos
-    Tipo: Nueva Idea
-    Tipo: Optimizaciones
-    Tipo: Sonidos
-    Tipo: Tooltips
-    Tipo: Traducciones
+- [Dragon Ball Scouter/Tracker Remade.wav](https://freesound.org/s/518004/) by Pablobd | License: Attribution 3.0
+- [A Symphony for Akira Toriyama](https://www.youtube.com/watch?v=xNVEkSerkU0) by GLADIUS | License: CC-BY License
 
-## Uso de Terceros
+## ✨ Authors
 
-### Sonidos
+### Developers
 
-Algunos sonidos se usan desde la página de [Zapsplat](https://www.zapsplat.com/) y
-de [Freesound](https://freesound.org/):
+- [Yuseix](https://github.com/yuseix300) | *Programmer & Project Leader*.
+- [ezShokkoh](https://github.com/Shokkoh) | *Programmer*
+- [Bruno](https://github.com/Bruneitor123) | *Programmer & SFX*
 
-- [Dragon Ball Scouter/Rastreador Remade.wav](https://freesound.org/s/518004/) by Pablobd -- License: Attribution 3.0
+### Contributors
 
-## Autores
+- [Bati2ra](https://github.com/Bati2ra) | *Programmer*
 
-- **Yuseix** - *Programador y Líder del Proyecto* - [Yuseix](https://github.com/yuseix300)
-- **Bruno** - *Programador* - [MrBrunoh](https://github.com/Bruneitor123)
-- **Niko** - *Programador* - [ezShokkoh](https://github.com/Shokkoh)
-- **Antro** - *Programador* - [Bati2ra](https://github.com/Bati2ra)
+## License
 
-## Licencia
-
-2024, DragonMine Z 4.0 DEED Attribution-NonCommercial-NoDerivs 4.0 International\
+2024, DragonMine Z 4.0 DEED Attribution-NonCommercial-NoDerivs 4.0 International.
 [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en)

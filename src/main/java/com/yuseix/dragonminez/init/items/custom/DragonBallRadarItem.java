@@ -28,72 +28,44 @@ import java.util.function.Consumer;
 @ParametersAreNonnullByDefault
 public class DragonBallRadarItem extends Item {
 
+    private static final int[] RANGES = {75, 150}; // Diferentes rangos
+    public static final String NBT_RANGE = "RadarRange"; // Clave NBT para almacenar el rango
+
     public DragonBallRadarItem() {
         super(new Properties().stacksTo(1));
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack item = player.getItemInHand(hand);
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        player.playSound(MainSounds.DRAGONRADAR.get());
 
-        //Toggle radar soun
-        if (level.isClientSide())
-            player.playSound(MainSounds.RADAR_SCAN.get(), 0.5F, 1.0F);
-        if (!level.isClientSide() && hand == InteractionHand.MAIN_HAND) {
+        // Alternar rango al hacer clic derecho
+        if (!world.isClientSide()) {
+            int currentRange = stack.getOrCreateTag().getInt(NBT_RANGE);
+            int newRange = RANGES[(indexOf(currentRange) + 1) % RANGES.length]; // Alternar entre los rangos
 
-            /*TODO: Renderizado Radar
-             * Abajo se puede ver cómo se envian al chat las posiciones de las DBalls al hacer click derecho con el radar.
-             * Pero aún no existe ni la textura ni el renderizado del radar en sí.
-             * Parece una tarea complicada, hay que revisar items como el MapItem
-             * labels: Estado: Disponible, Prioridad: Media, Tipo: Modelos
-             */
+            stack.getOrCreateTag().putInt(NBT_RANGE, newRange);
 
-            level.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-                if (dragonBallsCapability.hasDragonBalls()) {
-                    List<BlockPos> dragonBallPositions = dragonBallsCapability.DragonBallPositions();
-                    for (BlockPos pos : dragonBallPositions) {
-                        player.sendSystemMessage(Component.literal("Dragon Ball found! At " + pos));
-                    }
-                }
-            });
+            Component message = Component.translatable("ui.dmzradar.range").append(": ")
+                    .append(String.valueOf(newRange)).append(" ")
+                    .append(Component.translatable("ui.dmzradar.blocks"));
+
+
+            player.displayClientMessage(message, true);
         }
 
-        return InteractionResultHolder.pass(item);
+        return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
 
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-
-            private static final HumanoidModel.ArmPose EXAMPLE_POSE = HumanoidModel.ArmPose.create("EXAMPLE", false, (model, entity, arm) -> {
-                if (arm == HumanoidArm.RIGHT) {
-                    model.rightArm.xRot = (float) (Math.random() * Math.PI * 2);
-                } else {
-                    model.leftArm.xRot = (float) (Math.random() * Math.PI * 2);
-                }
-            });
-
-            @Override
-            public HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
-                if (!itemStack.isEmpty()) {
-                    if (entityLiving.getUsedItemHand() == hand && entityLiving.getUseItemRemainingTicks() > 0) {
-                        return EXAMPLE_POSE;
-                    }
-                }
-                return HumanoidModel.ArmPose.EMPTY;
-            }
-
-            @Override
-            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-                int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-                poseStack.translate(i * 0.56F, -0.52F, -0.72F);
-                if (player.getUseItem() == itemInHand && player.isUsingItem()) {
-                    poseStack.translate(2.0, -0.05, 0.0);
-                }
-                return true;
-            }
-        });
+    private int indexOf(int range) {
+        for (int i = 0; i < RANGES.length; i++) {
+            if (RANGES[i] == range) return i;
+        }
+        return 0;
     }
+
+
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {

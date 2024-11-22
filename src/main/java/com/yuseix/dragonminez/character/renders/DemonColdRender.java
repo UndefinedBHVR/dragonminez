@@ -1,12 +1,19 @@
 package com.yuseix.dragonminez.character.renders;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.character.models.AuraModel;
+import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -41,6 +48,7 @@ import java.util.Iterator;
 public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
+    private final AuraModel model;
 
     public DemonColdRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer> pModel) {
         super(pContext, pModel, 0.5f);
@@ -50,6 +58,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION)); // Cargamos el modelo
+
     }
 
     @Override
@@ -61,7 +73,17 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -134,26 +156,6 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
-        if (rendertype != null) {
-            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
-
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-
-                int bodyType = cap.getBodytype();
-
-                if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                } else if(bodyType == 1){
-                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                } else if(bodyType == 2){
-                    renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                }
-                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-            });
-
-        }
-
         if (!pEntity.isSpectator()) {
             Iterator var24 = this.layers.iterator();
 
@@ -163,12 +165,81 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
             }
         }
 
+        if (rendertype != null) {
+            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+                int bodyType = cap.getBodytype();
+                int colorAura = cap.getAuraColor();
+                int transformacion = cap.getDmzState();
+                boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+
+                switch (transformacion){
+                    case 0:
+                        if (bodyType == 0) {
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                        } else if(bodyType == 1){
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                        } else if(bodyType == 2){
+                            renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                        }
+
+                        if(isMajinOn){
+                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+
+
+
+                        break;
+                }
+
+
+            });
+
+        }
+
+
+
         pPoseStack.popPose();
 
         if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
             this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
         }
 
+    }
+
+    private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/eyes/mmarca_eyestype1.png");
+
+        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                if(cap.getDmzState() == 0){
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.0011f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                }
+
+            }
+
+        });
     }
     private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 

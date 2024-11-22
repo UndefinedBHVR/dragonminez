@@ -1,14 +1,19 @@
 package com.yuseix.dragonminez.character.renders;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.character.layer.HairsLayer;
+import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -47,6 +52,8 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
     private float colorR, colorG, colorB;
 
+    private final AuraModel model;
+
     public HumanSaiyanRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
         super(pContext,model, 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
@@ -56,6 +63,9 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
     }
 
 
@@ -73,7 +83,17 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -146,6 +166,12 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
+        if (!pEntity.isSpectator()) {
+            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
+                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
+
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
 
@@ -153,21 +179,24 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
+                int colorAura = cap.getAuraColor();
+                boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
 
-                    if(pEntity.getModelName().equals("default")){
+                    if (pEntity.getModelName().equals("default")) {
                         renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
                         renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
 
                 } else if (bodyType > 0) {
-                    pPoseStack.translate(0f,0f,0f);
+                    pPoseStack.translate(0f, 0f, 0f);
 
                     //CUERPO CUSTOM 1
                     if (bodyType == 1) {
-                        if(genero.equals("Male")){
+                        if (genero.equals("Male")) {
                             renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         } else {
                             renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -175,21 +204,22 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                     }
 
                     //RENDER EYES
-                    if(genero.equals("Male")){
+                    if (genero.equals("Male")) {
                         renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
                         renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
                 }
 
+
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
+
+
             });
 
-        }
-
-        if (!pEntity.isSpectator()) {
-            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
-                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
-            }
         }
 
         pPoseStack.popPose();
@@ -342,6 +372,41 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
             }
 
+
+        });
+    }
+    private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
+        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
+
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                if(cap.getBodytype() > 0){
+                    if(cap.getEyesType() == 0){
+
+                        //DELINEADO
+                        pPoseStack.translate(0f,0f,-0.002f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    } else if(cap.getEyesType() == 1){
+                        //DELINEADO
+                        pPoseStack.translate(0f,0f,-0.0011f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    }
+                }
+
+
+            }
 
         });
     }

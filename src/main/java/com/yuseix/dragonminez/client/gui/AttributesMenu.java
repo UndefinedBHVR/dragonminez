@@ -1,49 +1,36 @@
 package com.yuseix.dragonminez.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
-import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.client.gui.cc.CCustomizationPage;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class AttributesMenu extends Screen implements RenderEntityInv {
 
     private int alturaTexto;
     private int anchoTexto;
+    private int multiplicadorTP = 1;
 
     private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menugrande.png");
@@ -57,7 +44,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     private static final ResourceLocation menuraza = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menupequeno.png");
 
-    private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton;
+    private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
+    private DMZGuiButtons newMenuBoton;
+
+    private DMZDatos2 dmzdatos = new DMZDatos2();
 
     public AttributesMenu(Component pGuiScreen) {
         super(pGuiScreen);
@@ -66,15 +56,17 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     @Override
     public void init() {
-
         super.init();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-
-
-
-        });
+        // Asegurarse de que el código de la UI solo se ejecute en el cliente
+        if (this.minecraft.level.isClientSide) {
+            this.newMenuBoton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(0, this.height - 20, "libro", Component.empty(), wa -> {
+                // Cambiar la pantalla solo en el cliente
+                this.minecraft.setScreen(new AttributesMenu2());
+            }));
+        }
     }
+
 
     @Override
     public void tick() {
@@ -94,11 +86,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         //Paneles del menu
         menuPaneles(graphics);
 
-        menu0info(graphics);
-
         menu1info(graphics);
 
         menu2info(graphics);
+
+        menu0info(graphics);
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
 
 
@@ -120,33 +112,88 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var con = playerstats.getConstitution();
             var kipower = playerstats.getKiPower();
             var energy = playerstats.getEnergy();
-            var cost =  (int) Math.round(((str + def + con + kipower + energy) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get() + 5);
 
             anchoTexto = 17;
-            alturaTexto = (this.height / 2) + 2;
-            if(tps >= cost){
-                this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto,Component.empty(), wa -> {
-                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(0,1));
-                }));
-                this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
-                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(1,1));
-                }));
-                this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
-                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(2,1));
-                }));
-                this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
-                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(3,1));
-                }));
-                this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons(anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
-                    ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                    ModMessages.sendToServer(new StatsC2S(4,1));
-                }));
+            alturaTexto = (this.height / 2) + 1;
+
+            int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+            var baseCost =  (int) Math.round(((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
+            int adjustedCostSTR, adjustedCostDEF, adjustedCostCON, adjustedCostPWR, adjustedCostENE;
+            var multCost = (int) Math.round((str + def + con + kipower + energy) /  2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
+
+            this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto-3, alturaTexto + 63,Component.empty(), wa -> {
+                if(multiplicadorTP == 1){
+                    multiplicadorTP *= 10;
+                } else if(multiplicadorTP == 10){
+                    multiplicadorTP *= 10;
+                } else if(multiplicadorTP == 100){
+                    multiplicadorTP = 1;
+                }
+            }));
+
+            if (str >= (maxStats - multiplicadorTP)) {
+                // Calcula los puntos restantes para alcanzar el límite de estadísticas y ajusta el costo en base a eso xd
+                int puntosNecesarios = maxStats - str;
+                adjustedCostSTR = (int) Math.round(baseCost * puntosNecesarios);
+            } else {
+                adjustedCostSTR = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
             }
-        });
+
+            if (def >= (maxStats - multiplicadorTP)) {
+                int puntosNecesarios = maxStats - def;
+                adjustedCostDEF = (int) Math.round(baseCost * puntosNecesarios);
+            } else {
+                adjustedCostDEF = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+            }
+
+            if (con >= (maxStats - multiplicadorTP)) {
+                int puntosNecesarios = maxStats - con;
+                adjustedCostCON = (int) Math.round(baseCost * puntosNecesarios);
+            } else {
+                adjustedCostCON = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+            }
+
+            if (kipower >= (maxStats - multiplicadorTP)) {
+                int puntosNecesarios = maxStats - kipower;
+                adjustedCostPWR = (int) Math.round(baseCost * puntosNecesarios);
+            } else {
+                adjustedCostPWR = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+            }
+
+            if (energy >= (maxStats - multiplicadorTP)) {
+                int puntosNecesarios = maxStats - energy;
+                adjustedCostENE = (int) Math.round(baseCost * puntosNecesarios);
+            } else {
+                adjustedCostENE = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+            }
+
+            if(tps >= baseCost){
+                if (str < maxStats) {
+                    this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostSTR));
+                        ModMessages.sendToServer(new StatsC2S(0,1 * multiplicadorTP));
+                    }));}
+                if (def < maxStats) {
+                    this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostDEF));
+                        ModMessages.sendToServer(new StatsC2S(1,1 * multiplicadorTP));
+                    }));}
+                if (con < maxStats) {
+                    this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostCON));
+                        ModMessages.sendToServer(new StatsC2S(2,1 * multiplicadorTP));
+                    }));}
+                if (kipower < maxStats) {
+                    this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostPWR));
+                        ModMessages.sendToServer(new StatsC2S(3,1 * multiplicadorTP));
+                    }));}
+                if (energy < maxStats) {
+                    this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostENE));
+                        ModMessages.sendToServer(new StatsC2S(4,1 * multiplicadorTP));
+                    }));}
+        }});
     }
 
     public void menu0info(GuiGraphics guiGraphics){
@@ -159,8 +206,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var alignment = playerstats.getDmzAlignment();
             var raza = playerstats.getRace();
 
-            if(alignment.equals("Good")){
+            if(alignment > 60){
                 drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x63FFFF);
+            }else if(alignment > 40){
+                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xeaa8fe);
             }else {
                 drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFA5252);
             }
@@ -209,7 +258,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var TPS = playerstats.getZpoints();
 
             var nivel = (playerstats.getStrength() + playerstats.getDefense() + playerstats.getConstitution()
-                    + playerstats.getKiPower() + playerstats.getEnergy()) / 7;
+                    + playerstats.getKiPower() + playerstats.getEnergy()) / 5;
 
             var clase = playerstats.getDmzClass();
 
@@ -229,10 +278,12 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             //VARIABLES:
             //NIVEL
-            anchoTexto = 75;
+            anchoTexto = 70;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
             //TPS
+
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
+
             //FORMA
             drawStringWithBorder2(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
@@ -262,26 +313,81 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             graphics.drawString(font, Component.literal("CON:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xD71432);
             graphics.drawString(font, Component.literal("PWR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, 0xD71432);
             graphics.drawString(font, Component.literal("ENE:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xD71432);
-            graphics.drawString(font, Component.literal("TPC:").withStyle(ChatFormatting.BOLD),anchoTexto - 7, alturaTexto + 64, 0x2BFFE2);
+            graphics.drawString(font, Component.literal("TPC:").withStyle(ChatFormatting.BOLD),anchoTexto - 4, alturaTexto + 64, 0x2BFFE2);
 
             var strdefault = playerstats.getStrength();
             var defdefault = playerstats.getDefense();
             var condefault = playerstats.getConstitution();
             var kipowerdefault = playerstats.getKiPower();
             var energydefault = playerstats.getEnergy();
+            var raza = playerstats.getRace();
+            var transf = playerstats.getDmzState();
 
-            var cost =  (int) Math.round(((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMCAttrConfig.MULTIPLIER_ZPOINTS_COST.get());
+            //Efectos
+            var majinOn = playerstats.hasDMZPermaEffect("majin");
+            var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
+
+            var baseCost =  (int) Math.round((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
+            var multCost = (int) Math.round((strdefault + defdefault + condefault + kipowerdefault + energydefault) /  2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
+            int finalCost = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+
+            var strcompleta = dmzdatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
+            var defcompleta = dmzdatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
+            var pwrcompleta = dmzdatos.calcularPWRCompleta(raza, transf, kipowerdefault, majinOn, frutaOn);
+
+            var STRMulti = dmzdatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn);
+            var DEFMulti = dmzdatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn);
+            var KIPOWERMulti = dmzdatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn);
+
+            var isMultiOn = majinOn || frutaOn || transf > 0;
+            var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
+
+
+            //WA
+            Component STRReal = Component.empty()
+                    .append(Component.literal(String.valueOf(strcompleta)))
+                    .append(Component.literal(" x")
+                            .append(Component.literal(String.valueOf(STRMulti)))
+                    );
+            Component DEFReal = Component.empty()
+                    .append(Component.literal(String.valueOf(defcompleta)))
+                    .append(Component.literal(" x")
+                            .append(Component.literal(String.valueOf(DEFMulti)))
+                    );
+            Component PWRReal = Component.empty()
+                    .append(Component.literal(String.valueOf(pwrcompleta)))
+                    .append(Component.literal(" x")
+                            .append(Component.literal(String.valueOf(KIPOWERMulti)))
+                    );
 
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
             anchoTexto = 70;
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFFFFF);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFFFFF);
 
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(cost)), anchoTexto-7, alturaTexto + 64, 0xFFCE41);
+            if(isMultiOn){ //Si alguna forma, estado esta activo.
+                drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
+                drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, PWRReal, anchoTexto, alturaTexto + 36, colorEnForma);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+            } else {
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+            }
+
+
+            Component Multiplier = Component.empty()
+                    .append(Component.literal(String.valueOf(finalCost)))
+                    .append(Component.literal(" (x")
+                    .append(Component.literal(String.valueOf(multiplicadorTP)))
+                    .append(Component.literal(".0)"))
+                    );
+            anchoTexto = 65;
+            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(finalCost)), anchoTexto, alturaTexto + 64, 0xFFCE41);
+            drawStringWithBorder2(graphics, font, Component.literal("x" + multiplicadorTP), anchoTexto, alturaTexto + 76, 0x2BFFE2);
 
         });
 
@@ -304,8 +410,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             graphics.drawString(font, Component.literal("Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, color);
             graphics.drawString(font, Component.literal("Defense:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, color);
-            graphics.drawString(font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, color);
-            graphics.drawString(font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, color);
+            graphics.drawString(font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, color);
+            graphics.drawString(font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto+4, alturaTexto + 36, 0xFFBB91);
             graphics.drawString(font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, color);
             graphics.drawString(font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, color);
 
@@ -314,29 +420,43 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             anchoTexto = (this.width - 55);
 
+            //Efectos
+            var majinOn = playerstats.hasDMZPermaEffect("majin");
+            var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
+
             //Datos
-            var strMax = DMZDatos.calcularSTR(playerstats.getRace(), playerstats.getStrength(), 1);
-            var defMax = DMZDatos.calcularDEF(playerstats.getRace(),playerstats.getDefense());
-            var conMax = DMZDatos.calcularCON(playerstats.getRace(), playerstats.getConstitution(), 20);
-            var stmMax = DMZDatos.calcularSTM(playerstats.getRace(), conMax);
-            var KPWMax = playerstats.getKiPower();
-            var enrMax = DMZDatos.calcularENE(playerstats.getRace(), playerstats.getEnergy());
+            var raza = playerstats.getRace();
+            var str = playerstats.getStrength();
+            var def = playerstats.getDefense();
+            var con = playerstats.getConstitution();
+            var kpw = playerstats.getKiPower();
+            var enr = playerstats.getEnergy();
 
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+            var clase = playerstats.getDmzClass();
+            var transf = playerstats.getDmzState();
+            var release = playerstats.getDmzRelease();
 
+            var strMax = dmzdatos.calcularSTR(raza, str, 1, transf,release,clase, majinOn, frutaOn);
+            var defMax = dmzdatos.calcularDEF(Minecraft.getInstance().player,raza,def, transf,release, clase, majinOn, frutaOn);
+            var conMax = dmzdatos.calcularCON(raza, con, 20, clase);
+            var stmMax = dmzdatos.calcularSTM(raza, conMax);
+            var KPWMax = dmzdatos.calcularKiPower(raza, kpw, transf, release, clase, majinOn, frutaOn);
+            var enrMax = dmzdatos.calcularENE(raza, enr, clase);
 
-            drawStringWithBorder2(graphics, font, Component.literal("x"+"1.0"), anchoTexto-3, alturaTexto + 80, 0xFCFCFC);
+            var colorEnForma = majinOn || frutaOn || transf > 0 ? 0xfebc0d : 0xFFD7AB;
 
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 24, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 36, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, colorEnForma);
 
+            var MultiTotal = dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
+
+            drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, colorEnForma);
         });
-
     }
-
 
     public void menuPaneles(GuiGraphics guiGraphics){
         //INFORMACION (Nivel, tps, forma)
@@ -380,23 +500,22 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
 
-        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde);
-        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde);
-        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde);
-        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde);
-        guiGraphics.drawString(font, texto, x, y, ColorTexto);
+        guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, x, y, ColorTexto, false);
     }
 
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
         drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
     public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
-        drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
+        drawStringWithBorder2(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
     @Override
     public boolean isPauseScreen() {
         return false;
     }
-
 
 }

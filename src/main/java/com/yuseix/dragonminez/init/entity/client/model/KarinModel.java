@@ -20,7 +20,7 @@ public class KarinModel extends GeoModel<KarinEntity> {
 
     @Override
     public ResourceLocation getTextureResource(KarinEntity karinEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/karin_master.png");
+        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/karin_master.png");
     }
 
     @Override

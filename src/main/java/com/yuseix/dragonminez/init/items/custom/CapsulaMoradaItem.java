@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -19,35 +20,59 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class CapsulaMoradaItem extends Item {
-    public CapsulaMoradaItem() {
-        super(new Item.Properties());
-    }
+	public CapsulaMoradaItem() {
+		super(new Item.Properties());
+	}
 
-    @Override
-    public @NotNull Component getName(@NotNull ItemStack pStack) {
-        return Component.translatable("item.dragonminez.purple_capsule");
-    }
+	@Override
+	public @NotNull Component getName(@NotNull ItemStack pStack) {
+		return Component.translatable("item.dragonminez.purple_capsule");
+	}
 
-    @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.dragonminez.purple_capsule.tooltip").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("item.dragonminez.purple_capsule.tooltip2").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+	@Override
+	public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
+		pTooltipComponents.add(Component.translatable("item.dragonminez.purple_capsule.tooltip").withStyle(ChatFormatting.GRAY));
+		pTooltipComponents.add(Component.translatable("item.dragonminez.purple_capsule.tooltip2").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
 
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-    }
+		super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+	}
 
-    @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        ItemStack capsula = pPlayer.getItemInHand(pUsedHand);
-        pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
+	@Override
+	public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand) {
+		ItemStack capsula = pPlayer.getItemInHand(pUsedHand);
+		pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.NEUTRAL, 1.5F, 1.0F);
 
-        if (!pLevel.isClientSide) {
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> stats.addDefense(5));
+		if (!pLevel.isClientSide) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
+				boolean isDmzUser = stats.isAcceptCharacter();
+				if (isDmzUser) {
+					int defense = stats.getDefense(); // Defensa actual
+					int maxDefense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get(); // Máximo permitido
 
-            pPlayer.displayClientMessage(Component.translatable("item.dragonminez.purple_capsule.def.use").withStyle(ChatFormatting.GREEN), true);
-        }
+					if (defense < maxDefense) {
+						int increment = Math.min(5, maxDefense - defense); // Ajusta el incremento
+						stats.addDefense(increment);
 
-        capsula.shrink(1);
-        return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
-    }
+						pPlayer.displayClientMessage(
+								Component.literal("+")
+										.append(String.valueOf(increment) + " ")
+										.append(Component.translatable("item.dragonminez.purple_capsule.def.use"))
+										.withStyle(ChatFormatting.GREEN),
+								true
+						);
+						capsula.shrink(1);
+					} else {
+						pPlayer.displayClientMessage(
+								Component.translatable("item.dragonminez.purple_capsule.def.full")
+										.withStyle(ChatFormatting.RED),
+								true
+						);
+					}
+				}
+			});
+			return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
+		}
+		pPlayer.displayClientMessage(Component.translatable("error.dmz.createcharacter").withStyle(ChatFormatting.RED), true);
+		return InteractionResultHolder.fail(capsula);
+	}
 }

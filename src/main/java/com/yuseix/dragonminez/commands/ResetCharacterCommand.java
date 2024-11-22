@@ -1,10 +1,10 @@
 package com.yuseix.dragonminez.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.yuseix.dragonminez.config.DMCAttrConfig;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -33,7 +33,15 @@ public class ResetCharacterCommand {
     private static int reiniciarJugador(Collection<ServerPlayer> pPlayers) {
         for (ServerPlayer player : pPlayers) {
 
-            player.sendSystemMessage(Component.literal("The character of " + player.getName().getString() + " has been reset."));
+            DMZDatos2 dmzdatos = new DMZDatos2();
+
+            player.sendSystemMessage(
+                    Component.translatable("command.dmzrestart.character")
+                            .append(" ")
+                            .append(player.getName())
+                            .append(" ")
+                            .append(Component.translatable("command.dmzrestart.character_restarted"))
+            );
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
@@ -45,30 +53,13 @@ public class ResetCharacterCommand {
                 playerstats.setStrength(5);
                 playerstats.setDefense(5);
                 playerstats.setConstitution(5);
-                playerstats.setStamina(5);
-                playerstats.setCurStam(playerstats.getStamina() + 3);
                 playerstats.setKiPower(5);
                 playerstats.setEnergy(5);
+                playerstats.setZpoints(0);
 
-                if (raza == 0) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 1) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 2) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 3) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 4) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                } else if (raza == 5) {
-                    energiacurrent = (int) (playerstats.getEnergy() * DMCAttrConfig.MULTIPLIER_ENERGY_SAIYAN.get());
-                    playerstats.setCurrentEnergy(energiacurrent);
-                }
+                energiacurrent = dmzdatos.calcularENE(raza, playerstats.getEnergy(), playerstats.getDmzClass());
+                playerstats.setCurrentEnergy(energiacurrent);
+
 
             });
 

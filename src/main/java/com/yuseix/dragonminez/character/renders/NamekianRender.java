@@ -1,14 +1,19 @@
 package com.yuseix.dragonminez.character.renders;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.character.layer.HairsLayer;
+import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -46,6 +51,7 @@ import java.util.Iterator;
 public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
+    private final AuraModel model;
 
     public NamekianRender(EntityRendererProvider.Context pContext) {
         super(pContext, new NamekianModel<>(pContext.bakeLayer(NamekianModel.LAYER_LOCATION)), 0.5f);
@@ -56,6 +62,9 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 
     }
 
@@ -68,7 +77,17 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -141,27 +160,6 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
-        if (rendertype != null) {
-            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
-
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-
-                int bodyType = cap.getBodytype();
-
-                if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                } else if (bodyType == 1) {
-                    pPoseStack.translate(0f,0f,0f);
-                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                }
-                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-            });
-
-        }
-
         if (!pEntity.isSpectator()) {
             Iterator var24 = this.layers.iterator();
 
@@ -171,6 +169,40 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             }
         }
 
+        if (rendertype != null) {
+            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+                int bodyType = cap.getBodytype();
+                int colorAura = cap.getAuraColor();
+                boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+
+
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                } else if (bodyType == 1) {
+                    pPoseStack.translate(0f, 0f, 0f);
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+
+                if(isMajinOn){
+                    renderMarcaMajin(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
+
+
+            });
+
+        }
+
+
+
         pPoseStack.popPose();
 
         if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
@@ -179,6 +211,37 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
     }
 
+    private void renderMarcaMajin(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                if(cap.getEyesType() == 0){
+
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.0011f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                } else if(cap.getEyesType() == 1){
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.0011f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                }
+            }
+
+
+
+
+        });
+    }
     private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();

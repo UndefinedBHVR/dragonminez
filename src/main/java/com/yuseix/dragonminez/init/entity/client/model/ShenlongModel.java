@@ -24,7 +24,19 @@ public class ShenlongModel extends GeoModel<ShenlongEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(ShenlongEntity shenlongEntity) {
-        return null;
+        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/shenlong.animation.json");
+    }
+
+    @Override
+    public void setCustomAnimations(ShenlongEntity animatable, long instanceId, AnimationState<ShenlongEntity> animationState) {
+        CoreGeoBone head = getAnimationProcessor().getBone("head");
+
+        if (head != null) {
+            EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
+
+            head.setRotX(entityData.headPitch() * Mth.DEG_TO_RAD);
+            head.setRotY(entityData.netHeadYaw() * Mth.DEG_TO_RAD);
+        }
     }
 
     

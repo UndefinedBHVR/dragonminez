@@ -2,12 +2,9 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.layer.HairsLayer;
 import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
-import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
-import com.yuseix.dragonminez.init.entity.custom.characters.FPBase;
-import com.yuseix.dragonminez.init.entity.custom.characters.FPHumanSaiyanEntity;
+import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -29,8 +26,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderNameTagEvent;
-import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Iterator;
 
@@ -54,8 +49,6 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
     public void render(FPBase pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
 
         var playermodel = this.getModel();
-
-        RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
         pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
@@ -123,7 +116,7 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, Minecraft.getInstance().player.tickCount + pPartialTicks, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -138,6 +131,7 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
 
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
 
@@ -167,6 +161,10 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
                     }
                 }
 
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
             });
 
         }
@@ -182,13 +180,44 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
 
         pPoseStack.popPose();
 
-        if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
-            this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
-        }
-
 
     }
 
+    private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
+        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
+
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin
+                pPoseStack.translate(0f,0f,-0.002f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
+                if(cap.getBodytype() > 0){
+                    if(cap.getEyesType() == 0){
+
+                        //DELINEADO
+                        pPoseStack.translate(0f,0f,-0.002f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    } else if(cap.getEyesType() == 1){
+                        //DELINEADO
+                        pPoseStack.translate(0f,0f,-0.002f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    }
+                }
+
+
+            }
+
+        });
+    }
 
     private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 

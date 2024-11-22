@@ -1,9 +1,20 @@
 name: Java CI
 
-on: [ push, pull_request ]
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.java'
+
+  push:
+    branches:
+      - main
+    paths:
+      - '**.java'
 
 jobs:
-  build:
+  gradle-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,9 +36,6 @@ jobs:
             ./.gradle/loom-cache/remapped-mods
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle', '**/gradle-wrapper.properties') }}
 
-      - name: Checkea idiomas pa
-        run: ./scripts/check_lang.sh
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         
@@ -44,3 +52,12 @@ jobs:
       - name: PMD Violations Check
         if: steps.pmd.outputs.violations != 0
         run: exit 1
+
+        #############################
+#        Quitar comentario cuando el repositorio sea público y hacer setup de GitHub Advanced Security
+        #############################
+#      - name: Upload SARIF file
+#        uses: github/codeql-action/upload-sarif@v3
+#        with:
+#          sarif_file: pmd-report.sarif
+

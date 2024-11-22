@@ -1,15 +1,21 @@
 package com.yuseix.dragonminez.character.renders;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.character.layer.FatArmorLayer;
 import com.yuseix.dragonminez.character.layer.HairsLayer;
+import com.yuseix.dragonminez.character.models.AuraModel;
+import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -47,6 +53,8 @@ import java.util.Iterator;
 public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
+    private final AuraModel model;
+
 
     public MajinFATRaceRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer> pModel) {
         super(pContext, pModel, 0.5f);
@@ -60,6 +68,10 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
+
 
     }
 
@@ -72,7 +84,16 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -145,36 +166,6 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
-        if (rendertype != null) {
-            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
-
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-
-                int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
-
-                if (bodyType == 0) {
-
-                        if(genero.equals("Male")){
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else {
-                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-
-                    //RENDER EYES
-                    if(genero.equals("Male")){
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    } else {
-                        renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    }
-
-                }
-
-            });
-
-        }
-
         if (!pEntity.isSpectator()) {
             Iterator var24 = this.layers.iterator();
 
@@ -184,6 +175,55 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             }
         }
 
+        if (rendertype != null) {
+            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+                int bodyType = cap.getBodytype();
+                var genero = cap.getGender();
+                int colorAura = cap.getAuraColor();
+                int transformacion = cap.getDmzState();
+                boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+
+                switch (transformacion){
+                    case 0:
+                        if (bodyType == 0) {
+                            if(genero.equals("Male")){
+                                renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            } else {
+                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+                            //RENDER EYES
+                            if(genero.equals("Male")){
+                                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            } else {
+                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+
+                            if(isMajinOn){
+                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+                        }
+
+
+
+                        break;
+
+                }
+
+
+
+
+
+            });
+
+        }
+
+
+
         pPoseStack.popPose();
 
         if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
@@ -191,6 +231,21 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         }
 
 
+    }
+    private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        MajinGordoModel<AbstractClientPlayer> playermodel = (MajinGordoModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            if(cap.hasDMZPermaEffect("majin")){
+                //Renderizamos la marca majin para todos
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA_RM)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+            }
+
+        });
     }
 
     private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
