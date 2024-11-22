@@ -46,7 +46,7 @@ public class SenzuBeanItem extends Item {
 
 	@Override
 	public int getUseDuration(ItemStack pStack) {
-		return 32;
+		return 20 * 15; // 15s y se reinicia la anim
 	}
 
 	@Override
