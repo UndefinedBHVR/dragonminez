@@ -66,10 +66,10 @@ public class ClientPacketHandler {
 
 	@OnlyIn(Dist.CLIENT)
 	public static void handleStatsSyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var clientLevel = Minecraft.getInstance().level;
-		if (clientLevel == null) return;
+//		var clientLevel = Minecraft.getInstance().level;
+//		if (clientLevel == null) return;
 
-		var entity = clientLevel.getEntity(playerId);
+		var entity = Minecraft.getInstance().level.getEntity(playerId);
 		if (entity instanceof Player player) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.loadNBTData(nbt);

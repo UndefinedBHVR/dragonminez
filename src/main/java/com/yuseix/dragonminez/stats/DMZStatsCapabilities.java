@@ -34,12 +34,13 @@ public class DMZStatsCapabilities {
 
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, 20, cap.getDmzClass()));
         });
-        }
+
+
+    }
 
     @SubscribeEvent
     public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         syncStats(event.getEntity());
-
     }
 
     @SubscribeEvent
@@ -73,15 +74,17 @@ public class DMZStatsCapabilities {
 
     @SubscribeEvent
     public void onPlayerCloned(PlayerEvent.Clone event) {
+        var player = event.getEntity();
+        var original = event.getOriginal();
 
-        event.getOriginal().reviveCaps();
+        original.reviveCaps();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getEntity()).ifPresent(
-                cap -> DMZStatsProvider.getCap(INSTANCE, event.getOriginal()).ifPresent(originalcap ->
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(
+                cap -> DMZStatsProvider.getCap(INSTANCE, original).ifPresent(originalcap ->
                         cap.loadNBTData(originalcap.saveNBTData())));
 
 
-        event.getOriginal().invalidateCaps();
+        original.invalidateCaps();
 
     }
 

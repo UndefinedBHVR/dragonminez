@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZGenericAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.utils.GenAttRegistry;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -64,7 +65,7 @@ public class DragonMineZ {
 		//Registramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend, conocido como ModEvents)
 		MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
 		//Se registran los eventos de las Capabilities de las Stats
-		//MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
+		MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
 		MinecraftForge.EVENT_BUS.register(GenAttRegistry.class);
 		MinecraftForge.EVENT_BUS.register(DMZGenericAttributes.class);
