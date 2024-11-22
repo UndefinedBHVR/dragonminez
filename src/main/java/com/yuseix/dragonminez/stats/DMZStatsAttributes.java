@@ -451,20 +451,20 @@ public class DMZStatsAttributes {
 
     public void addCurEnergy(int currentEnergy) {
 
-        var maxEne = 0;
-
-        maxEne = calcularENE(races, energy, dmzClass);
-
-        if(currentEnergy >= maxEne){
-            this.currentEnergy = maxEne;
-        } else {
-            this.currentEnergy += currentEnergy;
-
-            if(this.currentEnergy > maxEne){
-                this.currentEnergy = maxEne;
-            }
-        }
-
+//        var maxEne = 0;
+//
+//        maxEne = calcularENE(races, energy, dmzClass);
+//
+//        if(currentEnergy >= maxEne){
+//            this.currentEnergy = maxEne;
+//        } else {
+//            this.currentEnergy += currentEnergy;
+//
+//            if(this.currentEnergy > maxEne){
+//                this.currentEnergy = maxEne;
+//            }
+//        }
+        this.currentEnergy += currentEnergy;
 
         DMZStatsCapabilities.syncStats(player);
     }
