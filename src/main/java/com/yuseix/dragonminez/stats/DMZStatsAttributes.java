@@ -5,7 +5,6 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
 import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
-import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -237,8 +236,8 @@ public class DMZStatsAttributes {
 
         this.strength -= points;
 
-        if (this.strength < 3) {
-            this.strength = 3;
+        if (this.strength < 1) {
+            this.strength = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -248,8 +247,8 @@ public class DMZStatsAttributes {
 
         this.defense -= points;
 
-        if (this.defense < 3) {
-            this.defense = 3;
+        if (this.defense < 1) {
+            this.defense = 1;
         }
         DMZStatsCapabilities.syncStats(player);
     }
@@ -258,8 +257,8 @@ public class DMZStatsAttributes {
 
         this.constitution -= points;
 
-        if (this.constitution < 3) {
-            this.constitution = 3;
+        if (this.constitution < 1) {
+            this.constitution = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -269,8 +268,8 @@ public class DMZStatsAttributes {
 
         this.KiPower -= points;
 
-        if (this.KiPower < 3) {
-            this.KiPower = 3;
+        if (this.KiPower < 1) {
+            this.KiPower = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -281,8 +280,8 @@ public class DMZStatsAttributes {
 
         this.energy -= points;
 
-        if (this.energy < 3) {
-            this.energy = 3;
+        if (this.energy < 1) {
+            this.energy = 1;
         }
 
         DMZStatsCapabilities.syncStats(player);
@@ -426,7 +425,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        maxEne = DMZDatos.calcularENE(races, energy, dmzClass);
+        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -470,11 +469,11 @@ public class DMZStatsAttributes {
     }
 
     public int getMaxHealth() {
-        return DMZDatos.calcularCON(races, constitution, 20, dmzClass);
+        return dmzdatos.calcularCON(races, constitution, 20, dmzClass);
     }
 
     public int getMaxEnergy() {
-        return DMZDatos.calcularENE(races, energy, dmzClass);
+        return dmzdatos.calcularENE(races, energy, dmzClass);
     }
 
     public int getCurStam() {
@@ -488,8 +487,8 @@ public class DMZStatsAttributes {
         var maxVIDA = 0;
 
 
-        maxVIDA = DMZDatos.calcularCON(races, constitution, 20, dmzClass);
-        maxStam = DMZDatos.calcularSTM(races, maxVIDA);
+        maxVIDA = dmzdatos.calcularCON(races, constitution, 20, dmzClass);
+        maxStam = dmzdatos.calcularSTM(races, maxVIDA);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;
@@ -515,8 +514,8 @@ public class DMZStatsAttributes {
         var maxStam = 0;
         var maxVIDA = 0;
 
-        maxVIDA = DMZDatos.calcularCON(races, constitution, 20, dmzClass);
-        maxStam = DMZDatos.calcularSTM(races, maxVIDA);
+        maxVIDA = dmzdatos.calcularCON(races, constitution, 20, dmzClass);
+        maxStam = dmzdatos.calcularSTM(races, maxVIDA);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;

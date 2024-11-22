@@ -6,7 +6,7 @@ import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,6 +51,8 @@ public class DendeC2S {
     }
 
     public static void resetPlayerStats(ServerPlayer player, DMZStatsAttributes playerstats) {
+        DMZDatos2 dmzdatos = new DMZDatos2();
+
         player.displayClientMessage(Component.translatable("lines.dende.reset.success"), true);
         var race = playerstats.getRace();
         int currentEnergy = 0;
@@ -63,20 +65,22 @@ public class DendeC2S {
         playerstats.setEnergy(5);
         playerstats.setZpoints(0);
 
-        currentEnergy = DMZDatos.calcularENE(race, playerstats.getEnergy(), playerstats.getDmzClass());
+        currentEnergy = dmzdatos.calcularENE(race, playerstats.getEnergy(), playerstats.getDmzClass());
         playerstats.setCurrentEnergy(currentEnergy);
     }
 
     private static void healPlayer(ServerPlayer player, DMZStatsAttributes playerstats) {
+        DMZDatos2 dmzdatos = new DMZDatos2();
+
         player.displayClientMessage(Component.translatable("lines.dende.heal.success"), true);
 
         var race = playerstats.getRace();
         var con = playerstats.getConstitution();
         var energia = playerstats.getEnergy();
 
-        double vidaTotal = DMZDatos.calcularCON(race, con, 20, playerstats.getDmzClass());
-        int energiaMax = DMZDatos.calcularENE(race, energia, playerstats.getDmzClass());
-        int staminaMax = DMZDatos.calcularSTM(race, (int) vidaTotal);
+        double vidaTotal = dmzdatos.calcularCON(race, con, 20, playerstats.getDmzClass());
+        int energiaMax = dmzdatos.calcularENE(race, energia, playerstats.getDmzClass());
+        int staminaMax = dmzdatos.calcularSTM(race, (int) vidaTotal);
 
         player.heal((float) vidaTotal);
         playerstats.setCurStam(staminaMax);

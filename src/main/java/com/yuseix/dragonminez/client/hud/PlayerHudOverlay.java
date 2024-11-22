@@ -7,7 +7,7 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class PlayerHudOverlay implements RenderEntityInv {
 
+
     private static final ResourceLocation efectos = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/hud/efectosperma.png");
     private static final ResourceLocation efectostemp = new ResourceLocation(DragonMineZ.MOD_ID,
@@ -32,6 +33,8 @@ public class PlayerHudOverlay implements RenderEntityInv {
     private static int releaseUpdateSpeed = 2 * (20); // Velocidad de actualización en ticks
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
+
+        DMZDatos2 dmzdatos = new DMZDatos2();
 
         if (Minecraft.getInstance().options.renderDebug) {
             // Si la pantalla de depuración F3 está activada, no renderizar el HUD
@@ -53,14 +56,14 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
             int TransfMax = 100;
 
-            maxVIDA = DMZDatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
-            StaminaMax = DMZDatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
+            maxVIDA = dmzdatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
+            StaminaMax = dmzdatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
 
             int curStamina = playerstats.getCurStam();
 
             int energiaMax = 0;
 
-            energiaMax = DMZDatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
+            energiaMax = dmzdatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
             
             int curEnergia = playerstats.getCurrentEnergy();
 

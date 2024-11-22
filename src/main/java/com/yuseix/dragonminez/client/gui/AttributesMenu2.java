@@ -10,7 +10,7 @@ import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -35,6 +35,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
 
     private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
+    private DMZDatos2 dmzdatos = new DMZDatos2();
 
     public AttributesMenu2() {
         super(Component.empty());
@@ -285,13 +286,13 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var multCost = (int) Math.round((strdefault + defdefault + condefault + kipowerdefault + energydefault) /  2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
             int finalCost = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
 
-            var strcompleta = DMZDatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
-            var defcompleta = DMZDatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
-            var pwrcompleta = DMZDatos.calcularPWRCompleta(raza, transf, kipowerdefault, majinOn, frutaOn);
+            var strcompleta = dmzdatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
+            var defcompleta = dmzdatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
+            var pwrcompleta = dmzdatos.calcularPWRCompleta(raza, transf, kipowerdefault, majinOn, frutaOn);
 
-            var STRMulti = DMZDatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn);
-            var DEFMulti = DMZDatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn);
-            var KIPOWERMulti = DMZDatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn);
+            var STRMulti = dmzdatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn);
+            var DEFMulti = dmzdatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn);
+            var KIPOWERMulti = dmzdatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn);
 
             var isMultiOn = majinOn || frutaOn || transf > 0;
             var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
@@ -383,12 +384,12 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var transf = playerstats.getDmzState();
             var release = playerstats.getDmzRelease();
 
-            var strMax = DMZDatos.calcularSTR(raza, str, 1, transf,release,clase, majinOn, frutaOn);
-            var defMax = DMZDatos.calcularDEF(raza,def, transf,release, clase, majinOn, frutaOn);
-            var conMax = DMZDatos.calcularCON(raza, con, 20, clase);
-            var stmMax = DMZDatos.calcularSTM(raza, conMax);
-            var KPWMax = DMZDatos.calcularKiPower(raza, kpw, transf, release, clase, majinOn, frutaOn);
-            var enrMax = DMZDatos.calcularENE(raza, enr, clase);
+            var strMax = dmzdatos.calcularSTR(raza, str, 1, transf,release,clase, majinOn, frutaOn);
+            var defMax = dmzdatos.calcularDEF(Minecraft.getInstance().player,raza,def, transf,release, clase, majinOn, frutaOn);
+            var conMax = dmzdatos.calcularCON(raza, con, 20, clase);
+            var stmMax = dmzdatos.calcularSTM(raza, conMax);
+            var KPWMax = dmzdatos.calcularKiPower(raza, kpw, transf, release, clase, majinOn, frutaOn);
+            var enrMax = dmzdatos.calcularENE(raza, enr, clase);
 
             var colorEnForma = majinOn || frutaOn || transf > 0 ? 0xfebc0d : 0xFFD7AB;
 
@@ -399,7 +400,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, colorEnForma);
 
-            var MultiTotal = DMZDatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
+            var MultiTotal = dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
 
             drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, colorEnForma);
         });

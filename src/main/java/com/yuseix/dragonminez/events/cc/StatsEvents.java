@@ -10,7 +10,6 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.DMZDatos2;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
@@ -67,95 +66,75 @@ public class StatsEvents {
 
         DMZDatos2 dmzdatos = new DMZDatos2();
 
-        // Acceder a la capability
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerStats -> {
-            // Modificar los datos de la capacidad
-            int maximaEnergy = dmzdatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(),playerStats.getDmzClass());
+            energyRegen++;
+            tickcounter++;
+            energiaConsumecounter++;
 
-            playerStats.addCurEnergy(5);
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
+                var vidaMC = 20;
+                var con = playerstats.getConstitution();
+                var raza = playerstats.getRace();
+                var energia = playerstats.getEnergy();
 
-            // Mensaje de depuración para confirmar
-            System.out.println("Tu maximo de energia es: " + maximaEnergy);
-            System.out.println("Tu energia actual es: " + playerStats.getCurrentEnergy());
+                int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
+                int maxstamina = dmzdatos.calcularSTM(raza, dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
-        });
+                // Ajustar la salud máxima del jugador
+                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+
+                // Regeneración de stamina
+                if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
+                    if (tickcounter >= 60 * 3) { // Cada 3 segundos
+                        int regenStamina = (maxstamina / 4);
+                        playerstats.addCurStam(regenStamina);
+                        tickcounter = 0;
+                    }
+                }
+
+                // Regeneración de energía Warrior
+                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
+                    if (energyRegen >= 60 * 5) { // Cada 5 segundos
+                        int regenki = dmzdatos.calcularKiRegen(raza, maxenergia, playerstats.getDmzClass()); // Regenerar 10% de la energía máxima
+                        playerstats.addCurEnergy(regenki);
+                        energyRegen = 0;
+                    }
+                }
+
+
+                //Consumo de energia
+                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
+                    if (energiaConsumecounter >= 60 * 3) { // Cada 3 segundos
+                        int consumeki = dmzdatos.calcularKiConsume(raza, playerstats.getEnergy(), playerstats.getDmzState());
+                        playerstats.removeCurEnergy(consumeki);
+                        energiaConsumecounter = 0;
+                    }
+                }
+
+                //Tiempo para reclamar una senzu
+                if (Senzu_countdown > 0) {
+                    playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
+                    Senzu_countdown--;
+                }
+                if (Senzu_countdown == 0) {
+                    playerstats.setDmzSenzuDaily(0);
+                }
+
+                //Aca manejamos la carga de aura
+                manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
+
+
+                //Restar el tiempo que se pone en el comando dmztempeffect
+                updateTemporaryEffects(event.player);
+
+
+            });
     }
 
-//    @SubscribeEvent
-//    public static void tick(TickEvent.PlayerTickEvent event) {
-//        // Regenerar stamina
-//        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer serverPlayer) {
-//
-//            energyRegen++;
-//            tickcounter++;
-//            energiaConsumecounter++;
-//
-//            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
-//                var vidaMC = 20;
-//                var con = playerstats.getConstitution();
-//                var raza = playerstats.getRace();
-//                var energia = playerstats.getEnergy();
-//
-//                int maxenergia = DMZDatos.calcularENE(raza, energia, playerstats.getDmzClass());
-//                int maxstamina = DMZDatos.calcularSTM(raza, DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
-//
-//                // Ajustar la salud máxima del jugador
-//                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
-//
-//                // Regeneración de stamina
-//                if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
-//                    if (tickcounter >= 60 * 3) { // Cada 3 segundos
-//                        int regenStamina = (maxstamina / 4);
-//                        playerstats.addCurStam(regenStamina);
-//                        tickcounter = 0;
-//                    }
-//                }
-//
-//                // Regeneración de energía Warrior
-//                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-//                    if (energyRegen >= 60 * 5) { // Cada 5 segundos
-//                        int regenki = DMZDatos.calcularKiRegen(raza, maxenergia, playerstats.getDmzClass()); // Regenerar 10% de la energía máxima
-//                        playerstats.addCurEnergy(regenki);
-//                        energyRegen = 0;
-//                    }
-//                }
-//
-//
-//                //Consumo de energia
-//                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-//                    if (energiaConsumecounter >= 60 * 3) { // Cada 3 segundos
-//                        int consumeki = DMZDatos.calcularKiConsume(raza, playerstats.getEnergy(), playerstats.getDmzState());
-//                        playerstats.removeCurEnergy(consumeki);
-//                        energiaConsumecounter = 0;
-//                    }
-//                }
-//
-//                //Tiempo para reclamar una senzu
-//                if (Senzu_countdown > 0) {
-//                    playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
-//                    Senzu_countdown--;
-//                }
-//                if (Senzu_countdown == 0) {
-//                    playerstats.setDmzSenzuDaily(0);
-//                }
-//
-//                //Aca manejamos la carga de aura
-//                //manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
-//
-//
-//                //Restar el tiempo que se pone en el comando dmztempeffect
-//                //updateTemporaryEffects(event.player);
-//
-//
-//            });
-//
-//
-//        }
-//
-//    }
     private static void manejarCargaDeAura(DMZStatsAttributes playerstats, boolean isActionKeyPressed, int maxenergia) {
         // Incrementa el temporizador en cada tick
         chargeTimer++;
+
+        DMZDatos2 dmzdatos = new DMZDatos2();
 
         if (chargeTimer >= CHARGE_INTERVAL) {
             if (playerstats.isAuraOn() && isActionKeyPressed) {
@@ -173,7 +152,7 @@ public class StatsEvents {
                     }
                 }
 
-                playerstats.addCurEnergy(DMZDatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
+                playerstats.addCurEnergy(dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
             }
 
             chargeTimer = 0;
@@ -196,6 +175,9 @@ public class StatsEvents {
 
     @SubscribeEvent
     public static void Recibirdano(LivingHurtEvent event) {
+
+        DMZDatos2 dmzdatos = new DMZDatos2();
+
         // Si el que hace el daño es un jugador
         if (event.getSource().getEntity() instanceof Player atacante) {
             // Obtener las estadísticas del atacante
@@ -208,7 +190,7 @@ public class StatsEvents {
                 float danoDefault = event.getAmount(); // Capturamos el daño original
 
                 // Calcular el daño basado en la fuerza del atacante
-                int maxStr = DMZDatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
+                int maxStr = dmzdatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
                         cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
 
                 int staminacost = maxStr / 12;
@@ -231,7 +213,7 @@ public class StatsEvents {
                     var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
                     var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
 
-                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), majinOn, fruta);
+                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), majinOn, fruta);
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
@@ -247,7 +229,7 @@ public class StatsEvents {
                     var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
                     var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
 
-                    int defObjetivo = DMZDatos.calcularDEF(statsObjetivo.getRace(), statsObjetivo.getDefense(),
+                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(),
                             statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(),
                             statsObjetivo.getDmzClass(), majinOn, fruta);
 
@@ -264,12 +246,14 @@ public class StatsEvents {
     public static void livingFallEvent(LivingFallEvent event) {
         float fallDistance = event.getDistance();
 
+        DMZDatos2 dmzdatos = new DMZDatos2();
+
         if (event.getEntity() instanceof ServerPlayer player) {
             if (fallDistance > 3.0f) {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
-                    int maxEnergy = DMZDatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
+                    int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
 
                     // drenaje de config
                     int baseEnergyDrain = (int) Math.ceil(maxEnergy * DMZGeneralConfig.MULTIPLIER_FALLDMG.get());
@@ -278,8 +262,6 @@ public class StatsEvents {
                     int extraEnergyDrain = (int) ((fallDistance - 4.5f) * baseEnergyDrain / 4.5f);
 
                     int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
-
-                    System.out.println("Se va a drenar al jugador la siguiente cantidad de energia: " + totalEnergyDrain);
 
                     // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
                     if (stats.getCurrentEnergy() >= totalEnergyDrain) {

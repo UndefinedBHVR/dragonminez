@@ -4,7 +4,7 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
@@ -62,6 +62,8 @@ public class SenzuBeanItem extends Item {
 	public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity, int timeLeft) {
 		if (!(pLivingEntity instanceof Player player) || pLevel.isClientSide) return;
 
+		DMZDatos2 dmzdatos = new DMZDatos2();
+
 		pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), MainSounds.SENZU_BEAN.get(), SoundSource.NEUTRAL, 1.5F, 1.0F);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
@@ -70,9 +72,9 @@ public class SenzuBeanItem extends Item {
 			var energia = stats.getEnergy();
 			var raza = stats.getRace();
 
-			double VidaTotal = DMZDatos.calcularCON(raza, con, vidaMC, stats.getDmzClass());
-			int energiaMax = DMZDatos.calcularENE(raza, energia, stats.getDmzClass());
-			int staminaMax = DMZDatos.calcularSTM(raza, (int) VidaTotal);
+			double VidaTotal = dmzdatos.calcularCON(raza, con, vidaMC, stats.getDmzClass());
+			int energiaMax = dmzdatos.calcularENE(raza, energia, stats.getDmzClass());
+			int staminaMax = dmzdatos.calcularSTM(raza, (int) VidaTotal);
 
 			player.heal((float) VidaTotal);
 			stats.setCurStam(staminaMax);

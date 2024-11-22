@@ -11,7 +11,7 @@ import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -70,6 +70,8 @@ public class CCustomizationPage extends Screen {
     private int currentPage = 0;
 
     private float angleXComponent;
+
+    private DMZDatos2 dmzdatos = new DMZDatos2();
 
 
     public CCustomizationPage(Component pTitle) {
@@ -1548,12 +1550,12 @@ public class CCustomizationPage extends Screen {
             var majinOn = cap.hasDMZPermaEffect("majin");
             var fruta = cap.hasDMZTemporalEffect("mightfruit");
 
-            var strMax = DMZDatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
-            var defMax = DMZDatos.calcularDEF(cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
-            var conMax = DMZDatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
-            var stmMax = DMZDatos.calcularSTM(cap.getRace(), conMax);
-            var KPWMax = DMZDatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
-            var enrMax = DMZDatos.calcularENE(cap.getRace(), cap.getEnergy(), cap.getDmzClass());
+            var strMax = dmzdatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var defMax = dmzdatos.calcularDEF(minecraft.player,cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var conMax = dmzdatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
+            var stmMax = dmzdatos.calcularSTM(cap.getRace(), conMax);
+            var KPWMax = dmzdatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var enrMax = dmzdatos.calcularENE(cap.getRace(), cap.getEnergy(), cap.getDmzClass());
 
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(strMax)), this.width-67, alturaTexto, 0xfdbf26);
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(defMax)), this.width-67, alturaTexto + 12, 0xfdbf26);

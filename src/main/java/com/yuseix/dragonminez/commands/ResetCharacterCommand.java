@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -33,6 +33,8 @@ public class ResetCharacterCommand {
     private static int reiniciarJugador(Collection<ServerPlayer> pPlayers) {
         for (ServerPlayer player : pPlayers) {
 
+            DMZDatos2 dmzdatos = new DMZDatos2();
+
             player.sendSystemMessage(
                     Component.translatable("command.dmzrestart.character")
                             .append(" ")
@@ -55,7 +57,7 @@ public class ResetCharacterCommand {
                 playerstats.setEnergy(5);
                 playerstats.setZpoints(0);
 
-                energiacurrent = DMZDatos.calcularENE(raza, playerstats.getEnergy(), playerstats.getDmzClass());
+                energiacurrent = dmzdatos.calcularENE(raza, playerstats.getEnergy(), playerstats.getDmzClass());
                 playerstats.setCurrentEnergy(energiacurrent);
 
 

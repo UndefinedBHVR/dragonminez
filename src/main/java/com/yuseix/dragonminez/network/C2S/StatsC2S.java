@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.network.C2S;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -36,9 +36,12 @@ public class StatsC2S {
         NetworkEvent.Context context = ctx.get();
         context.enqueueWork(() -> {
 
+            DMZDatos2 dmzdatos = new DMZDatos2();
+
             ServerPlayer player = ctx.get().getSender();
 
             if (player != null) {
+
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
                     var vidaMC = 20;
@@ -66,8 +69,8 @@ public class StatsC2S {
                             }
                             playerstats.addCon(incrementoStats);
 
-                            var conMax = DMZDatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
-                            playerstats.setCurStam(DMZDatos.calcularSTM(raza, conMax));
+                            var conMax = dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
+                            playerstats.setCurStam(dmzdatos.calcularSTM(raza, conMax));
                             player.refreshDimensions();
                             break;
                         case 3:

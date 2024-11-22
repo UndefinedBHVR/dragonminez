@@ -4,7 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,6 +21,8 @@ import net.minecraftforge.network.PacketDistributor;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class DMZStatsCapabilities {
 
+    private DMZDatos2 dmzdatos = new DMZDatos2();
+
     public static final Capability<DMZStatsAttributes> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 
     @SubscribeEvent
@@ -34,7 +36,7 @@ public class DMZStatsCapabilities {
             var con = cap.getConstitution();
             var raza = cap.getRace();
 
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(DMZDatos.calcularCON(raza, con, 20, cap.getDmzClass()));
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, 20, cap.getDmzClass()));
         });
         }
 
@@ -56,13 +58,13 @@ public class DMZStatsCapabilities {
             var maxVIDA = 0.0;
 
             //VIDAAAAAAA
-            maxVIDA = DMZDatos.calcularCON(raza, con, vidaMC,cap.getDmzClass());
+            maxVIDA = dmzdatos.calcularCON(raza, con, vidaMC,cap.getDmzClass());
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
             event.getEntity().heal((float) maxVIDA);
-            cap.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+            cap.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
 
             //ENERGIAAA
-            cap.setCurrentEnergy(DMZDatos.calcularENE(raza, energia, cap.getDmzClass()));
+            cap.setCurrentEnergy(dmzdatos.calcularENE(raza, energia, cap.getDmzClass()));
         });
 
     }

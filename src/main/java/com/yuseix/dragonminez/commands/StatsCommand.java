@@ -7,7 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.utils.DMZDatos2;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -91,6 +91,9 @@ public class StatsCommand {
     private int removeStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
 
+            DMZDatos2 dmzdatos = new DMZDatos2();
+
+
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
                 var vidaMC = 20;
                 var con = stats.getConstitution();
@@ -127,8 +130,8 @@ public class StatsCommand {
                     case "constitution":
                         stats.removeConstitution(cantidadFinal);
 
-                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
-                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
                         player.heal((float) maxVIDA);
 
                         player.sendSystemMessage(
@@ -153,7 +156,7 @@ public class StatsCommand {
                     case "energy":
                         stats.removeEnergy(cantidadFinal);
 
-                        stats.setCurrentEnergy(DMZDatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass()));
+                        stats.setCurrentEnergy(dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass()));
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
                                         .append(Component.translatable("command.dmzstats.energy")).append(" ")
@@ -169,10 +172,10 @@ public class StatsCommand {
                         stats.removeKiPower(cantidadFinal);
                         stats.removeEnergy(cantidadFinal);
 
-                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
-                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
 
-                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+                        stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -194,6 +197,9 @@ public class StatsCommand {
 
     private int addStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
+
+            DMZDatos2 dmzdatos = new DMZDatos2();
+
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
                 var vidaMC = 20;
@@ -231,8 +237,8 @@ public class StatsCommand {
                     case "constitution":
                         stats.addCon(cantidadFinal);
 
-                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
-                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
                         player.heal((float) maxVIDA);
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -255,7 +261,7 @@ public class StatsCommand {
                     case "energy":
                         stats.addEnergy(cantidadFinal);
 
-                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+                        stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -272,10 +278,10 @@ public class StatsCommand {
                         stats.addKipwr(cantidadFinal);
                         stats.addEnergy(cantidadFinal);
 
-                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
-                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
 
-                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+                        stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -297,6 +303,8 @@ public class StatsCommand {
 
     private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
         for (ServerPlayer player : players) {
+
+            DMZDatos2 dmzdatos = new DMZDatos2();
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
@@ -339,8 +347,8 @@ public class StatsCommand {
 
                         stats.setConstitution(cantidadFinal);
 
-                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
-                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
                         player.heal((float) maxVIDA);
 
                         player.sendSystemMessage(
@@ -367,7 +375,7 @@ public class StatsCommand {
 
                         stats.setEnergy(cantidadFinal);
 
-                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+                        stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -386,10 +394,10 @@ public class StatsCommand {
                         stats.setEnergy(cantidadFinal);
 
 
-                        maxVIDA = DMZDatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
-                        stats.setCurStam(DMZDatos.calcularSTM(raza, (int) maxVIDA));
+                        maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
 
-                        stats.setCurrentEnergy(DMZDatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+                        stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
