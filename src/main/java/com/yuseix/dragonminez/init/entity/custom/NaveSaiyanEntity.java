@@ -255,7 +255,9 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource pSource) {
-        if ("drown".equals(pSource.getMsgId())) {
+        if ("drown".equals(pSource.getMsgId()) || "fall".equals(pSource.getMsgId()) || "falling_anvil".equals(pSource.getMsgId()) || "falling_block".equals(pSource.getMsgId())
+                || "falling_stalactite".equals(pSource.getMsgId()) || "in_fire".equals(pSource.getMsgId()) || "in_wall".equals(pSource.getMsgId()) || "lava".equals(pSource.getMsgId())
+                || "lightning_bolt".equals(pSource.getMsgId()) || "magic".equals(pSource.getMsgId()) || "sonic_boom".equals(pSource.getMsgId()) || "thrown".equals(pSource.getMsgId())) {
             return true;
         }
         return super.isInvulnerableTo(pSource);
