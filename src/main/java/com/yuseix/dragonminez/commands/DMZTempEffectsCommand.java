@@ -99,7 +99,7 @@ public class DMZTempEffectsCommand {
 
         for (ServerPlayer player : players) {
             player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName).append(" ")
-                    .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s"))
+                    .append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s "))
                     .append(Component.translatable("command.dmz.to")).append(player.getName()));
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZTemporalEffect(effectName, newSeconds));
         }

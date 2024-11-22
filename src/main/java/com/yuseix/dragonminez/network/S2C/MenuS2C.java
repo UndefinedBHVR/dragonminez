@@ -13,12 +13,12 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class MenuS2C {
-
     private final boolean openCharacterMenu;
 
     public MenuS2C(boolean isConfirmCharacter) {
         this.openCharacterMenu = isConfirmCharacter;
     }
+
     public MenuS2C(FriendlyByteBuf buf) {
         this.openCharacterMenu = buf.readBoolean();
     }
@@ -32,16 +32,18 @@ public class MenuS2C {
             // Solo en el cliente
             if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
                 DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                    if (openCharacterMenu) {
-                        Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
-                    } else {
-                        Minecraft.getInstance().setScreen(new CFirstPage());
+                    if (Minecraft.getInstance().level.isClientSide()) {
+                        if (openCharacterMenu) {
+                            // Abrir la pantalla en el cliente
+                            Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+                        } else {
+                            Minecraft.getInstance().setScreen(new CFirstPage());
+                        }
                     }
                 });
             }
         });
         return true;
     }
-
-
 }
+
