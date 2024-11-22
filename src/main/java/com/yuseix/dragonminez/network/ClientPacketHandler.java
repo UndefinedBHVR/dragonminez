@@ -33,6 +33,20 @@ public class ClientPacketHandler {
 			});
 		}
 	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleTempEffectsPacket(int playerId, Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = clientLevel.getEntity(playerId);
+
+		if (entity instanceof Player player) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				cap.getDMZTemporalEffects().clear();
+				cap.getDMZTemporalEffects().putAll(tempEffects);
+			});
+		}
+	}
 
 	@OnlyIn(Dist.CLIENT)
 	public static void handleSkillsPacket(Map<String, Integer> skillsdmz, Supplier<NetworkEvent.Context> ctxSupplier) {
@@ -45,16 +59,7 @@ public class ClientPacketHandler {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static void handleTempEffectsPacket(Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var player = Minecraft.getInstance().player;
-		if (player != null) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				cap.getDMZTemporalEffects().clear();
-				cap.getDMZTemporalEffects().putAll(tempEffects);
-			});
-		}
-	}
+
 
 	@OnlyIn(Dist.CLIENT)
 	public static void handleMenuPacket(boolean openCharacterMenu, Supplier<NetworkEvent.Context> ctxSupplier) {

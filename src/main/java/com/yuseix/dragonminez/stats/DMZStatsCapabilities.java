@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.stats;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,6 +26,7 @@ public class DMZStatsCapabilities {
     public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         syncStats(event.getEntity());
         syncPermanentEffects(event.getEntity());
+        syncTempEffects(event.getEntity());
 
         event.getEntity().refreshDimensions();
 
@@ -44,12 +46,15 @@ public class DMZStatsCapabilities {
     public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         syncStats(event.getEntity());
         syncPermanentEffects(event.getEntity());
+        syncTempEffects(event.getEntity());
+
     }
 
     @SubscribeEvent
     public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         syncStats(event.getEntity());
         syncPermanentEffects(event.getEntity());
+        syncTempEffects(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
@@ -108,6 +113,10 @@ public class DMZStatsCapabilities {
                         serverplayer
                 );
 
+                ModMessages.sendToPlayer(
+                        new DMZTempEffectsS2C(trackedplayer, cap.getDMZTemporalEffects()),
+                        serverplayer
+                );
             });
 
         }
@@ -122,6 +131,12 @@ public class DMZStatsCapabilities {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
             ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
                     new DMZPermanentEffectsSyncS2C(player, cap.getDMZPermanentEffects()));
+        });
+    }
+    public static void syncTempEffects(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                    new DMZTempEffectsS2C(player, cap.getDMZTemporalEffects()));
         });
     }
 
