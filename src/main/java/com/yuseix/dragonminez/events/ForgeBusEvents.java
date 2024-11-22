@@ -4,11 +4,8 @@ import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.network.C2S.MenuC2S;
-import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
@@ -19,7 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -90,13 +86,6 @@ public class ForgeBusEvents {
         }
     }*/
 
-
-	@SubscribeEvent
-	public static void onKeyInput(InputEvent.Key event) {
-		if (Keys.STATS_MENU.consumeClick()) {
-			ModMessages.sendToServer(new MenuC2S());
-		}
-	}
 
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {
