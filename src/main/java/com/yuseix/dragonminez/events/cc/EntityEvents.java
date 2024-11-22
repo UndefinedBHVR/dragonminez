@@ -127,13 +127,7 @@ public class EntityEvents {
 	public static void onLivingTick(TickEvent.PlayerTickEvent event) {
 		Player player = event.player;
 
-		// Solo ejecutar en el servidor y en la fase de finalización
 		if (player.level().isClientSide || event.phase != TickEvent.Phase.END) {
-			return;
-		}
-
-		// Asegurarse de que sea un ServerPlayer si necesitas usar métodos específicos del servidor
-		if (!(player instanceof ServerPlayer serverPlayer)) {
 			return;
 		}
 
@@ -147,13 +141,13 @@ public class EntityEvents {
 			long currentTime = player.level().getGameTime(); // Tiempo actual en ticks
 			long lastHealTime = lastHealingTime.getOrDefault(player, 0L);
 
-			// Solo aplicar curación si ha pasado el tiempo
+			// Solo aplicar curación ha pasado el tiempo
 			if (currentTime - lastHealTime >= HEAL_TICKS) {
-				funcLiqCurativo(serverPlayer); // Usa serverPlayer aquí
+				funcLiqCurativo(player);
 				lastHealingTime.put(player, currentTime); // Actualizar el último tiempo de curación
 			}
 		} else if (fluidState.is(MainFluids.SOURCE_NAMEK.get())) {
-			funcAguaNamek(serverPlayer); // Usa serverPlayer aquí si necesario
+			funcAguaNamek(player);
 		}
 	}
 
