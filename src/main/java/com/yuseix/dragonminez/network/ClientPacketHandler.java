@@ -21,9 +21,12 @@ import java.util.function.Supplier;
 public class ClientPacketHandler {
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handlePermanentEffectsPacket(Map<String, Boolean> effects, Supplier<NetworkEvent.Context> ctxSupplier) {
-		Player player = Minecraft.getInstance().player;
-		if (player != null) {
+	public static void handlePermanentEffectsPacket(int playerId, Map<String, Boolean> effects, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = clientLevel.getEntity(playerId);
+		if (entity instanceof Player player) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.getDMZPermanentEffects().clear(); // Limpia los datos existentes
 				cap.getDMZPermanentEffects().putAll(effects); // Añade los nuevos valores
@@ -66,8 +69,8 @@ public class ClientPacketHandler {
 
 	@OnlyIn(Dist.CLIENT)
 	public static void handleStatsSyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
-//		var clientLevel = Minecraft.getInstance().level;
-//		if (clientLevel == null) return;
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
 
 		var entity = Minecraft.getInstance().level.getEntity(playerId);
 		if (entity instanceof Player player) {

@@ -24,6 +24,7 @@ public class DMZStatsCapabilities {
     @SubscribeEvent
     public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         syncStats(event.getEntity());
+        syncPermanentEffects(event.getEntity());
 
         event.getEntity().refreshDimensions();
 
@@ -42,11 +43,13 @@ public class DMZStatsCapabilities {
     @SubscribeEvent
     public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         syncStats(event.getEntity());
+        syncPermanentEffects(event.getEntity());
     }
 
     @SubscribeEvent
     public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         syncStats(event.getEntity());
+        syncPermanentEffects(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
@@ -97,9 +100,13 @@ public class DMZStatsCapabilities {
         var tracked = event.getTarget();
         if (tracked instanceof ServerPlayer trackedplayer) {
             DMZStatsProvider.getCap(INSTANCE, tracked).ifPresent(cap -> {
+
                 ModMessages.sendToPlayer(new StatsSyncS2C(trackedplayer), serverplayer);
 
-                ModMessages.sendToPlayer(new DMZPermanentEffectsSyncS2C(cap.getDMZPermanentEffects()), serverplayer);
+                ModMessages.sendToPlayer(
+                        new DMZPermanentEffectsSyncS2C(trackedplayer, cap.getDMZPermanentEffects()),
+                        serverplayer
+                );
 
             });
 
@@ -109,6 +116,13 @@ public class DMZStatsCapabilities {
     public static void syncStats(Player player) {
         ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StatsSyncS2C(player));
 
+    }
+
+    public static void syncPermanentEffects(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                    new DMZPermanentEffectsSyncS2C(player, cap.getDMZPermanentEffects()));
+        });
     }
 
 }
