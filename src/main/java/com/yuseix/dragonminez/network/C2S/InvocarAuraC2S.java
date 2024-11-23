@@ -126,7 +126,7 @@ public class InvocarAuraC2S {
                             player.level().addFreshEntity(aura);
                         }
 
-                        float transparency = playerId.equals(player.getUUID()) && isInFirstPersonView(player) ? 0.05F : 0.15F;
+                        float transparency = playerId.equals(player.getUUID()) && isInFirstPersonView(player) ? 0.03F : 0.06F;
                         ModMessages.sendToPlayer(new InvocarAuraS2C(playerId, transparency), player);
 
                     } else { // Si el botón no está presionado

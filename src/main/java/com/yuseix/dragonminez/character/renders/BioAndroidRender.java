@@ -63,7 +63,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
-        this.addLayer(new AuraLayer(this));
+        //this.addLayer(new AuraLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION)); // Cargamos el modelo
 

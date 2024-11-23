@@ -106,16 +106,7 @@ public class AuraEntity extends Mob{
         if (!level().isClientSide) { // Solo en el servidor
             if (this.getOwner() != null) {
                 // Lógica para seguir al jugador
-                double targetX = this.getOwner().getX();
-                double targetY = this.getOwner().getY();
-                double targetZ = this.getOwner().getZ();
-
-                double lerpFactor = 0.9;
-                double newX = this.getX() + (targetX - this.getX()) * lerpFactor;
-                double newY = this.getY() + (targetY - this.getY()) * lerpFactor;
-                double newZ = this.getZ() + (targetZ - this.getZ()) * lerpFactor;
-
-                this.setPos(newX, newY, newZ);
+                this.setPos(this.getOwner().getX(), this.getOwner().getY(), this.getOwner().getZ());
             } else {
                 this.discard();
             }
