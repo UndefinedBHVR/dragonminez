@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.character.layer.AuraLayer;
 import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -62,6 +63,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new AuraLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION)); // Cargamos el modelo
 

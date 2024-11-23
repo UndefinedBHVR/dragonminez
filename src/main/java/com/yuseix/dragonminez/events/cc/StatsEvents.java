@@ -280,11 +280,11 @@ public class StatsEvents {
             // Detecta si la tecla KI_CHARGE está presionada o liberada y solo envía el paquete si cambia el estado
             if (isKiChargeKeyPressed && !previousKiChargeState) {
                 ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-                ModMessages.sendToServer(new InvocarAuraC2S());
+                //ModMessages.sendToServer(new InvocarAuraC2S());
                 previousKiChargeState = true; // Actualiza el estado previo
             } else if (!isKiChargeKeyPressed && previousKiChargeState) {
                 ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-                ModMessages.sendToServer(new InvocarAuraC2S());
+                //ModMessages.sendToServer(new InvocarAuraC2S());
                 previousKiChargeState = false; // Actualiza el estado previo
             }
 

@@ -26,7 +26,7 @@ public class AuraModel<T extends Entity> extends EntityModel<T> {
 
 		PartDefinition aura = partdefinition.addOrReplaceChild("aura", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition cube_r1 = aura.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(2, 0).addBox(-6.0F, -20.0F, -1.0F, 16.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 0.0F, -7.0F, 0.1309F, 0.0F, 0.0F));
+		PartDefinition cube_r1 = aura.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(2, 0).addBox(-8.0F, -10.0F, 0.0F, 16.0F, 20.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -9.7839F, -9.2967F, 3.0107F, 0.0F, 3.1416F));
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
