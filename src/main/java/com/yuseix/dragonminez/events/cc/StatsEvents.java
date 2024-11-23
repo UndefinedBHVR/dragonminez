@@ -84,7 +84,7 @@ public class StatsEvents {
                 // Regeneración de stamina
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
                     if (tickcounter >= 60 * 3) { // Cada 3 segundos
-                        int regenStamina = (maxstamina / 4);
+                        int regenStamina = (int) Math.ceil(maxstamina / 4);
                         playerstats.addCurStam(regenStamina);
                         tickcounter = 0;
                     }
@@ -125,9 +125,6 @@ public class StatsEvents {
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
 
-            // Mensaje de depuración para confirmar
-            //System.out.println("Tu maximo de energia es: " + maximaEnergy);
-            //System.out.println("Tu energia actual es: " + playerStats.getCurrentEnergy());
 
             });
     }
@@ -283,11 +280,11 @@ public class StatsEvents {
             // Detecta si la tecla KI_CHARGE está presionada o liberada y solo envía el paquete si cambia el estado
             if (isKiChargeKeyPressed && !previousKiChargeState) {
                 ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-                //ModMessages.sendToServer(new InvocarAuraC2S());
+                ModMessages.sendToServer(new InvocarAuraC2S());
                 previousKiChargeState = true; // Actualiza el estado previo
             } else if (!isKiChargeKeyPressed && previousKiChargeState) {
                 ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-                //ModMessages.sendToServer(new InvocarAuraC2S());
+                ModMessages.sendToServer(new InvocarAuraC2S());
                 previousKiChargeState = false; // Actualiza el estado previo
             }
 

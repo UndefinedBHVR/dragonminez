@@ -184,7 +184,11 @@ public class AuraRenderer extends LivingEntityRenderer<AuraEntity, AuraModel<Aur
             var tipoAura = pEntity.getTipoAura();
 
             if(tipoAura == 0){ //Ponemos el tipo de Aura por defecto
+                pPoseStack.pushPose();
+                pPoseStack.translate(0.0f,-0.2f,0.0f);
                 renderAuraBase(pEntity, pPoseStack, pBuffer, pPackedLight, pPartialTicks, transparency, color);
+                pPoseStack.popPose();
+
             } else { //En Caso de existir otro lo pondriamos aca
 
             }
@@ -210,9 +214,455 @@ public class AuraRenderer extends LivingEntityRenderer<AuraEntity, AuraModel<Aur
         colorB = (colorAura & 0xff) / 255.0f;
 
         float rotationAngle = 0.0F;
-        rotationAngle = (pEntity.tickCount + pPartialTicks) * 5.0F; // Ajusta la velocidad aquí
+        rotationAngle = (pEntity.tickCount + pPartialTicks) * 7.0F; // Ajusta la velocidad aquí
+
+        float rotationAngle2 = 0.0F;
+        rotationAngle2 = (pEntity.tickCount + pPartialTicks) * -7.0F; // Ajusta la velocidad aquí
 
         VertexConsumer vertexConsumer = pBuffer.getBuffer(CustomRenderTypes.energy(TextureManager.AURA_BASE));
+
+        // PARTE BAJA 1
+        for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //PARTE BAJA 2
+        for (int i = 0; i < 8; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.4F, 1.9F, 1.4F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 8; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.4F, 1.9F, 1.4F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 8; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.4F, 1.9F, 1.4F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //PARTE MEDIO 1 interior
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.6D, -0.2D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.6D, -0.2D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.6D, -0.2D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //parte medio 2 exterior
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(25f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.1D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //parte medio 2 int
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(-15f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.1D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //parte medio 3 exterior
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(15f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.6D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(15f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.6D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(15f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.6D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //Parte 2 arriba exterior
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.6F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(25F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.8D, -0.4D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.6F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(25F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.8D, -0.4D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.6F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(25F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.8D, -0.4D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //Parte 3 arriba exterior
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.8F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(-15F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.4D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.8F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(-15F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.4D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.8F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(-15F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.0D, -0.4D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        //PARTE ARRIBA 4 interior
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(5F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.3D, -0.38D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(5F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.3D, -0.38D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(5F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -1.3D, -0.38D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+
+
+
+    }
+
+    private void renderAuraBase2(AuraEntity pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, float pPartialTicks, float transparencia, int colorAura){
+
+        colorR = (colorAura >> 16) / 255.0F;
+        colorG = ((colorAura >> 8) & 0xff) / 255.0f;
+        colorB = (colorAura & 0xff) / 255.0f;
+
+        float rotationAngle = 0.0F;
+        rotationAngle = (pEntity.tickCount + pPartialTicks) * 5.0F; // Ajusta la velocidad aquí
+
+        boolean useAlternateTexture = ((pEntity.tickCount + pPartialTicks) / 20.0F) % 2 < 1;
+
+
+        VertexConsumer vertexConsumer = pBuffer.getBuffer(CustomRenderTypes.energy2(
+                useAlternateTexture ? TextureManager.AURA_BASE2 : TextureManager.AURA_BASE));
 
         // PARTE BAJA 1
         for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
@@ -264,6 +714,24 @@ public class AuraRenderer extends LivingEntityRenderer<AuraEntity, AuraModel<Aur
             pPoseStack.pushPose();
             RenderSystem.enableBlend();
             pPoseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
+
+            // Posicionar el aura un poco más arriba o abajo
+            pPoseStack.translate(0.0D, -0.6D, -0.2D);
+
+            // Renderizar cada plano
+            model.renderToBuffer(pPoseStack, vertexConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, transparencia);
+            RenderSystem.disableBlend();
+
+            pPoseStack.popPose();
+        }
+        for (int i = 0; i < 10; i++) {
+            pPoseStack.pushPose();
+            RenderSystem.enableBlend();
+            pPoseStack.scale(1.2F, 3.0F, 1.2F);
 
             // Rotar cada plano un poco más en Y y X
             pPoseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
@@ -394,8 +862,17 @@ public class AuraRenderer extends LivingEntityRenderer<AuraEntity, AuraModel<Aur
         }
 
 
-    }
+        //PARTE PARA QUE NO SE VEAN LOS RENDERS DE OTRAS ENTIDADES
 
+
+
+
+
+
+
+
+
+    }
 
     @Override
     protected void renderNameTag(AuraEntity pEntity, Component pDisplayName, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
