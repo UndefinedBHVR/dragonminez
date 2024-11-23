@@ -51,9 +51,7 @@
   "entity.dragonminez.ginyu_frog": "Rana (Ginyu)",
   "entity.dragonminez.namek_warrior01": "Namekiano Guerrero (Tipo 1)",
   "entity.dragonminez.namek_warrior02": "Namekiano Guerrero (Tipo 2)",
-  "entity.dragonminez.namek_trader01": "Namekiano Comerciante (Tipo 1)",
-  "entity.dragonminez.namek_trader02": "Namekiano Comerciante (Tipo 2)",
-  "entity.dragonminez.namek_trader03": "Namekiano Comerciante (Tipo 3)",
+  "entity.dragonminez.namek_trader": "Namekiano Comerciante",
   "entity.dragonminez.soldier01": "Soldado de Freezer",
   "entity.dragonminez.moro_soldier": "Soldado de Moro",
 

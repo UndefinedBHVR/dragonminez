@@ -51,9 +51,7 @@
   "entity.dragonminez.ginyu_frog": "Frog (Ginyu)",
   "entity.dragonminez.namek_warrior01": "Namekian Warrior (Type 1)",
   "entity.dragonminez.namek_warrior02": "Namekian Warrior (Type 2)",
-  "entity.dragonminez.namek_trader01": "Namekian Trader (Type 1)",
-  "entity.dragonminez.namek_trader02": "Namekian Trader (Type 2)",
-  "entity.dragonminez.namek_trader03": "Namekian Trader (Type 3)",
+  "entity.dragonminez.namek_trader": "Namekian Trader",
   "entity.dragonminez.soldier01": "Frieza's Soldier",
   "entity.dragonminez.moro_soldier": "Moro's Soldier",
 
