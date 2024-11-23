@@ -37,7 +37,7 @@ public class NamekTraderEntity extends Villager {
         this.goalSelector.addGoal(2, new PanicGoal(this, 2.5D));
 
         // Camina de manera aleatoria evitando el agua
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 2.0D));
 
         // Mirada aleatoria
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));

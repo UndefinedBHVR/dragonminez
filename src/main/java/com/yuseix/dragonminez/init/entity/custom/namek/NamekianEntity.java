@@ -30,7 +30,7 @@ public class NamekianEntity extends PathfinderMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
 
-        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 1.5D));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 6.0F));
 

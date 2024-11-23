@@ -35,7 +35,7 @@ public class PorungaMenu extends Screen {
 
 	private String PageOption = "";
 	private int PageButtons;
-	public int wishesCount = 0;
+	public int wishesCount;
 
 	public PorungaMenu(int wishesCount) {
 		super(Component.literal("porungawa"));
@@ -84,20 +84,25 @@ public class PorungaMenu extends Screen {
 		int centerX = (this.width / 2);
 		int centerY = (this.height);
 
+		assert this.minecraft != null;
 		LivingEntity porungaEntity = new PorungaEntity(MainEntity.PORUNGA.get(), this.minecraft.level);
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
+
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderTexture(0, textoCuadro);
+
 		BufferBuilder buffer = Tesselator.getInstance().getBuilder();
 		buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
 		buffer.vertex(centerX - 140, centerY + 250, 0.0D).uv(0.0F, 1.0F).endVertex();
 		buffer.vertex(centerX + 140, centerY + 250, 0.0D).uv(1.0F, 1.0F).endVertex();
 		buffer.vertex(centerX + 140, centerY - 90, 0.0D).uv(1.0F, 0.0F).endVertex();
 		buffer.vertex(centerX - 140, centerY - 90, 0.0D).uv(0.0F, 0.0F).endVertex();
 		Tesselator.getInstance().end();
+
 		RenderSystem.disableBlend();
 
 		//NOMBRE DE LA ENTIDAD
