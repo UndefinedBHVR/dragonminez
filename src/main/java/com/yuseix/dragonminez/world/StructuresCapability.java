@@ -107,8 +107,8 @@ public class StructuresCapability {
                     if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER)
                             && !belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER)) {
                         posicionValida = posiblePos;
-                        System.out.println("Posición válida encontrada: " + posicionValida);
-                        System.out.println("/teleport Dev " + x + " " + y + " " + z);
+                        //System.out.println("Posición válida encontrada: " + posicionValida);
+                        //System.out.println("/teleport Dev " + x + " " + y + " " + z);
                     }
                 } else {
                     //System.out.println("No se encontró posición válida, reintentando...");
@@ -190,7 +190,7 @@ public class StructuresCapability {
             setHasTorreKamisama(true);
             setTorreKamisamaPosition(torreKami);
             setTorreKarinPosition(torreKarin);
-            System.out.println("Torre Kami: " + getTorreKamisamaPosition()); // Debug para ver si funciona las coord pal comando xd
+            //System.out.println("Torre Kami: " + getTorreKamisamaPosition()); // Debug para ver si funciona las coord pal comando xd
         }
     }
 
