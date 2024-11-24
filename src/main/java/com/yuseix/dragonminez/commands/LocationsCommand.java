@@ -56,7 +56,7 @@ public class LocationsCommand {
 
         switch (location) {
             case "KamiLookout" -> {
-                pos = structuresCapability.getTorreKamisamaPosition();
+                    pos = structuresCapability.getTorreKamisamaPosition();
                 if (playerDimension == Level.OVERWORLD) {
                     canTeleport = true;
                 } else {
@@ -76,7 +76,7 @@ public class LocationsCommand {
                 message = createLocationMessage("command.dmzlocate.hyperbolictc", pos, canTeleport);
             }
             case "KorinTower" -> {
-                pos = structuresCapability.getTorreKamisamaPosition();
+                pos = structuresCapability.getTorreKarinPosition();
                 if (playerDimension == Level.OVERWORLD) {
                     canTeleport = true;
                 } else {

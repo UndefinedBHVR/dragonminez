@@ -87,12 +87,13 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (this.getOwnerName().equals(player.getName().getString())) {
-			if (getDeseos() > 0 && Minecraft.getInstance().player.equals(player)) {
-				Minecraft.getInstance().setScreen(new PorungaMenu(0));
+		if (this.level().isClientSide) {
+			if (this.getOwnerName().equals(player.getName().getString())) {
+				if (getDeseos() > 0 && Minecraft.getInstance().player.equals(player)) {
+					Minecraft.getInstance().setScreen(new PorungaMenu(0));
+				}
 			}
 		}
-
 		return super.mobInteract(player, hand);
 	}
 

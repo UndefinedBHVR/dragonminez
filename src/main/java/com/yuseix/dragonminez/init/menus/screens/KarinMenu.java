@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
+import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import com.yuseix.dragonminez.network.C2S.KarinC2S;
@@ -130,17 +131,18 @@ public class KarinMenu extends Screen {
 			this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
 				PageOption = "senzu";
 			}));
+
 			this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable("lines.master_korin.kinton"), wa -> {
 				PageOption = "kinton";
 			}));
 
 
-			this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22), Component.empty(), wa -> {
+			/*this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22), Component.empty(), wa -> {
 				PageButtons = 1;
 
-			}));
+			}));*/
 
-		} else if (PageButtons == 1) {
+		} /*else if (PageButtons == 1) {
 			removerBotones();
 			this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
 				PageOption = "senzu";
@@ -149,7 +151,7 @@ public class KarinMenu extends Screen {
 			this.leftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", (this.width / 2) - 120, (this.height - 22), Component.empty(), wa -> {
 				PageButtons = 0;
 			}));
-		}
+		}*/
 	}
 
 	public void PaginaOpciones() {

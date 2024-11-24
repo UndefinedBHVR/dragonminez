@@ -89,12 +89,10 @@ public class ForgeBusEvents {
 
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {
-
 		ServerLevel serverWorld = event.getServer().getLevel(Level.OVERWORLD);
 		if (serverWorld == null) {
 			return;
 		}
-
 		if (!serverWorld.isClientSide()) {
 			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
 				boolean bhasDragonBalls = dragonBallsCapability.hasDragonBalls();

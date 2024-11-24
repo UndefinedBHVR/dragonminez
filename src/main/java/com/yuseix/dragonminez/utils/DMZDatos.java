@@ -856,8 +856,14 @@ public class DMZDatos implements IDMZDatos{
 
         total = (multiStr + multiDef + multiKiPower) / 3; // Promedio, pq si se tiene x1 STR, x1 DEF y x1 PWR, debería ser x1 en Total y no x3
 
-        total = total + majinDato + frutaDato; //Aca le agregamos en caso de que existan majin y fruta, entonces les suma
-        //Si no existiese no afectaria en nada porque el dato solo sumaria 0
+        if (transformacion < 1 && (majinOn || mightfruit)) {
+            total = majinDato + frutaDato; //No se toma en cuenta el Estado Base que es x1
+            // En vez de ser (EJ: Base x1 + Majin x1.5 + Fruta x1.3 = x3.8), sería (EJ: Majin x1.5 + Fruta x1.3 = x2.8)
+        } else {
+            // Si el estado base es 0, pero no hay Majin o Fruta, se deja normal.
+            // Si es estado base NO es 0, entonces se suma el promedio de Stats con los Efectos (EJ: SSJ x5 + Majin x1.5 + Fruta x1.3 = x7.8)
+            total = total + majinDato + frutaDato; //Aca le agregamos en caso de que existan majin y fruta, entonces les suma
+        }//Si no existiese no afectaria en nada porque el dato solo sumaria 0
 
         return total;
 
@@ -1071,7 +1077,11 @@ public class DMZDatos implements IDMZDatos{
         }
 
         //Aca sacamos el resultado total
-        total = multiStat + majinDato + frutaDato;
+        if (transformacion < 1 && (majinOn || mightfruit)) {
+            total = majinDato + frutaDato;
+        } else {
+            total = multiStat + majinDato + frutaDato;
+        }
 
 
         return total;
@@ -1099,7 +1109,11 @@ public class DMZDatos implements IDMZDatos{
         switch (raza){
             case 0: //Humano
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statStr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statStr * efectosDato);
+                    } else {
+                        statfinal = (int) (statStr * DMZTrHumanConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //FP
                     statfinal = (int) (statStr * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get() + efectosDato));
                 } else {
@@ -1108,7 +1122,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 1: //Saiyajin
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statStr * (DMZTrSaiyanConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statStr * efectosDato);
+                    } else {
+                        statfinal = (int) (statStr * DMZTrSaiyanConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //SSJ
                     statfinal = (int) (statStr * (DMZTrSaiyanConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1117,7 +1135,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 2: //namek
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statStr * (DMZTrNamekConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statStr * efectosDato);
+                    } else {
+                        statfinal = (int) (statStr * DMZTrNamekConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //Gigante o FUll
                     statfinal = (int) (statStr * (DMZTrNamekConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1126,7 +1148,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 3: //bioandroide
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statStr * (DMZTrBioAndroidConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statStr * efectosDato);
+                    } else {
+                        statfinal = (int) (statStr * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //SemiPerfecto
                     statfinal = (int) (statStr * (DMZTrBioAndroidConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1135,7 +1161,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 4:
                 if (transformacion == 0) { //forma minima
-                    statfinal = (int) (statStr * (DMZTrColdDemonConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statStr * efectosDato);
+                    } else {
+                        statfinal = (int) (statStr * DMZTrColdDemonConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //Segunda forma
                     statfinal = (int) (statStr * (DMZTrColdDemonConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1144,7 +1174,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 5: //majin
                 if (transformacion == 0) { //forma gordo
-                    statfinal = (int) (statStr * (DMZTrMajinConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statStr * efectosDato);
+                    } else {
+                        statfinal = (int) (statStr * DMZTrMajinConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //evil
                     statfinal = (int) (statStr * (DMZTrMajinConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1180,7 +1214,11 @@ public class DMZDatos implements IDMZDatos{
         switch (raza){
             case 0: //Humano
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statDef * (DMZTrHumanConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statDef * efectosDato);
+                    } else {
+                        statfinal = (int) (statDef * DMZTrHumanConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //FP
                     statfinal = (int) (statDef * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get() + efectosDato));
                 } else {
@@ -1189,7 +1227,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 1: //Saiyajin
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statDef * (DMZTrSaiyanConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statDef * efectosDato);
+                    } else {
+                        statfinal = (int) (statDef * DMZTrSaiyanConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //SSJ
                     statfinal = (int) (statDef * (DMZTrSaiyanConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1198,7 +1240,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 2: //namek
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statDef * (DMZTrNamekConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statDef * efectosDato);
+                    } else {
+                        statfinal = (int) (statDef * DMZTrNamekConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //Gigante o FUll
                     statfinal = (int) (statDef * (DMZTrNamekConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1207,7 +1253,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 3: //bioandroide
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statDef * (DMZTrBioAndroidConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statDef * efectosDato);
+                    } else {
+                        statfinal = (int) (statDef * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //SemiPerfecto
                     statfinal = (int) (statDef * (DMZTrBioAndroidConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1216,7 +1266,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 4:
                 if (transformacion == 0) { //forma minima
-                    statfinal = (int) (statDef * (DMZTrColdDemonConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statDef * efectosDato);
+                    } else {
+                        statfinal = (int) (statDef * DMZTrColdDemonConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //Segunda forma
                     statfinal = (int) (statDef * (DMZTrColdDemonConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1225,7 +1279,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 5: //majin
                 if (transformacion == 0) { //forma gordo
-                    statfinal = (int) (statDef * (DMZTrMajinConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statDef * efectosDato);
+                    } else {
+                        statfinal = (int) (statDef * DMZTrMajinConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //evil
                     statfinal = (int) (statDef * (DMZTrMajinConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1261,7 +1319,11 @@ public class DMZDatos implements IDMZDatos{
         switch (raza){
             case 0: //Humano
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statPwr * efectosDato);
+                    } else {
+                        statfinal = (int) (statPwr * DMZTrHumanConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //FP
                     statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() + efectosDato));
                 } else {
@@ -1270,7 +1332,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 1: //Saiyajin
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statPwr * (DMZTrSaiyanConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statPwr * efectosDato);
+                    } else {
+                        statfinal = (int) (statPwr * DMZTrSaiyanConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //SSJ
                     statfinal = (int) (statPwr * (DMZTrSaiyanConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1279,7 +1345,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 2: //namek
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statPwr * (DMZTrNamekConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statPwr * efectosDato);
+                    } else {
+                        statfinal = (int) (statPwr * DMZTrNamekConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //Gigante o FUll
                     statfinal = (int) (statPwr * (DMZTrNamekConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1288,7 +1358,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 3: //bioandroide
                 if (transformacion == 0) { //Base
-                    statfinal = (int) (statPwr * (DMZTrBioAndroidConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statPwr * efectosDato);
+                    } else {
+                        statfinal = (int) (statPwr * DMZTrBioAndroidConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //SemiPerfecto
                     statfinal = (int) (statPwr * (DMZTrBioAndroidConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1297,7 +1371,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 4:
                 if (transformacion == 0) { //forma minima
-                    statfinal = (int) (statPwr * (DMZTrColdDemonConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statPwr * efectosDato);
+                    } else {
+                        statfinal = (int) (statPwr * DMZTrColdDemonConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //Segunda forma
                     statfinal = (int) (statPwr * (DMZTrColdDemonConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {
@@ -1306,7 +1384,11 @@ public class DMZDatos implements IDMZDatos{
                 break;
             case 5: //majin
                 if (transformacion == 0) { //forma gordo
-                    statfinal = (int) (statPwr * (DMZTrMajinConfig.MULTIPLIER_BASE.get() + efectosDato));
+                    if (efectosDato > 0) {
+                        statfinal = (int) (statPwr * efectosDato);
+                    } else {
+                        statfinal = (int) (statPwr * DMZTrMajinConfig.MULTIPLIER_BASE.get());
+                    }
                 } else if (transformacion == 1) { //evil
                     statfinal = (int) (statPwr * (DMZTrMajinConfig.MULTIPLIER_BASE.get() + efectosDato));
                 } else {

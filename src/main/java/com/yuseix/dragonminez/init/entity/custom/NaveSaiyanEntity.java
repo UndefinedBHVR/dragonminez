@@ -37,7 +37,9 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
     private static final RawAnimation ANIM_ABIERTO = RawAnimation.begin().then("animation.navesaiyan.open", Animation.LoopType.HOLD_ON_LAST_FRAME);
     private static final RawAnimation ANIM_CERRADO = RawAnimation.begin().then("animation.navesaiyan.close", Animation.LoopType.HOLD_ON_LAST_FRAME);
     private int teleportHoldTime = 0;  // Contador delay
-    private static final int REQUIRED_HOLD_TIME = 20*5;
+    private static final int teleportTime = 5; // Segundos
+    private boolean isTeleporting = false;
+    private int teleportCountdown = teleportTime;
     private int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -73,6 +75,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                 setOpenNave(false);
                 if (!player.isPassenger()) {
                     player.startRiding(this);
+                    ModMessages.sendToServer(new PlanetSelectionC2S(0));
                 }
 
 
@@ -134,35 +137,52 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
                 //System.out.println("Planeta objetivo: ARRIBA " + planetaObjetivo);
             }
 
+            // Al pulsar la tecla, hace "toggle" del teletransporte.
             if (Keys.FUNCTION.consumeClick()) {
-                player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport"), true);
+                if (isTeleporting) {
+                    // Si el teletransporte está activo, se cancela y reinicia el contador
+                    isTeleporting = false;
+                    teleportCountdown = teleportTime;
+                    player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport.cancel"), true);
+                } else {
+                    // Si está desactivado, lo activa :D
+                    isTeleporting = true;
+                }
             }
-            if (Keys.FUNCTION.isDown()) {
-                teleportHoldTime++;
-                if (teleportHoldTime >= REQUIRED_HOLD_TIME) {
 
+            if (isTeleporting) {
+                if (teleportCountdown > 0) {
+                    // Mostrar cuenta regresiva cada segundo
+                    if (player.level().getGameTime() % 20 == 0) { // Cada segundo (20 ticks)
+                        player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport", teleportCountdown), true);
+                        teleportCountdown--;
+                    }
+                } else {
+                    // Teletransportar al jugador cuando el contador llegue a 0
                     switch (planetaObjetivo) {
                         case 0 -> {
                             ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
-                            player.displayClientMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"), true);
+                            player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"));
                         }
                         case 1 -> {
                             ModMessages.sendToServer(new SpacePodC2S(ModDimensions.NAMEK_DIM_LEVEL_KEY));
-                            player.displayClientMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"), true);
+                            player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"));
                         }
                         case 2 -> {
                             if (isKaioAvailable()) {
                                 ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
-                                player.displayClientMessage(Component.literal("Has llegado a la Tierra"), true);
+                                player.sendSystemMessage(Component.literal("Has llegado al planeta de Kaio"));
                             } else {
-                                //System.out.println("Kaio no disponible");
+                                player.sendSystemMessage(Component.literal("Kaio no disponible"));
                             }
                         }
                     }
-                    teleportHoldTime = 0;  // Reiniciar el contador tras el teletransporte
+                    // Reiniciar el estado del teletransporte
+                    isTeleporting = false;
+                    teleportCountdown = teleportTime;
                 }
             } else {
-                teleportHoldTime = 0;  // Reiniciar si el botón no está presionado
+                teleportCountdown = teleportTime; // Reiniciar el contador si no está activo
             }
 
 
@@ -255,7 +275,9 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource pSource) {
-        if ("drown".equals(pSource.getMsgId())) {
+        if ("drown".equals(pSource.getMsgId()) || "fall".equals(pSource.getMsgId()) || "falling_anvil".equals(pSource.getMsgId()) || "falling_block".equals(pSource.getMsgId())
+                || "falling_stalactite".equals(pSource.getMsgId()) || "in_fire".equals(pSource.getMsgId()) || "in_wall".equals(pSource.getMsgId()) || "lava".equals(pSource.getMsgId())
+                || "lightning_bolt".equals(pSource.getMsgId()) || "magic".equals(pSource.getMsgId()) || "sonic_boom".equals(pSource.getMsgId()) || "thrown".equals(pSource.getMsgId())) {
             return true;
         }
         return super.isInvulnerableTo(pSource);

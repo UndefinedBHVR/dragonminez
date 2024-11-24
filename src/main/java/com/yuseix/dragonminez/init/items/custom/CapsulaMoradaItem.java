@@ -68,11 +68,13 @@ public class CapsulaMoradaItem extends Item {
 								true
 						);
 					}
+				} else {
+					pPlayer.displayClientMessage(Component.translatable("error.dmz.createcharacter").withStyle(ChatFormatting.RED), true);
 				}
 			});
 			return InteractionResultHolder.sidedSuccess(capsula, pLevel.isClientSide());
+		} else {
+			return InteractionResultHolder.fail(capsula);
 		}
-		pPlayer.displayClientMessage(Component.translatable("error.dmz.createcharacter").withStyle(ChatFormatting.RED), true);
-		return InteractionResultHolder.fail(capsula);
 	}
 }
