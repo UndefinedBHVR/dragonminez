@@ -43,8 +43,6 @@ public class DragonMineZ {
 		MainSounds.register(modEventBus);
 		//Registramos las entidades
 		MainEntity.register(modEventBus);
-		//Registramos los NPCs (Puntos de Interés y Profesiones)
-		MainNPCs.register(modEventBus);
 		//Registramos los Fluidos (Tipo de Fluido y Fluido/s)
 		MainFluids.register(modEventBus);
 		//Register del commonSetup para las Flores y FlowerPots
