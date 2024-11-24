@@ -13,6 +13,8 @@ on:
     paths:
       - '**.java'
 
+permissions: read-all
+
 jobs:
   gradle-build:
     runs-on: ubuntu-latest
