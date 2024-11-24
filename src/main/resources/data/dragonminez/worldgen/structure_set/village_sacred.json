@@ -1,22 +1,11 @@
 {
   "placement": {
     "type": "minecraft:random_spread",
-    "salt": 10387312,
+    "salt": 92037394,
     "separation": 8,
     "spacing": 34,
     "spread_type": "triangular"
   },
-  "filters": [
-    {
-      "type": "minecraft:height_range",
-      "min_inclusive": {
-        "absolute": 75
-      },
-      "max_inclusive": {
-        "absolute": 319
-      }
-    }
-  ],
   "structures": [{
     "structure": "dragonminez:village_sacred",
     "weight": 1

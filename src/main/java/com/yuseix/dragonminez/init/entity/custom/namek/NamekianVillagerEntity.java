@@ -153,22 +153,26 @@ public class NamekianVillagerEntity extends Villager {
 		}
 
 		// Si el aldeano no tiene intercambios, asigna los primeros 3 intercambios
-		if (this.offers.size() == 0) {
-			int initialTrades = Math.min(3, TRADES.size());
-			for (int i = 0; i < initialTrades; i++) {
-				CustomTrade newTrade = TRADES.get(i);
-				this.offers.add(newTrade.createOffer());
+		if (this.offers.isEmpty()) {
+			Random random = new Random();
+			List<CustomTrade> availableTrades = new ArrayList<>(TRADES);
+			for (int i = 0; i < 3; i++) {
+				if (availableTrades.isEmpty())break;
+				CustomTrade randomTrade = availableTrades.remove(random.nextInt(availableTrades.size()));
+				this.offers.add(randomTrade.createOffer());
 			}
 		} else {
-			// Si el aldeano ya tiene intercambios (ha subido de nivel), agrega 1 nuevo intercambio
-			int tradesCount = this.offers.size();
-			int addTrades = Math.min(1, TRADES.size() - tradesCount); // Solo agregar 1 nuevo trade
+			// Si el aldeano ya tiene intercambios (ha subido de nivel), agrega 1 nuevo intercambio no repetido
+			Random random = new Random();
+			List<CustomTrade> availableTrades = new ArrayList<>(TRADES);
 
-			for (int i = tradesCount; i < tradesCount + addTrades; i++) {
-				CustomTrade newTrade = TRADES.get(i);
-				if (!this.offers.contains(newTrade.createOffer())) { // Verificar que el trade no esté ya en las opciones anteriores
-					this.offers.add(newTrade.createOffer());
-				}
+			for (MerchantOffer offer : this.offers) {
+				availableTrades.removeIf(trade -> trade.createOffer().equals(offer));
+			}
+
+			if (!availableTrades.isEmpty()) {
+				CustomTrade randomTrade = availableTrades.get(random.nextInt(availableTrades.size()));
+				this.offers.add(randomTrade.createOffer());
 			}
 		}
 	}

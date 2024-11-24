@@ -28,25 +28,32 @@ public class StructuresCapability {
     public boolean hasTorreKamisama() {
         return hasTorreKamisama;
     }
-
     public boolean isHasHabTiempo() {
         return hasHabTiempo;
     }
-
     public void setHasTorreKamisama(boolean hasTorreKamisama) {
         this.hasTorreKamisama = hasTorreKamisama;
     }
-
     public void setHasHabTiempo(boolean hasHabTiempo) {
         this.hasHabTiempo = hasHabTiempo;
     }
-
     public BlockPos getHabTiempoPos() {
         return habTiempoPos;
     }
-
     public void setHabTiempoPos(BlockPos habTiempoPos) {
         this.habTiempoPos = habTiempoPos;
+    }
+    public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
+        this.torreKamisamaPosition = torreKamisamaPosition;
+    }
+    public void setTorreKarinPosition(BlockPos torreKarinPosition) {
+        this.torreKarinPosition = torreKarinPosition;
+    }
+    public BlockPos getTorreKamisamaPosition() {
+        return torreKamisamaPosition;
+    }
+    public BlockPos getTorreKarinPosition() {
+        return torreKarinPosition;
     }
 
     public void saveNBTData(CompoundTag nbt) {
@@ -212,17 +219,5 @@ public class StructuresCapability {
             StructurePlaceSettings settings = new StructurePlaceSettings();
             template.placeInWorld(level, position, position, settings, level.getRandom(), 2);
         }
-    }
-    public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
-        this.torreKamisamaPosition = torreKamisamaPosition;
-    }
-    public void setTorreKarinPosition(BlockPos torreKarinPosition) {
-        this.torreKarinPosition = torreKarinPosition;
-    }
-    public BlockPos getTorreKamisamaPosition() {
-        return torreKamisamaPosition;
-    }
-    public BlockPos getTorreKarinPosition() {
-        return torreKarinPosition;
     }
 }

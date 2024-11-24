@@ -139,7 +139,7 @@ public class ModDimensions extends NoiseRouterData{
         NoiseSettings namek_noiseSettings = NoiseSettings.create(
                 -64,
                 256,
-                2,
+                4,
                 1);
 
         NoiseSettings time_chamber_noiseSettings = NoiseSettings.create(

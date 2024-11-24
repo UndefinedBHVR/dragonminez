@@ -454,7 +454,8 @@
 
   "ui.dmzradar.range": "Rango del Radar",
   "ui.dmzradar.blocks": "bloques.",
-  "ui.dmz.spacepod.teleport": "Serás \u00A7bteletransportado \u00A7ren 5 segundos...",
+  "ui.dmz.spacepod.teleport": "Serás \u00A7bteletransportado \u00A7ren \u00A7b%s \u00A7rsegundos...",
+  "ui.dmz.spacepod.teleport.cancel": "La Teletransportación ha sido \u00A7ccancelada.",
   "ui.dmz.spacepod.overworld": "Tierra",
   "ui.dmz.spacepod.overworld.arrive": "Has llegado a la \u00A73Tierra\u00A7r.",
   "ui.dmz.spacepod.namek": "Namek",
