@@ -56,6 +56,17 @@ public class StorylineManager {
 		return sagas;
 	}
 
+	public boolean isQuestActive(String questId) {
+		for (Saga saga : sagas.values()) {
+			for (Quest quest : saga.getQuests()) {
+				if (quest.getId().equals(questId)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public void saveNBTData(CompoundTag nbt) {
 		CompoundTag sagasTag = new CompoundTag(); // Main container for all sagas
 
@@ -115,6 +126,4 @@ public class StorylineManager {
 			}
 		}
 	}
-
-
 }

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Saga {
-	private String id;
-	private String name;
-	private List<Quest> quests;
+	private final String id;
+	private final String name;
+	private final List<Quest> quests;
 
 	public Saga(String id, String name) {
 		this.id = id;

@@ -3,6 +3,10 @@ package com.yuseix.dragonminez.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import com.yuseix.dragonminez.storyline.StorylineManager;
 import com.yuseix.dragonminez.storyline.missions.Quest;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.storyline.sagas.Saga;
@@ -10,6 +14,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StorylineCommand {
@@ -20,6 +25,7 @@ public class StorylineCommand {
 				.then(Commands.literal("set")
 						.then(Commands.literal("quest")
 								.then(Commands.argument("id", StringArgumentType.string())
+										.suggests(this::suggestQuestIds)
 										.then(Commands.argument("completed", BoolArgumentType.bool())
 												.executes(context -> {
 													String questId = StringArgumentType.getString(context, "id");
@@ -47,15 +53,24 @@ public class StorylineCommand {
 	}
 
 	private int setQuestCompletion(CommandSourceStack source, String questId, boolean completed) {
-		// Use an AtomicInteger to store the result inside the lambda
 		AtomicInteger result = new AtomicInteger(0);
 
+		// Access the capability of the player
 		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
-			//Automáticamente busca todas las sagas para encontrar la quest (no eficiente?)
+			// Iterate through all sagas to find the quest
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getQuestbyId(questId);
 
 				if (quest != null) {
+					// Checa si el quest esta activo (No se si funcione xq isQuestActive busca si la quest esta en alguna saga, no si esta activa)
+					//Solución: Si la quest está en playerStoryline, entonces está activa | Si no está, no está activa pero ya hay un checkeo en el if de arriba si la quest es null
+					if (!playerStoryline.isQuestActive(questId)) {
+						source.sendFailure(Component.literal("Quest '" + questId + "' is not active for player '" + source.getPlayer().getDisplayName().getString() + "'."));
+						result.set(0);
+						return;
+					}
+
+					// Set completion status
 					if (completed) {
 						quest.completeQuest();
 						source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as completed."), true);
@@ -63,12 +78,15 @@ public class StorylineCommand {
 						quest.setCompleted(false);
 						source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as incomplete."), true);
 					}
-					result.set(1); // Mark success
+
+					result.set(1); // Indicate success
 					return;
 				}
 			}
+
+			// If no quest was found
 			source.sendFailure(Component.literal("Quest with ID '" + questId + "' not found."));
-			result.set(0); // Mark failure
+			result.set(0); // Indicate failure
 		});
 
 		return result.get(); // Return the result
@@ -101,5 +119,16 @@ public class StorylineCommand {
 		return result.get(); // Return the stored result
 	}
 
-
+	// Provide suggestions for quest IDs
+	private CompletableFuture<Suggestions> suggestQuestIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+		//El nuevo StorylineManager no se usa como tal, pero se puede usar para obtener todas las sagas y quests porque al inicializarlo se inicializan todas las sagas
+		//Estas sagas, a su vez, tienen todas las quests que se pueden completar
+		StorylineManager storylineManager = new StorylineManager();
+		for (Saga saga : storylineManager.getAllSagas().values()) {
+			for (Quest quest : saga.getQuests()) {
+				builder.suggest(quest.getId());
+			}
+		}
+		return builder.buildFuture();
+	}
 }
