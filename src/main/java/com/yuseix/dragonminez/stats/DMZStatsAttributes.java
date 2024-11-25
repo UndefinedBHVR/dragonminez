@@ -856,7 +856,7 @@ public class DMZStatsAttributes {
                 String description = skillTag.getString("description");
 
                 // Crear el objeto DMZSkill y agregarlo al mapa
-                DMZSkill skill = new DMZSkill(Component.literal(skillName), Component.literal(description), level, true);
+                DMZSkill skill = new DMZSkill(Component.literal(skillName), Component.literal(description), level);
                 DMZSkills.put(skillName, skill);
             }
         }
