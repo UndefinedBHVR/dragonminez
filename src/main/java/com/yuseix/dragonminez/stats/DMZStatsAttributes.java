@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
 import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class DMZStatsAttributes {
 
-    private Map<String, Integer> DMZSkills = new HashMap<>();
+    private Map<String, DMZSkill> DMZSkills = new HashMap<>();
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
@@ -577,45 +578,8 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
-    // Métodos para gestionar las habilidades
-    public Map<String, Integer> getDMZSkills() {
-        return DMZSkills;
-    }
-    public void addSkill(String skillName, int level) {
-        DMZSkills.put(skillName, level);
-        DMZStatsCapabilities.syncStats(player);
 
-        ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                new DMZSkillsS2C(DMZSkills));
-    }
 
-    public Integer getSkillLevel(String skillName) {
-        return DMZSkills.getOrDefault(skillName, 0);
-    }
-
-    public boolean hasSkill(String skillName) {
-        return DMZSkills.containsKey(skillName);
-    }
-
-    public void setSkillLevel(String skillName, int newLevel) {
-        if (DMZSkills.containsKey(skillName)) {
-            DMZSkills.put(skillName, newLevel);
-            DMZStatsCapabilities.syncStats(player);
-
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZSkillsS2C(DMZSkills));
-        }
-    }
-
-    public void removeSkill(String skillName) {
-        if (DMZSkills.containsKey(skillName)) {
-            DMZSkills.remove(skillName);
-            DMZStatsCapabilities.syncStats(player);
-
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZSkillsS2C(DMZSkills));
-        }
-    }
 
     // Métodos para gestionar los estados permanentes wa
     public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
@@ -740,12 +704,6 @@ public class DMZStatsAttributes {
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("isAuraOn", isauraOn);
 
-        CompoundTag skillsTag = new CompoundTag();
-        for (Map.Entry<String, Integer> entry : DMZSkills.entrySet()) {
-            skillsTag.putInt(entry.getKey(), entry.getValue());
-        }
-        nbt.put("DMZSkills", skillsTag);
-
         CompoundTag permanentEffectsTag = new CompoundTag();
         for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
             permanentEffectsTag.putBoolean(entry.getKey(), entry.getValue());
@@ -798,12 +756,6 @@ public class DMZStatsAttributes {
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         isauraOn = nbt.getBoolean("isAuraOn");
 
-        CompoundTag skillsTag = nbt.getCompound("DMZSkills");
-        for (String skillName : skillsTag.getAllKeys()) {
-            int level = skillsTag.getInt(skillName);
-            DMZSkills.put(skillName, level);
-        }
-
         CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
         for (String effectName : permanentEffects.getAllKeys()) {
             boolean isActive = permanentEffects.getBoolean(effectName);
@@ -813,7 +765,7 @@ public class DMZStatsAttributes {
         CompoundTag temporalEffectsTag = nbt.getCompound("DMZTemporalEffects");
         for (String effectName : temporalEffectsTag.getAllKeys()) {
             int seconds = temporalEffectsTag.getInt(effectName);
-            DMZSkills.put(effectName, seconds);
+            DMZTemporalEffects.put(effectName, seconds);
         }
 
 
