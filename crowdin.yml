@@ -7,7 +7,7 @@
 "files": [
   {
     "source": "en_us.json",
-    "translation": "%locale_with_underscore%.json",
+    "translation": "%two_letters_code%_%locale%.json",
     "languages_mapping" : {
       "locale_with_underscore" : {
         "en-US" : "en_us",
