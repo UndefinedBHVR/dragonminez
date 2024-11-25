@@ -123,7 +123,8 @@ public class DMZSkillsCommand {
 		for (ServerPlayer player : players) {
 			int finalLevel = level;
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-				DMZSkill skill = new DMZSkill(Component.literal(skillName), Component.translatable("skill." + skillName + ".desc"), finalLevel, true);
+				DMZSkill skill = new DMZSkill(Component.translatable("skill." + skillName + ".name"), Component.translatable("skill." + skillName + ".desc"), finalLevel);
+
 				playerstats.addSkill(skillName, skill);
 				player.sendSystemMessage(Component.translatable("command.dmzskills.give")
 						.append(skill.getName()) // Solo muestra el nombre de la habilidad
@@ -159,7 +160,7 @@ public class DMZSkillsCommand {
 							.append(Component.translatable("command.dmz.to")).append(player.getName()));
 				} else {
 					// Si la habilidad no existe, la creamos y le asignamos el nivel
-					skill = new DMZSkill(Component.literal(skillName), Component.translatable("skill." + skillName + ".desc"), finalLevel, true);
+					skill = new DMZSkill(Component.translatable("skill." + skillName + ".name"), Component.translatable("skill." + skillName + ".desc"), finalLevel);
 					playerstats.addSkill(skillName, skill);
 					player.sendSystemMessage(Component.translatable("command.dmzskills.give")
 							.append(skill.getName()) // Solo muestra el nombre
