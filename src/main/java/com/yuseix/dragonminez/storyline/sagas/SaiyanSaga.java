@@ -46,18 +46,4 @@ public class SaiyanSaga {
 
 		return saiyanSaga;
 	}
-
-	public static void main(String[] args) {
-		// Create the Saiyan Saga
-		Saga saiyanSaga = createSaiyanSaga();
-
-		// Example: Print out saga details
-		System.out.println("Saga: " + saiyanSaga.getName());
-		for (Quest quest : saiyanSaga.getQuests()) {
-			System.out.println("- Quest: " + quest.getName());
-			System.out.println("  Description: " + quest.getDescription());
-			System.out.println("  Objectives: " + quest.getObjectives());
-			System.out.println("  Completed: " + quest.isCompleted());
-		}
-	}
 }

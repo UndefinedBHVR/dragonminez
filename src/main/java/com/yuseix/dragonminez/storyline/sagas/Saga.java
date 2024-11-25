@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Saga {
-	private final String id;
-	private final String name;
-	private final List<Quest> quests;
+	private String id;
+	private String name;
+	private List<Quest> quests;
 
 	public Saga(String id, String name) {
 		this.id = id;
@@ -28,6 +28,10 @@ public class Saga {
 		return quests;
 	}
 
+	public Quest getQuestbyId(String id) {
+		return quests.stream().filter(quest -> quest.getId().equals(id)).findFirst().orElse(null);
+	}
+
 	public void addQuest(Quest quest) {
 		quests.add(quest);
 	}
@@ -35,4 +39,5 @@ public class Saga {
 	public boolean isCompleted() {
 		return quests.stream().allMatch(Quest::isCompleted);
 	}
+
 }

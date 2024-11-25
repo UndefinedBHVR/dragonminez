@@ -41,6 +41,11 @@ public class Quest {
 	public void completeQuest() {
 		this.completed = true;
 	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
 }
 
 
