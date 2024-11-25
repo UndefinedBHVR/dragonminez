@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.stats.skills;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 
 public class DMZSkill {
@@ -20,6 +21,21 @@ public class DMZSkill {
         this.desc = desc;
         this.level = level;
         this.isActive = isActive;
+    }
+    // Constructor para leer desde el buffer
+    public DMZSkill(FriendlyByteBuf buf) {
+        this.name = buf.readComponent();
+        this.desc = buf.readComponent();
+        this.level = buf.readInt();
+        this.isActive = buf.readBoolean();
+    }
+
+    // Método para escribir en el buffer
+    public void toBytes(FriendlyByteBuf buf) {
+        buf.writeComponent(name);
+        buf.writeComponent(desc);
+        buf.writeInt(level);
+        buf.writeBoolean(isActive);
     }
 
     public Component getName() {

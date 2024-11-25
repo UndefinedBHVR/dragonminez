@@ -578,8 +578,55 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    // Método para agregar una habilidad al mapa
+    public void addSkill(String name, DMZSkill skill) {
+        DMZSkills.put(name, skill);
+        DMZStatsCapabilities.syncStats(player);
+    }
+    // Método para obtener una habilidad del mapa
+    public DMZSkill getSkill(String name) {
+        return DMZSkills.get(name);
+    }
+    public void setDMZSkills(Map<String, DMZSkill> DMZSkills) {
+        this.DMZSkills = DMZSkills;
+        DMZStatsCapabilities.syncStats(player);
+    }
+    // Método para verificar si una habilidad existe en el mapa
+    public boolean hasSkill(String name) {
+        return DMZSkills.containsKey(name);
+    }
+    public Map<String, DMZSkill> getDMZSkills() {
+        return DMZSkills;
 
+    }
+    // Método para remover una habilidad del mapa
+    public void removeSkill(String name) {
+        DMZSkill skill = DMZSkills.get(name);
 
+        if(skill != null){
+            DMZSkills.remove(name);
+        }
+
+        DMZStatsCapabilities.syncStats(player);
+
+    }
+    // Método para obtener el nivel de una habilidad en el mapa
+    public int getSkillLevel(String name) {
+        DMZSkill skill = DMZSkills.get(name);
+        return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
+    }
+    public boolean isActiveSkill(String name){
+        DMZSkill skill = DMZSkills.get(name);
+        return skill.isActive();
+    }
+    public void setSkillActive(String name, boolean isActive){
+        DMZSkill skill = DMZSkills.get(name);
+        if(skill != null){
+            skill.setActive(isActive);
+        }
+
+        DMZStatsCapabilities.syncStats(player);
+    }
 
     // Métodos para gestionar los estados permanentes wa
     public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
