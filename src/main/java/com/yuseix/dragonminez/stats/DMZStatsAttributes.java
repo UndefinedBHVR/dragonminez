@@ -582,6 +582,7 @@ public class DMZStatsAttributes {
     public void addSkill(String name, DMZSkill skill) {
         DMZSkills.put(name, skill);
         DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
     }
     // Método para obtener una habilidad del mapa
     public DMZSkill getSkill(String name) {
@@ -590,6 +591,8 @@ public class DMZStatsAttributes {
     public void setDMZSkills(Map<String, DMZSkill> DMZSkills) {
         this.DMZSkills = DMZSkills;
         DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
     }
     // Método para verificar si una habilidad existe en el mapa
     public boolean hasSkill(String name) {
@@ -608,6 +611,7 @@ public class DMZStatsAttributes {
         }
 
         DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
 
     }
     // Método para obtener el nivel de una habilidad en el mapa
@@ -626,6 +630,8 @@ public class DMZStatsAttributes {
         }
 
         DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
     }
 
     // Métodos para gestionar los estados permanentes wa
