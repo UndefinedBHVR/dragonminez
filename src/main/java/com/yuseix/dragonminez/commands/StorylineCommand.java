@@ -19,6 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class StorylineCommand {
 
+	private final StorylineManager storylineManager = new StorylineManager();
+
 	public StorylineCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 		dispatcher.register(Commands.literal("storyline")
 				// /storyline set quest <id> <true|false>
@@ -61,14 +63,14 @@ public class StorylineCommand {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getQuestbyId(questId);
 
+
+				if (!storylineManager.isQuestActive(questId)) {
+					source.sendFailure(Component.literal("Quest '" + questId + "' is not active for player '" + source.getPlayer().getDisplayName().getString() + "'."));
+					result.set(0);
+					return;
+				}
+
 				if (quest != null) {
-					// Checa si el quest esta activo (No se si funcione xq isQuestActive busca si la quest esta en alguna saga, no si esta activa)
-					//Solución: Si la quest está en playerStoryline, entonces está activa | Si no está, no está activa pero ya hay un checkeo en el if de arriba si la quest es null
-					if (!playerStoryline.isQuestActive(questId)) {
-						source.sendFailure(Component.literal("Quest '" + questId + "' is not active for player '" + source.getPlayer().getDisplayName().getString() + "'."));
-						result.set(0);
-						return;
-					}
 
 					// Set completion status
 					if (completed) {
@@ -123,7 +125,6 @@ public class StorylineCommand {
 	private CompletableFuture<Suggestions> suggestQuestIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
 		//El nuevo StorylineManager no se usa como tal, pero se puede usar para obtener todas las sagas y quests porque al inicializarlo se inicializan todas las sagas
 		//Estas sagas, a su vez, tienen todas las quests que se pueden completar
-		StorylineManager storylineManager = new StorylineManager();
 		for (Saga saga : storylineManager.getAllSagas().values()) {
 			for (Quest quest : saga.getQuests()) {
 				builder.suggest(quest.getId());
