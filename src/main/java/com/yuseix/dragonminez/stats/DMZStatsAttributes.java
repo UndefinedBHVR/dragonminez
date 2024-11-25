@@ -8,6 +8,7 @@ import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.PacketDistributor;
@@ -769,6 +770,27 @@ public class DMZStatsAttributes {
         }
         nbt.put("DMZTemporalEffects", temporalEffectTag);
 
+        // Crear un CompoundTag para guardar cada habilidad
+        CompoundTag skillsTag = new CompoundTag();
+
+        for (Map.Entry<String, DMZSkill> entry : DMZSkills.entrySet()) {
+            String skillName = entry.getKey();
+            DMZSkill skill = entry.getValue();
+
+            // Crear un CompoundTag para la habilidad y guardarlo en el map de skills
+            CompoundTag skillTag = new CompoundTag();
+
+            // Aquí guardas los datos relevantes de la habilidad, como el nivel y la descripción
+            skillTag.putInt("level", skill.getLevel());
+            skillTag.putString("description", skill.getDesc().getString());
+
+            // Guarda la habilidad en el CompoundTag de skills
+            skillsTag.put(skillName, skillTag);
+        }
+
+        nbt.put("DMZSkills", skillsTag);
+
+
         return nbt;
     }
 
@@ -821,6 +843,23 @@ public class DMZStatsAttributes {
             DMZTemporalEffects.put(effectName, seconds);
         }
 
+        if (nbt.contains("DMZSkills", 10)) {  // Verifica si "DMZSkills" existe
+            //El 10 hace referencia a TAG_COMPOUND
+
+            CompoundTag skillsTag = nbt.getCompound("DMZSkills");
+
+            for (String skillName : skillsTag.getAllKeys()) {
+                CompoundTag skillTag = skillsTag.getCompound(skillName);
+
+                // Cargar el nivel y la descripción de la habilidad
+                int level = skillTag.getInt("level");
+                String description = skillTag.getString("description");
+
+                // Crear el objeto DMZSkill y agregarlo al mapa
+                DMZSkill skill = new DMZSkill(Component.literal(skillName), Component.literal(description), level, true);
+                DMZSkills.put(skillName, skill);
+            }
+        }
 
     }
 
