@@ -184,7 +184,7 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             MainBlocks.KIKONO_ARMOR_STATION.get(),
                             Component.translatable("advancements.dragonminez.armorstation.title"),
                             Component.translatable("advancements.dragonminez.armorstation.description"),
-                            null, FrameType.TASK, true, true, false
+                            null, FrameType.GOAL, true, true, false
                     ).addCriterion("armorstation",
                             InventoryChangeTrigger.TriggerInstance.hasItems(MainBlocks.KIKONO_ARMOR_STATION.get())
                     ).save(consumer, "dragonminez:armorstation");
