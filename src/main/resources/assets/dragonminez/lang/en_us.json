@@ -411,7 +411,7 @@
   "lines.porunga.wish.gete": "Gete Scraps",
 
   "command.dmzlocate.wrong_dimension": "You can't teleport to a Structure that is in another dimension.",
-  "command.dmzlocate.unkwnown_location": "Unknown Location.",
+  "command.dmzlocate.unknown_location": "Unknown Location.",
   "command.dmzlocate.kamilookout": "Kami's Lookout",
   "command.dmzlocate.kamilookout.location": "Kami's Lookout is in",
   "command.dmzlocate.korintower": "Korin's Tower",

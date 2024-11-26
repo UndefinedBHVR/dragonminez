@@ -51,7 +51,9 @@ public class FrogLegsRawItem extends Item {
                 applyEffects(player);
             }
         }
-        pStack.shrink(1);
+        if (pLivingEntity instanceof ServerPlayer player && player.isCreative()) {
+            pStack.shrink(0);
+        } else pStack.shrink(1);
         return pStack;
     }
 

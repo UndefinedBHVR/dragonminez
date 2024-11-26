@@ -59,7 +59,9 @@ public class MightTreeFruitItem extends Item {
             player.getFoodData().eat(HUNGER, SATURATION);
             player.displayClientMessage(Component.translatable("item.dragonminez.might_tree_fruit.use"), true);
         }
-        pStack.shrink(1);
+        if (pLivingEntity instanceof ServerPlayer player && player.isCreative()) {
+            pStack.shrink(0);
+        } else pStack.shrink(1);
         return pStack;
     }
 

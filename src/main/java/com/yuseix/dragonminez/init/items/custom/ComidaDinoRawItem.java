@@ -45,7 +45,9 @@ public class ComidaDinoRawItem extends Item {
             });
             player.getFoodData().eat(HUNGER, SATURATION);
         }
-        pStack.shrink(1);
+        if (pLivingEntity instanceof ServerPlayer player && player.isCreative()) {
+            pStack.shrink(0);
+        } else pStack.shrink(1);
         return pStack;
     }
 }

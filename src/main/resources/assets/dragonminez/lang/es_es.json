@@ -411,7 +411,7 @@
   "lines.porunga.wish.gete": "Fragmentos Gete",
 
   "command.dmzlocate.wrong_dimension": "No puedes teletransportarte a una Estructura que se encuentra en otra dimensión.",
-  "command.dmzlocate.unkwnown_location": "Ubicación desconocida.",
+  "command.dmzlocate.unknown_location": "Ubicación desconocida.",
   "command.dmzlocate.kamilookout": "Atalaya de Kami",
   "command.dmzlocate.kamilookout.location": "La Atalaya de Kami está en",
   "command.dmzlocate.korintower": "Torre de Karin",

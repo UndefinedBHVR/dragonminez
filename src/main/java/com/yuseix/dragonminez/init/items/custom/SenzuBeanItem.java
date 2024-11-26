@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -89,6 +90,8 @@ public class SenzuBeanItem extends Item {
 
 		player.getCooldowns().addCooldown(this, tiempo);
 
-		pStack.shrink(1);
+		if (pLivingEntity instanceof ServerPlayer player1 && player1.isCreative()) {
+			pStack.shrink(0);
+		} else pStack.shrink(1);
 	}
 }

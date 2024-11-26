@@ -152,7 +152,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     35,
                     27,
                     37,
-                    10,
+                    21,
                     20);
 
 
