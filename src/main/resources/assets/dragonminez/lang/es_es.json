@@ -425,6 +425,7 @@
   "command.dmzlocate.kamehouse": "Kame House",
   "command.dmzlocate.kamehouse.location": "Kame House está en",
   "command.dmzlocate.teleport_click": "(Clic para teletransportarte)",
+  "command.dmzlocate.distance_coords": "(A \u00A7e%d \u00A7rbloques de distancia)",
   "command.dmzrestart.character": "El personaje de",
   "command.dmzrestart.character_restarted": "ha sido reiniciado.",
   "command.dmzstats.error": "\u00A7cError!",

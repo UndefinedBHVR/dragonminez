@@ -44,7 +44,7 @@ public class TimeChamberPortalBlock extends Block {
 
                     // Asignar la nueva posición después de cambiar de dimensión
                     targetWorld.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
-                        double x = 0; int y = 0; double z = 0; int rotX = 0; int rotY = 0; ResourceKey<Level> dim; BlockPos pos;
+                        int rotX = 0; int rotY = 0; ResourceKey<Level> dim; BlockPos pos;
                         if (onTC) { // Saliste
                             dim = Level.OVERWORLD;
                             pos = structures.getPortalHabTiempoPosition();

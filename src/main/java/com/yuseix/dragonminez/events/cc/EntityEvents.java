@@ -3,17 +3,19 @@ package com.yuseix.dragonminez.events.cc;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainFluids;
-import com.yuseix.dragonminez.init.armor.DbzArmorItem;
-import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
-import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.world.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
@@ -22,7 +24,6 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.material.FluidState;
@@ -32,7 +33,9 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Map;
 import java.util.Random;
+import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
@@ -162,15 +165,26 @@ public class EntityEvents {
 	private static final double HEAL_PERCENTAGE = 0.05; // 5% por segundo
 	private static final int HEAL_TICKS = 3 * 20; // 3 segundos
 
-	private static final java.util.Map<Player, Long> lastHealingTime = new java.util.WeakHashMap<>();
+	private static final Map<Player, Long> lastHealingTime = new WeakHashMap<>();
 
 	@SubscribeEvent
 	public static void onLivingTick(TickEvent.PlayerTickEvent event) {
 		Player player = event.player;
 
-		if (player.level().isClientSide || event.phase != TickEvent.Phase.END) {
-			return;
-		}
+		if (player.level().isClientSide || event.phase != TickEvent.Phase.END) return;
+
+		ServerPlayer serverPlayer = (ServerPlayer) player;
+		BlockPos playerPos = serverPlayer.blockPosition();
+		ServerLevel level = (ServerLevel) player.level();
+
+		level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
+			BlockPos pos = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
+			//System.out.println("Player: " + playerPos + " Karin: " + pos);
+			if (playerPos.distSqr(pos) < 10000) {
+				grantAdvancement(serverPlayer);
+			}
+		});
+
 
 		FluidState fluidState = player.level().getFluidState(player.blockPosition());
 
@@ -188,6 +202,18 @@ public class EntityEvents {
 			}
 		} else if (fluidState.is(MainFluids.SOURCE_NAMEK.get())) {
 			funcAguaNamek(player);
+		}
+	}
+
+	private static void grantAdvancement(ServerPlayer player) {
+		Advancement kamiAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(DragonMineZ.MOD_ID, "kamilookout"));
+		if (kamiAdvancement != null) {
+			AdvancementProgress progress = player.getAdvancements().getOrStartProgress(kamiAdvancement);
+			if (!progress.isDone()) {
+				for (String criteria : progress.getRemainingCriteria()) {
+					player.getAdvancements().award(kamiAdvancement, criteria);
+				}
+			}
 		}
 	}
 

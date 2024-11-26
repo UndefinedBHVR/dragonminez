@@ -8,7 +8,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -53,7 +56,7 @@ public class LocationsCommand {
                 case "kamilookout" -> {
                     pos = structures.getTorreKamisamaPosition();
                     canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
-                    messageRef.set(createLocationMessage("command.dmzlocate.kamilookout", pos, canTeleport));
+                    messageRef.set(createLocationMessage("command.dmzlocate.kamilookout", pos, canTeleport, source));
                 }
                 case "hyperbolictimechamber" -> {
                     if (playerDimension.equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
@@ -63,12 +66,12 @@ public class LocationsCommand {
                         pos = structures.getPortalHabTiempoPosition();
                         canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
                     }
-                    messageRef.set(createLocationMessage("command.dmzlocate.hyperbolictc", pos, canTeleport));
+                    messageRef.set(createLocationMessage("command.dmzlocate.hyperbolictc", pos, canTeleport, source));
                 }
                 case "korintower" -> {
                     pos = structures.getTorreKarinPosition();
                     canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
-                    messageRef.set(createLocationMessage("command.dmzlocate.korintower", pos, canTeleport));
+                    messageRef.set(createLocationMessage("command.dmzlocate.korintower", pos, canTeleport, source));
                 }
                 default -> {
                     messageRef.set(Component.translatable("command.dmzlocate.unknown_location", location));
@@ -94,31 +97,33 @@ public class LocationsCommand {
     /**
      * Crea un mensaje con la ubicación y un comando de teletransportación.
      */
-    private Component createLocationMessage(String structureTranslationKey, BlockPos pos, boolean canTeleport) {
+    private Component createLocationMessage(String structureTranslationKey, BlockPos pos, boolean canTeleport, CommandSourceStack source) {
+        // Coordenadas del jugador
+        BlockPos playerPos = new BlockPos(source.getPlayer().getBlockX(), source.getPlayer().getBlockY(), source.getPlayer().getBlockZ());
 
-        String coordsText = String.format("X %d Y %d Z %d", pos.getX(), pos.getY(), pos.getZ());
+        // Calcular distancia
+        int distance = (int) Math.sqrt(playerPos.distSqr(pos));
+        String coordsText = String.format("[%d, %d, %d]", pos.getX(), pos.getY(), pos.getZ());
         String teleportCommand = String.format("/teleport @s %d %d %d", pos.getX(), pos.getY(), pos.getZ());
 
         ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, teleportCommand);
         HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("command.dmzlocate.teleport_click"));
 
         Style greenStyle = Style.EMPTY
-                .withColor(TextColor.fromRgb(0x00FF00))  // Verde brillante
+                .withColor(ChatFormatting.GREEN)  // Verde brillante
                 .withClickEvent(clickEvent)
                 .withHoverEvent(hoverEvent);
 
-        Component coordsComponent = Component.literal(coordsText).setStyle(greenStyle).withStyle(ChatFormatting.UNDERLINE);
+        Component coordsComponent = Component.literal(coordsText).setStyle(greenStyle);
 
         if (canTeleport) {
-            Component teleportMessage = Component.translatable("command.dmzlocate.teleport_click")
-                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xFFFF00))); // Amarillo
+            Component coordsMessage = Component.translatable("command.dmzlocate.distance_coords", distance);
             return Component.translatable(structureTranslationKey + ".location")
                     .append(Component.literal(" "))
                     .append(coordsComponent)
                     .append(Component.literal(" "))
-                    .append(teleportMessage);
+                    .append(coordsMessage);
         }
-
         return Component.translatable(structureTranslationKey + ".location")
                 .append(coordsComponent);
     }

@@ -13,7 +13,9 @@ import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,6 +23,7 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class DMZAdvancementsProvider extends AdvancementProvider {
+    private static ServerLevel serverLevel;
 
     public DMZAdvancementsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, List.of(new DMZAdvancements()));
@@ -42,8 +45,50 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                     .rewards(AdvancementRewards.Builder.experience(0)) // Recompensa de experiencia (Se pueden poner más tipos xd)
                     .save(consumer, "dragonminez:root"); // Logro "raíz" o "inicial"; el primero de todos.
 
-            Advancement radar = Advancement.Builder.advancement()
+            Advancement kamilookout = Advancement.Builder.advancement()
                     .parent(root) // Este depende de X logro (Solo es orden, no requisito)
+                    .display(
+                            Items.CLOCK,
+                            Component.translatable("advancements.dragonminez.kamilookout.title"),
+                            Component.translatable("advancements.dragonminez.kamilookout.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("kamilookout",
+                            // Criterio para que se active el logro al llegar a cualquier coordenada entre 2147482 y 2147483 (Muy lejos xd)
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:kamilookout");
+
+            Advancement timechamber = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            MainItems.VEGETA_Z_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.timechamber.title"),
+                            Component.translatable("advancements.dragonminez.timechamber.description"),
+                            null, FrameType.CHALLENGE, true, true, false
+                    ).addCriterion("timechamber",
+                            ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)
+                    ).save(consumer, "dragonminez:timechamber");
+
+            Advancement nimbus = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            MainItems.NUBE_ITEM.get(),
+                            Component.translatable("advancements.dragonminez.nimbus.title"),
+                            Component.translatable("advancements.dragonminez.nimbus.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("nimbus",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.NUBE_ITEM.get())
+                    ).save(consumer, "dragonminez:nimbus");
+
+            Advancement radar = Advancement.Builder.advancement()
+                    .parent(root)
                     .display(
                             MainItems.DBALL_RADAR_ITEM.get(),
                             Component.translatable("advancements.dragonminez.radar.title"),

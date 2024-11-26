@@ -186,7 +186,7 @@ public class StructuresCapability {
 
                     structureBlockEntity.load(nbtData);
                     structureBlockEntity.setChanged();
-                    System.out.println("StructureBlock 2 cargado en " + secPos.below().below() + " con NBT: " + nbtData);
+                    //System.out.println("StructureBlock 2 cargado en " + secPos.below().below() + " con NBT: " + nbtData);
                     //System.out.println("Comando: /setblock " + secPos.below().below().getX() + " " + secPos.below().below().getY() + " " + secPos.below().below().getZ() + " minecraft:structure_block" + nbtData);
 
                     level.setBlock(secPos.below().below().offset(1, 0, 0), redstoneBlockAdyacente, 3);
