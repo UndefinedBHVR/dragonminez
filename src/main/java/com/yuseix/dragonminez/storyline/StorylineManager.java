@@ -12,7 +12,7 @@ public class StorylineManager {
 	private final Hashtable<String, Saga> sagas = new Hashtable<>();
 
 	public StorylineManager() {
-		initializeSagas();
+//		initializeSagas();
 	}
 
 	// Initialize predefined sagas
@@ -54,17 +54,6 @@ public class StorylineManager {
 	// Mostrar todas las sagas
 	public Hashtable<String, Saga> getAllSagas() {
 		return sagas;
-	}
-
-	public boolean isQuestActive(String questId) {
-		for (Saga saga : sagas.values()) {
-			for (Quest quest : saga.getQuests()) {
-				if (quest.getId().equals(questId)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public void saveNBTData(CompoundTag nbt) {

@@ -10,5 +10,5 @@ public class StorylineEvents {
 	public void onServerStarting(ServerStartingEvent event) {
 		DebugUtils.dmzLog("StorylineManager initialized");
 	}
-	
+
 }

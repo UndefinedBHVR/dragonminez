@@ -51,6 +51,15 @@ public class StorylineCommand {
 								)
 						)
 				)
+				.then(Commands.literal("debug")
+						.then(Commands.literal("forcestart")
+								.executes(context -> {
+									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::initializeSagas);
+									context.getSource().sendSuccess(() -> Component.literal("Forced saga initialization."), true);
+									return 1;
+								})
+						)
+				)
 		);
 	}
 
@@ -64,26 +73,23 @@ public class StorylineCommand {
 				Quest quest = saga.getQuestbyId(questId);
 
 
-				if (!storylineManager.isQuestActive(questId)) {
+				if (quest == null) {
 					source.sendFailure(Component.literal("Quest '" + questId + "' is not active for player '" + source.getPlayer().getDisplayName().getString() + "'."));
 					result.set(0);
 					return;
 				}
 
-				if (quest != null) {
-
-					// Set completion status
-					if (completed) {
-						quest.completeQuest();
-						source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as completed."), true);
-					} else {
-						quest.setCompleted(false);
-						source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as incomplete."), true);
-					}
-
-					result.set(1); // Indicate success
-					return;
+				// Set completion status
+				if (completed) {
+					quest.completeQuest();
+					source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as completed."), true);
+				} else {
+					quest.setCompleted(false);
+					source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as incomplete."), true);
 				}
+
+				result.set(1); // Indicate success
+				return;
 			}
 
 			// If no quest was found
