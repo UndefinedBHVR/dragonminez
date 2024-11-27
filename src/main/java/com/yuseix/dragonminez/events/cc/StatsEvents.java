@@ -12,6 +12,7 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
+import com.yuseix.dragonminez.utils.TickHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -52,21 +53,25 @@ public class StatsEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         // Verificar que estamos en el servidor y en la fase final
+        if (event.phase == TickEvent.Phase.START) {
+            return;
+        }
 
+        Player player = event.player;
 
+        // Verificar que el jugador es un ServerPlayer
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
 
-        if (event.phase == TickEvent.Phase.END && event.player != null) {
+        DMZDatos dmzdatos = new DMZDatos();
+        TickHandler tickHandler = new TickHandler();
 
             energyRegen++;
             tickcounter++;
             energiaConsumecounter++;
 
-            Player player = event.player;
-
-            DMZDatos dmzdatos = new DMZDatos();
-
-
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
                 var vidaMC = 20;
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
@@ -76,35 +81,11 @@ public class StatsEvents {
                 int maxstamina = dmzdatos.calcularSTM(raza, dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Ajustar la salud máxima del jugador
-                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
-                // Regeneración de stamina
-                if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
-                    if (tickcounter >= 60 * 3) { // Cada 3 segundos
-                        int regenStamina = (int) Math.ceil(maxstamina / 4);
-                        playerstats.addCurStam(regenStamina);
-                        tickcounter = 0;
-                    }
-                }
+                // Tickhandler
+                tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
-                // Regeneración de energía Warrior
-                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energyRegen >= 60 * 5) { // Cada 5 segundos
-                        int regenki = dmzdatos.calcularKiRegen(raza, maxenergia, playerstats.getDmzClass()); // Regenerar 10% de la energía máxima
-                        playerstats.addCurEnergy(regenki);
-                        energyRegen = 0;
-                    }
-                }
-
-
-                //Consumo de energia
-                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energiaConsumecounter >= 60 * 3) { // Cada 3 segundos
-                        int consumeki = dmzdatos.calcularKiConsume(raza, playerstats.getEnergy(), playerstats.getDmzState());
-                        playerstats.removeCurEnergy(consumeki);
-                        energiaConsumecounter = 0;
-                    }
-                }
 
                 //Tiempo para reclamar una senzu
                 if (Senzu_countdown > 0) {
@@ -120,12 +101,10 @@ public class StatsEvents {
 
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
-                updateTemporaryEffects(player);
+                updateTemporaryEffects(serverPlayer);
 
 
             });
-
-        }
     }
 
     private static void manejarCargaDeAura(DMZStatsAttributes playerstats, boolean isActionKeyPressed, int maxenergia) {
