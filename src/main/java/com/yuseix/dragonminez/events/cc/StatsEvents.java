@@ -52,24 +52,21 @@ public class StatsEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         // Verificar que estamos en el servidor y en la fase final
-        if (event.side != LogicalSide.SERVER || event.phase != TickEvent.Phase.END) {
-            return;
-        }
 
-        Player player = event.player;
 
-        // Verificar que el jugador es un ServerPlayer
-        if (!(player instanceof ServerPlayer serverPlayer)) {
-            return;
-        }
 
-        DMZDatos dmzdatos = new DMZDatos();
+        if (event.phase == TickEvent.Phase.END && event.player != null) {
 
             energyRegen++;
             tickcounter++;
             energiaConsumecounter++;
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
+            Player player = event.player;
+
+            DMZDatos dmzdatos = new DMZDatos();
+
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
                 var vidaMC = 20;
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
@@ -79,7 +76,7 @@ public class StatsEvents {
                 int maxstamina = dmzdatos.calcularSTM(raza, dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Ajustar la salud máxima del jugador
-                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Regeneración de stamina
                 if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
@@ -123,10 +120,12 @@ public class StatsEvents {
 
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
-                updateTemporaryEffects(serverPlayer);
+                updateTemporaryEffects(player);
 
 
             });
+
+        }
     }
 
     private static void manejarCargaDeAura(DMZStatsAttributes playerstats, boolean isActionKeyPressed, int maxenergia) {
