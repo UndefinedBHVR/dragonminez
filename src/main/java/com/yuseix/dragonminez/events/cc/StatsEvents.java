@@ -27,21 +27,14 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class StatsEvents {
 
-    private static int tickcounter = 0;
-    private static int energyRegen = 0;
-    private static int energiaConsumecounter = 0;
-    private static int Senzu_countdown = 0;
+    private static final Map<UUID, TickHandler> playerTickHandlers = new HashMap<>();
 
     private static int chargeTimer = 0; // Aca calculamos el tiempo de espera
     private static final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
@@ -65,11 +58,8 @@ public class StatsEvents {
         }
 
         DMZDatos dmzdatos = new DMZDatos();
-        TickHandler tickHandler = new TickHandler();
 
-            energyRegen++;
-            tickcounter++;
-            energiaConsumecounter++;
+        TickHandler tickHandler = playerTickHandlers.computeIfAbsent(player.getUUID(), uuid -> new TickHandler());
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
                 var vidaMC = 20;
@@ -88,17 +78,10 @@ public class StatsEvents {
 
 
                 //Tiempo para reclamar una senzu
-                if (Senzu_countdown > 0) {
-                    playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
-                    Senzu_countdown--;
-                }
-                if (Senzu_countdown == 0) {
-                    playerstats.setDmzSenzuDaily(0);
-                }
+                playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
 
                 //Aca manejamos la carga de aura
                 manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
-
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
@@ -303,13 +286,11 @@ public class StatsEvents {
 
     }
 
-    // Método para iniciar la cuenta regresiva
-    public static void startSenzuCountdown(Player player, int seconds) {
-        player.getCapability(DMZStatsCapabilities.INSTANCE).ifPresent(playerstats -> {
-            // Convertir segundos a ticks y asignar a Senzu_countdown
-            Senzu_countdown = seconds * 20;
-            playerstats.setDmzSenzuDaily(seconds); // Inicializa el valor en segundos
-        });
+    public static int senzuContador(int segundos) {
+        if (segundos > 0) {
+            return segundos - 1; // si es mayor a 0 resta
+        }
+        return 0; // Si es 0 o menor, retorna 0
     }
 
 
