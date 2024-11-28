@@ -106,6 +106,13 @@ public class CharacterC2S {
                                 playerstats.setAuraOn(true);
                             }
                             break;
+                        case "isDescendOn":
+                            if (packet.cantidad == 0) {
+                                playerstats.setDescendKey(false);
+                            } else {
+                                playerstats.setDescendKey(true);
+                            }
+                            break;
                         case "str":
                             playerstats.setStrength(packet.cantidad);
                             break;
