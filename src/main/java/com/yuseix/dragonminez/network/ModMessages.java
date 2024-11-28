@@ -114,11 +114,6 @@ public class ModMessages {
 				.decoder(DMZSkillsS2C::new)
 				.consumerMainThread(DMZSkillsS2C::handle)
 				.add();
-		net.messageBuilder(InvocarAuraS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(InvocarAuraS2C::new)
-				.encoder(InvocarAuraS2C::toBytes)
-				.consumerMainThread(InvocarAuraS2C::handle)
-				.add();
 		net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(DMZPermanentEffectsSyncS2C::toBytes)
 				.decoder(DMZPermanentEffectsSyncS2C::new)

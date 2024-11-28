@@ -1,23 +1,13 @@
 package com.yuseix.dragonminez.network.C2S;
 
 import com.google.common.collect.Maps;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
-import com.yuseix.dragonminez.init.entity.custom.namek.NamekWarriorEntity;
-import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.InvocarAuraS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Map;
@@ -55,7 +45,7 @@ public class InvocarAuraC2S {
                             aura.setRaza(cap.getRace());
                             aura.setTransformation(cap.getDmzState());
                             aura.setPos(player.getX(), player.getY(), player.getZ());
-
+                            aura.setTransparencia(0.03f);
                             var auraBase = cap.getAuraColor();
 
                             switch (cap.getRace()){
@@ -126,8 +116,6 @@ public class InvocarAuraC2S {
                             player.level().addFreshEntity(aura);
                         }
 
-                        float transparency = playerId.equals(player.getUUID()) && isInFirstPersonView(player) ? 0.03F : 0.06F;
-                        ModMessages.sendToPlayer(new InvocarAuraS2C(playerId, transparency), player);
 
                     } else { // Si el botón no está presionado
                         AuraEntity aura = playerAuraMap.remove(playerId);
@@ -141,7 +129,4 @@ public class InvocarAuraC2S {
         context.setPacketHandled(true);
     }
 
-    public static boolean isInFirstPersonView(Player player) {
-        return Minecraft.getInstance().options.getCameraType().isFirstPerson();
-    }
 }

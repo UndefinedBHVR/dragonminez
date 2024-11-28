@@ -36,11 +36,8 @@ public class StatsEvents {
 
     private static final Map<UUID, TickHandler> playerTickHandlers = new HashMap<>();
 
-    private static int chargeTimer = 0; // Aca calculamos el tiempo de espera
-    private static final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
-
     //Teclas
-    private static boolean isActionKeyPressed = false;
+    private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
 
     @SubscribeEvent
@@ -68,7 +65,6 @@ public class StatsEvents {
                 var energia = playerstats.getEnergy();
 
                 int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
-                int maxstamina = dmzdatos.calcularSTM(raza, dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Ajustar la salud máxima del jugador
                 serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
@@ -76,12 +72,11 @@ public class StatsEvents {
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
-
                 //Tiempo para reclamar una senzu
                 playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
 
                 //Aca manejamos la carga de aura
-                manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
+                tickHandler.manejarCargaDeAura(playerstats, maxenergia);
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
@@ -90,34 +85,7 @@ public class StatsEvents {
             });
     }
 
-    private static void manejarCargaDeAura(DMZStatsAttributes playerstats, boolean isActionKeyPressed, int maxenergia) {
-        // Incrementa el temporizador en cada tick
-        chargeTimer++;
 
-        DMZDatos dmzdatos = new DMZDatos();
-
-        if (chargeTimer >= CHARGE_INTERVAL) {
-            if (playerstats.isAuraOn() && isActionKeyPressed) {
-                if (playerstats.getDmzRelease() > 0) {
-                    playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
-                    if (playerstats.getDmzRelease() < 0) {
-                        playerstats.setDmzRelease(0);
-                    }
-                }
-            } else if (playerstats.isAuraOn()) {
-                if (playerstats.getDmzRelease() < 50) {
-                    playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
-                    if (playerstats.getDmzRelease() > 50) {
-                        playerstats.setDmzRelease(50);
-                    }
-                }
-
-                playerstats.addCurEnergy(dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
-            }
-
-            chargeTimer = 0;
-        }
-    }
     private static void updateTemporaryEffects(Player player) {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
             Iterator<Map.Entry<String, Integer>> iterator = playerstats.getDMZTemporalEffects().entrySet().iterator();
@@ -236,22 +204,28 @@ public class StatsEvents {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event) {
-            // Variable para almacenar el estado previo de la tecla KI_CHARGE
-            boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
-            // Detecta si la tecla KI_CHARGE está presionada o liberada y solo envía el paquete si cambia el estado
-            if (isKiChargeKeyPressed && !previousKiChargeState) {
-                ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-                ModMessages.sendToServer(new InvocarAuraC2S());
-                previousKiChargeState = true; // Actualiza el estado previo
-            } else if (!isKiChargeKeyPressed && previousKiChargeState) {
-                ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-                ModMessages.sendToServer(new InvocarAuraC2S());
-                previousKiChargeState = false; // Actualiza el estado previo
-            }
+        boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
+        boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
 
+        if (isKiChargeKeyPressed && !previousKiChargeState) {
+            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+            ModMessages.sendToServer(new InvocarAuraC2S());
+            previousKiChargeState = true; // Actualiza el estado previo
+        } else if (!isKiChargeKeyPressed && previousKiChargeState) {
+            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+            ModMessages.sendToServer(new InvocarAuraC2S());
+            previousKiChargeState = false; // Actualiza el estado previo
+        }
+        // Detecta si la tecla DESCEND_KEY está presionada o liberada
+        if (isDescendKeyPressed && !previousKeyDescendState) {
+            ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
+            previousKeyDescendState = true; // Actualiza el estado previo
+        } else if (!isDescendKeyPressed && previousKeyDescendState) {
+            ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
+            previousKeyDescendState = false; // Actualiza el estado previo
 
-            // Detecta si la tecla DESCEND_KEY está presionada o liberada
-            isActionKeyPressed = Keys.DESCEND_KEY.isDown();
+        }
+
 
     }
 
