@@ -39,7 +39,12 @@ public class CustomButtons extends Button {
             case "igual":
                 buttonX = 102;
                 if (this.isHovered()) {
-                    //ejemplo para añadir botones mas adelante buttonX += 10;
+                    buttonY += 10;
+                }
+                break;
+            case "info":
+                buttonX = 112;
+                if (this.isHovered()) {
                     buttonY += 10;
                 }
                 break;
