@@ -781,8 +781,10 @@ public class DMZStatsAttributes {
             CompoundTag skillTag = new CompoundTag();
 
             // Aquí guardas los datos relevantes de la habilidad, como el nivel y la descripción
+            skillTag.putString("name", skill.getName().getString());
             skillTag.putInt("level", skill.getLevel());
             skillTag.putString("description", skill.getDesc().getString());
+            skillTag.putBoolean("active", skill.isActive());
 
             // Guarda la habilidad en el CompoundTag de skills
             skillsTag.put(skillName, skillTag);
@@ -852,11 +854,13 @@ public class DMZStatsAttributes {
                 CompoundTag skillTag = skillsTag.getCompound(skillName);
 
                 // Cargar el nivel y la descripción de la habilidad
+                String name = skillTag.getString("name");
                 int level = skillTag.getInt("level");
                 String description = skillTag.getString("description");
+                boolean active = skillTag.getBoolean("active");
 
                 // Crear el objeto DMZSkill y agregarlo al mapa
-                DMZSkill skill = new DMZSkill(Component.literal(skillName), Component.literal(description), level);
+                DMZSkill skill = new DMZSkill(Component.literal(name), Component.literal(description), level, active);
                 DMZSkills.put(skillName, skill);
             }
         }
