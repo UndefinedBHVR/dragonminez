@@ -72,9 +72,8 @@ public class StorylineCommand {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getQuestbyId(questId);
 
-
 				if (quest == null) {
-					source.sendFailure(Component.literal("Quest '" + questId + "' is not active for player '" + source.getPlayer().getDisplayName().getString() + "'."));
+					Component.translatable("command.dmzstoryline.no_quest", questId, source.getPlayer().getDisplayName().getString());
 					result.set(0);
 					return;
 				}
@@ -82,10 +81,10 @@ public class StorylineCommand {
 				// Set completion status
 				if (completed) {
 					quest.completeQuest();
-					source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as completed."), true);
+					source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_completed", questId), true);
 				} else {
 					quest.setCompleted(false);
-					source.sendSuccess(() -> Component.literal("Quest '" + questId + "' marked as incomplete."), true);
+					source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_incompleted", questId), true);
 				}
 
 				result.set(1); // Indicate success
@@ -93,7 +92,7 @@ public class StorylineCommand {
 			}
 
 			// If no quest was found
-			source.sendFailure(Component.literal("Quest with ID '" + questId + "' not found."));
+			source.sendFailure(Component.translatable("command.dmzstoryline.no_quest", questId));
 			result.set(0); // Indicate failure
 		});
 
@@ -109,16 +108,16 @@ public class StorylineCommand {
 			Saga saga = playerStoryline.getSaga(sagaId);
 
 			if (saga == null) {
-				source.sendFailure(Component.literal("Saga with ID '" + sagaId + "' not found."));
+				source.sendFailure(Component.translatable("command.dmzstoryline.no_saga", sagaId));
 				result.set(0); // Set the result to 0 if the saga is not found
 				return;
 			}
 
-			source.sendSuccess(() -> Component.literal("Saga: " + saga.getName() + " [" + sagaId + "]"), false);
+			source.sendSuccess(() -> Component.translatable("command.dmzstoryline.saga_info", saga.getName(), sagaId), false);
 
 			for (Quest quest : saga.getQuests()) {
 				String status = quest.isCompleted() ? "COMPLETED" : "INCOMPLETE";
-				source.sendSuccess(() -> Component.literal("- " + quest.getId() + ": " + quest.getDescription() + " [" + status + "]"), false);
+				source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_info", quest.getId(), quest.getDescription(), status), false);
 			}
 
 			result.set(1); // Set the result to 1 if everything is successful

@@ -4,10 +4,15 @@ import com.yuseix.dragonminez.storyline.missions.Quest;
 
 import java.util.List;
 
-public class SaiyanSaga {
+public class SaiyanSaga extends Saga {
+
+	private SaiyanSaga(String id, String name) {
+		super(id, name);
+	}
+
 	public static Saga createSaiyanSaga() {
 		// Create the saga
-		Saga saiyanSaga = new Saga("saiyan_saga", "Saiyan Saga");
+		Saga saiyanSaga = new SaiyanSaga("saiyan_saga", "Saiyan Saga");
 
 		// Add quests to the saga
 		Quest quest1 = new Quest(
