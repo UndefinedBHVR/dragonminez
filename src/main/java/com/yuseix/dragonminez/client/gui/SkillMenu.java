@@ -4,14 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.network.C2S.StatsC2S;
-import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
-import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
-import net.minecraft.client.Minecraft;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -50,14 +46,15 @@ public class SkillMenu extends Screen {
     @Override
     public void tick() {
         super.tick();
-        botonesStats();
+        botonesMenus();
+        botonesSkills();
     }
 
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         renderBackground(pGuiGraphics);
         menuPaneles(pGuiGraphics);
-        renderSkills(pGuiGraphics);
+        menuSkills(pGuiGraphics);
 
 
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -88,7 +85,7 @@ public class SkillMenu extends Screen {
         RenderSystem.disableBlend();
     }
 
-    public void botonesStats(){
+    public void botonesMenus(){
         this.removeWidget(infoButton);
         this.removeWidget(statsMenuButton);
         this.removeWidget(skillMenuButton);
@@ -113,8 +110,7 @@ public class SkillMenu extends Screen {
 
 
     }
-    private void renderSkills(GuiGraphics guiGraphics) {
-        // Obtener las habilidades desde la capability del jugador
+    private void botonesSkills(){
         Player player = this.minecraft.player;
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
@@ -122,30 +118,21 @@ public class SkillMenu extends Screen {
 
             int startX = (this.width - 250) / 2 + 13;
             int startY = (this.height - 168) / 2 + 20;
-            int offsetY = 20; // Espacio vertical entre cada habilidad
+            int offsetY = 15; // Espacio vertical entre cada habilidad
 
             // Renderizar cada habilidad
             for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
                 String skillId = entry.getKey();
                 DMZSkill skill = entry.getValue();
 
-                switch (skillId) {
+                switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
                     case "potential_unlock":
-                        // Mostrar el texto de la habilidad
-                        guiGraphics.drawString(this.font, "Lvl: " + skill.getLevel(), startX, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.getName(), startX + 50, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.isActive() ? "Active" : "Inactive", startX + 150, startY, 0xFFFFFF);
-
                         break;
                     case "jump":
                         //boton switch aca
-                        guiGraphics.drawString(this.font, "Lvl: " + skill.getLevel(), startX, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.getName(), startX + 50, startY, 0xFFFFFF);
+
                         break;
                     case "fly":
-                        guiGraphics.drawString(this.font, "Lvl: " + skill.getLevel(), startX, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.getName(), startX + 50, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.isActive() ? "Active" : "Inactive", startX + 150, startY, 0xFFFFFF);
 
                         break;
                     default:
@@ -154,7 +141,8 @@ public class SkillMenu extends Screen {
                 }
 
                 // Crear un botón base para todos
-                this.addRenderableWidget(new CustomButtons("info" + skill.getName(), startX + 200, startY - 5, Component.empty(), button -> {
+                this.addRenderableWidget(new CustomButtons("info", startX + 200, startY - 2, Component.empty(), button -> {
+                    //this.infoMenu = infoMenu ? false : true;
                 }));
 
                 // Mover hacia abajo para la próxima habilidad
@@ -162,6 +150,56 @@ public class SkillMenu extends Screen {
             }
         });
     }
+
+    private void menuSkills(GuiGraphics guiGraphics) {
+        // Obtener las habilidades desde la capability del jugador
+        Player player = this.minecraft.player;
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            Map<String, DMZSkill> skills = cap.getDMZSkills();
+
+            int startX = (this.width - 250) / 2 + 15;
+            int startY = (this.height - 168) / 2 + 20;
+            int offsetY = 15; // Espacio vertical entre cada habilidad
+
+            // Renderizar cada habilidad
+            for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
+                String skillId = entry.getKey();
+                DMZSkill skill = entry.getValue();
+
+                var colorActive = skill.isActive() ? 0x55ff50 : 0xff5050;
+
+                switch (skillId) {
+                    case "potential_unlock":
+                        // Mostrar el texto de la habilidad
+                        drawStringWithBorder2(guiGraphics, this.font, Component.literal("Lvl: " + skill.getLevel()), startX, startY, 0xFFFFFF);
+                        guiGraphics.drawString(this.font, Component.translatable(skill.getName().getString()).withStyle(ChatFormatting.BOLD), startX + 40, startY, 0xFFFFFF);
+                        guiGraphics.drawString(this.font, skill.isActive() ? "Active" : "Inactive", startX + 150, startY, colorActive);
+                        break;
+                    case "jump":
+                        //boton switch aca
+                        guiGraphics.drawString(this.font, "Lvl: " + skill.getLevel(), startX, startY, 0xFFFFFF);
+                        guiGraphics.drawString(this.font, skill.getName(), startX + 40, startY, 0xFFFFFF);
+                        break;
+                    case "fly":
+                        guiGraphics.drawString(this.font, "Lvl: " + skill.getLevel(), startX, startY, 0xFFFFFF);
+                        guiGraphics.drawString(this.font, skill.getName(), startX + 40, startY, 0xFFFFFF);
+                        guiGraphics.drawString(this.font, skill.isActive() ? "Active" : "Inactive", startX + 150, startY, colorActive);
+
+                        break;
+                    default:
+                        // Si no necesita botones extra, no se hace nada
+                        break;
+                }
+
+                // Mover hacia abajo para la próxima habilidad
+                startY += offsetY;
+            }
+        });
+    }
+
+
+
     @Override
     public boolean isPauseScreen() {
         return false;

@@ -124,8 +124,8 @@ public class DMZSkillsCommand {
 			int finalLevel = level;
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				DMZSkill skill = new DMZSkill(
-						Component.translatable("skill." + skillName + ".nam"),
-						Component.translatable("skill." + skillName + ".desc"), finalLevel);
+						Component.translatable("skill." + skillName + ".name"),
+						Component.translatable("skill." + skillName + ".desc"), finalLevel, true);
 
 				playerstats.addSkill(skillName, skill);
 
@@ -164,8 +164,8 @@ public class DMZSkillsCommand {
 				} else {
 					// Si la habilidad no existe, la creamos y le asignamos el nivel
 					skill = new DMZSkill(
-							Component.translatable("skill." + skillName + ".nam"),
-							Component.translatable("skill." + skillName + ".desc"), finalLevel);
+							Component.translatable("skill." + skillName + ".name"),
+							Component.translatable("skill." + skillName + ".desc"), finalLevel, true);
 
 					playerstats.addSkill(skillName, skill);
 
