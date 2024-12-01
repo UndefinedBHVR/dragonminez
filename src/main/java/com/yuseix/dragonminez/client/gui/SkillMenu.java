@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +18,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -30,6 +33,9 @@ public class SkillMenu extends Screen {
     private static boolean infoMenu = false;
     private static String skillId = "";
     private int alturaTexto, anchoTexto;
+
+    private final List<AbstractWidget> skillButtons = new ArrayList<>(); // Lista para rastrear widgets de habilidades
+
 
     private CustomButtons infoButton;
     private DMZGuiButtons statsMenuButton, skillMenuButton;
@@ -73,12 +79,28 @@ public class SkillMenu extends Screen {
             anchoTexto = ((this.width - 250)/2) + 180;
             guiGraphics.blit(menuinfo, anchoTexto, alturaTexto, 0, 0, 145, 168);
 
+            int startX = ((this.width - 250) / 2 + 30) - 72;
+            int startY = (this.height - 168) / 2 + 18;
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("Level"), startX, startY, 0xe6fffd);
+            startX = ((this.width - 250) / 2 + 100) - 72;
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("Skill"), startX, startY, 0xffc134);
+            startX = ((this.width - 250) / 2 + 170) - 72;
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("Active"), startX, startY, 0x20e0ff);
+
         } else {
             alturaTexto = (this.height - 168)/2;
             anchoTexto = (this.width - 250)/2;
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             guiGraphics.blit(menucentro, anchoTexto, alturaTexto, 0, 0, 250, 168);
+
+            int startX = (this.width - 250) / 2 + 30;
+            int startY = (this.height - 168) / 2 + 18;
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("Level"), startX, startY, 0xe6fffd);
+            startX = (this.width - 250) / 2 + 100;
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("Skill"), startX, startY, 0xffc134);
+            startX = (this.width - 250) / 2 + 170;
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("Active"), startX, startY, 0x20e0ff);
 
         }
 
@@ -113,11 +135,15 @@ public class SkillMenu extends Screen {
     private void botonesSkills(){
         Player player = this.minecraft.player;
 
+        // Elimina solo los botones relacionados con habilidades
+        skillButtons.forEach(this::removeWidget);
+        skillButtons.clear();
+
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 13;
-            int startY = (this.height - 168) / 2 + 20;
+            int startY = (this.height - 168) / 2 + 30;
             int offsetY = 15; // Espacio vertical entre cada habilidad
 
             // Renderizar cada habilidad
@@ -141,9 +167,12 @@ public class SkillMenu extends Screen {
                 }
 
                 // Crear un botón base para todos
-                this.addRenderableWidget(new CustomButtons("info", startX + 200, startY - 2, Component.empty(), button -> {
-                    //this.infoMenu = infoMenu ? false : true;
-                }));
+                CustomButtons button = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 2, Component.empty(), btn -> {
+                    this.infoMenu = !infoMenu; // Alternar infoMenu
+                    this.skillId = skillId;
+                });
+                this.addRenderableWidget(button);
+                skillButtons.add(button);
 
                 // Mover hacia abajo para la próxima habilidad
                 startY += offsetY;
@@ -159,7 +188,7 @@ public class SkillMenu extends Screen {
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 15;
-            int startY = (this.height - 168) / 2 + 20;
+            int startY = (this.height - 168) / 2 + 30;
             int offsetY = 15; // Espacio vertical entre cada habilidad
 
             // Renderizar cada habilidad
@@ -172,9 +201,17 @@ public class SkillMenu extends Screen {
                 switch (skillId) {
                     case "potential_unlock":
                         // Mostrar el texto de la habilidad
-                        drawStringWithBorder2(guiGraphics, this.font, Component.literal("Lvl: " + skill.getLevel()), startX, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, Component.translatable(skill.getName().getString()).withStyle(ChatFormatting.BOLD), startX + 40, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.isActive() ? "Active" : "Inactive", startX + 150, startY, colorActive);
+                        drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
+                        //Nombre de la habilidad
+                        //guiGraphics.drawString(this.font, Component.translatable(skill.getName().getString()).withStyle(ChatFormatting.BOLD), startX + 40, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
+                        //Activo o inactivo
+                        if(skill.isActive()){
+                            drawStringWithBorder2(guiGraphics, this.font, Component.literal("On"), this.infoMenu ? startX + 150 - 72: startX + 150, startY, 0x60fb58);
+                        } else {
+                            drawStringWithBorder2(guiGraphics, this.font, Component.literal("Off"), this.infoMenu ? startX + 150 - 72: startX + 150, startY, 0xfb5858);
+                        }
+
                         break;
                     case "jump":
                         //boton switch aca
@@ -184,7 +221,7 @@ public class SkillMenu extends Screen {
                     case "fly":
                         guiGraphics.drawString(this.font, "Lvl: " + skill.getLevel(), startX, startY, 0xFFFFFF);
                         guiGraphics.drawString(this.font, skill.getName(), startX + 40, startY, 0xFFFFFF);
-                        guiGraphics.drawString(this.font, skill.isActive() ? "Active" : "Inactive", startX + 150, startY, colorActive);
+                        guiGraphics.drawString(this.font, skill.isActive() ? "On" : "Off", startX + 150, startY, colorActive);
 
                         break;
                     default:
