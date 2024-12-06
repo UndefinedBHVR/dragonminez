@@ -27,7 +27,7 @@ public class MedicinaCorazonItem extends Item {
 	private static final float SATURATION = 20;
 
 	public MedicinaCorazonItem() {
-		super(new Properties().stacksTo(1).food(
+		super(new Properties().stacksTo(4).food(
 				new FoodProperties.Builder()
 						.nutrition(HUNGER)
 						.saturationMod(SATURATION)
@@ -76,7 +76,9 @@ public class MedicinaCorazonItem extends Item {
 			player.getFoodData().eat(HUNGER, SATURATION);
 			player.displayClientMessage(Component.translatable("item.dragonminez.heart_medicine.use"), true);
 		}
-		pStack.shrink(1);
+		if (pLivingEntity instanceof ServerPlayer player && player.isCreative()) {
+			pStack.shrink(0);
+		} else pStack.shrink(1);
 		return pStack;
 	}
 }

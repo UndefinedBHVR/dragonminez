@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
@@ -22,6 +21,7 @@ public class StructuresCapability {
     private boolean hasTorreKamisama = false;
     private boolean hasHabTiempo = false;
     private BlockPos torreKamisamaPosition;
+    private BlockPos portalHabTiempoPosition;
     private BlockPos torreKarinPosition;
     private BlockPos habTiempoPos;
 
@@ -46,11 +46,17 @@ public class StructuresCapability {
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
         this.torreKamisamaPosition = torreKamisamaPosition;
     }
+    private void setPortalHabTiempoPosition(BlockPos portalHabTiempoPosition) {
+        this.portalHabTiempoPosition = portalHabTiempoPosition;
+    }
     public void setTorreKarinPosition(BlockPos torreKarinPosition) {
         this.torreKarinPosition = torreKarinPosition;
     }
     public BlockPos getTorreKamisamaPosition() {
         return torreKamisamaPosition;
+    }
+    public BlockPos getPortalHabTiempoPosition() {
+        return portalHabTiempoPosition;
     }
     public BlockPos getTorreKarinPosition() {
         return torreKarinPosition;
@@ -60,11 +66,10 @@ public class StructuresCapability {
         nbt.putBoolean("hasTorreKamisama", hasTorreKamisama);
         nbt.putBoolean("hasHabTiempo", hasHabTiempo);
 
-        if (torreKamisamaPosition != null || torreKarinPosition != null) {
+        if (torreKamisamaPosition != null || torreKarinPosition != null || portalHabTiempoPosition != null) {
             nbt.put("torreKamisamaPosition", NbtUtils.writeBlockPos(torreKamisamaPosition));
             nbt.put("torreKarinPosition", NbtUtils.writeBlockPos(torreKarinPosition));
-            System.out.println("Guardando posición de la Torre de Kami: " + torreKamisamaPosition);
-            System.out.println("Guardando posición de la Torre de Karin: " + torreKarinPosition);
+            nbt.put("portalHabPosition", NbtUtils.writeBlockPos(portalHabTiempoPosition));
         }
         if (habTiempoPos != null) {
             nbt.put("habTiempoPosition", NbtUtils.writeBlockPos(habTiempoPos));
@@ -75,9 +80,10 @@ public class StructuresCapability {
         hasTorreKamisama = nbt.getBoolean("hasTorreKamisama");
         hasHabTiempo = nbt.getBoolean("hasHabTiempo");
 
-        if (nbt.contains("torreKamisamaPosition") || nbt.contains("torreKarinPosition")) {
+        if (nbt.contains("torreKamisamaPosition") || nbt.contains("torreKarinPosition") || nbt.contains("portalHabPosition")) {
             torreKamisamaPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKamisamaPosition"));
             torreKarinPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKarinPosition"));
+            portalHabTiempoPosition = NbtUtils.readBlockPos(nbt.getCompound("portalHabPosition"));
             //System.out.println("Cargando posición de la Torre de Kami: " + torreKamisamaPosition);
             //System.out.println("Cargando posición de la Torre de Karin: " + torreKarinPosition);
         }
@@ -145,7 +151,7 @@ public class StructuresCapability {
                     // Crear y colocar el NBT
                     CompoundTag nbtData = new CompoundTag();
                     nbtData.putString("mirror", "NONE");
-                    nbtData.putString("rotation", "NONE");
+                    nbtData.putString("rotation", "NORTH");
                     nbtData.putInt("posX", -1);
                     nbtData.putInt("posY", 1);
                     nbtData.putInt("posZ", -1);
@@ -171,7 +177,7 @@ public class StructuresCapability {
 
                     CompoundTag nbtData = new CompoundTag();
                     nbtData.putString("mirror", "NONE");
-                    nbtData.putString("rotation", "NONE");
+                    nbtData.putString("rotation", "NORTH");
                     nbtData.putInt("posX", -51);
                     nbtData.putInt("posY", 76);
                     nbtData.putInt("posZ", -51);
@@ -192,12 +198,15 @@ public class StructuresCapability {
                 level.setBlock(secPos.below().below().offset(1, 0, 0), belowRedstoneBlockState, 3);
             }
 
-            BlockPos torreKami = new BlockPos(posicionValida.getX(), posicionValida.getY() + 152, posicionValida.getZ() - 50);
-            BlockPos torreKarin = new BlockPos(posicionValida.getX() - 6, posicionValida.getY() + 56, posicionValida.getZ() - 11);
+            BlockPos torreKami = new BlockPos(posicionValida.getX(), posicionValida.getY() + 152, posicionValida.getZ() + 50);
+            BlockPos portalHab = new BlockPos(posicionValida.getX(), posicionValida.getY() + 153, posicionValida.getZ() - 27);
+            BlockPos torreKarin = new BlockPos(posicionValida.getX() - 6, posicionValida.getY() + 56, posicionValida.getZ() - 4);
             setHasTorreKamisama(true);
             setTorreKamisamaPosition(torreKami);
             setTorreKarinPosition(torreKarin);
+            setPortalHabTiempoPosition(portalHab);
             //System.out.println("Torre Kami: " + getTorreKamisamaPosition()); // Debug para ver si funciona las coord pal comando xd
+            //System.out.println("Portal HabTiempo: " + getPortalHabTiempoPosition());
         }
     }
 
@@ -209,6 +218,7 @@ public class StructuresCapability {
             // Marcar como generada y guardar la posición
             setHasHabTiempo(true);
             setHabTiempoPos(position);
+            System.out.println("Habitación del Tiempo generada en " + position);
         }
     }
 

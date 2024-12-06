@@ -183,6 +183,7 @@ public class ForgeBusEvents {
 						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
 						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
 						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
+						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState()); // Quitar una vez se meta al Gran Patriarca xd
 						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
 						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
 						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());

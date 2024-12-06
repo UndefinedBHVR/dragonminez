@@ -19,10 +19,17 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class AttributesMenu extends Screen implements RenderEntityInv {
@@ -85,11 +92,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         //Paneles del menu
         menuPaneles(graphics);
 
-        menu1info(graphics);
+        menu1info(graphics, pMouseX, pMouseY);
 
-        menu2info(graphics);
+        menu2info(graphics, pMouseX, pMouseY);
 
-        menu0info(graphics);
+        menu0info(graphics, pMouseX, pMouseY);
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
 
 
@@ -195,7 +202,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         }});
     }
 
-    public void menu0info(GuiGraphics guiGraphics){
+    public void menu0info(GuiGraphics guiGraphics, int mouseX, int mouseY){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             alturaTexto = 19;
@@ -204,14 +211,28 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var playername = Minecraft.getInstance().player.getName().getString();
             var alignment = playerstats.getDmzAlignment();
             var raza = playerstats.getRace();
-
-            if(alignment > 60){
-                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x63FFFF);
-            }else if(alignment > 40){
-                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xeaa8fe);
-            }else {
-                drawStringWithBorder(guiGraphics, font, Component.literal(playername).withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFA5252);
+            int namecolor;
+            if (alignment > 60) {
+                namecolor = 0x63FFFF;
+            } else if (alignment > 40) {
+                namecolor = 0xeaa8fe;
+            } else {
+                namecolor = 0xFA5252;
             }
+             drawStringWithBorder(guiGraphics, font, Component.literal(playername), anchoTexto, alturaTexto, namecolor);
+
+            if (mouseX >= anchoTexto - 10 && mouseX <= anchoTexto + 10 && mouseY >= alturaTexto && mouseY <= alturaTexto + font.lineHeight) {
+                List<FormattedCharSequence> descriptionLines = new ArrayList<>();
+                if (alignment > 60) {
+                    descriptionLines.add(Component.translatable("stats.dmz.alignment_good", alignment).withStyle(ChatFormatting.YELLOW).getVisualOrderText());
+                } else if (alignment > 40) {
+                    descriptionLines.add(Component.translatable("stats.dmz.alignment_neutral", alignment).withStyle(ChatFormatting.YELLOW).getVisualOrderText());
+                } else {
+                    descriptionLines.add(Component.translatable("stats.dmz.alignment_evil", alignment).withStyle(ChatFormatting.YELLOW).getVisualOrderText());
+                }
+                guiGraphics.renderTooltip(font, descriptionLines, mouseX, mouseY);
+            }
+
             alturaTexto = 46;
             if(raza == 0){
 
@@ -251,7 +272,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         });
     }
 
-    public void menu1info(GuiGraphics graphics){
+    public void menu1info(GuiGraphics graphics, int mouseX, int mouseY){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             var TPS = playerstats.getZpoints();
@@ -266,21 +287,11 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             //Information title
             drawStringWithBorder(graphics, font, Component.literal("INFORMATION"), 75, alturaTexto, 0xFBC51C);
 
-            //Titulos
-            anchoTexto = 25;
-            alturaTexto = (this.height / 2) - 67;
-
-            graphics.drawString(font, Component.literal("Lvl:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xD7FEF5);
-            graphics.drawString(font, Component.literal("TPs:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 11, 0xD7FEF5);
-            graphics.drawString(font, Component.literal("Form:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 22, 0xD7FEF5);
-            graphics.drawString(font, Component.literal("Class:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 33, 0xD7FEF5);
-
             //VARIABLES:
-            //NIVEL
+            //NIVEL TPS
             anchoTexto = 70;
+            alturaTexto = (this.height / 2) - 67;
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
-            //TPS
-
             drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
 
             //FORMA
@@ -304,16 +315,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             alturaTexto = (this.height / 2) - 16;
             drawStringWithBorder(graphics, font, Component.literal("STATS"), 72, alturaTexto, 0x68CCFF);
 
-            //Variables stats
-            alturaTexto = (this.height / 2) + 2;
-            anchoTexto = 32;
-            graphics.drawString(font, Component.literal("STR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, 0xD71432);
-            graphics.drawString(font, Component.literal("DEF:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, 0xD71432);
-            graphics.drawString(font, Component.literal("CON:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, 0xD71432);
-            graphics.drawString(font, Component.literal("PWR:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 36, 0xD71432);
-            graphics.drawString(font, Component.literal("ENE:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xD71432);
-            graphics.drawString(font, Component.literal("TPC:").withStyle(ChatFormatting.BOLD),anchoTexto - 4, alturaTexto + 64, 0x2BFFE2);
-
             var strdefault = playerstats.getStrength();
             var defdefault = playerstats.getDefense();
             var condefault = playerstats.getConstitution();
@@ -334,9 +335,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var defcompleta = dmzdatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
             var pwrcompleta = dmzdatos.calcularPWRCompleta(raza, transf, kipowerdefault, majinOn, frutaOn);
 
-            var STRMulti = dmzdatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn);
-            var DEFMulti = dmzdatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn);
-            var KIPOWERMulti = dmzdatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn);
+            var STRMulti = Math.round((dmzdatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn)) * 100) / 100.0;
+            var DEFMulti = Math.round((dmzdatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn)) * 100) / 100.0;
+            var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn)) * 100) / 100.0;
+            var multiTotal = dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
 
             var isMultiOn = majinOn || frutaOn || transf > 0;
             var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
@@ -359,6 +361,62 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                             .append(Component.literal(String.valueOf(KIPOWERMulti)))
                     );
 
+            //Form, Class, Level, TPs, Stats.
+            anchoTexto = 25;
+            alturaTexto = (this.height / 2) - 67;
+
+            graphics.drawString(font, Component.literal("Form:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 22, 0xD7FEF5);
+            graphics.drawString(font, Component.literal("Class:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 33, 0xD7FEF5);
+
+            String[] stats = { "Level", "TPs", "STR", "DEF", "CON", "PWR", "ENE", "TPC"};
+            int[] colors = { 0xD7FEF5, 0xD7FEF5, 0xD71432, 0xD71432, 0xD71432, 0xD71432, 0xD71432, 0x2BFFE2};
+            for (int i = 0; i < stats.length; i++) {
+                String statKey = stats[i];
+                int colores = colors[i];
+                int yOffset;
+                if (statKey.equals("Level") || statKey.equals("TPs")) {
+                    yOffset = alturaTexto + (i * 11); // Valor fijo para "Level" y "TPs"
+                } else if (statKey.equals("TPC")) {
+                    yOffset = (alturaTexto + 69) + ((i-2) * 12) + 4; // Valor fijo para "TPC"
+                } else {
+                    yOffset = (alturaTexto + 69) + ((i-2) * 12); // Valor general para otras stats
+                }
+                if (statKey.equals("Level") || statKey.equals("TPs")) {
+                    anchoTexto = 25;
+                } else if (statKey.equals("TPC")) {
+                    anchoTexto = 28;
+                } else {
+                    anchoTexto = 32;
+                }
+
+                Component statComponent = Component.literal(statKey + ":")
+                        .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colores)).withBold(true));
+                graphics.drawString(font, statComponent, anchoTexto, yOffset, colores);
+
+                if (mouseX >= anchoTexto - 10 && mouseX <= anchoTexto + 25 && mouseY >= yOffset && mouseY <= yOffset + font.lineHeight) {
+                    List<FormattedCharSequence> descriptionLines = new ArrayList<>();
+                    FormattedText descriptionText = Component.translatable("stats.dmz." + statKey.toLowerCase());
+                    List<FormattedCharSequence> lines = font.split(descriptionText, 250);
+                    descriptionLines.addAll(lines);
+
+                    FormattedText descText = Component.translatable("stats.dmz." + statKey.toLowerCase() + ".desc");
+                    List<FormattedCharSequence> descLines = font.split(descText, 250);
+                    descriptionLines.addAll(descLines);
+
+                    if (statKey.equals("STR") && multiTotal > 1) {
+                        descriptionLines.add(Component.translatable("stats.dmz.original", strdefault).withStyle(ChatFormatting.RED).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.modified", strcompleta).withStyle(ChatFormatting.GOLD).getVisualOrderText());
+                    } else if (statKey.equals("DEF") && multiTotal > 1) {
+                        descriptionLines.add(Component.translatable("stats.dmz.original", defdefault).withStyle(ChatFormatting.RED).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.modified", defcompleta).withStyle(ChatFormatting.GOLD).getVisualOrderText());
+                    } else if (statKey.equals("PWR") && multiTotal > 1) {
+                        descriptionLines.add(Component.translatable("stats.dmz.original", kipowerdefault).withStyle(ChatFormatting.RED).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.modified", pwrcompleta).withStyle(ChatFormatting.GOLD).getVisualOrderText());
+                    }
+
+                    graphics.renderTooltip(font, descriptionLines, mouseX, mouseY);
+                }
+            }
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2;
             anchoTexto = 70;
@@ -392,7 +450,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     }
 
-    public void menu2info(GuiGraphics graphics){
+    public void menu2info(GuiGraphics graphics, int mouseX, int mouseY){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             anchoTexto = (this.width - 75);
@@ -405,17 +463,33 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             anchoTexto = (this.width - 127);
             alturaTexto = (this.height / 2) - 64;
 
-            var color = 0xFBA16A;
-
-            graphics.drawString(font, Component.literal("Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto, color);
-            graphics.drawString(font, Component.literal("Defense:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 12, color);
-            graphics.drawString(font, Component.literal("Health:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 24, color);
-            graphics.drawString(font, Component.literal("Stamina:").withStyle(ChatFormatting.BOLD),anchoTexto+4, alturaTexto + 36, 0xFFBB91);
-            graphics.drawString(font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, color);
-            graphics.drawString(font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, color);
-
-            graphics.drawString(font, Component.literal("Multiplier:").withStyle(ChatFormatting.BOLD),anchoTexto - 3, alturaTexto + 80, 0xC51D1D);
-
+            String[] stats = {"Damage", "Defense", "Health", "Stamina", "Ki Damage", "Max Ki"};
+            int[] colors = {0xFBA16A, 0xFBA16A, 0xFBA16A, 0xFFBB91, 0xFBA16A, 0xFBA16A};
+            for (int i = 0; i < stats.length; i++) {
+                String statKey = stats[i];
+                int colores = colors[i];
+                int yOffset = alturaTexto + (i * 12);
+                // Dibujar textos Damage, Health, etc
+                Component statComponent = Component.literal(statKey + ":")
+                        .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colores)).withBold(true));
+                if (statKey.equals("Stamina")) {
+                    graphics.drawString(font, statComponent, anchoTexto + 4, yOffset, colores);
+                } else {
+                    graphics.drawString(font, statComponent, anchoTexto, yOffset, colores);
+                }
+                // Dibujar Hovers
+                if (mouseX >= anchoTexto -10 && mouseX <= anchoTexto + 60 && mouseY >= yOffset && mouseY <= yOffset + font.lineHeight) {
+                    List<FormattedCharSequence> descriptionLines;
+                    if (statKey.equals("Ki Damage")) {
+                        descriptionLines = getStatDescription("ki_damage", font);
+                    } else if (statKey.equals("Max Ki")) {
+                        descriptionLines = getStatDescription("max_ki", font);
+                    } else {
+                        descriptionLines = getStatDescription(statKey.toLowerCase(), font);
+                    }
+                    graphics.renderTooltip(font, descriptionLines, mouseX, mouseY);
+                }
+            }
 
             anchoTexto = (this.width - 55);
 
@@ -451,7 +525,33 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
             drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
-            var MultiTotal = dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
+            var MultiTotal = Math.round((dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn)) * 100) / 100.0;
+
+            var multiMajin = DMZGeneralConfig.MULTIPLIER_MAJIN.get();
+            var multiFruta = DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get();
+            var multiTransf = dmzdatos.calcularMultiTransf(raza, transf);
+            var anchoMulti = (this.width - 127);
+            var altoMulti = (this.height / 2) + 16;
+
+            Component statComponent = Component.literal("Multiplier:")
+                    .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xC51D1D)).withBold(true));
+
+            graphics.drawString(font, statComponent, anchoMulti, altoMulti, 0xC51D1D);
+
+            if (mouseX >= anchoMulti -30 && mouseX <= anchoMulti + 50 && mouseY >= altoMulti && mouseY <= altoMulti + font.lineHeight) {
+                List<FormattedCharSequence> descriptionLines = new ArrayList<>();
+                descriptionLines.add(Component.translatable("stats.dmz.multiplier", multiTransf).withStyle(ChatFormatting.BLUE).getVisualOrderText());
+                descriptionLines.add(Component.translatable("stats.dmz.multiplier.desc", multiTransf).getVisualOrderText());
+                descriptionLines.add(Component.translatable("stats.dmz.multi.transf", multiTransf).withStyle(ChatFormatting.DARK_AQUA).getVisualOrderText());
+                if (majinOn) {
+                    descriptionLines.add(Component.translatable("stats.dmz.multi.majin", multiMajin).withStyle(ChatFormatting.LIGHT_PURPLE).getVisualOrderText());
+                }
+                if (frutaOn) {
+                    descriptionLines.add(Component.translatable("stats.dmz.multi.fruta", multiFruta).withStyle(ChatFormatting.RED).getVisualOrderText());
+                }
+                // Agregar más if luego para ver si está el Kaioken, etc, etc, etc.
+                graphics.renderTooltip(font, descriptionLines, mouseX, mouseY);
+            }
 
             drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, colorEnForma);
         });
@@ -517,4 +617,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         return false;
     }
 
+    private List<FormattedCharSequence> getStatDescription(String statKey, Font font) {
+        Component descripcion = Component.translatable("stats.dmz." + statKey);
+        int maxWidth = 200;
+        return font.split(descripcion, maxWidth);
+    }
 }

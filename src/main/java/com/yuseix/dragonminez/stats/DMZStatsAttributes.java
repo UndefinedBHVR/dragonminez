@@ -43,7 +43,7 @@ public class DMZStatsAttributes {
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
 
-    private boolean AcceptCharacter = false, isauraOn = false;
+    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false;
 
     private String dmzClass = "Warrior";
     private int dmzAlignment = 100;
@@ -61,6 +61,16 @@ public class DMZStatsAttributes {
     public void setAuraOn(boolean auraOn) {
         isauraOn = auraOn;
     }
+    public boolean isDescendKeyOn() {
+        return isDescendkeyon;
+    }
+
+    public void setDescendKey(boolean descendKey) {
+        isDescendkeyon = descendKey;
+        DMZStatsCapabilities.syncStats(player);
+
+    }
+
 
     public int getDmzSenzuDaily() {
         return dmzSenzuDaily;
@@ -766,6 +776,7 @@ public class DMZStatsAttributes {
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("isAuraOn", isauraOn);
+        nbt.putBoolean("isDescendKey", isDescendkeyon);
 
         CompoundTag permanentEffectsTag = new CompoundTag();
         for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
@@ -841,6 +852,7 @@ public class DMZStatsAttributes {
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         isauraOn = nbt.getBoolean("isAuraOn");
+        isDescendkeyon = nbt.getBoolean("isDescendKey");
 
         CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
         for (String effectName : permanentEffects.getAllKeys()) {
