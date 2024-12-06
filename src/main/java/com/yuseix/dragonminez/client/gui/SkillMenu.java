@@ -4,6 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
+import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
@@ -35,10 +38,10 @@ public class SkillMenu extends Screen {
     private int alturaTexto, anchoTexto;
 
     private final List<AbstractWidget> skillButtons = new ArrayList<>(); // Lista para rastrear widgets de habilidades
-
+    private final List<AbstractWidget> booleanButtons = new ArrayList<>();
 
     private CustomButtons infoButton;
-    private DMZGuiButtons statsMenuButton, skillMenuButton;
+    private DMZGuiButtons statsMenuButton;
 
     public SkillMenu() {
         super(Component.empty());
@@ -113,7 +116,6 @@ public class SkillMenu extends Screen {
     public void botonesMenus(){
         this.removeWidget(infoButton);
         this.removeWidget(statsMenuButton);
-        this.removeWidget(skillMenuButton);
 
         alturaTexto = (this.height + 168)/2;
         anchoTexto = this.infoMenu ? ((this.width - 250)/2) - 72: (this.width - 250)/2;
@@ -129,11 +131,14 @@ public class SkillMenu extends Screen {
 
     }
     private void botonesSkills(){
+
         Player player = this.minecraft.player;
 
-        // Elimina solo los botones relacionados con habilidades
         skillButtons.forEach(this::removeWidget);
         skillButtons.clear();
+
+        booleanButtons.forEach(this::removeWidget);
+        booleanButtons.clear();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
             Map<String, DMZSkill> skills = cap.getDMZSkills();
@@ -152,6 +157,16 @@ public class SkillMenu extends Screen {
                         break;
                     case "jump":
                         //boton switch aca
+                        SwitchButton button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
+
+                            boolean newState = !skill.isActive();
+
+                            ModMessages.sendToServer(new SkillActivateC2S(skillId, newState));
+
+                        });
+
+                        this.addRenderableWidget(button);
+                        skillButtons.add(button);
 
                         break;
                     case "fly":

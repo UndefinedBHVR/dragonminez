@@ -48,6 +48,12 @@ public class CustomButtons extends Button {
                     buttonY += 10;
                 }
                 break;
+            case "delete":
+                buttonX = 10;
+                if (this.isHovered()) {
+                    buttonY += 10;
+                }
+                break;
             default:
                 break;
         }
