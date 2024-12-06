@@ -634,7 +634,16 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncSkills(player);
 
     }
+    public void setSkillLvl(String name, int cantidad){
+        DMZSkill skill = DMZSkills.get(name);
+        if(skill != null){
+            skill.setLevel(cantidad);
+        }
 
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
+    }
     // Métodos para gestionar los estados permanentes wa
     public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
         DMZPermanentEffects.put(permanentEffect, isActive);

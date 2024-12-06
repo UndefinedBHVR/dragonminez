@@ -11,22 +11,26 @@ import java.util.function.Supplier;
 public class SkillActivateC2S {
 
     private String tipo;
-    private boolean value;
+    private String id;
+    private int value;
 
 
-    public SkillActivateC2S(String tipo, boolean value) {
+    public SkillActivateC2S(String tipo, String id, int value) {
         this.tipo = tipo;
+        this.id = id;
         this.value = value;
     }
 
     public SkillActivateC2S(FriendlyByteBuf buf) {
         tipo = buf.readUtf();
-        value = buf.readBoolean();
+        id = buf.readUtf();
+        value = buf.readInt();
     }
 
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeUtf(tipo);
-        buf.writeBoolean(value);
+        buf.writeUtf(id);
+        buf.writeInt(value);
 
     }
 
@@ -39,7 +43,22 @@ public class SkillActivateC2S {
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
-                playerstats.setSkillActive(packet.tipo, packet.value);
+                    switch (packet.tipo){
+                        case "active":
+                            if(packet.value == 0){
+                                playerstats.setSkillActive(packet.id, false);
+                            } else {
+                                playerstats.setSkillActive(packet.id, true);
+                            }
+                            break;
+                        case "remove":
+                            playerstats.removeSkill(packet.id);
+                            break;
+                        case "setlevel":
+                            playerstats.setSkillLvl(packet.id, packet.value);
+                        default:
+                            break;
+                    }
 
                 });
             }

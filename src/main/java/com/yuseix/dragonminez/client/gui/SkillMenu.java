@@ -5,7 +5,11 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
+import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.client.gui.cc.CCustomizationPage;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
+import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -40,8 +44,9 @@ public class SkillMenu extends Screen {
     private final List<AbstractWidget> skillButtons = new ArrayList<>(); // Lista para rastrear widgets de habilidades
     private final List<AbstractWidget> booleanButtons = new ArrayList<>();
 
-    private CustomButtons infoButton;
+    private CustomButtons infoButton, deleteButton;
     private DMZGuiButtons statsMenuButton;
+    private TextButton upgradeButton;
 
     public SkillMenu() {
         super(Component.empty());
@@ -140,7 +145,13 @@ public class SkillMenu extends Screen {
         booleanButtons.forEach(this::removeWidget);
         booleanButtons.clear();
 
+        this.removeWidget(deleteButton);
+        this.removeWidget(upgradeButton);
+
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+
+            var tps = cap.getZpoints();
+
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 13;
@@ -158,15 +169,56 @@ public class SkillMenu extends Screen {
                     case "jump":
                         //boton switch aca
                         SwitchButton button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
-
                             boolean newState = !skill.isActive();
-
-                            ModMessages.sendToServer(new SkillActivateC2S(skillId, newState));
-
+                            int newStateint = newState ? 1 : 0;
+                            ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
                         });
 
                         this.addRenderableWidget(button);
                         skillButtons.add(button);
+
+                        if(this.infoMenu){
+                            if(skillId.equals(skillsId)){
+//                                //Borrar la skill
+//                                this.deleteButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("delete",startX + 285, alturaTexto - 30, Component.empty(), wa -> {
+//                                    // Cambiar la pantalla solo en el cliente
+//                                    ModMessages.sendToServer(new SkillActivateC2S("remove",skillId, 0));
+//                                    this.removeWidget(deleteButton);
+//                                }));
+
+                                // Subir de nivel
+                                int currentLevel = skill.getLevel();
+                                int maxLevel = 10; // Nivel máximo permitido
+
+                                // Mapa de costos por nivel al que se quiere llegar
+                                Map<Integer, Integer> levelCosts = Map.of(
+                                        2, 10, // Subir al nivel 2 cuesta 10
+                                        3, 20,
+                                        4, 30,
+                                        5, 40,
+                                        6, 50,
+                                        7, 60,
+                                        8, 70,
+                                        9, 80,
+                                        10, 90 // Subir al nivel 10 cuesta 90
+                                );
+
+                                // Verificar si el jugador puede subir de nivel
+                                if (currentLevel < maxLevel) {
+                                    int nextLevel = currentLevel + 1; // Nivel al que se quiere subir
+                                    int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
+
+                                    if (tps >= cost) { // Comprueba si el costo se cumple
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                            this.removeWidget(upgradeButton);
+                                        }));
+                                    }
+                                }
+                            }
+
+                        }
 
                         break;
                     case "fly":
@@ -175,6 +227,14 @@ public class SkillMenu extends Screen {
                     default:
                         // Si no necesita botones extra, no se hace nada
                         break;
+                }
+
+                if (this.infoMenu && skillId.equals(this.skillsId)) {
+                    this.deleteButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("delete", startX + 285, alturaTexto - 30, Component.empty(), wa -> {
+                        // Cambiar la pantalla solo en el cliente
+                        ModMessages.sendToServer(new SkillActivateC2S("remove", skillId, 0));
+                        this.removeWidget(deleteButton);
+                    }));
                 }
 
                 // Crear un botón base para todos
@@ -188,6 +248,7 @@ public class SkillMenu extends Screen {
                 // Mover hacia abajo para la próxima habilidad
                 startY += offsetY;
             }
+
         });
     }
 

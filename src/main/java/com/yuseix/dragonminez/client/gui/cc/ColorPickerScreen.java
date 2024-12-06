@@ -54,10 +54,6 @@ public class ColorPickerScreen extends Screen {
     private int ColorB;
     private int decimalColor = 16777215;
 
-    // BufferedImage para almacenar el cuadro de colores y la barra de brillo
-    private BufferedImage colorPickerImage;
-    private BufferedImage brightnessBarImage;
-
     private TextButton backButton, setColor;
 
     public ColorPickerScreen(String tipoColor) {
