@@ -179,18 +179,10 @@ public class SkillMenu extends Screen {
 
                         if(this.infoMenu){
                             if(skillId.equals(skillsId)){
-//                                //Borrar la skill
-//                                this.deleteButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("delete",startX + 285, alturaTexto - 30, Component.empty(), wa -> {
-//                                    // Cambiar la pantalla solo en el cliente
-//                                    ModMessages.sendToServer(new SkillActivateC2S("remove",skillId, 0));
-//                                    this.removeWidget(deleteButton);
-//                                }));
-
                                 // Subir de nivel
                                 int currentLevel = skill.getLevel();
-                                int maxLevel = 10; // Nivel máximo permitido
+                                int maxLevel = 10; // maximo nivel
 
-                                // Mapa de costos por nivel al que se quiere llegar
                                 Map<Integer, Integer> levelCosts = Map.of(
                                         2, 10, // Subir al nivel 2 cuesta 10
                                         3, 20,
@@ -203,9 +195,8 @@ public class SkillMenu extends Screen {
                                         10, 90 // Subir al nivel 10 cuesta 90
                                 );
 
-                                // Verificar si el jugador puede subir de nivel
                                 if (currentLevel < maxLevel) {
-                                    int nextLevel = currentLevel + 1; // Nivel al que se quiere subir
+                                    int nextLevel = currentLevel + 1;
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
