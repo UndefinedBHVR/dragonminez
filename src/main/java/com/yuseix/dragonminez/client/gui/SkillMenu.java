@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.client.gui.cc.CCustomizationPage;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -162,6 +163,9 @@ public class SkillMenu extends Screen {
             for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
                 String skillId = entry.getKey();
                 DMZSkill skill = entry.getValue();
+                double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
+                int jumpCost = DMZGeneralConfig.JUMP_TP_COST_LEVELS.get(); int flyCost = DMZGeneralConfig.FLY_TP_COST_LEVELS.get();
+                int sprintCost = DMZGeneralConfig.SPRINT_TP_COST_LEVELS.get(); int pUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get();
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
                     case "potential_unlock":
@@ -183,16 +187,17 @@ public class SkillMenu extends Screen {
                                 int currentLevel = skill.getLevel();
                                 int maxLevel = 10; // maximo nivel
 
+                                // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, 10, // Subir al nivel 2 cuesta 10
-                                        3, 20,
-                                        4, 30,
-                                        5, 40,
-                                        6, 50,
-                                        7, 60,
-                                        8, 70,
-                                        9, 80,
-                                        10, 90 // Subir al nivel 10 cuesta 90
+                                        2, (int) (jumpCost * 2 * mult),
+                                        3, (int) (jumpCost * 3 * mult),
+                                        4, (int) (jumpCost * 4 * mult),
+                                        5, (int) (jumpCost * 5 * mult),
+                                        6, (int) (jumpCost * 6 * mult),
+                                        7, (int) (jumpCost * 7 * mult),
+                                        8, (int) (jumpCost * 8 * mult),
+                                        9, (int) (jumpCost * 9 * mult),
+                                        10, (int) (jumpCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {

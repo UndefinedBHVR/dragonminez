@@ -192,7 +192,7 @@ public class EntityEvents {
 			return;
 		}
 
-		if (fluidState.is(MainFluids.SOURCE_HEALING.get())) {
+		if (fluidState.is(MainFluids.SOURCE_HEALING.get()) || fluidState.is(MainFluids.FLOWING_HEALING.get())) {
 			long currentTime = player.level().getGameTime(); // Tiempo actual en ticks
 			long lastHealTime = lastHealingTime.getOrDefault(player, 0L);
 
