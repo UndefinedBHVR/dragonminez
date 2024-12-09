@@ -1,37 +1,17 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
-import com.google.common.collect.ImmutableSet;
-import com.mojang.serialization.Dynamic;
+import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import com.yuseix.dragonminez.init.entity.goals.VillageAlertSystem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.behavior.VillagerGoalPackages;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerData;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.schedule.Activity;
-import net.minecraft.world.entity.schedule.Schedule;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class NamekTraderEntity extends NamekianVillagerEntity {
 
@@ -57,15 +37,16 @@ public class NamekTraderEntity extends NamekianVillagerEntity {
     protected void registerGoals() {
         // Permite que la entidad flote en el agua
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new PanicGoal(this, 2.5D));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
+        this.goalSelector.addGoal(3, new MoveToSurfaceGoal(this));
 
-        // Camina de manera aleatoria evitando el agua
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.2D));
+        // Camina de manera aleatoria (Sin evitar agua)
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.2D));
 
         // Mirada aleatoria
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
 
     }
 
