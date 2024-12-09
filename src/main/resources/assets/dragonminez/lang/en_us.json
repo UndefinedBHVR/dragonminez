@@ -142,8 +142,6 @@
   "item.dragonminez.dball_radar.tooltip": "\u00A77Let's go catch the Dragon Balls!",
   "item.dragonminez.namekdball_radar": "\u00A7eDragon Radar (\u00A73Namek\u00A7e)",
   "item.dragonminez.namekdball_radar.tooltip": "\u00A77Let's go catch the Namekian Dragon Balls!",
-  "item.dragonminez.baculo_item": "\u00A7cPower Pole",
-  "item.dragonminez.baculo_item.tooltip": "\u00A77This Pole was used by Goku to reach the Kami's Lookout.",
   "item.dragonminez.healing_liquid_bucket": "Healing Liquid Bucket",
   "item.dragonminez.namek_water_bucket": "Namek Water Bucket",
   "item.dragonminez.radar_piece": "Radar's Piece",
@@ -151,6 +149,9 @@
   "item.dragonminez.t2_radar_chip": "Radar's Chip (Namek)",
   "item.dragonminez.t1_radar_cpu": "Radar's CPU (Earth)",
   "item.dragonminez.t2_radar_cpu": "Radar's CPU (Namek)",
+
+  "dmz.weapons.baculo_item": "\u00A7cPower Pole",
+  "dmz.weapons.baculo_item.tooltip": "\u00A77This Pole was used by Goku to reach the Kami's Lookout.",
 
   "itemGroup.dragonminez.blocks": "DMZ Blocks",
   "itemGroup.dragonminez.items": "DMZ Items",

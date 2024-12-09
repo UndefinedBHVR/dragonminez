@@ -19,7 +19,7 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 public class NamekDragonBallRadarItem extends Item {
 
-    private static final int[] RANGES = {75, 150}; // Diferentes rangos
+    private static final int[] RANGES = {150, 300}; // Diferentes rangos
     public static final String NBT_RANGE = "RadarRange"; // Clave NBT para almacenar el rango
 
     public NamekDragonBallRadarItem() {
