@@ -160,14 +160,6 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
-        if (!pEntity.isSpectator()) {
-            Iterator var24 = this.layers.iterator();
-
-            while(var24.hasNext()) {
-                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
-                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
-            }
-        }
 
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
@@ -210,7 +202,14 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         }
 
+        if (!pEntity.isSpectator()) {
+            Iterator var24 = this.layers.iterator();
 
+            while(var24.hasNext()) {
+                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
+                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
 
         pPoseStack.popPose();
 
