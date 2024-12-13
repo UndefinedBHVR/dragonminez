@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.network;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
-import com.yuseix.dragonminez.network.C2S.InvocarAuraC2S;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
@@ -91,14 +90,6 @@ public class ClientPacketHandler {
 		var player = Minecraft.getInstance().player;
 		if (player != null) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.setZpoints(zPoints));
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void handleInvocarAuraPacket(UUID playerId, float transparency, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var aura = InvocarAuraC2S.playerAuraMap.get(playerId);
-		if (aura != null) {
-			aura.setTransparencia(transparency);
 		}
 	}
 

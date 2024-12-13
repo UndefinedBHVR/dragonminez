@@ -22,6 +22,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -54,30 +55,32 @@ public class ClientEvents {
 		}
 	}
 
-    @SubscribeEvent
-    public static void onRenderLevelLast(RenderLevelStageEvent event) {
-        Minecraft minecraft = Minecraft.getInstance();
-        Camera camera = minecraft.gameRenderer.getMainCamera();
+	@SubscribeEvent
+	public static void onRenderLevelLast(RenderLevelStageEvent event) {
+		Minecraft minecraft = Minecraft.getInstance();
 
-        // Asegúrate de procesar a todos los jugadores visibles en la escena
-        for (Player player : minecraft.level.players()) {
-            if (player != null) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                    if (cap.isAuraOn()) {
-                        renderAuraBase(
-                                (AbstractClientPlayer) player,
-                                event.getPoseStack(),
-                                minecraft.renderBuffers().bufferSource(),
-                                15728880,
-                                event.getPartialTick(),
-                                0.02f,
-                                cap.getAuraColor()
-                        );
-                    }
-                });
-            }
-        }
-    }
+		for (Player player : minecraft.level.players()) {
+			if (player != null) {
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+					if (cap.isAuraOn() || cap.isTurbonOn()) {
+						boolean isLocalPlayer = player == minecraft.player;
+
+						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.009f : 0.025f;
+
+						renderAuraBase(
+								(AbstractClientPlayer) player,
+								event.getPoseStack(),
+								minecraft.renderBuffers().bufferSource(),
+								15728880,
+								event.getPartialTick(),
+								transparency,
+								cap.getAuraColor()
+						);
+					}
+				});
+			}
+		}
+	}
 
 	private static void renderAuraBase(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
 		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
@@ -92,10 +95,16 @@ public class ClientEvents {
 		float green = (colorAura >> 8 & 255) / 255.0f;
 		float blue = (colorAura & 255) / 255.0f;
 
+		// Obtener posición interpolada del jugador
+		double interpX = Mth.lerp(partialTicks, player.xOld, player.getX());
+		double interpY = Mth.lerp(partialTicks, player.yOld, player.getY());
+		double interpZ = Mth.lerp(partialTicks, player.zOld, player.getZ());
+
+		//ACA YA FUNCIONA
 		poseStack.pushPose();
 
 		 //Ajustar posición del aura en el jugador
-        poseStack.translate(player.getX() - camX, player.getY() - camY + 1.8, player.getZ() - camZ);
+		poseStack.translate(interpX - camX, interpY - camY + 1.8, interpZ - camZ);
 
 		poseStack.mulPose(Axis.XP.rotationDegrees(180f));
 
@@ -111,7 +120,6 @@ public class ClientEvents {
 		// PARTE BAJA 1
 		for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.7F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -123,7 +131,6 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
@@ -131,7 +138,6 @@ public class ClientEvents {
 		//PARTE BAJA 2
 		for (int i = 0; i < 8; i++) {
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.4F, 1.9F, 1.4F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -143,14 +149,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//PARTE MEDIO 1 interior
 		for (int i = 0; i < 10; i++) {
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.7F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -162,14 +166,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//parte medio 2 exterior
 		for (int i = 0; i < 10; i++) {
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.7F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -181,14 +183,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//parte medio 3 exterior
 		for (int i = 0; i < 10; i++) {
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.9F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -200,14 +200,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//PARTE ARRIBA 1 interior
 		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -219,14 +217,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//Parte 2 arriba exterior
 		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -238,14 +234,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//Parte 3 arriba exterior
 		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -257,14 +251,12 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}
 		//PARTE ARRIBA 4 interior
 		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
 			poseStack.pushPose();
-			RenderSystem.enableBlend();
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
@@ -276,7 +268,6 @@ public class ClientEvents {
 
 			// Renderizar cada plano
 			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-			RenderSystem.disableBlend();
 
 			poseStack.popPose();
 		}

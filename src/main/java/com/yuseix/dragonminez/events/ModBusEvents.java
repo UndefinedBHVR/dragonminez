@@ -47,7 +47,6 @@ public class ModBusEvents {
 		event.put(MainEntity.FP_SLIMSAIYANHUM.get(), FPSlimEntity.setAttributes());
 		event.put(MainEntity.FP_NAMEK.get(), FPNamekianEntity.setAttributes());
 		event.put(MainEntity.FP_MAJINGORDO.get(), FPMajinGordEntity.setAttributes());
-		event.put(MainEntity.AURA.get(), AuraEntity.setAttributes());
 
 	}
 

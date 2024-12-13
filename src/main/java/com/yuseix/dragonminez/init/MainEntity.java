@@ -175,12 +175,6 @@ public class MainEntity {
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_slim").toString())
             );
-    public static final RegistryObject<EntityType<AuraEntity>> AURA =
-            ENTITY_TYPES_REGISTER.register("aura",
-                    () -> EntityType.Builder.of(AuraEntity::new, MobCategory.MISC)
-                            .sized(1.0f, 1.0f)
-                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "aura").toString())
-            );
     public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_BLAST =
             ENTITY_TYPES_REGISTER.register("ki_smallball",
                     () -> EntityType.Builder.of(KiSmallBallProjectil::new, MobCategory.MISC)

@@ -1,30 +1,16 @@
 package com.yuseix.dragonminez.events.cc;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
+
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.C2S.InvocarAuraC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.utils.TextureManager;
 import com.yuseix.dragonminez.utils.TickHandler;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
-import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -34,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -52,6 +37,7 @@ public class StatsEvents {
     //Teclas
     private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
+    private static boolean previousTurboKeyState = false;
 
 
     @SubscribeEvent
@@ -220,17 +206,30 @@ public class StatsEvents {
     public static void onKeyInputEvent(InputEvent.Key event) {
         boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
         boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
+        boolean isTurboKeypressed = Keys.TURBO_KEY.consumeClick();
 
+
+        //Cargar Ki
         if (isKiChargeKeyPressed && !previousKiChargeState) {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-            //ModMessages.sendToServer(new InvocarAuraC2S());
             previousKiChargeState = true; // Actualiza el estado previo
         } else if (!isKiChargeKeyPressed && previousKiChargeState) {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-            //ModMessages.sendToServer(new InvocarAuraC2S());
             previousKiChargeState = false; // Actualiza el estado previo
         }
-        // Detecta si la tecla DESCEND_KEY está presionada o liberada
+
+        //Turbo activado
+        if (isTurboKeypressed) {
+            // Alternar el estado de Turbo
+            previousTurboKeyState = !previousTurboKeyState;  // Si turboOn es true, lo hace false y viceversa
+
+            System.out.println(previousTurboKeyState);
+
+            // Enviar el estado al servidor
+            ModMessages.sendToServer(new CharacterC2S("isTurboOn", previousTurboKeyState ? 1 : 0));
+        }
+
+        // Descender de ki
         if (isDescendKeyPressed && !previousKeyDescendState) {
             ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
             previousKeyDescendState = true; // Actualiza el estado previo
@@ -241,18 +240,6 @@ public class StatsEvents {
         }
 
 
-    }
-
-    @SubscribeEvent
-    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            UUID playerId = player.getUUID();
-            AuraEntity aura = InvocarAuraC2S.playerAuraMap.remove(playerId); // Elimina el aura del mapa
-
-            if (aura != null) {
-                aura.remove(Entity.RemovalReason.DISCARDED); // Remueve el aura del mundo si aún existe
-            }
-        }
     }
 
 

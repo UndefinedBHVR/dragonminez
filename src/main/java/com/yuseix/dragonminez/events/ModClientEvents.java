@@ -116,7 +116,6 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new SlimHumanSaiyanModel<>(context.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
 			EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
 			EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
-			EntityRenderers.register(MainEntity.AURA.get(), AuraRenderer::new);
 			EntityRenderers.register(MainEntity.KI_BLAST.get(), KiSmallBallRenderer::new);
 
 

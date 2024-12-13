@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.init.entity.custom.projectil;
 
-import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -25,7 +24,7 @@ public class KiSmallBallProjectil extends ThrowableProjectile {
 
     private static final EntityDataAccessor<Float> VELOCIDAD = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.FLOAT);
 
-    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(AuraEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.OPTIONAL_UUID);
 
     public KiSmallBallProjectil(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -38,9 +37,6 @@ public class KiSmallBallProjectil extends ThrowableProjectile {
         this.entityData.define(VELOCIDAD, 0.15f);
         this.entityData.define(OWNER_UUID, Optional.empty());
 
-        /*
-
-         */
     }
 
     public int getColor() {
