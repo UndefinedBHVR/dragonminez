@@ -22,11 +22,14 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -51,27 +54,30 @@ public class ClientEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public static void onRenderLevelLast(RenderLevelStageEvent event) {
-		Minecraft minecraft = Minecraft.getInstance();
-		Player player = minecraft.player;
+    @SubscribeEvent
+    public static void onRenderLevelLast(RenderLevelStageEvent event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Camera camera = minecraft.gameRenderer.getMainCamera();
 
-		if (player == null) return;
-
-		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			if (cap.isAuraOn()) {
-				renderAuraBase(
-						(AbstractClientPlayer) player,           // El jugador
-						event.getPoseStack(),                    // PoseStack del evento
-						Minecraft.getInstance().renderBuffers().bufferSource(), // Buffer
-						15728880,                                // Luz empaquetada
-						event.getPartialTick(),                  // PartialTicks
-						0.03f,                                    // Transparencia
-						cap.getAuraColor()                                 // Color del aura (por ejemplo: naranja)
-				);
-			}
-		});
-	}
+        // Asegúrate de procesar a todos los jugadores visibles en la escena
+        for (Player player : minecraft.level.players()) {
+            if (player != null) {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                    if (cap.isAuraOn()) {
+                        renderAuraBase(
+                                (AbstractClientPlayer) player,
+                                event.getPoseStack(),
+                                minecraft.renderBuffers().bufferSource(),
+                                15728880,
+                                event.getPartialTick(),
+                                0.02f,
+                                cap.getAuraColor()
+                        );
+                    }
+                });
+            }
+        }
+    }
 
 	private static void renderAuraBase(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
 		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
@@ -88,8 +94,8 @@ public class ClientEvents {
 
 		poseStack.pushPose();
 
-		// Ajustar posición del aura en el jugador
-		poseStack.translate(player.getX() - camX, player.getY() - camY + 1.8, player.getZ() - camZ);
+		 //Ajustar posición del aura en el jugador
+        poseStack.translate(player.getX() - camX, player.getY() - camY + 1.8, player.getZ() - camZ);
 
 		poseStack.mulPose(Axis.XP.rotationDegrees(180f));
 
@@ -109,7 +115,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.7F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(40));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -129,7 +135,7 @@ public class ClientEvents {
 			poseStack.scale(1.4F, 1.9F, 1.4F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(40));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -148,7 +154,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.7F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(0));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -167,7 +173,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.7F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(15f));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -186,7 +192,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.9F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(15f));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -205,7 +211,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(-35F));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -224,7 +230,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(25F));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -243,7 +249,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(-15F));
 
 			// Posicionar el aura un poco más arriba o abajo
@@ -262,7 +268,7 @@ public class ClientEvents {
 			poseStack.scale(1.2F, 1.6F, 1.2F);
 
 			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle+i*45F));  // Cambia 30F por el ángulo que desees
+			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
 			poseStack.mulPose(Axis.XP.rotationDegrees(5F));
 
 			// Posicionar el aura un poco más arriba o abajo
