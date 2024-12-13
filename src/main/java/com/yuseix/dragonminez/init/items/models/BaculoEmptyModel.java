@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.items.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -47,13 +48,36 @@ public class BaculoEmptyModel extends HumanoidModel<AbstractClientPlayer> {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		boolean estaAgachado = pEntity.isCrouching();
+
+		poseStack.pushPose();
+
+		if (estaAgachado) {
+			// Si está agachado, se inclina el modelo hacia adelante
+			poseStack.mulPose(Axis.XP.rotationDegrees(30.0F));  // Inclinación
+			poseStack.translate(0.0F, 0.20F, -0.13F);  // Posición en Y para compensar la inclinación
+		}
+
+		// Renderizamos las partes del modelo
 		palo.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		baculo.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+
+		poseStack.popPose();
 	}
-	public void renderBaculo(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderBaculo(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		boolean estaAgachado = pEntity.isCrouching();
+
+		poseStack.pushPose();
+
+		if (estaAgachado) {
+			poseStack.mulPose(Axis.XP.rotationDegrees(30.0F));
+			poseStack.translate(-0.0F, 0.20F, -0.13F);
+		}
+
 		palo.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+
+		poseStack.popPose();
 	}
 
 }

@@ -50,6 +50,8 @@ public final class MainItems {
     //BACULO SAGRADO
     public static final RegistryObject<Item> BACULO_SAGRADO =
             ITEM_REGISTER.register("baculo_item", () -> new DMZWeaponItem(8, -1.6F, 0, "baculo_item"));
+    public static final RegistryObject<SwordItem> KATANA_YAJIROBE =
+            ITEM_REGISTER.register("yajirobe_katana", () -> new YajirobeKatana(new Item.Properties().fireResistant()));
 
     //ARMADURAS
     // GOKU NIÑO
