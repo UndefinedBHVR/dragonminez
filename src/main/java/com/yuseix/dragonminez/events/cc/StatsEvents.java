@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -14,7 +15,6 @@ import com.yuseix.dragonminez.utils.TickHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,7 +23,6 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -37,7 +36,7 @@ public class StatsEvents {
     //Teclas
     private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
-    private static boolean previousTurboKeyState = false;
+    private static boolean turboOn = false;
 
 
     @SubscribeEvent
@@ -220,13 +219,12 @@ public class StatsEvents {
 
         //Turbo activado
         if (isTurboKeypressed) {
-            // Alternar el estado de Turbo
-            previousTurboKeyState = !previousTurboKeyState;  // Si turboOn es true, lo hace false y viceversa
+            turboOn = !turboOn;
+            ModMessages.sendToServer(new CharacterC2S("isTurboOn", turboOn ? 1 : 0));
 
-            System.out.println(previousTurboKeyState);
+            //Aca es una comprobacion simple para que aparezca en el hud
+            ModMessages.sendToServer(new PermaEffC2S(turboOn ? "add" : "remove","turbo" , 1));
 
-            // Enviar el estado al servidor
-            ModMessages.sendToServer(new CharacterC2S("isTurboOn", previousTurboKeyState ? 1 : 0));
         }
 
         // Descender de ki
