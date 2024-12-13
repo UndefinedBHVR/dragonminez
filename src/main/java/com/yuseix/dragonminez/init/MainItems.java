@@ -47,9 +47,12 @@ public final class MainItems {
 
     //ARMAS
     // 0 + X = Daño | 4 +/- X = Velocidad de ataque | 0 + X = Durabilidad (0 = Irrompible)
-    //BACULO SAGRADO
     public static final RegistryObject<Item> BACULO_SAGRADO =
             ITEM_REGISTER.register("baculo_item", () -> new DMZWeaponItem(8, -1.6F, 0, "baculo_item"));
+    public static final RegistryObject<Item> TRUNKS_SWORD =
+            ITEM_REGISTER.register("trunks_sword", () -> new DMZWeaponItem(96, -2.4F, 0, "trunks_sword"));
+    public static final RegistryObject<SwordItem> Z_SWORD =
+            ITEM_REGISTER.register("z_sword", () -> new ZSword(new Item.Properties().fireResistant()));
     public static final RegistryObject<SwordItem> KATANA_YAJIROBE =
             ITEM_REGISTER.register("yajirobe_katana", () -> new YajirobeKatana(new Item.Properties().fireResistant()));
 

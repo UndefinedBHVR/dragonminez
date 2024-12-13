@@ -55,9 +55,13 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
         // Renderizar el arma más cercana al slot 1 en la espalda
         if (!armaMasCercana.isEmpty()) {
-            if (isHoldingItem(abstractClientPlayer, armaMasCercana) && (armaMasCercana.is(MainItems.BACULO_SAGRADO.get()) /* || armaMasCercana.is(MainItems.Z_SWORD.get())*/ )) {
+            if (isHoldingItem(abstractClientPlayer, armaMasCercana) && (armaMasCercana.is(MainItems.BACULO_SAGRADO.get()) || armaMasCercana.is(MainItems.TRUNKS_SWORD.get()))) {
                 renderFundaEspalda(poseStack, abstractClientPlayer, multiBufferSource, i, armaMasCercana);
-            } else {
+            } else if (!isHoldingItem(abstractClientPlayer, armaMasCercana) && armaMasCercana.is(MainItems.Z_SWORD.get())) {
+                renderArmaEspalda(poseStack, abstractClientPlayer, multiBufferSource, i, armaMasCercana);
+            } else if (isHoldingItem(abstractClientPlayer, armaMasCercana) && armaMasCercana.is(MainItems.Z_SWORD.get())) {
+                // No renderizarla en la espalda.
+            } else if (!isHoldingItem(abstractClientPlayer, armaMasCercana) && !armaMasCercana.is(MainItems.Z_SWORD.get())) {
                 renderArmaEspalda(poseStack, abstractClientPlayer, multiBufferSource, i, armaMasCercana);
             }
         }
@@ -68,7 +72,8 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         // Revisa solo la hotbar del jugador (primeras 9 ranuras del inventario)
         for (int i = 0; i < 9; i++) {
             ItemStack stack = player.getInventory().items.get(i);
-            if (stack.getItem() == MainItems.BACULO_SAGRADO.get() || stack.getItem() == MainItems.KATANA_YAJIROBE.get()) {
+            if (stack.getItem() == MainItems.BACULO_SAGRADO.get() || stack.getItem() == MainItems.KATANA_YAJIROBE.get() || stack.getItem() == MainItems.Z_SWORD.get()
+                    || stack.getItem() == MainItems.TRUNKS_SWORD.get()) {
                 armas.add(stack);
             }
         }
@@ -106,12 +111,34 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         poseStack.popPose();
     }
 
+    private void renderEspadaZ(PoseStack poseStack, AbstractClientPlayer player, MultiBufferSource bufferSource, int light) {
+        Minecraft mc = Minecraft.getInstance();
+        ItemRenderer itemRenderer = mc.getItemRenderer();
+        poseStack.pushPose();
+        if (player.isCrouching()) {
+            poseStack.translate(0.35, -0.15, 0.1);
+            poseStack.mulPose(Axis.YP.rotationDegrees(65.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-15.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(25.0F));
+            poseStack.translate(0.0F, 0.20F, -0.13F);
+        } else {
+            poseStack.translate(0.25, -0.2, 0.15);
+            poseStack.mulPose(Axis.YP.rotationDegrees(65.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(-35.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(5.0F));
+        }
+        itemRenderer.renderStatic(new ItemStack(MainItems.Z_SWORD.get()), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, poseStack, bufferSource, player.level(), 0);
+        poseStack.popPose();
+    }
+
     private void renderArmaEspalda(PoseStack poseStack, AbstractClientPlayer player, MultiBufferSource bufferSource, int light, ItemStack arma) {
         VertexConsumer textura = bufferSource.getBuffer(RenderType.entityTranslucent(getTextura(arma)));
 
         // Renderiza el modelo completo del arma (arma + funda)
         if (arma.getItem() == MainItems.BACULO_SAGRADO.get()) {
             baculoEmptyModel.renderToBuffer(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+        } else if (arma.getItem() == MainItems.Z_SWORD.get()) {
+            renderEspadaZ(poseStack, player, bufferSource, light);
         }
 
     }
@@ -128,6 +155,10 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
     private ResourceLocation getTextura(ItemStack arma) {
         if (arma.getItem() == MainItems.BACULO_SAGRADO.get()) {
+            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png");
+        } else if (arma.getItem() == MainItems.Z_SWORD.get()) {
+            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png"); // Espada Z no necesita textura, pero no puede dar Null asi que pongo relleno xd
+        } else if (arma.getItem() == MainItems.TRUNKS_SWORD.get()) {
             return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png");
         }
         // Agregar más armas con textura completa aquí

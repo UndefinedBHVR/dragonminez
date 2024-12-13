@@ -152,6 +152,12 @@
 
   "dmz.weapons.baculo_item": "\u00A7cPower Pole",
   "dmz.weapons.baculo_item.tooltip": "\u00A77This Pole was used by Goku to reach the Kami's Lookout.",
+  "dmz.weapons.z_sword": "\u00A73Z Sword",
+  "dmz.weapons.z_sword.tooltip": "\u00A77This sword is said to be the strongest in the universe.",
+  "dmz.weapons.trunks_sword": "\u00A7bTrunks' Sword",
+  "dmz.weapons.trunks_sword.tooltip": "\u00A77This sword comes from the future, where Trunks fought against the Androids.",
+  "dmz.weapons.yajirobe_katana": "\u00A7eYajirobe's Katana",
+  "dmz.weapons.yajirobe_katana.tooltip": "\u00A77This katana was used by Yajirobe to cut Vegeta's tail.",
 
   "itemGroup.dragonminez.blocks": "DMZ Blocks",
   "itemGroup.dragonminez.items": "DMZ Items",

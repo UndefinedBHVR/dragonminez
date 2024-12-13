@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.items.custom;
 
 import com.yuseix.dragonminez.init.items.models.YajirobeKatanaRenderer;
+import com.yuseix.dragonminez.init.items.models.ZSwordRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
@@ -21,23 +22,23 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class YajirobeKatana extends SwordItem implements GeoItem {
+public class ZSword extends SwordItem implements GeoItem {
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-	public YajirobeKatana(Item.Properties properties) {
-		super(DMZToolTiers.BLANK_WEAPON_TIER, 24, -1.6f, properties);
+	public ZSword(Item.Properties properties) {
+		super(DMZToolTiers.BLANK_WEAPON_TIER, 320, -2.4f, properties);
 
 		SingletonGeoAnimatable.registerSyncedAnimatable(this);
 	}
 
 	@Override
 	public @NotNull Component getName(@NotNull ItemStack pStack) {
-		return Component.translatable("dmz.weapons.yajirobe_katana");
+		return Component.translatable("dmz.weapons.z_sword");
 	}
 
 	@Override
 	public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-		pTooltipComponents.add(Component.translatable("dmz.weapons.yajirobe_katana.tooltip").withStyle(ChatFormatting.GRAY));
+		pTooltipComponents.add(Component.translatable("dmz.weapons.z_sword.tooltip").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override
@@ -47,12 +48,12 @@ public class YajirobeKatana extends SwordItem implements GeoItem {
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
 		consumer.accept(new IClientItemExtensions() {
-			private YajirobeKatanaRenderer renderer;
+			private ZSwordRenderer renderer;
 
 			@Override
 			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
 				if (this.renderer == null)
-					this.renderer = new YajirobeKatanaRenderer();
+					this.renderer = new ZSwordRenderer();
 
 				return this.renderer;
 			}

@@ -68,6 +68,7 @@ public class BaculoEmptyModel extends HumanoidModel<AbstractClientPlayer> {
 	public void renderBaculo(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		boolean estaAgachado = pEntity.isCrouching();
 
+
 		poseStack.pushPose();
 
 		if (estaAgachado) {
