@@ -7,10 +7,7 @@ import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
-import com.yuseix.dragonminez.character.models.hair.FemHairModel;
-import com.yuseix.dragonminez.character.models.hair.GohanDBSHairModel;
-import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
-import com.yuseix.dragonminez.character.models.hair.VegetaHairModel;
+import com.yuseix.dragonminez.character.models.hair.*;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
@@ -202,6 +199,8 @@ public class ModClientEvents {
 		e.registerLayerDefinition(FemHairModel.LAYER_LOCATION, FemHairModel::createBodyLayer);
 		e.registerLayerDefinition(VegetaHairModel.LAYER_LOCATION, VegetaHairModel::createBodyLayer);
 		e.registerLayerDefinition(GohanDBSHairModel.LAYER_LOCATION, GohanDBSHairModel::createBodyLayer);
+		e.registerLayerDefinition(GohanTeenHairModel.LAYER_LOCATION, GohanTeenHairModel::createBodyLayer);
+		e.registerLayerDefinition(TrunksHairModel.LAYER_LOCATION, TrunksHairModel::createBodyLayer);
 
 		//ARMADURAS
 		e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
