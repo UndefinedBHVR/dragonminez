@@ -64,7 +64,6 @@ public class ClientEvents {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					if (cap.isAuraOn() || cap.isTurbonOn()) {
 						boolean isLocalPlayer = player == minecraft.player;
-
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.009f : 0.025f;
 
 						renderAuraBase(

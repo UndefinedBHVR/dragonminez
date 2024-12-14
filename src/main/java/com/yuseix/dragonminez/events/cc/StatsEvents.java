@@ -207,7 +207,6 @@ public class StatsEvents {
         boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
         boolean isTurboKeypressed = Keys.TURBO_KEY.consumeClick();
 
-
         //Cargar Ki
         if (isKiChargeKeyPressed && !previousKiChargeState) {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
@@ -223,7 +222,7 @@ public class StatsEvents {
             ModMessages.sendToServer(new CharacterC2S("isTurboOn", turboOn ? 1 : 0));
 
             //Aca es una comprobacion simple para que aparezca en el hud
-            ModMessages.sendToServer(new PermaEffC2S(turboOn ? "add" : "remove","turbo" , 1));
+            ModMessages.sendToServer(new PermaEffC2S(turboOn ? "add" : "remove", "turbo", 1));
 
         }
 
@@ -234,7 +233,6 @@ public class StatsEvents {
         } else if (!isDescendKeyPressed && previousKeyDescendState) {
             ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
             previousKeyDescendState = false; // Actualiza el estado previo
-
         }
 
 

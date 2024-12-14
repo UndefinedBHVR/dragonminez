@@ -28,6 +28,7 @@ public final class MainSounds {
     public static final RegistryObject<SoundEvent> SENZU_BEAN = registerSoundEvent("senzu");
     public static final RegistryObject<SoundEvent> DRAGONBALLS = registerSoundEvent("dragonballssound");
     public static final RegistryObject<SoundEvent> SHENRON = registerSoundEvent("shenron");
+    public static final RegistryObject<SoundEvent> AURA = registerSoundEvent("aura");
 
     public static final RegistryObject<SoundEvent> FROG1 = registerSoundEvent("frogsound1");
     public static final RegistryObject<SoundEvent> FROG2 = registerSoundEvent("frogsound2");

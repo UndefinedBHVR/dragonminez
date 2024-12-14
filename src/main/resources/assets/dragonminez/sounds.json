@@ -107,6 +107,12 @@
       "dragonminez:senzu"
     ]
   },
+  "aura": {
+    "subtitle": "sounds.dragonminez.aura",
+    "sounds": [
+      "dragonminez:aura"
+    ]
+  },
   "menu_music": {
     "subtitle": "sounds.dragonminez.menu_music",
     "sounds": [
