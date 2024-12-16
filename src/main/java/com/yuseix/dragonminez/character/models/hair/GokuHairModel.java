@@ -267,41 +267,41 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 		//super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 		float random = (float) Math.random();
 
-
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
 			var auraOn = cap.isAuraOn();
 			var turboOn = cap.isTurbonOn();
+			var velocidad = 0.4f;
 
 			if(auraOn || turboOn){
-				var cargaVelocidad = 0.4f;
-				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.03F);
-				this.pelo8.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.03F);
-				this.pelo9.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.03F);
-				this.pelo10.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.03F);
-				this.pelo25.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.03F);
-				this.pelo28.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*0.03F);
-
-				this.pelo22.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.03F);
-				this.pelo23.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.03F);
-				this.pelo27.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.03F);
-				this.pelo11.zRot = (float) (Math.cos((pEntity.tickCount+random)*cargaVelocidad)*-0.03F);
-
-			} else {
-				var velocidad = 0.04f;
-
+				velocidad = 0.4f;
+				this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
 				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
-				this.pelo8.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
-				this.pelo9.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
-				this.pelo10.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
-				this.pelo25.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
-				this.pelo28.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo14.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo15.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
 
-				this.pelo22.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
-				this.pelo23.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
-				this.pelo27.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
-				this.pelo11.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo3.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo16.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo17.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo18.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+			} else {
+				velocidad = 0.03f;
 
+				this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo14.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+				this.pelo15.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
+
+				this.pelo3.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo4.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo5.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo16.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo17.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
+				this.pelo18.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*-0.03F);
 			}
 
 		});
