@@ -6,8 +6,10 @@ import com.yuseix.dragonminez.storyline.missions.saiyan.ObjectiveCollectItem;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.storyline.sagas.Saga;
 import com.yuseix.dragonminez.utils.DebugUtils;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -40,6 +42,23 @@ public class StorylineEvents {
 				}
 			}
 		});
+	}
+
+	@SubscribeEvent
+	public void onPlayerCloned(PlayerEvent.Clone event) {
+
+		CompoundTag nbt = new CompoundTag();
+
+		event.getOriginal().reviveCaps();
+
+		event.getEntity().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+				event.getOriginal().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(originalPlayerStoryline ->
+						playerStoryline.loadNBTData(originalPlayerStoryline.saveNBTData(nbt)))
+		);
+
+
+		event.getOriginal().invalidateCaps();
+
 	}
 
 }

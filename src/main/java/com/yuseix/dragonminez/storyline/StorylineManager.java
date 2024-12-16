@@ -56,7 +56,7 @@ public class StorylineManager {
 		return sagas;
 	}
 
-	public void saveNBTData(CompoundTag nbt) {
+	public CompoundTag saveNBTData(CompoundTag nbt) {
 		CompoundTag sagasTag = new CompoundTag(); // Main container for all sagas
 
 		for (Saga saga : sagas.values()) {
@@ -78,6 +78,7 @@ public class StorylineManager {
 
 		nbt.put("sagas", sagasTag); // Add all sagas to the provided NBT
 
+		return nbt;
 	}
 
 
@@ -90,8 +91,12 @@ public class StorylineManager {
 			CompoundTag sagaTag = sagasTag.getCompound(sagaKey);
 			String sagaId = sagaTag.getString("id");
 
+			//Start all sagas for data loading
+			initializeSagas();
+
 			// Get the existing Saga by ID
 			Saga saga = getSaga(sagaId);
+
 			if (saga == null) {
 				throw new IllegalArgumentException("Saga with ID '" + sagaId + "' does not exist!");
 			}
