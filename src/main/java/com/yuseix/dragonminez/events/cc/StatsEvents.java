@@ -252,6 +252,7 @@ public class StatsEvents {
                     ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                     ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                     stopLoopSound(false);
+                    setTurboSpeed(player, false);
                 } else {
                     player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
                 }
