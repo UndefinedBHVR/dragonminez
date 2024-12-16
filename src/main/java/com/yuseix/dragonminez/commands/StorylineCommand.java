@@ -44,6 +44,9 @@ public class StorylineCommand {
 				.then(Commands.literal("get")
 						.then(Commands.literal("allSagas")
 								.executes(context -> {
+									if (context.getSource().getPlayer() == null) {
+										return 0;
+									}
 									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 										for (Saga saga : playerStoryline.getAllSagas().values()) {
 											context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.saga_info", saga.getName(), saga.getId()), false);
@@ -77,6 +80,9 @@ public class StorylineCommand {
 				.then(Commands.literal("debug")
 						.then(Commands.literal("forcestart")
 								.executes(context -> {
+									if (context.getSource().getPlayer() == null) {
+										return 0;
+									}
 									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::initializeSagas);
 									context.getSource().sendSuccess(() -> Component.literal("Forced saga initialization."), true);
 									return 1;
@@ -84,6 +90,9 @@ public class StorylineCommand {
 						)
 						.then(Commands.literal("reset_progress")
 								.executes(context -> {
+									if (context.getSource().getPlayer() == null) {
+										return 0;
+									}
 									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::resetProgress);
 									context.getSource().sendSuccess(() -> Component.literal("All Storyline progress has been reset."), true);
 									return 1;
@@ -95,6 +104,10 @@ public class StorylineCommand {
 
 	private int setQuestCompletion(CommandSourceStack source, String questId, boolean completed) {
 		AtomicInteger result = new AtomicInteger(0);
+
+		if (source.getPlayer() == null) {
+			return 0;
+		}
 
 		// Access the capability of the player
 		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
@@ -134,6 +147,10 @@ public class StorylineCommand {
 
 		AtomicInteger result = new AtomicInteger(0);
 
+		if (source.getPlayer() == null) {
+			return 0;
+		}
+
 		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 			Saga saga = playerStoryline.getSaga(sagaId);
 
@@ -160,6 +177,10 @@ public class StorylineCommand {
 
 		AtomicInteger result = new AtomicInteger(0);
 
+		if (source.getPlayer() == null) {
+			return 0;
+		}
+
 		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				for (Quest quest : saga.getQuests()) {
@@ -176,6 +197,10 @@ public class StorylineCommand {
 	private int getQuestInfo(CommandSourceStack source, String questId) {
 
 		AtomicInteger result = new AtomicInteger(0);
+
+		if (source.getPlayer() == null) {
+			return 0;
+		}
 
 		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 
