@@ -42,11 +42,34 @@ public class StorylineCommand {
 
 				// /storyline get saga <id>
 				.then(Commands.literal("get")
+						.then(Commands.literal("allSagas")
+								.executes(context -> {
+									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+										for (Saga saga : playerStoryline.getAllSagas().values()) {
+											context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.saga_info", saga.getName(), saga.getId()), false);
+										}
+									});
+									return 1;
+								})
+						)
 						.then(Commands.literal("saga")
 								.then(Commands.argument("id", StringArgumentType.string())
+										.suggests(this::suggestSagaIds)
 										.executes(context -> {
 											String sagaId = StringArgumentType.getString(context, "id");
 											return getSagaInfo(context.getSource(), sagaId);
+										})
+								)
+						)
+						.then(Commands.literal("allQuests")
+								.executes(context -> getAllQuests(context.getSource()))
+						)
+						.then(Commands.literal("quest")
+								.then(Commands.argument("id", StringArgumentType.string())
+										.suggests(this::suggestQuestIds)
+										.executes(context -> {
+											String questId = StringArgumentType.getString(context, "id");
+											return getQuestInfo(context.getSource(), questId);
 										})
 								)
 						)
@@ -56,6 +79,13 @@ public class StorylineCommand {
 								.executes(context -> {
 									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::initializeSagas);
 									context.getSource().sendSuccess(() -> Component.literal("Forced saga initialization."), true);
+									return 1;
+								})
+						)
+						.then(Commands.literal("reset_progress")
+								.executes(context -> {
+									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::resetProgress);
+									context.getSource().sendSuccess(() -> Component.literal("All Storyline progress has been reset."), true);
 									return 1;
 								})
 						)
@@ -73,7 +103,7 @@ public class StorylineCommand {
 				Quest quest = saga.getQuestbyId(questId);
 
 				if (quest == null) {
-					Component.translatable("command.dmzstoryline.no_quest", questId, source.getPlayer().getDisplayName().getString());
+					source.sendFailure(Component.translatable("command.dmzstoryline.no_quest", questId, source.getPlayer().getDisplayName().getString()));
 					result.set(0);
 					return;
 				}
@@ -92,7 +122,7 @@ public class StorylineCommand {
 			}
 
 			// If no quest was found
-			source.sendFailure(Component.translatable("command.dmzstoryline.no_quest", questId));
+			source.sendFailure(Component.translatable("command.dmzstoryline.no_found_quest", questId));
 			result.set(0); // Indicate failure
 		});
 
@@ -108,7 +138,7 @@ public class StorylineCommand {
 			Saga saga = playerStoryline.getSaga(sagaId);
 
 			if (saga == null) {
-				source.sendFailure(Component.translatable("command.dmzstoryline.no_saga", sagaId));
+				source.sendFailure(Component.translatable("command.dmzstoryline.no_found_saga", sagaId));
 				result.set(0); // Set the result to 0 if the saga is not found
 				return;
 			}
@@ -126,6 +156,43 @@ public class StorylineCommand {
 		return result.get(); // Return the stored result
 	}
 
+	private int getAllQuests(CommandSourceStack source) {
+
+		AtomicInteger result = new AtomicInteger(0);
+
+		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+			for (Saga saga : playerStoryline.getAllSagas().values()) {
+				for (Quest quest : saga.getQuests()) {
+					String status = quest.isCompleted() ? "COMPLETED" : "INCOMPLETE";
+					source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_info", quest.getId(), quest.getDescription(), status), false);
+				}
+			}
+			result.set(1);
+		});
+
+		return result.get();
+	}
+
+	private int getQuestInfo(CommandSourceStack source, String questId) {
+
+		AtomicInteger result = new AtomicInteger(0);
+
+		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+
+			for (Saga saga : playerStoryline.getAllSagas().values()) {
+				Quest quest = saga.getQuestbyId(questId);
+				String status = quest.isCompleted() ? "COMPLETED" : "INCOMPLETE";
+				source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_info", quest.getId(), quest.getDescription(), status), false);
+
+			}
+
+
+			result.set(1); // Set the result to 1 if everything is successful
+		});
+
+		return result.get(); // Return the stored result
+	}
+
 	// Provide suggestions for quest IDs
 	private CompletableFuture<Suggestions> suggestQuestIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
 		//El nuevo StorylineManager no se usa como tal, pero se puede usar para obtener todas las sagas y quests porque al inicializarlo se inicializan todas las sagas
@@ -134,6 +201,13 @@ public class StorylineCommand {
 			for (Quest quest : saga.getQuests()) {
 				builder.suggest(quest.getId());
 			}
+		}
+		return builder.buildFuture();
+	}
+
+	private CompletableFuture<Suggestions> suggestSagaIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+		for (Saga saga : storylineManager.getAllSagas().values()) {
+			builder.suggest(saga.getId());
 		}
 		return builder.buildFuture();
 	}

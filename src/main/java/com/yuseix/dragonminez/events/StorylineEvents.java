@@ -22,6 +22,7 @@ public class StorylineEvents {
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
+		
 		// Check the item that was picked up
 		Item collectedItemId = event.getItem().getItem().getItem();
 

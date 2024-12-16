@@ -12,7 +12,7 @@ public class StorylineManager {
 	private final Hashtable<String, Saga> sagas = new Hashtable<>();
 
 	public StorylineManager() {
-//		initializeSagas();
+		initializeSagas();
 	}
 
 	// Initialize predefined sagas
@@ -29,6 +29,14 @@ public class StorylineManager {
 	// Retrieve a saga by ID
 	public Saga getSaga(String id) {
 		return sagas.get(id);
+	}
+
+	public void resetProgress() {
+		for (Saga saga : sagas.values()) {
+			for (Quest quest : saga.getQuests()) {
+				quest.setCompleted(false);
+			}
+		}
 	}
 
 	// No se usa porque ya hay otro que saca directamente la ID de la quest sin necesidad de la saga
