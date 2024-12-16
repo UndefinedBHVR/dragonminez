@@ -12,9 +12,14 @@ import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.utils.TickHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,6 +29,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.*;
@@ -37,6 +43,10 @@ public class StatsEvents {
     private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
     private static boolean turboOn = false;
+
+    //Sonidos
+    private static SimpleSoundInstance kiChargeLoop;
+    private static SimpleSoundInstance turboLoop;
 
 
     @SubscribeEvent
@@ -207,24 +217,55 @@ public class StatsEvents {
         boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
         boolean isTurboKeypressed = Keys.TURBO_KEY.consumeClick();
 
+        LocalPlayer player = Minecraft.getInstance().player;
+
         //Cargar Ki
         if (isKiChargeKeyPressed && !previousKiChargeState) {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
             previousKiChargeState = true; // Actualiza el estado previo
+            playSoundOnce(MainSounds.AURA_START.get());
+            startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
         } else if (!isKiChargeKeyPressed && previousKiChargeState) {
             ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
             previousKiChargeState = false; // Actualiza el estado previo
+            stopLoopSound(true);
         }
 
-        //Turbo activado
-        if (isTurboKeypressed) {
-            turboOn = !turboOn;
-            ModMessages.sendToServer(new CharacterC2S("isTurboOn", turboOn ? 1 : 0));
+        //Turbo
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+            int curEne = stats.getCurrentEnergy();
+            int maxEne = stats.getMaxEnergy();
+            int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
 
-            //Aca es una comprobacion simple para que aparezca en el hud
-            ModMessages.sendToServer(new PermaEffC2S(turboOn ? "add" : "remove", "turbo", 1));
+            if (isTurboKeypressed) {
+                if (!turboOn && porcentaje > 10) {
+                    // Solo activar Turbo si tiene más del 10% de energía
+                    turboOn = true;
+                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
+                    ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                    playSoundOnce(MainSounds.AURA_START.get());
+                    startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+                    setTurboSpeed(player, true);
+                } else if (turboOn) {
+                    // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                    turboOn = false;
+                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                    ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                    stopLoopSound(false);
+                } else {
+                    player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
+                }
+            }
 
-        }
+            // Desactivar Turbo automáticamente si la energía llega a 1
+            if (turboOn && curEne <= 1) {
+                turboOn = false;
+                ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                stopLoopSound(false);
+                setTurboSpeed(player, false);
+            }
+        });
 
         // Descender de ki
         if (isDescendKeyPressed && !previousKeyDescendState) {
@@ -234,10 +275,70 @@ public class StatsEvents {
             ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
             previousKeyDescendState = false; // Actualiza el estado previo
         }
-
-
     }
 
+    @OnlyIn(Dist.CLIENT)
+    private static void playSoundOnce(SoundEvent soundEvent) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null) {
+                player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+                        soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+            }
+        });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void startLoopSound(SoundEvent soundEvent, boolean isKiCharge) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player == null) return;
+
+            SimpleSoundInstance loopSound = new SimpleSoundInstance(
+                    soundEvent.getLocation(),
+                    SoundSource.PLAYERS,
+                    1.0F, 1.0F,
+                    player.level().random,
+                    true, 0,
+                    SimpleSoundInstance.Attenuation.LINEAR,
+                    player.getX(), player.getY(), player.getZ(),
+                    false
+            );
+
+            Minecraft.getInstance().getSoundManager().play(loopSound);
+            if (isKiCharge) {
+                kiChargeLoop = loopSound;
+            } else {
+                turboLoop = loopSound;
+            }
+        });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void stopLoopSound(boolean isKiCharge) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            if (isKiCharge && kiChargeLoop != null) {
+                Minecraft.getInstance().getSoundManager().stop(kiChargeLoop);
+                kiChargeLoop = null;
+            } else if (!isKiCharge && turboLoop != null) {
+                Minecraft.getInstance().getSoundManager().stop(turboLoop);
+                turboLoop = null;
+            }
+        });
+    }
+
+    private static final double originalSpeed = 0.10000000149011612;
+
+    private static void setTurboSpeed(Player player, boolean enable) {
+        AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speedAttribute == null) return;
+
+        if (enable) {
+            speedAttribute.setBaseValue(originalSpeed + 0.06);
+        } else {
+            speedAttribute.setBaseValue(originalSpeed);
+        }
+    }
 
     private static void sonidosGolpes(Player player) {
 

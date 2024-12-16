@@ -107,16 +107,28 @@
       "dragonminez:senzu"
     ]
   },
-  "aura": {
-    "subtitle": "sounds.dragonminez.aura",
-    "sounds": [
-      "dragonminez:aura"
-    ]
-  },
   "menu_music": {
     "subtitle": "sounds.dragonminez.menu_music",
     "sounds": [
       "dragonminez:menu_music"
+    ]
+  },
+  "aura_start": {
+    "subtitle": "sounds.dragonminez.aura_start",
+    "sounds": [
+      "dragonminez:aura_start"
+    ]
+  },
+  "ki_charge_loop": {
+    "subtitle": "sounds.dragonminez.ki_charge_loop",
+    "sounds": [
+      "dragonminez:ki_charge_loop"
+    ]
+  },
+  "turbo_loop": {
+    "subtitle": "sounds.dragonminez.turbo_loop",
+    "sounds": [
+      "dragonminez:turbo_loop"
     ]
   }
 }

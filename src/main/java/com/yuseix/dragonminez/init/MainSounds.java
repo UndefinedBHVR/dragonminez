@@ -28,7 +28,6 @@ public final class MainSounds {
     public static final RegistryObject<SoundEvent> SENZU_BEAN = registerSoundEvent("senzu");
     public static final RegistryObject<SoundEvent> DRAGONBALLS = registerSoundEvent("dragonballssound");
     public static final RegistryObject<SoundEvent> SHENRON = registerSoundEvent("shenron");
-    public static final RegistryObject<SoundEvent> AURA = registerSoundEvent("aura");
 
     public static final RegistryObject<SoundEvent> FROG1 = registerSoundEvent("frogsound1");
     public static final RegistryObject<SoundEvent> FROG2 = registerSoundEvent("frogsound2");
@@ -36,6 +35,10 @@ public final class MainSounds {
     public static final RegistryObject<SoundEvent> FROG_LAUGH = registerSoundEvent("froglaugh");
 
     public static final RegistryObject<SoundEvent> MENU_MUSIC = registerSoundEvent("menu_music");
+
+    public static final RegistryObject<SoundEvent> AURA_START = registerSoundEvent("aura_start");
+    public static final RegistryObject<SoundEvent> KI_CHARGE_LOOP = registerSoundEvent("ki_charge_loop");
+    public static final RegistryObject<SoundEvent> TURBO_LOOP = registerSoundEvent("turbo_loop");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
