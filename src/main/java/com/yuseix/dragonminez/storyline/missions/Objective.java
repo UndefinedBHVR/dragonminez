@@ -1,22 +1,21 @@
 package com.yuseix.dragonminez.storyline.missions;
 
-public abstract class DMZObjectives {
+public abstract class Objective {
 
-	private int currentAmount;
 	private boolean completed;
 	private Runnable onCompletion;
 
-	public DMZObjectives(boolean completed) {
+	public Objective(boolean completed) {
 
 		this.completed = completed;
 	}
 
-	protected boolean isCompleted() {
+	public boolean isCompleted() {
 		return this.completed; // Check completion status
 	}
 
 
-	protected void setCompleted() {
+	public void setCompleted() {
 		this.completed = true; // Update completion status
 
 		if (onCompletion != null) {
@@ -24,9 +23,9 @@ public abstract class DMZObjectives {
 		}
 	}
 
-	protected void setOnCompletion(Runnable onCompletion) {
+	public void setOnCompletion(Runnable onCompletion) {
 		this.onCompletion = onCompletion;
 	}
 
-	protected abstract void checkCompletion();
+	public abstract void checkCompletion();
 }

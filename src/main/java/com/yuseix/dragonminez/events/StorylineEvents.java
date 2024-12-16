@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.events;
 
-import com.yuseix.dragonminez.storyline.missions.DMZObjectives;
+import com.yuseix.dragonminez.storyline.missions.Objective;
 import com.yuseix.dragonminez.storyline.missions.Quest;
-import com.yuseix.dragonminez.storyline.missions.saiyan.ObjectiveCollectItem;
+import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveCollectItem;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.storyline.sagas.Saga;
 import com.yuseix.dragonminez.utils.DebugUtils;
@@ -22,7 +22,7 @@ public class StorylineEvents {
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
-		
+
 		// Check the item that was picked up
 		Item collectedItemId = event.getItem().getItem().getItem();
 
@@ -33,7 +33,7 @@ public class StorylineEvents {
 				for (Quest quest : saga.getQuests()) {
 					if (!quest.isCompleted()) {
 						// Check each objective in the quest
-						for (DMZObjectives objective : quest.getObjectives()) {
+						for (Objective objective : quest.getObjectives()) {
 							if (objective instanceof ObjectiveCollectItem collectObjective) {
 								// Pass the collected item to the objective
 								collectObjective.onItemCollected(collectedItemId);

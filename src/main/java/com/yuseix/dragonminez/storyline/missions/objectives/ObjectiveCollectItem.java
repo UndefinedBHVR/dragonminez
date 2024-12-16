@@ -1,10 +1,10 @@
-package com.yuseix.dragonminez.storyline.missions.saiyan;
+package com.yuseix.dragonminez.storyline.missions.objectives;
 
-import com.yuseix.dragonminez.storyline.missions.DMZObjectives;
+import com.yuseix.dragonminez.storyline.missions.Objective;
 import net.minecraft.world.item.Item;
 
 
-public class ObjectiveCollectItem extends DMZObjectives {
+public class ObjectiveCollectItem extends Objective {
 	private final Item itemId;
 	private final int requiredAmount;
 	private int currentAmount;
@@ -36,7 +36,7 @@ public class ObjectiveCollectItem extends DMZObjectives {
 	}
 
 	@Override
-	protected void checkCompletion() {
+	public void checkCompletion() {
 		if (currentAmount >= requiredAmount) {
 			setCompleted(); // Mark the objective as complete
 		}

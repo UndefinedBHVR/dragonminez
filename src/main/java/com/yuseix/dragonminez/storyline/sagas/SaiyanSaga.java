@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.storyline.sagas;
 
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.storyline.missions.Quest;
-import com.yuseix.dragonminez.storyline.missions.saiyan.ObjectiveCollectItem;
+import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveCollectItem;
 
 import java.util.List;
 
