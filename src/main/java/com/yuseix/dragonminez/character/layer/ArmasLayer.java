@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
+import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -26,10 +27,11 @@ import java.util.List;
 public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private BaculoEmptyModel baculoEmptyModel;
-
+    private TrunksSwordBackModel trunksSwordBackModel;
     public ArmasLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
         this.baculoEmptyModel = new BaculoEmptyModel(BaculoEmptyModel.createBodyLayer().bakeRoot());
+        this.trunksSwordBackModel = new TrunksSwordBackModel(TrunksSwordBackModel.createBodyLayer().bakeRoot());
     }
 
     @Override
@@ -37,6 +39,8 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         List<ItemStack> armasRender = obtenerArmasEnHotbar(abstractClientPlayer);
         ItemStack armaMasCercana = ItemStack.EMPTY;
         ItemStack katanaYajirobe = ItemStack.EMPTY;
+
+        this.trunksSwordBackModel.setupAnim(abstractClientPlayer,v1,v2,v3,v4,v5);
 
         // Buscar la Katana y el arma más cercana al Slot 1
         for (int slot = 0; slot < armasRender.size(); slot++) {
@@ -137,8 +141,12 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         // Renderiza el modelo completo del arma (arma + funda)
         if (arma.getItem() == MainItems.BACULO_SAGRADO.get()) {
             baculoEmptyModel.renderToBuffer(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
-        } else if (arma.getItem() == MainItems.Z_SWORD.get()) {
+        } else if (arma.getItem() == MainItems.Z_SWORD.get()) { //Espada Z
             renderEspadaZ(poseStack, player, bufferSource, light);
+        } else if(arma.getItem() == MainItems.TRUNKS_SWORD.get()){
+            //Aca se renderiza mangoespada + funda
+            trunksSwordBackModel.renderToBuffer(poseStack, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+
         }
 
     }
@@ -149,6 +157,8 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         // Renderiza solo la funda del arma
         if (arma.getItem() == MainItems.BACULO_SAGRADO.get()) {
             baculoEmptyModel.renderBaculo(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+        } else if(arma.getItem() == MainItems.TRUNKS_SWORD.get()){
+            trunksSwordBackModel.renderWardEspada(poseStack, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
         }
 
     }
@@ -159,7 +169,7 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         } else if (arma.getItem() == MainItems.Z_SWORD.get()) {
             return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png"); // Espada Z no necesita textura, pero no puede dar Null asi que pongo relleno xd
         } else if (arma.getItem() == MainItems.TRUNKS_SWORD.get()) {
-            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png");
+            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/trunkssword_layer.png");
         }
         // Agregar más armas con textura completa aquí
         return null;
