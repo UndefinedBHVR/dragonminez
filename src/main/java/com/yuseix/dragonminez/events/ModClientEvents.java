@@ -17,6 +17,8 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
+import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
@@ -104,6 +106,8 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.NAMEKNPC_TRADER2.get(), NamekTrader2Renderer::new);
 			EntityRenderers.register(MainEntity.NAMEKNPC_TRADER3.get(), NamekTrader3Renderer::new);
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER01.get(), FriezaSoldierRenderer::new);
+			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Renderer::new);
+			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Renderer::new);
 			EntityRenderers.register(MainEntity.MORO_SOLDIER.get(), MoroSoldierRenderer::new);
 
 			//FAKEPLAYERS
@@ -209,6 +213,8 @@ public class ModClientEvents {
 
 		//ENTIDADES CUSTOM EN BASE A MODELOS DE JAVA
 		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
+		e.registerLayerDefinition(FriezaSoldier02Model.LAYER_LOCATION, FriezaSoldier02Model::createBodyLayer);
+		e.registerLayerDefinition(FriezaSoldier03Model.LAYER_LOCATION, FriezaSoldier03Model::createBodyLayer);
 
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
