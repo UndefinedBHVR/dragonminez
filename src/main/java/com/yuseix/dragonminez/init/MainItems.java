@@ -50,7 +50,7 @@ public final class MainItems {
     public static final RegistryObject<Item> BACULO_SAGRADO =
             ITEM_REGISTER.register("baculo_item", () -> new DMZWeaponItem(8, -1.6F, 0, "baculo_item"));
     public static final RegistryObject<Item> TRUNKS_SWORD =
-            ITEM_REGISTER.register("trunks_sword", () -> new DMZWeaponItem(96, -2.4F, 0, "trunks_sword"));
+            ITEM_REGISTER.register("trunks_sword", () -> new TrunksSword(new Item.Properties().fireResistant()));
     public static final RegistryObject<SwordItem> Z_SWORD =
             ITEM_REGISTER.register("z_sword", () -> new ZSword(new Item.Properties().fireResistant()));
     public static final RegistryObject<SwordItem> KATANA_YAJIROBE =

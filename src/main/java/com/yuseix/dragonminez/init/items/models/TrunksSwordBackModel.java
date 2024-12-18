@@ -132,13 +132,35 @@ public class TrunksSwordBackModel extends HumanoidModel<AbstractClientPlayer> {
 
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		boolean estaAgachado = pEntity.isCrouching();
+
+		poseStack.pushPose();
+
+		if (estaAgachado) {
+			// Si está agachado, se inclina el modelo hacia adelante
+			poseStack.mulPose(Axis.XP.rotationDegrees(30.0F));  // Inclinación
+			poseStack.translate(0.0F, 0.20F, -0.13F);  // Posición en Y para compensar la inclinación
+		}
+
+		// Renderizamos las partes del modelo
 		funda.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 		mangoespada.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+
+		poseStack.popPose();
 	}
 
-	public void renderWardEspada(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderWardEspada(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		boolean estaAgachado = pEntity.isCrouching();
+		poseStack.pushPose();
+
+		if (estaAgachado) {
+			poseStack.mulPose(Axis.XP.rotationDegrees(30.0F));
+			poseStack.translate(-0.0F, 0.20F, -0.13F);
+		}
+
 		funda.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+
+		poseStack.popPose();
 	}
 }

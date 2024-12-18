@@ -18,7 +18,7 @@ public class ZSwordModel extends GeoModel<ZSword> {
 	}
 
 	@Override
-	public ResourceLocation getAnimationResource(ZSword yajirobeKatana) {
+	public ResourceLocation getAnimationResource(ZSword zSword) {
 		return null;
 	}
 }

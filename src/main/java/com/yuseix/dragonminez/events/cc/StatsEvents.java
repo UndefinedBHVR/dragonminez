@@ -208,7 +208,7 @@ public class StatsEvents {
         boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
 
         if (isKiChargeKeyPressed && !previousKiChargeState) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+			ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
             ModMessages.sendToServer(new InvocarAuraC2S());
             previousKiChargeState = true; // Actualiza el estado previo
         } else if (!isKiChargeKeyPressed && previousKiChargeState) {

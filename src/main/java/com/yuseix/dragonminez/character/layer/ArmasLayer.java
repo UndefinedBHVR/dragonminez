@@ -120,17 +120,18 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         ItemRenderer itemRenderer = mc.getItemRenderer();
         poseStack.pushPose();
         if (player.isCrouching()) {
-            poseStack.translate(0.35, -0.15, 0.1);
-            poseStack.mulPose(Axis.YP.rotationDegrees(65.0F));
-            poseStack.mulPose(Axis.XP.rotationDegrees(-15.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(25.0F));
-            poseStack.translate(0.0F, 0.20F, -0.13F);
+            poseStack.translate(-0.45F, 0.1F, 0.15F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(95.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(50.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(20.0F));
         } else {
-            poseStack.translate(0.25, -0.2, 0.15);
+            // Posición normal (sin agacharse)
+            poseStack.translate(-0.45F, -0.20F, 0.25F);
             poseStack.mulPose(Axis.YP.rotationDegrees(65.0F));
-            poseStack.mulPose(Axis.XP.rotationDegrees(-35.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(5.0F));
+            poseStack.mulPose(Axis.XP.rotationDegrees(35.0F));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(-25.0F));
         }
+
         itemRenderer.renderStatic(new ItemStack(MainItems.Z_SWORD.get()), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, light, OverlayTexture.NO_OVERLAY, poseStack, bufferSource, player.level(), 0);
         poseStack.popPose();
     }
@@ -145,7 +146,7 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             renderEspadaZ(poseStack, player, bufferSource, light);
         } else if(arma.getItem() == MainItems.TRUNKS_SWORD.get()){
             //Aca se renderiza mangoespada + funda
-            trunksSwordBackModel.renderToBuffer(poseStack, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+            trunksSwordBackModel.renderToBuffer(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
 
         }
 
@@ -158,7 +159,7 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         if (arma.getItem() == MainItems.BACULO_SAGRADO.get()) {
             baculoEmptyModel.renderBaculo(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
         } else if(arma.getItem() == MainItems.TRUNKS_SWORD.get()){
-            trunksSwordBackModel.renderWardEspada(poseStack, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+            trunksSwordBackModel.renderWardEspada(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
         }
 
     }
