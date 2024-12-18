@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.custom.namek;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.Level;
 
 public class FriezaSoldier03Entity extends SoldierEntity{
 
-    public FriezaSoldier03Entity(EntityType<? extends Mob> pEntityType, Level pLevel) {
+    public FriezaSoldier03Entity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
     }

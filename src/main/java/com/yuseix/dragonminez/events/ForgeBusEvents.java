@@ -69,22 +69,24 @@ public class ForgeBusEvents {
 			"EsePibe01",
 			"Pokimons123",
 			"bbysixty",
-			"Onashi"
+			"Onashi",
+			// Patreon
+			"Baby_Poop12311" // Cyanea capillata
 	);
 
 	// Recordar comentar esto antes de Buildear una versión Pública.
 	// y Descomentar para el buildeo de versiones de Testing.
-    /*@SubscribeEvent
-    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-
-        String username = player.getGameProfile().getName();
-
-        if (!ALLOWED_USERNAMES.contains(username)) {
-            LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
-            throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
-        }
-    }*/
+//    @SubscribeEvent
+//    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+//        Player player = event.getEntity();
+//
+//        String username = player.getGameProfile().getName();
+//
+//        if (!ALLOWED_USERNAMES.contains(username)) {
+//            LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
+//            throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
+//        }
+//    }
 
 
 	@SubscribeEvent

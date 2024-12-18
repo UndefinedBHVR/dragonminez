@@ -31,6 +31,9 @@
   "sounds.dragonminez.shenron": "Shenron summoning",
   "sounds.dragonminez.nube": "Flying Nimbus",
   "sounds.dragonminez.senzu": "Senzu Bean",
+  "sounds.dragonminez.aura_start": "Aura Start",
+  "sounds.dragonminez.ki_charge_loop": "Ki Charge",
+  "sounds.dragonminez.turbo_loop": "Turbo",
 
   "entity.dragonminez.dino": "Dinosaur",
   "entity.dragonminez.namek_frog": "Namekian Frog",
@@ -53,6 +56,8 @@
   "entity.dragonminez.namek_warrior02": "Namekian Warrior (Type 2)",
   "entity.dragonminez.namek_trader": "Namekian Trader",
   "entity.dragonminez.soldier01": "Frieza's Soldier",
+  "entity.dragonminez.soldier02": "Frieza's Soldier",
+  "entity.dragonminez.soldier03": "Frieza's Soldier",
   "entity.dragonminez.moro_soldier": "Moro's Soldier",
 
   "stats.dmz.alignment_good": "\u00A7bGood \u00A7f- %1$s",

@@ -31,6 +31,9 @@
   "sounds.dragonminez.shenron": "Invocación de Shen Long",
   "sounds.dragonminez.nube": "Nube Voladora",
   "sounds.dragonminez.senzu": "Semilla del Ermitaño",
+  "sounds.dragonminez.aura_start": "Aura",
+  "sounds.dragonminez.ki_charge_loop": "Carga de Ki",
+  "sounds.dragonminez.turbo_loop": "Turbo",
 
   "entity.dragonminez.dino": "Dinosaurio",
   "entity.dragonminez.namek_frog": "Rana Namekuseín",
@@ -53,6 +56,8 @@
   "entity.dragonminez.namek_warrior02": "Namekuseín Guerrero (Tipo 2)",
   "entity.dragonminez.namek_trader": "Namekuseín Comerciante",
   "entity.dragonminez.soldier01": "Soldado de Freezer",
+  "entity.dragonminez.soldier02": "Soldado de Freezer",
+  "entity.dragonminez.soldier03": "Soldado de Freezer",
   "entity.dragonminez.moro_soldier": "Soldado de Moro",
 
   "stats.dmz.alignment_good": "\u00A7bBueno \u00A7f- %1$s",
