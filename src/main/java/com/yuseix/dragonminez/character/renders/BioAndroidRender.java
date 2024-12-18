@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.character.layer.ArmasLayer;
-import com.yuseix.dragonminez.character.layer.AuraLayer;
 import com.yuseix.dragonminez.character.models.AuraModel;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -63,7 +62,6 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
-        //this.addLayer(new AuraLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION)); // Cargamos el modelo
 
@@ -160,14 +158,6 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
-        if (!pEntity.isSpectator()) {
-            Iterator var24 = this.layers.iterator();
-
-            while(var24.hasNext()) {
-                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
-                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
-            }
-        }
 
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
@@ -210,7 +200,14 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         }
 
+        if (!pEntity.isSpectator()) {
+            Iterator var24 = this.layers.iterator();
 
+            while(var24.hasNext()) {
+                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
+                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
 
         pPoseStack.popPose();
 

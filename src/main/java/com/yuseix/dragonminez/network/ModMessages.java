@@ -82,11 +82,10 @@ public class ModMessages {
 				.encoder(PlanetSelectionC2S::encode)
 				.consumerMainThread(PlanetSelectionC2S::handle)
 				.add();
-
-		net.messageBuilder(InvocarAuraC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
-				.decoder(InvocarAuraC2S::new)
-				.encoder(InvocarAuraC2S::toBytes)
-				.consumerMainThread(InvocarAuraC2S::handle)
+		net.messageBuilder(PermaEffC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(PermaEffC2S::new)
+				.encoder(PermaEffC2S::toBytes)
+				.consumerMainThread(PermaEffC2S::handle)
 				.add();
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)

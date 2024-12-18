@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.custom.namek;
 import com.yuseix.dragonminez.init.entity.goals.DetectEvilTargetGoal;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import com.yuseix.dragonminez.init.entity.goals.VillageAlertSystem;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -89,12 +90,11 @@ public class NamekWarriorEntity extends NamekianEntity {
 
         if (isHurt && source.getEntity() instanceof Player) {
             Player player = (Player) source.getEntity();
-            VillageAlertSystem.alertAll(player); // Alertar a todos los guerreros
+            VillageAlertSystem.alertAll(player);
         }
 
         return isHurt;
     }
-
 
     @Override
     public void remove(RemovalReason reason) {

@@ -41,7 +41,7 @@ public class DMZStatsAttributes {
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
 
-    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false;
+    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false;
 
     private String dmzClass = "Warrior";
     private int dmzAlignment = 100;
@@ -51,13 +51,21 @@ public class DMZStatsAttributes {
     public DMZStatsAttributes(Player player) {
         this.player = player;
     }
+    public boolean isTurbonOn() {
+        return isTurbonOn;
+    }
 
+    public void setTurboOn(boolean auraOn) {
+        isTurbonOn = auraOn;
+        DMZStatsCapabilities.syncStats(player);
+    }
     public boolean isAuraOn() {
         return isauraOn;
     }
 
     public void setAuraOn(boolean auraOn) {
         isauraOn = auraOn;
+        DMZStatsCapabilities.syncStats(player);
     }
     public boolean isDescendKeyOn() {
         return isDescendkeyon;
@@ -749,6 +757,7 @@ public class DMZStatsAttributes {
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("isAuraOn", isauraOn);
+        nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
 
         CompoundTag skillsTag = new CompoundTag();
@@ -808,6 +817,7 @@ public class DMZStatsAttributes {
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         isauraOn = nbt.getBoolean("isAuraOn");
+        isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
 
         CompoundTag skillsTag = nbt.getCompound("DMZSkills");

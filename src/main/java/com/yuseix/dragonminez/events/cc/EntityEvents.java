@@ -161,7 +161,6 @@ public class EntityEvents {
 		}
 	}
 
-
 	private static final double HEAL_PERCENTAGE = 0.05; // 5% por segundo
 	private static final int HEAL_TICKS = 3 * 20; // 3 segundos
 

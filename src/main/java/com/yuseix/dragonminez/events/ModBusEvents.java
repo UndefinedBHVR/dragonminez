@@ -37,6 +37,8 @@ public class ModBusEvents {
 		event.put(MainEntity.NAMEKNPC_TRADER3.get(), NamekTrader03Entity.setAttributes());
 
 		event.put(MainEntity.FRIEZA_SOLDIER01.get(), FriezaSoldierEntity.setAttributes());
+		event.put(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Entity.setAttributes());
+		event.put(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Entity.setAttributes());
 		event.put(MainEntity.MORO_SOLDIER.get(), MoroSoldierEntity.setAttributes());
 		event.put(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanEntity.setAttributes());
 
@@ -47,7 +49,6 @@ public class ModBusEvents {
 		event.put(MainEntity.FP_SLIMSAIYANHUM.get(), FPSlimEntity.setAttributes());
 		event.put(MainEntity.FP_NAMEK.get(), FPNamekianEntity.setAttributes());
 		event.put(MainEntity.FP_MAJINGORDO.get(), FPMajinGordEntity.setAttributes());
-		event.put(MainEntity.AURA.get(), AuraEntity.setAttributes());
 
 	}
 

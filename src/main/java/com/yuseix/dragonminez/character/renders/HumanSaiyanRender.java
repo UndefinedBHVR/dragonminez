@@ -179,7 +179,6 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
-                int colorAura = cap.getAuraColor();
                 boolean isAuraOn = cap.isAuraOn();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 

@@ -94,6 +94,18 @@ public class MainEntity {
                             .sized(0.8f, 2.1f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "soldier01").toString())
             );
+    public static final RegistryObject<EntityType<FriezaSoldier02Entity>> FRIEZA_SOLDIER02 =
+            ENTITY_TYPES_REGISTER.register("soldier02",
+                    () -> EntityType.Builder.of(FriezaSoldier02Entity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "soldier02").toString())
+            );
+    public static final RegistryObject<EntityType<FriezaSoldier03Entity>> FRIEZA_SOLDIER03 =
+            ENTITY_TYPES_REGISTER.register("soldier03",
+                    () -> EntityType.Builder.of(FriezaSoldier03Entity::new, MobCategory.CREATURE)
+                            .sized(0.8f, 2.1f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "soldier03").toString())
+            );
     public static final RegistryObject<EntityType<MoroSoldierEntity>> MORO_SOLDIER =
             ENTITY_TYPES_REGISTER.register("moro_soldier",
                     () -> EntityType.Builder.of(MoroSoldierEntity::new, MobCategory.CREATURE)
@@ -174,12 +186,6 @@ public class MainEntity {
                     () -> EntityType.Builder.of(FPSlimEntity::new, MobCategory.MISC)
                             .sized(1.5f, 1.8f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_slim").toString())
-            );
-    public static final RegistryObject<EntityType<AuraEntity>> AURA =
-            ENTITY_TYPES_REGISTER.register("aura",
-                    () -> EntityType.Builder.of(AuraEntity::new, MobCategory.MISC)
-                            .sized(1.0f, 1.0f)
-                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "aura").toString())
             );
     public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_BLAST =
             ENTITY_TYPES_REGISTER.register("ki_smallball",

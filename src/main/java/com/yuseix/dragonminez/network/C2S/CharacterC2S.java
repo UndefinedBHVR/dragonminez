@@ -106,6 +106,13 @@ public class CharacterC2S {
                                 playerstats.setAuraOn(true);
                             }
                             break;
+                        case "isTurboOn":
+                            if (packet.cantidad == 0) {
+                                playerstats.setTurboOn(false);
+                            } else {
+                                playerstats.setTurboOn(true);
+                            }
+                            break;
                         case "isDescendOn":
                             if (packet.cantidad == 0) {
                                 playerstats.setDescendKey(false);

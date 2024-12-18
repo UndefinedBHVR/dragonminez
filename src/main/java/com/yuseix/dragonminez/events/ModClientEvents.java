@@ -7,10 +7,7 @@ import com.yuseix.dragonminez.character.models.NamekianModel;
 import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
-import com.yuseix.dragonminez.character.models.hair.FemHairModel;
-import com.yuseix.dragonminez.character.models.hair.GohanDBSHairModel;
-import com.yuseix.dragonminez.character.models.hair.GokuHairModel;
-import com.yuseix.dragonminez.character.models.hair.VegetaHairModel;
+import com.yuseix.dragonminez.character.models.hair.*;
 import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
@@ -20,6 +17,8 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
+import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
@@ -108,6 +107,8 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.NAMEKNPC_TRADER2.get(), NamekTrader2Renderer::new);
 			EntityRenderers.register(MainEntity.NAMEKNPC_TRADER3.get(), NamekTrader3Renderer::new);
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER01.get(), FriezaSoldierRenderer::new);
+			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Renderer::new);
+			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Renderer::new);
 			EntityRenderers.register(MainEntity.MORO_SOLDIER.get(), MoroSoldierRenderer::new);
 
 			//FAKEPLAYERS
@@ -117,7 +118,6 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new SlimHumanSaiyanModel<>(context.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
 			EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
 			EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
-			EntityRenderers.register(MainEntity.AURA.get(), AuraRenderer::new);
 			EntityRenderers.register(MainEntity.KI_BLAST.get(), KiSmallBallRenderer::new);
 
 
@@ -204,6 +204,8 @@ public class ModClientEvents {
 		e.registerLayerDefinition(FemHairModel.LAYER_LOCATION, FemHairModel::createBodyLayer);
 		e.registerLayerDefinition(VegetaHairModel.LAYER_LOCATION, VegetaHairModel::createBodyLayer);
 		e.registerLayerDefinition(GohanDBSHairModel.LAYER_LOCATION, GohanDBSHairModel::createBodyLayer);
+		e.registerLayerDefinition(GohanTeenHairModel.LAYER_LOCATION, GohanTeenHairModel::createBodyLayer);
+		e.registerLayerDefinition(TrunksHairModel.LAYER_LOCATION, TrunksHairModel::createBodyLayer);
 
 		//ARMADURAS
 		e.registerLayerDefinition(ArmorBaseModel.LAYER_LOCATION, ArmorBaseModel::createBodyLayer);
@@ -212,6 +214,8 @@ public class ModClientEvents {
 
 		//ENTIDADES CUSTOM EN BASE A MODELOS DE JAVA
 		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
+		e.registerLayerDefinition(FriezaSoldier02Model.LAYER_LOCATION, FriezaSoldier02Model::createBodyLayer);
+		e.registerLayerDefinition(FriezaSoldier03Model.LAYER_LOCATION, FriezaSoldier03Model::createBodyLayer);
 
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
