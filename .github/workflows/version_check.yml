@@ -47,7 +47,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: "⚠️ The `mod_version` in `gradle.properties` has not been updated. Please bump the version to reflect the changes in this PR.\n\n
-              ⚠️ El `mod_version` en `gradle.properties` no se ha actualizado. Por favor, incrementa la versión para reflejar los cambios en este PR."
+              body: `⚠️ The \`mod_version\` in \`gradle.properties\` has not been updated. Please label the PR to automatically change the version.\n\n
+              ⚠️ El \`mod_version\` en \`gradle.properties\` no se ha actualizado. Por favor, dale un label al PR para cambiar la versión automáticamente.`
             });
-
