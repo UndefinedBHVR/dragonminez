@@ -49,10 +49,10 @@ public class NamekianVillagerEntity extends Villager {
 	protected void registerGoals() {
 		// Permite que la entidad flote en el agua
 		this.goalSelector.addGoal(1, new FloatGoal(this));
-		this.goalSelector.addGoal(2, new PanicGoal(this, 2.5D));
+		this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
 
 		// Camina de manera aleatoria evitando el agua
-		this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.2D));
+		this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.2D));
 
 		// Mirada aleatoria
 		this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));

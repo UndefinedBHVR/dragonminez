@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
@@ -12,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -121,18 +121,6 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 	public void tick() {
 		super.tick();
 
-		if (this.level() instanceof ServerLevel serverWorld) {
-
-			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-				boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
-
-				if (hasDragonBalls) {
-					dragonBallsCapability.setHasDragonBalls(false);
-				}
-			});
-		}
-
-
 		if (this.getDeseos() == 0) {
 			tiempo--;
 		}
@@ -185,6 +173,11 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
 			serverWorld.setDayTime(getInvokingTime());
 			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+
+				if (dragonBallsCapability.hasDragonBalls()) {
+					dragonBallsCapability.setHasDragonBalls(false);
+				}
+
 				boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
 
 				if (!hasDragonBalls) {
@@ -223,4 +216,12 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 		dragonBallPositions.add(pos);
 	}
 
+	@Override
+	public boolean hurt(DamageSource pSource, float pAmount) {
+		System.out.println("DamageSource: " + pSource.getMsgId());
+		if ("discarded".equals(pSource.getMsgId()) || "generic".equals(pSource.getMsgId()) || "out_of_world".equals(pSource.getMsgId()) || "genericKill".equals(pSource.getMsgId())) {
+			return super.hurt(pSource, pAmount);
+		}
+		return false;
+	}
 }

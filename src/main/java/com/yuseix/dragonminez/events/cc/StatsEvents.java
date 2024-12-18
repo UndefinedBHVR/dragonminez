@@ -221,7 +221,6 @@ public class StatsEvents {
 
         //Cargar Ki
         if (isKiChargeKeyPressed && !previousKiChargeState) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
             previousKiChargeState = true; // Actualiza el estado previo
             playSoundOnce(MainSounds.AURA_START.get());
             startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);

@@ -1,0 +1,13 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "dragonminez:ajissa_plains",
+    "dragonminez:sacred_land"
+  ],
+  "spawners": {
+    "type": "dragonminez:moro_soldier",
+    "weight": 22,
+    "minCount": 2,
+    "maxCount": 3
+  }
+}

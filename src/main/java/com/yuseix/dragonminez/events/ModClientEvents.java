@@ -26,6 +26,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
+import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
@@ -218,6 +219,8 @@ public class ModClientEvents {
 
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
+		e.registerLayerDefinition(TrunksSwordBackModel.LAYER_LOCATION, TrunksSwordBackModel::createBodyLayer);
+
 	}
 
 

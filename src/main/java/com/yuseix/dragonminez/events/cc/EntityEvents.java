@@ -176,13 +176,15 @@ public class EntityEvents {
 		BlockPos playerPos = serverPlayer.blockPosition();
 		ServerLevel level = (ServerLevel) player.level();
 
-		level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
-			BlockPos pos = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
-			//System.out.println("Player: " + playerPos + " Karin: " + pos);
-			if (playerPos.distSqr(pos) < 10000) {
-				grantAdvancement(serverPlayer);
-			}
-		});
+		if (player.level().dimension().equals(ServerLevel.OVERWORLD)) {
+			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
+				BlockPos pos = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
+				//System.out.println("Player: " + playerPos + " Karin: " + pos);
+				if (playerPos.distSqr(pos) < 10000) {
+					grantAdvancement(serverPlayer);
+				}
+			});
+		}
 
 
 		FluidState fluidState = player.level().getFluidState(player.blockPosition());
@@ -191,7 +193,7 @@ public class EntityEvents {
 			return;
 		}
 
-		if (fluidState.is(MainFluids.SOURCE_HEALING.get())) {
+		if (fluidState.is(MainFluids.SOURCE_HEALING.get()) || fluidState.is(MainFluids.FLOWING_HEALING.get())) {
 			long currentTime = player.level().getGameTime(); // Tiempo actual en ticks
 			long lastHealTime = lastHealingTime.getOrDefault(player, 0L);
 
@@ -199,7 +201,7 @@ public class EntityEvents {
 				funcLiqCurativo(player);
 				lastHealingTime.put(player, currentTime); // Actualizar el último tiempo de curación
 			}
-		} else if (fluidState.is(MainFluids.SOURCE_NAMEK.get())) {
+		} else if (fluidState.is(MainFluids.SOURCE_NAMEK.get()) || fluidState.is(MainFluids.FLOWING_NAMEK.get())) {
 			funcAguaNamek(player);
 		}
 	}
