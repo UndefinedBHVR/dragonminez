@@ -1,7 +1,10 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.armor.*;
+import com.yuseix.dragonminez.init.armor.DbzArmorItem;
+import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
+import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
+import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -43,10 +46,15 @@ public final class MainItems {
             ITEM_REGISTER.register("green_pothala_right", () -> new Item(properties.stacksTo(1).fireResistant()));
 
     //ARMAS
-    //BACULO SAGRADO
+    // 0 + X = Daño | 4 +/- X = Velocidad de ataque | 0 + X = Durabilidad (0 = Irrompible)
     public static final RegistryObject<Item> BACULO_SAGRADO =
-            ITEM_REGISTER.register("baculo_item", () -> new Item(properties.stacksTo(1).fireResistant()));
-
+            ITEM_REGISTER.register("baculo_item", () -> new DMZWeaponItem(8, -1.6F, 0, "baculo_item"));
+    public static final RegistryObject<Item> TRUNKS_SWORD =
+            ITEM_REGISTER.register("trunks_sword", () -> new TrunksSword(new Item.Properties().fireResistant()));
+    public static final RegistryObject<SwordItem> Z_SWORD =
+            ITEM_REGISTER.register("z_sword", () -> new ZSword(new Item.Properties().fireResistant()));
+    public static final RegistryObject<SwordItem> KATANA_YAJIROBE =
+            ITEM_REGISTER.register("yajirobe_katana", () -> new YajirobeKatana(new Item.Properties().fireResistant()));
 
     //ARMADURAS
     // GOKU NIÑO

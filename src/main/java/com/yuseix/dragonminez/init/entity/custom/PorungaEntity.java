@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.menus.screens.DendeMenu;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
@@ -12,6 +11,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -87,12 +87,13 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		if (this.getOwnerName().equals(player.getName().getString())) {
-			if (getDeseos() > 0 && Minecraft.getInstance().player.equals(player)) {
-				Minecraft.getInstance().setScreen(new PorungaMenu(0));
+		if (this.level().isClientSide) {
+			if (this.getOwnerName().equals(player.getName().getString())) {
+				if (getDeseos() > 0 && Minecraft.getInstance().player.equals(player)) {
+					Minecraft.getInstance().setScreen(new PorungaMenu(0));
+				}
 			}
 		}
-
 		return super.mobInteract(player, hand);
 	}
 
@@ -116,14 +117,6 @@ public class PorungaEntity extends Mob implements GeoEntity {
 		super.tick();
 		//System.out.println("[P] Deseos del Jugador: " + getDeseos());
 		//System.out.println("[P] Nombre del jugador: " + getOwnerName());
-
-		if (this.level() instanceof ServerLevel serverWorld) {
-			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
-				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
-					namekDragonBallsCapability.setHasNamekDragonBalls(false);
-				}
-			});
-		}
 
 
 		if (this.getDeseos() == 0) {
@@ -176,6 +169,11 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	private void onDespawn() {
 		if (this.level() instanceof ServerLevel serverWorld) {
 			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+
+				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
+					namekDragonBallsCapability.setHasNamekDragonBalls(false);
+				}
+
 				boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
 
 				if (!hasNamekDragonBalls) {
@@ -214,4 +212,12 @@ public class PorungaEntity extends Mob implements GeoEntity {
 		namekDragonBallPositions.add(pos);
 	}
 
+	@Override
+	public boolean hurt(DamageSource pSource, float pAmount) {
+		System.out.println("DamageSource: " + pSource.getMsgId());
+		if ("discarded".equals(pSource.getMsgId()) || "generic".equals(pSource.getMsgId()) || "out_of_world".equals(pSource.getMsgId()) || "genericKill".equals(pSource.getMsgId())) {
+			return super.hurt(pSource, pAmount);
+		}
+		return false;
+	}
 }

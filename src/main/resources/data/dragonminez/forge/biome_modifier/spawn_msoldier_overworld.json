@@ -1,0 +1,68 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:sunflower_plains",
+    "minecraft:mushroom_fields",
+    "minecraft:meadow",
+    "minecraft:windswept_hills",
+    "minecraft:windswept_gravelly_hills",
+    "minecraft:windswept_forest",
+    "minecraft:savanna",
+    "minecraft:savanna_plateau",
+    "minecraft:forest",
+    "minecraft:flower_forest",
+    "minecraft:birch_forest",
+    "minecraft:old_growth_birch_forest",
+    "minecraft:dark_forest",
+    "minecraft:taiga",
+    "minecraft:snowy_taiga",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga",
+    "minecraft:snowy_plains",
+    "minecraft:ice_spikes",
+    "minecraft:desert",
+    "minecraft:badlands",
+    "minecraft:wooded_badlands",
+    "minecraft:eroded_badlands",
+    "minecraft:jungle",
+    "minecraft:sparse_jungle",
+    "minecraft:bamboo_jungle",
+    "minecraft:beach",
+    "minecraft:snowy_beach",
+    "minecraft:stony_shore",
+    "minecraft:warm_ocean",
+    "minecraft:lukewarm_ocean",
+    "minecraft:ocean",
+    "minecraft:deep_ocean",
+    "minecraft:cold_ocean",
+    "minecraft:frozen_ocean",
+    "minecraft:dripstone_caves",
+    "minecraft:grove",
+    "minecraft:frozen_peaks",
+    "minecraft:jagged_peaks",
+    "minecraft:stony_peaks",
+    "minecraft:snowy_slopes"
+  ],
+  "spawners": [{
+    "type": "dragonminez:moro_soldier",
+    "weight": 10,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:soldier01",
+    "weight": 10,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:soldier02",
+    "weight": 10,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:soldier03",
+    "weight": 10,
+    "minCount": 2,
+    "maxCount": 3
+  }]
+}

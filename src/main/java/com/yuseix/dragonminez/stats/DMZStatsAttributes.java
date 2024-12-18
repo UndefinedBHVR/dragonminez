@@ -41,7 +41,7 @@ public class DMZStatsAttributes {
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
 
-    private boolean AcceptCharacter = false, isauraOn = false;
+    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false;
 
     private String dmzClass = "Warrior";
     private int dmzAlignment = 100;
@@ -51,14 +51,32 @@ public class DMZStatsAttributes {
     public DMZStatsAttributes(Player player) {
         this.player = player;
     }
+    public boolean isTurbonOn() {
+        return isTurbonOn;
+    }
 
+    public void setTurboOn(boolean auraOn) {
+        isTurbonOn = auraOn;
+        DMZStatsCapabilities.syncStats(player);
+    }
     public boolean isAuraOn() {
         return isauraOn;
     }
 
     public void setAuraOn(boolean auraOn) {
         isauraOn = auraOn;
+        DMZStatsCapabilities.syncStats(player);
     }
+    public boolean isDescendKeyOn() {
+        return isDescendkeyon;
+    }
+
+    public void setDescendKey(boolean descendKey) {
+        isDescendkeyon = descendKey;
+        DMZStatsCapabilities.syncStats(player);
+
+    }
+
 
     public int getDmzSenzuDaily() {
         return dmzSenzuDaily;
@@ -622,8 +640,7 @@ public class DMZStatsAttributes {
         DMZPermanentEffects.put(permanentEffect, isActive);
         DMZStatsCapabilities.syncStats(player);
 
-        ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
-                new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+        DMZStatsCapabilities.syncPermanentEffects(player);
 
     }
 
@@ -644,8 +661,7 @@ public class DMZStatsAttributes {
             DMZPermanentEffects.put(permanentEffect, isActive);
 
             DMZStatsCapabilities.syncStats(player);
-            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
-                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+            DMZStatsCapabilities.syncPermanentEffects(player);
 
         }
     }
@@ -655,8 +671,7 @@ public class DMZStatsAttributes {
             DMZPermanentEffects.remove(permanentEffect);
 
             DMZStatsCapabilities.syncStats(player);
-            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> (ServerPlayer) player),
-                    new DMZPermanentEffectsSyncS2C(DMZPermanentEffects));
+            DMZStatsCapabilities.syncPermanentEffects(player);
         }
 
     }
@@ -669,10 +684,9 @@ public class DMZStatsAttributes {
     public void addDMZTemporalEffect(String temporalEffect, int seconds) {
         DMZTemporalEffects.put(temporalEffect, seconds);
 
-        ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                new DMZTempEffectsS2C(DMZTemporalEffects));
-
         DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncTempEffects(player);
+
 
     }
 
@@ -689,11 +703,9 @@ public class DMZStatsAttributes {
         if (DMZTemporalEffects.containsKey(permanentEffect)) {
             DMZTemporalEffects.put(permanentEffect, seconds);
 
-
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZTempEffectsS2C(DMZTemporalEffects));
-
             DMZStatsCapabilities.syncStats(player);
+            DMZStatsCapabilities.syncTempEffects(player);
+
 
         }
     }
@@ -702,10 +714,8 @@ public class DMZStatsAttributes {
         if (DMZTemporalEffects.containsKey(temporalEffect)) {
             DMZTemporalEffects.remove(temporalEffect);
 
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZTempEffectsS2C(DMZTemporalEffects));
-
             DMZStatsCapabilities.syncStats(player);
+            DMZStatsCapabilities.syncTempEffects(player);
 
         }
     }
@@ -747,6 +757,8 @@ public class DMZStatsAttributes {
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("isAuraOn", isauraOn);
+        nbt.putBoolean("isTurboOn", isTurbonOn);
+        nbt.putBoolean("isDescendKey", isDescendkeyon);
 
         CompoundTag skillsTag = new CompoundTag();
         for (Map.Entry<String, Integer> entry : DMZSkills.entrySet()) {
@@ -805,6 +817,8 @@ public class DMZStatsAttributes {
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         isauraOn = nbt.getBoolean("isAuraOn");
+        isTurbonOn = nbt.getBoolean("isTurboOn");
+        isDescendkeyon = nbt.getBoolean("isDescendKey");
 
         CompoundTag skillsTag = nbt.getCompound("DMZSkills");
         for (String skillName : skillsTag.getAllKeys()) {

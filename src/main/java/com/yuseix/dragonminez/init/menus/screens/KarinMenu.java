@@ -9,10 +9,13 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
+import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import com.yuseix.dragonminez.network.C2S.KarinC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -127,20 +130,30 @@ public class KarinMenu extends Screen {
 	private void paginaBotones() {
 		if (PageButtons == 0) {
 			removerBotones();
-			this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
-				PageOption = "senzu";
-			}));
+
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
+				if(cap.getDmzSenzuDaily() == 0){
+					this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
+						PageOption = "senzu";
+					}));
+				}
+
+
+			});
+
+
+
 			this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable("lines.master_korin.kinton"), wa -> {
 				PageOption = "kinton";
 			}));
 
 
-			this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22), Component.empty(), wa -> {
+			/*this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22), Component.empty(), wa -> {
 				PageButtons = 1;
 
-			}));
+			}));*/
 
-		} else if (PageButtons == 1) {
+		} /*else if (PageButtons == 1) {
 			removerBotones();
 			this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
 				PageOption = "senzu";
@@ -149,42 +162,48 @@ public class KarinMenu extends Screen {
 			this.leftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", (this.width / 2) - 120, (this.height - 22), Component.empty(), wa -> {
 				PageButtons = 0;
 			}));
-		}
+		}*/
 	}
 
 	public void PaginaOpciones() {
 		if (this.minecraft.level.isClientSide()) {
 
-			switch (PageOption) {
-				case "kinton":
-					//Aceptar
-					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-						ModMessages.sendToServer(new KarinC2S(1));
-						this.minecraft.setScreen(null);
+				switch (PageOption) {
+					case "kinton":
+						//Aceptar
+						this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
+							ModMessages.sendToServer(new KarinC2S(1));
+							this.minecraft.setScreen(null);
 
-					}));
-					//Rechazar
-					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
-						this.minecraft.setScreen(null);
-					}));
-					break;
+						}));
+						//Rechazar
+						this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
+							this.minecraft.setScreen(null);
+						}));
+						break;
 
-				case "senzu":
-					//Aceptar
-					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-						ModMessages.sendToServer(new KarinC2S(2));
-						this.minecraft.setScreen(null);
+					case "senzu":
+							//Aceptar
+							this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
+								ModMessages.sendToServer(new KarinC2S(2));
+								ModMessages.sendToServer(new KarinC2S(3)); //Inicia el contador segun la config
+								this.minecraft.setScreen(null);
 
-					}));
-					//Rechazar
-					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
-						this.minecraft.setScreen(null);
-					}));
-					break;
+							}));
 
-				default:
-					break;
-			}
+
+						//Rechazar
+						this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
+							this.minecraft.setScreen(null);
+						}));
+						break;
+
+					default:
+						break;
+				}
+
+
+
 		}
 	}
 }

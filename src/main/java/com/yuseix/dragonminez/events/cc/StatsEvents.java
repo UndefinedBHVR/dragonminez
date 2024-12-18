@@ -1,21 +1,25 @@
 package com.yuseix.dragonminez.events.cc;
 
+
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.init.entity.custom.fpcharacters.AuraEntity;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.C2S.InvocarAuraC2S;
+import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
+import com.yuseix.dragonminez.utils.TickHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,35 +28,31 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class StatsEvents {
 
-    private static int tickcounter = 0;
-    private static int energyRegen = 0;
-    private static int energiaConsumecounter = 0;
-    private static int Senzu_countdown = 0;
-
-    private static int chargeTimer = 0; // Aca calculamos el tiempo de espera
-    private static final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
+    private static final Map<UUID, TickHandler> playerTickHandlers = new HashMap<>();
 
     //Teclas
-    private static boolean isActionKeyPressed = false;
+    private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
+    private static boolean turboOn = false;
+
+    //Sonidos
+    private static SimpleSoundInstance kiChargeLoop;
+    private static SimpleSoundInstance turboLoop;
+
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         // Verificar que estamos en el servidor y en la fase final
-        if (event.side != LogicalSide.SERVER || event.phase != TickEvent.Phase.END) {
+        if (event.phase == TickEvent.Phase.START) {
             return;
         }
 
@@ -65,9 +65,7 @@ public class StatsEvents {
 
         DMZDatos dmzdatos = new DMZDatos();
 
-            energyRegen++;
-            tickcounter++;
-            energiaConsumecounter++;
+        TickHandler tickHandler = playerTickHandlers.computeIfAbsent(player.getUUID(), uuid -> new TickHandler());
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
                 var vidaMC = 20;
@@ -76,90 +74,27 @@ public class StatsEvents {
                 var energia = playerstats.getEnergy();
 
                 int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
-                int maxstamina = dmzdatos.calcularSTM(raza, dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
                 // Ajustar la salud máxima del jugador
                 serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
 
-                // Regeneración de stamina
-                if (playerstats.getCurStam() >= 0 && playerstats.getCurStam() <= maxstamina) {
-                    if (tickcounter >= 60 * 3) { // Cada 3 segundos
-                        int regenStamina = (maxstamina / 4);
-                        playerstats.addCurStam(regenStamina);
-                        tickcounter = 0;
-                    }
-                }
-
-                // Regeneración de energía Warrior
-                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energyRegen >= 60 * 5) { // Cada 5 segundos
-                        int regenki = dmzdatos.calcularKiRegen(raza, maxenergia, playerstats.getDmzClass()); // Regenerar 10% de la energía máxima
-                        playerstats.addCurEnergy(regenki);
-                        energyRegen = 0;
-                    }
-                }
-
-
-                //Consumo de energia
-                if (playerstats.getCurrentEnergy() >= 0 && playerstats.getCurrentEnergy() <= maxenergia) {
-                    if (energiaConsumecounter >= 60 * 3) { // Cada 3 segundos
-                        int consumeki = dmzdatos.calcularKiConsume(raza, playerstats.getEnergy(), playerstats.getDmzState());
-                        playerstats.removeCurEnergy(consumeki);
-                        energiaConsumecounter = 0;
-                    }
-                }
+                // Tickhandler
+                tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
                 //Tiempo para reclamar una senzu
-                if (Senzu_countdown > 0) {
-                    playerstats.setDmzSenzuDaily(Senzu_countdown / 20);
-                    Senzu_countdown--;
-                }
-                if (Senzu_countdown == 0) {
-                    playerstats.setDmzSenzuDaily(0);
-                }
+                playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
 
                 //Aca manejamos la carga de aura
-                manejarCargaDeAura(playerstats, isActionKeyPressed, maxenergia);
-
+                tickHandler.manejarCargaDeAura(playerstats, maxenergia);
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
 
-            // Mensaje de depuración para confirmar
-            //System.out.println("Tu maximo de energia es: " + maximaEnergy);
-            //System.out.println("Tu energia actual es: " + playerStats.getCurrentEnergy());
 
             });
     }
 
-    private static void manejarCargaDeAura(DMZStatsAttributes playerstats, boolean isActionKeyPressed, int maxenergia) {
-        // Incrementa el temporizador en cada tick
-        chargeTimer++;
 
-        DMZDatos dmzdatos = new DMZDatos();
-
-        if (chargeTimer >= CHARGE_INTERVAL) {
-            if (playerstats.isAuraOn() && isActionKeyPressed) {
-                if (playerstats.getDmzRelease() > 0) {
-                    playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
-                    if (playerstats.getDmzRelease() < 0) {
-                        playerstats.setDmzRelease(0);
-                    }
-                }
-            } else if (playerstats.isAuraOn()) {
-                if (playerstats.getDmzRelease() < 50) {
-                    playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
-                    if (playerstats.getDmzRelease() > 50) {
-                        playerstats.setDmzRelease(50);
-                    }
-                }
-
-                playerstats.addCurEnergy(dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
-            }
-
-            chargeTimer = 0;
-        }
-    }
     private static void updateTemporaryEffects(Player player) {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
             Iterator<Map.Entry<String, Integer>> iterator = playerstats.getDMZTemporalEffects().entrySet().iterator();
@@ -278,34 +213,130 @@ public class StatsEvents {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onKeyInputEvent(InputEvent.Key event) {
-            // Variable para almacenar el estado previo de la tecla KI_CHARGE
-            boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
-            // Detecta si la tecla KI_CHARGE está presionada o liberada y solo envía el paquete si cambia el estado
-            if (isKiChargeKeyPressed && !previousKiChargeState) {
-                ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-                //ModMessages.sendToServer(new InvocarAuraC2S());
-                previousKiChargeState = true; // Actualiza el estado previo
-            } else if (!isKiChargeKeyPressed && previousKiChargeState) {
-                ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-                //ModMessages.sendToServer(new InvocarAuraC2S());
-                previousKiChargeState = false; // Actualiza el estado previo
+        boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
+        boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
+        boolean isTurboKeypressed = Keys.TURBO_KEY.consumeClick();
+
+        LocalPlayer player = Minecraft.getInstance().player;
+
+        //Cargar Ki
+        if (isKiChargeKeyPressed && !previousKiChargeState) {
+            previousKiChargeState = true; // Actualiza el estado previo
+            playSoundOnce(MainSounds.AURA_START.get());
+            startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+        } else if (!isKiChargeKeyPressed && previousKiChargeState) {
+            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+            previousKiChargeState = false; // Actualiza el estado previo
+            stopLoopSound(true);
+        }
+
+        //Turbo
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+            int curEne = stats.getCurrentEnergy();
+            int maxEne = stats.getMaxEnergy();
+            int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
+
+            if (isTurboKeypressed) {
+                if (!turboOn && porcentaje > 10) {
+                    // Solo activar Turbo si tiene más del 10% de energía
+                    turboOn = true;
+                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
+                    ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                    playSoundOnce(MainSounds.AURA_START.get());
+                    startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+                    setTurboSpeed(player, true);
+                } else if (turboOn) {
+                    // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                    turboOn = false;
+                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                    ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                    stopLoopSound(false);
+                    setTurboSpeed(player, false);
+                } else {
+                    player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
+                }
             }
 
+            // Desactivar Turbo automáticamente si la energía llega a 1
+            if (turboOn && curEne <= 1) {
+                turboOn = false;
+                ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                stopLoopSound(false);
+                setTurboSpeed(player, false);
+            }
+        });
 
-            // Detecta si la tecla DESCEND_KEY está presionada o liberada
-            isActionKeyPressed = Keys.DESCEND_KEY.isDown();
-
+        // Descender de ki
+        if (isDescendKeyPressed && !previousKeyDescendState) {
+            ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
+            previousKeyDescendState = true; // Actualiza el estado previo
+        } else if (!isDescendKeyPressed && previousKeyDescendState) {
+            ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
+            previousKeyDescendState = false; // Actualiza el estado previo
+        }
     }
 
-    @SubscribeEvent
-    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            UUID playerId = player.getUUID();
-            AuraEntity aura = InvocarAuraC2S.playerAuraMap.remove(playerId); // Elimina el aura del mapa
-
-            if (aura != null) {
-                aura.remove(Entity.RemovalReason.DISCARDED); // Remueve el aura del mundo si aún existe
+    @OnlyIn(Dist.CLIENT)
+    private static void playSoundOnce(SoundEvent soundEvent) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null) {
+                player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+                        soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
             }
+        });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void startLoopSound(SoundEvent soundEvent, boolean isKiCharge) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player == null) return;
+
+            SimpleSoundInstance loopSound = new SimpleSoundInstance(
+                    soundEvent.getLocation(),
+                    SoundSource.PLAYERS,
+                    1.0F, 1.0F,
+                    player.level().random,
+                    true, 0,
+                    SimpleSoundInstance.Attenuation.LINEAR,
+                    player.getX(), player.getY(), player.getZ(),
+                    false
+            );
+
+            Minecraft.getInstance().getSoundManager().play(loopSound);
+            if (isKiCharge) {
+                kiChargeLoop = loopSound;
+            } else {
+                turboLoop = loopSound;
+            }
+        });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void stopLoopSound(boolean isKiCharge) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            if (isKiCharge && kiChargeLoop != null) {
+                Minecraft.getInstance().getSoundManager().stop(kiChargeLoop);
+                kiChargeLoop = null;
+            } else if (!isKiCharge && turboLoop != null) {
+                Minecraft.getInstance().getSoundManager().stop(turboLoop);
+                turboLoop = null;
+            }
+        });
+    }
+
+    private static final double originalSpeed = 0.10000000149011612;
+
+    private static void setTurboSpeed(Player player, boolean enable) {
+        AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (speedAttribute == null) return;
+
+        if (enable) {
+            speedAttribute.setBaseValue(originalSpeed + 0.06);
+        } else {
+            speedAttribute.setBaseValue(originalSpeed);
         }
     }
 
@@ -328,13 +359,11 @@ public class StatsEvents {
 
     }
 
-    // Método para iniciar la cuenta regresiva
-    public static void startSenzuCountdown(Player player, int seconds) {
-        player.getCapability(DMZStatsCapabilities.INSTANCE).ifPresent(playerstats -> {
-            // Convertir segundos a ticks y asignar a Senzu_countdown
-            Senzu_countdown = seconds * 20;
-            playerstats.setDmzSenzuDaily(seconds); // Inicializa el valor en segundos
-        });
+    public static int senzuContador(int segundos) {
+        if (segundos > 0) {
+            return segundos - 1; // si es mayor a 0 resta
+        }
+        return 0; // Si es 0 o menor, retorna 0
     }
 
 

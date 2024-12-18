@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class FPBase extends Mob {
 
-    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(AuraEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(FPBase.class, EntityDataSerializers.OPTIONAL_UUID);
 
 
     public FPBase(EntityType<? extends Mob> pEntityType, Level pLevel) {

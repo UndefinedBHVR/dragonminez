@@ -46,7 +46,7 @@ public class KarinC2S {
                         player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_GIVE.get()));
                     } else if (packet.option == 3) {
                         //cap.setDmzSenzuDaily(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
-                        StatsEvents.startSenzuCountdown(player,DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
+                        cap.setDmzSenzuDaily(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get() * 20);
                     }
                 });
 

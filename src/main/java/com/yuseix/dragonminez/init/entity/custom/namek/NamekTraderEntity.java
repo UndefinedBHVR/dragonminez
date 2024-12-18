@@ -1,25 +1,28 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
+import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import com.yuseix.dragonminez.init.entity.goals.VillageAlertSystem;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-public class NamekTraderEntity extends Villager {
+public class NamekTraderEntity extends NamekianVillagerEntity {
 
     public NamekTraderEntity(EntityType<? extends Villager> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-
         this.setPersistenceRequired();
+    }
 
+    @Override
+    protected Component getTypeName() {
+        return Component.translatable("entity.dragonminez.namek_trader");
     }
 
     public static AttributeSupplier setAttributes() {
@@ -34,15 +37,16 @@ public class NamekTraderEntity extends Villager {
     protected void registerGoals() {
         // Permite que la entidad flote en el agua
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new PanicGoal(this, 2.5D));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 2.0D));
+        this.goalSelector.addGoal(3, new MoveToSurfaceGoal(this));
 
-        // Camina de manera aleatoria evitando el agua
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        // Camina de manera aleatoria (Sin evitar agua)
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.2D));
 
         // Mirada aleatoria
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
 
     }
 
@@ -66,5 +70,4 @@ public class NamekTraderEntity extends Villager {
 
         return isHurt;
     }
-
 }

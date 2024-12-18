@@ -22,7 +22,7 @@ public final class MainFluids {
 
     public static final RegistryObject<FluidType> HEALING_FLUID_TYPE = FLUID_TYPE_REGISTER.register("healing_fluid_type",
             () -> new SimpleFluid(
-                    0xaef359,
+                    0xa4c977,
                     FluidType.Properties.create().lightLevel(5).canDrown(false)));
 
     public static final RegistryObject<FlowingFluid> SOURCE_HEALING = FLUIDS_REGISTER.register("healing_fluid",

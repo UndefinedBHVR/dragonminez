@@ -55,6 +55,16 @@ public class CustomRenderTypes extends RenderType {
                     .setWriteMaskState(COLOR_WRITE)
                     .setOverlayState(OVERLAY)
                     .createCompositeState(false)));
+    private static final Function<ResourceLocation, RenderType> ENERGY3 = Util.memoize((pLocation) ->
+            create("energy3", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, true, true, CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_EMISSIVE_SHADER)
+                    .setTextureState(new TextureStateShard(pLocation, false, false))
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setWriteMaskState(COLOR_DEPTH_WRITE)
+                    .setOverlayState(OVERLAY)
+                    .setDepthTestState(NO_DEPTH_TEST)
+                    .createCompositeState(false)));
     private static final Function<ResourceLocation, RenderType> KI = Util.memoize((pLocation) ->
             create("ki", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
                     .setShaderState(RENDERTYPE_ENTITY_CUTOUT_SHADER)
@@ -73,6 +83,10 @@ public class CustomRenderTypes extends RenderType {
     public static RenderType energy2(ResourceLocation pLocation) {
         return ENERGY2.apply(pLocation);
     }
+    public static RenderType energy3(ResourceLocation pLocation) {
+        return ENERGY3.apply(pLocation);
+    }
+
     public static RenderType ki(ResourceLocation pLocation) {
         return KI.apply(pLocation);
     }

@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.network;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
-import com.yuseix.dragonminez.network.C2S.InvocarAuraC2S;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
@@ -21,12 +20,29 @@ import java.util.function.Supplier;
 public class ClientPacketHandler {
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handlePermanentEffectsPacket(Map<String, Boolean> effects, Supplier<NetworkEvent.Context> ctxSupplier) {
-		Player player = Minecraft.getInstance().player;
-		if (player != null) {
+	public static void handlePermanentEffectsPacket(int playerId, Map<String, Boolean> effects, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = clientLevel.getEntity(playerId);
+		if (entity instanceof Player player) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.getDMZPermanentEffects().clear(); // Limpia los datos existentes
 				cap.getDMZPermanentEffects().putAll(effects); // Añade los nuevos valores
+			});
+		}
+	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleTempEffectsPacket(int playerId, Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = clientLevel.getEntity(playerId);
+
+		if (entity instanceof Player player) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				cap.getDMZTemporalEffects().clear();
+				cap.getDMZTemporalEffects().putAll(tempEffects);
 			});
 		}
 	}
@@ -42,16 +58,7 @@ public class ClientPacketHandler {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static void handleTempEffectsPacket(Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var player = Minecraft.getInstance().player;
-		if (player != null) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				cap.getDMZTemporalEffects().clear();
-				cap.getDMZTemporalEffects().putAll(tempEffects);
-			});
-		}
-	}
+
 
 	@OnlyIn(Dist.CLIENT)
 	public static void handleMenuPacket(boolean openCharacterMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
@@ -69,7 +76,7 @@ public class ClientPacketHandler {
 		var clientLevel = Minecraft.getInstance().level;
 		if (clientLevel == null) return;
 
-		var entity = clientLevel.getEntity(playerId);
+		var entity = Minecraft.getInstance().level.getEntity(playerId);
 		if (entity instanceof Player player) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.loadNBTData(nbt);
@@ -83,14 +90,6 @@ public class ClientPacketHandler {
 		var player = Minecraft.getInstance().player;
 		if (player != null) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.setZpoints(zPoints));
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void handleInvocarAuraPacket(UUID playerId, float transparency, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var aura = InvocarAuraC2S.playerAuraMap.get(playerId);
-		if (aura != null) {
-			aura.setTransparencia(transparency);
 		}
 	}
 

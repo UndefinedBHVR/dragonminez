@@ -82,11 +82,10 @@ public class ModMessages {
 				.encoder(PlanetSelectionC2S::encode)
 				.consumerMainThread(PlanetSelectionC2S::handle)
 				.add();
-
-		net.messageBuilder(InvocarAuraC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
-				.decoder(InvocarAuraC2S::new)
-				.encoder(InvocarAuraC2S::toBytes)
-				.consumerMainThread(InvocarAuraC2S::handle)
+		net.messageBuilder(PermaEffC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(PermaEffC2S::new)
+				.encoder(PermaEffC2S::toBytes)
+				.consumerMainThread(PermaEffC2S::handle)
 				.add();
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
@@ -113,11 +112,6 @@ public class ModMessages {
 				.encoder(DMZSkillsS2C::toBytes)
 				.decoder(DMZSkillsS2C::new)
 				.consumerMainThread(DMZSkillsS2C::handle)
-				.add();
-		net.messageBuilder(InvocarAuraS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(InvocarAuraS2C::new)
-				.encoder(InvocarAuraS2C::toBytes)
-				.consumerMainThread(InvocarAuraS2C::handle)
 				.add();
 		net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(DMZPermanentEffectsSyncS2C::toBytes)

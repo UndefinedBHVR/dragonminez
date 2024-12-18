@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZGenericAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.utils.GenAttRegistry;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -43,8 +44,6 @@ public class DragonMineZ {
 		MainSounds.register(modEventBus);
 		//Registramos las entidades
 		MainEntity.register(modEventBus);
-		//Registramos los NPCs (Puntos de Interés y Profesiones)
-		MainNPCs.register(modEventBus);
 		//Registramos los Fluidos (Tipo de Fluido y Fluido/s)
 		MainFluids.register(modEventBus);
 		//Register del commonSetup para las Flores y FlowerPots
@@ -67,7 +66,7 @@ public class DragonMineZ {
 		//Registramos el Listener de Forge para la Storyline
 		MinecraftForge.EVENT_BUS.register(new StorylineEvents());
 		//Se registran los eventos de las Capabilities de las Stats
-		//MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
+		MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
 		MinecraftForge.EVENT_BUS.register(GenAttRegistry.class);
 		MinecraftForge.EVENT_BUS.register(DMZGenericAttributes.class);
