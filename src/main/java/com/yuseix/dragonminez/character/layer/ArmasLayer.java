@@ -120,13 +120,13 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         ItemRenderer itemRenderer = mc.getItemRenderer();
         poseStack.pushPose();
         if (player.isCrouching()) {
-            poseStack.translate(-0.45F, 0.1F, 0.15F);
+            poseStack.translate(-0.45F, 0.1F, 0.1F);
             poseStack.mulPose(Axis.YP.rotationDegrees(95.0F));
             poseStack.mulPose(Axis.XP.rotationDegrees(50.0F));
             poseStack.mulPose(Axis.ZP.rotationDegrees(20.0F));
         } else {
             // Posición normal (sin agacharse)
-            poseStack.translate(-0.45F, -0.20F, 0.25F);
+            poseStack.translate(-0.45F, -0.20F, 0.2F);
             poseStack.mulPose(Axis.YP.rotationDegrees(65.0F));
             poseStack.mulPose(Axis.XP.rotationDegrees(35.0F));
             poseStack.mulPose(Axis.ZP.rotationDegrees(-25.0F));
@@ -146,7 +146,7 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             renderEspadaZ(poseStack, player, bufferSource, light);
         } else if(arma.getItem() == MainItems.TRUNKS_SWORD.get()){
             //Aca se renderiza mangoespada + funda
-            trunksSwordBackModel.renderToBuffer(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
+            trunksSwordBackModel.renderCompleto(poseStack, player, textura, light, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f);
 
         }
 

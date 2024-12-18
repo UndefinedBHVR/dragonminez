@@ -132,7 +132,7 @@ public class TrunksSwordBackModel extends HumanoidModel<AbstractClientPlayer> {
 
 	}
 
-	public void renderToBuffer(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+	public void renderCompleto(PoseStack poseStack, AbstractClientPlayer pEntity, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		boolean estaAgachado = pEntity.isCrouching();
 
 		poseStack.pushPose();
