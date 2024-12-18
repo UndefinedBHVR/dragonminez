@@ -6,6 +6,7 @@ on:
 
 jobs:
   check-version:
+    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]' }}
     runs-on: ubuntu-latest
 
     steps:
