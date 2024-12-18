@@ -59,4 +59,4 @@ de [Freesound](https://freesound.org/):
 
 2024, DragonMine Z. Este programa es software libre: puede redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General
 de GNU según lo publicado por la Free Software Foundation, ya sea la versión 3 de la Licencia o (a su elección) cualquier versión posterior.
-[Licencia Pública General de GNU v3.0]([https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en](https://github.com/DragonMineZ/dragonminez/blob/main/LICENSE))
+[Licencia Pública General de GNU v3.0](https://github.com/DragonMineZ/dragonminez/blob/main/LICENSE)
