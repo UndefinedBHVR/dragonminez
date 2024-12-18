@@ -51,5 +51,6 @@ Some sounds are used from the [Zapsplat](https://www.zapsplat.com/) and [Freesou
 
 ## License
 
-2024, DragonMine Z 4.0 DEED Attribution-NonCommercial-NoDerivs 4.0 International.
-[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en)
+2024, DragonMine Z. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 3 of the License or (at your option) any later version.
+[GNU General Public License v3.0](https://github.com/DragonMineZ/dragonminez/blob/main/LICENSE)
