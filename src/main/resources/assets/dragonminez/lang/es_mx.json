@@ -152,6 +152,12 @@
 
   "dmz.weapons.baculo_item": "\u00A7cBáculo Sagrado",
   "dmz.weapons.baculo_item.tooltip": "\u00A77Este Bastón fue utilizado por Goku para subir a la Atalaya de Kami.",
+  "dmz.weapons.z_sword": "\u00A73Espada Z",
+  "dmz.weapons.z_sword.tooltip": "\u00A77Se dice que esta espada es la más poderosa del universo.",
+  "dmz.weapons.trunks_sword": "\u00A7bEspada de Trunks",
+  "dmz.weapons.trunks_sword.tooltip": "\u00A77Esta espada proviene del futuro, donde Trunks luchó contra los androides.",
+  "dmz.weapons.yajirobe_katana": "\u00A7eKatana de Yajirobe",
+  "dmz.weapons.yajirobe_katana.tooltip": "\u00A77Esta katana fue utilizada por Yajirobe para cortar la cola de Vegeta.",
 
   "itemGroup.dragonminez.blocks": "Bloques DMZ",
   "itemGroup.dragonminez.items": "Objetos DMZ",
