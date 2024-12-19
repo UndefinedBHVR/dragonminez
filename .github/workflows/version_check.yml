@@ -2,6 +2,8 @@ name: Check Mod Version
 
 on:
   pull_request:
+    branches:
+      - main
     types: [opened]
 
 jobs:
