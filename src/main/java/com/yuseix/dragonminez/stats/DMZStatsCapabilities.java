@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.stats;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
 import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
 import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
 import com.yuseix.dragonminez.utils.DMZDatos;
@@ -27,6 +28,7 @@ public class DMZStatsCapabilities {
         syncStats(event.getEntity());
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
+        syncSkills(event.getEntity());
 
         event.getEntity().refreshDimensions();
 
@@ -47,6 +49,7 @@ public class DMZStatsCapabilities {
         syncStats(event.getEntity());
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
+        syncSkills(event.getEntity());
 
     }
 
@@ -55,6 +58,7 @@ public class DMZStatsCapabilities {
         syncStats(event.getEntity());
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
+        syncSkills(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
 
@@ -117,6 +121,12 @@ public class DMZStatsCapabilities {
                         new DMZTempEffectsS2C(trackedplayer, cap.getDMZTemporalEffects()),
                         serverplayer
                 );
+
+                ModMessages.sendToPlayer(
+                        new DMZSkillsS2C(trackedplayer, cap.getDMZSkills()),
+                        serverplayer
+                );
+
             });
 
         }
@@ -137,6 +147,12 @@ public class DMZStatsCapabilities {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
             ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
                     new DMZTempEffectsS2C(player, cap.getDMZTemporalEffects()));
+        });
+    }
+    public static void syncSkills(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                    new DMZSkillsS2C(player, cap.getDMZSkills()));
         });
     }
 

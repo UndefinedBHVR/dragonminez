@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.utils.TickHandler;
@@ -190,20 +191,26 @@ public class StatsEvents {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
-                    int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
+                    DMZSkill jump = stats.getDMZSkills().get("jump");
 
-                    // drenaje de config
-                    int baseEnergyDrain = (int) Math.ceil(maxEnergy * DMZGeneralConfig.MULTIPLIER_FALLDMG.get());
+                    if (jump != null && jump.isActive()) {
+                        // No hacer nada xd
+                    } else {
+                        int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
 
-                    // Incrementar el drenaje por altura
-                    int extraEnergyDrain = (int) ((fallDistance - 4.5f) * baseEnergyDrain / 4.5f);
+                        // drenaje de config
+                        int baseEnergyDrain = (int) Math.ceil(maxEnergy * DMZGeneralConfig.MULTIPLIER_FALLDMG.get());
 
-                    int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
+                        // Incrementar el drenaje por altura
+                        int extraEnergyDrain = (int) ((fallDistance - 4.5f) * baseEnergyDrain / 4.5f);
 
-                    // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
-                    if (stats.getCurrentEnergy() >= totalEnergyDrain) {
-                        stats.removeCurEnergy(totalEnergyDrain);
-                        event.setCanceled(true);
+                        int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
+
+                        // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
+                        if (stats.getCurrentEnergy() >= totalEnergyDrain) {
+                            stats.removeCurEnergy(totalEnergyDrain);
+                            event.setCanceled(true);
+                        }
                     }
                 });
             }

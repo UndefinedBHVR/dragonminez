@@ -87,6 +87,12 @@ public class ModMessages {
 				.encoder(PermaEffC2S::toBytes)
 				.consumerMainThread(PermaEffC2S::handle)
 				.add();
+		net.messageBuilder(SkillActivateC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(SkillActivateC2S::new)
+				.encoder(SkillActivateC2S::toBytes)
+				.consumerMainThread(SkillActivateC2S::handle)
+				.add();
+
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(ZPointsS2C::new)

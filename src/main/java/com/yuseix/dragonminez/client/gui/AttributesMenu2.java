@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
+import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -44,6 +45,8 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
     private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
     private DMZDatos dmzdatos = new DMZDatos();
 
+    private DMZGuiButtons SkillsMenuButton;
+
     public AttributesMenu2() {
         super(Component.empty());
     }
@@ -61,6 +64,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
         super.tick();
 
         botonesStats();
+        botonesMenus();
         //MenuInicio
 
 
@@ -182,6 +186,18 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                         ModMessages.sendToServer(new StatsC2S(4,1 * multiplicadorTP));
                     }));}
         }});
+    }
+
+    public void botonesMenus(){
+        alturaTexto = (this.height + 168)/2;
+        anchoTexto = (this.width - 250)/2;
+
+        if (this.minecraft.level.isClientSide) {
+            this.SkillsMenuButton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 2, alturaTexto, "libro", Component.empty(), wa -> {
+                // Cambiar la pantalla solo en el cliente
+                this.minecraft.setScreen(new SkillMenu());
+            }));
+        }
     }
 
     public void menu0info(GuiGraphics guiGraphics, int mouseX, int mouseY){

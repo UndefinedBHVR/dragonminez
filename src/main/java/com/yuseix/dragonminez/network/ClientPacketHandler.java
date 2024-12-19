@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -48,12 +49,15 @@ public class ClientPacketHandler {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleSkillsPacket(Map<String, Integer> skillsdmz, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var player = Minecraft.getInstance().player;
-		if (player != null) {
+	public static void handleSkillsPacket(int playerId, Map<String, DMZSkill> skills, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = clientLevel.getEntity(playerId);
+		if (entity instanceof Player player) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				cap.getDMZSkills().clear();
-				cap.getDMZSkills().putAll(skillsdmz);
+				cap.getDMZSkills().clear(); // Limpia los datos existentes
+				cap.getDMZSkills().putAll(skills); // Añade los nuevos valores
 			});
 		}
 	}
