@@ -45,7 +45,6 @@ public class SoldierEntity extends PathfinderMob {
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, NamekianEntity.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
-
     }
 
 
