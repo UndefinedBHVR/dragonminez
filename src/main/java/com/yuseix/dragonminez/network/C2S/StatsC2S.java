@@ -52,21 +52,15 @@ public class StatsC2S {
 
                     switch (packet.id) {
                         case 0:
-                            if (playerstats.getStrength() + packet.cantidad > maxStats) {
-                                incrementoStats = maxStats - playerstats.getStrength();
-                            }
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStrength());
                             playerstats.addStrength(incrementoStats);
                             break;
                         case 1:
-                            if (playerstats.getDefense() + packet.cantidad > maxStats) {
-                                incrementoStats = maxStats - playerstats.getDefense();
-                            }
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getDefense());
                             playerstats.addDefense(incrementoStats);
                             break;
                         case 2:
-                            if (playerstats.getConstitution() + packet.cantidad > maxStats) {
-                                incrementoStats = maxStats - playerstats.getConstitution();
-                            }
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getConstitution());
                             playerstats.addCon(incrementoStats);
 
                             var conMax = dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
@@ -74,15 +68,11 @@ public class StatsC2S {
                             player.refreshDimensions();
                             break;
                         case 3:
-                            if (playerstats.getKiPower() + packet.cantidad > maxStats) {
-                                incrementoStats = maxStats - playerstats.getKiPower();
-                            }
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getKiPower());
                             playerstats.addKipwr(incrementoStats);
                             break;
                         case 4:
-                            if (playerstats.getEnergy() + packet.cantidad > maxStats) {
-                                incrementoStats = maxStats - playerstats.getEnergy();
-                            }
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getEnergy());
                             playerstats.addEnergy(incrementoStats);
                             break;
                         default:

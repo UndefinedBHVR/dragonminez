@@ -75,7 +75,7 @@ public class EntityEvents {
 
 		//Pa ganar tps cuando mates algo claro pes papeto
 		if (event.getEntity() instanceof Monster || event.getEntity() instanceof Animal || event.getEntity() instanceof Player
-				|| event.getEntity() instanceof NamekianEntity) {
+				|| event.getEntity() instanceof NamekianEntity || event.getEntity() instanceof SoldierEntity) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				var vidaTps = (int) (event.getEntity().getMaxHealth() * 0.5); // 50% hp enemigo
