@@ -15,6 +15,7 @@ import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
@@ -58,13 +59,14 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void onRenderLevelLast(RenderLevelStageEvent event) {
 		Minecraft minecraft = Minecraft.getInstance();
+		if(!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_ENTITIES)) return;
 
 		for (Player player : minecraft.level.players()) {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					if (cap.isAuraOn() || cap.isTurbonOn()) {
 						boolean isLocalPlayer = player == minecraft.player;
-						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.009f : 0.025f;
+						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.039f : 0.325f;
 
 						renderAuraBase(
 								(AbstractClientPlayer) player,
