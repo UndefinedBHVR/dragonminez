@@ -70,12 +70,14 @@ public class RadarEvents {
 
 				// Update dragon ball positions every 2 seconds (40 ticks)
 				long currentTime = player.level().getGameTime();
+
+
+				/*TODO: Capabilities nao funcionan
+				 *  Estas necesitan que serverLevel sea un ServerLevel, pero no se puede hacer un cast directo y hay que usar packets. Y a mi me da paja */
+
 				if (currentTime - lastUpdateTime > UPDATE_INTERVAL_TICKS) {
 
 					System.out.println("Update...");
-
-					//TODO: Arreglar Capabilities
-					// Estas necesitan que serverLevel sea un ServerLevel, pero no se puede hacer un cast directo y hay que usar packets. Y a mi me da paja
 
 					if (isOverworld) {
 
