@@ -5,12 +5,16 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
 import com.yuseix.dragonminez.init.items.custom.NamekDragonBallRadarItem;
+import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -41,169 +45,88 @@ public class RadarEvents {
         if (mc.isPaused()) return;
 
         Player player = mc.player;
+        if (player == null) return;
         GuiGraphics gui = event.getGuiGraphics();
-        int radarSize = 140; // Tamaño de la textura del radar 121x146 px
+        int radarSize = 140; // Radar tamañito (121x146 px)
 
-        // Comprobar si el jugador está en el Overworld
-        if (player.level().dimension().equals(Level.OVERWORLD)) {
-            // Si estamos en el Overworld, se comprueba si el jugador tiene el radar en la mano
-            if (player.getMainHandItem().getItem() instanceof DragonBallRadarItem) {
-                // Obtener el ItemStack en la mano principal
-                ItemStack radarItem = player.getMainHandItem();
+        // Determine the radar type and dimension
+        boolean isOverworld = player.level().dimension().equals(Level.OVERWORLD);
+        boolean isNamek = player.level().dimension().equals(ModDimensions.NAMEK_DIM_LEVEL_KEY);
 
-                // Obtener el rango del radar desde el NBT
+        if (isOverworld || isNamek) {
+            // Check if the player holds the correct radar
+            ItemStack radarItem = player.getMainHandItem();
+            if ((isOverworld && radarItem.getItem() instanceof DragonBallRadarItem) ||
+                    (isNamek && radarItem.getItem() instanceof NamekDragonBallRadarItem)) {
+
+                // Get radar range from NBT or use default
                 int radarRange = radarItem.getOrCreateTag().getInt(DragonBallRadarItem.NBT_RANGE);
-                if (radarRange == 0) {
-                    // Establecer un rango por defecto si no hay valor en el NBT
-                    radarRange = 75; // Valor por defecto
-                }
+                if (radarRange == 0) radarRange = 75; // Default range
 
-                // Dibujar el radar en la esquina de la pantalla
+                // Draw radar background
                 int centerX = mc.getWindow().getGuiScaledWidth() - radarSize - 10;
                 int centerY = mc.getWindow().getGuiScaledHeight() - radarSize - 10;
 
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 RenderSystem.setShaderTexture(0, fondo);
-                gui.blit(fondo, centerX, centerY, 0, 0, 121, 146); // Dibujar el fondo del radar
+                gui.blit(fondo, centerX, centerY, 0, 0, 121, 146);
 
-                // Actualizar solo cada 2 segundos (40 ticks)
+                // Update dragon ball positions every 2 seconds (40 ticks)
                 long currentTime = player.level().getGameTime();
                 if (currentTime - lastUpdateTime > UPDATE_INTERVAL_TICKS) {
-                    closestDballPositions = findAllDballBlocks(player, radarRange); // Detectar todas las esferas
-                    lastUpdateTime = currentTime; // Actualizar el tiempo de la última búsqueda
-                }
 
-                // Dibujar los puntos amarillos para cada posición detectada
-                for (BlockPos pos : closestDballPositions) {
+                    System.out.println("Update...");
 
-                    // Calculate the 2D distance (ignoring Y)
-                    double dx = pos.getX() - player.getX();
-                    double dz = pos.getZ() - player.getZ();
-                    double distance = Math.sqrt(dx * dx + dz * dz); // 2D distance
+                    //TODO: Aunque ahora se haya optimizado el código, aún falta arreglar el uso de las capabilities.
+                    // Estas necesitan que serverLevel sea un ServerLevel, pero no se puede hacer un cast directo y hay que usar packets. (Y a mi me da paja)
+                    // Además, el código de las capabilities está en el servidor, por lo que no se puede acceder a ellas desde el cliente.
+                    // getCapability() produce un error de NullPointerException. (Como se ve en el IDE)
 
-                    // Calculate the angle to the block
-                    double angleToBlock = Math.atan2(dz, dx);
 
-                    // Obtener la rotación del jugador (yaw) y ajustarla al ángulo del bloque
-                    double playerYaw = Math.toRadians(player.getYRot()); // Convertir el yaw del jugador a radianes
-                    double adjustedAngle = angleToBlock - playerYaw; // Restar el yaw nuevamente
+                    if (isOverworld) {
 
-                    // Convertir la distancia a un valor entre 0 y 50 píxeles
-                    double radarRadius = Math.min(distance / radarRange * 50, 50);
+                        Level serverLevel = mc.level;
+						serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(capability ->
+                                closestDballPositions = capability.DragonBallPositions());
+                    } else if (isNamek) {
+                        Level serverLevel = mc.level;
+                        serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(capability ->
+                                closestDballPositions = capability.namekDragonBallPositions());
+                    }
+                    lastUpdateTime = currentTime;
 
-                    // Calcular la posición del punto amarillo en el radar, invirtiendo los ejes X e Y
-                    int radarX = (int) (centerX + 61 - radarRadius * Math.cos(adjustedAngle)); // Invertimos X
-                    int radarY = (int) (centerY + 87 - radarRadius * Math.sin(adjustedAngle)); // Invertimos Y
-
-                    // Dibujar el punto amarillo
-                    gui.blit(fondo, radarX - 2, radarY - 2, 121, 0, 6, 6); // Tamaño del punto: 6x6 px
-                }
-            }
-        } else if (player.level().dimension().equals(ModDimensions.NAMEK_DIM_LEVEL_KEY)) {
-            // Si estamos en el Overworld, se comprueba si el jugador tiene el radar en la mano
-            if (player.getMainHandItem().getItem() instanceof NamekDragonBallRadarItem) {
-                // Obtener el ItemStack en la mano principal
-                ItemStack radarItem = player.getMainHandItem();
-
-                // Obtener el rango del radar desde el NBT
-                int radarRange = radarItem.getOrCreateTag().getInt(NamekDragonBallRadarItem.NBT_RANGE);
-                if (radarRange == 0) {
-                    // Establecer un rango por defecto si no hay valor en el NBT
-                    radarRange = 75; // Valor por defecto
-                }
-
-                // Dibujar el radar en la esquina de la pantalla
-                int centerX = mc.getWindow().getGuiScaledWidth() - radarSize - 10;
-                int centerY = mc.getWindow().getGuiScaledHeight() - radarSize - 10;
-
-                RenderSystem.setShader(GameRenderer::getPositionTexShader);
-                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                RenderSystem.setShaderTexture(0, fondo);
-                gui.blit(fondo, centerX, centerY, 0, 0, 121, 146); // Dibujar el fondo del radar
-
-                // Actualizar solo cada 2 segundos (40 ticks)
-                long currentTime = player.level().getGameTime();
-                if (currentTime - lastUpdateTime > UPDATE_INTERVAL_TICKS) {
-                    closestDballPositions = findAllNamekDballBlocks(player, radarRange); // Detectar todas las esferas
-                    lastUpdateTime = currentTime; // Actualizar el tiempo de la última búsqueda
-                }
-
-                // Dibujar los puntos amarillos para cada posición detectada
-                for (BlockPos pos : closestDballPositions) {
-                    // Calculate the 2D distance (ignoring Y)
-                    double dx = pos.getX() - player.getX();
-                    double dz = pos.getZ() - player.getZ();
-                    double distance = Math.sqrt(dx * dx + dz * dz); // 2D distance
-
-                    // Calculate the angle to the block
-                    double angleToBlock = Math.atan2(dz, dx);
-
-                    // Obtener la rotación del jugador (yaw) y ajustarla al ángulo del bloque
-                    double playerYaw = Math.toRadians(player.getYRot()); // Convertir el yaw del jugador a radianes
-                    double adjustedAngle = angleToBlock - playerYaw; // Restar el yaw nuevamente
-
-                    // Convertir la distancia a un valor entre 0 y 50 píxeles
-                    double radarRadius = Math.min(distance / radarRange * 50, 50);
-
-                    // Calcular la posición del punto amarillo en el radar, invirtiendo los ejes X e Y
-                    int radarX = (int) (centerX + 61 - radarRadius * Math.cos(adjustedAngle)); // Invertimos X
-                    int radarY = (int) (centerY + 87 - radarRadius * Math.sin(adjustedAngle)); // Invertimos Y
-
-                    // Dibujar el punto amarillo
-                    gui.blit(fondo, radarX - 2, radarY - 2, 121, 0, 6, 6); // Tamaño del punto: 6x6 px
+                    // Render detected dragon balls
+                    renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
                 }
             }
         }
     }
 
-    private static List<BlockPos> findAllDballBlocks(Player player, int range) {
-        Level world = player.level();
-        BlockPos playerPos = player.blockPosition();
-        List<BlockPos> dballPositions = new ArrayList<>();
-        int verticalRange = 363; // Rango en el eje Y (±363 bloques)
+    // Radar rendering logic
+    private static void renderDballRadar(GuiGraphics gui, Player player, int radarRange, List<BlockPos> dballPositions, int centerX, int centerY) {
+        for (BlockPos pos : dballPositions) {
+            // Calculate 2D distance (ignoring Y)
+            double dx = pos.getX() - player.getX();
+            double dz = pos.getZ() - player.getZ();
+            double distance = Math.sqrt(dx * dx + dz * dz);
 
-        for (int x = -range; x <= range; x++) {
-            for (int z = -range; z <= range; z++) {
-                for (int y = -verticalRange; y <= verticalRange; y++) { // Búsqueda en el rango vertical
-                    BlockPos pos = playerPos.offset(x, y, z); // Incluir Y en la búsqueda
+            if (distance > radarRange) continue;
 
-                    // Comprobar si es un bloque Dball de 1 a 7
-                    Block block = world.getBlockState(pos).getBlock();
-                    if (block instanceof Dball1Block || block instanceof Dball2Block || block instanceof Dball3Block
-                            || block instanceof Dball4Block || block instanceof Dball5Block
-                            || block instanceof Dball6Block || block instanceof Dball7Block) {
-                        dballPositions.add(pos); // Agregar la posición del bloque detectado
-                    }
-                }
-            }
+            // Calculate angle to block
+            double angleToBlock = Math.atan2(dz, dx);
+            double playerYaw = Math.toRadians(player.getYRot());
+            double adjustedAngle = angleToBlock - playerYaw;
+
+            // Map distance to radar radius (0-50 px)
+            double radarRadius = Math.min(distance / radarRange * 50, 50);
+
+            // Calculate radar dot position
+            int radarX = (int) (centerX + 61 - radarRadius * Math.cos(adjustedAngle));
+            int radarY = (int) (centerY + 87 - radarRadius * Math.sin(adjustedAngle));
+
+            // Draw yellow dot
+            gui.blit(fondo, radarX - 2, radarY - 2, 121, 0, 6, 6);
         }
-
-        return dballPositions; // Devolver todas las posiciones encontradas
-    }
-
-    private static List<BlockPos> findAllNamekDballBlocks(Player player, int range) {
-        Level world = player.level();
-        BlockPos playerPos = player.blockPosition();
-        List<BlockPos> dballPositions = new ArrayList<>();
-        int verticalRange = 363; // Rango en el eje Y (±363 bloques)
-
-        for (int x = -range; x <= range; x++) {
-            for (int z = -range; z <= range; z++) {
-                for (int y = -verticalRange; y <= verticalRange; y++) { // Búsqueda en el rango vertical
-                    BlockPos pos = playerPos.offset(x, y, z); // Incluir Y en la búsqueda
-
-                    // Comprobar si es un bloque Dball de 1 a 7
-                    Block block = world.getBlockState(pos).getBlock();
-                    if (block instanceof Dball1NamekBlock || block instanceof Dball2NamekBlock || block instanceof Dball3NamekBlock
-                            || block instanceof Dball4NamekBlock || block instanceof Dball5NamekBlock
-                            || block instanceof Dball6NamekBlock || block instanceof Dball7NamekBlock) {
-                        dballPositions.add(pos); // Agregar la posición del bloque detectado
-                    }
-                }
-            }
-        }
-
-        return dballPositions; // Devolver todas las posiciones encontradas
     }
 }
