@@ -221,6 +221,7 @@ public class StatsEvents {
 
         //Cargar Ki
         if (isKiChargeKeyPressed && !previousKiChargeState) {
+            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
             previousKiChargeState = true; // Actualiza el estado previo
             playSoundOnce(MainSounds.AURA_START.get());
             startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
@@ -231,49 +232,51 @@ public class StatsEvents {
         }
 
         //Turbo
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-            int curEne = stats.getCurrentEnergy();
-            int maxEne = stats.getMaxEnergy();
-            int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
+        if (player != null) {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+                int curEne = stats.getCurrentEnergy();
+                int maxEne = stats.getMaxEnergy();
+                int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
 
-            if (isTurboKeypressed) {
-                if (!turboOn && porcentaje > 10) {
-                    // Solo activar Turbo si tiene más del 10% de energía
-                    turboOn = true;
-                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
-                    ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
-                    playSoundOnce(MainSounds.AURA_START.get());
-                    startLoopSound(MainSounds.TURBO_LOOP.get(), false);
-                    setTurboSpeed(player, true);
-                } else if (turboOn) {
-                    // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                if (isTurboKeypressed) {
+                    if (!turboOn && porcentaje > 10) {
+                        // Solo activar Turbo si tiene más del 10% de energía
+                        turboOn = true;
+                        ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
+                        ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                        playSoundOnce(MainSounds.AURA_START.get());
+                        startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+                        setTurboSpeed(player, true);
+                    } else if (turboOn) {
+                        // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                        turboOn = false;
+                        ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                        ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                        stopLoopSound(false);
+                        setTurboSpeed(player, false);
+                    } else {
+                        player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
+                    }
+                }
+
+                // Desactivar Turbo automáticamente si la energía llega a 1
+                if (turboOn && curEne <= 1) {
                     turboOn = false;
                     ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                     ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                     stopLoopSound(false);
                     setTurboSpeed(player, false);
-                } else {
-                    player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
                 }
-            }
+            });
 
-            // Desactivar Turbo automáticamente si la energía llega a 1
-            if (turboOn && curEne <= 1) {
-                turboOn = false;
-                ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
-                ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-                stopLoopSound(false);
-                setTurboSpeed(player, false);
+            // Descender de ki
+            if (isDescendKeyPressed && !previousKeyDescendState) {
+                ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
+                previousKeyDescendState = true; // Actualiza el estado previo
+            } else if (!isDescendKeyPressed && previousKeyDescendState) {
+                ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
+                previousKeyDescendState = false; // Actualiza el estado previo
             }
-        });
-
-        // Descender de ki
-        if (isDescendKeyPressed && !previousKeyDescendState) {
-            ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
-            previousKeyDescendState = true; // Actualiza el estado previo
-        } else if (!isDescendKeyPressed && previousKeyDescendState) {
-            ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
-            previousKeyDescendState = false; // Actualiza el estado previo
         }
     }
 

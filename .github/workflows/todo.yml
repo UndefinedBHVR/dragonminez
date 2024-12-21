@@ -6,6 +6,8 @@ on:
     paths:
       - src/main/java/com/yuseix/dragonminez/**
 
+permissions: write-all
+
 jobs:
   todo-to-issue:
     runs-on: "ubuntu-latest"

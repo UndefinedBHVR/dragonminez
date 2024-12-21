@@ -105,9 +105,10 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             alturaTexto = (this.height / 2) -15;
 
             int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-            var baseCost =  (int) Math.round(((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
+            var baseCost =  (int) Math.round((((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 2);
             int adjustedCostSTR, adjustedCostDEF, adjustedCostCON, adjustedCostPWR, adjustedCostENE;
-            var multCost = (int) Math.round((str + def + con + kipower + energy) /  2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
+            int finalCostSTR, finalCostDEF, finalCostCON, finalCostPWR, finalCostENE;
+            int upgradeStatSTR, upgradeStatDEF, upgradeStatCON, upgradeStatPWR, upgradeStatENE;
 
             this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto-3, alturaTexto + 63,Component.empty(), wa -> {
                 if(multiplicadorTP == 1){
@@ -119,69 +120,106 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 }
             }));
 
+            // Calcula los puntos restantes para alcanzar el límite de estadísticas y ajusta el costo en base a eso xd
             if (str >= (maxStats - multiplicadorTP)) {
-                // Calcula los puntos restantes para alcanzar el límite de estadísticas y ajusta el costo en base a eso xd
                 int puntosNecesarios = maxStats - str;
                 adjustedCostSTR = (int) Math.round(baseCost * puntosNecesarios);
             } else {
-                adjustedCostSTR = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+                adjustedCostSTR = (int) Math.round((baseCost * multiplicadorTP));
             }
 
             if (def >= (maxStats - multiplicadorTP)) {
                 int puntosNecesarios = maxStats - def;
                 adjustedCostDEF = (int) Math.round(baseCost * puntosNecesarios);
             } else {
-                adjustedCostDEF = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+                adjustedCostDEF = (int) Math.round((baseCost * multiplicadorTP));
             }
 
             if (con >= (maxStats - multiplicadorTP)) {
                 int puntosNecesarios = maxStats - con;
                 adjustedCostCON = (int) Math.round(baseCost * puntosNecesarios);
             } else {
-                adjustedCostCON = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+                adjustedCostCON = (int) Math.round((baseCost * multiplicadorTP));
             }
 
             if (kipower >= (maxStats - multiplicadorTP)) {
                 int puntosNecesarios = maxStats - kipower;
                 adjustedCostPWR = (int) Math.round(baseCost * puntosNecesarios);
             } else {
-                adjustedCostPWR = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+                adjustedCostPWR = (int) Math.round((baseCost * multiplicadorTP));
             }
 
             if (energy >= (maxStats - multiplicadorTP)) {
                 int puntosNecesarios = maxStats - energy;
                 adjustedCostENE = (int) Math.round(baseCost * puntosNecesarios);
             } else {
-                adjustedCostENE = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+                adjustedCostENE = (int) Math.round((baseCost * multiplicadorTP));
+            }
+
+            // Si el costo ajustado es mayor que los puntos totales, entonces se pueden aumentar las Stats al máximo posible con esos tps
+            if (adjustedCostSTR > tps) {
+                upgradeStatSTR = tps / baseCost;
+                finalCostSTR = (baseCost * upgradeStatSTR);
+            } else {
+                upgradeStatSTR = Math.min(multiplicadorTP, maxStats - str);
+                finalCostSTR = adjustedCostSTR;
+            }
+            if (adjustedCostDEF > tps) {
+                upgradeStatDEF = tps / baseCost;
+                finalCostDEF = (baseCost * upgradeStatDEF);
+            } else {
+                upgradeStatDEF = Math.min(multiplicadorTP, maxStats - def);
+                finalCostDEF = adjustedCostDEF;
+            }
+            if (adjustedCostCON > tps) {
+                upgradeStatCON = tps / baseCost;
+                finalCostCON = (baseCost * upgradeStatCON);
+            } else {
+                upgradeStatCON = Math.min(multiplicadorTP, maxStats - con);
+                finalCostCON = adjustedCostCON;
+            }
+            if (adjustedCostPWR > tps) {
+                upgradeStatPWR = tps / baseCost;
+                finalCostPWR = (baseCost * upgradeStatPWR);
+            } else {
+                upgradeStatPWR = Math.min(multiplicadorTP, maxStats - kipower);
+                finalCostPWR = adjustedCostPWR;
+            }
+            if (adjustedCostENE > tps) {
+                upgradeStatENE = tps / baseCost;
+                finalCostENE = (baseCost * upgradeStatENE);
+            } else {
+                upgradeStatENE = Math.min(multiplicadorTP, maxStats - energy);
+                finalCostENE = adjustedCostENE;
             }
 
             if(tps >= baseCost){
                 if (str < maxStats) {
                     this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto,Component.empty(), wa -> {
-                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostSTR));
-                        ModMessages.sendToServer(new StatsC2S(0,1 * multiplicadorTP));
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostSTR));
+                        ModMessages.sendToServer(new StatsC2S(0, upgradeStatSTR));
                     }));}
                 if (def < maxStats) {
                     this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
-                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostDEF));
-                        ModMessages.sendToServer(new StatsC2S(1,1 * multiplicadorTP));
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostDEF));
+                        ModMessages.sendToServer(new StatsC2S(1,upgradeStatDEF));
                     }));}
                 if (con < maxStats) {
                     this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
-                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostCON));
-                        ModMessages.sendToServer(new StatsC2S(2,1 * multiplicadorTP));
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostCON));
+                        ModMessages.sendToServer(new StatsC2S(2,upgradeStatCON));
                     }));}
                 if (kipower < maxStats) {
                     this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
-                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostPWR));
-                        ModMessages.sendToServer(new StatsC2S(3,1 * multiplicadorTP));
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostPWR));
+                        ModMessages.sendToServer(new StatsC2S(3,upgradeStatPWR));
                     }));}
                 if (energy < maxStats) {
                     this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
-                        ModMessages.sendToServer(new ZPointsC2S(1, adjustedCostENE));
-                        ModMessages.sendToServer(new StatsC2S(4,1 * multiplicadorTP));
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostENE));
+                        ModMessages.sendToServer(new StatsC2S(4,upgradeStatENE));
                     }));}
-        }});
+            }});
     }
 
     public void menu0info(GuiGraphics guiGraphics, int mouseX, int mouseY){
@@ -283,9 +321,8 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var majinOn = playerstats.hasDMZPermaEffect("majin");
             var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
 
-            var baseCost =  (int) Math.round((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get());
-            var multCost = (int) Math.round((strdefault + defdefault + condefault + kipowerdefault + energydefault) /  2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
-            int finalCost = (int) Math.round((baseCost * multiplicadorTP) + multCost * multiplicadorTP);
+            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 2);
+            int finalCost = (int) Math.round((baseCost * multiplicadorTP));
 
             var strcompleta = dmzdatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
             var defcompleta = dmzdatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);

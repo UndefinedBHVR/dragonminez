@@ -21,6 +21,7 @@ public class DragonBallRadarItem extends Item {
 
     private static final int[] RANGES = {150, 300}; // Diferentes rangos
     public static final String NBT_RANGE = "RadarRange"; // Clave NBT para almacenar el rango
+    private static final int COOLDOWN_TICKS = 20 * 16; // Cooldown en ticks (16 segundos)
 
     public DragonBallRadarItem() {
         super(new Properties().stacksTo(1));
@@ -29,6 +30,12 @@ public class DragonBallRadarItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+
+        // Comprobar si el cooldown está activo
+        if (player.getCooldowns().isOnCooldown(this)) {
+            return InteractionResultHolder.fail(stack); // No permite el uso si está en cooldown
+        }
+
         player.playSound(MainSounds.DRAGONRADAR.get());
 
         // Alternar rango al hacer clic derecho
@@ -42,9 +49,11 @@ public class DragonBallRadarItem extends Item {
                     .append(String.valueOf(newRange)).append(" ")
                     .append(Component.translatable("ui.dmzradar.blocks"));
 
-
             player.displayClientMessage(message, true);
         }
+
+        // Aplicar cooldown
+        player.getCooldowns().addCooldown(this, COOLDOWN_TICKS);
 
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
@@ -56,11 +65,8 @@ public class DragonBallRadarItem extends Item {
         return 0;
     }
 
-
-
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.dragonminez.dball_radar.tooltip").withStyle(ChatFormatting.GRAY));
     }
-
 }
