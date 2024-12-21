@@ -126,8 +126,8 @@ public class RadarEvents {
 
                 // Dibujar los puntos amarillos para cada posición detectada
                 for (BlockPos pos : closestDballPositions) {
-                    // Calcular la distancia y dirección hacia cada bloque
-                    double distance = Math.sqrt(player.blockPosition().distSqr(pos));
+                    // Calcular la distancia
+                    double distance =  Math.sqrt(player.blockPosition().distSqr(pos));
 
                     // Calcular el ángulo entre el jugador y el bloque
                     double angleToBlock = Math.atan2(pos.getZ() - player.getZ(), pos.getX() - player.getX());
@@ -154,17 +154,20 @@ public class RadarEvents {
         Level world = player.level();
         BlockPos playerPos = player.blockPosition();
         List<BlockPos> dballPositions = new ArrayList<>();
+        int verticalRange = 363; // Rango en el eje Y (±10 bloques)
 
         for (int x = -range; x <= range; x++) {
             for (int z = -range; z <= range; z++) {
-                BlockPos pos = playerPos.offset(x, 0, z); // Ignoramos Y para hacer la búsqueda en plano horizontal
+                for (int y = -verticalRange; y <= verticalRange; y++) { // Búsqueda en el rango vertical
+                    BlockPos pos = playerPos.offset(x, y, z); // Incluir Y en la búsqueda
 
-                // Comprobar si es un bloque Dball de 1 a 7
-                Block block = world.getBlockState(pos).getBlock();
-                if (block instanceof Dball1Block || block instanceof Dball2Block || block instanceof Dball3Block
-                        || block instanceof Dball4Block || block instanceof Dball5Block
-                        || block instanceof Dball6Block || block instanceof Dball7Block) {
-                    dballPositions.add(pos); // Agregar la posición del bloque detectado
+                    // Comprobar si es un bloque Dball de 1 a 7
+                    Block block = world.getBlockState(pos).getBlock();
+                    if (block instanceof Dball1Block || block instanceof Dball2Block || block instanceof Dball3Block
+                            || block instanceof Dball4Block || block instanceof Dball5Block
+                            || block instanceof Dball6Block || block instanceof Dball7Block) {
+                        dballPositions.add(pos); // Agregar la posición del bloque detectado
+                    }
                 }
             }
         }
@@ -176,22 +179,24 @@ public class RadarEvents {
         Level world = player.level();
         BlockPos playerPos = player.blockPosition();
         List<BlockPos> dballPositions = new ArrayList<>();
+        int verticalRange = 363; // Rango en el eje Y (±10 bloques)
 
         for (int x = -range; x <= range; x++) {
             for (int z = -range; z <= range; z++) {
-                BlockPos pos = playerPos.offset(x, 0, z); // Ignoramos Y para hacer la búsqueda en plano horizontal
+                for (int y = -verticalRange; y <= verticalRange; y++) { // Búsqueda en el rango vertical
+                    BlockPos pos = playerPos.offset(x, y, z); // Incluir Y en la búsqueda
 
-                // Comprobar si es un bloque Dball de 1 a 7
-                Block block = world.getBlockState(pos).getBlock();
-                if (block instanceof Dball1NamekBlock || block instanceof Dball2NamekBlock || block instanceof Dball3NamekBlock
-                        || block instanceof Dball4NamekBlock || block instanceof Dball5NamekBlock
-                        || block instanceof Dball6NamekBlock || block instanceof Dball7NamekBlock) {
-                    dballPositions.add(pos); // Agregar la posición del bloque detectado
+                    // Comprobar si es un bloque Dball de 1 a 7
+                    Block block = world.getBlockState(pos).getBlock();
+                    if (block instanceof Dball1NamekBlock || block instanceof Dball2NamekBlock || block instanceof Dball3NamekBlock
+                            || block instanceof Dball4NamekBlock || block instanceof Dball5NamekBlock
+                            || block instanceof Dball6NamekBlock || block instanceof Dball7NamekBlock) {
+                        dballPositions.add(pos); // Agregar la posición del bloque detectado
+                    }
                 }
             }
         }
 
         return dballPositions; // Devolver todas las posiciones encontradas
     }
-
 }

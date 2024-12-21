@@ -84,8 +84,6 @@ public class StructuresCapability {
             torreKamisamaPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKamisamaPosition"));
             torreKarinPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKarinPosition"));
             portalHabTiempoPosition = NbtUtils.readBlockPos(nbt.getCompound("portalHabPosition"));
-            //System.out.println("Cargando posición de la Torre de Kami: " + torreKamisamaPosition);
-            //System.out.println("Cargando posición de la Torre de Karin: " + torreKarinPosition);
         }
         if (nbt.contains("habTiempoPosition")) {
             habTiempoPos = NbtUtils.readBlockPos(nbt.getCompound("habTiempoPosition"));
