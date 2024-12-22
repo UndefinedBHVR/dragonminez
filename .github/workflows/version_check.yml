@@ -4,12 +4,16 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, synchronize]
+    types: [ opened, synchronize ]
+
+permissions:
+  contents: read # for actions/checkout to fetch code
+  pull-requests: write # for actions/github-script to comment on the pull request
+
 
 jobs:
   check-version:
     if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]' }}
-    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
