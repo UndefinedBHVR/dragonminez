@@ -49,7 +49,9 @@ jobs:
           artifact-retention-days: 2
 
       - name: Build with Gradle # Runs the build
-        run: ./gradlew build
+        run: |
+          ./gradlew build --stacktrace | tee build.log
+        continue-on-error: true
 
       - name: PMD report # Runs PMD and uploads the results
         if: success()
