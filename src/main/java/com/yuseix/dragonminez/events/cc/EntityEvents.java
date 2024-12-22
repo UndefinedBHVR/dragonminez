@@ -16,9 +16,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +33,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
@@ -74,8 +75,7 @@ public class EntityEvents {
 		}
 
 		//Pa ganar tps cuando mates algo claro pes papeto
-		if (event.getEntity() instanceof Monster || event.getEntity() instanceof Animal || event.getEntity() instanceof Player
-				|| event.getEntity() instanceof NamekianEntity || event.getEntity() instanceof SoldierEntity) {
+		if (esEnemigo(event.getEntity())) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				var vidaTps = (int) (event.getEntity().getMaxHealth() * 0.5); // 50% hp enemigo
@@ -159,6 +159,19 @@ public class EntityEvents {
 				}
 			}
 		}
+	}
+
+	private static boolean esEnemigo(Entity entity) {
+		List<Class<?>> listaEnemigos = List.of(
+				Monster.class,
+				Animal.class,
+				Player.class,
+				NamekianEntity.class,
+				SoldierEntity.class,
+				FlyingMob.class,
+				Mob.class
+		);
+		return listaEnemigos.stream().anyMatch(clase -> clase.isInstance(entity));
 	}
 
 	private static final double HEAL_PERCENTAGE = 0.05; // 5% por segundo
