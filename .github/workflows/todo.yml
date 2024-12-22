@@ -6,11 +6,16 @@ on:
     paths:
       - src/main/java/com/yuseix/dragonminez/**
 
+permissions:
+  contents: read # for actions/checkout to fetch code
+  issues: write # for alstr/tdo-to-issue-action to create and close issues
+
+
 jobs:
   todo-to-issue:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "actions/checkout@master"
+      - uses: "actions/checkout@v4"
       - name: "Run todo-to-issue Action"
         uses: "alstr/todo-to-issue-action@v5.1.10"
         with:

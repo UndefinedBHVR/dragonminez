@@ -12,31 +12,36 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.RenderUtils;
 
+/*
+ * This file uses GeckoLib, licensed under the MIT License.
+ * Copyright © 2024 GeckoThePecko.
+ */
+
 public class Dball5BlockEntity extends BlockEntity implements GeoBlockEntity {
 
-    private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+	private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public Dball5BlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(MainBlockEntities.DBALL5_BLOCK_ENTITY.get(), pPos, pBlockState);
-    }
+	public Dball5BlockEntity(BlockPos pPos, BlockState pBlockState) {
+		super(MainBlockEntities.DBALL5_BLOCK_ENTITY.get(), pPos, pBlockState);
+	}
 
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-    }
+	@Override
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+		controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+	}
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.dball1.idle", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
-    }
+	private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
+		tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.dball1.idle", Animation.LoopType.LOOP));
+		return PlayState.CONTINUE;
+	}
 
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
-    }
+	@Override
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
+		return cache;
+	}
 
-    @Override
-    public double getTick(Object blockEntity) {
-        return RenderUtils.getCurrentTick();
-    }
+	@Override
+	public double getTick(Object blockEntity) {
+		return RenderUtils.getCurrentTick();
+	}
 }

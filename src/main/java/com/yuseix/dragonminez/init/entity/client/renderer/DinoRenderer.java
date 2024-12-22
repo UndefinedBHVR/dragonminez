@@ -9,25 +9,30 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
+/*
+ * This file uses GeckoLib, licensed under the MIT License.
+ * Copyright © 2024 GeckoThePecko.
+ */
+
 public class DinoRenderer extends GeoEntityRenderer<DinoEntity> {
-    public DinoRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new DinoModel());
-    }
+	public DinoRenderer(EntityRendererProvider.Context renderManager) {
+		super(renderManager, new DinoModel());
+	}
 
-    @Override
-    public ResourceLocation getTextureLocation(DinoEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/dinos/dino1.png");
-    }
+	@Override
+	public ResourceLocation getTextureLocation(DinoEntity animatable) {
+		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/dinos/dino1.png");
+	}
 
-    @Override
-    public void render(DinoEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+	@Override
+	public void render(DinoEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 
-        poseStack.pushPose();
+		poseStack.pushPose();
 
-        poseStack.scale(1.5f, 1.5f, 1.5f);
+		poseStack.scale(1.5f, 1.5f, 1.5f);
 
-        super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+		super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
 
-        poseStack.popPose();
-    }
+		poseStack.popPose();
+	}
 }

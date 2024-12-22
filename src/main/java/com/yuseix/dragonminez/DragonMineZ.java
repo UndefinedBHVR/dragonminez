@@ -15,12 +15,19 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import software.bernie.geckolib.GeckoLib;
+import software.bernie.geckolib.network.GeckoLibNetwork;
+
+/*
+ * This file uses GeckoLib, licensed under the MIT License.
+ * Copyright © 2024 GeckoThePecko.
+ */
 
 @Mod(DragonMineZ.MOD_ID)
 public class DragonMineZ {
@@ -30,6 +37,12 @@ public class DragonMineZ {
 	public DragonMineZ() {
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		if (ModList.get().isLoaded("geckolib")) {
+			GeckoLibNetwork.init();
+		} else {
+			GeckoLib.shadowInit();
+		}
 
 		//Registramos Items
 		MainItems.register(modEventBus);
