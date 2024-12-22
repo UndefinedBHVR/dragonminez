@@ -13,7 +13,12 @@ on:
     paths:
       - '**.java'
 
-permissions: read-all
+  workflow_dispatch: #Test workflow manually, comment this line when the repo is public
+
+permissions:
+  contents: write # for actions/checkout to fetch code and gradle to submit the dependency graph file
+  security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+  actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
 
 jobs:
   gradle-build:
@@ -22,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: gradle/actions/wrapper-validation@v4
-      
+
       - name: Set up JDK 17 Temurin
         uses: actions/setup-java@v4
         with:
@@ -38,24 +43,49 @@ jobs:
             ./.gradle/loom-cache/remapped-mods
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle', '**/gradle-wrapper.properties') }}
 
-      - name: Setup Gradle
+      - name: Setup Gradle # Generates and submits the dependency graph
         uses: gradle/actions/setup-gradle@v4
-        
-      - name: Build with Gradle
+        with:
+          dependency-graph: generate-and-submit
+          artifact-retention-days: 2
+
+      - name: Build with Gradle # Runs the build
         run: ./gradlew build
-        
-      - name: PMD report
+
+      - name: Capture stack trace
+        if: failure()
+        run: |
+          echo "##[error]$(cat $GITHUB_WORKSPACE/build/reports/tests/test/index.html)" > stacktrace.txt
+
+      - name: Comment on PR with stack trace
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const stacktrace = fs.readFileSync('stacktrace.txt', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `🚨 **Gradle Build Failed** 🚨\n\n\`\`\`\n${stacktrace}\n\`\`\``
+            });
+
+      - name: PMD report # Runs PMD and uploads the results
         uses: pmd/pmd-github-action@v2
         with:
           sourcePath: 'src/main/java/com/yuseix/dragonminez'
           rulesets: '.github/workflows/pmd/quickstart.xml'
           analyzeModifiedFilesOnly: true
-      - name: PMD Violations Check
-        if: steps.pmd.outputs.violations != 0
-        run: exit 1
+
         #############################
-#        Quitar comentario cuando el repositorio sea público y hacer setup de GitHub Advanced Security
+        #        Quitar comentarios cuando el repositorio sea público y hacer setup de GitHub Advanced Security
         #############################
+
+#      - name: PMD Violations Check # Fails the build if there are PMD violations
+#        if: ${{steps.pmd_scan.outputs.violations}} != 0
+#        run: exit 1
+
 #      - name: Upload SARIF file
 #        uses: github/codeql-action/upload-sarif@v3
 #        with:

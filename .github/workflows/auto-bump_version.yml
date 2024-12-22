@@ -2,7 +2,11 @@ name: Auto-Bump Mod Version
 
 on:
   pull_request_target:
-    types: [labeled]
+    types: [ labeled ]
+
+permissions:
+  contents: write # for actions/checkout to fetch code and to commit and push changes
+  pull-requests: write # for creating and updating pull requests
 
 jobs:
   auto-bump:
