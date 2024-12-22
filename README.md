@@ -4,9 +4,11 @@
 
 ## About
 
-DragonMine Z is an immersive WIP (Work-In-Progress) [Minecraft](https://www.minecraft.net/en-us) mod inspired by Akira Toriyama's most-famous work, [Dragon Ball](https://en.dragon-ball-official.com/).
+DragonMine Z is an immersive WIP (Work-In-Progress) [Minecraft](https://www.minecraft.net/en-us) mod inspired by Akira
+Toriyama's most-famous work, [Dragon Ball](https://en.dragon-ball-official.com/).
 
-Our plan is to take the complete Dragon Ball experience into Minecraft **1.20.1**, adding everything we can and revamping the vanilla experience. 
+Our plan is to take the complete Dragon Ball experience into Minecraft **1.20.1**, adding everything we can and
+revamping the vanilla experience.
 
 ### Contributing
 
@@ -24,7 +26,8 @@ Would you like to help? Cool! Check out the [contribution guide](CONTRIBUTING.md
 
 ## 🚀 Download
 
-To download our mod, visit our official [CurseForge project](https://www.curseforge.com/minecraft/mc-mods/dragonminez), where the mod is located.
+To download our mod, visit our official [CurseForge project](https://www.curseforge.com/minecraft/mc-mods/dragonminez),
+where the mod is located.
 
 You can also check the project in [Modrinth](https://modrinth.com/mod/dragonminez).
 
@@ -36,6 +39,12 @@ Some sounds are used from the [Zapsplat](https://www.zapsplat.com/) and [Freesou
 
 - [Dragon Ball Scouter/Tracker Remade.wav](https://freesound.org/s/518004/) by Pablobd | License: Attribution 3.0
 - [A Symphony for Akira Toriyama](https://www.youtube.com/watch?v=xNVEkSerkU0) by GLADIUS | License: CC-BY License
+
+### Acknowledgments
+
+This project includes code from [GeckoLib](https://github.com/bernie-g/geckolib), which is licensed under the MIT
+License.  
+Copyright © 2024 GeckoThePecko. See the `THIRD_PARTY_LICENSES` file for details.
 
 ## ✨ Authors
 
@@ -51,10 +60,12 @@ Some sounds are used from the [Zapsplat](https://www.zapsplat.com/) and [Freesou
 - Toji71_ | Builder
 
 ### Patreons
+
 - CyaneaCapillata
 
 ## License
 
-2024, DragonMine Z. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+2024, DragonMine Z. This program is free software: you can redistribute it and/or modify it under the terms of the GNU
+General Public License
 as published by the Free Software Foundation, either version 3 of the License or (at your option) any later version.
 [GNU General Public License v3.0](https://github.com/DragonMineZ/dragonminez/blob/main/LICENSE)

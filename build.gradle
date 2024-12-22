@@ -1,3 +1,8 @@
+/*
+ * This file uses GeckoLib, licensed under the MIT License.
+ * Copyright © 2024 GeckoThePecko.
+ */
+
 buildscript {
     repositories {
         maven {
