@@ -7,7 +7,7 @@ on:
     paths:
       - '**.java'
 
-  push:
+  push: #Temporally use this until GitHub Repo is public
     branches:
       - main
     paths:
