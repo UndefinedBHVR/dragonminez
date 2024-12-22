@@ -24,6 +24,11 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
+/*
+ * This file uses GeckoLib, licensed under the MIT License.
+ * Copyright © 2024 GeckoThePecko.
+ */
+
 public class KarinEntity extends Mob implements GeoEntity {
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 

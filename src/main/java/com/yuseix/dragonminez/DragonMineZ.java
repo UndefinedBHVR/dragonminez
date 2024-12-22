@@ -25,6 +25,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.network.GeckoLibNetwork;
 
+/*
+ * This file uses GeckoLib, licensed under the MIT License.
+ * Copyright © 2024 GeckoThePecko.
+ */
+
 @Mod(DragonMineZ.MOD_ID)
 public class DragonMineZ {
 
