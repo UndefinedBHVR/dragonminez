@@ -13,9 +13,8 @@ on:
     paths:
       - '**.java'
 
-  workflow_dispatch: #Test workflow manually, comment this line when the repo is public
-
 permissions:
+  pull-requests: read # for PMD to analyze only modified files
   contents: write # for actions/checkout to fetch code and gradle to submit the dependency graph file
   security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
   actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
@@ -53,28 +52,6 @@ jobs:
         run: |
           ./gradlew build --stacktrace | tee build.log
         continue-on-error: true
-
-      - name: Extract Failure Logs
-        if: failure()
-        run: |
-          echo "Build failed. Extracting failure logs..."
-          tail -n 50 build.log > failure.log
-          echo "::set-output name=failure_logs::$(cat failure.log)"
-
-      - name: Comment on PR with Failure Logs
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const failureLogs = fs.readFileSync('failure.log', 'utf8');
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body: `🚨 **Gradle Build Failed** 🚨\n\n**Error Logs:**\n\`\`\`\n${failureLogs}\n\`\`\`\`
-              `
-            });
 
       - name: PMD report # Runs PMD and uploads the results
         if: success()
