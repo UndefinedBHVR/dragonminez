@@ -27,8 +27,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.NumberFormatter;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @OnlyIn(Dist.CLIENT)
 public class AttributesMenu2 extends Screen implements RenderEntityInv {
@@ -43,6 +47,9 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
     private CustomButtons strBoton,defBoton,conBoton,pwrBoton,eneBoton, multiBoton;
     private DMZDatos dmzdatos = new DMZDatos();
+
+    // Formateador de números con separadores (por ejemplo, "10.000.000")
+    NumberFormat numberFormatter = NumberFormat.getInstance(Locale.US);
 
     public AttributesMenu2() {
         super(Component.empty());
@@ -105,89 +112,73 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             alturaTexto = (this.height / 2) -15;
 
             int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-            var baseCost =  (int) Math.round((((((str + def + con + kipower + energy) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 2);
+            int baseCost = (int) Math.round(((((str + def + con + kipower + energy) / 2)
+                    * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()))
+                    * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * 2);
+            int upgradeStatSTR, upgradeStatDEF, upgradeStatCON, upgradeStatPWR, upgradeStatENE;
             int adjustedCostSTR, adjustedCostDEF, adjustedCostCON, adjustedCostPWR, adjustedCostENE;
             int finalCostSTR, finalCostDEF, finalCostCON, finalCostPWR, finalCostENE;
-            int upgradeStatSTR, upgradeStatDEF, upgradeStatCON, upgradeStatPWR, upgradeStatENE;
 
-            this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto-3, alturaTexto + 63,Component.empty(), wa -> {
-                if(multiplicadorTP == 1){
-                    multiplicadorTP *= 10;
-                } else if(multiplicadorTP == 10){
-                    multiplicadorTP *= 10;
-                } else if(multiplicadorTP == 100){
-                    multiplicadorTP = 1;
+            this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat", anchoTexto - 3, alturaTexto + 63, Component.empty(), wa -> {
+                switch (multiplicadorTP) {
+                    case 1:
+                        multiplicadorTP = 10;
+                        break;
+                    case 10:
+                        multiplicadorTP = 100;
+                        break;
+                    case 100:
+                        multiplicadorTP = 1;
+                        break;
                 }
             }));
 
-            // Calcula los puntos restantes para alcanzar el límite de estadísticas y ajusta el costo en base a eso xd
-            if (str >= (maxStats - multiplicadorTP)) {
-                int puntosNecesarios = maxStats - str;
-                adjustedCostSTR = (int) Math.round(baseCost * puntosNecesarios);
-            } else {
-                adjustedCostSTR = (int) Math.round((baseCost * multiplicadorTP));
-            }
-
-            if (def >= (maxStats - multiplicadorTP)) {
-                int puntosNecesarios = maxStats - def;
-                adjustedCostDEF = (int) Math.round(baseCost * puntosNecesarios);
-            } else {
-                adjustedCostDEF = (int) Math.round((baseCost * multiplicadorTP));
-            }
-
-            if (con >= (maxStats - multiplicadorTP)) {
-                int puntosNecesarios = maxStats - con;
-                adjustedCostCON = (int) Math.round(baseCost * puntosNecesarios);
-            } else {
-                adjustedCostCON = (int) Math.round((baseCost * multiplicadorTP));
-            }
-
-            if (kipower >= (maxStats - multiplicadorTP)) {
-                int puntosNecesarios = maxStats - kipower;
-                adjustedCostPWR = (int) Math.round(baseCost * puntosNecesarios);
-            } else {
-                adjustedCostPWR = (int) Math.round((baseCost * multiplicadorTP));
-            }
-
-            if (energy >= (maxStats - multiplicadorTP)) {
-                int puntosNecesarios = maxStats - energy;
-                adjustedCostENE = (int) Math.round(baseCost * puntosNecesarios);
-            } else {
-                adjustedCostENE = (int) Math.round((baseCost * multiplicadorTP));
-            }
+            // Calcula el coste recursivo para cada estadística
+            adjustedCostSTR = calcularCostoRecursivo(str, multiplicadorTP, baseCost, maxStats);
+            //System.out.println("Costo STR: " + adjustedCostSTR);
+            adjustedCostDEF = calcularCostoRecursivo(def, multiplicadorTP, baseCost, maxStats);
+            adjustedCostCON = calcularCostoRecursivo(con, multiplicadorTP, baseCost, maxStats);
+            adjustedCostPWR = calcularCostoRecursivo(kipower, multiplicadorTP, baseCost, maxStats);
+            adjustedCostENE = calcularCostoRecursivo(energy, multiplicadorTP, baseCost, maxStats);
 
             // Si el costo ajustado es mayor que los puntos totales, entonces se pueden aumentar las Stats al máximo posible con esos tps
             if (adjustedCostSTR > tps) {
-                upgradeStatSTR = tps / baseCost;
-                finalCostSTR = (baseCost * upgradeStatSTR);
+                //System.out.println("adjustedCost mayor que tps");
+                upgradeStatSTR = calcularNivelesAumentar(str, tps, baseCost, maxStats);
+                finalCostSTR = calcularCostoRecursivo(str, upgradeStatSTR, baseCost, maxStats);
+                //System.out.println("Upgrade Stat STR: " + upgradeStatSTR);
+                //System.out.println("Final Cost STR: " + finalCostSTR);
             } else {
+                //System.out.println("adjustedCost menor que tps");
                 upgradeStatSTR = Math.min(multiplicadorTP, maxStats - str);
                 finalCostSTR = adjustedCostSTR;
+                //System.out.println("Upgrade Stat STR: " + upgradeStatSTR);
+                //System.out.println("Final Cost STR: " + finalCostSTR);
             }
             if (adjustedCostDEF > tps) {
-                upgradeStatDEF = tps / baseCost;
-                finalCostDEF = (baseCost * upgradeStatDEF);
+                upgradeStatDEF = calcularNivelesAumentar(def, tps, baseCost, maxStats);
+                finalCostDEF = calcularCostoRecursivo(def, upgradeStatDEF, baseCost, maxStats);
             } else {
                 upgradeStatDEF = Math.min(multiplicadorTP, maxStats - def);
                 finalCostDEF = adjustedCostDEF;
             }
             if (adjustedCostCON > tps) {
-                upgradeStatCON = tps / baseCost;
-                finalCostCON = (baseCost * upgradeStatCON);
+                upgradeStatCON = calcularNivelesAumentar(con, tps, baseCost, maxStats);
+                finalCostCON = calcularCostoRecursivo(con, upgradeStatCON, baseCost, maxStats);
             } else {
                 upgradeStatCON = Math.min(multiplicadorTP, maxStats - con);
                 finalCostCON = adjustedCostCON;
             }
             if (adjustedCostPWR > tps) {
-                upgradeStatPWR = tps / baseCost;
-                finalCostPWR = (baseCost * upgradeStatPWR);
+                upgradeStatPWR = calcularNivelesAumentar(kipower, tps, baseCost, maxStats);
+                finalCostPWR = calcularCostoRecursivo(kipower, upgradeStatPWR, baseCost, maxStats);
             } else {
                 upgradeStatPWR = Math.min(multiplicadorTP, maxStats - kipower);
                 finalCostPWR = adjustedCostPWR;
             }
             if (adjustedCostENE > tps) {
-                upgradeStatENE = tps / baseCost;
-                finalCostENE = (baseCost * upgradeStatENE);
+                upgradeStatENE = calcularNivelesAumentar(energy, tps, baseCost, maxStats);
+                finalCostENE = calcularCostoRecursivo(energy, upgradeStatENE, baseCost, maxStats);
             } else {
                 upgradeStatENE = Math.min(multiplicadorTP, maxStats - energy);
                 finalCostENE = adjustedCostENE;
@@ -220,6 +211,28 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                         ModMessages.sendToServer(new StatsC2S(4,upgradeStatENE));
                     }));}
             }});
+    }
+
+    private int calcularCostoRecursivo(int statActual, int nivelesAumentar, int baseCost, int maxStats) {
+        int costoTotal = 0;
+        for (int i = 0; i < nivelesAumentar; i++) {
+            if (statActual + i >= maxStats) break; // No exceder el límite máximo de estadísticas
+            costoTotal += baseCost + (int) Math.round(DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * (statActual + i));
+        }
+        return costoTotal;
+    }
+
+    private int calcularNivelesAumentar(int statActual, int tps, int baseCost, int maxStats) {
+        int nivelesAumentar = 0;
+        int costoAcumulado = 0;
+
+        while (statActual + nivelesAumentar < maxStats) {
+            int costoNivel = baseCost + (int) Math.round(DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * (statActual + nivelesAumentar));
+            if (costoAcumulado + costoNivel > tps) break; // Si no hay suficientes puntos, detener
+            costoAcumulado += costoNivel;
+            nivelesAumentar++;
+        }
+        return nivelesAumentar;
     }
 
     public void menu0info(GuiGraphics guiGraphics, int mouseX, int mouseY){
@@ -297,8 +310,8 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             //NIVEL TPS
             anchoTexto = (this.width/2)-72;
             alturaTexto = (this.height / 2) - 64;
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
+            drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(nivel)), anchoTexto, alturaTexto, 0xFFFFFF);
+            drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
 
             //FORMA
             drawStringWithBorder2(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
@@ -317,12 +330,16 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var raza = playerstats.getRace();
             var transf = playerstats.getDmzState();
 
+            int[] cantStats = {strdefault, defdefault, condefault, kipowerdefault, energydefault};
+            Arrays.sort(cantStats);
+            int minStat = cantStats[0];
+
             //Efectos
             var majinOn = playerstats.hasDMZPermaEffect("majin");
             var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
 
             var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 2);
-            int finalCost = (int) Math.round((baseCost * multiplicadorTP));
+            int costoRecursivo = calcularCostoRecursivo(minStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
 
             var strcompleta = dmzdatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
             var defcompleta = dmzdatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
@@ -339,19 +356,19 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
             //WA
             Component STRReal = Component.empty()
-                    .append(Component.literal(String.valueOf(strcompleta)))
+                    .append(Component.literal(numberFormatter.format(strcompleta)))
                     .append(Component.literal(" x")
-                            .append(Component.literal(String.valueOf(STRMulti)))
+                            .append(Component.literal(numberFormatter.format(STRMulti)))
                     );
             Component DEFReal = Component.empty()
-                    .append(Component.literal(String.valueOf(defcompleta)))
+                    .append(Component.literal(numberFormatter.format(defcompleta)))
                     .append(Component.literal(" x")
-                            .append(Component.literal(String.valueOf(DEFMulti)))
+                            .append(Component.literal(numberFormatter.format(DEFMulti)))
                     );
             Component PWRReal = Component.empty()
-                    .append(Component.literal(String.valueOf(pwrcompleta)))
+                    .append(Component.literal(numberFormatter.format(pwrcompleta)))
                     .append(Component.literal(" x")
-                            .append(Component.literal(String.valueOf(KIPOWERMulti)))
+                            .append(Component.literal(numberFormatter.format(KIPOWERMulti)))
                     );
 
             //Titulos
@@ -399,14 +416,14 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                     descriptionLines.addAll(descLines);
 
                     if (statKey.equals("STR") && multiTotal > 1) {
-                        descriptionLines.add(Component.translatable("stats.dmz.original", strdefault).withStyle(ChatFormatting.RED).getVisualOrderText());
-                        descriptionLines.add(Component.translatable("stats.dmz.modified", strcompleta).withStyle(ChatFormatting.GOLD).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(strdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(strcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     } else if (statKey.equals("DEF") && multiTotal > 1) {
-                        descriptionLines.add(Component.translatable("stats.dmz.original", defdefault).withStyle(ChatFormatting.RED).getVisualOrderText());
-                        descriptionLines.add(Component.translatable("stats.dmz.modified", defcompleta).withStyle(ChatFormatting.GOLD).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(defdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(defcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     } else if (statKey.equals("PWR") && multiTotal > 1) {
-                        descriptionLines.add(Component.translatable("stats.dmz.original", kipowerdefault).withStyle(ChatFormatting.RED).getVisualOrderText());
-                        descriptionLines.add(Component.translatable("stats.dmz.modified", pwrcompleta).withStyle(ChatFormatting.GOLD).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(kipowerdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
+                        descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(pwrcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     }
                     graphics.renderTooltip(font, descriptionLines, mouseX, mouseY);
                 }
@@ -419,19 +436,19 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             if(isMultiOn){ //Si alguna forma, estado esta activo.
                 drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
                 drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
                 drawStringWithBorder2(graphics, font, PWRReal, anchoTexto, alturaTexto + 36, colorEnForma);
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
             } else {
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(strdefault)), anchoTexto, alturaTexto, 0xFFD7AB);
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(defdefault)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-                drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(strdefault)), anchoTexto, alturaTexto, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(defdefault)), anchoTexto, alturaTexto + 12, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(kipowerdefault)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+                drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(energydefault)), anchoTexto, alturaTexto + 48, 0xFFD7AB);
             }
 
             anchoTexto = (this.width/2)-65;
-            drawStringWithBorder2(graphics, font, Component.literal(String.valueOf(finalCost)), anchoTexto, alturaTexto + 64, 0xFFCE41);
+            drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(costoRecursivo)), anchoTexto, alturaTexto + 64, 0xFFCE41);
             drawStringWithBorder2(graphics, font, Component.literal("x" + multiplicadorTP), anchoTexto, alturaTexto + 76, 0x2BFFE2);
 
         });
@@ -507,12 +524,12 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
             var colorEnForma = majinOn || frutaOn || transf > 0 ? 0xfebc0d : 0xFFD7AB;
 
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(strMax)), anchoTexto, alturaTexto, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(conMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(stmMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(String.valueOf(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto, alturaTexto, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(conMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(stmMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
             var MultiTotal = Math.round((dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn)) * 100) / 100.0;
 
