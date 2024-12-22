@@ -32,6 +32,7 @@ public class DragonMineZ {
 	public DragonMineZ() {
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		estova a tirrar un error de sybtax tremneod
 
 		if (ModList.get().isLoaded("geckolib")) {
 			GeckoLibNetwork.init();
