@@ -7,7 +7,9 @@ on:
     paths:
       - src/main/resources/assets/dragonminez/lang/en_us.json
 
-permissions: write-all
+permissions:
+  contents: write # for actions/checkout to fetch code and crowdin/github-action to upload and download files
+  pull-requests: write # for crowdin/github-action to create a pull request
 
 jobs:
   crowdin-sync-check:
