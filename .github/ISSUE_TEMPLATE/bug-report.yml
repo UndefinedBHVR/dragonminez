@@ -2,7 +2,7 @@ name: Bug Report
 description: Create a report of a bug to help us improve :)
 title: "[BUG] *Bug Title*"
 labels: [ "Tipo: Bug" ]
-projects: [ "DragonMineZ/4" ]
+projects: [ "DragonMineZ/5" ]
 assignees:
   - Shokkoh
 
@@ -79,7 +79,6 @@ body:
     attributes:
       label: Visuals or Attachments
       description: Include any relevant screenshots, crash logs, or videos showing the issue.
-      render: shell
       placeholder: Paste logs or describe any attachments here
   - type: checkboxes
     id: bug-confirmation
