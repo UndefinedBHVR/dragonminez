@@ -33,6 +33,12 @@ public class FrogLegsRawItem extends Item {
         return Component.translatable("item.dragonminez.frog_legs_raw");
     }
 
+    // Permitir consumir incluso con la barra de hambre llena
+    @Override
+    public boolean isEdible() {
+        return true;
+    }
+
     // Curación Vida/Ki
     @Override
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {

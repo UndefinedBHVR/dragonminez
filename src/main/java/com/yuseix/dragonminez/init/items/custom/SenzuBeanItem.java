@@ -40,6 +40,12 @@ public class SenzuBeanItem extends Item {
 		pTooltipComponents.add(Component.translatable("item.dragonminez.senzu_bean.tooltip").withStyle(ChatFormatting.GRAY));
 	}
 
+	// Permitir consumir incluso con la barra de hambre llena
+	@Override
+	public boolean isEdible() {
+		return true;
+	}
+
 	@Override
 	public UseAnim getUseAnimation(ItemStack pStack) {
 		return UseAnim.BLOCK;
