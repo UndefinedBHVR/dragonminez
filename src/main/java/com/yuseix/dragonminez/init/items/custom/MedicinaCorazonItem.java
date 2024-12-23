@@ -45,6 +45,12 @@ public class MedicinaCorazonItem extends Item {
 		return Component.translatable("item.dragonminez.heart_medicine");
 	}
 
+	// Permitir consumir incluso con la barra de hambre llena
+	@Override
+	public boolean isEdible() {
+		return true;
+	}
+
 	@Override
 	public UseAnim getUseAnimation(ItemStack pStack) {
 		return UseAnim.DRINK;
