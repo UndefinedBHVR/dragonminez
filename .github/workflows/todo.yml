@@ -22,3 +22,4 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLOSE_ISSUES: true
           AUTO_P: true
+          IDENTIFIERS: '[{"name": "TODO", "labels": ["TODO"]}]'
