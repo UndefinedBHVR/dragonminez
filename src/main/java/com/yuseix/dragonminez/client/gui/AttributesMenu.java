@@ -131,7 +131,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
             int baseCost = (int) Math.round(((((str + def + con + kipower + energy) / 2)
                     * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()))
-                    * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * 2);
+                    * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * 1.5);
             int upgradeStatSTR, upgradeStatDEF, upgradeStatCON, upgradeStatPWR, upgradeStatENE;
             int adjustedCostSTR, adjustedCostDEF, adjustedCostCON, adjustedCostPWR, adjustedCostENE;
             int finalCostSTR, finalCostDEF, finalCostCON, finalCostPWR, finalCostENE;
@@ -388,7 +388,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var majinOn = playerstats.hasDMZPermaEffect("majin");
             var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
 
-            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 2);
+            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 1.5);
             int costoRecursivo = calcularCostoRecursivo(minStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
 
             var strcompleta = dmzdatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
