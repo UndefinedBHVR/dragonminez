@@ -280,7 +280,7 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		Level level = mc.level;
 
-		if (level == null || mc.player == null) {
+		if (level == null || mc.player == null || mc.isPaused()) {
 			return;
 		}
 
