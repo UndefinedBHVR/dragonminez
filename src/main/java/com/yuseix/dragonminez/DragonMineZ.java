@@ -15,12 +15,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forgespi.language.IModInfo;
 import software.bernie.geckolib.GeckoLib;
 import software.bernie.geckolib.network.GeckoLibNetwork;
 
@@ -37,6 +37,26 @@ public class DragonMineZ {
 	public DragonMineZ() {
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		ModList.get().getModContainerById("geckolib").ifPresent(modContainer -> {
+			int geckoLibMajorVersion = modContainer.getModInfo().getVersion().getMajorVersion();
+			int geckoLibMinorVersion = modContainer.getModInfo().getVersion().getMinorVersion();
+			String geckoLibVersion = geckoLibMajorVersion + "." + geckoLibMinorVersion;
+
+			if (!geckoLibVersion.equals("4.7")) {
+				// GeckoLib Version Mismatch Warning
+				IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
+				String warningMessage = String.format("""
+						DragonMineZ:
+						We have detected that you are using an outdated version of GeckoLib, although the mod will work correctly,
+						it is recommended to update to the latest version of GeckoLib (4.7).
+						Proceed at your own risk. DragonMineZ will load with GeckoLib version %s.
+						""", geckoLibVersion);
+
+				ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT, warningMessage);
+				ModLoader.get().addWarning(modLoadingWarning);
+			}
+		});
 
 		if (ModList.get().isLoaded("geckolib")) {
 			GeckoLibNetwork.init();
@@ -99,21 +119,6 @@ public class DragonMineZ {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrColdDemonConfig.SPEC, "dragonminez/races/colddemon/transformation-config.toml");
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrMajinConfig.SPEC, "dragonminez/races/majin/transformation-config.toml");
 
-		// Añade una advertencia al cargar el mod si el usuario no está en la lista de usuarios permitidos para testear el mod.
-        /*
-        IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
-        ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT,
-                """
-                        DragonMineZ:
-                        Only the official DMZ development team is allowed to play the mod.
-                        If you are not a member of this team, the mod will cause an error.
-
-                        This mod is in a development phase! Expect bugs, errors and crashes!
-
-                        Proceed with caution!""");
-        ModLoader.get().addWarning(modLoadingWarning);
-
-         */
 	}
 
 
