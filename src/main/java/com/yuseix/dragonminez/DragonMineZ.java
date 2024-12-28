@@ -38,6 +38,11 @@ public class DragonMineZ {
 
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		/*
+		 * Se verifica la versión de GeckoLib, si no es la 4.7, muestra una advertencia, pero
+		 * igualmente se puede correr el mod con otras versiones, aunque se recomienda usar la 4.7.
+		 */
+
 		ModList.get().getModContainerById("geckolib").ifPresent(modContainer -> {
 			int geckoLibMajorVersion = modContainer.getModInfo().getVersion().getMajorVersion();
 			int geckoLibMinorVersion = modContainer.getModInfo().getVersion().getMinorVersion();
@@ -58,8 +63,13 @@ public class DragonMineZ {
 			}
 		});
 
+		/*
+		 * Se verifica si GeckoLib está cargado en la lista de mods. Si lo está, se inicializa;
+		 * Si no lo está, se inicializa como ShadowJar.
+		 */
+
 		if (ModList.get().isLoaded("geckolib")) {
-			GeckoLibNetwork.init();
+			GeckoLib.initialize();
 		} else {
 			GeckoLib.shadowInit();
 		}
@@ -76,9 +86,9 @@ public class DragonMineZ {
 		MainSounds.register(modEventBus);
 		//Registramos las entidades
 		MainEntity.register(modEventBus);
-		//Registramos los Fluidos (Tipo de Fluido y Fluido/s)
+		//Registramos los Fluidos
 		MainFluids.register(modEventBus);
-		//Register del commonSetup para las Flores y FlowerPots
+		//Register del commonSetup para las Flores y FlowerPots + Packets
 		modEventBus.addListener(this::commonSetup);
 		//Register Menús
 		MainMenus.register(modEventBus);
@@ -87,21 +97,19 @@ public class DragonMineZ {
 		//Register Particulas
 		MainParticles.register(modEventBus);
 
-		//        MinecraftForge.EVENT_BUS.register(ClientModBusEvents.class);
+		//MinecraftForge.EVENT_BUS.register(ClientModBusEvents.class);
 
 		MinecraftForge.EVENT_BUS.register(this);
 
-		//Registramos el Listener del Mod (Normalmente eventos de Forge y FML más como frontend, realmente son los eventos de renderizado y más cosas de cliente)
+		//Registramos el Listener del Mod
 		modEventBus.register(new ModBusEvents());
-		//Registramos el Listener de Forge (Eventos de Forge que van más allá del juego como backend, conocido como ModEvents)
+		//Registramos el Listener de Forge
 		MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
 		//Se registran los eventos de las Capabilities de las Stats
 		MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
 		MinecraftForge.EVENT_BUS.register(GenAttRegistry.class);
 		MinecraftForge.EVENT_BUS.register(DMZGenericAttributes.class);
-
-		GeckoLib.initialize();
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZGeneralConfig.SPEC, "dragonminez/dragonminez-general.toml");
 

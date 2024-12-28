@@ -32,7 +32,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {
 
-
 	@SubscribeEvent
 	public static void onKeyInput(InputEvent.Key event) {
 		if (Keys.STATS_MENU.consumeClick()) {
@@ -46,8 +45,4 @@ public class ForgeClientEvents {
 			event.setCanceled(true);
 		}
 	}
-
-
-
-
 }

@@ -201,9 +201,9 @@ public class ForgeBusEvents {
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
 
-		// Generate a random position within a 5k block radius from the spawn
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		// Generate a random position within a 3k block radius from the spawn
+		int x = spawnPos.getX() + random.nextInt(6000) - 3000;
+		int z = spawnPos.getZ() + random.nextInt(6000) - 3000;
 
 		serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
 
@@ -224,9 +224,9 @@ public class ForgeBusEvents {
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
 
-		// Generate a random position within a 5k block radius from the spawn
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		// Generate a random position within a 3k block radius from the spawn
+		int x = spawnPos.getX() + random.nextInt(6000) - 3000;
+		int z = spawnPos.getZ() + random.nextInt(6000) - 3000;
 
 		serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
 
