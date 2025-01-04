@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.events;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -200,10 +201,11 @@ public class ForgeBusEvents {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		// Generate a random position within a 3k block radius from the spawn
-		int x = spawnPos.getX() + random.nextInt(6000) - 3000;
-		int z = spawnPos.getZ() + random.nextInt(6000) - 3000;
+		// Generate a random position within a Xk block radius from the spawn, default 3k
+		int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+		int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
 		serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
 
@@ -223,10 +225,11 @@ public class ForgeBusEvents {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		// Generate a random position within a 3k block radius from the spawn
-		int x = spawnPos.getX() + random.nextInt(6000) - 3000;
-		int z = spawnPos.getZ() + random.nextInt(6000) - 3000;
+		// Generate a random position within a Xk block radius from the spawn, default 3x
+		int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+		int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
 		serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
 

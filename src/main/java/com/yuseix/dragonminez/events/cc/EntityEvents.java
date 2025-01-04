@@ -54,7 +54,9 @@ public class EntityEvents {
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					cap.removeDmzAlignment(5); //Remover puntos te hace maligno
+					boolean isDmzUser = cap.isAcceptCharacter();
+
+					if (isDmzUser) { cap.removeDmzAlignment(5); } //Remover puntos te hace maligno
 				});
 
 				player.displayClientMessage(Component.translatable("lines.alignment.evil"), true);
@@ -68,7 +70,9 @@ public class EntityEvents {
 				Player player = (Player) event.getSource().getEntity();
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					cap.addDmzAlignment(2); //Agregar puntos te hace bueno
+					boolean isDmzUser = cap.isAcceptCharacter();
+
+					if (isDmzUser) { cap.addDmzAlignment(2); } //Agregar puntos te hace bueno
 				});
 
 			}
@@ -89,7 +93,9 @@ public class EntityEvents {
 				int finalTps = (int) Math.round(calculoTps);
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					cap.addZpoints(finalTps);
+					boolean isDmzUser = cap.isAcceptCharacter();
+
+					if (isDmzUser) { cap.addZpoints(finalTps); }
 					// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
@@ -123,7 +129,8 @@ public class EntityEvents {
 			int finalTps = (int) Math.round(baseTps);
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				cap.addZpoints(finalTps);
+				boolean isDmzUser = cap.isAcceptCharacter();
+				if (isDmzUser) { cap.addZpoints(finalTps); }
 
 				// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
@@ -238,9 +245,13 @@ public class EntityEvents {
 				int healHp = (int) (maxHp * HEAL_PERCENTAGE);
 				int maxKi = stats.getMaxEnergy();
 				int healKi = (int) (maxKi * HEAL_PERCENTAGE);
+				boolean isDmzUser = stats.isAcceptCharacter();
 
-				serverPlayer.heal(healHp);
-				stats.addCurEnergy(healKi);
+				if (isDmzUser) {
+					serverPlayer.heal(healHp);
+					stats.addCurEnergy(healKi);
+				}
+
 			});
 		}
 

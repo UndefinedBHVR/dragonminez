@@ -39,10 +39,18 @@ public class ForgeClientEvents {
 		}
 	}
 
+	// Solo cancela el render Vanilla si el jugador creó su personaje
 	@SubscribeEvent
 	public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
-		if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
-			event.setCanceled(true);
+		if (Minecraft.getInstance().player != null) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+				boolean isDmzUser = playerstats.isAcceptCharacter();
+				if (isDmzUser) {
+					if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
+						event.setCanceled(true);
+					}
+				}
+			});
 		}
 	}
 }

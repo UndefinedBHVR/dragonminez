@@ -223,11 +223,9 @@ public class CCustomizationPage extends Screen {
             if (currentPage == 0) {
                 //BOTON VOLVER
                 this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-
-                    ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+                    ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                     ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                     this.minecraft.setScreen(new CFirstPage());
-
                 }));
 
                 //BOTON SIGUIENTE
@@ -656,6 +654,17 @@ public class CCustomizationPage extends Screen {
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
+                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 6));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
+                    } else if (cap.getHairID() == 6) {
+                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 5));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
                     }
 
                     break;
@@ -666,7 +675,6 @@ public class CCustomizationPage extends Screen {
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
-
                     } else if (cap.getHairID() == 1) {
                         this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 0));
@@ -717,6 +725,17 @@ public class CCustomizationPage extends Screen {
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
+                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 6));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
+                    } else if (cap.getHairID() == 6) {
+                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("hairID", 5));
+                            this.removeWidget(hairRigthButton);
+                            this.removeWidget(hairLeftButton);
+                        }));
                     }
 
                     break;
@@ -727,7 +746,6 @@ public class CCustomizationPage extends Screen {
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
-
                     } else if (cap.getHairID() == 1) {
                         this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 0));
@@ -739,7 +757,7 @@ public class CCustomizationPage extends Screen {
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
-                    }else if (cap.getHairID() == 2) {
+                    } else if (cap.getHairID() == 2) {
                         this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                             this.removeWidget(hairRigthButton);
@@ -761,7 +779,6 @@ public class CCustomizationPage extends Screen {
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
-
                         } else if (cap.getHairID() == 1) {
                             this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 0));
@@ -809,6 +826,17 @@ public class CCustomizationPage extends Screen {
                         } else if (cap.getHairID() == 5) {
                             this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 4));
+                                this.removeWidget(hairRigthButton);
+                                this.removeWidget(hairLeftButton);
+                            }));
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("hairID", 6));
+                                this.removeWidget(hairRigthButton);
+                                this.removeWidget(hairLeftButton);
+                            }));
+                        } else if (cap.getHairID() == 6) {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                                ModMessages.sendToServer(new CharacterC2S("hairID", 5));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
@@ -1204,16 +1232,18 @@ public class CCustomizationPage extends Screen {
 
                     anchoTexto = 63;
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 72, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 3) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 4) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 5) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                    } else if (cap.getHairID() == 6) {
                         drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     }
 
@@ -1291,16 +1321,18 @@ public class CCustomizationPage extends Screen {
 
                     anchoTexto = 63;
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 72, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 3) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 4) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 5) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                    } else if (cap.getHairID() == 6) {
                         drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     }
 
@@ -1464,12 +1496,14 @@ public class CCustomizationPage extends Screen {
 
                     anchoTexto = 64;
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 72, alturaTexto + 9, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
                     } else if (cap.getHairID() == 3) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                    } else if (cap.getHairID() == 4 ) {
                         drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
                     }
 

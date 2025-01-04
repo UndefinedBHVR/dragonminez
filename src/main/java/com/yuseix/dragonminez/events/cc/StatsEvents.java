@@ -72,11 +72,16 @@ public class StatsEvents {
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
                 var energia = playerstats.getEnergy();
+                boolean isDmzUser = playerstats.isAcceptCharacter();
 
                 int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
 
                 // Ajustar la salud máxima del jugador
-                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                if (isDmzUser) {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                } else {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC);
+                }
 
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos);
@@ -89,8 +94,6 @@ public class StatsEvents {
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
-
-
             });
     }
 
@@ -165,11 +168,17 @@ public class StatsEvents {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
                     var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
                     var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
+                    boolean isDmzUser = statsObjetivo.isAcceptCharacter();
 
                     int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), majinOn, fruta);
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
-                    event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+
+                    if (isDmzUser) {
+                        event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+                    } else {
+                        event.setAmount(event.getAmount()); // Hacer daño normal si no es DmzUser
+                    }
                 });
             } else {
                 // Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
@@ -204,6 +213,7 @@ public class StatsEvents {
             if (fallDistance > 3.0f) {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+                    boolean isDmzUser = stats.isAcceptCharacter();
 
                     int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
 
@@ -216,7 +226,7 @@ public class StatsEvents {
                     int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
 
                     // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
-                    if (stats.getCurrentEnergy() >= totalEnergyDrain) {
+                    if (isDmzUser && stats.getCurrentEnergy() >= totalEnergyDrain) {
                         stats.removeCurEnergy(totalEnergyDrain);
                         event.setCanceled(true);
                     }

@@ -21,6 +21,7 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_DAILY_COOLDOWN;
 
+    public static final ForgeConfigSpec.ConfigValue<Integer> DBALL_SPAWN_RANGE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_SHENRON_WISH;
     public static final ForgeConfigSpec.ConfigValue<Integer> CAPSULE_SHENRON_WISH;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_PORUNGA_WISH;
@@ -78,6 +79,9 @@ public class DMZGeneralConfig {
         BUILDER.pop();
 
         BUILDER.push("Shenron / Porunga Wishes");
+
+        DBALL_SPAWN_RANGE = BUILDER.comment("Range in blocks for the Dragon Balls to spawn (Min: 2000 / Max: 20000 / Default: 3000)")
+                .defineInRange("Spawn Range: ", 3000, 2000, 20000);
 
         SENZU_SHENRON_WISH = BUILDER.comment("Number of Senzu Beans Shenron will give (Min: 1 / Max: 64 / Default: 4)")
                 .defineInRange("[Shenron] Number of Senzus: ", 4, 1, 64);
