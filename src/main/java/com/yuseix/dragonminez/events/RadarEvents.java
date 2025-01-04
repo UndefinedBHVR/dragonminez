@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
 import com.yuseix.dragonminez.init.items.custom.NamekDragonBallRadarItem;
+import com.yuseix.dragonminez.network.C2S.DragonRadarC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
@@ -71,32 +73,17 @@ public class RadarEvents {
 				// Update dragon ball positions every 2 seconds (40 ticks)
 				long currentTime = player.level().getGameTime();
 
-
-				/*TODO: Capabilities nao funcionan
-				 *  Estas necesitan que serverLevel sea un ServerLevel, pero no se puede hacer un cast directo y hay que usar packets. Y a mi me da paja */
-
 				if (currentTime - lastUpdateTime > UPDATE_INTERVAL_TICKS) {
-
-					System.out.println("Update...");
-
-					if (isOverworld) {
-
-						Level serverLevel = mc.level;
-						serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(capability ->
-								closestDballPositions = capability.DragonBallPositions());
-					} else if (isNamek) {
-						Level serverLevel = mc.level;
-						serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(capability ->
-								closestDballPositions = capability.namekDragonBallPositions());
-					}
+					ModMessages.sendToServer(new DragonRadarC2S());
 					lastUpdateTime = currentTime;
-
-					// Render detected dragon balls
-					renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
 				}
+
+				// Renderizar posiciones si ya están actualizadas
+				renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
 			}
 		}
 	}
+
 
 	// Radar rendering logic
 	private static void renderDballRadar(GuiGraphics gui, Player player, int radarRange, List<BlockPos> dballPositions, int centerX, int centerY) {
@@ -123,5 +110,9 @@ public class RadarEvents {
 			// Draw yellow dot
 			gui.blit(fondo, radarX - 2, radarY - 2, 121, 0, 6, 6);
 		}
+	}
+
+	public static void updateDragonBallsPositions(List<BlockPos> positions) {
+		closestDballPositions = positions;
 	}
 }
