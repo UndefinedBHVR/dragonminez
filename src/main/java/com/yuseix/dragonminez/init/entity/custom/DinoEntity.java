@@ -4,10 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -28,6 +25,7 @@ import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 
 /*
@@ -54,7 +52,13 @@ public class DinoEntity extends Animal implements GeoEntity {
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
-		this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
+		this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false) {
+			@Override
+			protected double getAttackReachSqr(LivingEntity pAttackTarget) {
+				// Ajusta el valor para el rango de ataque
+				return 4.0D;  // 4 bloques de rango
+			}
+		});
 		this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 

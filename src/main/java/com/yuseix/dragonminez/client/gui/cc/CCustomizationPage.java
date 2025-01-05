@@ -802,40 +802,40 @@ public class CCustomizationPage extends Screen {
                                 this.removeWidget(hairLeftButton);
                             }));
                         } else if (cap.getHairID() == 3) {
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 2));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 4));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
                         } else if (cap.getHairID() == 4) {
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 3));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 5));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
                         } else if (cap.getHairID() == 5) {
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 4));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 6));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
                         } else if (cap.getHairID() == 6) {
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 5));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
@@ -1505,6 +1505,10 @@ public class CCustomizationPage extends Screen {
                         drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
                     } else if (cap.getHairID() == 4 ) {
                         drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                    } else if (cap.getHairID() == 5) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                    } else if (cap.getHairID() == 6) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
                     }
 
                     //OJOS TIPO

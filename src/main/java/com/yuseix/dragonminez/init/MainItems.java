@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.*;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -273,6 +274,36 @@ public final class MainItems {
             () -> new BlockItem(MainBlocks.DBALL6_NAMEK_BLOCK.get(), properties.stacksTo(1).fireResistant()));
     public static final RegistryObject<Item> DBALL7_NAMEK_BLOCK_ITEM = ITEM_REGISTER.register("dball7_namek",
             () -> new BlockItem(MainBlocks.DBALL7_NAMEK_BLOCK.get(), properties.stacksTo(1).fireResistant()));
+
+    // SPAWN EGGS
+    public static final RegistryObject<Item> DINO_SE = ITEM_REGISTER.register("dino_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.DINO1, 0xED5B18, 0x6ED610, new Item.Properties()));
+    public static final RegistryObject<Item> NAMEK_FROG_SE = ITEM_REGISTER.register("namek_frog_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.NAMEK_FROG, 0x22C96B, 0xD62B52, new Item.Properties()));
+    public static final RegistryObject<Item> GINYU_FROG_SE = ITEM_REGISTER.register("ginyu_frog_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.GINYU_FROG, 0x22C96B, 0x6D0480, new Item.Properties()));
+    public static final RegistryObject<Item> PINK_FROG_SE = ITEM_REGISTER.register("pink_frog_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.PINK_FROG, 0xF7B1C1, 0xD62B52, new Item.Properties()));
+    public static final RegistryObject<Item> YELLOW_FROG_SE = ITEM_REGISTER.register("yellow_frog_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.YELLOW_FROG, 0xF7F71C, 0xD62B52, new Item.Properties()));
+    public static final RegistryObject<Item> SOLDIER01_SE = ITEM_REGISTER.register("soldier01_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.FRIEZA_SOLDIER01, 0x010714, 0xE6E7EB, new Item.Properties()));
+    public static final RegistryObject<Item> SOLDIER02_SE = ITEM_REGISTER.register("soldier02_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.FRIEZA_SOLDIER02, 0X5D1066, 0xA18B33, new Item.Properties()));
+    public static final RegistryObject<Item> SOLDIER03_SE = ITEM_REGISTER.register("soldier03_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.FRIEZA_SOLDIER03, 0x95F0CB, 0xDABAE6, new Item.Properties()));
+    public static final RegistryObject<Item> MORO_SOLDIER_SE = ITEM_REGISTER.register("moro_soldier_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.MORO_SOLDIER, 0x051942, 0xE6E7EB, new Item.Properties()));
+    //    public static final RegistryObject<Item> NTRADER_SE = ITEM_REGISTER.register("ntrader1_spawn_egg", () ->
+//            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_TRADER1, 0x47A151, 0x8A1612, new Item.Properties()));
+//    public static final RegistryObject<Item> NTRADER2_SE = ITEM_REGISTER.register("ntrader2_spawn_egg", () ->
+//            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_TRADER2, 0x47A151, 0x12848A, new Item.Properties()));
+//    public static final RegistryObject<Item> NTRADER3_SE = ITEM_REGISTER.register("ntrader3_spawn_egg", () ->
+//            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_TRADER3, 0x47A151, 0x5E331D, new Item.Properties()));
+    public static final RegistryObject<Item> NWARRIOR1_SE = ITEM_REGISTER.register("nwarrior1_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_WARRIOR1, 0x246E18, 0x12848A, new Item.Properties()));
+    public static final RegistryObject<Item> NWARRIOR2_SE = ITEM_REGISTER.register("nwarrior2_spawn_egg", () ->
+            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_WARRIOR2, 0x246E18, 0x6ED610, new Item.Properties()));
 
     // I AM THE STORM THAT IS APPROACHING, PROVOKING DARK CLOUDS IN ISOLATION
     public static RegistryObject<Item> regItem(String name) {
