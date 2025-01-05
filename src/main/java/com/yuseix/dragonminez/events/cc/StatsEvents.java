@@ -22,10 +22,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -95,6 +97,35 @@ public class StatsEvents {
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
             });
+    }
+
+    @SubscribeEvent
+    public static void onLivingUpdateEvent(LivingEvent.LivingTickEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        if (turboOn) {
+            // Obtener la velocidad actual
+            Vec3 currentMovement = player.getDeltaMovement();
+
+            if (player.onGround()) {
+                // En tierra: Aplicar multiplicador al movimiento horizontal (X y Z)
+                double turboSpeedX = currentMovement.x * 1.5;
+                double turboSpeedZ = currentMovement.z * 1.5;
+
+                // Configurar el nuevo movimiento con el multiplicador
+                player.setDeltaMovement(turboSpeedX, currentMovement.y, turboSpeedZ);
+            } else {
+                // En el aire: Normalizar la velocidad horizontal para evitar acumulación infinita
+                double horizontalSpeed = Math.sqrt(currentMovement.x * currentMovement.x + currentMovement.z * currentMovement.z);
+                if (horizontalSpeed > 0.65) {
+                    // Limitar la velocidad horizontal al máximo permitido
+                    double scale = 0.65 / horizontalSpeed;
+                    double limitedX = currentMovement.x * scale;
+                    double limitedZ = currentMovement.z * scale;
+                    player.setDeltaMovement(limitedX, currentMovement.y, limitedZ);
+                }
+            }
+        }
     }
 
 
@@ -283,26 +314,23 @@ public class StatsEvents {
                             ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
                             playSoundOnce(MainSounds.AURA_START.get());
                             startLoopSound(MainSounds.TURBO_LOOP.get(), false);
-                            setTurboSpeed(player, true);
                         } else if (turboOn) {
                             // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
                             turboOn = false;
                             ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                             ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                             stopLoopSound(false);
-                            setTurboSpeed(player, false);
                         } else {
                             player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
                         }
                     }
 
-                    // Desactivar Turbo automáticamente si la energía llega a 1
-                    if (turboOn && curEne <= 1) {
+                    // Desactivar Turbo automáticamente si la energía llega a 5%
+                    if (turboOn && porcentaje <= 5) {
                         turboOn = false;
                         ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                         ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                         stopLoopSound(false);
-                        setTurboSpeed(player, false);
                     }
                 }
             });
@@ -357,19 +385,6 @@ public class StatsEvents {
                 turboLoop = null;
             }
         });
-    }
-
-    private static final double originalSpeed = 0.10000000149011612;
-
-    private static void setTurboSpeed(Player player, boolean enable) {
-        AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute == null) return;
-
-        if (enable) {
-            speedAttribute.setBaseValue(originalSpeed + 0.06);
-        } else {
-            speedAttribute.setBaseValue(originalSpeed);
-        }
     }
 
     private static void sonidosGolpes(Player player) {

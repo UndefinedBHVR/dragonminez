@@ -23,6 +23,7 @@ public class ComidaDinoCookedItem extends Item {
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)
                         .meat()
+                        .alwaysEat()
                         .build()
         ));
     }
@@ -30,12 +31,6 @@ public class ComidaDinoCookedItem extends Item {
     @Override
     public @NotNull Component getName(@NotNull ItemStack pStack) {
         return Component.translatable("item.dragonminez.comida_dino_cooked");
-    }
-
-    // Permitir consumir incluso con la barra de hambre llena
-    @Override
-    public boolean isEdible() {
-        return true;
     }
 
     // Curación Vida/Ki

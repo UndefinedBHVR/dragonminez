@@ -24,6 +24,7 @@ public class FrogLegsRawItem extends Item {
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)
+                        .alwaysEat()
                         .build()
         ));
     }
@@ -31,12 +32,6 @@ public class FrogLegsRawItem extends Item {
     @Override
     public @NotNull Component getName(@NotNull ItemStack pStack) {
         return Component.translatable("item.dragonminez.frog_legs_raw");
-    }
-
-    // Permitir consumir incluso con la barra de hambre llena
-    @Override
-    public boolean isEdible() {
-        return true;
     }
 
     // Curación Vida/Ki

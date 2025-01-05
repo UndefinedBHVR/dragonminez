@@ -22,6 +22,7 @@ public class DinoTailRawItem extends Item {
                         .nutrition(HUNGER)
                         .meat()
                         .saturationMod(SATURATION)
+                        .alwaysEat()
                         .build()
         ));
     }
@@ -29,12 +30,6 @@ public class DinoTailRawItem extends Item {
     @Override
     public @NotNull Component getName(@NotNull ItemStack pStack) {
         return Component.translatable("item.dragonminez.dinotail_raw");
-    }
-
-    // Permitir consumir incluso con la barra de hambre llena
-    @Override
-    public boolean isEdible() {
-        return true;
     }
 
     // Curación Vida/Ki
