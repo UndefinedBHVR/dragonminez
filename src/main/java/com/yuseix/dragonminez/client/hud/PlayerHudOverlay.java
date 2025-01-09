@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 
 import java.util.Map;
 
@@ -42,88 +43,94 @@ public class PlayerHudOverlay implements RenderEntityInv {
         }
 
         int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
-        int vidarestante = (int) Minecraft.getInstance().player.getHealth(); //I'm feeling lonely, oh I wish I had a lover that could hold me
+        int vidarestante = (int) Minecraft.getInstance().player.getHealth();
+        //I'm feeling lonely, oh I wish I had a lover that could hold me
         // Now i'm crying in my room, so sceptical of love, but still I want it more, more, MOOOORE
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-            var vidaMC = 20;
-            var con = playerstats.getConstitution();
-            var maxVIDA = 0.0;
+            boolean isDmzUser = playerstats.isAcceptCharacter();
 
-            int vidawa = ((190 * vidarestante) / VidaMaxima);
-            int vida = Math.min(vidawa, 190);
+            // Solo renderiza el HUD si el jugador creó su personaje
+            if (isDmzUser) {
 
-            int StaminaMax = 0;
+                var vidaMC = 20;
+                var con = playerstats.getConstitution();
+                var maxVIDA = 0.0;
 
-            int TransfMax = 100;
+                int vidawa = ((190 * vidarestante) / VidaMaxima);
+                int vida = Math.min(vidawa, 190);
 
-            maxVIDA = dmzdatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
-            StaminaMax = dmzdatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
+                int StaminaMax = 0;
 
-            int curStamina = playerstats.getCurStam();
+                int TransfMax = 100;
 
-            int energiaMax = 0;
+                maxVIDA = dmzdatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
+                StaminaMax = dmzdatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
 
-            energiaMax = dmzdatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
-            
-            int curEnergia = playerstats.getCurrentEnergy();
+                int curStamina = playerstats.getCurStam();
 
-            int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113);
+                int energiaMax = 0;
 
-            int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
+                energiaMax = dmzdatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
 
-            int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
+                int curEnergia = playerstats.getCurrentEnergy();
 
-            RenderSystem.enableBlend();
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            RenderSystem.setShaderTexture(0, hud);
+                int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113);
 
-            guiGraphics.pose().pushPose();
-            guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
-            //VIDA VACIO
-            guiGraphics.blit(hud,
-                    40,
-                    8,
-                    0,
-                    1,
-                    190,
-                    12);
-            //Ki vacio
-            guiGraphics.blit(hud,
-                    51,
-                    20,
-                    12,
-                    13,
-                    132,
-                    6);
-            //Stamina vacio
-            guiGraphics.blit(hud,
-                    50,
-                    27,
-                    6,
-                    20,
-                    101,
-                    7);
+                int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
 
-            //Transformacion vacio
-            guiGraphics.blit(hud,
-                    5,
-                    35,
-                    4,
-                    37,
-                    21,
-                    20);
+                int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
 
-            //Vida llena
-            guiGraphics.blit(hud,
-                    40,
-                    8,
-                    0,
-                    59,
-                    vida,
-                    12);
+                RenderSystem.enableBlend();
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                RenderSystem.setShaderTexture(0, hud);
 
-            //Ki Lleno
+                guiGraphics.pose().pushPose();
+                guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
+                //VIDA VACIO
+                guiGraphics.blit(hud,
+                        40,
+                        8,
+                        0,
+                        1,
+                        190,
+                        12);
+                //Ki vacio
+                guiGraphics.blit(hud,
+                        51,
+                        20,
+                        12,
+                        13,
+                        132,
+                        6);
+                //Stamina vacio
+                guiGraphics.blit(hud,
+                        50,
+                        27,
+                        6,
+                        20,
+                        101,
+                        7);
+
+                //Transformacion vacio
+                guiGraphics.blit(hud,
+                        5,
+                        35,
+                        4,
+                        37,
+                        21,
+                        20);
+
+                //Vida llena
+                guiGraphics.blit(hud,
+                        40,
+                        8,
+                        0,
+                        59,
+                        vida,
+                        12);
+
+                //Ki Lleno
             /*
             guiGraphics.blit(hud,
                     51,
@@ -136,69 +143,70 @@ public class PlayerHudOverlay implements RenderEntityInv {
              */
 
 
-            //Stamina llena
-            guiGraphics.blit(hud,
-                    50,
-                    27,
-                    5,
-                    79,
-                    staminatotal,
-                    7);
+                //Stamina llena
+                guiGraphics.blit(hud,
+                        50,
+                        27,
+                        5,
+                        79,
+                        staminatotal,
+                        7);
 
-            //Transformacion llena
-            // NOTA: Reemplazar el 47 por la variable de la TransfActual
-            guiGraphics.blit(hud,
-                    5,
-                    35,
-                    27,
-                    37,
-                    21,
-                    20);
-
-
-            guiGraphics.pose().popPose();
-
-            guiGraphics.pose().pushPose();
-            guiGraphics.pose().scale(0.85f,0.85f,0.85f);
-            renderPermanentEffects(guiGraphics);
-            renderTempEffects(guiGraphics);
-            guiGraphics.pose().popPose();
-
-            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xfddb1e);
+                //Transformacion llena
+                // NOTA: Reemplazar el 47 por la variable de la TransfActual
+                guiGraphics.blit(hud,
+                        5,
+                        35,
+                        27,
+                        37,
+                        21,
+                        20);
 
 
-            Component porcentaje = Component.empty();
+                guiGraphics.pose().popPose();
+
+                guiGraphics.pose().pushPose();
+                guiGraphics.pose().scale(0.85f,0.85f,0.85f);
+                renderPermanentEffects(guiGraphics);
+                renderTempEffects(guiGraphics);
+                guiGraphics.pose().popPose();
+
+                guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xfddb1e);
+
+
+                Component porcentaje = Component.empty();
                    /* .append(Component.translatable("dmz.hud.powerrelease"))
                     .append(Component.literal(": ")); */
 
-            var posXPowerRelease = -80;
+                var posXPowerRelease = -80;
 
-            //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease, 44,0x38fff0);
-            //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
-            renderPowerReleaseAnimation(guiGraphics, playerstats.getDmzRelease(), posXPowerRelease + 115);
+                //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, porcentaje, posXPowerRelease, 44,0x38fff0);
+                //drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.empty().append(Component.literal(String.valueOf(playerstats.getDmzRelease()))).append(Component.literal("%")), posXPowerRelease + 115, 44,0xfdbf26);
+                renderPowerReleaseAnimation(guiGraphics, playerstats.getDmzRelease(), posXPowerRelease + 115);
 
-        double scaleFactor = Minecraft.getInstance().getWindow().getGuiScale();
-
-
-        RenderSystem.enableScissor((int) ((5) * scaleFactor),
-                (int) (Minecraft.getInstance().getWindow().getHeight() - (20 * 2) * scaleFactor),
-                (int) ((25 * 2) * scaleFactor),
-                (int) ((23 * 2) * scaleFactor));
+                double scaleFactor = Minecraft.getInstance().getWindow().getGuiScale();
 
 
-        personajesMenu(guiGraphics);
+                RenderSystem.enableScissor((int) ((5) * scaleFactor),
+                        (int) (Minecraft.getInstance().getWindow().getHeight() - (20 * 2) * scaleFactor),
+                        (int) ((25 * 2) * scaleFactor),
+                        (int) ((23 * 2) * scaleFactor));
 
-        RenderSystem.disableScissor();
 
-        RenderSystem.disableBlend();
+                personajesMenu(guiGraphics);
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
-        RenderSystem.enableBlend();
-        renderKiBarColor(guiGraphics, playerstats.getRace(), playerstats.getDmzState(),energiatotal);
-        RenderSystem.disableBlend();
+                RenderSystem.disableScissor();
 
-        guiGraphics.pose().popPose();
+                RenderSystem.disableBlend();
+
+                guiGraphics.pose().pushPose();
+                guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
+                RenderSystem.enableBlend();
+                renderKiBarColor(guiGraphics, playerstats.getRace(), playerstats.getDmzState(),energiatotal);
+                RenderSystem.disableBlend();
+
+                guiGraphics.pose().popPose();
+            }
 
 
 

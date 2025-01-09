@@ -82,7 +82,7 @@ public class CFirstPage extends Screen {
 						ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
 						ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 						ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-						ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+						ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 					} else if (cap.getRace() == 1) {
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
@@ -396,7 +396,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 
 				}));
@@ -423,7 +423,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 
 				}));
@@ -449,7 +449,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
-					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 
 				}));
@@ -492,7 +492,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye1Color", 11796480));
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 11796480));
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
-					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
+					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
 
 

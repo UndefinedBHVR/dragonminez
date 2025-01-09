@@ -18,7 +18,7 @@ public class TickHandler {
         staminaRegenCounter++;
         if (staminaRegenCounter >= 20 * 3) {
             int maxStamina = dmzDatos.calcularSTM(playerStats.getRace(), playerStats.getConstitution());
-            int regenStamina = (int) Math.ceil(maxStamina / 4.0);
+            int regenStamina = (int) Math.ceil(maxStamina / 3.0);
             playerStats.addCurStam(regenStamina);
             staminaRegenCounter = 0;
         }

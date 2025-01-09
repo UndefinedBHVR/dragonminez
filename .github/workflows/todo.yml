@@ -22,5 +22,4 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLOSE_ISSUES: true
           AUTO_P: true
-          PROJECT: "organization/DragonMineZ/📈 Progress Board DMZ"
-          PROJECTS-SECRET: "${{ secrets.TOKEN_YUSE_GH }}"
+          IDENTIFIERS: '[{"name": "TODO", "labels": ["TODO"]}]'

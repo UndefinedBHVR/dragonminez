@@ -23,6 +23,7 @@ public class ComidaDinoCookedItem extends Item {
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)
                         .meat()
+                        .alwaysEat()
                         .build()
         ));
     }

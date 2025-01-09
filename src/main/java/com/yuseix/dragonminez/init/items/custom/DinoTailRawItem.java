@@ -22,6 +22,7 @@ public class DinoTailRawItem extends Item {
                         .nutrition(HUNGER)
                         .meat()
                         .saturationMod(SATURATION)
+                        .alwaysEat()
                         .build()
         ));
     }

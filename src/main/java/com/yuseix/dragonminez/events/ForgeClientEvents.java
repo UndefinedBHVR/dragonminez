@@ -32,7 +32,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {
 
-
 	@SubscribeEvent
 	public static void onKeyInput(InputEvent.Key event) {
 		if (Keys.STATS_MENU.consumeClick()) {
@@ -40,14 +39,18 @@ public class ForgeClientEvents {
 		}
 	}
 
+	// Solo cancela el render Vanilla si el jugador creó su personaje
 	@SubscribeEvent
 	public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {
-		if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
-			event.setCanceled(true);
+		if (Minecraft.getInstance().player != null) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+				boolean isDmzUser = playerstats.isAcceptCharacter();
+				if (isDmzUser) {
+					if (VanillaGuiOverlay.PLAYER_HEALTH.type() == event.getOverlay()) {
+						event.setCanceled(true);
+					}
+				}
+			});
 		}
 	}
-
-
-
-
 }

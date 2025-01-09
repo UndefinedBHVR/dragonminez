@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ public class NamekDragonBallsCapability {
     }
 
     public List<BlockPos> namekDragonBallPositions() {
-        //Returna null nc pq
         return namekDragonBallPositions;
     }
 
@@ -58,6 +58,7 @@ public class NamekDragonBallsCapability {
 
     }
 
-
-
+    public void updateDragonBallPositions(Level level) {
+        namekDragonBallPositions.removeIf(pos -> !level.isLoaded(pos) || level.getBlockEntity(pos) == null);
+    }
 }

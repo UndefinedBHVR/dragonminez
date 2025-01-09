@@ -5,9 +5,11 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
@@ -16,23 +18,28 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
@@ -53,7 +60,9 @@ public class EntityEvents {
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					cap.removeDmzAlignment(5); //Remover puntos te hace maligno
+					boolean isDmzUser = cap.isAcceptCharacter();
+
+					if (isDmzUser) { cap.removeDmzAlignment(5); } //Remover puntos te hace maligno
 				});
 
 				player.displayClientMessage(Component.translatable("lines.alignment.evil"), true);
@@ -67,15 +76,16 @@ public class EntityEvents {
 				Player player = (Player) event.getSource().getEntity();
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					cap.addDmzAlignment(2); //Agregar puntos te hace bueno
+					boolean isDmzUser = cap.isAcceptCharacter();
+
+					if (isDmzUser) { cap.addDmzAlignment(2); } //Agregar puntos te hace bueno
 				});
 
 			}
 		}
 
 		//Pa ganar tps cuando mates algo claro pes papeto
-		if (event.getEntity() instanceof Monster || event.getEntity() instanceof Animal || event.getEntity() instanceof Player
-				|| event.getEntity() instanceof NamekianEntity || event.getEntity() instanceof SoldierEntity) {
+		if (esEnemigo(event.getEntity())) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				var vidaTps = (int) (event.getEntity().getMaxHealth() * 0.5); // 50% hp enemigo
@@ -89,7 +99,9 @@ public class EntityEvents {
 				int finalTps = (int) Math.round(calculoTps);
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					cap.addZpoints(finalTps);
+					boolean isDmzUser = cap.isAcceptCharacter();
+
+					if (isDmzUser) { cap.addZpoints(finalTps); }
 					// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
@@ -123,7 +135,8 @@ public class EntityEvents {
 			int finalTps = (int) Math.round(baseTps);
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				cap.addZpoints(finalTps);
+				boolean isDmzUser = cap.isAcceptCharacter();
+				if (isDmzUser) { cap.addZpoints(finalTps); }
 
 				// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
@@ -159,6 +172,19 @@ public class EntityEvents {
 				}
 			}
 		}
+	}
+
+	private static boolean esEnemigo(Entity entity) {
+		List<Class<?>> listaEnemigos = List.of(
+				Monster.class,
+				Animal.class,
+				Player.class,
+				NamekianEntity.class,
+				SoldierEntity.class,
+				FlyingMob.class,
+				Mob.class
+		);
+		return listaEnemigos.stream().anyMatch(clase -> clase.isInstance(entity));
 	}
 
 	private static final double HEAL_PERCENTAGE = 0.05; // 5% por segundo
@@ -225,9 +251,13 @@ public class EntityEvents {
 				int healHp = (int) (maxHp * HEAL_PERCENTAGE);
 				int maxKi = stats.getMaxEnergy();
 				int healKi = (int) (maxKi * HEAL_PERCENTAGE);
+				boolean isDmzUser = stats.isAcceptCharacter();
 
-				serverPlayer.heal(healHp);
-				stats.addCurEnergy(healKi);
+				if (isDmzUser) {
+					serverPlayer.heal(healHp);
+					stats.addCurEnergy(healKi);
+				}
+
 			});
 		}
 
