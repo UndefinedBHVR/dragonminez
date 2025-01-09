@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
 
 public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
     //TEXTURAS CABELLO
@@ -76,6 +77,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             // Si el pelo es 0 y no es Namek, no renderizamos nada.
             if (hairId == 0 && (raza != 2)) return;
+            if (abstractClientPlayer.hasEffect(MobEffects.INVISIBILITY)) return;
 
             switch (raza){
                 case 0: //Humano
