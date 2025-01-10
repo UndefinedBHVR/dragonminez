@@ -22,7 +22,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.language.IModInfo;
 import software.bernie.geckolib.GeckoLib;
-import software.bernie.geckolib.network.GeckoLibNetwork;
 
 /*
  * This file uses GeckoLib, licensed under the MIT License.
@@ -63,16 +62,7 @@ public class DragonMineZ {
 			}
 		});
 
-		/*
-		 * Se verifica si GeckoLib está cargado en la lista de mods. Si lo está, se inicializa;
-		 * Si no lo está, se inicializa como ShadowJar.
-		 */
-
-		if (ModList.get().isLoaded("geckolib")) {
-			GeckoLib.initialize();
-		} else {
-			GeckoLib.shadowInit();
-		}
+		GeckoLib.initialize();
 
 		//Registramos Items
 		MainItems.register(modEventBus);
@@ -128,7 +118,6 @@ public class DragonMineZ {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, DMZTrMajinConfig.SPEC, "dragonminez/races/majin/transformation-config.toml");
 
 	}
-
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
