@@ -77,9 +77,9 @@ body:
   - type: textarea
     id: visuals
     attributes:
-      label: Visuals or Attachments
+      label: Visuals / Attachments / Logs
       description: Include any relevant screenshots, crash logs, or videos showing the issue.
-      placeholder: Paste logs or describe any attachments here
+      placeholder: Paste your crash-report and your latest.log, or describe any attachments here!
   - type: checkboxes
     id: bug-confirmation
     attributes:
