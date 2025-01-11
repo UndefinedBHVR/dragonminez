@@ -112,7 +112,8 @@ public final class MainItems {
     public static final RegistryObject<Item> VEGETA_SUPER_ARMOR_BOOTS = armorItem("vegeta_super_armor_boots", ArmorItem.Type.BOOTS, "vegetasuper", false);
     //PICCOLO
     public static final RegistryObject<Item> PICCOLO_ARMOR_HELMET = armorItem("piccolo_armor_helmet", ArmorItem.Type.HELMET, "piccolo_gi", false);
-    public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE_CAPE = armorItem("piccolo_armor_cape", ArmorItem.Type.CHESTPLATE, "piccolo_gi", false);
+    public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE_CAPE = ITEM_REGISTER.register("piccolo_armor_cape", () ->
+            new PiccoloArmorItem(ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().stacksTo(1)));
     public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE = armorItem("piccolo_armor_chestplate", ArmorItem.Type.CHESTPLATE, "piccolo_gi", false);
     public static final RegistryObject<Item> PICCOLO_ARMOR_LEGGINGS = armorItem("piccolo_armor_leggings", ArmorItem.Type.LEGGINGS, "piccolo_gi", false);
     public static final RegistryObject<Item> PICCOLO_ARMOR_BOOTS = armorItem("piccolo_armor_boots", ArmorItem.Type.BOOTS, "piccolo_gi", false);
