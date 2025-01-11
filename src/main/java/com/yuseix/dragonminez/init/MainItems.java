@@ -111,19 +111,11 @@ public final class MainItems {
     public static final RegistryObject<Item> VEGETA_SUPER_ARMOR_LEGGINGS = armorItem("vegeta_super_armor_leggings", ArmorItem.Type.LEGGINGS, "vegetasuper", false);
     public static final RegistryObject<Item> VEGETA_SUPER_ARMOR_BOOTS = armorItem("vegeta_super_armor_boots", ArmorItem.Type.BOOTS, "vegetasuper", false);
     //PICCOLO
-    public static final RegistryObject<Item> PICCOLO_ARMOR_HELMET = //TURBANTE
-            ITEM_REGISTER.register("piccolo_armor_helmet", () -> new PiccoloArmorItem(ModArmorMaterials.KIKONO, ArmorItem.Type.HELMET,
-                    new Item.Properties().fireResistant().stacksTo(1)));
-    public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE_CAPE = //CON CAPA
-            ITEM_REGISTER.register("piccolo_armor_cape", () -> new PiccoloArmorItem(ModArmorMaterials.KIKONO, ArmorItem.Type.CHESTPLATE,
-                    new Item.Properties().fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> PICCOLO_ARMOR_HELMET = armorItem("piccolo_armor_helmet", ArmorItem.Type.HELMET, "piccolo_gi", false);
+    public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE_CAPE = armorItem("piccolo_armor_cape", ArmorItem.Type.CHESTPLATE, "piccolo_gi", false);
     public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE = armorItem("piccolo_armor_chestplate", ArmorItem.Type.CHESTPLATE, "piccolo_gi", false);
-    public static final RegistryObject<Item> PICCOLO_ARMOR_LEGGINGS =
-            ITEM_REGISTER.register("piccolo_armor_leggings", () -> new PiccoloArmorItem(ModArmorMaterials.KIKONO, ArmorItem.Type.LEGGINGS,
-                    new Item.Properties().fireResistant().stacksTo(1)));
-    public static final RegistryObject<Item> PICCOLO_ARMOR_BOOTS =
-            ITEM_REGISTER.register("piccolo_armor_boots", () -> new PiccoloArmorItem(ModArmorMaterials.KIKONO, ArmorItem.Type.BOOTS,
-                    new Item.Properties().fireResistant().stacksTo(1)));
+    public static final RegistryObject<Item> PICCOLO_ARMOR_LEGGINGS = armorItem("piccolo_armor_leggings", ArmorItem.Type.LEGGINGS, "piccolo_gi", false);
+    public static final RegistryObject<Item> PICCOLO_ARMOR_BOOTS = armorItem("piccolo_armor_boots", ArmorItem.Type.BOOTS, "piccolo_gi", false);
     //DEMON GI (AZUL)
     public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_CHESTPLATE = armorItem("demon_gi_blue_armor_chestplate", ArmorItem.Type.CHESTPLATE, "demon_gi_gohan", false);
     public static final RegistryObject<Item> DEMON_GI_BLUE_ARMOR_LEGGINGS = armorItem("demon_gi_blue_armor_leggings", ArmorItem.Type.LEGGINGS, "demon_gi_gohan", false);
@@ -294,7 +286,7 @@ public final class MainItems {
             new ForgeSpawnEggItem(MainEntity.FRIEZA_SOLDIER03, 0x95F0CB, 0xDABAE6, new Item.Properties()));
     public static final RegistryObject<Item> MORO_SOLDIER_SE = ITEM_REGISTER.register("moro_soldier_spawn_egg", () ->
             new ForgeSpawnEggItem(MainEntity.MORO_SOLDIER, 0x051942, 0xE6E7EB, new Item.Properties()));
-    //    public static final RegistryObject<Item> NTRADER_SE = ITEM_REGISTER.register("ntrader1_spawn_egg", () ->
+//    public static final RegistryObject<Item> NTRADER_SE = ITEM_REGISTER.register("ntrader1_spawn_egg", () ->
 //            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_TRADER1, 0x47A151, 0x8A1612, new Item.Properties()));
 //    public static final RegistryObject<Item> NTRADER2_SE = ITEM_REGISTER.register("ntrader2_spawn_egg", () ->
 //            new ForgeSpawnEggItem(MainEntity.NAMEKNPC_TRADER2, 0x47A151, 0x12848A, new Item.Properties()));
