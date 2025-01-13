@@ -300,5 +300,4 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
 		return PlayState.CONTINUE;
 	}
-
 }

@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.config.races.transformations.*;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
+import com.yuseix.dragonminez.events.StorylineEvents;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.recipes.DMZRecipes;
@@ -105,6 +106,8 @@ public class DragonMineZ {
 		modEventBus.register(new ModBusEvents());
 		//Registramos el Listener de Forge
 		MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
+		//Registramos el Listener de Forge para la Storyline
+		MinecraftForge.EVENT_BUS.register(new StorylineEvents());
 		//Se registran los eventos de las Capabilities de las Stats
 		MinecraftForge.EVENT_BUS.register(new DMZStatsCapabilities());
 
