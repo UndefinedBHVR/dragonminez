@@ -22,10 +22,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -72,11 +74,16 @@ public class StatsEvents {
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
                 var energia = playerstats.getEnergy();
+                boolean isDmzUser = playerstats.isAcceptCharacter();
 
                 int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
 
                 // Ajustar la salud máxima del jugador
-                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                if (isDmzUser) {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                } else {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC);
+                }
 
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos);
@@ -89,9 +96,36 @@ public class StatsEvents {
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
-
-
             });
+    }
+
+    @SubscribeEvent
+    public static void onLivingUpdateEvent(LivingEvent.LivingTickEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        if (turboOn) {
+            // Obtener la velocidad actual
+            Vec3 currentMovement = player.getDeltaMovement();
+
+            if (player.onGround()) {
+                // En tierra: Aplicar multiplicador al movimiento horizontal (X y Z)
+                double turboSpeedX = currentMovement.x * 1.5;
+                double turboSpeedZ = currentMovement.z * 1.5;
+
+                // Configurar el nuevo movimiento con el multiplicador
+                player.setDeltaMovement(turboSpeedX, currentMovement.y, turboSpeedZ);
+            } else {
+                // En el aire: Normalizar la velocidad horizontal para evitar acumulación infinita
+                double horizontalSpeed = Math.sqrt(currentMovement.x * currentMovement.x + currentMovement.z * currentMovement.z);
+                if (horizontalSpeed > 0.65) {
+                    // Limitar la velocidad horizontal al máximo permitido
+                    double scale = 0.65 / horizontalSpeed;
+                    double limitedX = currentMovement.x * scale;
+                    double limitedZ = currentMovement.z * scale;
+                    player.setDeltaMovement(limitedX, currentMovement.y, limitedZ);
+                }
+            }
+        }
     }
 
 
@@ -117,43 +151,65 @@ public class StatsEvents {
 
         // Si el que hace el daño es un jugador
         if (event.getSource().getEntity() instanceof Player atacante) {
-            // Obtener las estadísticas del atacante
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(cap -> {
-                int raza = cap.getRace();
-                int curStamina = cap.getCurStam();
-                var majinOn = cap.hasDMZPermaEffect("majin");
-                var mightfruitOn = cap.hasDMZTemporalEffect("mightfruit");
+            // Verificar si el ataque es melee (no proyectil)
+            if (event.getSource().getMsgId().equals("player")) {
+                // Obtener las estadísticas del atacante
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(cap -> {
+                    int raza = cap.getRace();
+                    int curStamina = cap.getCurStam();
+                    var majinOn = cap.hasDMZPermaEffect("majin");
+                    var mightfruitOn = cap.hasDMZTemporalEffect("mightfruit");
+                    boolean isDmzUser = cap.isAcceptCharacter();
 
-                float danoDefault = event.getAmount(); // Capturamos el daño original
+                    float danoDefault = event.getAmount(); // Capturamos el daño original
 
-                // Calcular el daño basado en la fuerza del atacante
-                int maxStr = dmzdatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
-                        cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+                    // Calcular el daño basado en la fuerza del atacante
+                    int maxDamage = dmzdatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
+                            cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
 
-                int staminacost = maxStr / 12;
+                    int staminaCost = maxDamage / 6;
 
-                if (curStamina >= staminacost) {
-                    // Si el atacante tiene suficiente stamina, aplicar el daño basado en la fuerza
-                    event.setAmount(maxStr);
-                    // Descontar stamina del atacante
-                    cap.removeCurStam(staminacost);
-                    sonidosGolpes(atacante);
-                } else {
-                    // Daño por defecto si al atacante le falta stamina
-                    event.setAmount(danoDefault);
-                }
-            });
+                    // Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
+                    if (isDmzUser) {
+                        if (curStamina > 0) {
+                            // Consumir Stamina proporcional al daño
+                            int staminaToConsume = Math.min(curStamina, staminaCost); // Consume lo que se puede
+                            float damageMultiplier = (float) staminaToConsume / staminaCost; // Factor de daño basado en Stamina disponible
+
+                            // Aplicar daño ajustado si la Stamina no alcanza
+                            float adjustedDamage = maxDamage * damageMultiplier;
+                            event.setAmount(adjustedDamage);
+
+                            // Descontar Stamina consumida
+                            cap.removeCurStam(staminaToConsume);
+
+                            sonidosGolpes(atacante);
+                        } else {
+                            // Si no tiene nada de Stamina, aplica el daño por defecto
+                            event.setAmount(danoDefault);
+                        }
+                    } else {
+                        event.setAmount(danoDefault);
+                    }
+                });
+            }
 
             // Si la entidad que recibe el daño es un jugador
             if (event.getEntity() instanceof Player objetivo) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
                     var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
                     var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
+                    boolean isDmzUser = statsObjetivo.isAcceptCharacter();
 
                     int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), majinOn, fruta);
                     // Restar la defensa del objetivo al daño
                     float danoFinal = event.getAmount() - defObjetivo;
-                    event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+
+                    if (isDmzUser) {
+                        event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+                    } else {
+                        event.setAmount(event.getAmount()); // Hacer daño normal si no es DmzUser
+                    }
                 });
             } else {
                 // Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
@@ -178,7 +234,6 @@ public class StatsEvents {
         }
     }
 
-
     @SubscribeEvent
     public static void livingFallEvent(LivingFallEvent event) {
         float fallDistance = event.getDistance();
@@ -189,6 +244,7 @@ public class StatsEvents {
             if (fallDistance > 3.0f) {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+                    boolean isDmzUser = stats.isAcceptCharacter();
 
                     int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
 
@@ -201,7 +257,7 @@ public class StatsEvents {
                     int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
 
                     // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
-                    if (stats.getCurrentEnergy() >= totalEnergyDrain) {
+                    if (isDmzUser && stats.getCurrentEnergy() >= totalEnergyDrain) {
                         stats.removeCurEnergy(totalEnergyDrain);
                         event.setCanceled(true);
                     }
@@ -219,64 +275,65 @@ public class StatsEvents {
 
         LocalPlayer player = Minecraft.getInstance().player;
 
-        //Cargar Ki
-        if (isKiChargeKeyPressed && !previousKiChargeState) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-            previousKiChargeState = true; // Actualiza el estado previo
-            playSoundOnce(MainSounds.AURA_START.get());
-            startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
-        } else if (!isKiChargeKeyPressed && previousKiChargeState) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-            previousKiChargeState = false; // Actualiza el estado previo
-            stopLoopSound(true);
-        }
-
         //Turbo
         if (player != null) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-                int curEne = stats.getCurrentEnergy();
-                int maxEne = stats.getMaxEnergy();
-                int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
+                boolean isDmzUser = stats.isAcceptCharacter();
 
-                if (isTurboKeypressed) {
-                    if (!turboOn && porcentaje > 10) {
-                        // Solo activar Turbo si tiene más del 10% de energía
-                        turboOn = true;
-                        ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
-                        ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                if (isDmzUser) {
+                    //Cargar Ki
+                    if (isKiChargeKeyPressed && !previousKiChargeState) {
+                        ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+                        previousKiChargeState = true; // Actualiza el estado previo
                         playSoundOnce(MainSounds.AURA_START.get());
-                        startLoopSound(MainSounds.TURBO_LOOP.get(), false);
-                        setTurboSpeed(player, true);
-                    } else if (turboOn) {
-                        // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                        startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+                    } else if (!isKiChargeKeyPressed && previousKiChargeState) {
+                        ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+                        previousKiChargeState = false; // Actualiza el estado previo
+                        stopLoopSound(true);
+                    }
+
+                    // Descender ki
+                    if (isDescendKeyPressed && !previousKeyDescendState) {
+                        ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
+                        previousKeyDescendState = true; // Actualiza el estado previo
+                    } else if (!isDescendKeyPressed && previousKeyDescendState) {
+                        ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
+                        previousKeyDescendState = false; // Actualiza el estado previo
+                    }
+
+                    int curEne = stats.getCurrentEnergy();
+                    int maxEne = stats.getMaxEnergy();
+                    int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
+
+                    if (isTurboKeypressed) {
+                        if (!turboOn && porcentaje > 10) {
+                            // Solo activar Turbo si tiene más del 10% de energía
+                            turboOn = true;
+                            ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
+                            ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                            playSoundOnce(MainSounds.AURA_START.get());
+                            startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+                        } else if (turboOn) {
+                            // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                            turboOn = false;
+                            ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                            ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                            stopLoopSound(false);
+                        } else {
+                            player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
+                        }
+                    }
+
+                    // Desactivar Turbo automáticamente si la energía llega a 5%
+                    if (turboOn && porcentaje <= 5) {
                         turboOn = false;
                         ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                         ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                         stopLoopSound(false);
-                        setTurboSpeed(player, false);
-                    } else {
-                        player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
                     }
                 }
-
-                // Desactivar Turbo automáticamente si la energía llega a 1
-                if (turboOn && curEne <= 1) {
-                    turboOn = false;
-                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
-                    ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-                    stopLoopSound(false);
-                    setTurboSpeed(player, false);
-                }
             });
-
-            // Descender de ki
-            if (isDescendKeyPressed && !previousKeyDescendState) {
-                ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
-                previousKeyDescendState = true; // Actualiza el estado previo
-            } else if (!isDescendKeyPressed && previousKeyDescendState) {
-                ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
-                previousKeyDescendState = false; // Actualiza el estado previo
-            }
         }
     }
 
@@ -328,19 +385,6 @@ public class StatsEvents {
                 turboLoop = null;
             }
         });
-    }
-
-    private static final double originalSpeed = 0.10000000149011612;
-
-    private static void setTurboSpeed(Player player, boolean enable) {
-        AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (speedAttribute == null) return;
-
-        if (enable) {
-            speedAttribute.setBaseValue(originalSpeed + 0.06);
-        } else {
-            speedAttribute.setBaseValue(originalSpeed);
-        }
     }
 
     private static void sonidosGolpes(Player player) {

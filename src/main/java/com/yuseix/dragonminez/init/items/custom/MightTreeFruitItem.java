@@ -26,6 +26,7 @@ public class MightTreeFruitItem extends Item {
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)
+                        .alwaysEat()
                         .build()
         ));
     }
@@ -39,6 +40,7 @@ public class MightTreeFruitItem extends Item {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("item.dragonminez.might_tree_fruit.tooltip").withStyle(ChatFormatting.GRAY));
     }
+
     // Curación Vida/Ki + Mult DMG
     @Override
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {

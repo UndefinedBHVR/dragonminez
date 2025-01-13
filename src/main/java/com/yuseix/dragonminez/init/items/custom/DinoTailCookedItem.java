@@ -22,6 +22,7 @@ public class DinoTailCookedItem extends Item {
                         .nutrition(HUNGER)
                         .meat()
                         .saturationMod(SATURATION)
+                        .alwaysEat()
                         .build()
         ));
     }

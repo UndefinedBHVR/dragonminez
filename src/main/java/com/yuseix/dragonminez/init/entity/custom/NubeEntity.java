@@ -121,25 +121,20 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
-        if (pSource.getEntity() instanceof Player) {
+        if ("player".equals(pSource.getMsgId()) && pSource.getEntity() instanceof Player) {
             if (!this.level().isClientSide) {
-                //Aca poner el item que va a dropear
                 this.spawnAtLocation(MainItems.NUBE_ITEM.get());
                 this.remove(RemovalReason.KILLED);
             }
             return true;
         }
-        return super.hurt(pSource, pAmount);
+        return false;
     }
 
     @Override
     public boolean isInvulnerableTo(DamageSource pSource) {
-        if ("drown".equals(pSource.getMsgId()) || "fall".equals(pSource.getMsgId()) || "falling_anvil".equals(pSource.getMsgId()) || "falling_block".equals(pSource.getMsgId())
-        || "falling_stalactite".equals(pSource.getMsgId()) || "in_fire".equals(pSource.getMsgId()) || "in_wall".equals(pSource.getMsgId()) || "lava".equals(pSource.getMsgId())
-        || "lightning_bolt".equals(pSource.getMsgId()) || "magic".equals(pSource.getMsgId()) || "sonic_boom".equals(pSource.getMsgId()) || "thrown".equals(pSource.getMsgId())) {
-            return true;
-        }
-        return super.isInvulnerableTo(pSource);
+        // La entidad es invulnerable a todos los tipos de daño excepto player
+        return !"player".equals(pSource.getMsgId()) || super.isInvulnerableTo(pSource);
     }
 
     @Nullable

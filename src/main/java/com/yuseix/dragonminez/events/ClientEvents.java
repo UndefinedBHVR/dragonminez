@@ -15,23 +15,18 @@ import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -40,8 +35,10 @@ import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
+	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
+
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z - Release v1.1.0";
+	private static final String title = "DragonMine Z - Release v" + "1.1.3";
 
 	private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
 
@@ -59,15 +56,16 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void onRenderLevelLast(RenderLevelStageEvent event) {
 		Minecraft minecraft = Minecraft.getInstance();
-		if(!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_ENTITIES)) return;
+		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) return;
 
 		for (Player player : minecraft.level.players()) {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					if (cap.isAuraOn() || cap.isTurbonOn()) {
 						boolean isLocalPlayer = player == minecraft.player;
-						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.039f : 0.325f;
+						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.075f : 0.325f;
 
+						RenderSystem.disableDepthTest();
 						renderAuraBase(
 								(AbstractClientPlayer) player,
 								event.getPoseStack(),
@@ -77,6 +75,7 @@ public class ClientEvents {
 								transparency,
 								cap.getAuraColor()
 						);
+						RenderSystem.enableDepthTest();
 					}
 				});
 			}
@@ -104,8 +103,8 @@ public class ClientEvents {
 		//ACA YA FUNCIONA
 		poseStack.pushPose();
 
-		 //Ajustar posición del aura en el jugador
-		poseStack.translate(interpX - camX, interpY - camY + 1.8, interpZ - camZ);
+		//Ajustar posición del aura en el jugador
+		poseStack.translate(interpX - camX, interpY - camY + player.getEyeHeight(), interpZ - camZ);
 
 		poseStack.mulPose(Axis.XP.rotationDegrees(180f));
 
@@ -281,7 +280,7 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		Level level = mc.level;
 
-		if (level == null || mc.player == null) {
+		if (level == null || mc.player == null || mc.isPaused()) {
 			return;
 		}
 
@@ -298,6 +297,8 @@ public class ClientEvents {
 				.orElse(null);
 
 		if (currentBiomeKey == null) return;
+
+		if (playerPos.getY() > 140) return;
 
 		// Genera partículas dependiendo del bioma
 		if (currentBiomeKey.equals(ModBiomes.AJISSA_PLAINS)) {

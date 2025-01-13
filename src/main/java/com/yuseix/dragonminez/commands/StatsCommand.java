@@ -37,10 +37,18 @@ public class StatsCommand {
                                     suggestionsBuilder.suggest("all");
                                     return suggestionsBuilder.buildFuture();
                                 })
-                                .then(Commands.argument("quantity", IntegerArgumentType.integer())
-                                        .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
+                                .then(Commands.argument("quantity", StringArgumentType.string())
+                                        .suggests((commandContext, suggestionsBuilder) -> {
+                                            suggestionsBuilder.suggest("max");
+                                            suggestionsBuilder.suggest("5");
+                                            suggestionsBuilder.suggest("50");
+                                            suggestionsBuilder.suggest("100");
+                                            suggestionsBuilder.suggest("500");
+                                            return suggestionsBuilder.buildFuture();
+                                        })
+                                        .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), StringArgumentType.getString(commandContext, "quantity"), Collections.singleton(commandContext.getSource().getPlayerOrException())))
                                         .then(Commands.argument("player", EntityArgument.players())
-                                                .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), IntegerArgumentType.getInteger(commandContext, "quantity"), EntityArgument.getPlayers(commandContext, "player")))
+                                                .executes(commandContext -> setStat(commandContext, StringArgumentType.getString(commandContext, "stat"), StringArgumentType.getString(commandContext, "quantity"), EntityArgument.getPlayers(commandContext, "player")))
                                         )
                                 )
                         )
@@ -301,10 +309,24 @@ public class StatsCommand {
         return players.size();
     }
 
-    private int setStat(CommandContext<CommandSourceStack> context, String stat, int cantidad, Collection<ServerPlayer> players) {
+    private int setStat(CommandContext<CommandSourceStack> context, String stat, String cantidad, Collection<ServerPlayer> players) {
+        int cant = 0;
+
+        if (cantidad.equalsIgnoreCase("max")) {
+            cant = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+        } else {
+            cant = Integer.parseInt(cantidad);
+        }
+
+        // Si la cantidad es menor a 5 (Mínimo de Stats), se establece al mínimo. (EJ: Si yo uso /dmzstats set strenght 3, se establecerá en 5, el mínimo)
+        if (cant < 5) {
+            cant = 5;
+        }
+
         for (ServerPlayer player : players) {
 
             DMZDatos dmzdatos = new DMZDatos();
+            int cantidadFinal = cant;
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 
@@ -313,12 +335,7 @@ public class StatsCommand {
                 var vidaMC = 20;
                 var con = stats.getConstitution();
                 var maxVIDA = 0.0;
-                int cantidadFinal = 0;
-                if (cantidad > DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-                    cantidadFinal = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-                } else {
-                    cantidadFinal = cantidad;
-                }
+
 
                 switch (stat) {
                     case "strenght":

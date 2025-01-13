@@ -51,9 +51,9 @@ public class SpacePodC2S {
                     }
 
                     if (player.getY() < 0 ) {
-                        player.teleportTo(targetWorld, player.getX(), player.getY()+120, player.getZ(), player.getYRot(), player.getXRot());
+                        player.teleportTo(targetWorld, player.getX(), player.getY()+180, player.getZ(), player.getYRot(), player.getXRot());
                     } else if (player.getY() > 0 && player.getY() < 60) {
-                        player.teleportTo(targetWorld, player.getX(), player.getY()+60, player.getZ(), player.getYRot(), player.getXRot());
+                        player.teleportTo(targetWorld, player.getX(), player.getY()+90, player.getZ(), player.getYRot(), player.getXRot());
                     } else {
                         player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                     }

@@ -9,6 +9,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -46,6 +48,7 @@ public class ResetCharacterCommand {
 
                 var raza = playerstats.getRace();
                 int energiacurrent = 0;
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
 
                 playerstats.setAcceptCharacter(false);
                 //Luego cambiar cuando decidamos las stats

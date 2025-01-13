@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.events;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -170,15 +171,11 @@ public class ForgeBusEvents {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 
 				// Ejecutar la generación si la Torre aún no ha sido generada
-				capability.ifPresent(torreCap -> {
-					torreCap.generateKamisamaStructure(serverLevel);
-				});
+				capability.ifPresent(torreCap -> torreCap.generateKamisamaStructure(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) { //Dimension Habitación del Tiempo
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
-				capability.ifPresent(cap -> {
-					cap.generateHabTiempoStructure(serverLevel);
-				});
+				capability.ifPresent(cap -> cap.generateHabTiempoStructure(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 				LazyOptional<NamekDragonBallsCapability> namekDragonBallsCapability = serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY);
@@ -208,10 +205,11 @@ public class ForgeBusEvents {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		// Generate a random position within a 5k block radius from the spawn
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		// Generate a random position within a Xk block radius from the spawn, default 3k
+		int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+		int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
 		serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
 
@@ -231,10 +229,11 @@ public class ForgeBusEvents {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		// Generate a random position within a 5k block radius from the spawn
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		// Generate a random position within a Xk block radius from the spawn, default 3x
+		int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+		int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
 		serverWorld.getChunk(x >> 4, z >> 4); // Load the chunk (if not already loaded)
 

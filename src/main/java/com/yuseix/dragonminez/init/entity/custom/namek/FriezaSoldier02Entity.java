@@ -49,8 +49,6 @@ public class FriezaSoldier02Entity extends SoldierEntity{
         this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
     }
 
-
-
     @Override
     public void tick() {
         super.tick();
@@ -83,11 +81,7 @@ public class FriezaSoldier02Entity extends SoldierEntity{
         } else {
             this.setNoGravity(false);
         }
-
-
     }
-
-
 
 
 }

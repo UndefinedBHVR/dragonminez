@@ -87,6 +87,11 @@ public class ModMessages {
 				.encoder(PermaEffC2S::toBytes)
 				.consumerMainThread(PermaEffC2S::handle)
 				.add();
+		net.messageBuilder(DragonRadarC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(DragonRadarC2S::decode)
+				.encoder(DragonRadarC2S::encode)
+				.consumerMainThread(DragonRadarC2S::handle)
+				.add();
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(ZPointsS2C::new)
@@ -127,6 +132,11 @@ public class ModMessages {
 				.encoder(UpdatePlanetSelectionS2C::encode)
 				.decoder(UpdatePlanetSelectionS2C::decode)
 				.consumerMainThread(UpdatePlanetSelectionS2C::handle)
+				.add();
+		net.messageBuilder(UpdateDragonRadarS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(UpdateDragonRadarS2C::encode)
+				.decoder(UpdateDragonRadarS2C::decode)
+				.consumerMainThread(UpdateDragonRadarS2C::handle)
 				.add();
 	}
 

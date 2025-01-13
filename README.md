@@ -31,6 +31,11 @@ where the mod is located.
 
 You can also check the project in [Modrinth](https://modrinth.com/mod/dragonminez).
 
+## 🗺️ Roadmap
+<div align="center">
+  <img src="https://media.forgecdn.net/attachments/description/1136088/description_2e97376e-e7ed-4a57-8280-d55a3ff2fabf.png" alt="DMZ Roadmap"/>
+</div>
+
 ## 🎯 Use of Third Parties
 
 ### Sounds
