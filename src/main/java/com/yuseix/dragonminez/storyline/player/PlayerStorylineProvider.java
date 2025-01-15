@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.storyline.player;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.storyline.StorylineManager;
+import com.yuseix.dragonminez.init.StorylineManager;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

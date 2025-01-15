@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.storyline.missions.objectives;
+package com.yuseix.dragonminez.storyline.objectives;
 
-import com.yuseix.dragonminez.storyline.missions.Objective;
+import com.yuseix.dragonminez.storyline.Objective;
 
 public class ObjectiveGetToBiome extends Objective {
 	private final String biome;

@@ -1,14 +1,14 @@
-package com.yuseix.dragonminez.storyline.missions;
+package com.yuseix.dragonminez.storyline;
 
-import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveGetToBiome;
-import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveGetToLocation;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToBiome;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.Criterion;
 
 import java.util.Map;
 
-import static com.yuseix.dragonminez.storyline.missions.RegisterAdvancementCriterion.criterionList;
+import static com.yuseix.dragonminez.storyline.RegisterAdvancementCriterion.criterionList;
 
 public abstract class Objective {
 

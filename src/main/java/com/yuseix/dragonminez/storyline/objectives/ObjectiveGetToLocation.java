@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.storyline.missions.objectives;
+package com.yuseix.dragonminez.storyline.objectives;
 
-import com.yuseix.dragonminez.storyline.missions.Objective;
+import com.yuseix.dragonminez.storyline.Objective;
 
 public class ObjectiveGetToLocation extends Objective {
 	private final String loc;

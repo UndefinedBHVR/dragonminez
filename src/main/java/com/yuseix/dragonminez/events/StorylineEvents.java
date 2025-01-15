@@ -1,13 +1,13 @@
 package com.yuseix.dragonminez.events;
 
-import com.yuseix.dragonminez.storyline.missions.Objective;
-import com.yuseix.dragonminez.storyline.missions.Quest;
-import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveCollectItem;
-import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveGetToBiome;
-import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveGetToLocation;
-import com.yuseix.dragonminez.storyline.missions.objectives.ObjectiveKillEnemy;
+import com.yuseix.dragonminez.storyline.Objective;
+import com.yuseix.dragonminez.storyline.Quest;
+import com.yuseix.dragonminez.storyline.Saga;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveCollectItem;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToBiome;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
-import com.yuseix.dragonminez.storyline.sagas.Saga;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;

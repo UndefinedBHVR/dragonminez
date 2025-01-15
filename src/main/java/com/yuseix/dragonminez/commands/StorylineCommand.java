@@ -6,10 +6,10 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import com.yuseix.dragonminez.storyline.StorylineManager;
-import com.yuseix.dragonminez.storyline.missions.Quest;
+import com.yuseix.dragonminez.init.StorylineManager;
+import com.yuseix.dragonminez.storyline.Quest;
+import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
-import com.yuseix.dragonminez.storyline.sagas.Saga;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -18,8 +18,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StorylineCommand {
-
-	private final StorylineManager storylineManager = new StorylineManager();
 
 	public StorylineCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 		dispatcher.register(Commands.literal("storyline")
@@ -78,16 +76,6 @@ public class StorylineCommand {
 						)
 				)
 				.then(Commands.literal("debug")
-						.then(Commands.literal("forcestart")
-								.executes(context -> {
-									if (context.getSource().getPlayer() == null) {
-										return 0;
-									}
-									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::initializeSagas);
-									context.getSource().sendSuccess(() -> Component.literal("Forced saga initialization."), true);
-									return 1;
-								})
-						)
 						.then(Commands.literal("reset_progress")
 								.executes(context -> {
 									if (context.getSource().getPlayer() == null) {
@@ -222,7 +210,7 @@ public class StorylineCommand {
 	private CompletableFuture<Suggestions> suggestQuestIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
 		//El nuevo StorylineManager no se usa como tal, pero se puede usar para obtener todas las sagas y quests porque al inicializarlo se inicializan todas las sagas
 		//Estas sagas, a su vez, tienen todas las quests que se pueden completar
-		for (Saga saga : storylineManager.getAllSagas().values()) {
+		for (Saga saga : StorylineManager.sagaRegistry.values()) {
 			for (Quest quest : saga.getQuests()) {
 				builder.suggest(quest.getId());
 			}
@@ -231,7 +219,7 @@ public class StorylineCommand {
 	}
 
 	private CompletableFuture<Suggestions> suggestSagaIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-		for (Saga saga : storylineManager.getAllSagas().values()) {
+		for (Saga saga : StorylineManager.sagaRegistry.values()) {
 			builder.suggest(saga.getId());
 		}
 		return builder.buildFuture();

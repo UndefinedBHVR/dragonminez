@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.storyline.missions.objectives;
+package com.yuseix.dragonminez.storyline.objectives;
 
-import com.yuseix.dragonminez.storyline.missions.Objective;
+import com.yuseix.dragonminez.storyline.Objective;
 import net.minecraft.world.entity.Entity;
 
 public class ObjectiveKillEnemy extends Objective {

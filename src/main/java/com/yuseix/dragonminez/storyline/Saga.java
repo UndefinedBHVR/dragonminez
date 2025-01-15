@@ -1,6 +1,4 @@
-package com.yuseix.dragonminez.storyline.sagas;
-
-import com.yuseix.dragonminez.storyline.missions.Quest;
+package com.yuseix.dragonminez.storyline;
 
 import java.util.ArrayList;
 import java.util.List;

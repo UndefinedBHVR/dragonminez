@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.storyline;
+package com.yuseix.dragonminez.init;
 
-import com.yuseix.dragonminez.storyline.missions.Quest;
-import com.yuseix.dragonminez.storyline.sagas.Saga;
+import com.yuseix.dragonminez.storyline.Quest;
+import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.sagas.SaiyanSaga;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -10,27 +10,41 @@ import java.util.Hashtable;
 
 public class StorylineManager {
 	private final Hashtable<String, Saga> sagas = new Hashtable<>();
+	public static final Hashtable<String, Saga> sagaRegistry = new Hashtable<>();
 
+	/**
+	 * Constructor for the StorylineManager. Should never be called elsewhere than in PlayerStorylineProvider.
+	 * Will automatically fire the initialization of all sagas for x player when they join.
+	 */
 	public StorylineManager() {
 		initializeSagas();
 	}
 
-	// Initialize predefined sagas
-	public void initializeSagas() {
-		addSaga(SaiyanSaga.createSaiyanSaga());
-		// Add more sagas as needed
+	/**
+	 * Registers a custom {@link Saga} to the {@link StorylineManager#sagaRegistry}.
+	 * This method should be called during mod initialization.
+	 *
+	 * @param saga The Saga to register
+	 */
+	@SuppressWarnings("unused")
+	public static void registerSaga(Saga saga) {
+		sagaRegistry.put(saga.getId(), saga);
 	}
 
-	// Add a saga to the manager
-	public void addSaga(Saga saga) {
-		sagas.put(saga.getId(), saga);
-	}
-
-	// Retrieve a saga by ID
+	/**
+	 * Gets a {@link Saga} by its ID.
+	 *
+	 * @param id The ID of the saga to retrieve.
+	 * @return The saga with the provided ID, or null if it does not exist.
+	 */
 	public Saga getSaga(String id) {
 		return sagas.get(id);
 	}
 
+	/**
+	 * Resets the progress of all quests in all sagas.
+	 * This will set all quests to be incomplete (but not delete them or the saga(s).)
+	 */
 	public void resetProgress() {
 		for (Saga saga : sagas.values()) {
 			for (Quest quest : saga.getQuests()) {
@@ -39,31 +53,48 @@ public class StorylineManager {
 		}
 	}
 
-	// No se usa porque ya hay otro que saca directamente la ID de la quest sin necesidad de la saga
-	// A futuro usar esto para la posibilidad de que una quest tenga misma id en distintas sagas
-//	public void completeQuest(String sagaId, String questId) {
-//		Saga saga = sagas.get(sagaId);
-//		if (saga != null) {
-//			for (Quest quest : saga.getQuests()) {
-//				if (quest.getId().equals(questId)) {
-//					quest.completeQuest();
-//					break;
-//				}
-//			}
-//		}
-//	}
-
-	// CHeca si la saga esta completa
+	/**
+	 * Checks if a {@link Saga} is completed.
+	 *
+	 * @param sagaId The ID of the saga to check.
+	 * @return {@code True} if the saga is completed, {@code False} otherwise.
+	 */
 	public boolean isSagaCompleted(String sagaId) {
 		Saga saga = sagas.get(sagaId);
 		return saga != null && saga.isCompleted();
 	}
 
-	// Mostrar todas las sagas
+	/**
+	 * Gets all sagas registered in the {@link StorylineManager}.
+	 *
+	 * @return A {@link Hashtable} containing all sagas.
+	 */
 	public Hashtable<String, Saga> getAllSagas() {
 		return sagas;
 	}
 
+	// Initialize predefined sagas
+	private void initializeSagas() {
+		//Predefined Sagas by the mod
+		addSaga(SaiyanSaga.createSaiyanSaga());
+
+		sagaRegistry.put("saiyan_saga", SaiyanSaga.createSaiyanSaga());
+
+		//Register sagas from registry
+		for (Saga saga : sagaRegistry.values()) {
+			if (sagas.containsKey(saga.getId())) {
+				throw new IllegalArgumentException("Saga with ID '" + saga.getId() + "' already exists!");
+			}
+			addSaga(saga);
+		}
+	}
+
+	// Add a saga to the manager, local use only.
+	private void addSaga(Saga saga) {
+		sagas.put(saga.getId(), saga);
+	}
+
+	//Must be public for the sake of the capability
 	public CompoundTag saveNBTData(CompoundTag nbt) {
 		CompoundTag sagasTag = new CompoundTag(); // Main container for all sagas
 
@@ -89,7 +120,7 @@ public class StorylineManager {
 		return nbt;
 	}
 
-
+	//Must be public for the sake of the capability
 	public void loadNBTData(CompoundTag nbt) {
 		if (!nbt.contains("sagas")) return; // Ensure sagas data exists
 

@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.storyline.missions;
+package com.yuseix.dragonminez.storyline;
 
 import java.util.ArrayList;
 import java.util.List;
