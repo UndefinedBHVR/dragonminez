@@ -1,13 +1,14 @@
 package com.yuseix.dragonminez.storyline.missions.objectives;
 
 import com.yuseix.dragonminez.storyline.missions.Objective;
+import net.minecraft.world.entity.Entity;
 
 public class ObjectiveKillEnemy extends Objective {
-	private final String enemyName;
+	private final Entity enemyName;
 	private final int requiredAmount;
 	private int currentAmount;
 
-	public ObjectiveKillEnemy(String enemyName, int requiredAmount) {
+	public ObjectiveKillEnemy(Entity enemyName, int requiredAmount) {
 
 		super(false);
 
@@ -16,7 +17,7 @@ public class ObjectiveKillEnemy extends Objective {
 		this.currentAmount = 0;
 	}
 
-	public void onEnemyKilled(String killedEnemy) {
+	public void onEnemyKilled(Entity killedEnemy) {
 
 		if (killedEnemy.equals(enemyName)) {
 			currentAmount++;

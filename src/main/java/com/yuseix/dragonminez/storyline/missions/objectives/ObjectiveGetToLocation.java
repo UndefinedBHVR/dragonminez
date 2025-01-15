@@ -2,21 +2,21 @@ package com.yuseix.dragonminez.storyline.missions.objectives;
 
 import com.yuseix.dragonminez.storyline.missions.Objective;
 
-public class ObjectiveGetToBiome extends Objective {
-	private final String biome;
+public class ObjectiveGetToLocation extends Objective {
+	private final String loc;
 	private boolean reached;
 
-	public ObjectiveGetToBiome(String biomeName) {
+	public ObjectiveGetToLocation(String loc) {
 
 		super(false);
 
-		this.biome = biomeName;
+		this.loc = loc;
 		this.reached = false;
 	}
 
-	public void onPlayerEnterBiome(String enteredBiome) {
+	public void onReachingLoc(String loc) {
 
-		if (enteredBiome.equals(biome)) {
+		if (loc.equals(this.loc)) {
 			reached = true;
 			checkCompletion();
 		}
