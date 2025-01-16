@@ -2,7 +2,8 @@ package com.yuseix.dragonminez.character.models.hair;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -10,48 +11,44 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.RenderHighlightEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Explanation of implementation and approach.
- * <p>
+ *
  * This class is a model that represents a dynamically rendered hair model for the player.
  * We design this off a "stack and strand" approach. Each of the five visible face directions for the player has a grid
  * of 4x4 "stacks" of hair. Each stack has 4 "strands" of hair.
- * <p>
+ *
  * Each stack has a configurable "length", which says how many strands are visible in the stack.
- * If a strand is not visible, we skip rendering it.
  * Stacks can also be entirely hidden.
- * <p>
+ *
+ * The hair model is rendered on the player's head, and the base strand should always connect flatly to the face it's on.
+ *
  * The hair model is generated entirely in the createBodyLayer method, which does *not* have access to the player's data.
  * This means we must all do all transformations after the point of creation.
- * <p>
+ *
  * This is partially done because the initial creation of the model is quite expensive, and we definitely don't want to
  * be doing that every frame.
- * <p>
- * In SetupAnim, hair strands will have their position and location data altered, as well as potentially having their scale adjusted.
- * We need do to some math to ensure each strand is positioned properly along its parent by snapping down the highest edge to its nearest corner.
- * Maybe worth checking the blockbench source code to see how their code for that works.
- * <p>
- * Each "hairstack" will have a curveX and a curveZ which defines how much to rotate the strand relative to the strand before it.
- * Ex: 0.15 means we rotate each strand by 0.15*N where N is the strand number.
- * <p>
- * I (UB) am currently working on a serialization format based on a byte array with palette compression which will back these transformations later.
- * It may also allow players to select a color (or a two color gradient we sample from automatically) for the hair to follow. I still need to look into how this would work
  */
 
 public class UBDynamicHair extends HumanoidModel<AbstractClientPlayer> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "dynamichair"), "main");
-    private static final float scaleFactor = 0.99F;
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("modid", "custommodel"), "main");
     private final ModelPart TopHair;
     private final ModelPart LeftHair;
     private final ModelPart RightHair;
     private final ModelPart BackHair;
     private final Map<String, ModelPart> hairStrands = new HashMap<>();
-
+    private static final float scaleFactor = 0.99F;
     public UBDynamicHair(ModelPart root) {
         super(root);
         root = root.getChild("head");
@@ -69,20 +66,20 @@ public class UBDynamicHair extends HumanoidModel<AbstractClientPlayer> {
     private static CubeListBuilder createHairStrand(int yOffset, float scale) {
         CubeListBuilder builder = CubeListBuilder.create();
         builder.texOffs(6, 0).addBox(
-                -0.5F * scale, yOffset, -1.5F * scale,  // position
-                2.0F * scale, 2.0F, 2.0F * scale        // dimensions
+            -0.5F * scale, yOffset, -1.5F * scale,  // position
+            2.0F * scale, 2.0F, 2.0F * scale        // dimensions
         );
         return builder;
     }
 
     private static void addHairRow(PartDefinition parent, String face, int rowNum, float offsetZ, Map<String, ModelPart> strandMap) {
         PartDefinition row = parent.addOrReplaceChild("Row" + rowNum, CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, offsetZ));
-
+        
         for (int stackId = 0; stackId < 4; stackId++) {
             PartDefinition stack = row.addOrReplaceChild(
-                    "HairStack" + (((rowNum - 1) * 4) + stackId + 1),
-                    CubeListBuilder.create(),
-                    PartPose.offset(-3.5F + (2.0F * stackId), 0.0F, -2.5F)
+                "HairStack" + (((rowNum-1) * 4) + stackId + 1),
+                CubeListBuilder.create(),
+                PartPose.offset(-3.5F + (2.0F * stackId), 0.0F, -2.5F)
             );
 
             // Create four individual strands for each stack
@@ -90,9 +87,9 @@ public class UBDynamicHair extends HumanoidModel<AbstractClientPlayer> {
             for (int strandId = 0; strandId < 4; strandId++) {
                 String strandKey = generateStrandId(face, rowNum, stackId + 1, strandId + 1);
                 PartDefinition strand = stack.addOrReplaceChild(
-                        "Strand" + (strandId + 1),
-                        createHairStrand(-2 * (strandId + 1), scale),
-                        PartPose.offset(0.0F, 0.0F, 0.0F)
+                    "Strand" + (strandId + 1),
+                    createHairStrand(-2 * (strandId + 1), scale),
+                    PartPose.offset(0.0F, 0.0F, 0.0F)
                 );
                 scale *= scaleFactor;
             }
@@ -139,7 +136,7 @@ public class UBDynamicHair extends HumanoidModel<AbstractClientPlayer> {
             for (int row = 1; row <= 4; row++) {
                 ModelPart rowPart = facePart.getChild("Row" + row);
                 for (int stack = 1; stack <= 4; stack++) {
-                    ModelPart stackPart = rowPart.getChild("HairStack" + ((row - 1) * 4 + stack));
+                    ModelPart stackPart = rowPart.getChild("HairStack" + ((row-1) * 4 + stack));
                     for (int strand = 1; strand <= 4; strand++) {
                         String strandId = generateStrandId(face, row, stack, strand);
                         hairStrands.put(strandId, stackPart.getChild("Strand" + strand));
@@ -149,8 +146,72 @@ public class UBDynamicHair extends HumanoidModel<AbstractClientPlayer> {
         }
     }
 
+    /**
+     * Curves a hair stack by rotating each strand progressively
+     * @param stack The hair stack ModelPart containing the strands
+     * @param xCurve X-axis rotation in radians
+     * @param zCurve Z-axis rotation in radians
+     */
+    public void curveHairStack(ModelPart stack, float xCurve, float zCurve) {
+        float multiplier = 1.0f;
+        for (int i = 1; i <= 4; i++) {
+            ModelPart strand = stack.getChild("Strand" + i);
+            if (strand != null) {
+                // Apply cumulative rotation to each subsequent strand
+                strand.xRot = xCurve * multiplier;
+                strand.zRot = zCurve * multiplier;
+                multiplier += 0.5f; // Each strand curves more than the previous
+            }
+        }
+    }
+
+    /**
+     * Curves a specific hair stack using its identifier
+     * @param face The face (top, left, right, back)
+     * @param row Row number (1-4)
+     * @param stack Stack number (1-4)
+     * @param xCurve X-axis rotation in radians
+     * @param zCurve Z-axis rotation in radians
+     */
+    public void curveHairStackById(String face, int row, int stack, float xCurve, float zCurve) {
+        ModelPart facePart = switch (face.toLowerCase()) {
+            case "top" -> TopHair;
+            case "left" -> LeftHair;
+            case "right" -> RightHair;
+            case "back" -> BackHair;
+            default -> throw new IllegalArgumentException("Invalid face: " + face);
+        };
+
+        ModelPart rowPart = facePart.getChild("Row" + row);
+        ModelPart stackPart = rowPart.getChild("HairStack" + ((row-1) * 4 + stack));
+        curveHairStack(stackPart, xCurve, zCurve);
+    }
+
     @Override
     public void setupAnim(AbstractClientPlayer pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+        // Front Row
+        curveHairStackById("top", 1, 1, -0.1f, 0.1f);
+        curveHairStackById("top", 1, 2, -0.1f, 0.1f);
+        curveHairStackById("top", 1, 3, 1.5f, -0.15f);
+        curveHairStackById("top", 1, 4, -0.1f, -0.1f);
+
+        // Second Row
+        curveHairStackById("top", 2, 1, -0.1f, 0.1f);
+        curveHairStackById("top", 2, 2, -0.1f, 0.1f);
+        curveHairStackById("top", 2, 3, -0.1f, 0.1f);
+        curveHairStackById("top", 2, 4, -0.1f, -0.1f);
+
+        // Third Row
+        curveHairStackById("top", 3, 1, 0.1f, 0.1f);
+        curveHairStackById("top", 3, 2, 0.1f, 0.1f);
+        curveHairStackById("top", 3, 3, 0.1f, -0.1f);
+        curveHairStackById("top", 3, 4, 0.1f, -0.1f);
+
+        // Fourth Row
+        curveHairStackById("top", 4, 1, 0.1f, 0.1f);
+        curveHairStackById("top", 4, 2, 0.1f, 0.1f);
+        curveHairStackById("top", 4, 3, 0.1f, -0.1f);
+        curveHairStackById("top", 4, 4, 0.1f, -0.1f);
         super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
     }
 
