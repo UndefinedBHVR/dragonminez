@@ -142,5 +142,3 @@ project.
 
 We’re excited to see your contributions and ideas! If you have any questions or need assistance, please reach out to the
 team.
-
-```
