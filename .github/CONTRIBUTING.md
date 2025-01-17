@@ -1,7 +1,8 @@
-# Contributing to DragonMineZ
+# 🐉 Contributing to DragonMineZ
 
 Thank you for your interest in contributing to DragonMineZ! Whether you want to report a bug, improve documentation,
-propose features, or help with development, we’re excited to collaborate with you.
+propose features, or help with development, we’re excited to collaborate with you. If you want to donate to the project,
+you can jump to the [Patreon](#-supporting-the-project-on-patreon) section.
 
 Please follow the guidelines below to ensure a smooth process for all contributors.
 
@@ -23,17 +24,15 @@ Please follow the guidelines below to ensure a smooth process for all contributo
 
 4. **Set Up Your Environment**  
    Ensure you have the necessary tools installed:
+    - Java Development Kit (JDK) version 17+
+    - Gradle or Maven for builds
+    - Minecraft Forge for modding support
 
-- Java Development Kit (JDK) version 17+
-- Gradle or Maven for builds
-- Minecraft Forge for modding support
-
-Follow the setup instructions in the [README](README.md) for
-additional details.
+Follow the setup instructions in the [README](/README.md) for additional details.
 
 ## How to Contribute
 
-### Reporting Bugs
+### 🐛 Reporting Bugs
 
 If you’ve encountered a bug, please:
 
@@ -44,7 +43,7 @@ If you’ve encountered a bug, please:
     - Expected vs. actual results
     - Screenshots, logs, or crash reports (if applicable)
 
-### Suggesting Features
+### ⭐ Suggesting Features
 
 Have a great idea? Open
 a [Feature Request](https://github.com/DragonMineZ/DragonMineZ/issues/new?template=feature_request.yml) and provide:
@@ -53,9 +52,9 @@ a [Feature Request](https://github.com/DragonMineZ/DragonMineZ/issues/new?templa
 - Potential benefits and impact
 - Any alternatives or related concepts
 
-Alternatively, you can suggest features in our Discord server.
+###### Alternatively, you can suggest features in our Discord server.
 
-### Submitting Pull Requests (PRs)
+### ⏳ Submitting Pull Requests (PRs)
 
 #### Step 1: Create a Branch
 
@@ -91,8 +90,10 @@ Go to your fork on GitHub and submit a [Pull Request](https://github.com/DragonM
 
 - Describe the changes and link related issues.
 - Be prepared to discuss and revise your code based on feedback.
+- Note: We do manually run GitHub Actions checks on PRs, so ensure your code passes all tests, if these fail, your PR
+  will not be merged.
 
-## Contributor Guidelines
+## 📚 Contributor Guidelines
 
 1. **Coding Standards**
 
@@ -110,17 +111,36 @@ Go to your fork on GitHub and submit a [Pull Request](https://github.com/DragonM
     - Test thoroughly across relevant scenarios.
     - Fix any linting or compilation issues before submitting your PR.
 
-## Community Communication
+4. **Code of Conduct**
+
+    - For a positive and inclusive community, follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## 💬 Community Communication
 
 - Join our Discord server (link in the repository’s README) for real-time discussions.
 
-## Licensing
+## 🫴 Supporting the Project on Patreon
 
-By contributing, you agree that your contributions will be licensed under the
-same [license](LICENSE) that governs
-the project.
+DragonMineZ is a community-driven project, and your support helps us keep improving and delivering new features!  
+Consider becoming a patron on [Patreon](https://patreon.com/DragonMineZ) to support the development and maintenance of
+the mod.
 
-## Thank You!
+Patrons receive exclusive benefits, such as:
+
+- Early access to new features
+- Behind-the-scenes updates
+- Recognition in our community
+
+Every contribution, no matter how small, helps us continue improving DragonMineZ. Thank you for your support!
+
+## 🧾 Licensing
+
+By contributing, you agree that your contributions will be licensed under the same [license](/LICENSE) that governs the
+project.
+
+## 🙌 Thank You!
 
 We’re excited to see your contributions and ideas! If you have any questions or need assistance, please reach out to the
 team.
+
+```
