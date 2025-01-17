@@ -16,7 +16,6 @@ public abstract class Objective {
 	private Runnable onCompletion;
 
 	public Objective(boolean completed) {
-
 		this.completed = completed;
 	}
 

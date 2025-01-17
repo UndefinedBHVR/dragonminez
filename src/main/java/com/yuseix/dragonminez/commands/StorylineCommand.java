@@ -7,6 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.yuseix.dragonminez.init.StorylineManager;
+import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
@@ -208,9 +209,9 @@ public class StorylineCommand {
 
 	// Provide suggestions for quest IDs
 	private CompletableFuture<Suggestions> suggestQuestIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-		//El nuevo StorylineManager no se usa como tal, pero se puede usar para obtener todas las sagas y quests porque al inicializarlo se inicializan todas las sagas
-		//Estas sagas, a su vez, tienen todas las quests que se pueden completar
-		for (Saga saga : StorylineManager.sagaRegistry.values()) {
+		// El Uso de IDRegistry.sagaRegistry no crea una instance de Storyline. Pero si tiene acceso a todas las sagas registradas
+		// (y por ende a todas las quests y objetivos) en el juego.
+		for (Saga saga : IDRegistry.sagaRegistry.values()) {
 			for (Quest quest : saga.getQuests()) {
 				builder.suggest(quest.getId());
 			}
@@ -219,7 +220,7 @@ public class StorylineCommand {
 	}
 
 	private CompletableFuture<Suggestions> suggestSagaIds(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-		for (Saga saga : StorylineManager.sagaRegistry.values()) {
+		for (Saga saga : IDRegistry.sagaRegistry.values()) {
 			builder.suggest(saga.getId());
 		}
 		return builder.buildFuture();

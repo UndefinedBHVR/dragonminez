@@ -4,54 +4,67 @@ import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveCollectItem;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
 
 import java.util.List;
 
 public class SaiyanSaga extends Saga {
 
-	private SaiyanSaga(String id, String name) {
-		super(id, name);
+	public SaiyanSaga() {
+		super("saiyan_saga", "Saiyan Saga");
+		addQuests();
 	}
 
-	public static Saga createSaiyanSaga() {
-		// Create the saga
-		Saga saiyanSaga = new SaiyanSaga("saiyan_saga", "Saiyan Saga");
-
+	@Override
+	public void addQuests() {
 		// Add quests to the saga
 		Quest quest1 = new Quest(
 				"arrival_of_raditz",
 				"Arrival of Raditz",
-				"Raditz has landed on Earth! You must confront him.",
-				List.of(new ObjectiveCollectItem(MainItems.SENZU_BEAN.get(), 5))
+				"Raditz has landed on Earth! Investigate his arrival and landing site.",
+				List.of(new ObjectiveGetToLocation("raditz_landing_site"))
 		);
 
 		Quest quest2 = new Quest(
+				"the_defeat_of_raditz",
+				"The Defeat of Raditz",
+				"Defeat Raditz and save Gohan!",
+				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5))
+		);
+
+		Quest quest3 = new Quest(
 				"training_with_piccolo",
 				"Training with Piccolo",
 				"Prepare for the arrival of the Saiyans by training with Piccolo.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5))
 		);
 
-//		Quest quest3 = new Quest(
-//				"battle_with_nappa",
-//				"Battle with Nappa",
-//				"The Saiyans have arrived! Defeat Nappa before he destroys the Earth.",
-//				List.of("Save the civilians", "Defeat Nappa")
-//		);
-//
-//		Quest quest4 = new Quest(
-//				"final_battle_vegeta",
-//				"Final Battle: Vegeta",
-//				"Face Vegeta in the ultimate battle to protect the Earth.",
-//				List.of("Fight Vegeta", "Survive his Great Ape transformation")
-//		);
+		Quest quest4 = new Quest(
+				"the_saiyan_invasion",
+				"The Saiyan Invasion",
+				"The Saiyans have arrived! Defend Earth from the Saiyan invasion.",
+				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5))
+		);
 
-		// Add quests to the saga
-		saiyanSaga.addQuest(quest1);
-		saiyanSaga.addQuest(quest2);
-//		saiyanSaga.addQuest(quest3);
-//		saiyanSaga.addQuest(quest4);
+		Quest quest5 = new Quest(
+				"battle_with_nappa",
+				"Battle with Nappa",
+				"Defeat Nappa and get one step closer to victory.",
+				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5))
+		);
 
-		return saiyanSaga;
+		Quest quest6 = new Quest(
+				"the_final_battle",
+				"The Final Battle",
+				"Defeat Vegeta and save Earth from the Saiyan threat.",
+				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5))
+		);
+
+		this.addQuest(quest1);
+		this.addQuest(quest2);
+		this.addQuest(quest3);
+		this.addQuest(quest4);
+		this.addQuest(quest5);
+		this.addQuest(quest6);
 	}
 }

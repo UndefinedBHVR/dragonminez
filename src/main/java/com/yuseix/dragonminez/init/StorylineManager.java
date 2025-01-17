@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init;
 
+import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.sagas.SaiyanSaga;
@@ -8,27 +9,18 @@ import net.minecraft.nbt.ListTag;
 
 import java.util.Hashtable;
 
+import static com.yuseix.dragonminez.registry.IDRegistry.sagaRegistry;
+
 public class StorylineManager {
 	private final Hashtable<String, Saga> sagas = new Hashtable<>();
-	public static final Hashtable<String, Saga> sagaRegistry = new Hashtable<>();
 
 	/**
 	 * Constructor for the StorylineManager. Should never be called elsewhere than in PlayerStorylineProvider.
 	 * Will automatically fire the initialization of all sagas for x player when they join.
+	 * If you are messy enough you can probably add a "Storyline" to anything and have it work.
 	 */
 	public StorylineManager() {
 		initializeSagas();
-	}
-
-	/**
-	 * Registers a custom {@link Saga} to the {@link StorylineManager#sagaRegistry}.
-	 * This method should be called during mod initialization.
-	 *
-	 * @param saga The Saga to register
-	 */
-	@SuppressWarnings("unused")
-	public static void registerSaga(Saga saga) {
-		sagaRegistry.put(saga.getId(), saga);
 	}
 
 	/**
@@ -59,6 +51,7 @@ public class StorylineManager {
 	 * @param sagaId The ID of the saga to check.
 	 * @return {@code True} if the saga is completed, {@code False} otherwise.
 	 */
+	@SuppressWarnings("unused") // Temporary suppression until I do something w/ it lmao
 	public boolean isSagaCompleted(String sagaId) {
 		Saga saga = sagas.get(sagaId);
 		return saga != null && saga.isCompleted();
@@ -76,22 +69,22 @@ public class StorylineManager {
 	// Initialize predefined sagas
 	private void initializeSagas() {
 		//Predefined Sagas by the mod
-		addSaga(SaiyanSaga.createSaiyanSaga());
+		Saga saiyanSaga = new SaiyanSaga();
+		addSaga(saiyanSaga);
 
-		sagaRegistry.put("saiyan_saga", SaiyanSaga.createSaiyanSaga());
-
-		//Register sagas from registry
+		//Register sagas from registry, no need for a throws exception as the registry should be checked before
 		for (Saga saga : sagaRegistry.values()) {
-			if (sagas.containsKey(saga.getId())) {
-				throw new IllegalArgumentException("Saga with ID '" + saga.getId() + "' already exists!");
-			}
 			addSaga(saga);
 		}
 	}
 
 	// Add a saga to the manager, local use only.
 	private void addSaga(Saga saga) {
+		//Adds saga to the manager
 		sagas.put(saga.getId(), saga);
+		//Adds saga to the registry if it's not already there
+		if (!sagaRegistry.containsKey(saga.getId()))
+			IDRegistry.registerSaga(saga);
 	}
 
 	//Must be public for the sake of the capability

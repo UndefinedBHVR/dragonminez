@@ -1,5 +1,8 @@
 package com.yuseix.dragonminez.storyline;
 
+import com.yuseix.dragonminez.registry.IDRegistry;
+import com.yuseix.dragonminez.utils.DebugUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ public class Quest {
 	private boolean completed;
 
 	public Quest(String id, String name, String description, List<Objective> objectives) {
+		IDRegistry.registerQuestId(id);
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -51,7 +55,7 @@ public class Quest {
 		this.completed = completed;
 
 		if (completed) {
-			System.out.println("Quest '" + name + "' is now completed!");
+			DebugUtils.dmzLog("Quest '" + name + "' is now completed!");
 			// Trigger any additional logic for quest completion here
 		}
 	}
