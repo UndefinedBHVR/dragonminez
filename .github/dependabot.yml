@@ -11,6 +11,8 @@ updates:
     schedule:
       interval: "weekly"
       time: "06:00" # Optional: runs every week at 6 AM UTC
+    reviewers:
+      - "Bruneitor123"
 
   # Update Gradle dependencies
   - package-ecosystem: "gradle"
@@ -18,3 +20,5 @@ updates:
     schedule:
       interval: "weekly"
       time: "06:00"
+    reviewers:
+      - "dragonminez/dev-team"
