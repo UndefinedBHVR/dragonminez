@@ -47,8 +47,8 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
     private float colorR, colorG, colorB;
 
-    public BioAndroidRender(EntityRendererProvider.Context pContext) {
-        super(pContext, new BioAndroidModel<>(pContext.bakeLayer(BioAndroidModel.LAYER_LOCATION)), 0.5f);
+    public BioAndroidRender(EntityRendererProvider.Context pContext , PlayerModel<AbstractClientPlayer>model) {
+        super(pContext, model, 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
         this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
         this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
