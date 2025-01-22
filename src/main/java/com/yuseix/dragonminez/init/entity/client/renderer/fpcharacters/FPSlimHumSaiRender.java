@@ -2,8 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.layer.SlimArmorLayer;
-import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
+import com.yuseix.dragonminez.client.character.layer.SlimArmorLayer;
 import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;

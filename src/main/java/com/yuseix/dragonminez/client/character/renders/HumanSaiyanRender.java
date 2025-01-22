@@ -1,16 +1,19 @@
-package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
+package com.yuseix.dragonminez.client.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.client.character.layer.HairsLayer;
+import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.HumanSaiyanModel;
-import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
-import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
+import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -22,36 +25,68 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Iterator;
+import net.minecraftforge.client.event.RenderNameTagEvent;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.eventbus.api.Event;
 
 @OnlyIn(Dist.CLIENT)
-public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPBase>> {
+public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
 
-    public FPHumSaiRender(EntityRendererProvider.Context pContext, PlayerModel<FPBase>model) {
+    private final AuraModel model;
+
+    public HumanSaiyanRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
         super(pContext,model, 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
-        this.addLayer(new FPHairsLayer(this));
+        this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
+        this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
+        this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
+        this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
+        this.addLayer(new BeeStingerLayer(this));
+        this.addLayer(new HairsLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
     }
 
+
     @Override
-    public ResourceLocation getTextureLocation(FPBase fpHumanSaiyanEntity) {
+    public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
         return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
     }
 
     @Override
-    public void render(FPBase pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+        this.setModelProperties(pEntity);
 
-        var playermodel = this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -116,7 +151,7 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(pEntity, f5, f8, Minecraft.getInstance().player.tickCount + pPartialTicks, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -124,29 +159,36 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
+        if (!pEntity.isSpectator()) {
+            for (RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderLayer : this.layers) {
+                renderLayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
+            }
+        }
+
         if (rendertype != null) {
             int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
                 var genero = cap.getGender();
+                boolean isAuraOn = cap.isAuraOn();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
 
-                    if(Minecraft.getInstance().player.getModelName().equals("default")){
+                    if (pEntity.getModelName().equals("default")) {
                         renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
                         renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
 
                 } else if (bodyType > 0) {
-                    pPoseStack.translate(0f,0f,0f);
+                    pPoseStack.translate(0f, 0f, 0f);
 
                     //CUERPO CUSTOM 1
                     if (bodyType == 1) {
-                        if(genero.equals("Male")){
+                        if (genero.equals("Male")) {
                             renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         } else {
                             renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -154,43 +196,185 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
                     }
 
                     //RENDER EYES
-                    if(genero.equals("Male")){
+                    if (genero.equals("Male")) {
                         renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     } else {
                         renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                     }
                 }
 
+
                 if(isMajinOn){
                     renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
+
+
 
             });
 
         }
 
-        if (!pEntity.isSpectator()) {
-            Iterator var24 = this.layers.iterator();
-
-            while(var24.hasNext()) {
-                RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
-                renderlayer.render(pPoseStack, pBuffer, pPackedLight, Minecraft.getInstance().player, f5, f8, pPartialTicks, f7, f2, f6);
-            }
-        }
-
         pPoseStack.popPose();
+
+        if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
+            this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
+        }
 
 
     }
 
-    private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+    private void setModelProperties(AbstractClientPlayer pClientPlayer) {
+        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
+        if (pClientPlayer.isSpectator()) {
+            playermodel.setAllVisible(false);
+            playermodel.hat.visible = true;
+            playermodel.head.visible = true;
+        } else {
+
+            playermodel.setAllVisible(true);
+            playermodel.hat.visible = pClientPlayer.isModelPartShown(PlayerModelPart.HAT);
+            playermodel.jacket.visible = pClientPlayer.isModelPartShown(PlayerModelPart.JACKET);
+            playermodel.leftPants.visible = pClientPlayer.isModelPartShown(PlayerModelPart.LEFT_PANTS_LEG);
+            playermodel.rightPants.visible = pClientPlayer.isModelPartShown(PlayerModelPart.RIGHT_PANTS_LEG);
+            playermodel.leftSleeve.visible = pClientPlayer.isModelPartShown(PlayerModelPart.LEFT_SLEEVE);
+            playermodel.rightSleeve.visible = pClientPlayer.isModelPartShown(PlayerModelPart.RIGHT_SLEEVE);
+            playermodel.crouching = pClientPlayer.isCrouching();
+            HumanoidModel.ArmPose humanoidmodel$armpose = getArmPose(pClientPlayer, InteractionHand.MAIN_HAND);
+            HumanoidModel.ArmPose humanoidmodel$armpose1 = getArmPose(pClientPlayer, InteractionHand.OFF_HAND);
+            if (humanoidmodel$armpose.isTwoHanded()) {
+                humanoidmodel$armpose1 = pClientPlayer.getOffhandItem().isEmpty() ? HumanoidModel.ArmPose.EMPTY : HumanoidModel.ArmPose.ITEM;
+            }
+
+            if (pClientPlayer.getMainArm() == HumanoidArm.RIGHT) {
+                playermodel.rightArmPose = humanoidmodel$armpose;
+                playermodel.leftArmPose = humanoidmodel$armpose1;
+            } else {
+                playermodel.rightArmPose = humanoidmodel$armpose1;
+                playermodel.leftArmPose = humanoidmodel$armpose;
+            }
+        }
+
+    }
+
+    private static HumanoidModel.ArmPose getArmPose(AbstractClientPlayer pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (itemstack.isEmpty()) {
+            return HumanoidModel.ArmPose.EMPTY;
+        } else {
+            if (pPlayer.getUsedItemHand() == pHand && pPlayer.getUseItemRemainingTicks() > 0) {
+                UseAnim useanim = itemstack.getUseAnimation();
+                if (useanim == UseAnim.BLOCK) {
+                    return HumanoidModel.ArmPose.BLOCK;
+                }
+
+                if (useanim == UseAnim.BOW) {
+                    return HumanoidModel.ArmPose.BOW_AND_ARROW;
+                }
+
+                if (useanim == UseAnim.SPEAR) {
+                    return HumanoidModel.ArmPose.THROW_SPEAR;
+                }
+
+                if (useanim == UseAnim.CROSSBOW && pHand == pPlayer.getUsedItemHand()) {
+                    return HumanoidModel.ArmPose.CROSSBOW_CHARGE;
+                }
+
+                if (useanim == UseAnim.SPYGLASS) {
+                    return HumanoidModel.ArmPose.SPYGLASS;
+                }
+
+                if (useanim == UseAnim.TOOT_HORN) {
+                    return HumanoidModel.ArmPose.TOOT_HORN;
+                }
+
+                if (useanim == UseAnim.BRUSH) {
+                    return HumanoidModel.ArmPose.BRUSH;
+                }
+            } else if (!pPlayer.swinging && itemstack.getItem() instanceof CrossbowItem && CrossbowItem.isCharged(itemstack)) {
+                return HumanoidModel.ArmPose.CROSSBOW_HOLD;
+            }
+
+            HumanoidModel.ArmPose forgeArmPose = IClientItemExtensions.of(itemstack).getArmPose(pPlayer, pHand, itemstack);
+            return forgeArmPose != null ? forgeArmPose : HumanoidModel.ArmPose.ITEM;
+        }
+    }
+
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+
+            int eye1color = cap.getEye1Color();
+            int eye2color = cap.getEye2Color();
+            int cabellocolor = cap.getHairColor();
+
+            if(cap.getEyesType() == 0){
+
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+            } else if(cap.getEyesType() == 1){
+                //OJOS BLANCOS
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                //CEJAS Y COLOR DE CEJAS
+                colorR = (cabellocolor >> 16) / 255.0F;
+                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                colorB = (cabellocolor & 0xff) / 255.0f;
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 1 Y COLOR DE IRIS
+                colorR = (eye1color >> 16) / 255.0F;
+                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                colorB = (eye1color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                //IRIS 2 Y COLOR DE IRIS
+                colorR = (eye2color >> 16) / 255.0F;
+                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                colorB = (eye2color & 0xff) / 255.0f;
+                pPoseStack.translate(0f,0f,-0.001f);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+            }
+
+
+        });
+    }
+    private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
         var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
 
         HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             if(cap.hasDMZPermaEffect("majin")){
                 //Renderizamos la marca majin
@@ -207,7 +391,7 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
 
                     } else if(cap.getEyesType() == 1){
                         //DELINEADO
-                        pPoseStack.translate(0f,0f,-0.002f);
+                        pPoseStack.translate(0f,0f,-0.0011f);
                         playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                     }
@@ -219,79 +403,11 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
         });
     }
 
-    private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-
-            int eye1color = cap.getEye1Color();
-            int eye2color = cap.getEye2Color();
-            int cabellocolor = cap.getHairColor();
-
-            if(cap.getEyesType() == 0){
-
-                //OJOS BLANCOS
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
-
-                //CEJAS Y COLOR DE CEJAS
-                colorR = (cabellocolor >> 16) / 255.0F;
-                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
-                colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-                //IRIS 1 Y COLOR DE IRIS
-                colorR = (eye1color >> 16) / 255.0F;
-                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-                //IRIS 2 Y COLOR DE IRIS
-                colorR = (eye2color >> 16) / 255.0F;
-                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
-                colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-            } else if(cap.getEyesType() == 1){
-                //OJOS BLANCOS
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
-
-                //CEJAS Y COLOR DE CEJAS
-                colorR = (cabellocolor >> 16) / 255.0F;
-                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
-                colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-                //IRIS 1 Y COLOR DE IRIS
-                colorR = (eye1color >> 16) / 255.0F;
-                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-                //IRIS 2 Y COLOR DE IRIS
-                colorR = (eye2color >> 16) / 255.0F;
-                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
-                colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-            }
-
-
-        });
-    }
-
-    private void renderFEMALEEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
-
-        var playermodel = this.getModel();
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
 
             int eye1color = cap.getEye1Color();
@@ -354,34 +470,34 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
 
         });
     }
-    private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(Minecraft.getInstance().player.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
     }
-    private void renderFEMBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(Minecraft.getInstance().player.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
     }
 
-    private void renderBodyType1(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
 
@@ -396,11 +512,11 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
         });
 
     }
-    private void renderFEMBodyType1(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
 
@@ -413,5 +529,40 @@ public class FPHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel<FPB
         });
 
     }
+    @Override
+    protected void setupRotations(AbstractClientPlayer pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+        float f = pEntityLiving.getSwimAmount(pPartialTicks);
+        float f3;
+        float f2;
+        if (pEntityLiving.isFallFlying()) {
+            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+            f3 = (float)pEntityLiving.getFallFlyingTicks() + pPartialTicks;
+            f2 = Mth.clamp(f3 * f3 / 100.0F, 0.0F, 1.0F);
+            if (!pEntityLiving.isAutoSpinAttack()) {
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(f2 * (-90.0F - pEntityLiving.getXRot())));
+            }
 
+            Vec3 vec3 = pEntityLiving.getViewVector(pPartialTicks);
+            Vec3 vec31 = pEntityLiving.getDeltaMovementLerped(pPartialTicks);
+            double d0 = vec31.horizontalDistanceSqr();
+            double d1 = vec3.horizontalDistanceSqr();
+            if (d0 > 0.0 && d1 > 0.0) {
+                double d2 = (vec31.x * vec3.x + vec31.z * vec3.z) / Math.sqrt(d0 * d1);
+                double d3 = vec31.x * vec3.z - vec31.z * vec3.x;
+                pPoseStack.mulPose(Axis.YP.rotation((float)(Math.signum(d3) * Math.acos(d2))));
+            }
+        } else if (f > 0.0F) {
+            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+            f3 = !pEntityLiving.isInWater() && !pEntityLiving.isInFluidType((fluidType, height) -> {
+                return pEntityLiving.canSwimInFluidType(fluidType);
+            }) ? -90.0F : -90.0F - pEntityLiving.getXRot();
+            f2 = Mth.lerp(f, 0.0F, f3);
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(f2));
+            if (pEntityLiving.isVisuallySwimming()) {
+                pPoseStack.translate(0.0F, -1.0F, 0.3F);
+            }
+        } else {
+            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+        }
+    }
 }

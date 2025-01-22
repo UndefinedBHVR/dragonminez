@@ -2,8 +2,8 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.layer.FatArmorLayer;
-import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
+import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;

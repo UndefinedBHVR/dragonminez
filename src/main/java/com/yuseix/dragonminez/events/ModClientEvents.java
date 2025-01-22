@@ -1,15 +1,15 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.AuraModel;
-import com.yuseix.dragonminez.character.models.HumanSaiyanModel;
-import com.yuseix.dragonminez.character.models.NamekianModel;
-import com.yuseix.dragonminez.character.models.SlimHumanSaiyanModel;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
-import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
-import com.yuseix.dragonminez.character.models.hair.*;
-import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
-import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.character.models.AuraModel;
+import com.yuseix.dragonminez.client.character.models.HumanSaiyanModel;
+import com.yuseix.dragonminez.client.character.models.NamekianModel;
+import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.client.character.models.hair.*;
+import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
+import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.*;
@@ -191,7 +191,8 @@ public class ModClientEvents {
 		e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
 		e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
 		e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
-		e.registerLayerDefinition(BioAndroideModelo.LAYER_LOCATION, BioAndroideModelo::createBodyLayer);
+		e.registerLayerDefinition(BioAndroidModel.LAYER_LOCATION, BioAndroidModel::createBodyLayer);
+
 		e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
 		e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
 		e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);

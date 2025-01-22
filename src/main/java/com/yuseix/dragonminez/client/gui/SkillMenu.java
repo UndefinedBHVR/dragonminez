@@ -164,8 +164,10 @@ public class SkillMenu extends Screen {
                 String skillId = entry.getKey();
                 DMZSkill skill = entry.getValue();
                 double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
-                int jumpCost = DMZGeneralConfig.JUMP_TP_COST_LEVELS.get(); int flyCost = DMZGeneralConfig.FLY_TP_COST_LEVELS.get();
-                int sprintCost = DMZGeneralConfig.SPRINT_TP_COST_LEVELS.get(); int pUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get();
+                int jumpCost = DMZGeneralConfig.JUMP_TP_COST_LEVELS.get();
+                int flyCost = DMZGeneralConfig.FLY_TP_COST_LEVELS.get();
+                int sprintCost = DMZGeneralConfig.SPRINT_TP_COST_LEVELS.get();
+                int pUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get();
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
                     case "potential_unlock":

@@ -24,7 +24,10 @@ public class DMZSkillsCommand {
 	private static final Map<String, Integer> VALID_SKILLS_LIST = Map.of(
 			"potential_unlock", 15,
 			"jump", 10,
-			"fly", 10
+			"fly", 10,
+			"ki_control",10,
+			"ki_manipulation",10,
+			"meditation",10
 	);
 
 	public DMZSkillsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {

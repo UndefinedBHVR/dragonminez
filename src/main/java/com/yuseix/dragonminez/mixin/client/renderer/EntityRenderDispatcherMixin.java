@@ -1,12 +1,11 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
 import com.google.common.collect.ImmutableMap;
-import com.yuseix.dragonminez.character.models.*;
-import com.yuseix.dragonminez.character.models.bioandroid.GeoBioAndroidModel;
-import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
-import com.yuseix.dragonminez.character.models.majin.MajinFemaleModel;
-import com.yuseix.dragonminez.character.models.majin.MajinGordoModel;
-import com.yuseix.dragonminez.character.renders.*;
+import com.yuseix.dragonminez.client.character.models.*;
+import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
+import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
+import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.character.renders.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -25,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
 import java.util.Map;
 

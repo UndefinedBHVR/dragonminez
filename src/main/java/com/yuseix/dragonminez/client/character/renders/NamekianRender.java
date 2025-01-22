@@ -1,16 +1,19 @@
-package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
+package com.yuseix.dragonminez.client.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.client.character.layer.HairsLayer;
+import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
-import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
-import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -22,33 +25,64 @@ import net.minecraft.client.renderer.entity.layers.*;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.PlayerModelPart;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RenderNameTagEvent;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<FPBase>> {
+public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     private float colorR, colorG, colorB;
+    private final AuraModel model;
 
-    public FPNamekianRender(EntityRendererProvider.Context pContext) {
+    public NamekianRender(EntityRendererProvider.Context pContext) {
         super(pContext, new NamekianModel<>(pContext.bakeLayer(NamekianModel.LAYER_LOCATION)), 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
-        this.addLayer(new FPHairsLayer(this));
+        this.addLayer(new PlayerItemInHandLayer(this, pContext.getItemInHandRenderer()));
+        this.addLayer(new ElytraLayer(this, pContext.getModelSet()));
+        this.addLayer(new ParrotOnShoulderLayer(this, pContext.getModelSet()));
+        this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
+        this.addLayer(new BeeStingerLayer(this));
+        this.addLayer(new HairsLayer(this));
+        this.addLayer(new ArmasLayer(this));
+
+        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 
     }
 
     @Override
-    public void render(FPBase pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+        this.setModelProperties(pEntity);
 
-        var playermodel = this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
+        RenderNameTagEvent renderNameTagEvent = new RenderNameTagEvent(pEntity, pEntity.getDisplayName(), this, pPoseStack, pBuffer, pPackedLight, pPartialTicks);
 
         pPoseStack.pushPose();
-        pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+            int transformacion = cap.getDmzState();
+
+            if(transformacion == 0){
+                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
+
+            }
+        });
+
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
         playermodel.riding = shouldSit;
@@ -113,7 +147,7 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
         }
 
         playermodel.prepareMobModel(pEntity, f5, f8, pPartialTicks);
-        playermodel.setupAnim(pEntity, f5, f8, Minecraft.getInstance().player.tickCount + pPartialTicks, f2, f6);
+        playermodel.setupAnim(pEntity, f5, f8, f7, f2, f6);
         Minecraft minecraft = Minecraft.getInstance();
         boolean flag = this.isBodyVisible(pEntity);
         boolean flag1 = !flag && !pEntity.isInvisibleTo(minecraft.player);
@@ -121,52 +155,63 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
         RenderType rendertype = getRenderType(pEntity,flag,flag1,flag2);
 
-        if (rendertype != null) {
-            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
-
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-                int bodyType = cap.getBodytype();
-                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
-
-                if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                } else if (bodyType == 1) {
-                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                }
-                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                if(isMajinOn){
-                    renderMarcaMajin(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                }
-
-            });
-
-        }
-
         if (!pEntity.isSpectator()) {
             Iterator var24 = this.layers.iterator();
 
             while(var24.hasNext()) {
                 RenderLayer<AbstractClientPlayer, EntityModel<AbstractClientPlayer>> renderlayer = (RenderLayer)var24.next();
-                renderlayer.render(pPoseStack, pBuffer, pPackedLight, Minecraft.getInstance().player, f5, f8, pPartialTicks, f7, f2, f6);
+                renderlayer.render(pPoseStack, pBuffer, pPackedLight, pEntity, f5, f8, pPartialTicks, f7, f2, f6);
             }
         }
 
+        if (rendertype != null) {
+            int i = getOverlayCoords(pEntity, this.getWhiteOverlayProgress(pEntity, pPartialTicks));
+
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+                int bodyType = cap.getBodytype();
+                int colorAura = cap.getAuraColor();
+                boolean isAuraOn = cap.isAuraOn();
+                boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+
+
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                } else if (bodyType == 1) {
+                    pPoseStack.translate(0f, 0f, 0f);
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+
+                if(isMajinOn){
+                    renderMarcaMajin(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
+
+
+            });
+
+        }
+
+
+
         pPoseStack.popPose();
 
-
+        if (renderNameTagEvent.getResult() != Event.Result.DENY && (renderNameTagEvent.getResult() == Event.Result.ALLOW || this.shouldShowName(pEntity))) {
+            this.renderNameTag(pEntity, renderNameTagEvent.getContent(), pPoseStack, pBuffer, pPackedLight);
+        }
 
     }
-    private void renderMarcaMajin(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+    private void renderMarcaMajin(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
+        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             if(cap.hasDMZPermaEffect("majin")){
                 //Renderizamos la marca majin para todos
@@ -176,12 +221,12 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
                 if(cap.getEyesType() == 0){
 
                     //DELINEADO
-                    pPoseStack.translate(0f,0f,-0.002f);
+                    pPoseStack.translate(0f,0f,-0.0011f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 } else if(cap.getEyesType() == 1){
                     //DELINEADO
-                    pPoseStack.translate(0f,0f,-0.002f);
+                    pPoseStack.translate(0f,0f,-0.0011f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 }
@@ -192,11 +237,11 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
         });
     }
-    private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
 
             int eye1color = cap.getEye1Color();
@@ -260,11 +305,11 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
         });
     }
 
-    private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
             int bodyColor2 = cap.getBodyColor2();
@@ -292,11 +337,11 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
     }
 
-    private void renderBodyType1(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
             int bodyColor2 = cap.getBodyColor2();
@@ -332,8 +377,122 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FPBase abstractClientPlayer) {
+    public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
         return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
     }
+
+
+    private void setModelProperties(AbstractClientPlayer pClientPlayer) {
+        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
+        if (pClientPlayer.isSpectator()) {
+            playermodel.setAllVisible(false);
+            playermodel.hat.visible = true;
+            playermodel.head.visible = true;
+        } else {
+            playermodel.setAllVisible(true);
+            playermodel.hat.visible = pClientPlayer.isModelPartShown(PlayerModelPart.HAT);
+            playermodel.jacket.visible = pClientPlayer.isModelPartShown(PlayerModelPart.JACKET);
+            playermodel.leftPants.visible = pClientPlayer.isModelPartShown(PlayerModelPart.LEFT_PANTS_LEG);
+            playermodel.rightPants.visible = pClientPlayer.isModelPartShown(PlayerModelPart.RIGHT_PANTS_LEG);
+            playermodel.leftSleeve.visible = pClientPlayer.isModelPartShown(PlayerModelPart.LEFT_SLEEVE);
+            playermodel.rightSleeve.visible = pClientPlayer.isModelPartShown(PlayerModelPart.RIGHT_SLEEVE);
+            playermodel.crouching = pClientPlayer.isCrouching();
+            HumanoidModel.ArmPose humanoidmodel$armpose = getArmPose(pClientPlayer, InteractionHand.MAIN_HAND);
+            HumanoidModel.ArmPose humanoidmodel$armpose1 = getArmPose(pClientPlayer, InteractionHand.OFF_HAND);
+            if (humanoidmodel$armpose.isTwoHanded()) {
+                humanoidmodel$armpose1 = pClientPlayer.getOffhandItem().isEmpty() ? HumanoidModel.ArmPose.EMPTY : HumanoidModel.ArmPose.ITEM;
+            }
+
+            if (pClientPlayer.getMainArm() == HumanoidArm.RIGHT) {
+                playermodel.rightArmPose = humanoidmodel$armpose;
+                playermodel.leftArmPose = humanoidmodel$armpose1;
+            } else {
+                playermodel.rightArmPose = humanoidmodel$armpose1;
+                playermodel.leftArmPose = humanoidmodel$armpose;
+            }
+        }
+
+    }
+
+    private static HumanoidModel.ArmPose getArmPose(AbstractClientPlayer pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (itemstack.isEmpty()) {
+            return HumanoidModel.ArmPose.EMPTY;
+        } else {
+            if (pPlayer.getUsedItemHand() == pHand && pPlayer.getUseItemRemainingTicks() > 0) {
+                UseAnim useanim = itemstack.getUseAnimation();
+                if (useanim == UseAnim.BLOCK) {
+                    return HumanoidModel.ArmPose.BLOCK;
+                }
+
+                if (useanim == UseAnim.BOW) {
+                    return HumanoidModel.ArmPose.BOW_AND_ARROW;
+                }
+
+                if (useanim == UseAnim.SPEAR) {
+                    return HumanoidModel.ArmPose.THROW_SPEAR;
+                }
+
+                if (useanim == UseAnim.CROSSBOW && pHand == pPlayer.getUsedItemHand()) {
+                    return HumanoidModel.ArmPose.CROSSBOW_CHARGE;
+                }
+
+                if (useanim == UseAnim.SPYGLASS) {
+                    return HumanoidModel.ArmPose.SPYGLASS;
+                }
+
+                if (useanim == UseAnim.TOOT_HORN) {
+                    return HumanoidModel.ArmPose.TOOT_HORN;
+                }
+
+                if (useanim == UseAnim.BRUSH) {
+                    return HumanoidModel.ArmPose.BRUSH;
+                }
+            } else if (!pPlayer.swinging && itemstack.getItem() instanceof CrossbowItem && CrossbowItem.isCharged(itemstack)) {
+                return HumanoidModel.ArmPose.CROSSBOW_HOLD;
+            }
+
+            HumanoidModel.ArmPose forgeArmPose = IClientItemExtensions.of(itemstack).getArmPose(pPlayer, pHand, itemstack);
+            return forgeArmPose != null ? forgeArmPose : HumanoidModel.ArmPose.ITEM;
+        }
+    }
+
+    @Override
+    protected void setupRotations(AbstractClientPlayer pEntityLiving, PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+        float f = pEntityLiving.getSwimAmount(pPartialTicks);
+        float f3;
+        float f2;
+        if (pEntityLiving.isFallFlying()) {
+            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+            f3 = (float)pEntityLiving.getFallFlyingTicks() + pPartialTicks;
+            f2 = Mth.clamp(f3 * f3 / 100.0F, 0.0F, 1.0F);
+            if (!pEntityLiving.isAutoSpinAttack()) {
+                pPoseStack.mulPose(Axis.XP.rotationDegrees(f2 * (-90.0F - pEntityLiving.getXRot())));
+            }
+
+            Vec3 vec3 = pEntityLiving.getViewVector(pPartialTicks);
+            Vec3 vec31 = pEntityLiving.getDeltaMovementLerped(pPartialTicks);
+            double d0 = vec31.horizontalDistanceSqr();
+            double d1 = vec3.horizontalDistanceSqr();
+            if (d0 > 0.0 && d1 > 0.0) {
+                double d2 = (vec31.x * vec3.x + vec31.z * vec3.z) / Math.sqrt(d0 * d1);
+                double d3 = vec31.x * vec3.z - vec31.z * vec3.x;
+                pPoseStack.mulPose(Axis.YP.rotation((float)(Math.signum(d3) * Math.acos(d2))));
+            }
+        } else if (f > 0.0F) {
+            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+            f3 = !pEntityLiving.isInWater() && !pEntityLiving.isInFluidType((fluidType, height) -> {
+                return pEntityLiving.canSwimInFluidType(fluidType);
+            }) ? -90.0F : -90.0F - pEntityLiving.getXRot();
+            f2 = Mth.lerp(f, 0.0F, f3);
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(f2));
+            if (pEntityLiving.isVisuallySwimming()) {
+                pPoseStack.translate(0.0F, -1.0F, 0.3F);
+            }
+        } else {
+            super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
+        }
+    }
+
 
 }

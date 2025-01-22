@@ -13,13 +13,6 @@ public class TextureManager {
     public static final ResourceLocation B_IMPERFECT_BODYCOLA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodycola.png");
     public static final ResourceLocation B_IMPERFECT_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0.png");
     public static final ResourceLocation B_IMPERFECT_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0_iris.png");
-    //ARMS
-    public static final ResourceLocation B_IMPERFECT_ARMS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/arms/arms_1.png");
-    public static final ResourceLocation B_IMPERFECT_ARMS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/arms/arms_2.png");
-    public static final ResourceLocation B_IMPERFECT_ARMS3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/arms/arms_3.png");
-
-
-
 
     //SAIYAN Y HUMANO
     public static final ResourceLocation SH_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/body/bodytype1.png");
