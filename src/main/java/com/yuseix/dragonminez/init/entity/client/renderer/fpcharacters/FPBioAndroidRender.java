@@ -33,10 +33,11 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
     private float colorR, colorG, colorB;
 
-    public FPBioAndroidRender(EntityRendererProvider.Context pContext) {
-        super(pContext, new BioAndroidModel<>(pContext.bakeLayer(BioAndroidModel.LAYER_LOCATION)), 0.5f);
+    public FPBioAndroidRender(EntityRendererProvider.Context pContext, PlayerModel<FPBase>model) {
+        super(pContext, model, 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
     }
+
 
     @Override
     public ResourceLocation getTextureLocation(FPBase fpBioAndroidEntity) {
