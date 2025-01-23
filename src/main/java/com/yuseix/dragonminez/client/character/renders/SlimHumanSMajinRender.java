@@ -27,6 +27,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
@@ -171,9 +172,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                 int bodyType = cap.getBodytype();
                 var raza = cap.getRace();
-                int colorAura = cap.getAuraColor();
                 int transformacion = cap.getDmzState();
-                boolean isAuraOn = cap.isAuraOn();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (transformacion){
@@ -181,6 +180,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                         if(raza == 0 || raza == 1){
                             if (bodyType == 0) {
                                 if(pEntity.getModelName().equals("default")){
+
                                 } else {
                                     renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                                 }
@@ -245,14 +245,14 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {
-        var playermodel = this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
 
         if (pClientPlayer.isSpectator()) {
             playermodel.setAllVisible(false);
             playermodel.hat.visible = true;
             playermodel.head.visible = true;
         } else {
-            // Ocultar todas las partes primero
+
             playermodel.setAllVisible(true);
 
             playermodel.hat.visible = pClientPlayer.isModelPartShown(PlayerModelPart.HAT);
@@ -329,7 +329,6 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-
 
             int eye1color = cap.getEye1Color();
             int eye2color = cap.getEye2Color();
@@ -477,6 +476,8 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
             playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
+
+
     }
 
     private void renderMajinFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){

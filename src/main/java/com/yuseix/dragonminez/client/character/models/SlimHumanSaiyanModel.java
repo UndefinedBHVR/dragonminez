@@ -23,11 +23,11 @@ public class SlimHumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T>
 	private final ModelPart LeftArm;
 	private final ModelPart RightLeg;
 	private final ModelPart LeftLeg;
-	private final ModelPart BodyJacket;
-	private final ModelPart RightSleeve;
-	private final ModelPart LeftSleeve;
-	private final ModelPart RightPants;
-	private final ModelPart LeftPants;
+	public final ModelPart BodyJacket;
+	public final ModelPart RightSleeve;
+	public final ModelPart LeftSleeve;
+	public final ModelPart RightPants;
+	public final ModelPart LeftPants;
 	public SlimHumanSaiyanModel(ModelPart root) {
         super(root, true);
         this.Head = root.getChild("head");
@@ -87,5 +87,7 @@ public class SlimHumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T>
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		super.renderToBuffer(poseStack,vertexConsumer,packedLight,packedOverlay,red,green,blue,alpha);
+
 	}
+
 }

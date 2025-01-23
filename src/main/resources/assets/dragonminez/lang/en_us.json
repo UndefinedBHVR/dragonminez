@@ -214,6 +214,25 @@
   "dmz.ccreation.colddemon.description": "They are a race of intergalactic conquerors with immense power and boundless cruelty. Their ability to transform and increase their power makes them formidable enemies. Despite their fragile appearance, they are some of the deadliest creatures in the universe.",
   "dmz.ccreation.majin.description": "They are a magical and unpredictable race with enormous destructive potential, with a unique ability to regenerate and change form. Though they may seem playful or childish, they are extremely dangerous when they unleash their true power.",
 
+  "dmz.ccreation.eyes.types": "Eyes Type",
+  "dmz.ccreation.body.types": "Body Type",
+  "dmz.ccreation.gender": "Gender",
+  "dmz.ccreation.ears": "Ears",
+  "dmz.ccreation.hairs": "Hair",
+  "dmz.ccreation.biotype": "DrGero's Style",
+  "dmz.skills.level": "Level:",
+  "dmz.skills.skill": "Skill:",
+  "dmz.skills.active": "Active:",
+  "dmz.skills.skill2": "Skill",
+  "dmz.skills.type": "Type:",
+  "dmz.skills.on": "On",
+  "dmz.skills.off": "Off",
+  "dmz.skills.cost": "Cost",
+
+  "dmz.skill.jump.name": "Jump",
+  "dmz.skill.jump.desc": "Jumping wa",
+
+
   "block.dragonminez.namek_block": "Planet Namek Block",
   "block.dragonminez.namek_dirt": "Namek Dirt",
   "block.dragonminez.namek_grass": "Namek Grass",
@@ -498,6 +517,8 @@
   "command.dmzeffects.perma.take.all": "You have \u00A7cremoved \u00A7rall the permanent effects ",
   "command.dmzeffects.temp.take.all": "You have \u00A7cremoved \u00A7rall the temporary effects ",
   "command.dmz.to": "to ",
+  "command.dmzskills.invalid_skill": "Invalid Skill!",
+  "command.dmzskills.valid_skills": "Valid Skills: ",
 
   "ui.dmzradar.range": "Radar Range is",
   "ui.dmzradar.blocks": "blocks.",

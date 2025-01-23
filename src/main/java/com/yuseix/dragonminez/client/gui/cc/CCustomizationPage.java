@@ -130,8 +130,8 @@ public class CCustomizationPage extends Screen {
 
         if (currentPage == 0) {
             botonesBodyType(113, alto - 44);
-            botonesGeneros(113, alto - 76);
-            botonesOjos(113, alto + 3);
+            botonesGeneros(113, alto + 3);
+            botonesOjos(113,alto - 76 );
             botonesCabellos(113, alto + 3);
             botonIgualar();
 
@@ -188,14 +188,9 @@ public class CCustomizationPage extends Screen {
             int posX = 72;
             int posY = (this.height) / 2;
 
-                if (cap.getRace() == 0) {
+                if (cap.getRace() == 0 || cap.getRace() == 1) {
                     //Boton para igualar los ojos
-                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY + 20, Component.empty(), button -> {
-                        ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
-                    }));
-                } else if (cap.getRace() == 1) {
-                    //Boton para igualar los ojos
-                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY + 20, Component.empty(), button -> {
+                    this.igualarButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("igual", posX + 5, posY - 61, Component.empty(), button -> {
                         ModMessages.sendToServer(new CharacterC2S("eye2Color", cap.getEye1Color()));
                     }));
                 } else if (cap.getRace() == 2) {
@@ -433,38 +428,19 @@ public class CCustomizationPage extends Screen {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
                 switch (cap.getRace()) {
-                    case 0:
+                    case 0,1:
                         //BOTON COLOR OJO 1
-                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY - 63, Component.empty(), button -> {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
                         }));
                         //BOTON COLOR OJO 2
-                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
+                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY - 63, Component.empty(), button -> {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
                         }));
 
-                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY- 18, Component.empty(), button -> {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
                         }));
-
-                        this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
-                            Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
-                        }));
-                        break;
-                    case 1:
-                        //BOTON COLOR OJO 1
-                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX - 15, posY + 18, Component.empty(), button -> {
-                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
-                        }));
-                        //BOTON COLOR OJO 2
-                        this.eyesButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor2", posX + 15, posY + 18, Component.empty(), button -> {
-                            Minecraft.getInstance().setScreen(new ColorPickerScreen("eye2Color"));
-                        }));
-
-                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 29, Component.empty(), button -> {
-                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
-                        }));
-
 
                         this.hairButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("hairColor", posX, posY + 64, Component.empty(), button -> {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("hairColor"));
@@ -545,12 +521,12 @@ public class CCustomizationPage extends Screen {
                         break;
                     case 5:
                         //BOTON COLOR OJO 1
-                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY + 57, Component.empty(), button -> {
+                        this.eyesButtonColor = (ColorButton) this.addRenderableWidget(new ColorButton("eyeColor1", posX, posY - 63, Component.empty(), button -> {
 
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
                         }));
 
-                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY - 30, Component.empty(), button -> {
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY- 18, Component.empty(), button -> {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
                         }));
 
@@ -598,68 +574,7 @@ public class CCustomizationPage extends Screen {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
             switch (cap.getRace()) {
-                case 0:
-                    if (cap.getHairID() == 0) {
-                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 1));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-
-                    } else if (cap.getHairID() == 1) {
-                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 0));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 2));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                    } else if (cap.getHairID() == 2) {
-                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 1));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 3));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                    } else if (cap.getHairID() == 3) {
-                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 2));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 4));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                    } else if (cap.getHairID() == 4) {
-                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 3));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                        this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 5));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                    } else if (cap.getHairID() == 5) {
-                        this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+47, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("hairID", 4));
-                            this.removeWidget(hairRigthButton);
-                            this.removeWidget(hairLeftButton);
-                        }));
-                    }
-
-                    break;
-                case 1:
+                case 0,1:
                     if (cap.getHairID() == 0) {
                         this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("hairID", 1));
@@ -756,30 +671,30 @@ public class CCustomizationPage extends Screen {
                     if(cap.getGender().equals("Female")){
 
                         if (cap.getHairID() == 0) {
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 3, Component.empty(), button -> {
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
 
                         } else if (cap.getHairID() == 1) {
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY + 47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 3, Component.empty(), button -> {
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 2));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
                         } else if (cap.getHairID() == 2) {
-                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+3, Component.empty(), button -> {
+                            this.hairLeftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY + 47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
                             }));
-                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 3, Component.empty(), button -> {
+                            this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 3));
                                 this.removeWidget(hairRigthButton);
                                 this.removeWidget(hairLeftButton);
@@ -831,26 +746,7 @@ public class CCustomizationPage extends Screen {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
             switch (cap.getRace()) {
-                case 0:
-                    if (cap.getBodytype() > 0) {
-                        if (cap.getEyesType() == 0) {
-                            this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                                this.removeWidget(eyesTypeRight);
-                                this.removeWidget(eyesTypeLeft);
-                            }));
-
-                        } else if (cap.getEyesType() == 1) {
-                            this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                                this.removeWidget(eyesTypeRight);
-                                this.removeWidget(eyesTypeLeft);
-                            }));
-                        }
-                    }
-
-                    break;
-                case 1:
+                case 0,1:
                     if (cap.getBodytype() > 0) {
                         if (cap.getEyesType() == 0) {
                             this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
@@ -878,14 +774,14 @@ public class CCustomizationPage extends Screen {
                 case 5:
                     if (cap.getGender().equals("Female")) {
                         if (cap.getEyesType() == 0) {
-                            this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 38, Component.empty(), button -> {
+                            this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
                                 this.removeWidget(eyesTypeRight);
                                 this.removeWidget(eyesTypeLeft);
                             }));
 
                         } else if (cap.getEyesType() == 1) {
-                            this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY + 38, Component.empty(), button -> {
+                            this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
                                 this.removeWidget(eyesTypeRight);
                                 this.removeWidget(eyesTypeLeft);
@@ -964,30 +860,15 @@ public class CCustomizationPage extends Screen {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
             switch (cap.getRace()) {
-                case 0:
+                case 0,1:
                     if (cap.getBodytype() == 0) {
-                        this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                        this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY+12, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
                             this.removeWidget(bodyTypeRightButton);
                             this.removeWidget(bodyTypeLeftButton);
                         }));
                     } else if (cap.getBodytype() == 1) {
-                        this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
-                            this.removeWidget(bodyTypeRightButton);
-                            this.removeWidget(bodyTypeLeftButton);
-                        }));
-                    }
-                    break;
-                case 1:
-                    if (cap.getBodytype() == 0) {
-                        this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
-                            this.removeWidget(bodyTypeRightButton);
-                            this.removeWidget(bodyTypeLeftButton);
-                        }));
-                    } else if (cap.getBodytype() == 1) {
-                        this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                        this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+12, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                             this.removeWidget(bodyTypeRightButton);
                             this.removeWidget(bodyTypeLeftButton);
@@ -1055,32 +936,16 @@ public class CCustomizationPage extends Screen {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
             switch (cap.getRace()) {
-                case 0:
+                case 0,1:
                     if (cap.getGender().equals("Female")) {
 
-                        this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                        this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 0));
                             this.removeWidget(gendersRigthButton);
                             this.removeWidget(gendersLeftButton);
                         }));
                     } else if (cap.getGender().equals("Male")) {
-                        this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("Gender", 1));
-                            this.removeWidget(gendersRigthButton);
-                            this.removeWidget(gendersLeftButton);
-                        }));
-                    }
-                    break;
-                case 1:
-                    if (cap.getGender().equals("Female")) {
-
-                        this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
-                            ModMessages.sendToServer(new CharacterC2S("Gender", 0));
-                            this.removeWidget(gendersRigthButton);
-                            this.removeWidget(gendersLeftButton);
-                        }));
-                    } else if (cap.getGender().equals("Male")) {
-                        this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                        this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 1));
                             this.removeWidget(gendersRigthButton);
                             this.removeWidget(gendersLeftButton);
@@ -1096,13 +961,13 @@ public class CCustomizationPage extends Screen {
                 case 5:
                     if (cap.getGender().equals("Female")) {
 
-                        this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                        this.gendersLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 0));
                             this.removeWidget(gendersRigthButton);
                             this.removeWidget(gendersLeftButton);
                         }));
                     } else if (cap.getGender().equals("Male")) {
-                        this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                        this.gendersRigthButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY+11, Component.empty(), button -> {
                             ModMessages.sendToServer(new CharacterC2S("Gender", 1));
                             this.removeWidget(gendersRigthButton);
                             this.removeWidget(gendersLeftButton);
@@ -1130,64 +995,67 @@ public class CCustomizationPage extends Screen {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
 
+            //EYES TITTLE
+            alturaTexto = (pGuiGraphics.guiHeight() / 2);
+            anchoTexto = 84;
+            drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.eyes.types"),anchoTexto, alturaTexto - 89,0xFF9B9B);
+
+            //TIPOS DE OJOS
+            alturaTexto = (pGuiGraphics.guiHeight() / 2);
+            anchoTexto = 84;
+
+            if (cap.getEyesType() == 0) {
+                drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto - 73, 0xFFFFFF);
+            } else if (cap.getEyesType() == 1) {
+                drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto - 73, 0xFFFFFF);
+            } else if (cap.getEyesType() == 2){
+                drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto - 73, 0xFFFFFF);
+            }
+
+            //TIPO DE CUERPO
+            anchoTexto = 47;
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.setShaderTexture(0, texto);
+            pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 48, 0, 0, 73, 15);
+            RenderSystem.disableBlend();
+
+            //CUERPO TITULO
+            anchoTexto = 84;
+            //drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.body.types"),anchoTexto, alturaTexto - 44,0xFF9B9B);
+            drawStringWithBorder2(pGuiGraphics,font,Component.literal("Tipo de Cuerpo"),anchoTexto, alturaTexto - 44,0xFF9B9B);
+
+
             switch (cap.getRace()) {
-                case 0:
-                    //GENERO TITULO
-                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = 65;
-                    pGuiGraphics.drawString(font, Component.literal("Gender").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xC07FFD);
+                case 0,1:
+                    //TIPO DE CUERPO
+                    if (cap.getBodytype() == 0) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto - 29, 0xFFFFFF);
+                    } else if (cap.getBodytype() == 1) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Custom"), 67, alturaTexto - 29, 0xFFFFFF);
+
+                    }
+
+                    //GENERO TIPO
+                    anchoTexto = 47;
+                    RenderSystem.enableBlend();
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    RenderSystem.setShaderTexture(0, texto);
+                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 2, 0, 0, 73, 15);
+                    RenderSystem.disableBlend();
+
+                    anchoTexto = 84;
+                    drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.gender"),anchoTexto, alturaTexto + 2,0xFF9B9B);
 
                     switch (cap.getGender()) {
                         case "Male", "male":
-                            anchoTexto = 74;
-                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
+                            anchoTexto = 84;
+                            drawStringWithBorder2(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto + 18, 0xFFFFFF, 0x2133A6);
                             break;
                         case "Female", "female":
-                            anchoTexto = 68;
-                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
+                            anchoTexto = 84;
+                            drawStringWithBorder2(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto + 18, 0xFFFFFF, 0xFC63D9);
                             break;
-                    }
-
-                    //TIPO DE CUERPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-
-                    //CUERPO TITULO
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 57, 0xFFCA9B);
-
-                    //TIPO DE CUERPO
-                    if (cap.getBodytype() == 0) {
-                        anchoTexto = 66;
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 0"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
-                    } else if (cap.getBodytype() == 1) {
-                        anchoTexto = 66;
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 1"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
-
-                    }
-
-                    //OJOS TIPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-                    //OJOS TITULO
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 10, 0xFF9B9B);
-
-                    anchoTexto = 63;
-                    if (cap.getEyesType() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 7, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 7, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 2){
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 7, 0xFFFFFF);
                     }
 
                     //HAIR COLOR
@@ -1199,144 +1067,35 @@ public class CCustomizationPage extends Screen {
                     RenderSystem.disableBlend();
 
                     //HAIR TITULO
-                    anchoTexto = 72;
-                    pGuiGraphics.drawString(font, Component.literal("Hair").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto + 38, 0x65FC63);
+                    anchoTexto = 84;
+                    drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.hairs"),anchoTexto, alturaTexto + 38,0xFF9B9B);
 
-                    anchoTexto = 63;
+                    anchoTexto = 84;
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 3) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 4) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 5) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
-                    }
-
-                    break;
-                case 1:
-                    //GENERO TITULO
-                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = 65;
-                    pGuiGraphics.drawString(font, Component.literal("Gender").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xC07FFD);
-
-                    switch (cap.getGender()) {
-                        case "Male", "male":
-                            anchoTexto = 74;
-                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
-                            break;
-                        case "Female", "female":
-                            anchoTexto = 68;
-                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
-                            break;
-                    }
-
-                    //TIPO DE CUERPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-
-                    //CUERPO TITULO
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 57, 0xFFCA9B);
-
-                    //TIPO DE CUERPO
-                    if (cap.getBodytype() == 0) {
-                        anchoTexto = 66;
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 0"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
-                    } else if (cap.getBodytype() == 1) {
-                        anchoTexto = 66;
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 1"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
-
-                    }
-
-                    //OJOS TIPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-                    //OJOS TITULO
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 10, 0xFF9B9B);
-
-                    anchoTexto = 63;
-                    if (cap.getEyesType() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 7, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 7, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 2){
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 7, 0xFFFFFF);
-                    }
-
-                    //HAIR COLOR
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 34, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-
-                    //HAIR TITULO
-                    anchoTexto = 72;
-                    pGuiGraphics.drawString(font, Component.literal("Hair").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto + 38, 0x65FC63);
-
-                    anchoTexto = 63;
-                    if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
-                    } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
-                    } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
-                    } else if (cap.getHairID() == 3) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
-                    } else if (cap.getHairID() == 4) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
-                    } else if (cap.getHairID() == 5) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     }
 
                     break;
                 case 2:
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
-
-                    anchoTexto = 63;
-                    if (cap.getEyesType() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto - 73, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto - 73, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 2){
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto,alturaTexto - 73, 0xFFFFFF);
-                    }
-
-                    //TIPO DE CUERPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 48, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-
-                    //CUERPO TITULO
-                    anchoTexto = 52;
-                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 44, 0xFFCA9B);
+                    anchoTexto = 84;
 
                     //TIPO DE CUERPO
                     if (cap.getBodytype() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto - 29, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Default"), anchoTexto, alturaTexto - 29, 0xFFFFFF);
                     } else if (cap.getBodytype() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Custom"), 67, alturaTexto - 29, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Custom"), anchoTexto, alturaTexto - 29, 0xFFFFFF);
 
                     }
                     //TIPO DE CABELLO EN ESTE CASO OREJAS PARA EL NAMEK
@@ -1347,60 +1106,29 @@ public class CCustomizationPage extends Screen {
                     pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 2, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
                     //HAIR TITULO
-                    pGuiGraphics.drawString(font, Component.literal("Ears").withStyle(ChatFormatting.BOLD), 70, alturaTexto + 1, 0x65FC63);
+                    anchoTexto = 84;
+                    drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.hairs"),anchoTexto, alturaTexto + 2,0xFF9B9B);
 
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto + 18, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Default"), anchoTexto, alturaTexto + 18, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), 66, alturaTexto + 18, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 18, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("None"), 72, alturaTexto + 18, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("None"), anchoTexto, alturaTexto + 18, 0xFFFFFF);
                     }
 
                     break;
                 case 3:
-                    //TIPO DE OJOS
-                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
-
-                    anchoTexto = 63;
-                    drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto - 74, 0xFFFFFF);
-
                     //TIPO DE CUERPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 46, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
+                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
 
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 42, 0xFFCA9B);
-
-                    anchoTexto = 50;
-                    drawStringWithBorder(pGuiGraphics, font, Component.literal("Dr.Gero Style"), anchoTexto, alturaTexto - 28, 0xFFFFFF);
+                    anchoTexto = 84;
+                    drawStringWithBorder2(pGuiGraphics, font, Component.translatable("dmz.ccreation.biotype"), anchoTexto, alturaTexto - 28, 0xFFFFFF);
 
                     break;
                 case 4:
                     //TIPO DE OJOS
                     alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xFF9B9B);
-
-                    anchoTexto = 64;
-                    drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto - 74, 0xFFFFFF);
-
-                    //TIPO DE CUERPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 46, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 42, 0xFFCA9B);
 
                     anchoTexto = 64;
                     if(cap.getBodytype() == 0){
@@ -1413,84 +1141,61 @@ public class CCustomizationPage extends Screen {
 
                     break;
                 case 5:
-                    //GENERO TITULO
-                    alturaTexto = (pGuiGraphics.guiHeight() / 2);
-                    anchoTexto = 65;
-                    pGuiGraphics.drawString(font, Component.literal("Gender").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 89, 0xC07FFD);
+                    //TIPO DE CUERPO
+                    if (cap.getBodytype() == 0) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), 67, alturaTexto - 29, 0xFFFFFF);
+                    } else if (cap.getBodytype() == 1) {
+                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Custom"), 67, alturaTexto - 29, 0xFFFFFF);
+
+                    }
+
+                    //GENERO TIPO
+                    anchoTexto = 47;
+                    RenderSystem.enableBlend();
+                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                    RenderSystem.setShaderTexture(0, texto);
+                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 2, 0, 0, 73, 15);
+                    RenderSystem.disableBlend();
+
+                    anchoTexto = 84;
+                    drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.gender"),anchoTexto, alturaTexto + 2,0xFF9B9B);
 
                     switch (cap.getGender()) {
                         case "Male", "male":
-                            anchoTexto = 74;
-                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0x2133A6);
+                            anchoTexto = 84;
+                            drawStringWithBorder2(pGuiGraphics, font, Component.literal("Male"), anchoTexto, alturaTexto + 18, 0xFFFFFF, 0x2133A6);
                             break;
                         case "Female", "female":
-                            anchoTexto = 68;
-                            drawStringWithBorder(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto - 72, 0xFFFFFF, 0xFC63D9);
+                            anchoTexto = 84;
+                            drawStringWithBorder2(pGuiGraphics, font, Component.literal("Female"), anchoTexto, alturaTexto + 18, 0xFFFFFF, 0xFC63D9);
                             break;
                     }
 
-                    //TIPO DE CUERPO
+                    //HAIR COLOR
                     anchoTexto = 47;
                     RenderSystem.enableBlend();
                     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 60, 0, 0, 73, 15);
+                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 34, 0, 0, 73, 15);
                     RenderSystem.disableBlend();
 
-                    //CUERPO TITULO
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Body Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 57, 0xFFCA9B);
-
-                    //TIPO DE CUERPO
-                    if (cap.getBodytype() == 0) {
-                        anchoTexto = 65;
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Default"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
-                    } else if (cap.getBodytype() == 1) {
-                        anchoTexto = 65;
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 1"), anchoTexto, alturaTexto - 40, 0xFFFFFF);
-
-                    }
-
-                    //TIPO DE CABELLO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto - 13, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
                     //HAIR TITULO
-                    anchoTexto = 73;
-                    pGuiGraphics.drawString(font, Component.literal("Hair").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto - 9, 0x65FC63);
+                    anchoTexto = 84;
+                    drawStringWithBorder2(pGuiGraphics,font,Component.translatable("dmz.ccreation.hairs"),anchoTexto, alturaTexto + 38,0xFF9B9B);
 
-                    anchoTexto = 64;
+                    anchoTexto = 84;
                     if (cap.getHairID() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 2) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     } else if (cap.getHairID() == 3) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 9, 0xFFFFFF);
-                    }
-
-                    //OJOS TIPO
-                    anchoTexto = 47;
-                    RenderSystem.enableBlend();
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.setShaderTexture(0, texto);
-                    pGuiGraphics.blit(texto, anchoTexto, alturaTexto + 23, 0, 0, 73, 15);
-                    RenderSystem.disableBlend();
-                    //OJOS TITULO
-                    anchoTexto = 53;
-                    pGuiGraphics.drawString(font, Component.literal("Eyes Style").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto + 27, 0xFF9B9B);
-
-                    anchoTexto = 63;
-                    if (cap.getEyesType() == 0) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 01"), anchoTexto, alturaTexto + 44, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 1) {
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 02"), anchoTexto, alturaTexto + 44, 0xFFFFFF);
-                    } else if (cap.getEyesType() == 2){
-                        drawStringWithBorder(pGuiGraphics, font, Component.literal("Type 03"), anchoTexto,alturaTexto + 44, 0xFFFFFF);
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 04"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                    } else if (cap.getHairID() == 4) {
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 05"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
+                    } else if (cap.getHairID() == 5) {
+                        drawStringWithBorder2(pGuiGraphics, font, Component.literal("Type 06"), anchoTexto, alturaTexto + 54, 0xFFFFFF);
                     }
                     break;
                 default:
@@ -1657,6 +1362,21 @@ public class CCustomizationPage extends Screen {
 
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
         drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
+    }
+    public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+        // Calcular la posición centrada
+        int textWidth = font.width(texto);
+        int centeredX = x - (textWidth / 2);
+
+        // Dibujar el texto con el borde
+        guiGraphics.drawString(font, texto, centeredX + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y, ColorTexto);
+    }
+    public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorder2(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
 
     public static void renderEntityInInventoryFollowsAngle(GuiGraphics guiGraphics, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity livingEntity) {

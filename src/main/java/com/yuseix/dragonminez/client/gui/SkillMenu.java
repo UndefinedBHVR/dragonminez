@@ -171,6 +171,40 @@ public class SkillMenu extends Screen {
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
                     case "potential_unlock":
+                        if(this.infoMenu){
+                            if(skillId.equals(skillsId)){
+                                // Subir de nivel
+                                int currentLevel = skill.getLevel();
+                                int maxLevel = 10; // maximo nivel
+
+                                // Nivel, (Costo * Nivel * MultiplicadorTPS)
+                                Map<Integer, Integer> levelCosts = Map.of(
+                                        2, (int) (pUnlockCost * 2 * mult),
+                                        3, (int) (pUnlockCost * 3 * mult),
+                                        4, (int) (pUnlockCost * 4 * mult),
+                                        5, (int) (pUnlockCost * 5 * mult),
+                                        6, (int) (pUnlockCost * 6 * mult),
+                                        7, (int) (pUnlockCost * 7 * mult),
+                                        8, (int) (pUnlockCost * 8 * mult),
+                                        9, (int) (pUnlockCost * 9 * mult),
+                                        10, (int) (pUnlockCost * 10 * mult)
+                                );
+
+                                if (currentLevel < maxLevel) {
+                                    int nextLevel = currentLevel + 1;
+                                    int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
+
+                                    if (tps >= cost) { // Comprueba si el costo se cumple
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                            this.removeWidget(upgradeButton);
+                                        }));
+                                    }
+                                }
+                            }
+
+                        }
                         break;
                     case "jump":
                         //boton switch aca
@@ -349,10 +383,13 @@ public class SkillMenu extends Screen {
                         } else {
                             drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.off"), startX + 74, startY+36, 0xfb5858);
                         }
+                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.cost"), startX + 37, startY+48, 0xFFFFFF);
+
+
                         //descripcion
                         List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc().getString()), 130);
                         for (int i = 0; i < lines.size(); i++) {
-                            guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+48) + i * font.lineHeight, 0xFFFFFF);
+                            guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+56) + i * font.lineHeight, 0xFFFFFF);
                         }
 
                     }
@@ -363,7 +400,6 @@ public class SkillMenu extends Screen {
 
 
     }
-
 
     @Override
     public boolean isPauseScreen() {
