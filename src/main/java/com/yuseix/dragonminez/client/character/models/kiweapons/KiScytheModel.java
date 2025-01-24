@@ -1,7 +1,4 @@
-package com.yuseix.dragonminez.client.character.models.kiweapons;// Made with Blockbench 4.12.2
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package com.yuseix.dragonminez.client.character.models.kiweapons;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

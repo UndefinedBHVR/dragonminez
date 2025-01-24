@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
+import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
@@ -63,6 +64,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new KiWeaponsLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 

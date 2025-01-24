@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.HairsLayer;
+import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -58,6 +59,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new KiWeaponsLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 

@@ -638,10 +638,14 @@ public class DMZStatsAttributes {
         DMZSkill skill = DMZSkills.get(name);
         return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
     }
-    public boolean isActiveSkill(String name){
+    public boolean isActiveSkill(String name) {
         DMZSkill skill = DMZSkills.get(name);
+        if (skill == null) {
+            return false;
+        }
         return skill.isActive();
     }
+
     public void setSkillActive(String name, boolean isActive){
         DMZSkill skill = DMZSkills.get(name);
         if(skill != null){

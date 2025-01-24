@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.HairsLayer;
+import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
@@ -57,6 +58,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new KiWeaponsLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
     }
