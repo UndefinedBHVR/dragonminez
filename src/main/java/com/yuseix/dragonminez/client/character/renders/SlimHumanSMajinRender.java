@@ -59,7 +59,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
-        this.addLayer(new KiWeaponsLayer(this));
+//        this.addLayer(new KiWeaponsLayer(this));
 
         this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 

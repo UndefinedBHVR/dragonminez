@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -93,18 +94,18 @@ public class ClientEvents {
 
 					}
 
-//					if(ki_control && ki_manipulation && meditation && is_kimanipulation){
-//
-//						renderKiWeapons((AbstractClientPlayer) player,
-//								event.getPoseStack(),
-//								minecraft.renderBuffers().bufferSource(),
-//								15728880,
-//								event.getPartialTick(),
-//								cap,
-//								auraColor
-//
-//								);
-//					}
+					if(ki_control && ki_manipulation && meditation && is_kimanipulation){
+
+						renderKiWeapons((AbstractClientPlayer) player,
+								event.getPoseStack(),
+								minecraft.renderBuffers().bufferSource(),
+								15728880,
+								event.getPartialTick(),
+								cap,
+								auraColor
+
+								);
+					}
 
 
 					});
@@ -143,13 +144,12 @@ public class ClientEvents {
 
 					// Traducir y rotar al brazo derecho
 					poseStack.pushPose();
-//					poseStack.translate(0.4f,-0.1f,0.0f);
-					poseStack.scale(0.02f,0.02f,0.02f);
+					poseStack.translate(5.3f,-2.5f,0.0f);
 
 
 					// Renderizar el modelo personalizado
 					VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
-					kiScytheModel.setupAnim(player, 0f,0f,0f,0f,0f);
+					//kiScytheModel.setupAnim(player, 0f,0f,0f,0f,0f);
 					kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
 
 					poseStack.popPose();
