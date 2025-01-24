@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.client.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
@@ -12,6 +13,7 @@ import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
@@ -23,6 +25,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.*;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -42,7 +45,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.eventbus.api.Event;
 
 @OnlyIn(Dist.CLIENT)
-public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> implements DmzRenderer {
 
     private float colorR, colorG, colorB;
 
@@ -566,5 +569,22 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         } else {
             super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
         }
+    }
+
+    @Override
+    public void renderOnWorld(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+        /*HumanSaiyanRender render = (HumanSaiyanRender) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
+        var playerModel = render.getModel();
+
+        // Traducir y rotar al brazo derecho
+        poseStack.pushPose();
+
+        //playerModel.rightArm.translateAndRotate(poseStack);
+
+        // Renderizar el modelo personalizado
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
+        kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+        poseStack.popPose();*/
     }
 }

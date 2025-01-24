@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
+import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
 import com.yuseix.dragonminez.client.character.renders.HumanSaiyanRender;
 import com.yuseix.dragonminez.client.character.renders.SlimHumanSMajinRender;
 import com.yuseix.dragonminez.init.MainParticles;
@@ -31,6 +32,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -48,7 +50,7 @@ public class ClientEvents {
 	private static final String title = "DragonMine Z - Release v1.1.0";
 
 	private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
-	private static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+
 
 	@SubscribeEvent
 	public static void onRenderTick(TickEvent.RenderTickEvent event) {
@@ -68,20 +70,33 @@ public class ClientEvents {
 
 		for (Player player : minecraft.level.players()) {
 			if (player != null) {
+				Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+
+				// Obtener posición de la cámara
+				double camX = camera.getPosition().x;
+				double camY = camera.getPosition().y;
+				double camZ = camera.getPosition().z;
+
+				double interpX = Mth.lerp(event.getPartialTick(), player.xOld, player.getX());
+				double interpY = Mth.lerp(event.getPartialTick(), player.yOld, player.getY());
+				double interpZ = Mth.lerp(event.getPartialTick(), player.zOld, player.getZ());
+
+				var poseStack = event.getPoseStack();
+
+				var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
+				if(renderer instanceof DmzRenderer dmzRenderer) {
+					poseStack.pushPose();
+					poseStack.translate(interpX - camX, interpY - camY , interpZ - camZ);
+					dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880); // packedLight no deberia ser un valor estático, no aplica iluminación 'dinámica'
+					poseStack.popPose();
+				}
+
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-
-					var ki_control = cap.hasSkill("ki_control");
-					var ki_manipulation = cap.hasSkill("ki_manipulation");
-					var meditation = cap.hasSkill("meditation");
-
-					var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-
-					var auraColor = cap.getAuraColor();
 
 					if (cap.isAuraOn() || cap.isTurbonOn()) {
 						boolean isLocalPlayer = player == minecraft.player;
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.039f : 0.325f;
-
+						event.getPoseStack().pushPose();
 						renderAuraBase(
 								(AbstractClientPlayer) player,
 								event.getPoseStack(),
@@ -91,77 +106,14 @@ public class ClientEvents {
 								transparency,
 								cap.getAuraColor()
 						);
-
+						event.getPoseStack().popPose();
 					}
-
-					if(ki_control && ki_manipulation && meditation && is_kimanipulation){
-
-						renderKiWeapons((AbstractClientPlayer) player,
-								event.getPoseStack(),
-								minecraft.renderBuffers().bufferSource(),
-								15728880,
-								event.getPartialTick(),
-								cap,
-								auraColor
-
-								);
-					}
-
-
 					});
 			}
 		}
 	}
 
-	private static void renderKiWeapons(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTicks, DMZStatsAttributes dmzStatsAttributes, int colorAura) {
-		var colorR = (colorAura >> 16) / 255.0F;
-		var colorG = ((colorAura >> 8) & 0xff) / 255.0f;
-		var colorB = (colorAura & 0xff) / 255.0f;
 
-		poseStack.pushPose();
-
-		// Obtén el modelo del jugador
-		if(dmzStatsAttributes.getRace() == 0){
-			if(dmzStatsAttributes.getBodytype() == 0){
-				if(player.getModelName().equals("default")){
-					HumanSaiyanRender render = (HumanSaiyanRender) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
-					var playerModel = render.getModel();
-
-					// Traducir y rotar al brazo derecho
-					poseStack.pushPose();
-					playerModel.rightArm.translateAndRotate(poseStack);
-
-					// Renderizar el modelo personalizado
-					VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
-					kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
-
-					poseStack.popPose();
-				} else {
-					SlimHumanSMajinRender render = (SlimHumanSMajinRender) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
-					var playerModel = render.getModel();
-
-					playerModel.rightArm.translateAndRotate(poseStack);
-
-					// Traducir y rotar al brazo derecho
-					poseStack.pushPose();
-					poseStack.translate(5.3f,-2.5f,0.0f);
-
-
-					// Renderizar el modelo personalizado
-					VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
-					//kiScytheModel.setupAnim(player, 0f,0f,0f,0f,0f);
-					kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
-
-					poseStack.popPose();
-				}
-			}
-
-		}
-
-
-
-		poseStack.popPose();
-	}
 
 	private static void renderAuraBase(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
 		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
