@@ -633,7 +633,7 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncSkills(player);
 
     }
-    // Método para obtener el nivel de una habilidad en el mapa
+
     public int getSkillLevel(String name) {
         DMZSkill skill = DMZSkills.get(name);
         return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad

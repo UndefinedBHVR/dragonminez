@@ -8,6 +8,7 @@ import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.hair.*;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
@@ -221,6 +222,9 @@ public class ModClientEvents {
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
 		e.registerLayerDefinition(TrunksSwordBackModel.LAYER_LOCATION, TrunksSwordBackModel::createBodyLayer);
+
+		//KI WEAPONS LOCATION
+		e.registerLayerDefinition(KiScytheModel.LAYER_LOCATION, KiScytheModel::createBodyLayer);
 
 	}
 

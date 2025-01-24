@@ -48,6 +48,7 @@ public class SkillMenu extends Screen {
     private CustomButtons infoButton, deleteButton;
     private DMZGuiButtons statsMenuButton;
     private TextButton upgradeButton;
+    private SwitchButton button;
 
     public SkillMenu() {
         super(Component.empty());
@@ -208,7 +209,7 @@ public class SkillMenu extends Screen {
                         break;
                     case "jump":
                         //boton switch aca
-                        SwitchButton button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
+                        button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
                             boolean newState = !skill.isActive();
                             int newStateint = newState ? 1 : 0;
                             ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
@@ -254,7 +255,158 @@ public class SkillMenu extends Screen {
 
                         break;
                     case "fly":
+                        if(this.infoMenu){
+                            if(skillId.equals(skillsId)){
+                                // Subir de nivel
+                                int currentLevel = skill.getLevel();
+                                int maxLevel = 10; // maximo nivel
 
+                                // Nivel, (Costo * Nivel * MultiplicadorTPS)
+                                Map<Integer, Integer> levelCosts = Map.of(
+                                        2, (int) (flyCost * 2 * mult),
+                                        3, (int) (flyCost * 3 * mult),
+                                        4, (int) (flyCost * 4 * mult),
+                                        5, (int) (flyCost * 5 * mult),
+                                        6, (int) (flyCost * 6 * mult),
+                                        7, (int) (flyCost * 7 * mult),
+                                        8, (int) (flyCost * 8 * mult),
+                                        9, (int) (flyCost * 9 * mult),
+                                        10, (int) (flyCost * 10 * mult)
+                                );
+
+                                if (currentLevel < maxLevel) {
+                                    int nextLevel = currentLevel + 1;
+                                    int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
+
+                                    if (tps >= cost) { // Comprueba si el costo se cumple
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                            this.removeWidget(upgradeButton);
+                                        }));
+                                    }
+                                }
+                            }
+
+                        }
+                        break;
+                    case "ki_control":
+                        if(this.infoMenu){
+                            if(skillId.equals(skillsId)){
+                                // Subir de nivel
+                                int currentLevel = skill.getLevel();
+                                int maxLevel = 10; // maximo nivel
+
+                                // Nivel, (Costo * Nivel * MultiplicadorTPS)
+                                Map<Integer, Integer> levelCosts = Map.of(
+                                        2, (int) (flyCost * 2 * mult),
+                                        3, (int) (flyCost * 3 * mult),
+                                        4, (int) (flyCost * 4 * mult),
+                                        5, (int) (flyCost * 5 * mult),
+                                        6, (int) (flyCost * 6 * mult),
+                                        7, (int) (flyCost * 7 * mult),
+                                        8, (int) (flyCost * 8 * mult),
+                                        9, (int) (flyCost * 9 * mult),
+                                        10, (int) (flyCost * 10 * mult)
+                                );
+
+                                if (currentLevel < maxLevel) {
+                                    int nextLevel = currentLevel + 1;
+                                    int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
+
+                                    if (tps >= cost) { // Comprueba si el costo se cumple
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                            this.removeWidget(upgradeButton);
+                                        }));
+                                    }
+                                }
+                            }
+
+                        }
+                        break;
+                    case "meditation":
+                        if(this.infoMenu){
+                            if(skillId.equals(skillsId)){
+                                // Subir de nivel
+                                int currentLevel = skill.getLevel();
+                                int maxLevel = 10; // maximo nivel
+
+                                // Nivel, (Costo * Nivel * MultiplicadorTPS)
+                                Map<Integer, Integer> levelCosts = Map.of(
+                                        2, (int) (flyCost * 2 * mult),
+                                        3, (int) (flyCost * 3 * mult),
+                                        4, (int) (flyCost * 4 * mult),
+                                        5, (int) (flyCost * 5 * mult),
+                                        6, (int) (flyCost * 6 * mult),
+                                        7, (int) (flyCost * 7 * mult),
+                                        8, (int) (flyCost * 8 * mult),
+                                        9, (int) (flyCost * 9 * mult),
+                                        10, (int) (flyCost * 10 * mult)
+                                );
+
+                                if (currentLevel < maxLevel) {
+                                    int nextLevel = currentLevel + 1;
+                                    int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
+
+                                    if (tps >= cost) { // Comprueba si el costo se cumple
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                            this.removeWidget(upgradeButton);
+                                        }));
+                                    }
+                                }
+                            }
+
+                        }
+                        break;
+                    case "ki_manipulation":
+                        //boton switch aca
+                        button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
+                            boolean newState = !skill.isActive();
+                            int newStateint = newState ? 1 : 0;
+                            ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
+                        });
+
+                        this.addRenderableWidget(button);
+                        skillButtons.add(button);
+
+                        if(this.infoMenu){
+                            if(skillId.equals(skillsId)){
+                                // Subir de nivel
+                                int currentLevel = skill.getLevel();
+                                int maxLevel = 10; // maximo nivel
+
+                                // Nivel, (Costo * Nivel * MultiplicadorTPS)
+                                Map<Integer, Integer> levelCosts = Map.of(
+                                        2, (int) (jumpCost * 2 * mult),
+                                        3, (int) (jumpCost * 3 * mult),
+                                        4, (int) (jumpCost * 4 * mult),
+                                        5, (int) (jumpCost * 5 * mult),
+                                        6, (int) (jumpCost * 6 * mult),
+                                        7, (int) (jumpCost * 7 * mult),
+                                        8, (int) (jumpCost * 8 * mult),
+                                        9, (int) (jumpCost * 9 * mult),
+                                        10, (int) (jumpCost * 10 * mult)
+                                );
+
+                                if (currentLevel < maxLevel) {
+                                    int nextLevel = currentLevel + 1;
+                                    int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
+
+                                    if (tps >= cost) { // Comprueba si el costo se cumple
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                            this.removeWidget(upgradeButton);
+                                        }));
+                                    }
+                                }
+                            }
+
+                        }
                         break;
                     default:
                         // Si no necesita botones extra, no se hace nada

@@ -1,13 +1,17 @@
 package com.yuseix.dragonminez.client.character;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
@@ -37,6 +41,9 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
     private float colorR, colorG, colorB;
 
+    private KiScytheModel kiScytheModel;
+
+
     public RenderManos(EntityRendererProvider.Context pContext) {
         super(pContext, new PlayerModel(pContext.bakeLayer(ModelLayers.PLAYER), false), 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
@@ -50,10 +57,50 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
 
+        this.kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+
+
     }
 
     public void renderRightHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {
         this.renderHand(pPoseStack, pBuffer, pCombinedLight, pPlayer, (this.model).rightArm, (this.model).rightSleeve);
+
+        //Aca renderizar las armas
+        KiWeapons(pPlayer, pPoseStack, pBuffer, pCombinedLight);
+
+
+    }
+
+    public void KiWeapons(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, int pCombinedLight){
+
+        PlayerModel<AbstractClientPlayer> playerModel = this.getModel();
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+
+            var colorKi = cap.getAuraColor();
+            var ki_control = cap.hasSkill("ki_control");
+            var ki_manipulation = cap.hasSkill("ki_manipulation");
+            var meditation = cap.hasSkill("meditation");
+
+            var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+
+            var colorR = (colorKi >> 16) / 255.0F;
+            var colorG = ((colorKi >> 8) & 0xff) / 255.0f;
+            var colorB = (colorKi & 0xff) / 255.0f;
+
+            if(ki_control && ki_manipulation && meditation && is_kimanipulation){
+                poseStack.pushPose();
+
+                playerModel.rightArm.translateAndRotate(poseStack);
+                kiScytheModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+                this.kiScytheModel.renderToBuffer(poseStack,vertexConsumer, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                poseStack.popPose();
+
+            }
+
+        });
+
     }
 
     public void renderLeftHand(PoseStack pPoseStack, MultiBufferSource pBuffer, int pCombinedLight, AbstractClientPlayer pPlayer) {

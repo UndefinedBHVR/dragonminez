@@ -4,7 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.init.MainParticles;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -13,13 +15,16 @@ import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -58,6 +63,7 @@ public class ClientEvents {
 		for (Player player : minecraft.level.players()) {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+
 					if (cap.isAuraOn() || cap.isTurbonOn()) {
 						boolean isLocalPlayer = player == minecraft.player;
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.039f : 0.325f;
@@ -71,11 +77,15 @@ public class ClientEvents {
 								transparency,
 								cap.getAuraColor()
 						);
+
 					}
+
+
 				});
 			}
 		}
 	}
+
 
 	private static void renderAuraBase(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
 		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
