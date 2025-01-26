@@ -292,6 +292,8 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                 // Renderizar el modelo personalizado
                 VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
                 //kiScytheModel.setupAnim(player, 0f,0f,0f,0f,0f);
+                kiScytheModel.scythe.x = 6.0f;
+                kiScytheModel.scythe.y = -1.0f;
                 kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
             }
 
