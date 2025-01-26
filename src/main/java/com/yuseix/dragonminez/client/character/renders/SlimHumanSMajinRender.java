@@ -55,6 +55,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
     private float colorR, colorG, colorB;
     private final AuraModel model;
     public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+
     public SlimHumanSMajinRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
         super(pContext,model, 0.5f);
         this.addLayer(new SlimArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
@@ -259,14 +260,21 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         poseStack.pushPose();
 
+        boolean isLocalPlayer = entity == Minecraft.getInstance().player;
+        boolean isFirstPerson = Minecraft.getInstance().options.getCameraType().isFirstPerson();
+
         float f = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
 
         setupRotations(entity, poseStack, getBob(entity, partialTicks), f, partialTicks);
         poseStack.scale(-1, -1, 1);
         poseStack.translate(0.0F, -1.501F, 0.0F);
-        // A partir de acá se puede renderizar cualquier cosa
 
-        renderKiWeapons(entity, poseStack, buffer, packedLight, partialTicks);
+        // A partir de acá se puede renderizar cualquier cosa
+        if (!isLocalPlayer || !isFirstPerson) {
+            renderKiWeapons(entity, poseStack, buffer, packedLight, partialTicks);
+
+        }
+
         poseStack.popPose();
     }
 
@@ -291,7 +299,6 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                 // Renderizar el modelo personalizado
                 VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
-                //kiScytheModel.setupAnim(player, 0f,0f,0f,0f,0f);
                 kiScytheModel.scythe.x = 6.0f;
                 kiScytheModel.scythe.y = -1.0f;
                 kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);

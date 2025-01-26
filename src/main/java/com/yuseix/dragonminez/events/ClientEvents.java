@@ -86,15 +86,14 @@ public class ClientEvents {
 				boolean isLocalPlayer = player == minecraft.player;
 				boolean isFirstPerson = minecraft.options.getCameraType().isFirstPerson();
 
-				if (!isLocalPlayer || !isFirstPerson) {
-					var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
-					if(renderer instanceof DmzRenderer dmzRenderer) {
-						poseStack.pushPose();
-						poseStack.translate(interpX - camX, interpY - camY , interpZ - camZ);
-						dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880); // packedLight no deberia ser un valor estático, no aplica iluminación 'dinámica'
-						poseStack.popPose();
-					}
+				var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
+				if (renderer instanceof DmzRenderer dmzRenderer) {
+					poseStack.pushPose();
+					poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+					dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880); // packedLight no deberia ser un valor estático, no aplica iluminación 'dinámica'
+					poseStack.popPose();
 				}
+
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 

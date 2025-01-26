@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.HumanSaiyanModel;
 import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -48,8 +49,7 @@ import net.minecraftforge.eventbus.api.Event;
 public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> implements DmzRenderer {
 
     private float colorR, colorG, colorB;
-
-    private final AuraModel model;
+    public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
 
     public HumanSaiyanRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
         super(pContext,model, 0.5f);
@@ -61,9 +61,8 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
-        this.addLayer(new KiWeaponsLayer(this));
+//        this.addLayer(new KiWeaponsLayer(this));
 
-        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
     }
 
 
@@ -228,6 +227,57 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
     }
 
+    public void renderOnWorld(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+
+        poseStack.pushPose();
+
+        boolean isLocalPlayer = entity == Minecraft.getInstance().player;
+        boolean isFirstPerson = Minecraft.getInstance().options.getCameraType().isFirstPerson();
+
+        float f = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
+
+        setupRotations(entity, poseStack, getBob(entity, partialTicks), f, partialTicks);
+        poseStack.scale(-1, -1, 1);
+        poseStack.translate(0.0F, -1.501F, 0.0F);
+
+        // A partir de acá se puede renderizar cualquier cosa
+        if (!isLocalPlayer || !isFirstPerson) {
+            renderKiWeapons(entity, poseStack, buffer, packedLight, partialTicks);
+
+        }
+
+        poseStack.popPose();
+    }
+
+    private void renderKiWeapons(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTicks) {
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+
+            var ki_control = cap.hasSkill("ki_control");
+            var ki_manipulation = cap.hasSkill("ki_manipulation");
+            var meditation = cap.hasSkill("meditation");
+
+            var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+
+            var auraColor = cap.getAuraColor();
+            var colorR = (auraColor >> 16) / 255.0F;
+            var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
+            var colorB = (auraColor & 0xff) / 255.0f;
+
+            if(ki_control && ki_manipulation && meditation && is_kimanipulation){
+                kiScytheModel.translateToHand(player.getMainArm(), poseStack);
+                getModel().rightArm.translateAndRotate(poseStack);
+
+                // Renderizar el modelo personalizado
+                VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
+                kiScytheModel.scythe.x = 6.0f;
+                kiScytheModel.scythe.y = -1.0f;
+                kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+            }
+
+
+        });
+    }
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {
         PlayerModel<AbstractClientPlayer> playermodel = this.getModel();
@@ -571,20 +621,5 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         }
     }
 
-    @Override
-    public void renderOnWorld(AbstractClientPlayer pEntity, float pEntityYaw, float pPartialTicks, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
-        /*HumanSaiyanRender render = (HumanSaiyanRender) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
-        var playerModel = render.getModel();
 
-        // Traducir y rotar al brazo derecho
-        poseStack.pushPose();
-
-        //playerModel.rightArm.translateAndRotate(poseStack);
-
-        // Renderizar el modelo personalizado
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
-        kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
-
-        poseStack.popPose();*/
-    }
 }
