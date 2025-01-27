@@ -14,13 +14,25 @@ public abstract class Objective {
 
 	private boolean completed;
 	private Runnable onCompletion;
+	private final String name;
+	private final String description;
 
-	public Objective(boolean completed) {
+	public Objective(boolean completed, String name, String description) {
 		this.completed = completed;
+		this.name = name;
+		this.description = description;
 	}
 
 	public boolean isCompleted() {
 		return this.completed; // Check completion status
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getDescription() {
+		return this.description;
 	}
 
 	public void advancementTranslator(Advancement advancement, String objective) {
@@ -62,6 +74,16 @@ public abstract class Objective {
 
 		if (onCompletion != null) {
 			onCompletion.run();
+		}
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed; // Update completion status
+
+		if (completed) {
+			if (onCompletion != null) {
+				onCompletion.run();
+			}
 		}
 	}
 

@@ -10,7 +10,9 @@ public class ObjectiveKillEnemy extends Objective {
 
 	public ObjectiveKillEnemy(Entity enemyName, int requiredAmount) {
 
-		super(false);
+		super(false,
+				"kill_enemy",
+				"Kill " + requiredAmount + " " + enemyName.getDisplayName().getString());
 
 		this.enemyName = enemyName;
 		this.requiredAmount = requiredAmount;

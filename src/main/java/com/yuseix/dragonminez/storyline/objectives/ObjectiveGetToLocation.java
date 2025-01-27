@@ -8,7 +8,9 @@ public class ObjectiveGetToLocation extends Objective {
 
 	public ObjectiveGetToLocation(String loc) {
 
-		super(false);
+		super(false,
+				"get_to_location",
+				"Get to the " + loc + " location");
 
 		this.loc = loc;
 		this.reached = false;

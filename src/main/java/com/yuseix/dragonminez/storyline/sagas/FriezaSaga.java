@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.storyline.sagas;
 
 import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveCollectItem;
@@ -8,10 +9,10 @@ import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
 
 import java.util.List;
 
-public class SaiyanSaga extends Saga {
+public class FriezaSaga extends Saga {
 
-	public SaiyanSaga() {
-		super("saiyan_saga", "Saiyan Saga");
+	public FriezaSaga() {
+		super("frieza_saga", "Frieza Saga");
 		addQuests();
 		addPrerequisites();
 	}
@@ -20,7 +21,7 @@ public class SaiyanSaga extends Saga {
 	public void addQuests() {
 		// Add quests to the saga
 		Quest quest1 = new Quest(
-				"arrival_of_raditz",
+				"frieza1",
 				"Arrival of Raditz",
 				"Raditz has landed on Earth! Investigate his arrival and landing site.",
 				List.of(new ObjectiveGetToLocation("raditz_landing_site")),
@@ -28,7 +29,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest2 = new Quest(
-				"the_defeat_of_raditz",
+				"frieza2",
 				"The Defeat of Raditz",
 				"Defeat Raditz and save Gohan!",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -36,7 +37,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest3 = new Quest(
-				"training_with_piccolo",
+				"frieza3",
 				"Training with Piccolo",
 				"Prepare for the arrival of the Saiyans by training with Piccolo.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -44,7 +45,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest4 = new Quest(
-				"the_saiyan_invasion",
+				"frieza4",
 				"The Saiyan Invasion",
 				"The Saiyans have arrived! Defend Earth from the Saiyan invasion.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -52,7 +53,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest5 = new Quest(
-				"battle_with_nappa",
+				"frieza5",
 				"Battle with Nappa",
 				"Defeat Nappa and get one step closer to victory.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -60,7 +61,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest6 = new Quest(
-				"the_final_battle",
+				"frieza6",
 				"The Final Battle",
 				"Defeat Vegeta and save Earth from the Saiyan threat.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -77,6 +78,6 @@ public class SaiyanSaga extends Saga {
 
 	@Override
 	public void addPrerequisites() {
-		// No prerequisites for the Saiyan Saga, as it is the first saga
+		addPrequisite(IDRegistry.sagaRegistry.get("saiyan_saga"));
 	}
 }

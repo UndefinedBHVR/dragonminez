@@ -11,7 +11,9 @@ public class ObjectiveCollectItem extends Objective {
 
 	public ObjectiveCollectItem(Item itemId, int requiredAmount) {
 
-		super(false);
+		super(false,
+				"collect_item",
+				"Collect " + requiredAmount + " " + itemId.getDefaultInstance().getDescriptionId());
 
 		this.itemId = itemId;
 		this.requiredAmount = requiredAmount;

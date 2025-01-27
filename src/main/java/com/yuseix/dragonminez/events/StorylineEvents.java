@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.events;
 
+import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.storyline.Objective;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
@@ -36,15 +37,13 @@ public class StorylineEvents {
 		// Retrieve the player's storyline capability
 		event.getEntity().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 			// Iterate through the active quests
-			for (Saga saga : playerStoryline.getAllSagas().values()) {
-				for (Quest quest : saga.getQuests()) {
-					if (!quest.isCompleted()) {
-						// Check each objective in the quest
-						for (Objective objective : quest.getObjectives()) {
-							if (objective instanceof ObjectiveCollectItem collectObjective) {
-								// Pass the collected item to the objective
-								collectObjective.onItemCollected(collectedItemId);
-							}
+			for (Saga saga : playerStoryline.getActiveSagas()) {
+				for (Quest quest : saga.getAvailableQuests()) {
+					// Check each objective in the quest
+					for (Objective objective : quest.getObjectives()) {
+						if (objective instanceof ObjectiveCollectItem collectObjective) {
+							// Pass the collected item to the objective
+							collectObjective.onItemCollected(collectedItemId);
 						}
 					}
 				}
@@ -61,14 +60,12 @@ public class StorylineEvents {
 			//Retrieve the player's storyline capability
 			player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 				//Iterate through the active quests
-				for (Saga saga : playerStoryline.getAllSagas().values()) {
-					for (Quest quest : saga.getQuests()) {
-						if (!quest.isCompleted()) {
-							//Check each objective in the quest
-							for (Objective objective : quest.getObjectives()) {
-								if (objective instanceof ObjectiveKillEnemy killObjective) {
-									killObjective.onEnemyKilled(mobEntity);
-								}
+				for (Saga saga : playerStoryline.getActiveSagas()) {
+					for (Quest quest : saga.getAvailableQuests()) {
+						//Check each objective in the quest
+						for (Objective objective : quest.getObjectives()) {
+							if (objective instanceof ObjectiveKillEnemy killObjective) {
+								killObjective.onEnemyKilled(mobEntity);
 							}
 						}
 					}
@@ -79,21 +76,20 @@ public class StorylineEvents {
 
 	//Makes it less resource demaning than checking every tick / coordinate or location
 	@SubscribeEvent
-	public void onAdvancement(AdvancementEvent event) {
+	public void onAdvancement(AdvancementEvent.AdvancementEarnEvent event) {
+
 
 		//Retrieve the player's storyline capability
 		event.getEntity().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
 			//Iterate through the active quests
-			for (Saga saga : playerStoryline.getAllSagas().values()) {
-				for (Quest quest : saga.getQuests()) {
-					if (!quest.isCompleted()) {
-						//Check each objective in the quest
-						for (Objective objective : quest.getObjectives()) {
-							if (objective instanceof ObjectiveGetToLocation locationObjective) {
-								locationObjective.advancementTranslator(event.getAdvancement(), "location");
-							} else if (objective instanceof ObjectiveGetToBiome biomeObjective) {
-								biomeObjective.advancementTranslator(event.getAdvancement(), "biome");
-							}
+			for (Saga saga : playerStoryline.getActiveSagas()) {
+				for (Quest quest : saga.getAvailableQuests()) {
+					//Check each objective in the quest
+					for (Objective objective : quest.getObjectives()) {
+						if (objective instanceof ObjectiveGetToLocation locationObjective) {
+							locationObjective.advancementTranslator(event.getAdvancement(), "location");
+						} else if (objective instanceof ObjectiveGetToBiome biomeObjective) {
+							biomeObjective.advancementTranslator(event.getAdvancement(), "biome");
 						}
 					}
 				}
@@ -107,6 +103,7 @@ public class StorylineEvents {
 		CompoundTag nbt = new CompoundTag();
 
 		event.getOriginal().reviveCaps();
+		IDRegistry.clearAllIds(); // Clear all IDs because then they get re-registered
 
 		event.getEntity().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
 				event.getOriginal().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(originalPlayerStoryline ->

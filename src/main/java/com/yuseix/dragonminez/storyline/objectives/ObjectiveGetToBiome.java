@@ -8,7 +8,9 @@ public class ObjectiveGetToBiome extends Objective {
 
 	public ObjectiveGetToBiome(String biomeName) {
 
-		super(false);
+		super(false,
+				"get_to_biome",
+				"Get to the " + biomeName + " biome");
 
 		this.biome = biomeName;
 		this.reached = false;

@@ -36,6 +36,11 @@ public class IDRegistry {
 		}
 	}
 
+	public static void clearAllIds() {
+		sagaIds.clear();
+		questIds.clear();
+	}
+
 	/**
 	 * Registers a custom {@link Saga} to the {@link IDRegistry#sagaRegistry}.
 	 * This method should be called during mod initialization.
