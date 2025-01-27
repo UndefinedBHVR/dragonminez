@@ -38,15 +38,17 @@ public class DMZStatsAttributes {
     private int KiPower = 5;
 
     private int energy = 5, currentEnergy;
-
-    private String gender = "Male";
+    private int dmzAlignment = 100;
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
 
+    private String gender = "Male";
+    private String dmzClass = "Warrior";
+    private String dmzKiWeapon = "sword";
+
     private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false;
 
-    private String dmzClass = "Warrior";
-    private int dmzAlignment = 100;
+
 
     private final Player player;
 
@@ -568,6 +570,14 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public String getKiWeaponId() {
+        return dmzKiWeapon;
+    }
+
+    public void setKiWeapon(String dmzKiWeapon) {
+        this.dmzKiWeapon = dmzKiWeapon;
+        DMZStatsCapabilities.syncStats(player);
+    }
     public void setDmzClass(String dmzClass) {
         this.dmzClass = dmzClass;
         DMZStatsCapabilities.syncStats(player);
@@ -783,6 +793,7 @@ public class DMZStatsAttributes {
 
         nbt.putString("gender", gender);
         nbt.putString("dmzClass", dmzClass);
+        nbt.putString("dmzskiweapon", dmzKiWeapon);
 
         nbt.putInt("zpoints", zpoints);
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
@@ -860,6 +871,7 @@ public class DMZStatsAttributes {
         auraColor = nbt.getInt("auraColor");
 
         gender = nbt.getString("gender");
+        dmzKiWeapon = nbt.getString("dmzskiweapon");
         dmzClass = nbt.getString("dmzClass");
         dmzAlignment = nbt.getInt("dmzAlignment");
 

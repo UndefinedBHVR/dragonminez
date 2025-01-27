@@ -4,11 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
-import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
-import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -48,6 +48,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
     private float colorR, colorG, colorB;
     public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+    public static final KiSwordModel kiSwordModel = new KiSwordModel(KiSwordModel.createBodyLayer().bakeRoot());
 
     public DemonColdRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer> pModel) {
         super(pContext, pModel, 0.5f);
@@ -58,7 +59,6 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
-//        this.addLayer(new KiWeaponsLayer(this));
     }
 
     @Override
@@ -237,6 +237,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
     private void renderKiWeapons(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTicks) {
 
+
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
             var ki_control = cap.hasSkill("ki_control");
@@ -244,6 +245,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+            var kiweapon_id = cap.getKiWeaponId();
 
             var auraColor = cap.getAuraColor();
             var colorR = (auraColor >> 16) / 255.0F;
@@ -251,14 +253,33 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
             var colorB = (auraColor & 0xff) / 255.0f;
 
             if(ki_control && ki_manipulation && meditation && is_kimanipulation){
-                kiScytheModel.translateToHand(player.getMainArm(), poseStack);
-                getModel().rightArm.translateAndRotate(poseStack);
+                switch (kiweapon_id){
+                    case "scythe":
+                        kiScytheModel.translateToHand(player.getMainArm(), poseStack);
+                        getModel().rightArm.translateAndRotate(poseStack);
 
-                // Renderizar el modelo personalizado
-                VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
-                kiScytheModel.scythe.x = 6.0f;
-                kiScytheModel.scythe.y = -1.0f;
-                kiScytheModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+                        // Renderizar el modelo personalizado
+                        kiScytheModel.scythe.x = 6.0f;
+                        kiScytheModel.scythe.y = -1.0f;
+                        VertexConsumer vertexScythe = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.SCYTHE_TEX));
+                        kiScytheModel.renderToBuffer(poseStack, vertexScythe, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                        break;
+                    case "trident":
+                        break;
+                    default:
+                        kiSwordModel.translateToHand(player.getMainArm(), poseStack);
+                        getModel().rightArm.translateAndRotate(poseStack);
+
+                        // Renderizar el modelo personalizado
+                        kiSwordModel.kisword.x = 5.6f;
+                        kiSwordModel.kisword.y = -0.5f;
+                        VertexConsumer vertexSword = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.SWORD_TEX));
+                        kiSwordModel.renderToBuffer(poseStack, vertexSword, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                        break;
+                }
+
             }
 
 

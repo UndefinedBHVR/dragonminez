@@ -6,7 +6,6 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
-import com.yuseix.dragonminez.client.gui.cc.CCustomizationPage;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
@@ -43,12 +42,12 @@ public class SkillMenu extends Screen {
     private int alturaTexto, anchoTexto;
 
     private final List<AbstractWidget> skillButtons = new ArrayList<>(); // Lista para rastrear widgets de habilidades
-    private final List<AbstractWidget> booleanButtons = new ArrayList<>();
+    private final List<AbstractWidget> botonesArmas = new ArrayList<>();;
 
-    private CustomButtons infoButton, deleteButton;
+    private CustomButtons infoButton, deleteButton, armasBoton;
     private DMZGuiButtons statsMenuButton;
     private TextButton upgradeButton;
-    private SwitchButton button;
+    private SwitchButton switchButton;
 
     public SkillMenu() {
         super(Component.empty());
@@ -144,8 +143,8 @@ public class SkillMenu extends Screen {
         skillButtons.forEach(this::removeWidget);
         skillButtons.clear();
 
-        booleanButtons.forEach(this::removeWidget);
-        booleanButtons.clear();
+        botonesArmas.forEach(this::removeWidget);
+        botonesArmas.clear();
 
         this.removeWidget(deleteButton);
         this.removeWidget(upgradeButton);
@@ -209,14 +208,14 @@ public class SkillMenu extends Screen {
                         break;
                     case "jump":
                         //boton switch aca
-                        button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
+                        switchButton = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
                             boolean newState = !skill.isActive();
                             int newStateint = newState ? 1 : 0;
                             ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
                         });
 
-                        this.addRenderableWidget(button);
-                        skillButtons.add(button);
+                        this.addRenderableWidget(switchButton);
+                        skillButtons.add(switchButton);
 
                         if(this.infoMenu){
                             if(skillId.equals(skillsId)){
@@ -364,14 +363,27 @@ public class SkillMenu extends Screen {
                         break;
                     case "ki_manipulation":
                         //boton switch aca
-                        button = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
+                        switchButton = new SwitchButton(skill.isActive(), this.infoMenu ? startX + 147 - 72 : startX + 147, startY - 2, Component.empty(), btn -> {
                             boolean newState = !skill.isActive();
                             int newStateint = newState ? 1 : 0;
                             ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
                         });
+                        armasBoton = new CustomButtons("igual", this.infoMenu ? startX + 170 - 72 : startX + 170, startY - 2, Component.empty(), btn -> {
+                            if(cap.getKiWeaponId().equals("sword")){
+                                ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",0));
+                            } else if(cap.getKiWeaponId().equals("scythe")){
+                                ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",1));
+                            } else {
+                                ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",2));
+                            }
 
-                        this.addRenderableWidget(button);
-                        skillButtons.add(button);
+                        });
+
+                        this.addRenderableWidget(armasBoton);
+                        botonesArmas.add(armasBoton);
+
+                        this.addRenderableWidget(switchButton);
+                        skillButtons.add(switchButton);
 
                         if(this.infoMenu){
                             if(skillId.equals(skillsId)){

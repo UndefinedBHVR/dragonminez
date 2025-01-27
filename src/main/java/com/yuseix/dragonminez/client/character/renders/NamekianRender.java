@@ -1,16 +1,20 @@
 package com.yuseix.dragonminez.client.character.renders;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.HairsLayer;
-import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -23,6 +27,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.*;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -44,10 +49,11 @@ import net.minecraftforge.eventbus.api.Event;
 import java.util.Iterator;
 
 @OnlyIn(Dist.CLIENT)
-public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
+public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> implements DmzRenderer{
 
     private float colorR, colorG, colorB;
-    private final AuraModel model;
+    public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+    public static final KiSwordModel kiSwordModel = new KiSwordModel(KiSwordModel.createBodyLayer().bakeRoot());
 
     public NamekianRender(EntityRendererProvider.Context pContext) {
         super(pContext, new NamekianModel<>(pContext.bakeLayer(NamekianModel.LAYER_LOCATION)), 0.5f);
@@ -59,9 +65,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
-//        this.addLayer(new KiWeaponsLayer(this));
 
-        this.model = new AuraModel<>(pContext.bakeLayer(AuraModel.LAYER_LOCATION));
 
     }
 
@@ -208,6 +212,78 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
     }
 
+    public void renderOnWorld(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+
+        poseStack.pushPose();
+
+        boolean isLocalPlayer = entity == Minecraft.getInstance().player;
+        boolean isFirstPerson = Minecraft.getInstance().options.getCameraType().isFirstPerson();
+
+        float f = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
+
+        setupRotations(entity, poseStack, getBob(entity, partialTicks), f, partialTicks);
+        poseStack.scale(-1, -1, 1);
+        poseStack.translate(0.0F, -1.501F, 0.0F);
+
+        // A partir de acá se puede renderizar cualquier cosa
+        if (!isLocalPlayer || !isFirstPerson) {
+            renderKiWeapons(entity, poseStack, buffer, packedLight, partialTicks);
+
+        }
+
+        poseStack.popPose();
+    }
+
+    private void renderKiWeapons(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTicks) {
+
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+
+            var ki_control = cap.hasSkill("ki_control");
+            var ki_manipulation = cap.hasSkill("ki_manipulation");
+            var meditation = cap.hasSkill("meditation");
+
+            var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+            var kiweapon_id = cap.getKiWeaponId();
+
+            var auraColor = cap.getAuraColor();
+            var colorR = (auraColor >> 16) / 255.0F;
+            var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
+            var colorB = (auraColor & 0xff) / 255.0f;
+
+            if(ki_control && ki_manipulation && meditation && is_kimanipulation){
+                switch (kiweapon_id){
+                    case "scythe":
+                        kiScytheModel.translateToHand(player.getMainArm(), poseStack);
+                        getModel().rightArm.translateAndRotate(poseStack);
+
+                        // Renderizar el modelo personalizado
+                        kiScytheModel.scythe.x = 6.0f;
+                        kiScytheModel.scythe.y = -1.0f;
+                        VertexConsumer vertexScythe = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.SCYTHE_TEX));
+                        kiScytheModel.renderToBuffer(poseStack, vertexScythe, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                        break;
+                    case "trident":
+                        break;
+                    default:
+                        kiSwordModel.translateToHand(player.getMainArm(), poseStack);
+                        getModel().rightArm.translateAndRotate(poseStack);
+
+                        // Renderizar el modelo personalizado
+                        kiSwordModel.kisword.x = 5.6f;
+                        kiSwordModel.kisword.y = -0.5f;
+                        VertexConsumer vertexSword = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.SWORD_TEX));
+                        kiSwordModel.renderToBuffer(poseStack, vertexSword, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
+                        break;
+                }
+
+            }
+
+
+        });
+    }
     private void renderMarcaMajin(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();

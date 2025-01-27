@@ -3,8 +3,8 @@ package com.yuseix.dragonminez.client.character;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.character.layer.KiWeaponsLayer;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
@@ -39,9 +39,13 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 @OnlyIn(Dist.CLIENT)
 public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
+    public static final ResourceLocation SCYTHE_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/weapons/kiweapons/scytheweapon.png");
+    public static final ResourceLocation SWORD_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/weapons/kiweapons/kisword.png");
+
     private float colorR, colorG, colorB;
 
-    private KiScytheModel kiScytheModel;
+    public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+    public static final KiSwordModel kiSwordModel = new KiSwordModel(KiSwordModel.createBodyLayer().bakeRoot());
 
 
     public RenderManos(EntityRendererProvider.Context pContext) {
@@ -57,7 +61,6 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
 
-        this.kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
 
 
     }
@@ -74,7 +77,6 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
     public void KiWeapons(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource bufferSource, int pCombinedLight){
 
         PlayerModel<AbstractClientPlayer> playerModel = this.getModel();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(CustomRenderTypes.energy2(KiWeaponsLayer.SCYTHE_TEX));
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
@@ -85,17 +87,33 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
 
+            var kiweapon_id = cap.getKiWeaponId();
+
             var colorR = (colorKi >> 16) / 255.0F;
             var colorG = ((colorKi >> 8) & 0xff) / 255.0f;
             var colorB = (colorKi & 0xff) / 255.0f;
 
             if(ki_control && ki_manipulation && meditation && is_kimanipulation){
-                poseStack.pushPose();
+                if(kiweapon_id.equals("scythe")){
+                    poseStack.pushPose();
 
-                playerModel.rightArm.translateAndRotate(poseStack);
-                kiScytheModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-                this.kiScytheModel.renderToBuffer(poseStack,vertexConsumer, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-                poseStack.popPose();
+                    playerModel.rightArm.translateAndRotate(poseStack);
+                    kiScytheModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+                    VertexConsumer vertexScythe = bufferSource.getBuffer(CustomRenderTypes.energy2(SCYTHE_TEX));
+                    this.kiScytheModel.renderToBuffer(poseStack,vertexScythe, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    poseStack.popPose();
+
+                } else if(kiweapon_id.equals("trident")) {
+
+                } else { //espada
+                    poseStack.pushPose();
+
+                    playerModel.rightArm.translateAndRotate(poseStack);
+                    kiSwordModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+                    VertexConsumer vertexSword = bufferSource.getBuffer(CustomRenderTypes.energy2(SWORD_TEX));
+                    this.kiSwordModel.renderToBuffer(poseStack,vertexSword, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    poseStack.popPose();
+                }
 
             }
 

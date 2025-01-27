@@ -54,6 +54,15 @@ public class CharacterC2S {
                                 playerstats.setDmzClass("Spiritualist");
                             }
                             break;
+                        case "dmzskiweapon":
+                            if (packet.cantidad == 0) {
+                                playerstats.setKiWeapon("scythe");
+                            } else if(packet.cantidad == 1){
+                                playerstats.setKiWeapon("trident");
+                            } else {
+                                playerstats.setKiWeapon("sword");
+                            }
+                            break;
                         case "dmzAlignment":
                             playerstats.setDmzAlignment(packet.cantidad);
                             break;
