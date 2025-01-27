@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
@@ -48,7 +49,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
     private float colorR, colorG, colorB;
     public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
-    public static final KiSwordModel kiSwordModel = new KiSwordModel(KiSwordModel.createBodyLayer().bakeRoot());
+    public static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
 
     public DemonColdRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer> pModel) {
         super(pContext, pModel, 0.5f);
@@ -268,15 +269,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
                     case "trident":
                         break;
                     default:
-                        kiSwordModel.translateToHand(player.getMainArm(), poseStack);
-                        getModel().rightArm.translateAndRotate(poseStack);
-
-                        // Renderizar el modelo personalizado
-                        kiSwordModel.kisword.x = 5.6f;
-                        kiSwordModel.kisword.y = -0.5f;
-                        VertexConsumer vertexSword = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.SWORD_TEX));
-                        kiSwordModel.renderToBuffer(poseStack, vertexSword, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
-
+                        renderKiSword(player,poseStack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,0.5f,auraColor);
                         break;
                 }
 
@@ -284,6 +277,173 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
 
         });
+    }
+
+    private void renderKiSword(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
+        // Descomponer el color en sus componentes RGBA
+        float red = (colorAura >> 16 & 255) / 255.0f;
+        float green = (colorAura >> 8 & 255) / 255.0f;
+        float blue = (colorAura & 255) / 255.0f;
+
+        //ACA YA FUNCIONA
+        poseStack.pushPose();
+
+        //Ajustar posición del aura en el jugador
+        AURA_MODEL.translateToHand(player.getMainArm(), poseStack);
+        getModel().rightArm.translateAndRotate(poseStack);
+
+        poseStack.scale(0.15f,0.23f,0.2f);
+        poseStack.translate(1.8f,2.5f,0.0f);
+        poseStack.mulPose(Axis.XP.rotationDegrees(180f));
+
+        float rotationAngle = 0.0F;
+        rotationAngle = (player.tickCount + partialTicks) * 5.0F; // Ajusta la velocidad aquí
+
+        float rotationAngle2 = 0.0F;
+        rotationAngle2 = (player.tickCount + partialTicks) * -7.0F; // Ajusta la velocidad aquí
+
+        VertexConsumer vertexConsumer = buffer.getBuffer(CustomRenderTypes.energy2(TextureManager.AURA_BASE));
+
+
+        // PARTE BAJA 1
+        for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
+            poseStack.pushPose();
+            poseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -1.0D, -0.7D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //PARTE BAJA 2
+        for (int i = 0; i < 8; i++) {
+            poseStack.pushPose();
+            poseStack.scale(1.4F, 1.9F, 1.4F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(40));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -1.0D, -0.5D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //PARTE MEDIO 1 interior
+        for (int i = 0; i < 10; i++) {
+            poseStack.pushPose();
+            poseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(0));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -0.6D, -0.2D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //parte medio 2 exterior
+        for (int i = 0; i < 10; i++) {
+            poseStack.pushPose();
+            poseStack.scale(1.2F, 1.7F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(15f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -1.0D, -0.4D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //parte medio 3 exterior
+        for (int i = 0; i < 10; i++) {
+            poseStack.pushPose();
+            poseStack.scale(1.2F, 1.9F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(15f));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -1.0D, -0.6D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //PARTE ARRIBA 1 interior
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            poseStack.pushPose();
+            poseStack.scale(1.1F, 1.8F, 1.1F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(-35F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -1.1D, -0.38D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //Parte 2 arriba exterior
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            poseStack.pushPose();
+            poseStack.scale(1.2F, 1.6F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(25F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -0.8D, -0.4D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+        //Parte 3 arriba exterior
+        for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
+            poseStack.pushPose();
+            poseStack.scale(1.2F, 1.6F, 1.2F);
+
+            // Rotar cada plano un poco más en Y y X
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
+            poseStack.mulPose(Axis.XP.rotationDegrees(-15F));
+
+            // Posicionar el aura un poco más arriba o abajo
+            poseStack.translate(0.0D, -1.2D, -0.4D);
+
+            // Renderizar cada plano
+            AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
+
+            poseStack.popPose();
+        }
+
+
+        poseStack.popPose();
     }
 
     private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
