@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
 import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
@@ -42,10 +43,12 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
     public static final ResourceLocation SCYTHE_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/weapons/kiweapons/scytheweapon.png");
+    public static final ResourceLocation TRIDENT_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/weapons/kiweapons/tridentweapon.png");
 
     private float colorR, colorG, colorB;
 
     public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+    public static final KiTridentModel kiTridentModel = new KiTridentModel(KiTridentModel.createBodyLayer().bakeRoot());
     public static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
 
 
@@ -105,6 +108,13 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
                     poseStack.popPose();
 
                 } else if(kiweapon_id.equals("trident")) {
+                    poseStack.pushPose();
+
+                    playerModel.rightArm.translateAndRotate(poseStack);
+                    kiTridentModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+                    VertexConsumer vertexScythe = bufferSource.getBuffer(CustomRenderTypes.energy2(TRIDENT_TEX));
+                    this.kiTridentModel.renderToBuffer(poseStack,vertexScythe, pCombinedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    poseStack.popPose();
 
                 } else { //espada
                     poseStack.pushPose();

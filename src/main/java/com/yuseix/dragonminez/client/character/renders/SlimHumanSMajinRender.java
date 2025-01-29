@@ -12,6 +12,7 @@ import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -53,6 +54,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
     private float colorR, colorG, colorB;
     public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
+    public static final KiTridentModel kiTridentModel = new KiTridentModel(KiTridentModel.createBodyLayer().bakeRoot());
     public static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
 
     public SlimHumanSMajinRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer>model) {
@@ -306,6 +308,14 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                         break;
                     case "trident":
+                        kiTridentModel.translateToHand(player.getMainArm(), poseStack);
+                        getModel().rightArm.translateAndRotate(poseStack);
+
+                        kiTridentModel.trident.x = 5.5f;
+                        kiTridentModel.trident.y = -1f;
+                        VertexConsumer vertexTrident = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.TRIDENT_TEX));
+                        kiTridentModel.renderToBuffer(poseStack, vertexTrident, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
                         break;
                     default:
                         renderKiSword(player,poseStack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,0.5f,auraColor);

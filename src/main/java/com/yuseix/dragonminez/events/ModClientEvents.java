@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.hair.*;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
@@ -227,6 +228,7 @@ public class ModClientEvents {
 		//KI WEAPONS LOCATION
 		e.registerLayerDefinition(KiScytheModel.LAYER_LOCATION, KiScytheModel::createBodyLayer);
 		e.registerLayerDefinition(KiSwordModel.LAYER_LOCATION, KiSwordModel::createBodyLayer);
+		e.registerLayerDefinition(KiTridentModel.LAYER_LOCATION, KiTridentModel::createBodyLayer);
 
 	}
 

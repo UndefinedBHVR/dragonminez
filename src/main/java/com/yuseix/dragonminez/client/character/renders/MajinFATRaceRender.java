@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
+import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -55,6 +56,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
     private float colorR, colorG, colorB;
     public static final KiScytheModel kiScytheModel = new KiScytheModel(KiScytheModel.createBodyLayer().bakeRoot());
     public static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
+    public static final KiTridentModel kiTridentModel = new KiTridentModel(KiTridentModel.createBodyLayer().bakeRoot());
 
     public MajinFATRaceRender(EntityRendererProvider.Context pContext, PlayerModel<AbstractClientPlayer> pModel) {
         super(pContext, pModel, 0.5f);
@@ -283,6 +285,14 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
                         break;
                     case "trident":
+                        kiTridentModel.translateToHand(player.getMainArm(), poseStack);
+                        getModel().rightArm.translateAndRotate(poseStack);
+
+                        kiTridentModel.trident.x = 5.5f;
+                        kiTridentModel.trident.y = -1f;
+                        VertexConsumer vertexTrident = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.TRIDENT_TEX));
+                        kiTridentModel.renderToBuffer(poseStack, vertexTrident, packedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0f);
+
                         break;
                     default:
                         renderKiSword(player,poseStack,bufferSource,packedLight,OverlayTexture.NO_OVERLAY,0.5f,auraColor);
