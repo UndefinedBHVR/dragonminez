@@ -15,6 +15,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -36,14 +37,14 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
     private static final RawAnimation DISPAROCARGA = RawAnimation.begin().thenPlay("animation.soldado1.disparo");
 
 
-    public FriezaSoldierEntity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
+    public FriezaSoldierEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setPersistenceRequired();
 
     }
 
     public static AttributeSupplier setAttributes() {
-        return Mob.createMobAttributes()
+        return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1000.0D)
                 .add(Attributes.ATTACK_DAMAGE, 50.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F).build();
