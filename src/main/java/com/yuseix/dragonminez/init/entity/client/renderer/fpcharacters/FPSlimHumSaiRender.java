@@ -164,9 +164,8 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
                     }
                 } else {
 
-                    if (bodyType == 0) {
-                        renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                    }
+                    //BodyTYpe1
+                    renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                     renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 

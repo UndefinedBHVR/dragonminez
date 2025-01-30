@@ -135,27 +135,25 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
                 switch (transf){
                     case 0:
-
                         if (bodyType == 0) {
-
-                            if(genero.equals("Male")){
-                                renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            } else {
-                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                             //RENDER EYES
-                            if(genero.equals("Male")){
-                                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            } else {
-                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
+                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                             if(isMajinOn){
                                 renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                             }
 
+                        } else {
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                            //RENDER EYES
+                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                            if(isMajinOn){
+                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
                         }
 
                         break;
@@ -207,34 +205,61 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
+            int hair = cap.getHairID();
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE1_MALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+
+            if(hair == 0){
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            } else {
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            }
 
         });
 
     }
-    private void renderFEMBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+    private void renderBodyType1(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var playermodel = this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
+            int hair = cap.getHairID();
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            //BODYCOLOR1
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            //BODYCOLOR2
+            int bodyColor2 = cap.getBodyColor2();
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+
+            //OREJAS
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            if(hair == 0){
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            } else {
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            }
 
         });
 
     }
-
     private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var playermodel = this.getModel();
@@ -242,26 +267,18 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
+            int ojoscolorbase = cap.getEye1Color();
+            int ojostype = cap.getEyesType();
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
 
+            if(ojostype == 0){
                 //OJOS
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-        });
-    }
-
-    private void renderFEMALEEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
-
-        var playermodel = this.getModel();
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-            var ojoscolorbase = cap.getEye1Color();
-
+            } else {
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
@@ -270,9 +287,10 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
                 colorR = (ojoscolorbase >> 16) / 255.0F;
                 colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
                 colorB = (ojoscolorbase & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
+                pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
+            }
         });
     }
 

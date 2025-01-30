@@ -526,8 +526,11 @@ public class CCustomizationPage extends Screen {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("eye1Color"));
                         }));
 
-                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX, posY- 18, Component.empty(), button -> {
+                        this.bodyButtonColor1 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor1", posX-11, posY- 18, Component.empty(), button -> {
                             Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor1"));
+                        }));
+                        this.bodyButtonColor2 = (ColorButton) this.addRenderableWidget(new ColorButton("bodyColor2", posX + 11, posY - 18, Component.empty(), button -> {
+                            Minecraft.getInstance().setScreen(new ColorPickerScreen("BodyColor2"));
                         }));
 
                         break;
@@ -668,8 +671,6 @@ public class CCustomizationPage extends Screen {
                 case 4:
                     break;
                 case 5:
-                    if(cap.getGender().equals("Female")){
-
                         if (cap.getHairID() == 0) {
                             this.hairRigthButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY + 47, Component.empty(), button -> {
                                 ModMessages.sendToServer(new CharacterC2S("hairID", 1));
@@ -729,7 +730,6 @@ public class CCustomizationPage extends Screen {
                             }));
                         }
 
-                    }
                     break;
                 default:
                     break;
@@ -772,22 +772,21 @@ public class CCustomizationPage extends Screen {
                 case 4:
                     break;
                 case 5:
-                    if (cap.getGender().equals("Female")) {
-                        if (cap.getEyesType() == 0) {
-                            this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
-                                this.removeWidget(eyesTypeRight);
-                                this.removeWidget(eyesTypeLeft);
-                            }));
+                    if (cap.getEyesType() == 0) {
+                        this.eyesTypeRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("EyeType", 1));
+                            this.removeWidget(eyesTypeRight);
+                            this.removeWidget(eyesTypeLeft);
+                        }));
 
-                        } else if (cap.getEyesType() == 1) {
-                            this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
-                                ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
-                                this.removeWidget(eyesTypeRight);
-                                this.removeWidget(eyesTypeLeft);
-                            }));
-                        }
+                    } else {
+                        this.eyesTypeLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("EyeType", 0));
+                            this.removeWidget(eyesTypeRight);
+                            this.removeWidget(eyesTypeLeft);
+                        }));
                     }
+
                     break;
                 default:
                     break;
@@ -919,6 +918,19 @@ public class CCustomizationPage extends Screen {
                     }
                     break;
                 case 5:
+                    if (cap.getBodytype() == 0) {
+                        this.bodyTypeRightButton = this.addRenderableWidget(new DMZRightButton("right", posX, posY+14, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyType", 1));
+                            this.removeWidget(bodyTypeRightButton);
+                            this.removeWidget(bodyTypeLeftButton);
+                        }));
+                    } else {
+                        this.bodyTypeLeftButton = this.addRenderableWidget(new DMZRightButton("left", posX - 65, posY+14, Component.empty(), button -> {
+                            ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
+                            this.removeWidget(bodyTypeRightButton);
+                            this.removeWidget(bodyTypeLeftButton);
+                        }));
+                    }
                     break;
                 default:
                     break;

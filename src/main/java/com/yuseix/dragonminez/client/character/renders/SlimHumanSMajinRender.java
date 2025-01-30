@@ -213,9 +213,8 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                         } else {
 
-                            if (bodyType == 0) {
-                                renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
+                            //BodyType 1
+                            renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                             renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 

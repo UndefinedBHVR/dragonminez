@@ -9,9 +9,7 @@ import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
-import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
-import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -189,25 +187,16 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
                 switch (transformacion){
                     case 0:
                         if (bodyType == 0) {
-                            if(genero.equals("Male")){
-                                renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            } else {
-                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-
-                            //RENDER EYES
-                            if(genero.equals("Male")){
-                                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            } else {
-                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-
-                            if(isMajinOn){
-                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else {
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
+                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
+                        if(isMajinOn){
+                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
 
                         break;
 
@@ -496,29 +485,58 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
+            int hair = cap.getHairID();
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE1_MALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+
+            if(hair == 0){
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            } else {
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            }
 
         });
 
     }
-    private void renderFEMBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();
+    private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        MajinGordoModel<AbstractClientPlayer> playermodel = (MajinGordoModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
+            int hair = cap.getHairID();
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
-            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            //BODYCOLOR1
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            //BODYCOLOR2
+            int bodyColor2 = cap.getBodyColor2();
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+
+            //OREJAS
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+
+            if(hair == 0){
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            } else {
+                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityCutout(TextureManager.MAJIN_EARS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            }
 
         });
 
@@ -531,25 +549,18 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor1 = cap.getBodyColor();
+            var ojoscolorbase = cap.getEye1Color();
+            int tipoojos = cap.getEyesType();
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor1 & 0xff) / 255.0f;
 
+            if(tipoojos == 0){
                 //OJOS
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
-
-        });
-    }
-
-    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
-
-        MajinFemaleModel<AbstractClientPlayer> playermodel = (MajinFemaleModel)this.getModel();
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-
-            var ojoscolorbase = cap.getEye1Color();
+            } else {
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
@@ -559,14 +570,13 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
                 colorR = (ojoscolorbase >> 16) / 255.0F;
                 colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
                 colorB = (ojoscolorbase & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.002f);
+                pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+            }
 
         });
     }
-
-
-
 
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
