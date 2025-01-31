@@ -1,9 +1,7 @@
 package com.yuseix.dragonminez.utils;
 
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
-import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 
 public class TickHandler {
     private int energyRegenCounter = 0;
@@ -14,37 +12,54 @@ public class TickHandler {
     private final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
 
     public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos) {
-        // Regeneración de stamina cada 3 segundos
+        DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
+
+        // Regeneración de stamina cada 1 segundo
         staminaRegenCounter++;
-        if (staminaRegenCounter >= 20 * 3) {
+        if (staminaRegenCounter >= 20) {
             int maxStamina = dmzDatos.calcularSTM(playerStats.getRace(), playerStats.getConstitution());
-            int regenStamina = (int) Math.ceil(maxStamina / 4.0);
+            int regenStamina = (int) Math.ceil(maxStamina / 12.0);
+            if (meditation != null) {
+                // Si tiene meditación, aumenta o reduce según el nivel de meditación (+2% por nivel)
+                int medLevel = meditation.getLevel();
+                regenStamina += (int) Math.ceil(regenStamina * 0.25 * medLevel);
+            }
             playerStats.addCurStam(regenStamina);
             staminaRegenCounter = 0;
         }
 
-        // Regeneración de energía cada 5 segundos, si tenes turbo activo, no se regenera y consumis energia cada 3s
+        // Regeneración de energía cada 1 segundo (con turbo activo o no)
         energyRegenCounter++;
-        if (playerStats.isTurbonOn()) {
-            if (energyRegenCounter >= 20 * 3) {
-                int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
-                int consumeEnergy = (dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()));
+        if (energyRegenCounter >= 20) {
+            int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
+
+            if (playerStats.isTurbonOn()) {
+                // Si el turbo está activo, consumo de energía
+                int consumeEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) * 2;
+                if (consumeEnergy < 2) consumeEnergy = 2;
+                if (meditation != null) {
+                    // Reduce 5% del consumo por nivel de meditación
+                    int medLevel = meditation.getLevel();
+                    consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
+                }
                 playerStats.removeCurEnergy(consumeEnergy);
-                energyRegenCounter = 0;
-            }
-        } else {
-            if (energyRegenCounter >= 20 * 5) {
-                int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
-                int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass());
+            } else {
+                // Si el turbo no está activo, regeneración de energía
+                int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) / 2;
+                if (meditation != null) {
+                    // Aumenta 2% de la regeneración por nivel de meditación
+                    int medLevel = meditation.getLevel();
+                    regenEnergy += (int) Math.ceil(regenEnergy * 0.25 * medLevel);
+                }
                 playerStats.addCurEnergy(regenEnergy);
-                energyRegenCounter = 0;
             }
+            energyRegenCounter = 0;
         }
 
-        // Consumo de energía cada 3 segundos
+        // Consumo de energía cada 1 segundo
         energyConsumeCounter++;
-        if (energyConsumeCounter >= 20 * 3) {
-            int consumeEnergy = dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState());
+        if (energyConsumeCounter >= 20) {
+            int consumeEnergy = dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState()) /3;
             playerStats.removeCurEnergy(consumeEnergy);
             energyConsumeCounter = 0;
         }
@@ -55,6 +70,11 @@ public class TickHandler {
         chargeTimer++;
 
         DMZDatos dmzdatos = new DMZDatos();
+        DMZSkill meditation = playerstats.getDMZSkills().get("meditation");
+        int meditationLevel = meditation != null ? meditation.getLevel() : 0;
+        DMZSkill potUnlock = playerstats.getDMZSkills().get("potential_unlock");
+        int potUnlockLevel = potUnlock != null ? potUnlock.getLevel() : 0;
+        int defaultMaxRelease = 50; int maxRelease = defaultMaxRelease + (potUnlockLevel * 5);
 
         if (chargeTimer >= CHARGE_INTERVAL) {
             if (playerstats.isAuraOn() && playerstats.isDescendKeyOn()) {
@@ -65,14 +85,18 @@ public class TickHandler {
                     }
                 }
             } else if (playerstats.isAuraOn()) {
-                if (playerstats.getDmzRelease() < 50) {
+                if (playerstats.getDmzRelease() < maxRelease) {
                     playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
-                    if (playerstats.getDmzRelease() > 50) {
-                        playerstats.setDmzRelease(50);
+                    if (playerstats.getDmzRelease() > maxRelease) {
+                        playerstats.setDmzRelease(maxRelease);
                     }
                 }
                 if (!playerstats.isTurbonOn()) {
-                    playerstats.addCurEnergy(dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
+                    int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
+                    if (meditation != null) {
+                        kiRegen += (int) Math.ceil(kiRegen * 0.25 * meditationLevel);
+                    }
+                    playerstats.addCurEnergy(kiRegen);
                 }
             }
 
