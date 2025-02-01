@@ -589,5 +589,12 @@
   "advancements.dragonminez.pridetroopsarmor.title": "The Pride Troopers!",
   "advancements.dragonminez.pridetroopsarmor.description": "Craft the Pride Trooper Armor of U11.",
   "advancements.dragonminez.hitarmor.title": "The Infalible Assassin",
-  "advancements.dragonminez.hitarmor.description": "Craft the Assassin Armor of Hit."
+  "advancements.dragonminez.hitarmor.description": "Craft the Assassin Armor of Hit.",
+  "command.dmzstoryline.no_quest": "Quest '{0}' is not active for player '{1}'.",
+  "command.dmzstoryline.quest_completed": "Quest '{0}' has been completed.",
+  "command.dmzstoryline.quest_incompleted": "Quest '{0}' has been marked as incomplete.",
+  "command.dmzstoryline.no_found_quest": "Quest with ID '{0}' has not been found.",
+  "command.dmzstoryline.no_found_saga": "Saga with ID '{0}' not found.",
+  "command.dmzstoryline.saga_info": "Saga: {0} [{1}]",
+  "command.dmzstoryline.quest_info": "- {0}: {1} [{2}]"
 }
