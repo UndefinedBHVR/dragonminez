@@ -21,7 +21,7 @@ Would you like to help? Cool! Check out the [contribution guide](CONTRIBUTING.md
 <div align="center">
   <a href="https://discord.gg/b5MgRNb3D7" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1216429657273012415?style=for-the-badge&amp;logo=Discord&amp;logoColor=white&amp;label=Discord&amp;color=orange" alt="Discord"></a>&nbsp;&nbsp;
   <a href="https://patreon.com/DragonMineZ" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Patreon-Subscribe-yellow?style=for-the-badge&amp;logo=Patreon" alt="Patreon"></a>&nbsp;&nbsp;
-  <a href="https://trello.com/b/0bX0VJdw/dragonmine-z" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Trello-Progress_Board-red?style=for-the-badge&amp;logo=Trello" alt="Trello"></a>
+  <a href="https://github.com/orgs/DragonMineZ/projects/4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/GitHub-Progress_Board-red?style=for-the-badge&amp;logo=GitHub" alt="GitHub Progress Board"></a>
 </div>
 
 ## 🚀 Download
@@ -32,6 +32,7 @@ where the mod is located.
 You can also check the project in [Modrinth](https://modrinth.com/mod/dragonminez).
 
 ## 🗺️ Roadmap
+
 <div align="center">
   <img src="https://media.forgecdn.net/attachments/description/1136088/description_2e97376e-e7ed-4a57-8280-d55a3ff2fabf.png" alt="DMZ Roadmap"/>
 </div>

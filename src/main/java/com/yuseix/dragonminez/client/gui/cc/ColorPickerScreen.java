@@ -49,15 +49,10 @@ public class ColorPickerScreen extends Screen {
     private String tipoColor = "";
 
     // Nuevas variables para almacenar los componentes de color
-    private int ColorR;
-    private int ColorG;
-    private int ColorB;
-    private int decimalColor = 16777215;
+    private int ColorR; private int ColorG; private int ColorB; private int decimalColor = 16777215;
 
     // BufferedImage para almacenar el cuadro de colores y la barra de brillo
-    private BufferedImage colorPickerImage;
-    private BufferedImage brightnessBarImage;
-
+    private BufferedImage colorPickerImage; private BufferedImage brightnessBarImage;
     private TextButton backButton, setColor;
 
     public ColorPickerScreen(String tipoColor) {
@@ -68,7 +63,6 @@ public class ColorPickerScreen extends Screen {
     @Override
     protected void init() {
         if (this.minecraft.level.isClientSide()) {
-
             int posX = this.width/2+20;
 
             switch (tipoColor){
@@ -76,57 +70,48 @@ public class ColorPickerScreen extends Screen {
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("BodyColor1", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
                 case "BodyColor2":
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("BodyColor2", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
                 case "BodyColor3":
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("BodyColor3", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
                 case "eye1Color":
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("eye1Color", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
                 case "eye2Color":
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("eye2Color", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
                 case "hairColor":
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("hairColor", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
                 case "auraColor":
                     this.setColor = (TextButton) this.addRenderableWidget(new TextButton(posX, (this.height/2) + 13, Component.literal("SET"), wa -> {
                         ModMessages.sendToServer(new CharacterC2S("auraColor", decimalColor));
                         this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
                     }));
                     break;
             }
 
-            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(this.width/2-110, (this.height/2) + 42, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
-
+            this.backButton = (TextButton) this.addRenderableWidget(new TextButton(this.width/2-110, (this.height/2) + 42, Component.translatable("dmz.ccreation.back").withStyle(ChatFormatting.BOLD), button -> {
                 this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
-
             }));
         }
     }
@@ -151,19 +136,14 @@ public class ColorPickerScreen extends Screen {
         guiGraphics.drawString(font, Component.literal("COLOR").withStyle(ChatFormatting.BOLD), this.width/2+40, this.height/2-57, decimalColor);
 
 
-        int ColorPickerX = (this.width / 2) - 110;
-        int ColorPickerY = (this.height / 2) - 61;
+        int ColorPickerX = (this.width / 2) - 110; int ColorPickerY = (this.height / 2) - 61;
 
         renderColorPickerImage(guiGraphics, ColorPickerX, ColorPickerY);
 
-
-        int SaturationX = (this.width / 2) - 5;
-        int SaturationY = (this.height / 2) - 61;
+        int SaturationX = (this.width / 2) - 5; int SaturationY = (this.height / 2) - 61;
 
         // Dibuja la barra de saturación
         renderBrightnessBarImage(guiGraphics, SaturationX, SaturationY);
-
-
         // Dibuja la vista previa del color seleccionado
         drawColorPreview(guiGraphics);
 
@@ -228,9 +208,7 @@ public class ColorPickerScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        int ColorPickerX = (this.width / 2) - 110;
-        int ColorPickerY = (this.height / 2) - 61;
-
+        int ColorPickerX = (this.width / 2) - 110; int ColorPickerY = (this.height / 2) - 61;
         if (mouseX >= ColorPickerX && mouseX <= ColorPickerX + 100 && mouseY >= ColorPickerY && mouseY <= ColorPickerY + 100) {
             int x = (int) (mouseX - ColorPickerX);
             int y = (int) (mouseY - ColorPickerY);
@@ -238,9 +216,7 @@ public class ColorPickerScreen extends Screen {
             updateColorComponents();
         }
 
-        int SaturationX = (this.width / 2) - 5;
-        int SaturationY = (this.height / 2) - 61;
-
+        int SaturationX = (this.width / 2) - 5; int SaturationY = (this.height / 2) - 61;
         if (mouseX >= SaturationX && mouseX <= SaturationX + 10 && mouseY >= SaturationY && mouseY <= SaturationY + 100) {
             int i = (int) (mouseY - SaturationY);
             brightness = (float) i / 100f;
@@ -257,31 +233,22 @@ public class ColorPickerScreen extends Screen {
     }
 
     public void panoramas(GuiGraphics graphics, float partialtick){
-
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
             var race = cap.getRace();
 
             if(race == 0){
                 this.customPanorama.render(partialtick, 1.0f);
-
             }else if(race == 1){
                 this.panoramaSai.render(partialtick, 1.0f);
-
             }else if(race == 2){
                 this.panoramaNam.render(partialtick, 1.0f);
-
             }else if(race == 3){
                 this.panoramaBio.render(partialtick, 1.0f);
-
             }else if(race == 4){
                 this.panoramaCold.render(partialtick, 1.0f);
-
             }else {
                 this.panoramaBuu.render(partialtick, 1.0f);
-
             }
         });
-
     }
-
 }

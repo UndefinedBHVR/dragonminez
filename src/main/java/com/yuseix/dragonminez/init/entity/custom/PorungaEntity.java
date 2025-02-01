@@ -42,8 +42,8 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	private long invokingTime;
 
 	private int tiempo = 20 * 5; //Tiempo de desaparicion despues de que los deseos sean 0 (20 ticks = 1 segundo)
-	private static final EntityDataAccessor<String> OWNER_NAME = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.STRING);
-	private static final EntityDataAccessor<Integer> DESEOS = SynchedEntityData.defineId(ShenlongEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<String> OWNER_NAME = SynchedEntityData.defineId(PorungaEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<Integer> DESEOS = SynchedEntityData.defineId(PorungaEntity.class, EntityDataSerializers.INT);
 
 	public PorungaEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
 		super(pEntityType, pLevel);

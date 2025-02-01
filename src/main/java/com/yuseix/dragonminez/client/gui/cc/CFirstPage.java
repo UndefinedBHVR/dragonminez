@@ -73,7 +73,7 @@ public class CFirstPage extends Screen {
 		if (this.minecraft.level.isClientSide) {
 			botonesRazasElegir(this.width / 2, (this.height / 2) + 87);
 
-			this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, this.height - 25, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+			this.nextButton = this.addRenderableWidget(new TextButton(this.width - 85, this.height - 25, Component.translatable("dmz.ccreation.next").withStyle(ChatFormatting.BOLD), button -> {
 				this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
@@ -100,7 +100,6 @@ public class CFirstPage extends Screen {
 		}
 	}
 
-
 	@Override
 	public boolean isPauseScreen() {
 		return false;
@@ -108,90 +107,50 @@ public class CFirstPage extends Screen {
 
 	@Override
 	public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-
 		panoramas(pGuiGraphics, pPartialTick);
 		pagina0(pGuiGraphics, this.width, this.height);
 		paginaInfoRazas(pGuiGraphics);
-
-
 		super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 	}
 
 	public void pagina0(GuiGraphics pGuiGraphics, int posX, int posY) {
-
 		RenderSystem.enableBlend();
-
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem.depthMask(false);
-
 		pGuiGraphics.blit(texto, (pGuiGraphics.guiWidth() / 2) - 60, (pGuiGraphics.guiHeight() / 2) + 85, 0, 16, 130, 18);
 		//pGuiGraphics.blit(texto, (this.width / 2) - 60, 10, 0, 16, 130, 18);
-
 		RenderSystem.disableBlend();
 
-
 		//TITULO
-		alturaTexto = (posY / 2) - 40;
-		anchoTexto = posX / 2;
+		alturaTexto = (posY / 2) - 40; anchoTexto = posX / 2;
 
-		//drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation, anchoTexto, 16, 0xFFFFFF);
-		CCustomizationPage.drawStringWithBorder(pGuiGraphics, font, TranslateManager.CCreation, 3, 3, 0xFFFFFF);
+		CCustomizationPage.drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.ccreation.name"), 3, 3, 0xFFFFFF);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-
-
 			var raza = cap.getRace();
+			alturaTexto = (posY / 2) + 90; anchoTexto = (this.width / 2);
 
 			switch (raza) {
 				case 0: //Humano
-					alturaTexto = (posY / 2) + 90;
-					anchoTexto = (this.width / 2);
-
 					pGuiGraphics.drawCenteredString(font, Component.translatable("dmz.races.name.human").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x31EAFF);
-
 					break;
 				case 1: // Saiyan
-					alturaTexto = (posY / 2) + 90;
-					anchoTexto = (this.width / 2);
-
 					pGuiGraphics.drawCenteredString(font, Component.translatable("dmz.races.name.saiyan").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFFBA35);
-
 					break;
 				case 2: // Namek
-					alturaTexto = (posY / 2) + 90;
-					anchoTexto = (this.width / 2);
-
 					pGuiGraphics.drawCenteredString(font, Component.translatable("dmz.races.name.namek").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x378942);
-
 					break;
 				case 3: // BioAndroid
-					alturaTexto = (posY / 2) + 90;
-					anchoTexto = (this.width / 2);
-
 					pGuiGraphics.drawCenteredString(font, Component.translatable("dmz.races.name.bioandroid").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0x72DA58);
-
 					break;
 				case 4: // ColdDemon
-					alturaTexto = (posY / 2) + 90;
-					anchoTexto = (this.width / 2);
-
 					pGuiGraphics.drawCenteredString(font, Component.translatable("dmz.races.name.colddemon").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xAC1BEC);
-
 					break;
 				case 5: // Majin
-					alturaTexto = (posY / 2) + 90;
-					anchoTexto = (this.width / 2);
-
 					pGuiGraphics.drawCenteredString(font, Component.translatable("dmz.races.name.majin").withStyle(ChatFormatting.BOLD), anchoTexto, alturaTexto, 0xFE7FF4);
-
-					break;
-				default:
-
 					break;
 			}
-
 			personajesMenu(pGuiGraphics);
-
 		});
 	}
 
@@ -202,9 +161,7 @@ public class CFirstPage extends Screen {
 				if (cap.getBodytype() == 0) {
 					if (Minecraft.getInstance().player.getModelName().equals("default")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
-
 					} else {
 						LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
@@ -213,12 +170,9 @@ public class CFirstPage extends Screen {
 				} else {
 					if (cap.getGender().equals("Male")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
-
 					} else {
 						LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 					}
 				}
@@ -227,24 +181,18 @@ public class CFirstPage extends Screen {
 				if (cap.getBodytype() == 0) {
 					if (Minecraft.getInstance().player.getModelName().equals("default")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
-
 					} else {
 						LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 					}
 
 				} else {
 					if (cap.getGender().equals("Male")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
-
 					} else {
 						LivingEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), this.minecraft.level);
-
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 					}
 				}
@@ -287,7 +235,6 @@ public class CFirstPage extends Screen {
 			var raza = cap.getRace();
 
 			if (raza == 0) {
-
 				CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.human.title").withStyle(ChatFormatting.BOLD), 10, (this.height / 2) - 75, 0x61C3FE);
 
 				List<FormattedCharSequence> lines = font.split(Component.translatable("dmz.ccreation.human.description"), 130);
@@ -330,9 +277,7 @@ public class CFirstPage extends Screen {
 					graphics.drawString(font, lines.get(i), 3, ((this.height / 2) - 60) + i * font.lineHeight, 0xFFFFFF);
 				}
 			}
-
 		});
-
 	}
 
 
@@ -381,9 +326,7 @@ public class CFirstPage extends Screen {
 	}
 
 	public void botonesRazasElegir(int posX, int posY) {
-
-		this.removeWidget(botonRazaRight);
-		this.removeWidget(botonRazaLeft);
+		this.removeWidget(botonRazaRight); this.removeWidget(botonRazaLeft);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -398,7 +341,6 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-
 				}));
 			} else if (cap.getRace() == 1) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
@@ -412,9 +354,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-
 				}));
-
 				this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 0));
 					this.removeWidget(botonRazaRight);
@@ -425,7 +365,6 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-
 				}));
 			} else if (cap.getRace() == 2) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
@@ -439,7 +378,6 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
-
 				}));
 				this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 1));
@@ -451,9 +389,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-
 				}));
-
 			} else if (cap.getRace() == 3) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 4));
@@ -467,7 +403,6 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 7471273));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 6226175));
-
 				}));
 				this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 2));
@@ -480,10 +415,8 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-
 				}));
 			} else if (cap.getRace() == 4) {
-
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 5));
 					this.removeWidget(botonRazaRight);
@@ -494,8 +427,6 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairColor", 16753919));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
-
-
 				}));
 				this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 3));
@@ -508,7 +439,6 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
-
 				}));
 			} else {
 				this.botonRazaLeft = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", posX - 60, posY, Component.empty(), button -> {
@@ -525,33 +455,25 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
 				}));
 			}
-
 		});
 	}
 
 	public void panoramas(GuiGraphics graphics, float partialtick) {
-
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 			var race = cap.getRace();
 
 			if (race == 0) {
 				this.customPanorama.render(partialtick, 1.0f);
-
 			} else if (race == 1) {
 				this.panoramaSai.render(partialtick, 1.0f);
-
 			} else if (race == 2) {
 				this.panoramaNam.render(partialtick, 1.0f);
-
 			} else if (race == 3) {
 				this.panoramaBio.render(partialtick, 1.0f);
-
 			} else if (race == 4) {
 				this.panoramaCold.render(partialtick, 1.0f);
-
 			} else {
 				this.panoramaBuu.render(partialtick, 1.0f);
-
 			}
 		});
 

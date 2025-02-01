@@ -122,7 +122,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
     @Override
     public boolean hurt(DamageSource pSource, float pAmount) {
         if ("player".equals(pSource.getMsgId()) && pSource.getEntity() instanceof Player) {
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide && isAlive()) {
                 this.spawnAtLocation(MainItems.NUBE_ITEM.get());
                 this.remove(RemovalReason.KILLED);
             }
