@@ -9,26 +9,26 @@ Please follow the guidelines below to ensure a smooth process for all contributo
 ## Getting Started
 
 1. **Read the Code of Conduct**
-    - By contributing, you agree to uphold the [Code of Conduct](CODE_OF_CONDUCT.md).
 
+   - By contributing, you agree to uphold the [Code of Conduct](CODE_OF_CONDUCT.md).
 2. **Check Existing Issues**
-    - Look through the [Issues](https://github.com/orgs/DragonMineZ/projects/5) to see if someone has already reported
-      your concern or proposed your idea.
 
+   - Look through the [Issues](https://github.com/orgs/DragonMineZ/projects/5) to see if someone has already reported
+     your concern or proposed your idea.
 3. **Fork the Repository**
-    - Clone your fork to your local environment for testing and development:
+
+   - Clone your fork to your local environment for testing and development:
 
    ```bash
    git clone https://github.com/your-username/DragonMineZ.git
    ```
+4. **Set Up Your Environment**Ensure you have the necessary tools installed:
 
-4. **Set Up Your Environment**  
-   Ensure you have the necessary tools installed:
-    - Java Development Kit (JDK) version 17+
-    - Gradle or Maven for builds
-    - Minecraft Forge for modding support
+   - Java Development Kit (JDK) version 17+
+   - Gradle or Maven for builds
+   - Minecraft Forge for modding support
 
-Follow the setup instructions in the [README](/README.md) for additional details.
+If you are not forking and/or creating an **addon**, there is no need to follow step 3.
 
 ## How to Contribute
 
@@ -38,10 +38,10 @@ If you’ve encountered a bug, please:
 
 - Open a [Bug Report](https://github.com/DragonMineZ/DragonMineZ/issues/new?template=bug_report.yml).
 - Include as much detail as possible:
-    - A clear description of the issue
-    - Steps to reproduce
-    - Expected vs. actual results
-    - Screenshots, logs, or crash reports (if applicable)
+  - A clear description of the issue
+  - Steps to reproduce
+  - Expected vs. actual results
+  - Screenshots, logs, or crash reports (if applicable)
 
 ### ⭐ Suggesting Features
 
@@ -62,7 +62,7 @@ Use a descriptive branch name:
 
 ```bash
 git checkout -b fix/short-description
-```  
+```
 
 #### Step 2: Make Your Changes
 
@@ -76,13 +76,13 @@ Write a meaningful commit message:
 
 ```bash
 git commit -m "Fix: Resolved issue with XYZ feature"
-```  
+```
 
 #### Step 4: Push Your Changes
 
 ```bash
 git push origin fix/short-description
-```  
+```
 
 #### Step 5: Open a Pull Request
 
@@ -97,23 +97,17 @@ Go to your fork on GitHub and submit a [Pull Request](https://github.com/DragonM
 
 1. **Coding Standards**
 
-    - Use descriptive variable and method names.
-    - Format code consistently (e.g., indentations, spacing).
-    - Write comments for complex logic.
-
+   - Use descriptive variable and method names.
+   - Format code consistently (e.g., indentations, spacing).
+   - Write comments for complex logic.
 2. **Documentation**
 
-    - Update or add documentation for new or modified features.
-    - Ensure the [Wiki](https://github.com/DragonMineZ/DragonMineZ/wiki) reflects major changes.
-
+   - Update or add documentation for new or modified features.
+   - Ensure the [Wiki (TBD)](https://github.com/DragonMineZ/DragonMineZ/wiki) reflects major changes.
 3. **Testing**
 
-    - Test thoroughly across relevant scenarios.
-    - Fix any linting or compilation issues before submitting your PR.
-
-4. **Code of Conduct**
-
-    - For a positive and inclusive community, follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+   - Test thoroughly across relevant scenarios.
+   - Fix any linting or compilation issues before submitting your PR.
 
 ## 💬 Community Communication
 
@@ -121,7 +115,7 @@ Go to your fork on GitHub and submit a [Pull Request](https://github.com/DragonM
 
 ## 🫴 Supporting the Project on Patreon
 
-DragonMineZ is a community-driven project, and your support helps us keep improving and delivering new features!  
+DragonMineZ is a community-driven project, and your support helps us keep improving and delivering new features!
 Consider becoming a patron on [Patreon](https://patreon.com/DragonMineZ) to support the development and maintenance of
 the mod.
 

@@ -8,8 +8,8 @@ security issues seriously and are committed to resolving them promptly to protec
 To report a security vulnerability:
 
 1. **Do not disclose it publicly.** Sharing details of a vulnerability before it is resolved could put users at risk.
-
 2. **Submit a report:**
+
     - Use the ["Report a Vulnerability"](https://github.com/DragonMineZ/DragonMineZ/security/advisories/new) tab on
       GitHub.
     - Alternatively, you can contact us on Discord.
@@ -18,8 +18,8 @@ To report a security vulnerability:
         - Affected versions
         - Potential impacts
         - Any suggested fixes or mitigations (if available)
-
 3. **What to expect:**
+
     - We will acknowledge your report within **48 to 72 hours**.
     - Our team will investigate and provide a plan of action within **10 days** or less.
     - You will be kept updated throughout the process and credited for your discovery unless you wish to remain
@@ -45,6 +45,6 @@ The following versions are actively supported with security updates:
 ## Learning More About Security
 
 For tips on securely using DragonMineZ, stay tuned for detailed documentation in
-the [Wiki](https://github.com/DragonMineZ/DragonMineZ/wiki) and tutorials.
+the [Wiki (TBD)](https://github.com/DragonMineZ/DragonMineZ/wiki) and tutorials.
 
 Thank you for helping us maintain the security and integrity of DragonMineZ!

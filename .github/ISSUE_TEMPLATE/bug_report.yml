@@ -1,7 +1,7 @@
 name: Bug Report
 description: Create a report of a bug to help us improve :)
 title: "[BUG] *Bug Title*"
-labels: [ "Tipo: Bug" ]
+labels: [ "Bug" ]
 projects: [ "DragonMineZ/5" ]
 assignees:
   - Shokkoh

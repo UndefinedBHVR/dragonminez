@@ -21,7 +21,7 @@ We are committed to ensuring that DragonMineZ remains a positive space for colla
 
 ## Our Standards
 
-To foster a positive environment, contributors are expected to:
+To foster a positive environment, contributors and commenters are expected to:
 
 - **Be respectful:** Treat others with kindness, empathy, and consideration.
 - **Collaborate actively:** Value diverse viewpoints and work together to find solutions.
@@ -35,25 +35,30 @@ The following behaviors are unacceptable:
 - Harassment in any form, public or private.
 - Publishing others' private information without explicit consent.
 - Any actions that make others feel unwelcome or unsafe.
+- NSFW or Not-Safe-For-Work content.
+
+Additionally, our Code of Conduct complies with Discord's ToS (Terms of Service).
 
 ## Reporting Issues
 
 If you witness or experience violations of this Code of Conduct, please report them to the project maintainers via
-Discord or through the GitHub repository's [Issues page](https://github.com/DragonMineZ/DragonMineZ/issues).
+Discord (tickets in our server) or through the GitHub
+repository's [Issues page](https://github.com/DragonMineZ/DragonMineZ/issues).
 
-All complaints will be reviewed and investigated promptly and fairly.  
+All complaints will be reviewed and investigated promptly and fairly.
 Reports will remain confidential to the extent possible.
 
 ## Enforcement
 
-Project maintainers are responsible for clarifying and enforcing this Code of Conduct.  
-They may take appropriate action, including:
+Project maintainers are responsible for clarifying and enforcing this Code of Conduct.They may take appropriate action,
+including:
 
-- Issuing warnings
+- Issuing written and/or verbal warnings
 - Removing inappropriate comments or contributions
 - Temporary or permanent bans
 
-Maintainers’ decisions are final and will be applied fairly.
+Maintainers’ (DMZ Team) decisions are final and will be applied fairly. Discord ToS is only enforced in the Discord
+server.
 
 ## Scope
 
