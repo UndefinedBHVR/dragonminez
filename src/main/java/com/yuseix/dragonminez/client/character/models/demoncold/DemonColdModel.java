@@ -13,7 +13,8 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "dc_minim");	private final ModelPart Head;
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "dc_minim");
+	private final ModelPart Head;
 	private final ModelPart orejas;
 	private final ModelPart cuernos;
 	private final ModelPart Body;
@@ -73,9 +74,9 @@ public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 
 		PartDefinition tail3bio = tail2bio.addOrReplaceChild("tail3bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -1.1F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 4.0F));
 
-		PartDefinition tail4bio = tail3bio.addOrReplaceChild("tail4bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, 8.0F, 2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -9.5F, 0.4F));
+		PartDefinition tail4bio = tail3bio.addOrReplaceChild("tail4bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.6F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.0F));
 
-		PartDefinition tail5bio = tail4bio.addOrReplaceChild("tail5bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.2F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 9.5F, 5.6F));
+		PartDefinition tail5bio = tail4bio.addOrReplaceChild("tail5bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.2F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.0F));
 
 		PartDefinition tail6bio = tail5bio.addOrReplaceChild("tail6bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.5F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.75F));
 
@@ -93,6 +94,8 @@ public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	@Override
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+
+		float random = (float) Math.random();
 
 		this.tail1bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.15F);
 		this.tail1bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.05F);
