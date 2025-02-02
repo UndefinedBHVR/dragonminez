@@ -231,6 +231,8 @@
   "dmz.skills.on": "On",
   "dmz.skills.off": "Off",
   "dmz.skills.cost": "Cost",
+  "dmz.skills.upgrade": "\u00A7b%s \u00A7rTPS",
+  "dmz.skills.maxlevel": "MAXED!",
 
   "dmz.skill.jump.name": "Jump",
   "dmz.skill.jump.desc": "Let's you Jump higher. The more you level up, the higher you can jump.",
@@ -531,6 +533,10 @@
   "command.dmz.to": "to ",
   "command.dmzskills.invalid_skill": "\u00A7cInvalid Skill!",
   "command.dmzskills.valid_skills": "\u00A7aValid Skills: \u00A7r",
+  "command.dmzskills.give": "You have \u00A7agiven \u00A7rthe skill ",
+  "command.dmzskills.take": "You have \u00A7cremoved \u00A7rthe skill ",
+  "command.dmzskills.set": "You have \u00A7bset \u00A7rthe skill ",
+  "command.dmzskills.not_found": "\u00A7cUnknown Skill: ",
 
   "ui.dmzradar.range": "Radar Range is",
   "ui.dmzradar.blocks": "blocks.",

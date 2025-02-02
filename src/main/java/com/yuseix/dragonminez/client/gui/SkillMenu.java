@@ -217,7 +217,7 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
@@ -263,7 +263,7 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
@@ -300,7 +300,7 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
@@ -336,7 +336,7 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
@@ -372,7 +372,7 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
@@ -431,7 +431,7 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade"), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
@@ -556,29 +556,34 @@ public class SkillMenu extends Screen {
                     DMZSkill skill = entry.getValue();
 
                     if(skillId.equals(this.skillsId)){
+                        int currentLevel = skill.getLevel();
+                        int maxLevel = 10; // maximo nivel
                         //Nombre de la habilidad
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), startX + 93, startY, 0xFFFFFF);
                         //Tipo y aca pongo lo de skill
                         drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.type"), startX + 37, startY+ 13, 0xFFFFFF);
-                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.skill2"), startX + 74, startY+ 13, 0xffc134);
+                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.skill2"), startX + 78, startY+ 13, 0xffc134);
                         //Aca pongo lo de nivel
                         drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.level"), startX + 37, startY+24, 0xFFFFFF);
-                        drawStringWithBorder2(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), startX + 74, startY+24, 0xFFFFFF);
+                        drawStringWithBorder2(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), startX + 78, startY+24, 0xFFFFFF);
                         //Activo o no
                         drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.active"), startX + 37, startY+36, 0xFFFFFF);
                         //Activo o inactivo
                         if(skill.isActive()){
-                            drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.on"), startX + 74, startY+36, 0x60fb58);
+                            drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.on"), startX + 78, startY+36, 0x60fb58);
                         } else {
-                            drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.off"), startX + 74, startY+36, 0xfb5858);
+                            drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.off"), startX + 78, startY+36, 0xfb5858);
                         }
-                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.cost"), startX + 37, startY+48, 0xFFFFFF);
-
+                        //drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.cost"), startX + 37, startY+48, 0xFFFFFF);
 
                         //descripcion
-                        List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc().getString()), 130);
+                        List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc().getString()), 120);
                         for (int i = 0; i < lines.size(); i++) {
-                            guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+56) + i * font.lineHeight, 0xFFFFFF);
+                            guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+48) + i * font.lineHeight, 0xFFFFFF);
+                        }
+
+                        if (currentLevel >= maxLevel) {
+                            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
                         }
 
                     }

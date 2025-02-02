@@ -231,6 +231,8 @@
   "dmz.skills.on": "Activa",
   "dmz.skills.off": "Inactiva",
   "dmz.skills.cost": "Coste",
+  "dmz.skills.upgrade": "\u00A7b%s \u00A7rTPS",
+  "dmz.skills.maxlevel": "MAXIMIZADA!",
 
   "dmz.skill.jump.name": "Salto",
   "dmz.skill.jump.desc": "Te permite Saltar más alto. A más nivel subas, más alto saltarás.",
@@ -531,6 +533,10 @@
   "command.dmz.to": "a ",
   "command.dmzskills.invalid_skill": "\u00A7cHabilidad Inválida!",
   "command.dmzskills.valid_skills": "\u00A7aHabilidades Válidas: \u00A7r",
+  "command.dmzskills.give": "Has \u00A7dotorgado \u00A7rla habilidad ",
+  "command.dmzskills.take": "Has \u00A7cremovido \u00A7rla habilidad ",
+  "command.dmzskills.set": "Has \u00A7bestablecido \u00A7rla habilidad ",
+  "command.dmzskills.not_found": "\u00A7cHabilidad Desconocida: ",
 
   "ui.dmzradar.range": "Rango del Radar",
   "ui.dmzradar.blocks": "bloques.",

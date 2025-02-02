@@ -133,7 +133,7 @@ public class DMZSkillsCommand {
 				playerstats.addSkill(skillName, skill);
 
 				player.sendSystemMessage(Component.translatable("command.dmzskills.give")
-						.append(skill.getName()) // Solo muestra el nombre de la habilidad
+						.append(skill.getName()).append(" ") // Solo muestra el nombre de la habilidad
 						.append(Component.translatable("command.dmz.to")).append(player.getName()));
 			});
 		}
@@ -198,7 +198,7 @@ public class DMZSkillsCommand {
 				DMZSkill skill = playerstats.getSkill(skillName);
 				if (skill != null) {
 					player.sendSystemMessage(Component.translatable("command.dmzskills.take")
-							.append(skill.getName()) // Solo muestra el nombre de la habilidad
+							.append(skill.getName()).append(" ") // Solo muestra el nombre de la habilidad
 							.append(Component.translatable("command.dmz.to")).append(player.getName()));
 					playerstats.removeSkill(skillName);
 				} else {
