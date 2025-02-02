@@ -92,6 +92,11 @@ public class ModMessages {
 				.encoder(SkillActivateC2S::toBytes)
 				.consumerMainThread(SkillActivateC2S::handle)
 				.add();
+		net.messageBuilder(FlyToggleC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(FlyToggleC2S::decode)
+				.encoder(FlyToggleC2S::encode)
+				.consumerMainThread(FlyToggleC2S::handle)
+				.add();
 
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
@@ -133,6 +138,11 @@ public class ModMessages {
 				.encoder(UpdatePlanetSelectionS2C::encode)
 				.decoder(UpdatePlanetSelectionS2C::decode)
 				.consumerMainThread(UpdatePlanetSelectionS2C::handle)
+				.add();
+		net.messageBuilder(FlyToggleS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(FlyToggleS2C::encode)
+				.decoder(FlyToggleS2C::decode)
+				.consumerMainThread(FlyToggleS2C::handle)
 				.add();
 	}
 

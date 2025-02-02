@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.FlyToggleS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
@@ -23,6 +24,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
@@ -93,7 +95,14 @@ public class StatsEvents {
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
 
-
+                if (playerstats.getSkill("fly").isActive()) {
+                    if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
+                        playerstats.setSkillActive("fly", false);
+                        player.getAbilities().flying = false;
+                        player.fallDistance = 0; // Resetear daño de caída
+                        player.onUpdateAbilities();
+                    }
+                }
             });
     }
 

@@ -919,6 +919,6 @@ public class DMZStatsAttributes {
 	}
 
 	public void setCompactMenu(boolean compactMenu) {
-		this.compactMenu = compactMenu;
-	}
+        this.compactMenu = compactMenu;
+    }
 }

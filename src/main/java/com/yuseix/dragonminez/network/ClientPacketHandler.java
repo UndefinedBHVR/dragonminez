@@ -8,6 +8,7 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -108,4 +109,14 @@ public class ClientPacketHandler {
 		SaiyanSpacePodOverlay.updatePlanetTarget(selectedPlanet);
 	}
 
+	@OnlyIn(Dist.CLIENT)
+	public static void handleFlyToggle(boolean isFlying, Supplier<NetworkEvent.Context> ctxSupplier) {
+		Minecraft mc = Minecraft.getInstance();
+		LocalPlayer player = mc.player;
+		if (player != null) {
+			player.getAbilities().mayfly = isFlying;
+			player.getAbilities().flying = isFlying;
+			player.onUpdateAbilities();
+		}
+	}
 }
