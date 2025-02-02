@@ -129,6 +129,13 @@ public class CharacterC2S {
                                 playerstats.setDescendKey(true);
                             }
                             break;
+                        case "isCompactMenu":
+                            if (packet.cantidad == 1) {
+                                playerstats.setCompactMenu(true);
+                            } else {
+                                playerstats.setCompactMenu(false);
+                            }
+                            break;
                         case "str":
                             playerstats.setStrength(packet.cantidad);
                             break;

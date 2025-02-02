@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.network;
 
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
+import com.yuseix.dragonminez.client.gui.AttributesMenu2;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -15,7 +16,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class ClientPacketHandler {
@@ -33,6 +33,7 @@ public class ClientPacketHandler {
 			});
 		}
 	}
+
 	@OnlyIn(Dist.CLIENT)
 	public static void handleTempEffectsPacket(int playerId, Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
 		var clientLevel = Minecraft.getInstance().level;
@@ -62,14 +63,14 @@ public class ClientPacketHandler {
 		}
 	}
 
-
-
 	@OnlyIn(Dist.CLIENT)
-	public static void handleMenuPacket(boolean openCharacterMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
+	public static void handleMenuPacket(boolean openCharacterMenu, boolean compactMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
 		if (openCharacterMenu) {
-			Minecraft.getInstance().setScreen(
-					new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm"))
-			);
+			if (compactMenu) {
+				Minecraft.getInstance().setScreen(new AttributesMenu2());
+			} else {
+				Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+			}
 		} else {
 			Minecraft.getInstance().setScreen(new CFirstPage());
 		}

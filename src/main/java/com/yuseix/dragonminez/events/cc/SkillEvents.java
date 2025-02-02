@@ -4,12 +4,15 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -21,7 +24,7 @@ import java.awt.event.KeyEvent;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SkillEvents {
-    private static boolean isFlying = false;
+    private static boolean isFlying = false; private static boolean isDescending = false;
 
     @SubscribeEvent
     public static void onLivingJump(LivingEvent.LivingJumpEvent event) { //Metodo que sirve solo para la habilidad jump
@@ -43,24 +46,39 @@ public class SkillEvents {
     }
 
     @SubscribeEvent
-    public static void onKeyPress(InputEvent.Key event) { // Detectar la tecla de vuelo
+    public static void onKeyPress(InputEvent.Key event) { // Detectar vuelo
         if (EffectiveSide.get().isClient()) {
             Minecraft mc = Minecraft.getInstance();
             if (Keys.FLY_KEY.consumeClick()) {
-                Player player = mc.player;
+                LocalPlayer player = mc.player;
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
                     DMZSkill flySkill = cap.getDMZSkills().get("fly");
+                    DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
 
                     if (flySkill != null && flySkill.isActive()) {
                         int flyLevel = flySkill.getLevel();
                         if (flyLevel > 0) {
-                            isFlying = !isFlying; // Alternar el estado de vuelo
-                            if (isFlying) {
+                            if (!isFlying) {
+                                player.getAbilities().mayfly = true;
                                 if (player.onGround()) {
-                                    player.jumpFromGround(); // Salto inicial
+
+                                    player.jumpFromGround();
+                                    if (jumpSkill != null && jumpSkill.isActive()) { // Si tiene Jump, hace el salto potenciado
+                                        int jumpLevel = jumpSkill.getLevel();
+                                        if (jumpLevel > 0) {
+                                            float jumpBoost = 0.1f * jumpLevel;
+                                            player.setDeltaMovement(player.getDeltaMovement().add(0, jumpBoost, 0));
+                                        }
+                                    } else player.setDeltaMovement(player.getDeltaMovement().x, 0.42D, player.getDeltaMovement().z); // Salto normal si no tiene Jump
+                                    isDescending = true; // Esperar a que empiece a caer
                                 }
-                                player.setNoGravity(true);
-                            } else player.setNoGravity(false);
+                            } else {
+                                isFlying = false;
+                                player.getAbilities().mayfly = false;
+                                player.getAbilities().flying = false;
+                                player.fallDistance = 0; // Anular daño de caída al desactivar el vuelo
+                            }
+                            player.onUpdateAbilities();
                         }
                     }
                 });
@@ -69,15 +87,25 @@ public class SkillEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) { // Lógica de vuelo durante cada tick
-        Player player = event.player;
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        LocalPlayer player = Minecraft.getInstance().player;
 
-        if (player.level().isClientSide) return; // Solo ejecutar en el servidor
+        if (event.player.level().isClientSide) return;
+
+        if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
+            isFlying = true;
+            player.getAbilities().mayfly = false;
+            player.getAbilities().flying = true;
+            player.onUpdateAbilities();
+            isDescending = false;
+        }
 
         if (isFlying) {
-            if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si el jugador toca el suelo
+            if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
                 isFlying = false;
-                player.setNoGravity(false);
+                player.getAbilities().flying = false;
+                player.fallDistance = 0; // Resetear daño de caída
+                player.onUpdateAbilities();
                 return;
             }
 
@@ -87,30 +115,29 @@ public class SkillEvents {
                 if (flySkill != null && flySkill.isActive()) {
                     int flyLevel = flySkill.getLevel();
 
-                    // Velocidad base del jugador aumentada un 10% por nivel de vuelo
-                    double baseSpeed = player.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
-                    double speedMultiplier = baseSpeed * (1.0 + (0.1 * flyLevel));
+                    // La vel de vuelo aumenta un 20% por nivel
+                    float baseSpeed = 0.05F;
+                    float flySpeed = baseSpeed * (1.0F + (0.20F * flyLevel));
+                    player.getAbilities().setFlyingSpeed(flySpeed);
 
-                    // Movimiento en X y Z
-                    double forward = player.zza; // Movimiento hacia adelante/atrás
-                    double strafe = player.xxa;  // Movimiento lateral
-                    double motionX = strafe * speedMultiplier;
-                    double motionZ = forward * speedMultiplier;
+                    Vec3 motion = player.getDeltaMovement();
+                    double yVelocity = motion.y;
 
-                    // Movimiento en Y controlado
-                    double motionY = -0.03f; // No ascender ni descender por defecto
-
-                    if (Minecraft.getInstance().options.keyJump.isDown()) {
-                        motionY = 0.3f;
-                    } else if (player.isCrouching()) {
-                        motionY = -0.3f;
+                    // Si mantiene espacio, ascender
+                    if (player.input.jumping) {
+                        yVelocity = 0.2;
+                    }
+                    // Si mantiene shift, descender más rápido
+                    else if (player.input.shiftKeyDown) {
+                        yVelocity = -0.2;
+                    }
+                    // Si no presiona nada, descenso lento
+                    else {
+                        yVelocity = -0.02;
                     }
 
-                    player.setDeltaMovement(motionX, motionY, motionZ);
-
-
-                    // Aplicar movimiento
-                    player.setDeltaMovement(motionX, motionY, motionZ);
+                    player.setDeltaMovement(motion.x, yVelocity, motion.z);
+                    player.onUpdateAbilities();
                 }
             });
         }

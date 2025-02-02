@@ -46,7 +46,7 @@ public class DMZStatsAttributes {
     private String dmzClass = "Warrior";
     private String dmzKiWeapon = "sword";
 
-    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false;
+    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
 
 
 
@@ -914,5 +914,11 @@ public class DMZStatsAttributes {
 
     }
 
+	public boolean isCompactMenu() {
+		return compactMenu;
+	}
 
+	public void setCompactMenu(boolean compactMenu) {
+		this.compactMenu = compactMenu;
+	}
 }

@@ -25,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class SkillMenu extends Screen {
     private final List<AbstractWidget> botonesArmas = new ArrayList<>();;
 
     private CustomButtons infoButton, deleteButton, armasBoton;
-    private DMZGuiButtons statsMenuButton;
+    private DMZGuiButtons menuButton;
     private TextButton upgradeButton;
     private SwitchButton switchButton;
 
@@ -121,21 +122,42 @@ public class SkillMenu extends Screen {
 
     public void botonesMenus(){
         this.removeWidget(infoButton);
-        this.removeWidget(statsMenuButton);
+        this.removeWidget(menuButton);
 
         alturaTexto = (this.height + 168)/2;
-        anchoTexto = this.infoMenu ? ((this.width - 250)/2) - 72: (this.width - 250)/2;
+        anchoTexto = this.infoMenu ? (this.width/2) - 72: this.width/2;
 
-        if (this.minecraft.level.isClientSide) { //Volver al MENU DE STATS
-            this.statsMenuButton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 2, alturaTexto, "libro", Component.empty(), wa -> {
-                // Cambiar la pantalla solo en el cliente
-                this.minecraft.setScreen(new AttributesMenu2());
+        if (this.minecraft.level.isClientSide) {
+            Player player = this.minecraft.player;
+            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+                    if (playerstats.isCompactMenu()) {
+                        this.minecraft.setScreen(new AttributesMenu2());
+                    } else {
+                        this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+                    }});
+            }));
+            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, alturaTexto, "skills", Component.empty(), wa -> {
+                // Es este menú, no hacer nada.
+            }));
+            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
+                // Agregar acá el menú de Transf
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
+                // Agregar acá el menú de Story
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
+                // Agregar acá el menú de Ki Techniques
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 65, alturaTexto, "settings", Component.empty(), wa -> {
+                this.minecraft.setScreen(new ConfigMenu());
             }));
         }
-
-
-
     }
+
     private void botonesSkills(){
 
         Player player = this.minecraft.player;
@@ -481,7 +503,6 @@ public class SkillMenu extends Screen {
                         break;
                     case "jump":
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
-
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         break;
                     case "fly":
@@ -493,6 +514,10 @@ public class SkillMenu extends Screen {
                         } else {
                             drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.off"), this.infoMenu ? startX + 155 - 72: startX + 155, startY, 0xfb5858);
                         }
+                        break;
+                    case "ki_manipulation":
+                        drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         break;
                     default:
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);

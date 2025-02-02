@@ -176,9 +176,12 @@
   "key.dragonminez.ki_charge": "Charge Ki",
   "key.dragonminez.descend_key": "Descend",
   "key.dragonminez.turbo_key": "Turbo",
+  "key.dragonminez.fly_key": "Fly",
   "key.dragonminez.function": "Function",
   "key.dragonminez.select_up": "Select Up",
   "key.dragonminez.select_down": "Select Down",
+
+  "config.dmz.menutype": "Compact Menu:",
 
   "menu.title.dragonminez.statsmenu": "",
   "dmz.ccreation.genders.male": "Male",
@@ -222,7 +225,7 @@
   "dmz.ccreation.biotype": "DrGero's Style",
   "dmz.skills.level": "Level:",
   "dmz.skills.skill": "Skill:",
-  "dmz.skills.active": "Active:",
+  "dmz.skills.active": "State:",
   "dmz.skills.skill2": "Skill",
   "dmz.skills.type": "Type:",
   "dmz.skills.on": "On",
@@ -230,8 +233,17 @@
   "dmz.skills.cost": "Cost",
 
   "dmz.skill.jump.name": "Jump",
-  "dmz.skill.jump.desc": "Jumping wa",
-
+  "dmz.skill.jump.desc": "Let's you Jump higher. The more you level up, the higher you can jump.",
+  "dmz.skill.fly.name": "Fly",
+  "dmz.skill.fly.desc": "Control your Ki to Fly! Jump and press the Fly Key mid-air to Fly, level up the skill to increase your speed.",
+  "dmz.skill.potential_unlock.name": "Potential Unlock",
+  "dmz.skill.potential_unlock.desc": "Let's you Unlock your real Potential to increase your power release to the limit!",
+  "dmz.skill.meditation.name": "Meditation",
+  "dmz.skill.meditation.desc": "Boosts your Passive Ki Regeneration and Stamina Recovery; Also reduces the Ki Cost of the Turbo Boost.",
+  "dmz.skill.ki_control.name": "Ki Control",
+  "dmz.skill.ki_control.desc": "Learn to Control your Ki. It's a basic skill to use Ki Attacks.",
+  "dmz.skill.ki_manipulation.name": "Ki Manipulation",
+  "dmz.skill.ki_manipulation.desc": "Master the Ki Manipulation to be able to create Ki Weapons, increasing your Melee Damage based on your Ki Damage!",
 
   "block.dragonminez.namek_block": "Planet Namek Block",
   "block.dragonminez.namek_dirt": "Namek Dirt",
@@ -517,8 +529,8 @@
   "command.dmzeffects.perma.take.all": "You have \u00A7cremoved \u00A7rall the permanent effects ",
   "command.dmzeffects.temp.take.all": "You have \u00A7cremoved \u00A7rall the temporary effects ",
   "command.dmz.to": "to ",
-  "command.dmzskills.invalid_skill": "Invalid Skill!",
-  "command.dmzskills.valid_skills": "Valid Skills: ",
+  "command.dmzskills.invalid_skill": "\u00A7cInvalid Skill!",
+  "command.dmzskills.valid_skills": "\u00A7aValid Skills: \u00A7r",
 
   "ui.dmzradar.range": "Radar Range is",
   "ui.dmzradar.blocks": "blocks.",

@@ -46,6 +46,7 @@ public class TickHandler {
             } else {
                 // Si el turbo no está activo, regeneración de energía
                 int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) / 2;
+                if (regenEnergy < 1) regenEnergy = 1;
                 if (meditation != null) {
                     // Aumenta 2% de la regeneración por nivel de meditación
                     int medLevel = meditation.getLevel();

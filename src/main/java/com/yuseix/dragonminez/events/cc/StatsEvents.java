@@ -49,7 +49,6 @@ public class StatsEvents {
     private static SimpleSoundInstance kiChargeLoop;
     private static SimpleSoundInstance turboLoop;
 
-
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         // Verificar que estamos en el servidor y en la fase final
@@ -176,6 +175,15 @@ public class StatsEvents {
                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
                 });
             }
+        }
+
+        // FORZAR LA MUERTE SI LA VIDA BAJA DE 1 (Por alguna razón me pasó 2 veces q tenía 0hp y tuve q recibir daño d nuevo para morir)
+        if (event.getEntity() instanceof Player jugador) {
+            jugador.level().getServer().execute(() -> {
+                if (jugador.getHealth() - event.getAmount() < 1) {
+                    jugador.kill();
+                }
+            });
         }
     }
 
