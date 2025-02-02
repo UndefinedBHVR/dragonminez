@@ -615,8 +615,12 @@ public class DMZStatsAttributes {
     }
     // Método para obtener una habilidad del mapa
     public DMZSkill getSkill(String name) {
-        return DMZSkills.get(name);
+        if (DMZSkills.containsKey(name)) {
+            return DMZSkills.get(name);
+        }
+        return null;
     }
+    
     public void setDMZSkills(Map<String, DMZSkill> DMZSkills) {
         this.DMZSkills = DMZSkills;
         DMZStatsCapabilities.syncStats(player);
@@ -648,6 +652,7 @@ public class DMZStatsAttributes {
         DMZSkill skill = DMZSkills.get(name);
         return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
     }
+
     public boolean isActiveSkill(String name) {
         DMZSkill skill = DMZSkills.get(name);
         if (skill == null) {

@@ -95,12 +95,16 @@ public class StatsEvents {
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
 
-                if (playerstats.getSkill("fly").isActive()) {
-                    if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
-                        playerstats.setSkillActive("fly", false);
-                        player.getAbilities().flying = false;
-                        player.fallDistance = 0; // Resetear daño de caída
-                        player.onUpdateAbilities();
+                DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
+
+                if (flySkill != null) {
+                    if (flySkill.isActive()) {
+                        if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
+                            playerstats.setSkillActive("fly", false);
+                            player.getAbilities().flying = false;
+                            player.fallDistance = 0; // Resetear daño de caída
+                            player.onUpdateAbilities();
+                        }
                     }
                 }
             });

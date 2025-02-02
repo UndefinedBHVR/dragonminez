@@ -385,8 +385,10 @@ public class ClientEvents {
 				ModMessages.sendToServer(new FlyToggleC2S());
 			}
 
-			if (cap.getSkill("fly").isActive()) {
-				int flyLevel = cap.getSkill("fly").getLevel();
+			DMZSkill flySkill = cap.getDMZSkills().get("fly");
+
+			if (flySkill != null && flySkill.isActive()) {
+				int flyLevel = flySkill.getLevel();
 
 				// La vel de vuelo aumenta un 20% por nivel
 				float baseSpeed = 0.05F;

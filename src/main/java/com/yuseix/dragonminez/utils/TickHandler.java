@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez.utils;
 
+import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 
@@ -48,7 +50,7 @@ public class TickHandler {
                     consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
                 }
                 playerStats.removeCurEnergy(consumeEnergy);
-            } else if (!flySkill.isActive() && !playerStats.isTurbonOn() && playerStats.getCurrentEnergy() < maxEnergy) {
+            } else if (flySkill != null && !flySkill.isActive() && !playerStats.isTurbonOn() && playerStats.getCurrentEnergy() < maxEnergy) {
                 // Si el turbo no está activo, regeneración de energía
                 int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) / 2;
                 if (regenEnergy < 1) regenEnergy = 1;
@@ -98,7 +100,7 @@ public class TickHandler {
                         playerstats.setDmzRelease(maxRelease);
                     }
                 }
-                if (!playerstats.isTurbonOn() && !flySkill.isActive()) {
+                if (!playerstats.isTurbonOn() && flySkill != null && !flySkill.isActive()) {
                     if (playerstats.getCurrentEnergy() < maxenergia) {
                         int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
                         if (meditation != null) {
@@ -133,7 +135,7 @@ public class TickHandler {
                     consumeEnergy = (int) Math.ceil(maxEnergy * 0.02);
                 }
 
-                if (playerStats.getCurrentEnergy() < consumeEnergy) flySkill.setActive(false);
+                if (playerStats.getCurrentEnergy() < consumeEnergy) ModMessages.sendToServer(new FlyToggleC2S());
                 playerStats.removeCurEnergy(consumeEnergy);
                 flyTimer = 0;
             }
