@@ -81,6 +81,9 @@ public class StatsEvents {
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
+                // Consumo de Ki del Fly
+                tickHandler.manejarFlyConsume(playerstats, maxenergia);
+
                 //Tiempo para reclamar una senzu
                 playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
 
@@ -131,13 +134,52 @@ public class StatsEvents {
                         cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
 
                 int staminacost = maxStr / 12;
+                int danoKiWeapon = dmzdatos.calcularKiPower(raza, cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+                var ki_control = cap.hasSkill("ki_control"); var ki_manipulation = cap.hasSkill("ki_manipulation");
+                var meditation = cap.hasSkill("meditation"); var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+                int maxKi = cap.getMaxEnergy(); int currKi = cap.getCurrentEnergy();
 
                 if (curStamina >= staminacost) {
                     // Si el atacante tiene suficiente stamina, aplicar el daño basado en la fuerza
-                    event.setAmount(maxStr);
+                    // Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
+                    if(ki_control && ki_manipulation && meditation && is_kimanipulation){
+                        if (cap.getKiWeaponId().equals("scythe")) {
+                            int dañoFinal = maxStr + (danoKiWeapon / 4);
+                            int kiCost = (int) (maxKi * 0.10);
+                            if (currKi > kiCost) {
+                                event.setAmount(dañoFinal);
+                                cap.removeCurEnergy(kiCost);
+                            } else {
+                                event.setAmount(maxStr);
+                                sonidosGolpes(atacante);
+                            }
+                        } else if (cap.getKiWeaponId().equals("trident")) {
+                            int dañoFinal = maxStr + (danoKiWeapon / 2);
+                            int kiCost = (int) (maxKi * 0.16);
+                            if (currKi > kiCost) {
+                                event.setAmount(dañoFinal);
+                                cap.removeCurEnergy(kiCost);
+                            } else {
+                                event.setAmount(maxStr);
+                                sonidosGolpes(atacante);
+                            }
+                        } else {
+                            int dañoFinal = maxStr + (danoKiWeapon / 8);
+                            int kiCost = (int) (maxKi * 0.05);
+                            if (currKi > kiCost) {
+                                event.setAmount(dañoFinal);
+                                cap.removeCurEnergy(kiCost);
+                            } else {
+                                event.setAmount(maxStr);
+                                sonidosGolpes(atacante);
+                            }
+                        }
+                    } else  {
+                        event.setAmount(maxStr);
+                        sonidosGolpes(atacante);
+                    }
                     // Descontar stamina del atacante
                     cap.removeCurStam(staminacost);
-                    sonidosGolpes(atacante);
                 } else {
                     // Daño por defecto si al atacante le falta stamina
                     event.setAmount(danoDefault);
