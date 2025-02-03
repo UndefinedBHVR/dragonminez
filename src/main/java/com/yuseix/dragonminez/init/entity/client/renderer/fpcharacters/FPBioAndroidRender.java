@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
+import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -33,14 +33,15 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
     private float colorR, colorG, colorB;
 
-    public FPBioAndroidRender(EntityRendererProvider.Context pContext) {
-        super(pContext, new BioAndroideModelo<>(pContext.bakeLayer(BioAndroideModelo.LAYER_LOCATION)), 0.5f);
+    public FPBioAndroidRender(EntityRendererProvider.Context pContext, PlayerModel<FPBase>model) {
+        super(pContext, model, 0.5f);
         this.addLayer(new HumanoidArmorLayer(this, new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidArmorModel(pContext.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), pContext.getModelManager()));
     }
 
+
     @Override
     public ResourceLocation getTextureLocation(FPBase fpBioAndroidEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
+        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/stevehumansaiyanmodel.png");
     }
 
     @Override
@@ -169,7 +170,7 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
     private void renderBodyType0(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        var playermodel = (BioAndroidModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -204,7 +205,7 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
     private void renderEyes(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-        var playermodel = this.getModel();
+        var playermodel =  this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -233,7 +234,7 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
 
-        BioAndroideModelo<AbstractClientPlayer> playermodel = (BioAndroideModelo)this.getModel();
+        var playermodel = this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 

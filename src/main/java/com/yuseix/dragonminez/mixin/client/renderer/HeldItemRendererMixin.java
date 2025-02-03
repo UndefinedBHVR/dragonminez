@@ -1,8 +1,7 @@
 package com.yuseix.dragonminez.mixin.client.renderer;
 
-import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.yuseix.dragonminez.character.RenderManos;
+import com.yuseix.dragonminez.client.character.RenderManos;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -19,9 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import software.bernie.geckolib.renderer.GeoEntityRenderer;
-
-import java.util.Map;
 
 
 @Mixin(ItemInHandRenderer.class)

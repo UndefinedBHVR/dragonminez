@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.armor.client;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -71,13 +72,13 @@ public class SaiyanCapeArmorItem extends ArmorItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
 
-            private ArmorSaiyanModel model;
+            private ArmorPiccoloModel model;
 
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
 
                 if(model == null){
-                    model = new ArmorSaiyanModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorSaiyanModel.LAYER_LOCATION));
+                    model = new ArmorPiccoloModel(Minecraft.getInstance().getEntityModels().bakeLayer(ArmorPiccoloModel.LAYER_LOCATION));
                 }
                 return model;
 

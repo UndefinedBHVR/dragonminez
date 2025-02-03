@@ -8,10 +8,12 @@ import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldier02Entity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekWarriorEntity;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class FriezaSoldier02Renderer extends LivingEntityRenderer<FriezaSoldier02Entity, PlayerModel<FriezaSoldier02Entity>> {
 
@@ -22,6 +24,11 @@ public class FriezaSoldier02Renderer extends LivingEntityRenderer<FriezaSoldier0
     @Override
     public ResourceLocation getTextureLocation(FriezaSoldier02Entity namekWarriorEntity) {
         return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/namekusei/soldado2.png");
+    }
+
+    @Override
+    protected @Nullable RenderType getRenderType(FriezaSoldier02Entity pLivingEntity, boolean pBodyVisible, boolean pTranslucent, boolean pGlowing) {
+        return RenderType.entityCutout(getTextureLocation(pLivingEntity));
     }
 
     @Override

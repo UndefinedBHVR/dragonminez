@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -15,10 +16,12 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
@@ -33,16 +36,16 @@ import software.bernie.geckolib.core.object.PlayState;
  * Copyright © 2024 GeckoThePecko.
  */
 
-public class DinoEntity extends Animal implements GeoEntity {
+public class DinoEntity extends Monster implements GeoEntity {
 
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-	public DinoEntity(EntityType<? extends Animal> pEntityType, Level pLevel) {
+	public DinoEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
 		super(pEntityType, pLevel);
 	}
 
 	public static AttributeSupplier setAttributes() {
-		return Mob.createMobAttributes()
+		return Monster.createMobAttributes()
 				.add(Attributes.MAX_HEALTH, 50.0D)
 				.add(Attributes.ATTACK_DAMAGE, 10.5f)
 				.add(Attributes.ATTACK_SPEED, 1.0f)
@@ -74,9 +77,11 @@ public class DinoEntity extends Animal implements GeoEntity {
 		controllerRegistrar.add(new AnimationController<>(this, "attackcontroller", 0, this::attackpredicate));
 	}
 
-	public static boolean checkDinoSpawnRules(EntityType<DinoEntity> pType, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
-		// No restringimos por luz ni por altura específica, solo verificamos que no sea en dificultad Peaceful.
-		return pLevel.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(pType, pLevel, pSpawnType, pPos, pRandom);
+	public static boolean checkDinoSpawnRules(EntityType<? extends DinoEntity> entity, ServerLevelAccessor world, MobSpawnType spawn, BlockPos pos, RandomSource random) {
+		if (world.getDifficulty() != Difficulty.PEACEFUL) {
+			return world.getBlockState(pos.below()).isValidSpawn(world, pos.below(), entity);
+		}
+		return false;
 	}
 
 
@@ -103,9 +108,8 @@ public class DinoEntity extends Animal implements GeoEntity {
 		return cache;
 	}
 
-	@Nullable
 	@Override
-	public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-		return null;
+	public boolean checkSpawnRules(LevelAccessor pLevel, MobSpawnType pReason) {
+		return true;
 	}
 }

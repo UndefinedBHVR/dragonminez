@@ -87,6 +87,17 @@ public class ModMessages {
 				.encoder(PermaEffC2S::toBytes)
 				.consumerMainThread(PermaEffC2S::handle)
 				.add();
+		net.messageBuilder(SkillActivateC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(SkillActivateC2S::new)
+				.encoder(SkillActivateC2S::toBytes)
+				.consumerMainThread(SkillActivateC2S::handle)
+				.add();
+		net.messageBuilder(FlyToggleC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(FlyToggleC2S::decode)
+				.encoder(FlyToggleC2S::encode)
+				.consumerMainThread(FlyToggleC2S::handle)
+				.add();
+
 		net.messageBuilder(DragonRadarC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
 				.decoder(DragonRadarC2S::decode)
 				.encoder(DragonRadarC2S::encode)
@@ -137,6 +148,11 @@ public class ModMessages {
 				.encoder(UpdateDragonRadarS2C::encode)
 				.decoder(UpdateDragonRadarS2C::decode)
 				.consumerMainThread(UpdateDragonRadarS2C::handle)
+				.add();
+		net.messageBuilder(FlyToggleS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(FlyToggleS2C::encode)
+				.decoder(FlyToggleS2C::decode)
+				.consumerMainThread(FlyToggleS2C::handle)
 				.add();
 	}
 

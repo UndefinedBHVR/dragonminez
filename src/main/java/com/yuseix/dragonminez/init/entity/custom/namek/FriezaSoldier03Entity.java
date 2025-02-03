@@ -10,19 +10,20 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class FriezaSoldier03Entity extends SoldierEntity{
 
-    public FriezaSoldier03Entity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
+    public FriezaSoldier03Entity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
     }
 
     public static AttributeSupplier setAttributes() {
-        return Mob.createMobAttributes()
+        return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1000.0D)
                 .add(Attributes.ATTACK_DAMAGE, 250.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F).build();

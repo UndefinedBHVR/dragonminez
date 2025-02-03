@@ -2,7 +2,6 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;

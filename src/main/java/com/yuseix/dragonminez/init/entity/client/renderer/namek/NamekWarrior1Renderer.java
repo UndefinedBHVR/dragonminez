@@ -2,14 +2,12 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.character.models.bioandroid.BioAndroideModelo;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekWarriorEntity;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 

@@ -31,18 +31,17 @@ public class DMZGuiButtons extends Button {
             buttonY += 20;
         }
 
-        int buttonX = 0;
+        int buttonX = switch (tipo) {
+			case "stats" -> 0;
+			case "skills" -> 20;
+			case "transf" -> 40;
+			case "storyline" -> 60;
+			case "kitech" -> 80;
+			case "settings" -> 100;
+			default -> 0;
+		};
 
-        switch (tipo){
-            case "libro":
-                buttonX = 0;
-                break;
-            default:
-                buttonX = 0;
-                break;
-        }
-
-        // Dibujar la textura del botón
+		// Dibujar la textura del botón
         pGuiGraphics.blit(botones, this.getX(), this.getY(), buttonX, buttonY, 20, 20);
 
 
