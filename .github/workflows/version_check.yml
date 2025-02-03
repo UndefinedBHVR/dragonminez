@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - src/main/java/com/yuseix/dragonminez/**
     types: [ opened, synchronize ]
 
 permissions:

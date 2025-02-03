@@ -21,6 +21,7 @@ public class ComidaDinoRawItem extends Item {
                 new FoodProperties.Builder()
                         .nutrition(HUNGER)
                         .saturationMod(SATURATION)
+                        .alwaysEat()
                         .build()
         ));
     }

@@ -84,8 +84,8 @@ public class FriezaSoldier02Entity extends SoldierEntity{
         } else {
             this.setNoGravity(false);
         }
-
-
     }
+
+
 
 }

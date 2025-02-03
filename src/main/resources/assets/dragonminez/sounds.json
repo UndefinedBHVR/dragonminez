@@ -1,4 +1,22 @@
 {
+  "ui_menu_switch": {
+    "subtitle": "sounds.dragonminez.ui_menu_switch",
+    "sounds": [
+      "dragonminez:ui_menu_switch"
+    ]
+  },
+  "ui_nave_cooldown": {
+    "subtitle": "sounds.dragonminez.ui_nave_cooldown",
+    "sounds": [
+      "dragonminez:ui_nave_cooldown"
+    ]
+  },
+  "ui_nave_takeoff": {
+    "subtitle": "sounds.dragonminez.ui_nave_takeoff",
+    "sounds": [
+      "dragonminez:ui_nave_takeoff"
+    ]
+  },
   "punch1": {
     "subtitle": "sounds.dragonminez.punch1",
     "sounds": [
@@ -47,12 +65,6 @@
       "dragonminez:critico2"
     ]
   },
-  "radar_scan": {
-    "subtitle": "sounds.dragonminez.radar_scan",
-    "sounds": [
-      "dragonminez:radar_scan"
-    ]
-  },
   "dragonradar": {
     "subtitle": "sounds.dragonminez.dragonradar",
     "sounds": [
@@ -93,6 +105,18 @@
     "subtitle": "sounds.dragonminez.shenron",
     "sounds": [
       "dragonminez:shenron"
+    ]
+  },
+  "ship_open": {
+    "subtitle": "sounds.dragonminez.ship_open",
+    "sounds": [
+      "dragonminez:ship_open"
+    ]
+  },
+  "ship_landing_open": {
+    "subtitle": "sounds.dragonminez.ship_landing_open",
+    "sounds": [
+      "dragonminez:ship_landing_open"
     ]
   },
   "nube": {

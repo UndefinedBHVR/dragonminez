@@ -37,23 +37,18 @@
     "minecraft:snowy_slopes"
   ],
   "spawners": [{
-    "type": "dragonminez:moro_soldier",
-    "weight": 10,
-    "minCount": 2,
-    "maxCount": 3
-  },{
     "type": "dragonminez:soldier01",
-    "weight": 10,
+    "weight": 5,
     "minCount": 2,
     "maxCount": 3
   },{
     "type": "dragonminez:soldier02",
-    "weight": 10,
+    "weight": 5,
     "minCount": 2,
     "maxCount": 3
   },{
     "type": "dragonminez:soldier03",
-    "weight": 10,
+    "weight": 5,
     "minCount": 2,
     "maxCount": 3
   }]

@@ -117,7 +117,6 @@ public class DendeEntity extends Mob implements GeoEntity {
 
 	@Override
 	public boolean hurt(DamageSource pSource, float pAmount) {
-		System.out.println("DamageSource: " + pSource.getMsgId());
 		if ("generic_kill".equals(pSource.getMsgId()) || "generic".equals(pSource.getMsgId()) || "out_of_world".equals(pSource.getMsgId()) || "genericKill".equals(pSource.getMsgId())) {
 			return super.hurt(pSource, pAmount);
 		}

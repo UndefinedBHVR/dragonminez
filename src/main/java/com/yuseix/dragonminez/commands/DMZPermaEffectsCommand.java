@@ -34,12 +34,14 @@ public class DMZPermaEffectsCommand {
 								})
 								.executes(commandContext -> givePermaEffect(
 										Collections.singleton(commandContext.getSource().getPlayerOrException()),
-										StringArgumentType.getString(commandContext, "effect"))
+										StringArgumentType.getString(commandContext, "effect"),
+										commandContext.getSource())
 								)
 								.then(Commands.argument("player", EntityArgument.players())
 										.executes(commandContext -> givePermaEffect(
 												EntityArgument.getPlayers(commandContext, "player"),
-												StringArgumentType.getString(commandContext, "effect"))
+												StringArgumentType.getString(commandContext, "effect"),
+												commandContext.getSource())
 										))
 						)
 				)
@@ -54,22 +56,25 @@ public class DMZPermaEffectsCommand {
 								})
 								.executes(commandContext -> takePermaEffect(
 										Collections.singleton(commandContext.getSource().getPlayerOrException()),
-										StringArgumentType.getString(commandContext, "effect"))
+										StringArgumentType.getString(commandContext, "effect"),
+										commandContext.getSource())
 								)
 								.then(Commands.argument("player", EntityArgument.players())
 										.executes(commandContext -> takePermaEffect(
 												EntityArgument.getPlayers(commandContext, "player"),
-												StringArgumentType.getString(commandContext, "effect"))
+												StringArgumentType.getString(commandContext, "effect"),
+												commandContext.getSource())
 										)
 								)
 						)
 						.then(Commands.literal("all")
 								.executes(commandContext -> takeAllPermaEffects(
-										Collections.singleton(commandContext.getSource().getPlayerOrException())
+										Collections.singleton(commandContext.getSource().getPlayerOrException()), commandContext.getSource()
 								))
 								.then(Commands.argument("player", EntityArgument.players())
 										.executes(commandContext -> takeAllPermaEffects(
-												EntityArgument.getPlayers(commandContext, "player"))
+												EntityArgument.getPlayers(commandContext, "player"),
+												commandContext.getSource())
 										)
 								)
 						)
@@ -78,7 +83,7 @@ public class DMZPermaEffectsCommand {
 	}
 
 	// Comando para dar efectos permanentes
-	private static int givePermaEffect(Collection<ServerPlayer> players, String effectName) {
+	private static int givePermaEffect(Collection<ServerPlayer> players, String effectName, CommandSourceStack source) {
 		// Verifica si el efecto es válido
 		if (!VALID_PERMA_EFFECTS.contains(effectName)) {
 			// Si el efecto no es válido, muestra un mensaje de error con los efectos válidos
@@ -89,19 +94,30 @@ public class DMZPermaEffectsCommand {
 			return 0; // No ejecuta la acción
 		}
 
+		boolean isTargetAll = players.size() > 1;
 		for (ServerPlayer player : players) {
-			player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName + " ")
-					.append(Component.translatable("command.dmz.to")).append(player.getName()));
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZPermanentEffect(effectName, true));
-			if (effectName.equals("majin")) {
-				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setDmzAlignment(0));
-			}
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				playerstats.addDMZPermanentEffect(effectName, true);
+				if (effectName.equals("majin")) {
+					playerstats.setDmzAlignment(0);
+				}
+			});
+		}
+
+		if (isTargetAll) {
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.give_all", effectName));
+		} else {
+			ServerPlayer target = players.iterator().next();
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.give", effectName)
+					.append(" ")
+					.append(Component.translatable("command.dmz.to"))
+					.append(target.getName()));
 		}
 		return players.size();
 	}
 
 	// Comando para quitar efectos permanentes
-	private static int takePermaEffect(Collection<ServerPlayer> players, String effectName) {
+	private static int takePermaEffect(Collection<ServerPlayer> players, String effectName, CommandSourceStack source) {
 		// Verifica si el efecto es válido
 		if (!VALID_PERMA_EFFECTS.contains(effectName)) {
 			// Si el efecto no es válido, muestra un mensaje de error con los efectos válidos
@@ -112,24 +128,41 @@ public class DMZPermaEffectsCommand {
 			return 0; // No ejecuta la acción
 		}
 
+		boolean isTargetAll = players.size() > 1;
 		for (ServerPlayer player : players) {
-			player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName + " ")
-					.append(Component.translatable("command.dmz.to")).append(player.getName()));
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removePermanentEffect(effectName)); //playerstats.setDMZPermanentEffect(effectName, false)
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removePermanentEffect(effectName));
+		}
+
+		if (isTargetAll) {
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.take_all", effectName));
+		} else {
+			ServerPlayer target = players.iterator().next();
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.take", effectName)
+					.append(" ")
+					.append(Component.translatable("command.dmz.from"))
+					.append(target.getName()));
 		}
 		return players.size();
 	}
 
 	// Comando para quitar todos los efectos permanentes
-	private static int takeAllPermaEffects(Collection<ServerPlayer> players) {
+	private static int takeAllPermaEffects(Collection<ServerPlayer> players, CommandSourceStack source) {
+		boolean isTargetAll = players.size() > 1;
 		for (ServerPlayer player : players) {
-			player.sendSystemMessage(Component.translatable("command.dmzeffects.perma.take.all")
-					.append(Component.translatable("command.dmz.to")).append(player.getName()));
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				for (String effectName : VALID_PERMA_EFFECTS) {
 					playerstats.removePermanentEffect(effectName);
 				}
 			});
+		}
+
+		if (isTargetAll) {
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.perma.take_all_from_all"));
+		} else {
+			ServerPlayer target = players.iterator().next();
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.perma.take.all")
+					.append(Component.translatable("command.dmz.from"))
+					.append(target.getName()));
 		}
 		return players.size();
 	}

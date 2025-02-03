@@ -114,13 +114,13 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
     //Se usa GeckoLib mediante ShadowJar
-    shade fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.4.9')
+    shade fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.7')
     implementation 'com.eliotlash.mclib:mclib:20'
 
     //Corrección a puntos vulnerables de dependencias en Forge:
     implementation 'com.google.guava:guava:33.4.0-jre'
-    implementation 'io.netty:netty-codec:4.1.116.Final'
-    implementation 'io.netty:netty-handler:4.1.116.Final'
+    implementation 'io.netty:netty-codec:4.1.117.Final'
+    implementation 'io.netty:netty-handler:4.1.117.Final'
     implementation 'org.apache.commons:commons-compress:1.27.1'
 
     // Just Enough Items (JEI)
@@ -132,17 +132,21 @@ dependencies {
 
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
-            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version, forge_version_range: forge_version_range,
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version       : forge_version, forge_version_range: forge_version_range,
             loader_version_range: loader_version_range,
-            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors: mod_authors, mod_description: mod_description,
+            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: mod_description,
     ]
     inputs.properties replaceProperties
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
+}
+
+tasks.withType(JavaExec) {
+    systemProperty 'mod_version', project.findProperty('mod_version') ?: 'unknown'
 }
 
 mixin {
@@ -182,7 +186,8 @@ shadowJar {
     exclude 'assets/geckolib/**'
     exclude '**/*.java'
 
-    relocate 'software.bernie.shadowed', 'com.yuseix.dragonminez.relocated.software.bernie.shadowed' // <- Move the shadowed geckolib shadowed packages. This prevents classpath conflicts in runtime
+    relocate 'software.bernie.shadowed', 'com.yuseix.dragonminez.relocated.software.bernie.shadowed'
+    // <- Move the shadowed geckolib shadowed packages. This prevents classpath conflicts in runtime
     relocate 'software.bernie.geckolib', 'com.yuseix.dragonminez.relocated.software.bernie.geckolib'
 
     finalizedBy 'reobfShadowJar'
@@ -197,7 +202,7 @@ reobf {
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-          artifact jar
+            artifact jar
         }
         shadow(MavenPublication) {
             components.shadow

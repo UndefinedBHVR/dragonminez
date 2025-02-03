@@ -7,7 +7,6 @@ import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.FlyToggleS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
@@ -29,6 +28,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,6 +50,7 @@ public class StatsEvents {
     //Sonidos
     private static SimpleSoundInstance kiChargeLoop;
     private static SimpleSoundInstance turboLoop;
+
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -74,11 +75,16 @@ public class StatsEvents {
                 var con = playerstats.getConstitution();
                 var raza = playerstats.getRace();
                 var energia = playerstats.getEnergy();
+                boolean isDmzUser = playerstats.isAcceptCharacter();
 
                 int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
 
                 // Ajustar la salud máxima del jugador
-                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                if (isDmzUser) {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                } else {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC);
+                }
 
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos);
@@ -94,7 +100,6 @@ public class StatsEvents {
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
-
                 DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
 
                 if (flySkill != null) {
@@ -108,6 +113,35 @@ public class StatsEvents {
                     }
                 }
             });
+    }
+
+    @SubscribeEvent
+    public static void onLivingUpdateEvent(LivingEvent.LivingTickEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        if (turboOn) {
+            // Obtener la velocidad actual
+            Vec3 currentMovement = player.getDeltaMovement();
+
+            if (player.onGround()) {
+                // En tierra: Aplicar multiplicador al movimiento horizontal (X y Z)
+                double turboSpeedX = currentMovement.x * 1.5;
+                double turboSpeedZ = currentMovement.z * 1.5;
+
+                // Configurar el nuevo movimiento con el multiplicador
+                player.setDeltaMovement(turboSpeedX, currentMovement.y, turboSpeedZ);
+            } else {
+                // En el aire: Normalizar la velocidad horizontal para evitar acumulación infinita
+                double horizontalSpeed = Math.sqrt(currentMovement.x * currentMovement.x + currentMovement.z * currentMovement.z);
+                if (horizontalSpeed > 0.65) {
+                    // Limitar la velocidad horizontal al máximo permitido
+                    double scale = 0.65 / horizontalSpeed;
+                    double limitedX = currentMovement.x * scale;
+                    double limitedZ = currentMovement.z * scale;
+                    player.setDeltaMovement(limitedX, currentMovement.y, limitedZ);
+                }
+            }
+        }
     }
 
 
@@ -133,112 +167,130 @@ public class StatsEvents {
 
         // Si el que hace el daño es un jugador
         if (event.getSource().getEntity() instanceof Player atacante) {
-            // Obtener las estadísticas del atacante
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(cap -> {
-                int raza = cap.getRace();
-                int curStamina = cap.getCurStam();
-                var majinOn = cap.hasDMZPermaEffect("majin");
-                var mightfruitOn = cap.hasDMZTemporalEffect("mightfruit");
+            // Verificar si el ataque es melee (no proyectil)
+            if (event.getSource().getMsgId().equals("player")) {
+                // Obtener las estadísticas del atacante
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(cap -> {
+                    int raza = cap.getRace();
+                    int curStamina = cap.getCurStam();
+                    var majinOn = cap.hasDMZPermaEffect("majin");
+                    var mightfruitOn = cap.hasDMZTemporalEffect("mightfruit");
+                    boolean isDmzUser = cap.isAcceptCharacter();
 
-                float danoDefault = event.getAmount(); // Capturamos el daño original
+                    float danoDefault = event.getAmount(); // Capturamos el daño original
 
-                // Calcular el daño basado en la fuerza del atacante
-                int maxStr = dmzdatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
-                        cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+                    // Calcular el daño basado en la fuerza del atacante
+                    int maxDamage = dmzdatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
+                            cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
 
-                int staminacost = maxStr / 12;
-                int danoKiWeapon = dmzdatos.calcularKiPower(raza, cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
-                var ki_control = cap.hasSkill("ki_control"); var ki_manipulation = cap.hasSkill("ki_manipulation");
-                var meditation = cap.hasSkill("meditation"); var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-                int maxKi = cap.getMaxEnergy(); int currKi = cap.getCurrentEnergy();
+                    int staminacost = maxDamage / 12;
+                    int danoKiWeapon = dmzdatos.calcularKiPower(raza, cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+                    var ki_control = cap.hasSkill("ki_control");
+                    var ki_manipulation = cap.hasSkill("ki_manipulation");
+                    var meditation = cap.hasSkill("meditation");
+                    var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+                    int maxKi = cap.getMaxEnergy();
+                    int currKi = cap.getCurrentEnergy();
+                    int staminaCost = maxDamage / 6;
 
-                if (curStamina >= staminacost) {
-                    // Si el atacante tiene suficiente stamina, aplicar el daño basado en la fuerza
-                    // Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
-                    if(ki_control && ki_manipulation && meditation && is_kimanipulation){
-                        if (cap.getKiWeaponId().equals("scythe")) {
-                            int dañoFinal = maxStr + (danoKiWeapon / 4);
-                            int kiCost = (int) (maxKi * 0.10);
-                            if (currKi > kiCost) {
-                                event.setAmount(dañoFinal);
-                                cap.removeCurEnergy(kiCost);
+                    // Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
+                    if (isDmzUser) {
+                        if (curStamina > 0) {
+                            // Consumir Stamina proporcional al daño
+                            int staminaToConsume = Math.min(curStamina, staminaCost); // Consume lo que se puede
+                            float damageMultiplier = (float) staminaToConsume / staminaCost; // Factor de daño basado en Stamina disponible
+
+                            if (curStamina >= staminacost) {
+                                // Aplicar daño ajustado si la Stamina no alcanza
+                                float adjustedDamage = maxDamage * damageMultiplier;
+                                // Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
+                                if (ki_control && ki_manipulation && meditation && is_kimanipulation) {
+                                    if (cap.getKiWeaponId().equals("scythe")) {
+                                        float dañoFinal = adjustedDamage + (danoKiWeapon / 4);
+                                        int kiCost = (int) (maxKi * 0.10);
+                                        if (currKi > kiCost) {
+                                            event.setAmount(dañoFinal);
+                                            cap.removeCurEnergy(kiCost);
+                                        } else {
+                                            event.setAmount(adjustedDamage);
+                                            sonidosGolpes(atacante);
+                                        }
+                                    } else if (cap.getKiWeaponId().equals("trident")) {
+                                        float dañoFinal = adjustedDamage + (danoKiWeapon / 2);
+                                        int kiCost = (int) (maxKi * 0.16);
+                                        if (currKi > kiCost) {
+                                            event.setAmount(dañoFinal);
+                                            cap.removeCurEnergy(kiCost);
+                                        } else {
+                                            event.setAmount(adjustedDamage);
+                                            sonidosGolpes(atacante);
+                                        }
+                                    } else {
+                                        float dañoFinal = adjustedDamage + (danoKiWeapon / 8);
+                                        int kiCost = (int) (maxKi * 0.05);
+                                        if (currKi > kiCost) {
+                                            event.setAmount(dañoFinal);
+                                            cap.removeCurEnergy(kiCost);
+                                        } else {
+                                            event.setAmount(adjustedDamage);
+                                            sonidosGolpes(atacante);
+                                        }
+                                    }
+                                } else {
+                                    event.setAmount(adjustedDamage);
+                                    sonidosGolpes(atacante);
+                                }
+                                // Descontar stamina del atacante
+                                cap.removeCurStam(staminaToConsume);
                             } else {
-                                event.setAmount(maxStr);
-                                sonidosGolpes(atacante);
+                                // Daño por defecto si al atacante le falta stamina
+                                event.setAmount(danoDefault);
                             }
-                        } else if (cap.getKiWeaponId().equals("trident")) {
-                            int dañoFinal = maxStr + (danoKiWeapon / 2);
-                            int kiCost = (int) (maxKi * 0.16);
-                            if (currKi > kiCost) {
-                                event.setAmount(dañoFinal);
-                                cap.removeCurEnergy(kiCost);
+
+                            // Si la entidad que recibe el daño es un jugador
+                            if (event.getEntity() instanceof Player objetivo) {
+                                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
+                                    var isMajinOn = statsObjetivo.hasDMZPermaEffect("majin");
+                                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
+
+                                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), isMajinOn, fruta);
+                                    // Restar la defensa del objetivo al daño
+                                    float danoFinal = event.getAmount() - defObjetivo;
+                                    event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+                                });
                             } else {
-                                event.setAmount(maxStr);
-                                sonidosGolpes(atacante);
+                                // Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
+                                event.setAmount(event.getAmount()); // Aplica tu máximo daño
                             }
                         } else {
-                            int dañoFinal = maxStr + (danoKiWeapon / 8);
-                            int kiCost = (int) (maxKi * 0.05);
-                            if (currKi > kiCost) {
-                                event.setAmount(dañoFinal);
-                                cap.removeCurEnergy(kiCost);
-                            } else {
-                                event.setAmount(maxStr);
-                                sonidosGolpes(atacante);
+                            // Aquí manejamos el caso donde el atacante no es un jugador
+                            if (event.getEntity() instanceof Player objetivo) {
+                                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
+                                    var isMajinOn = statsObjetivo.hasDMZPermaEffect("majin");
+                                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
+
+                                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(),
+                                            statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(),
+                                            statsObjetivo.getDmzClass(), isMajinOn, fruta);
+
+                                    // Restar la defensa del objetivo al daño
+                                    float danoFinal = event.getAmount() - defObjetivo;
+                                    event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+                                });
                             }
                         }
-                    } else  {
-                        event.setAmount(maxStr);
-                        sonidosGolpes(atacante);
+
+                        // FORZAR LA MUERTE SI LA VIDA BAJA DE 1 (Por alguna razón me pasó 2 veces q tenía 0hp y tuve q recibir daño d nuevo para morir)
+                        if (event.getEntity() instanceof Player jugador) {
+                            jugador.level().getServer().execute(() -> {
+                                if (jugador.getHealth() - event.getAmount() < 1) {
+                                    jugador.kill();
+                                }
+                            });
+                        }
                     }
-                    // Descontar stamina del atacante
-                    cap.removeCurStam(staminacost);
-                } else {
-                    // Daño por defecto si al atacante le falta stamina
-                    event.setAmount(danoDefault);
-                }
-            });
-
-            // Si la entidad que recibe el daño es un jugador
-            if (event.getEntity() instanceof Player objetivo) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-                    var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
-                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
-
-                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), majinOn, fruta);
-                    // Restar la defensa del objetivo al daño
-                    float danoFinal = event.getAmount() - defObjetivo;
-                    event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
-                });
-            } else {
-                // Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
-                event.setAmount(event.getAmount()); // Aplica tu máximo daño
-            }
-        } else {
-            // Aquí manejamos el caso donde el atacante no es un jugador
-            if (event.getEntity() instanceof Player objetivo) {
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-                    var majinOn = statsObjetivo.hasDMZPermaEffect("majin");
-                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
-
-                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(),
-                            statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(),
-                            statsObjetivo.getDmzClass(), majinOn, fruta);
-
-                    // Restar la defensa del objetivo al daño
-                    float danoFinal = event.getAmount() - defObjetivo;
-                    event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
                 });
             }
-        }
-
-        // FORZAR LA MUERTE SI LA VIDA BAJA DE 1 (Por alguna razón me pasó 2 veces q tenía 0hp y tuve q recibir daño d nuevo para morir)
-        if (event.getEntity() instanceof Player jugador) {
-            jugador.level().getServer().execute(() -> {
-                if (jugador.getHealth() - event.getAmount() < 1) {
-                    jugador.kill();
-                }
-            });
         }
     }
 
@@ -253,6 +305,7 @@ public class StatsEvents {
             if (fallDistance > 3.0f) {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+                    boolean isDmzUser = stats.isAcceptCharacter();
 
                     DMZSkill jump = stats.getDMZSkills().get("jump");
 
@@ -270,7 +323,7 @@ public class StatsEvents {
                         int totalEnergyDrain = baseEnergyDrain + extraEnergyDrain;
 
                         // Solo drenar energía si el jugador tiene suficiente y cancelar el daño
-                        if (stats.getCurrentEnergy() >= totalEnergyDrain) {
+                        if (isDmzUser && stats.getCurrentEnergy() >= totalEnergyDrain) {
                             stats.removeCurEnergy(totalEnergyDrain);
                             event.setCanceled(true);
                         }

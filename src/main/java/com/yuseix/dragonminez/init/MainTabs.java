@@ -47,7 +47,8 @@ public final class MainTabs {
                     .displayItems((parameters, output) -> MainItems.ITEM_REGISTER.getEntries().forEach((item) -> {
                         if (!item.getId().getPath().contains("bucket")) {
                             if (item.getId().getPath().startsWith("namek_"))
-                                output.accept(item.get().asItem());
+                                if (!item.getId().getPath().contains("spawn_egg"))
+                                    output.accept(item.get().asItem());
                             if (item.getId().getPath().startsWith("sacred_") && (!item.getId().getPath().endsWith("_flower")))
                                 output.accept(item.get().asItem());
                             if (item.getId().getPath().endsWith("_flower") && (!item.getId().getPath().startsWith("potted_") && (!item.getId().getPath().contains("lotus"))))

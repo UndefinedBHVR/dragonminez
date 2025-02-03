@@ -5,11 +5,6 @@
     "dragonminez:sacred_land"
   ],
   "spawners": [{
-    "type": "dragonminez:moro_soldier",
-    "weight": 22,
-    "minCount": 2,
-    "maxCount": 3
-  },{
     "type": "dragonminez:soldier01",
     "weight": 22,
     "minCount": 2,

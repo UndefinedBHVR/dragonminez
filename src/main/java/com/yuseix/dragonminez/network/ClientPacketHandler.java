@@ -4,11 +4,13 @@ import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.AttributesMenu2;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
+import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -119,4 +122,8 @@ public class ClientPacketHandler {
 			player.onUpdateAbilities();
 		}
 	}
+	public static void handleUpdateDragonBallsPositionsPacket(List<BlockPos>positions, Supplier<NetworkEvent.Context> ctxSupplier) {
+		Minecraft.getInstance().execute(() -> RadarEvents.updateDragonBallsPositions(positions));
+	}
+
 }

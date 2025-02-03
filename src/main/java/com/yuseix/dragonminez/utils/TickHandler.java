@@ -64,10 +64,10 @@ public class TickHandler {
             energyRegenCounter = 0;
         }
 
-        // Consumo de energía cada 1 segundo
+        // Consumo de energía cada 3 segundos
         energyConsumeCounter++;
-        if (energyConsumeCounter >= 20) {
-            int consumeEnergy = dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState()) /3;
+        if (energyConsumeCounter >= 20 * 3) {
+            int consumeEnergy = dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState());
             playerStats.removeCurEnergy(consumeEnergy);
             energyConsumeCounter = 0;
         }

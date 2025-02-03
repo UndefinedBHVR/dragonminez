@@ -122,7 +122,7 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
 
 	@Override
 	public Component getDisplayName() {
-		return Component.translatable("block.dragonminez.kikono_armor_station");
+		return Component.translatable("block.dragonminez.kikono_armor_station.title");
 	}
 
 	@Override
@@ -146,25 +146,22 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
 
 	public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
 		Optional<ArmorStationRecipes> recipe = getCurrentRecipe();
-		if (recipe.isPresent()) {
+		if (recipe.isPresent() && this.itemHandler.getStackInSlot(OUTPUT).isEmpty()) {
 			if (this.maxProgress == 0) {
 				this.maxProgress = recipe.get().getCraftingTime();  // Ajusta el tiempo de la receta
 			}
-			if (!hasProgressFinished()) {
-				increaseCraftingProgress();
+			if (!(progress >= maxProgress)) { // Puse dos veces el ++ asi va mas rapido, me da paja cambiar el tiempo en cada craft xd
+				progress++;
+				progress++;
 				setChanged(pLevel, pPos, pState);
 			} else {
 				craftItem();
-				resetProgress();
+				progress = 0;
 				//System.out.println("Item crafteado");
 			}
 		} else {
-			resetProgress();
+			progress = 0;
 		}
-	}
-
-	private void resetProgress() {
-		progress = 0;
 	}
 
 	private void craftItem() {
@@ -189,58 +186,9 @@ public class KikonoArmorStationBlockEntity extends BlockEntity implements MenuPr
 
 		if (level != null) {
 			level.playSound(null, this.worldPosition,
-					SoundEvents.ANVIL_USE,
+					SoundEvents.SMITHING_TABLE_USE,
 					SoundSource.BLOCKS, 1.0f, 1.0f);
 		}
-	}
-
-	private boolean hasProgressFinished() {
-		return progress >= maxProgress;
-	}
-
-	private void increaseCraftingProgress() {
-		progress++;
-	}
-
-	private boolean hasRecipe() {
-		Optional<ArmorStationRecipes> recipe = getCurrentRecipe();
-
-		if (recipe.isEmpty()) {
-			return false;
-		}
-		ItemStack result = recipe.get().getResultItem(null);
-
-		// Verificar que el output se pueda insertar
-		if (!canInsertAmountIntoOutputSlot(result.getCount()) || !canInsertItemIntoOutputSlot(result.getItem())) {
-			return false;
-		}
-
-		// Validar los slots según la receta
-		for (int i = 0; i < itemHandler.getSlots(); i++) {
-			ItemStack inputStack = itemHandler.getStackInSlot(i);
-			Ingredient recipeInput = recipe.get().getIngredients().get(i); // Obtener el ingrediente correspondiente
-
-			// Si el slot en la receta es aire, lo ignoramos
-			if (recipeInput.isEmpty()) {
-				continue; // Slot vacío, ignorar
-			}
-
-			// Verificar si el slot en el itemHandler coincide con el ingrediente
-			if (!recipeInput.test(inputStack)) {
-				return false; // La receta no coincide
-			}
-		}
-
-		return true; // La receta es válida
-	}
-
-
-	private boolean canInsertItemIntoOutputSlot(Item item) {
-		return this.itemHandler.getStackInSlot(OUTPUT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT).is(item);
-	}
-
-	private boolean canInsertAmountIntoOutputSlot(int count) {
-		return this.itemHandler.getStackInSlot(OUTPUT).getCount() + count <= this.itemHandler.getStackInSlot(OUTPUT).getMaxStackSize();
 	}
 
 	private Optional<ArmorStationRecipes> getCurrentRecipe() {

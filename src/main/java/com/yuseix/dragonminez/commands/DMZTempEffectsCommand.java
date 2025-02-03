@@ -31,19 +31,21 @@ public class DMZTempEffectsCommand {
 									for (String effect : VALID_TEMP_EFFECTS) {
 										suggestionsBuilder.suggest(effect);
 									}
-									return suggestionsBuilder.buildFuture();  // Completa la sugerencia
+									return suggestionsBuilder.buildFuture(); // Completa la sugerencia
 								})
 								.then(Commands.argument("seconds", IntegerArgumentType.integer(1))
 										.executes(commandContext -> giveTempEffect(
 												Collections.singleton(commandContext.getSource().getPlayerOrException()),
 												StringArgumentType.getString(commandContext, "effect"),
-												IntegerArgumentType.getInteger(commandContext, "seconds"))
+												IntegerArgumentType.getInteger(commandContext, "seconds"),
+												commandContext.getSource())
 										)
 										.then(Commands.argument("player", EntityArgument.players())
 												.executes(commandContext -> giveTempEffect(
 														EntityArgument.getPlayers(commandContext, "player"),
 														StringArgumentType.getString(commandContext, "effect"),
-														IntegerArgumentType.getInteger(commandContext, "seconds"))
+														IntegerArgumentType.getInteger(commandContext, "seconds"),
+														commandContext.getSource())
 												)
 										)
 								)
@@ -56,26 +58,30 @@ public class DMZTempEffectsCommand {
 									for (String effect : VALID_TEMP_EFFECTS) {
 										suggestionsBuilder.suggest(effect);
 									}
-									return suggestionsBuilder.buildFuture();  // Completa la sugerencia
+									return suggestionsBuilder.buildFuture(); // Completa la sugerencia
 								})
 								.executes(commandContext -> takeTempEffect(
 										Collections.singleton(commandContext.getSource().getPlayerOrException()),
-										StringArgumentType.getString(commandContext, "effect"))
+										StringArgumentType.getString(commandContext, "effect"),
+										commandContext.getSource())
 								)
 								.then(Commands.argument("player", EntityArgument.players())
 										.executes(commandContext -> takeTempEffect(
 												EntityArgument.getPlayers(commandContext, "player"),
-												StringArgumentType.getString(commandContext, "effect"))
+												StringArgumentType.getString(commandContext, "effect"),
+												commandContext.getSource())
 										)
 								)
 						)
 						.then(Commands.literal("all")
 								.executes(commandContext -> takeAllTempEffects(
-										Collections.singleton(commandContext.getSource().getPlayerOrException())
+										Collections.singleton(commandContext.getSource().getPlayerOrException()),
+										commandContext.getSource()
 								))
 								.then(Commands.argument("player", EntityArgument.players())
 										.executes(commandContext -> takeAllTempEffects(
-												EntityArgument.getPlayers(commandContext, "player")
+												EntityArgument.getPlayers(commandContext, "player"),
+												commandContext.getSource()
 										))
 								)
 						)
@@ -84,59 +90,96 @@ public class DMZTempEffectsCommand {
 	}
 
 	// Comando para dar efectos temporales
-	private static int giveTempEffect(Collection<ServerPlayer> players, String effectName, int seconds) {
+	private static int giveTempEffect(Collection<ServerPlayer> players, String effectName, int seconds, CommandSourceStack source) {
 		// Verifica si el efecto es válido
 		if (!VALID_TEMP_EFFECTS.contains(effectName)) {
-			// Si el efecto no es válido, muestra un mensaje de error
-			for (ServerPlayer player : players) {
-				player.sendSystemMessage(Component.translatable("command.dmzeffects.invalid_effect").append(effectName).append("\n")
-						.append(Component.translatable("command.dmzeffects.valid_effects").append(String.join(", ", VALID_TEMP_EFFECTS))));
-			}
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.invalid_effect")
+					.append(effectName).append("\n")
+					.append(Component.translatable("command.dmzeffects.valid_effects")
+							.append(String.join(", ", VALID_TEMP_EFFECTS))));
 			return 0; // No ejecuta la acción
 		}
 
 		int newSeconds = seconds * 20;
+		boolean isTargetAll = players.size() > 1;
 
 		for (ServerPlayer player : players) {
-			player.sendSystemMessage(Component.translatable("command.dmzeffects.give").append(effectName).append(" ")
-					.append(Component.translatable("command.dmzeffects.duration").append(String.valueOf(seconds)).append("s "))
-					.append(Component.translatable("command.dmz.to")).append(player.getName()));
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDMZTemporalEffect(effectName, newSeconds));
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				playerstats.addDMZTemporalEffect(effectName, newSeconds);
+			});
 		}
+
+		if (isTargetAll) {
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.give_all", effectName)
+					.append(" ")
+					.append(Component.translatable("command.dmzeffects.duration")
+							.append(String.valueOf(seconds)).append("s")));
+		} else {
+			ServerPlayer target = players.iterator().next();
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.give", effectName)
+					.append(" ")
+					.append(Component.translatable("command.dmzeffects.duration")
+							.append(String.valueOf(seconds)).append("s "))
+					.append(Component.translatable("command.dmz.to"))
+					.append(target.getName()));
+		}
+
 		return players.size();
 	}
 
 	// Comando para quitar efectos temporales
-	private static int takeTempEffect(Collection<ServerPlayer> players, String effectName) {
+	private static int takeTempEffect(Collection<ServerPlayer> players, String effectName, CommandSourceStack source) {
 		// Verifica si el efecto es válido
 		if (!VALID_TEMP_EFFECTS.contains(effectName)) {
-			// Si el efecto no es válido, muestra un mensaje de error
-			for (ServerPlayer player : players) {
-				player.sendSystemMessage(Component.translatable("command.dmzeffects.invalid_effect").append(effectName).append("\n")
-						.append(Component.translatable("command.dmzeffects.valid_effects").append(String.join(", ", VALID_TEMP_EFFECTS))));
-			}
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.invalid_effect")
+					.append(effectName).append("\n")
+					.append(Component.translatable("command.dmzeffects.valid_effects")
+							.append(String.join(", ", VALID_TEMP_EFFECTS))));
 			return 0; // No ejecuta la acción
 		}
 
+		boolean isTargetAll = players.size() > 1;
+
 		for (ServerPlayer player : players) {
-			player.sendSystemMessage(Component.translatable("command.dmzeffects.take").append(effectName + " ")
-					.append(Component.translatable("command.dmz.to")).append(player.getName()));
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeTemporalEffect(effectName));
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				playerstats.removeTemporalEffect(effectName);
+			});
 		}
+
+		if (isTargetAll) {
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take_from_all", effectName));
+		} else {
+			ServerPlayer target = players.iterator().next();
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.take", effectName)
+					.append(" ")
+					.append(Component.translatable("command.dmz.from"))
+					.append(target.getName()));
+		}
+
 		return players.size();
 	}
 
 	// Comando para quitar todos los efectos temporales
-	private static int takeAllTempEffects(Collection<ServerPlayer> players) {
+	private static int takeAllTempEffects(Collection<ServerPlayer> players, CommandSourceStack source) {
+		boolean isTargetAll = players.size() > 1;
+
 		for (ServerPlayer player : players) {
-			player.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take.all")
-					.append(Component.translatable("command.dmz.to")).append(player.getName()));
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				for (String effectName : VALID_TEMP_EFFECTS) {
 					playerstats.removeTemporalEffect(effectName);
 				}
 			});
 		}
+
+		if (isTargetAll) {
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take_all_from_all"));
+		} else {
+			ServerPlayer target = players.iterator().next();
+			source.sendSystemMessage(Component.translatable("command.dmzeffects.temp.take.all")
+					.append(Component.translatable("command.dmz.from"))
+					.append(target.getName()));
+		}
+
 		return players.size();
 	}
 }

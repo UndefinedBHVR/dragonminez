@@ -31,6 +31,7 @@ public class MedicinaCorazonItem extends Item {
 				new FoodProperties.Builder()
 						.nutrition(HUNGER)
 						.saturationMod(SATURATION)
+						.alwaysEat()
 						.build()
 		));
 	}

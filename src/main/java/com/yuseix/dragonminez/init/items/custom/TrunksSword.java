@@ -37,7 +37,7 @@ public class TrunksSword extends SwordItem implements GeoItem {
 
 	@Override
 	public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-		pTooltipComponents.add(Component.translatable("dmz.weapons.z_sword.tooltip").withStyle(ChatFormatting.GRAY));
+		pTooltipComponents.add(Component.translatable("dmz.weapons.trunks_sword.tooltip").withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override
