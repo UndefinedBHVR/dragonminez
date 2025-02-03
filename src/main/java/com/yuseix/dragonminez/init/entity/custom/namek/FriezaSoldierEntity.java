@@ -12,12 +12,10 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
@@ -39,14 +37,14 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
     private static final RawAnimation DISPAROCARGA = RawAnimation.begin().thenPlay("animation.soldado1.disparo");
 
 
-    public FriezaSoldierEntity(EntityType<? extends PathfinderMob> pEntityType, Level pLevel) {
+    public FriezaSoldierEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setPersistenceRequired();
 
     }
 
     public static AttributeSupplier setAttributes() {
-        return Mob.createMobAttributes()
+        return Monster.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1000.0D)
                 .add(Attributes.ATTACK_DAMAGE, 50.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F).build();
@@ -71,10 +69,11 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new MoveToSurfaceGoal(this));
+        this.goalSelector.addGoal(2, new RangedAttackGoal(this, 1.0D, 40, 15.0F));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new MoveToSurfaceGoal(this));
 
         this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, NamekianEntity.class, true));

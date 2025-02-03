@@ -28,6 +28,15 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> CAPSULE_PORUNGA_WISH;
     public static final ForgeConfigSpec.ConfigValue<Integer> GETE_PORUNGA_WISH;
 
+    public static final ForgeConfigSpec.ConfigValue<Integer> JUMP_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> JUMP_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> FLY_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> FLY_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SPRINT_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SPRINT_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> POTUNLOCK_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> POTUNLOCK_TP_COST_LEVELS;
+
 
 
     static {
@@ -97,6 +106,34 @@ public class DMZGeneralConfig {
 
         GETE_PORUNGA_WISH = BUILDER.comment("Number of Gete Scraps Porunga will give (Min: 1 / Max: 64 / Default: 3)")
                 .defineInRange("[Porunga] Number of Gete Scraps: ", 3, 1, 64);
+
+        BUILDER.pop();
+
+        BUILDER.push("Skills Configs");
+
+        JUMP_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Jump Skill from Masters (Min: 1 / Max: 1000000000 / Default: 400)")
+                .defineInRange("Jump Buy: ", 400, 1, 1000000000);
+
+        JUMP_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Jump Skill (Min: 1 / Max: 1000000000 / Default: 10) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Jump Levels: ", 100, 1, 1000000000);
+
+        FLY_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Fly Skill from Masters (Min: 1 / Max: 1000000000 / Default: 1000)")
+                .defineInRange("Fly Buy: ", 1000, 1, 1000000000);
+
+        FLY_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Fly Skill (Min: 1 / Max: 1000000000 / Default: 250) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Fly Levels: ", 250, 1, 1000000000);
+
+        SPRINT_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Sprint Skill from Masters (Min: 1 / Max: 1000000000 / Default: 400)")
+                .defineInRange("Sprint Buy: ", 400, 1, 1000000000);
+
+        SPRINT_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Sprint Skill (Min: 1 / Max: 1000000000 / Default: 100) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Sprint Levels: ", 100, 1, 1000000000);
+
+        POTUNLOCK_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Potential Unlock Skill from Masters (Min: 1 / Max: 1000000000 / Default: 3500)")
+                .defineInRange("Potential Unlock Buy: ", 3500, 1, 1000000000);
+
+        POTUNLOCK_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Potential Unlock Skill (Min: 1 / Max: 1000000000 / Default: 600) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Potential Unlock Levels: ", 600, 1, 1000000000);
 
         SPEC = BUILDER.build();
     }

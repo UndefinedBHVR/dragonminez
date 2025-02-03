@@ -17,6 +17,8 @@ public class Keys {
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, CATEGORY);
     public static final KeyMapping TURBO_KEY = new KeyMapping("key.dragonminez.turbo_key",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY);
+    public static final KeyMapping FLY_KEY = new KeyMapping("key.dragonminez.fly_key",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F, CATEGORY);
     public static final KeyMapping FUNCTION = new KeyMapping("key.dragonminez.function",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_H, CATEGORY);
     public static final KeyMapping SELECT_UP = new KeyMapping("key.dragonminez.select_up",

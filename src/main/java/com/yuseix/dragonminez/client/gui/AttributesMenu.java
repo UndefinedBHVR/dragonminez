@@ -5,7 +5,10 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -24,6 +27,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -70,11 +74,35 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     public void init() {
         super.init();
 
-        // Asegurarse de que el código de la UI solo se ejecute en el cliente
+        anchoTexto = (this.width/2);
+        alturaTexto = (this.height - 25);
+
         if (this.minecraft.level.isClientSide) {
-            this.newMenuBoton = (DMZGuiButtons) this.addRenderableWidget(new DMZGuiButtons(0, this.height - 20, "libro", Component.empty(), wa -> {
-                // Cambiar la pantalla solo en el cliente
-                this.minecraft.setScreen(new AttributesMenu2());
+            Player player = this.minecraft.player;
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+                    if (playerstats.isCompactMenu()) {
+                        this.minecraft.setScreen(new AttributesMenu2());
+                    }
+                });
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, alturaTexto, "skills", Component.empty(), wa -> {
+                this.minecraft.setScreen(new SkillMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
+                // Agregar acá el menú de Transf
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
+                // Agregar el menú de Story
+                // this.minecraft.setScreen(new StoryMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
+                // Agregar el menú de KiTech
+                // this.minecraft.setScreen(new KiTechMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 65, alturaTexto, "settings", Component.empty(), wa -> {
+                this.minecraft.setScreen(new ConfigMenu());
             }));
         }
     }
@@ -86,9 +114,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
         botonesStats();
         //MenuInicio
-
-
-
     }
 
     @Override
@@ -104,9 +129,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
         menu0info(graphics, pMouseX, pMouseY);
         super.render(graphics, pMouseX, pMouseY, pPartialTick);
-
-
-
 
     }
 
@@ -263,7 +285,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 
             alturaTexto = 19;
-            anchoTexto = this.width/2;
+            anchoTexto = (this.width/2)+2;
 
             var playername = Minecraft.getInstance().player.getName().getString();
             var alignment = playerstats.getDmzAlignment();
@@ -620,7 +642,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
         //NOMBRE JUGADOR
         alturaTexto = 5;
-        anchoTexto = (this.width/2) - 71;
+        anchoTexto = (this.width/2) - 70;
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         guiGraphics.blit(menuraza, anchoTexto, alturaTexto, 0, 93, 145, 60);

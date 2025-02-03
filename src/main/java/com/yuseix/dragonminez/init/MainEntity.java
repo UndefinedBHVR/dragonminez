@@ -199,7 +199,27 @@ public class MainEntity {
         e.register(MainEntity.DINO1.get(),
                 ON_GROUND,
                 MOTION_BLOCKING,
-                Animal::checkAnimalSpawnRules,
+                DinoEntity::checkDinoSpawnRules,
+                REPLACE);
+        e.register(MainEntity.FRIEZA_SOLDIER01.get(),
+                ON_GROUND,
+                MOTION_BLOCKING,
+                SoldierEntity::canSpawnHere,
+                REPLACE);
+        e.register(MainEntity.FRIEZA_SOLDIER02.get(),
+                ON_GROUND,
+                MOTION_BLOCKING,
+                SoldierEntity::canSpawnHere,
+                REPLACE);
+        e.register(MainEntity.FRIEZA_SOLDIER03.get(),
+                ON_GROUND,
+                MOTION_BLOCKING,
+                SoldierEntity::canSpawnHere,
+                REPLACE);
+        e.register(MainEntity.MORO_SOLDIER.get(),
+                ON_GROUND,
+                MOTION_BLOCKING,
+                SoldierEntity::canSpawnHere,
                 REPLACE);
     }
 

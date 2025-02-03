@@ -54,6 +54,15 @@ public class CharacterC2S {
                                 playerstats.setDmzClass("Spiritualist");
                             }
                             break;
+                        case "dmzskiweapon":
+                            if (packet.cantidad == 0) {
+                                playerstats.setKiWeapon("scythe");
+                            } else if(packet.cantidad == 1){
+                                playerstats.setKiWeapon("trident");
+                            } else {
+                                playerstats.setKiWeapon("sword");
+                            }
+                            break;
                         case "dmzAlignment":
                             playerstats.setDmzAlignment(packet.cantidad);
                             break;
@@ -118,6 +127,13 @@ public class CharacterC2S {
                                 playerstats.setDescendKey(false);
                             } else {
                                 playerstats.setDescendKey(true);
+                            }
+                            break;
+                        case "isCompactMenu":
+                            if (packet.cantidad == 1) {
+                                playerstats.setCompactMenu(true);
+                            } else {
+                                playerstats.setCompactMenu(false);
                             }
                             break;
                         case "str":
