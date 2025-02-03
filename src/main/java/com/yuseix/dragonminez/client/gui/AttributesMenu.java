@@ -122,11 +122,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     }
 
     public void botonesStats() {
-        this.removeWidget(strBoton);
-        this.removeWidget(defBoton);
-        this.removeWidget(conBoton);
-        this.removeWidget(pwrBoton);
-        this.removeWidget(eneBoton);
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
             var tps = playerstats.getZpoints(); var str = playerstats.getStrength(); var def = playerstats.getDefense();
