@@ -4,7 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
+import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -23,6 +25,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +47,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
 
     private CustomButtons multiBoton; private DMZDatos dmzdatos = new DMZDatos();
+    private DMZGuiButtons newMenuBoton;
 
     // Formateador de números con separadores (por ejemplo, "10.000.000")
     NumberFormat numberFormatter = NumberFormat.getInstance(Locale.US);
@@ -62,6 +66,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
     public void tick() {
         super.tick();
         botonesStats();
+        botonesMenus();
     }
 
     @Override
@@ -135,6 +140,39 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 }
             }
         });
+    }
+
+    public void botonesMenus(){
+        alturaTexto = (this.height + 168)/2;
+        anchoTexto = (this.width)/2;
+
+        if (this.minecraft.level.isClientSide) {
+            Player player = this.minecraft.player;
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+                    if (!playerstats.isCompactMenu()) {
+                        this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+                    }});
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, alturaTexto, "skills", Component.empty(), wa -> {
+                this.minecraft.setScreen(new SkillMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
+                // Agregar acá el menú de Transf
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
+                // Agregar acá el menú de Story
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
+                // Agregar acá el menú de Ki Techniques
+                // this.minecraft.setScreen(new TransfMenu());
+            }));
+            this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 65, alturaTexto, "settings", Component.empty(), wa -> {
+                this.minecraft.setScreen(new ConfigMenu());
+            }));
+        }
     }
 
     private int calcularCostoRecursivo(int statActual, int nivelesAumentar, int baseCost, int maxStats) {

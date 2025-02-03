@@ -5,8 +5,10 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
 import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.PacketDistributor;
@@ -16,7 +18,7 @@ import java.util.Map;
 
 public class DMZStatsAttributes {
 
-    private Map<String, Integer> DMZSkills = new HashMap<>();
+    private Map<String, DMZSkill> DMZSkills = new HashMap<>();
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
@@ -36,15 +38,17 @@ public class DMZStatsAttributes {
     private int KiPower = 5;
 
     private int energy = 5, currentEnergy;
-
-    private String gender = "Male";
+    private int dmzAlignment = 100;
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
 
-    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false;
-
+    private String gender = "Male";
     private String dmzClass = "Warrior";
-    private int dmzAlignment = 100;
+    private String dmzKiWeapon = "sword";
+
+    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
+
+
 
     private final Player player;
 
@@ -566,6 +570,14 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public String getKiWeaponId() {
+        return dmzKiWeapon;
+    }
+
+    public void setKiWeapon(String dmzKiWeapon) {
+        this.dmzKiWeapon = dmzKiWeapon;
+        DMZStatsCapabilities.syncStats(player);
+    }
     public void setDmzClass(String dmzClass) {
         this.dmzClass = dmzClass;
         DMZStatsCapabilities.syncStats(player);
@@ -595,46 +607,78 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
-    // Métodos para gestionar las habilidades
-    public Map<String, Integer> getDMZSkills() {
-        return DMZSkills;
-    }
-    public void addSkill(String skillName, int level) {
-        DMZSkills.put(skillName, level);
+    public void addSkill(String name, DMZSkill skill) {
+        DMZSkills.put(name, skill);
         DMZStatsCapabilities.syncStats(player);
-
-        ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                new DMZSkillsS2C(DMZSkills));
+        DMZStatsCapabilities.syncSkills(player);
     }
-
-    public Integer getSkillLevel(String skillName) {
-        return DMZSkills.getOrDefault(skillName, 0);
-    }
-
-    public boolean hasSkill(String skillName) {
-        return DMZSkills.containsKey(skillName);
-    }
-
-    public void setSkillLevel(String skillName, int newLevel) {
-        if (DMZSkills.containsKey(skillName)) {
-            DMZSkills.put(skillName, newLevel);
-            DMZStatsCapabilities.syncStats(player);
-
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZSkillsS2C(DMZSkills));
+    public DMZSkill getSkill(String name) {
+        if (DMZSkills.containsKey(name)) {
+            return DMZSkills.get(name);
         }
+        return null;
     }
+    
+    public void setDMZSkills(Map<String, DMZSkill> DMZSkills) {
+        this.DMZSkills = DMZSkills;
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
 
-    public void removeSkill(String skillName) {
-        if (DMZSkills.containsKey(skillName)) {
-            DMZSkills.remove(skillName);
-            DMZStatsCapabilities.syncStats(player);
+    }
+    // Método para verificar si una habilidad existe en el mapa
+    public boolean hasSkill(String name) {
+        return DMZSkills.containsKey(name);
+    }
+    public Map<String, DMZSkill> getDMZSkills() {
+        return DMZSkills;
 
-            ModMessages.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                    new DMZSkillsS2C(DMZSkills));
+    }
+    // Método para remover una habilidad del mapa
+    public void removeSkill(String name) {
+        DMZSkill skill = DMZSkills.get(name);
+
+        if(skill != null){
+            DMZSkills.remove(name);
         }
+
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
     }
 
+    public int getSkillLevel(String name) {
+        DMZSkill skill = DMZSkills.get(name);
+        return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
+    }
+
+    public boolean isActiveSkill(String name) {
+        DMZSkill skill = DMZSkills.get(name);
+        if (skill == null) {
+            return false;
+        }
+        return skill.isActive();
+    }
+
+    public void setSkillActive(String name, boolean isActive){
+        DMZSkill skill = DMZSkills.get(name);
+        if(skill != null){
+            skill.setActive(isActive);
+        }
+
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
+    }
+    public void setSkillLvl(String name, int cantidad){
+        DMZSkill skill = DMZSkills.get(name);
+        if(skill != null){
+            skill.setLevel(cantidad);
+        }
+
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
+    }
     // Métodos para gestionar los estados permanentes wa
     public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
         DMZPermanentEffects.put(permanentEffect, isActive);
@@ -752,6 +796,7 @@ public class DMZStatsAttributes {
 
         nbt.putString("gender", gender);
         nbt.putString("dmzClass", dmzClass);
+        nbt.putString("dmzskiweapon", dmzKiWeapon);
 
         nbt.putInt("zpoints", zpoints);
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
@@ -759,12 +804,6 @@ public class DMZStatsAttributes {
         nbt.putBoolean("isAuraOn", isauraOn);
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
-
-        CompoundTag skillsTag = new CompoundTag();
-        for (Map.Entry<String, Integer> entry : DMZSkills.entrySet()) {
-            skillsTag.putInt(entry.getKey(), entry.getValue());
-        }
-        nbt.put("DMZSkills", skillsTag);
 
         CompoundTag permanentEffectsTag = new CompoundTag();
         for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
@@ -777,6 +816,29 @@ public class DMZStatsAttributes {
             temporalEffectTag.putInt(entry.getKey(), entry.getValue());
         }
         nbt.put("DMZTemporalEffects", temporalEffectTag);
+
+        // Crear un CompoundTag para guardar cada habilidad
+        CompoundTag skillsTag = new CompoundTag();
+
+        for (Map.Entry<String, DMZSkill> entry : DMZSkills.entrySet()) {
+            String skillName = entry.getKey();
+            DMZSkill skill = entry.getValue();
+
+            // Crear un CompoundTag para la habilidad y guardarlo en el map de skills
+            CompoundTag skillTag = new CompoundTag();
+
+            // Aquí guardas los datos relevantes de la habilidad, como el nivel y la descripción
+            skillTag.putString("name", skill.getName());
+            skillTag.putInt("level", skill.getLevel());
+            skillTag.putString("description", skill.getDesc());
+            skillTag.putBoolean("active", skill.isActive());
+
+            // Guarda la habilidad en el CompoundTag de skills
+            skillsTag.put(skillName, skillTag);
+        }
+
+        nbt.put("DMZSkills", skillsTag);
+
 
         return nbt;
     }
@@ -812,6 +874,7 @@ public class DMZStatsAttributes {
         auraColor = nbt.getInt("auraColor");
 
         gender = nbt.getString("gender");
+        dmzKiWeapon = nbt.getString("dmzskiweapon");
         dmzClass = nbt.getString("dmzClass");
         dmzAlignment = nbt.getInt("dmzAlignment");
 
@@ -819,12 +882,6 @@ public class DMZStatsAttributes {
         isauraOn = nbt.getBoolean("isAuraOn");
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
-
-        CompoundTag skillsTag = nbt.getCompound("DMZSkills");
-        for (String skillName : skillsTag.getAllKeys()) {
-            int level = skillsTag.getInt(skillName);
-            DMZSkills.put(skillName, level);
-        }
 
         CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
         for (String effectName : permanentEffects.getAllKeys()) {
@@ -835,11 +892,35 @@ public class DMZStatsAttributes {
         CompoundTag temporalEffectsTag = nbt.getCompound("DMZTemporalEffects");
         for (String effectName : temporalEffectsTag.getAllKeys()) {
             int seconds = temporalEffectsTag.getInt(effectName);
-            DMZSkills.put(effectName, seconds);
+            DMZTemporalEffects.put(effectName, seconds);
         }
 
+        if (nbt.contains("DMZSkills", 10)) {  // Verifica si "DMZSkills" existe
+            //El 10 hace referencia a TAG_COMPOUND
+
+            CompoundTag skillsTag = nbt.getCompound("DMZSkills");
+
+            for (String skillName : skillsTag.getAllKeys()) {
+                CompoundTag skillTag = skillsTag.getCompound(skillName);
+
+                // Cargar el nivel y la descripción de la habilidad
+                String name = skillTag.getString("name");
+                int level = skillTag.getInt("level");
+                String description = skillTag.getString("description");
+                boolean active = skillTag.getBoolean("active");
+
+                DMZSkill skill = new DMZSkill(name, description, level, active);
+                DMZSkills.put(skillName, skill);
+            }
+        }
 
     }
 
+	public boolean isCompactMenu() {
+		return compactMenu;
+	}
 
+	public void setCompactMenu(boolean compactMenu) {
+        this.compactMenu = compactMenu;
+    }
 }

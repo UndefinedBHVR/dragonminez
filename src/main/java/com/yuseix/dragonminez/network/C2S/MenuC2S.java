@@ -33,8 +33,9 @@ public class MenuC2S {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
 					boolean isDmzUser = playerstats.isAcceptCharacter();
+					boolean compactMenu = playerstats.isCompactMenu();
 
-					ModMessages.sendToPlayer(new MenuS2C(isDmzUser), player);
+					ModMessages.sendToPlayer(new MenuS2C(isDmzUser, compactMenu), player);
 				});
 			}
 

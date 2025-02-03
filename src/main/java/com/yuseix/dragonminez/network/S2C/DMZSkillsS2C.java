@@ -1,7 +1,9 @@
 package com.yuseix.dragonminez.network.S2C;
 
 import com.yuseix.dragonminez.network.ClientPacketHandler;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
@@ -11,37 +13,40 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class DMZSkillsS2C {
-	private final Map<String, Integer> skillsdmz;
+	private final Map<String, DMZSkill> skills;
+	private final int playerId;
 
-	public DMZSkillsS2C(Map<String, Integer> skillsdmz) {
-		this.skillsdmz = skillsdmz;
+	public DMZSkillsS2C(Player player, Map<String, DMZSkill> skills) {
+		this.playerId = player.getId();
+		this.skills = new HashMap<>(skills); // Copia los datos
 	}
 
-	// Constructor para recibir los datos del buffer
 	public DMZSkillsS2C(FriendlyByteBuf buf) {
+		this.playerId = buf.readInt();
 		int size = buf.readInt();
-		this.skillsdmz = new HashMap<>();
+		this.skills = new HashMap<>();
 		for (int i = 0; i < size; i++) {
-			String effect = buf.readUtf();
-			int nivel = buf.readInt();
-			skillsdmz.put(effect, nivel);
+			String key = buf.readUtf(); // Lee el nombre del efecto
+			DMZSkill value = new DMZSkill(buf); // Lee el estado (true/false)
+			skills.put(key, value);
 		}
 	}
 
-	// Método para escribir los datos al buffer
+	// Escribe los datos en el buffer
 	public void toBytes(FriendlyByteBuf buf) {
-		buf.writeInt(skillsdmz.size());
-		for (Map.Entry<String, Integer> entry : skillsdmz.entrySet()) {
+		buf.writeInt(playerId);
+		buf.writeInt(skills.size());
+		for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
 			buf.writeUtf(entry.getKey());
-			buf.writeInt(entry.getValue());
+			entry.getValue().toBytes(buf);
 		}
 	}
 
-	// Método para procesar el paquete en el lado del cliente
+	// Manejo del paquete
 	public void handle(Supplier<NetworkEvent.Context> ctxSupplier) {
 		ctxSupplier.get().enqueueWork(() -> {
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-					ClientPacketHandler.handleSkillsPacket(skillsdmz, ctxSupplier)
+					ClientPacketHandler.handleSkillsPacket(playerId, skills, ctxSupplier)
 			);
 		});
 		ctxSupplier.get().setPacketHandled(true);

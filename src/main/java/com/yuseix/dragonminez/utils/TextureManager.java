@@ -13,13 +13,6 @@ public class TextureManager {
     public static final ResourceLocation B_IMPERFECT_BODYCOLA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodycola.png");
     public static final ResourceLocation B_IMPERFECT_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0.png");
     public static final ResourceLocation B_IMPERFECT_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0_iris.png");
-    //ARMS
-    public static final ResourceLocation B_IMPERFECT_ARMS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/arms/arms_1.png");
-    public static final ResourceLocation B_IMPERFECT_ARMS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/arms/arms_2.png");
-    public static final ResourceLocation B_IMPERFECT_ARMS3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/arms/arms_3.png");
-
-
-
 
     //SAIYAN Y HUMANO
     public static final ResourceLocation SH_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/body/bodytype1.png");
@@ -49,12 +42,18 @@ public class TextureManager {
     public static final ResourceLocation N_EYES1_CEJAS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/n_cejastype1.png");
 
     //MAJIN
-    public static final ResourceLocation MAJIN_BASE_MALE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype1_male.png");
+    public static final ResourceLocation MAJIN_BASE_TYPE1_MALE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype1_male.png");
+    public static final ResourceLocation MAJIN_BASE_TYPE2_MALE_1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype2_male_1.png");
+    public static final ResourceLocation MAJIN_BASE_TYPE2_MALE_2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype2_male_2.png");
+
     public static final ResourceLocation MAJIN_BASE_FEMALE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/bodytype1_fem.png");
 
     public static final ResourceLocation MAJIN_BASE_MALE_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1.png");
     public static final ResourceLocation MAJIN_BASE_FEMALE_EYES_BASE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_fem.png");
     public static final ResourceLocation MAJIN_BASE_FEMALE_EYES_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_fem_iris.png");
+
+    public static final ResourceLocation MAJIN_EARS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/ears/ears1.png");
+    public static final ResourceLocation MAJIN_EARS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/ears/ears2.png");
 
     //DEMON COLD
     public static final ResourceLocation DC_MINIMAL_BODY1_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/bodytype1_base1.png");

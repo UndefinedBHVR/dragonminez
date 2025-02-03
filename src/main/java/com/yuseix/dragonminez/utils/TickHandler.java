@@ -1,44 +1,67 @@
 package com.yuseix.dragonminez.utils;
 
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
+import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.skills.DMZSkill;
 
 public class TickHandler {
     private int energyRegenCounter = 0;
     private int staminaRegenCounter = 0;
     private int energyConsumeCounter = 0;
-    private  int chargeTimer = 0; // Aca calculamos el tiempo de espera
+    private int chargeTimer = 0; // Aca calculamos el tiempo de espera
+    private int flyTimer = 0;
 
     private final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
 
     public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos) {
-        // Regeneración de stamina cada 3 segundos
+        DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
+        DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
+
+        // Regeneración de stamina cada 1 segundo
         staminaRegenCounter++;
-        if (staminaRegenCounter >= 20 * 3) {
+        if (staminaRegenCounter >= 20) {
             int maxStamina = dmzDatos.calcularSTM(playerStats.getRace(), playerStats.getConstitution());
-            int regenStamina = (int) Math.ceil(maxStamina / 3.0);
-            playerStats.addCurStam(regenStamina);
-            staminaRegenCounter = 0;
+            if (!(playerStats.getCurStam() < maxStamina)) {
+                int regenStamina = (int) Math.ceil(maxStamina / 12.0);
+                if (meditation != null) {
+                    // Si tiene meditación, aumenta o reduce según el nivel de meditación (+10% por nivel)
+                    int medLevel = meditation.getLevel();
+                    regenStamina += (int) Math.ceil(regenStamina * 0.1 * medLevel);
+                }
+                playerStats.addCurStam(regenStamina);
+                staminaRegenCounter = 0;
+            }
+
         }
 
-        // Regeneración de energía cada 5 segundos, si tenes turbo activo, no se regenera y consumis energia cada 3s
+        // Regeneración de energía cada 1 segundo (con turbo activo o no)
         energyRegenCounter++;
-        if (playerStats.isTurbonOn()) {
-            if (energyRegenCounter >= 20 * 3) {
-                int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
-                int consumeEnergy = (dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()));
+        if (energyRegenCounter >= 20) {
+            int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
+
+            if (playerStats.isTurbonOn()) {
+                // Si el turbo está activo, consumo de energía
+                int consumeEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) * 2;
+                if (consumeEnergy < 2) consumeEnergy = 2;
+                if (meditation != null) {
+                    // Reduce 5% del consumo por nivel de meditación
+                    int medLevel = meditation.getLevel();
+                    consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
+                }
                 playerStats.removeCurEnergy(consumeEnergy);
-                energyRegenCounter = 0;
-            }
-        } else {
-            if (energyRegenCounter >= 20 * 5) {
-                int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
-                int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass());
+            } else if (flySkill != null && !flySkill.isActive() && !playerStats.isTurbonOn() && playerStats.getCurrentEnergy() < maxEnergy) {
+                // Si el turbo no está activo, regeneración de energía
+                int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) / 2;
+                if (regenEnergy < 1) regenEnergy = 1;
+                if (meditation != null) {
+                    // Aumenta 10% de la regeneración por nivel de meditación
+                    int medLevel = meditation.getLevel();
+                    regenEnergy += (int) Math.ceil(regenEnergy * 0.1 * medLevel);
+                }
                 playerStats.addCurEnergy(regenEnergy);
-                energyRegenCounter = 0;
             }
+            energyRegenCounter = 0;
         }
 
         // Consumo de energía cada 3 segundos
@@ -55,6 +78,12 @@ public class TickHandler {
         chargeTimer++;
 
         DMZDatos dmzdatos = new DMZDatos();
+        DMZSkill meditation = playerstats.getDMZSkills().get("meditation");
+        int meditationLevel = meditation != null ? meditation.getLevel() : 0;
+        DMZSkill potUnlock = playerstats.getDMZSkills().get("potential_unlock");
+        DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
+        int potUnlockLevel = potUnlock != null ? potUnlock.getLevel() : 0;
+        int defaultMaxRelease = 50; int maxRelease = defaultMaxRelease + (potUnlockLevel * 5);
 
         if (chargeTimer >= CHARGE_INTERVAL) {
             if (playerstats.isAuraOn() && playerstats.isDescendKeyOn()) {
@@ -65,14 +94,20 @@ public class TickHandler {
                     }
                 }
             } else if (playerstats.isAuraOn()) {
-                if (playerstats.getDmzRelease() < 50) {
+                if (playerstats.getDmzRelease() < maxRelease) {
                     playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
-                    if (playerstats.getDmzRelease() > 50) {
-                        playerstats.setDmzRelease(50);
+                    if (playerstats.getDmzRelease() > maxRelease) {
+                        playerstats.setDmzRelease(maxRelease);
                     }
                 }
-                if (!playerstats.isTurbonOn()) {
-                    playerstats.addCurEnergy(dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass()));
+                if (!playerstats.isTurbonOn() && flySkill != null && !flySkill.isActive()) {
+                    if (playerstats.getCurrentEnergy() < maxenergia) {
+                        int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
+                        if (meditation != null) {
+                            kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
+                        }
+                        playerstats.addCurEnergy(kiRegen);
+                    }
                 }
             }
 
@@ -84,4 +119,26 @@ public class TickHandler {
         }
     }
 
+    public void manejarFlyConsume(DMZStatsAttributes playerStats, int maxEnergy) {
+        DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
+        int flyLevel = flySkill != null ? flySkill.getLevel() : 0;
+
+        // Solo consume Ki si la habilidad está a nivel 7 o menos. A partir de nivel 8, no consume Ki.
+        if (flySkill != null && flyLevel > 0 && flyLevel <= 7 && flySkill.isActive()) {
+            flyTimer++;
+
+            if (flyTimer >= 20) {
+                int consumeEnergy = 0;
+                if (flyLevel < 4) {
+                    consumeEnergy = (int) Math.ceil(maxEnergy * 0.04);
+                } else {
+                    consumeEnergy = (int) Math.ceil(maxEnergy * 0.02);
+                }
+
+                if (playerStats.getCurrentEnergy() < consumeEnergy) ModMessages.sendToServer(new FlyToggleC2S());
+                playerStats.removeCurEnergy(consumeEnergy);
+                flyTimer = 0;
+            }
+        }
+    }
 }

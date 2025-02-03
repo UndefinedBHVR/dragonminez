@@ -159,6 +159,7 @@ public class ForgeBusEvents {
 		new DMZPermaEffectsCommand(event.getDispatcher());
 		new DMZTempEffectsCommand(event.getDispatcher());
 		new StorylineCommand(event.getDispatcher());
+		new DMZSkillsCommand(event.getDispatcher());
 
 		ConfigCommand.register(event.getDispatcher());
 	}
