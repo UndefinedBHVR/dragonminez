@@ -126,14 +126,14 @@ public class DMZSkillsCommand {
 		for (ServerPlayer player : players) {
 			int finalLevel = level;
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-				DMZSkill skill = new DMZSkill(
-						Component.translatable("dmz.skill." + skillName + ".name"),
-						Component.translatable("dmz.skill." + skillName + ".desc"), finalLevel, true);
+				DMZSkill skill = new DMZSkill("dmz.skill." + skillName + ".name",
+						"dmz.skill." + skillName + ".desc",
+						finalLevel, true);
 
 				playerstats.addSkill(skillName, skill);
 
 				player.sendSystemMessage(Component.translatable("command.dmzskills.give")
-						.append(skill.getName()).append(" ") // Solo muestra el nombre de la habilidad
+						.append(Component.translatable(skill.getName())).append(" ") // Solo muestra el nombre de la habilidad
 						.append(Component.translatable("command.dmz.to")).append(player.getName()));
 			});
 		}
@@ -161,22 +161,23 @@ public class DMZSkillsCommand {
 				if (skill != null) {
 					skill.setLevel(finalLevel);
 					player.sendSystemMessage(Component.translatable("command.dmzskills.set")
-							.append(skill.getName())
+							.append(Component.translatable(skill.getName()))
 							.append(" (Nivel ").append(Component.literal(String.valueOf(finalLevel))).append(") ") // Muestra el nivel
 							.append(Component.translatable("command.dmz.to")).append(player.getName()));
 				} else {
 					// Si la habilidad no existe, la creamos y le asignamos el nivel
 					skill = new DMZSkill(
-							Component.translatable("dmz.skill." + skillName + ".name"),
-							Component.translatable("dmz.skill." + skillName + ".desc"), finalLevel, true);
+							"dmz.skill." + skillName + ".name",
+							"dmz.skill." + skillName + ".desc", finalLevel,
+							true);
 
 					playerstats.addSkill(skillName, skill);
 
 					player.sendSystemMessage(Component.translatable("command.dmzskills.give")
-							.append(skill.getName()) // Solo muestra el nombre
+							.append(Component.translatable(skill.getName())) // Solo muestra el nombre
 							.append(" (Nivel ").append(Component.literal(String.valueOf(finalLevel))).append(") ") // Muestra el nivel
 							.append(Component.translatable("command.dmz.to")).append(player.getName())
-							.append(": ").append(skill.getDesc())); // Incluye la descripción de la habilidad
+							.append(": ").append(Component.translatable(skill.getDesc()))); // Incluye la descripción de la habilidad
 				}
 			});
 		}

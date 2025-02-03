@@ -607,13 +607,11 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
-    // Método para agregar una habilidad al mapa
     public void addSkill(String name, DMZSkill skill) {
         DMZSkills.put(name, skill);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
     }
-    // Método para obtener una habilidad del mapa
     public DMZSkill getSkill(String name) {
         if (DMZSkills.containsKey(name)) {
             return DMZSkills.get(name);
@@ -830,9 +828,9 @@ public class DMZStatsAttributes {
             CompoundTag skillTag = new CompoundTag();
 
             // Aquí guardas los datos relevantes de la habilidad, como el nivel y la descripción
-            skillTag.putString("name", skill.getName().getString());
+            skillTag.putString("name", skill.getName());
             skillTag.putInt("level", skill.getLevel());
-            skillTag.putString("description", skill.getDesc().getString());
+            skillTag.putString("description", skill.getDesc());
             skillTag.putBoolean("active", skill.isActive());
 
             // Guarda la habilidad en el CompoundTag de skills
@@ -911,8 +909,7 @@ public class DMZStatsAttributes {
                 String description = skillTag.getString("description");
                 boolean active = skillTag.getBoolean("active");
 
-                // Crear el objeto DMZSkill y agregarlo al mapa
-                DMZSkill skill = new DMZSkill(Component.literal(name), Component.literal(description), level, active);
+                DMZSkill skill = new DMZSkill(name, description, level, active);
                 DMZSkills.put(skillName, skill);
             }
         }

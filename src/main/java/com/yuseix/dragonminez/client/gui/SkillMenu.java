@@ -42,8 +42,9 @@ public class SkillMenu extends Screen {
     private static String skillsId = "";
     private int alturaTexto, anchoTexto;
 
-    private final List<AbstractWidget> skillButtons = new ArrayList<>(); // Lista para rastrear widgets de habilidades
+    private final List<AbstractWidget> skillButtons = new ArrayList<>();
     private final List<AbstractWidget> botonesArmas = new ArrayList<>();;
+    private List<DMZGuiButtons> botonesMenus = new ArrayList<>();
 
     private CustomButtons infoButton, deleteButton, armasBoton;
     private DMZGuiButtons menuButton;
@@ -122,39 +123,50 @@ public class SkillMenu extends Screen {
 
     public void botonesMenus(){
         this.removeWidget(infoButton);
-        this.removeWidget(menuButton);
+
+        for (DMZGuiButtons boton : botonesMenus) {
+            this.removeWidget(boton);
+        }
+        botonesMenus.clear();
 
         alturaTexto = (this.height + 168)/2;
-        anchoTexto = this.infoMenu ? (this.width/2) - 72: this.width/2;
+        anchoTexto = this.infoMenu ? (this.width/2) - 72 : this.width/2;
 
         if (this.minecraft.level.isClientSide) {
+
             Player player = this.minecraft.player;
-            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
+            botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
                     if (playerstats.isCompactMenu()) {
                         this.minecraft.setScreen(new AttributesMenu2());
                     } else {
                         this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
-                    }});
-            }));
-            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, alturaTexto, "skills", Component.empty(), wa -> {
+                    }
+                });
+            })));
+
+            botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, alturaTexto, "skills", Component.empty(), wa -> {
                 // Es este menú, no hacer nada.
-            }));
-            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
-                // Agregar acá el menú de Transf
+            })));
+
+            botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
+                // Agregar menú de transformación
                 // this.minecraft.setScreen(new TransfMenu());
-            }));
-            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
-                // Agregar acá el menú de Story
-                // this.minecraft.setScreen(new TransfMenu());
-            }));
-            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
-                // Agregar acá el menú de Ki Techniques
-                // this.minecraft.setScreen(new TransfMenu());
-            }));
-            this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 65, alturaTexto, "settings", Component.empty(), wa -> {
+            })));
+
+            botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
+                // Agregar menú de historia
+                // this.minecraft.setScreen(new StoryMenu());
+            })));
+
+            botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
+                // Agregar menú de Ki Techniques
+                // this.minecraft.setScreen(new KiTechMenu());
+            })));
+
+            botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 65, alturaTexto, "settings", Component.empty(), wa -> {
                 this.minecraft.setScreen(new ConfigMenu());
-            }));
+            })));
         }
     }
 
@@ -170,6 +182,7 @@ public class SkillMenu extends Screen {
 
         this.removeWidget(deleteButton);
         this.removeWidget(upgradeButton);
+        this.removeWidget(menuButton);
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
@@ -492,7 +505,7 @@ public class SkillMenu extends Screen {
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
                         //Nombre de la habilidad
                         //guiGraphics.drawString(this.font, Component.translatable(skill.getName().getString()).withStyle(ChatFormatting.BOLD), startX + 40, startY, 0xFFFFFF);
-                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         //Activo o inactivo
                         if(skill.isActive()){
                             drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.on"), this.infoMenu ? startX + 155 - 72: startX + 155, startY, 0x60fb58);
@@ -503,11 +516,11 @@ public class SkillMenu extends Screen {
                         break;
                     case "jump":
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
-                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         break;
                     case "fly":
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
-                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         //Activo o inactivo
                         if(skill.isActive()){
                             drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.on"), this.infoMenu ? startX + 155 - 72: startX + 155, startY, 0x60fb58);
@@ -517,11 +530,11 @@ public class SkillMenu extends Screen {
                         break;
                     case "ki_manipulation":
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
-                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         break;
                     default:
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
-                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         //Activo o inactivo
                         if(skill.isActive()){
                             drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.on"), this.infoMenu ? startX + 155 - 72: startX + 155, startY, 0x60fb58);
@@ -559,7 +572,7 @@ public class SkillMenu extends Screen {
                         int currentLevel = skill.getLevel();
                         int maxLevel = 10; // maximo nivel
                         //Nombre de la habilidad
-                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName().getString()), startX + 93, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), startX + 93, startY, 0xFFFFFF);
                         //Tipo y aca pongo lo de skill
                         drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.type"), startX + 37, startY+ 13, 0xFFFFFF);
                         drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.skill2"), startX + 78, startY+ 13, 0xffc134);
@@ -577,7 +590,7 @@ public class SkillMenu extends Screen {
                         //drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.cost"), startX + 37, startY+48, 0xFFFFFF);
 
                         //descripcion
-                        List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc().getString()), 120);
+                        List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc()), 120);
                         for (int i = 0; i < lines.size(); i++) {
                             guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+48) + i * font.lineHeight, 0xFFFFFF);
                         }
