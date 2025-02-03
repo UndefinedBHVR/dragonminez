@@ -479,13 +479,14 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, MainBlocks.KIKONO_ARMOR_STATION.get(), 1)
                 .pattern("ACA")
                 .pattern("KLK")
-                .pattern("KSK")
+                .pattern("ISI")
                 .define('A', Items.ANVIL)
-                .define('C', Items.NETHERITE_CHESTPLATE)
+                .define('C', Items.DIAMOND_CHESTPLATE)
                 .define('K', MainBlocks.KIKONO_BLOCK.get())
                 .define('L', Blocks.POLISHED_BLACKSTONE_BRICK_SLAB)
                 .define('S', Items.SMITHING_TABLE)
-                .unlockedBy(getHasName(Items.NETHERITE_CHESTPLATE), has(Items.NETHERITE_CHESTPLATE))
+                .define('I', Items.IRON_BLOCK)
+                .unlockedBy(getHasName(Items.DIAMOND_CHESTPLATE), has(Items.DIAMOND_CHESTPLATE))
                 .group("dragonminez")
                 .save(pWriter);
     }
