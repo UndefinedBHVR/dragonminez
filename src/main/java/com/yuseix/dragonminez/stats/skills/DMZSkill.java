@@ -5,18 +5,18 @@ import net.minecraft.network.chat.Component;
 
 public class DMZSkill {
 
-    private Component name;
-    private Component desc;
+    private String name;
+    private String desc;
     private int level;
     private boolean isActive;
 
-    public DMZSkill(Component name, Component desc, int level) {
+    public DMZSkill(String name, String desc, int level) {
         this.name = name;
         this.desc = desc;
         this.level = level;
     }
 
-    public DMZSkill(Component name, Component desc, int level, boolean isActive) {
+    public DMZSkill(String name, String desc, int level, boolean isActive) {
         this.name = name;
         this.desc = desc;
         this.level = level;
@@ -24,33 +24,32 @@ public class DMZSkill {
     }
     // Constructor para leer desde el buffer
     public DMZSkill(FriendlyByteBuf buf) {
-        this.name = buf.readComponent();
-        this.desc = buf.readComponent();
+        this.name = buf.readUtf();
+        this.desc = buf.readUtf();
         this.level = buf.readInt();
         this.isActive = buf.readBoolean();
     }
 
-    // Método para escribir en el buffer
     public void toBytes(FriendlyByteBuf buf) {
-        buf.writeComponent(name);
-        buf.writeComponent(desc);
+        buf.writeUtf(name);
+        buf.writeUtf(desc);
         buf.writeInt(level);
         buf.writeBoolean(isActive);
     }
 
-    public Component getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Component name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Component getDesc() {
+    public String getDesc() {
         return desc;
     }
 
-    public void setDesc(Component desc) {
+    public void setDesc(String desc) {
         this.desc = desc;
     }
 
