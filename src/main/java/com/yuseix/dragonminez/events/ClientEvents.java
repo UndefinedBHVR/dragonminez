@@ -39,6 +39,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.thread.EffectiveSide;
+import com.yuseix.dragonminez.client.character.models.AuraModel;
 
 import java.util.Random;
 
@@ -47,7 +48,7 @@ public class ClientEvents {
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z - Release v" + "1.1.3";
+	private static final String title = "DragonMine Z - Release v" + "1.1.4";
 	private static boolean isDescending = false;
 
 	private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
@@ -118,8 +119,6 @@ public class ClientEvents {
 			}
 		}
 	}
-
-
 
 	private static void renderAuraBase(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
 		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();

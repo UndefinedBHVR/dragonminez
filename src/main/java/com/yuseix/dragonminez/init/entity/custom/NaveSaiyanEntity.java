@@ -48,9 +48,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
 	public NaveSaiyanEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
 		super(pEntityType, pLevel);
-
 		//this.setNoAi(true);
-
 		this.entityData.define(IS_OPEN, false);
 	}
 
@@ -81,8 +79,6 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 					player.startRiding(this);
 					ModMessages.sendToServer(new PlanetSelectionC2S(0));
 				}
-
-
 			}
 		}
 		return InteractionResult.SUCCESS;
@@ -250,7 +246,6 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
 		controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-
 	}
 
 	@Override
@@ -269,7 +264,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 	@Override
 	public boolean hurt(DamageSource pSource, float pAmount) {
 		if ("player".equals(pSource.getMsgId()) && pSource.getEntity() instanceof Player) {
-			if (!this.level().isClientSide) {
+			if (!this.level().isClientSide && isAlive()) {
 				this.spawnAtLocation(MainItems.NAVE_SAIYAN_ITEM.get());
 				this.remove(RemovalReason.KILLED);
 			}
@@ -300,5 +295,4 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
 		return PlayState.CONTINUE;
 	}
-
 }

@@ -34,16 +34,12 @@ public class PlayerHudOverlay implements RenderEntityInv {
     private static int releaseUpdateSpeed = 2 * (20); // Velocidad de actualización en ticks
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
-
         DMZDatos dmzdatos = new DMZDatos();
 
-        if (Minecraft.getInstance().options.renderDebug) {
-            // Si la pantalla de depuración F3 está activada, no renderizar el HUD
-            return;
-        }
+        // Si la pantalla de depuración F3 está activada, no renderizar el HUD
+        if (Minecraft.getInstance().options.renderDebug) return;
 
-        int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth();
-        int vidarestante = (int) Minecraft.getInstance().player.getHealth();
+        int VidaMaxima = (int) Minecraft.getInstance().player.getMaxHealth(); int vidarestante = (int) Minecraft.getInstance().player.getHealth();
         //I'm feeling lonely, oh I wish I had a lover that could hold me
         // Now i'm crying in my room, so sceptical of love, but still I want it more, more, MOOOORE
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
@@ -52,33 +48,19 @@ public class PlayerHudOverlay implements RenderEntityInv {
             // Solo renderiza el HUD si el jugador creó su personaje
             if (isDmzUser) {
 
-                var vidaMC = 20;
-                var con = playerstats.getConstitution();
-                var maxVIDA = 0.0;
-
-                int vidawa = ((190 * vidarestante) / VidaMaxima);
-                int vida = Math.min(vidawa, 190);
-
-                int StaminaMax = 0;
-
-                int TransfMax = 100;
+                var vidaMC = 20; var con = playerstats.getConstitution(); var maxVIDA = 0.0;
+                int vidawa = ((190 * vidarestante) / VidaMaxima); int vida = Math.min(vidawa, 190);
+                int StaminaMax = 0; int TransfMax = 100;
 
                 maxVIDA = dmzdatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
                 StaminaMax = dmzdatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
 
-                int curStamina = playerstats.getCurStam();
-
-                int energiaMax = 0;
+                int curStamina = playerstats.getCurStam(); int energiaMax = 0;
 
                 energiaMax = dmzdatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
 
-                int curEnergia = playerstats.getCurrentEnergy();
-
-                int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113);
-
-                int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
-
-                int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
+                int curEnergia = playerstats.getCurrentEnergy(); int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
+                int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113); int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
 
                 RenderSystem.enableBlend();
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -215,15 +197,10 @@ public class PlayerHudOverlay implements RenderEntityInv {
     };
 
     public static void renderKiBarColor(GuiGraphics guiGraphics,int raza, int transformacion, int energiatotal){
-
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
             RenderSystem.enableBlend();
-            
             var colorAura = cap.getAuraColor();
-
-            float colorR = (colorAura >> 16) / 255.0F;
-            float colorG = ((colorAura >> 8) & 0xff) / 255.0f;
-            float colorB = (colorAura & 0xff) / 255.0f;
+            float colorR = (colorAura >> 16) / 255.0F; float colorG = ((colorAura >> 8) & 0xff) / 255.0f; float colorB = (colorAura & 0xff) / 255.0f;
 
             switch (raza){
                 case 0: //humano
@@ -262,7 +239,6 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     energiatotal,
                     6);
             RenderSystem.disableBlend();
-
         });
 
 
@@ -293,7 +269,6 @@ public class PlayerHudOverlay implements RenderEntityInv {
     }
 
     private static void renderPermanentEffects(GuiGraphics guiGraphics) {
-
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
             int x = 72; // Posición inicial en X
             int y = 50; // Posición inicial en Y
@@ -311,10 +286,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 }
             }
         });
-
     }
-    private static void renderTempEffects(GuiGraphics guiGraphics) {
 
+    private static void renderTempEffects(GuiGraphics guiGraphics) {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
             int x = 71; // Posición inicial en X
             int y = 72; // Posición inicial en Y
@@ -330,7 +304,6 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     }
             }
         });
-
     }
 
     private static int[] getTextureCoordinatesPermaEffects(String permaeffectName) {
@@ -349,22 +322,17 @@ public class PlayerHudOverlay implements RenderEntityInv {
     }
 
     public static void personajesMenu(GuiGraphics pGuiGraphics){
-
         var player = Minecraft.getInstance().player;
-
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
             if(cap.getRace() == 0){//HUMANO
                 if (cap.getGender().equals("Male")){
                     FPHumanSaiyanEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
                     avatar.setOwnerUUID(player.getUUID());
-
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
                 }else {
                     FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
                     avatar.setOwnerUUID(player.getUUID());
-
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                 }
 
@@ -373,13 +341,10 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     if(Minecraft.getInstance().player.getModelName().equals("default")){
                         FPHumanSaiyanEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
                         avatar.setOwnerUUID(player.getUUID());
-
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
                     }else {
                         FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
                         avatar.setOwnerUUID(player.getUUID());
-
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                     }
 
@@ -387,13 +352,10 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     if (cap.getGender().equals("Male")){
                         FPHumanSaiyanEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), Minecraft.getInstance().level);
                         avatar.setOwnerUUID(player.getUUID());
-
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
                     }else {
                         FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
                         avatar.setOwnerUUID(player.getUUID());
-
                         RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                     }
                 }
@@ -401,43 +363,30 @@ public class PlayerHudOverlay implements RenderEntityInv {
             }else if(cap.getRace() == 2){ //NAMEK
                 FPNamekianEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), Minecraft.getInstance().level);
                 avatar.setOwnerUUID(player.getUUID());
-
                 RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
             }else if(cap.getRace() == 3){ //BIOANDROIDE
                 FPBioAndroidEntity avatar = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), Minecraft.getInstance().level);
                 avatar.setOwnerUUID(player.getUUID());
-
                 RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
             }else if(cap.getRace() == 4){ //NARCO OSEA ARCO JEJE
                 FPDemonColdEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), Minecraft.getInstance().level);
                 avatar.setOwnerUUID(player.getUUID());
-
                 RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
             }else { // MAJIN
                 if (cap.getGender().equals("Male")){
                     FPMajinGordEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), Minecraft.getInstance().level);
                     avatar.setOwnerUUID(player.getUUID());
-
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
-
                 }else {
                     FPSlimEntity avatar = new FPSlimEntity(MainEntity.FP_SLIMSAIYANHUM.get(), Minecraft.getInstance().level);
                     avatar.setOwnerUUID(player.getUUID());
-
                     RenderEntityInv.renderEntityInInventoryFollowsAngle(pGuiGraphics, 30, 125, 65, 35.5f, 0, avatar);
                 }
             }
-
-
         });
-
     }
 
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
-
         guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
@@ -448,5 +397,4 @@ public class PlayerHudOverlay implements RenderEntityInv {
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
         drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
-
 }

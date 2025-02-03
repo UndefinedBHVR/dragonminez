@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.client.hud.spaceship;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
@@ -7,6 +8,7 @@ import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.VideoSettingsScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,12 +30,10 @@ public class SaiyanSpacePodOverlay implements RenderEntityInv {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, hud);
 
-        if (player == null || !(player.getVehicle() instanceof NaveSaiyanEntity)) {
-            return;
-        }
-        if (Minecraft.getInstance().options.renderDebug || Minecraft.getInstance().options.renderDebugCharts || Minecraft.getInstance().options.renderFpsChart) {
-            return;
-        }
+        if (player == null || !(player.getVehicle() instanceof NaveSaiyanEntity)) return;
+
+        if (Minecraft.getInstance().options.renderDebug || Minecraft.getInstance().options.renderDebugCharts || Minecraft.getInstance().options.renderFpsChart) return;
+
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
@@ -117,10 +117,7 @@ public class SaiyanSpacePodOverlay implements RenderEntityInv {
         }
     }
 
-
-
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
-
         guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);

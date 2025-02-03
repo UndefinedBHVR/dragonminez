@@ -217,14 +217,14 @@ public class CCustomizationPage extends Screen {
 
             if (currentPage == 0) {
                 //BOTON VOLVER
-                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, Component.translatable("dmz.ccreation.back").withStyle(ChatFormatting.BOLD), button -> {
                     ModMessages.sendToServer(new CharacterC2S("hairID", 1));
                     ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
                     this.minecraft.setScreen(new CFirstPage());
                 }));
 
                 //BOTON SIGUIENTE
-                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.translatable("dmz.ccreation.next").withStyle(ChatFormatting.BOLD), button -> {
                     this.removeWidget(eyesButtonColor);
                     this.removeWidget(eyesButtonColor2);
                     this.removeWidget(bodyButtonColor1);
@@ -251,7 +251,7 @@ public class CCustomizationPage extends Screen {
                 }));
             } else if (currentPage == 1) {
                 //BOTON VOLVER
-                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, Component.translatable("dmz.ccreation.back").withStyle(ChatFormatting.BOLD), button -> {
                     currentPage = 0;
                     this.removeWidget(eyesButtonColor);
                     this.removeWidget(eyesButtonColor2);

@@ -4,9 +4,11 @@
 
 ## About
 
-DragonMine Z es un inmersivo WIP (Work-In-Progress) [Minecraft](https://www.minecraft.net/en-us) mod inspirado en la obra más famosa de Akira Toriyama, [Dragon Ball](https://en.dragon-ball-official.com/).
+DragonMine Z es un inmersivo WIP (Work-In-Progress) [Minecraft](https://www.minecraft.net/en-us) mod inspirado en la
+obra más famosa de Akira Toriyama, [Dragon Ball](https://en.dragon-ball-official.com/).
 
-Nuestro plan es llevar la experiencia completa de Dragon Ball a Minecraft **1.20.1**, añadiendo todo lo que podamos y renovando la experiencia vainilla. 
+Nuestro plan es llevar la experiencia completa de Dragon Ball a Minecraft **1.20.1**, añadiendo todo lo que podamos y
+renovando la experiencia vainilla.
 
 ### Contribuciones
 
@@ -22,14 +24,21 @@ para empezar.
 <div align="center">
   <a href="https://discord.gg/b5MgRNb3D7" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1216429657273012415?style=for-the-badge&amp;logo=Discord&amp;logoColor=white&amp;label=Discord&amp;color=orange" alt="Discord"></a>&nbsp;&nbsp;
   <a href="https://patreon.com/DragonMineZ" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Patreon-Subscribe-yellow?style=for-the-badge&amp;logo=Patreon" alt="Patreon"></a>&nbsp;&nbsp;
-  <a href="https://trello.com/b/0bX0VJdw/dragonmine-z" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Trello-Progress_Board-red?style=for-the-badge&amp;logo=Trello" alt="Trello"></a>
+  <a href="https://github.com/orgs/DragonMineZ/projects/4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/GitHub-Progress_Board-red?style=for-the-badge&amp;logo=GitHub" alt="GitHub Progress Board"></a>
 </div>
 
 ## 🚀 Descarga
 
-Para descargar nuestro mod, visita nuestro proyecto oficial en [CurseForge](https://www.curseforge.com/minecraft/mc-mods/dragonminez), donde se encuentra el mod.
+Para descargar nuestro mod, visita nuestro proyecto oficial
+en [CurseForge](https://www.curseforge.com/minecraft/mc-mods/dragonminez), donde se encuentra el mod.
 
 También puedes consultar el proyecto en [Modrinth](https://modrinth.com/mod/dragonminez).
+
+## 🗺️ Roadmap (En Inglés)
+
+<div align="center">
+  <img src="https://media.forgecdn.net/attachments/description/1136088/description_2e97376e-e7ed-4a57-8280-d55a3ff2fabf.png" alt="DMZ Roadmap"/>
+</div>
 
 ## 🎯 Uso de Terceros
 
@@ -57,10 +66,13 @@ de [Freesound](https://freesound.org/):
 - Toji71_ | *Constructor*
 
 ### Patreons
+
 - CyaneaCapillata
 
 ## Licencia
 
-2024, DragonMine Z. Este programa es software libre: puede redistribuirlo y/o modificarlo bajo los términos de la Licencia Pública General
-de GNU según lo publicado por la Free Software Foundation, ya sea la versión 3 de la Licencia o (a su elección) cualquier versión posterior.
+2024, DragonMine Z. Este programa es software libre: puede redistribuirlo y/o modificarlo bajo los términos de la
+Licencia Pública General
+de GNU según lo publicado por la Free Software Foundation, ya sea la versión 3 de la Licencia o (a su elección)
+cualquier versión posterior.
 [Licencia Pública General de GNU v3.0](https://github.com/DragonMineZ/dragonminez/blob/main/LICENSE)

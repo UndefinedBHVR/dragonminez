@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.init.items.custom;
 
 import com.yuseix.dragonminez.init.items.models.TrunksSwordRenderer;
-import com.yuseix.dragonminez.init.items.models.ZSwordRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.network.chat.Component;
