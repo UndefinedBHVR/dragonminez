@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.character.models.hair;
+package com.yuseix.dragonminez.client.character.models.hair;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
